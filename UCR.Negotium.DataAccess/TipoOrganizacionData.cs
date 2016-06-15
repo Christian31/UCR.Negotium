@@ -13,7 +13,6 @@ namespace UCR.Negotium.DataAccess
     {
         private String cadenaConexion;
         private SQLiteConnection conexion;
-        private SQLiteCommand command;
 
         public TipoOrganizacionData()
         {

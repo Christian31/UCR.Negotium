@@ -23,7 +23,7 @@ namespace UCR.Negotium.WindowsUI
         {
             this.evaluador = evaluador;
             proyeccionNueva = new ProyeccionVentaArticulo();
-            detalleNuevo = new DetalleProyeccionVenta();
+            
             InitializeComponent();
             this.proyecto = proyecto;
             this.LlenaDgvProyeccion();
@@ -59,11 +59,13 @@ namespace UCR.Negotium.WindowsUI
             {
                 proyeccionNueva.NombreArticulo = tbxNombreArticuloProyeccion.Text;
                 proyeccionNueva.UnidadMedida.CodUnidad = Convert.ToInt32(cbxUnidadProyeccion.SelectedValue);
-                proyeccionNueva.UnidadMedida.NombreUnidad = cbxUnidadProyeccion.SelectedText.ToString();
+                proyeccionNueva.UnidadMedida.NombreUnidad = cbxUnidadProyeccion.Text;
+                //proyeccionNueva.UnidadMedida.NombreUnidad = ((UnidadMedida)cbxUnidadProyeccion.SelectedItem).NombreUnidad;
 
                 Int32 mes = 1;
                 foreach (DataGridViewRow row in dgvProyecciones.Rows)
                 {
+                    detalleNuevo = new DetalleProyeccionVenta();
                     detalleNuevo.Mes = mes;
                     detalleNuevo.Cantidad = Convert.ToDouble(row.Cells[1].Value.ToString());
                     detalleNuevo.Precio = Convert.ToDouble(row.Cells[2].Value.ToString());
@@ -71,8 +73,8 @@ namespace UCR.Negotium.WindowsUI
 
                     mes++;
                 }
-                proyeccionData.InsertarProyeccionVenta(proyeccionNueva, this.proyecto.CodProyecto);
-                proyecto.Proyecciones.Add(proyeccionNueva);
+                
+                proyecto.Proyecciones.Add(proyeccionData.InsertarProyeccionVenta(proyeccionNueva, this.proyecto.CodProyecto));
 
                 new RegistrarProyecto(this.evaluador, this.proyecto)
                 {

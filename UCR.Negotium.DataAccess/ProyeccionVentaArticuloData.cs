@@ -58,48 +58,51 @@ namespace UCR.Negotium.DataAccess
 
         public ProyeccionVentaArticulo InsertarProyeccionVenta(ProyeccionVentaArticulo proyeccion, int codProyecto)
         {
+            SQLiteTransaction transaction = null;
+            //transaction = conexion.BeginTransaction();
             SQLiteCommand command = conexion.CreateCommand();
-            SQLiteTransaction transaction;
-            transaction = conexion.BeginTransaction();
+            SQLiteCommand command2 = conexion.CreateCommand();
             try
             {
                 Object newProdID;
                 Object newProdID2;
                 String insert1 = "INSERT INTO PROYECCION_VENTA_POR_ARTICULO(cod_unidad_medida, " +
-                "nombre_articulo, cod_proyecto) VALUES(?,?,?,?); " +
+                "nombre_articulo, cod_proyecto) VALUES(?,?,?); " +
             "SELECT last_insert_rowid();";
 
                 String insert2 = "INSERT INTO DETALLE_PROYECCION_VENTA(cod_proyeccion_venta_articulo, mes_proyeccion, " +
                 " cantidad_proyeccion, precio_proyeccion) VALUES(?,?,?,?); " +
             "SELECT last_insert_rowid();";
-            if (conexion.State != ConnectionState.Open)
-                conexion.Open();
-            command.CommandText = insert1;
-            command.Parameters.AddWithValue("cod_unidad_medida", proyeccion.UnidadMedida.CodUnidad);
-            command.Parameters.AddWithValue("nombre_articulo", proyeccion.NombreArticulo);
-            command.Parameters.AddWithValue("cod_proyecto", codProyecto);
-            
                 if (conexion.State != ConnectionState.Open)
                     conexion.Open();
+                command.CommandText = insert1;
+                command.Parameters.AddWithValue("cod_unidad_medida", proyeccion.UnidadMedida.CodUnidad);
+                command.Parameters.AddWithValue("nombre_articulo", proyeccion.NombreArticulo);
+                command.Parameters.AddWithValue("cod_proyecto", codProyecto);
+
+                if (conexion.State != ConnectionState.Open)
+                    conexion.Open();
+                transaction = conexion.BeginTransaction();
+
                 newProdID = command.ExecuteScalar();
                 proyeccion.CodArticulo = Int32.Parse(newProdID.ToString());
                 //transaccion
                 foreach (DetalleProyeccionVenta detTemp in proyeccion.DetallesProyeccionVenta)
                 {
-                    command.CommandText = insert2;
-                    command.Parameters.AddWithValue("cod_proyeccion_venta_articulo", proyeccion.CodArticulo);
-                    command.Parameters.AddWithValue("mes_proyeccion", detTemp.Mes);
-                    command.Parameters.AddWithValue("cantidad_proyeccion", detTemp.Cantidad);
-                    command.Parameters.AddWithValue("precio_proyeccion", detTemp.Precio);
-                    newProdID2 = command.ExecuteScalar();
-                    detTemp.CodDetalle = Int32.Parse(newProdID2.ToString()); 
+                    command2.CommandText = insert2;
+                    command2.Parameters.AddWithValue("cod_proyeccion_venta_articulo", proyeccion.CodArticulo);
+                    command2.Parameters.AddWithValue("mes_proyeccion", detTemp.Mes);
+                    command2.Parameters.AddWithValue("cantidad_proyeccion", detTemp.Cantidad);
+                    command2.Parameters.AddWithValue("precio_proyeccion", detTemp.Precio);
+                    newProdID2 = command2.ExecuteScalar();
+                    detTemp.CodDetalle = Int32.Parse(newProdID2.ToString());
                 }
 
                 transaction.Commit();
                 conexion.Close();
                 return proyeccion;
             }//try
-            catch (Exception ex)
+            catch (SQLiteException ex)
             {
                 Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
                 Console.WriteLine("  Message: {0}", ex.Message);
@@ -107,15 +110,47 @@ namespace UCR.Negotium.DataAccess
                 try
                 {
                     transaction.Rollback();
-                }
-                catch (Exception ex2)
+                } catch (SQLiteException ex2)
                 {
                     Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
                     Console.WriteLine("  Message: {0}", ex2.Message);
                 }
-                conexion.Close();
-                return proyeccion;
+                finally
+                {
+                    transaction.Dispose();
+                }
+            } finally
+            {
+                if (command != null || command2 !=null)
+            {
+                    command.Dispose();
+                    command2.Dispose();
+            }
+
+            if (transaction != null) 
+            {
+                transaction.Dispose();
+            }
+
+            if (conexion != null)
+            {
+                try 
+                {
+                    conexion.Close();                    
+
+                } catch (SQLiteException ex)
+                {
+
+                    Console.WriteLine("Closing connection failed.");
+                    Console.WriteLine("Error: {0}",  ex.ToString());
+
+                } finally
+                {
+                    conexion.Dispose();
+                }
+            }
             }//catch
+            return proyeccion;
         }//InsertarProyeccionVenta
 
         public bool EditarProyeccionVenta(ProyeccionVentaArticulo proyeccion, int codProyecto)
