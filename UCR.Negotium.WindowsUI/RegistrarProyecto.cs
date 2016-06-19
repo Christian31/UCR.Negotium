@@ -61,6 +61,7 @@ namespace UCR.Negotium.WindowsUI
             LlenaDgvTotalesReinversiones();
             LlenaValoresTotalesReinversiones();
             LlenaDgvProyeccionesVentas();
+            LlenaDgvCrecimientoOferta();
             lblHorizonteProyecto1.Text = proyecto.HorizonteEvaluacionEnAnos.ToString();
             lbNomProy1.Text = proyecto.NombreProyecto;
             lbProponente1.Text = proyecto.Proponente.Nombre + " " + proyecto.Proponente.Apellidos;
@@ -578,12 +579,42 @@ namespace UCR.Negotium.WindowsUI
             }//else
         }//btnGuardar5_Click
 
+        private void dgvCrecimientoOferta_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            //hacer el editar
+        }
+
         private void proyeccionVentas_Enter(object sender, EventArgs e)
         {
             lblHorizonte3.Text = proyecto.HorizonteEvaluacionEnAnos.ToString();
             lblProyecto3.Text = proyecto.NombreProyecto;
             lblProponente3.Text = proyecto.Proponente.Nombre + " " + proyecto.Proponente.Apellidos;
         }
+
+        private void crecimientos_Enter(object sender, EventArgs e)
+        {
+            lblHorizonte4.Text = proyecto.HorizonteEvaluacionEnAnos.ToString();
+            lblProyecto4.Text = proyecto.NombreProyecto;
+            lblProponente4.Text = proyecto.Proponente.Nombre + " " + proyecto.Proponente.Apellidos;
+            
+            //aqui se va a actualizar siempre el gridview de ingresos
+        }
+
+        //private void dgvCrecimientoOferta_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        //{
+
+        //    int autoincrement = 0;
+        //    //EL siguiente foreach sirve para cargar la unidad medida al combobox del dgv correspondiente
+        //    foreach (RequerimientoInversion requerimiento in this.proyecto.RequerimientosInversion)
+        //    {
+        //        if (autoincrement < dgvCrecimientoOferta.RowCount)
+        //        {
+        //            this.dgvCrecimientoOferta.Rows[autoincrement].Cells["UnidadMedida"].Value
+        //                = requerimiento.UnidadMedida.NombreUnidad.ToString();
+        //            autoincrement++;
+        //        }
+        //    }//foreach
+        //}
 
         /*******************************************FIN DE ACCIONES ANTE EVENTOS*****************************************************/
 
@@ -1020,7 +1051,6 @@ namespace UCR.Negotium.WindowsUI
             }//for
         }//inicializaTotalesReinversiones    
 
-
         // Este metodo se encarga de modificar los mensajes que van a salir en los textbox 
         // para mostrar los tips
         private void InformacionToolTip()
@@ -1136,6 +1166,58 @@ namespace UCR.Negotium.WindowsUI
             this.Close();
         }
 
+        private void btnGuardarCrecimientoOferta_Click(object sender, EventArgs e)
+        {
+            int validaInsersion = 1;
+            List<CrecimientoOfertaObjetoInteres> listaCrecimientos = new List<CrecimientoOfertaObjetoInteres>();
+            List<CrecimientoOfertaObjetoInteres> listaCrecimientosPersistente = new List<CrecimientoOfertaObjetoInteres>();
+            CrecimientoOfertaObjetoInteresData crecimientoOfertaData = new CrecimientoOfertaObjetoInteresData();
+            DataTable dt = crecimientoOfertaData.GetCrecimientoOfertaObjetoIntereses(this.proyecto.CodProyecto);
+
+            if (dt == null || dt.Rows.Count == 0)
+            {
+                //aplicar insert
+                for (int i = 0; i < dgvCrecimientoOferta.RowCount; i++)
+                {
+                    if (Convert.ToInt32(this.dgvCrecimientoOferta.Rows[i].Cells["Porcentaje"].Value) > 0)
+                    {
+                        try
+                        {
+                            CrecimientoOfertaObjetoInteres crecimientoOferta = new CrecimientoOfertaObjetoInteres();
+                            crecimientoOferta.AnoCrecimiento =
+                                Int32.Parse(this.dgvCrecimientoOferta.Rows[i].Cells["Año"].Value.ToString());
+                            crecimientoOferta.PorcentajeCrecimiento =
+                                Int32.Parse(this.dgvCrecimientoOferta.Rows[i].Cells["Porcentaje"].Value.ToString());
+
+                            crecimientoOfertaData.InsertarCrecimientoOfertaObjetoIntereses(crecimientoOferta, this.proyecto.CodProyecto);
+                            validaInsersion = 1;
+                            listaCrecimientos.Add(crecimientoOferta);
+
+                        }//try
+                        catch (Exception ex)
+                        {
+                            validaInsersion = 2;
+                            Console.WriteLine(ex);
+                        }//catch
+                    }//if
+                }//for
+            }//if
+            else {
+                validaInsersion = 3;
+            }
+            if (validaInsersion == 1)
+            {
+                proyecto.CrecimientosAnuales = listaCrecimientos;
+                MessageBox.Show("Porcentajes de crecimiento registrados con éxito",
+                            "Insertado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }//if
+            else if (validaInsersion == 2)
+            {
+                MessageBox.Show("Los porcentajes de crecimiento no se han podido registrar",
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }//else
+        }
+
         private ObjetoInteresProyecto GetObjetoInteres()
         {
             ObjetoInteresData objetoInteresData = new ObjetoInteresData();
@@ -1249,6 +1331,53 @@ namespace UCR.Negotium.WindowsUI
             DataTable dtRequerimientos = ds.Tables["TotalesReinversiones"];
             dgvTotalesReinversiones.DataSource = dtRequerimientos;
         }//LlenaDgvTotalesReinversiones
+
+        private void LlenaDgvCrecimientoOferta() {
+            DataSet ds = new DataSet();
+            ds.Tables.Add("CrecimientoOferta");
+            ds.Tables["CrecimientoOferta"].Columns.Add("Año", Type.GetType("System.String"));
+            ds.Tables["CrecimientoOferta"].Columns.Add("Porcentaje", Type.GetType("System.String"));
+
+            if (this.proyecto.CrecimientosAnuales != null && this.proyecto.CrecimientosAnuales.Count > 0)
+            {
+                
+                for (Int32 i=0; i<proyecto.CrecimientosAnuales.Count; i++)
+                {
+                    DataRow row = ds.Tables["CrecimientoOferta"].NewRow();
+                    row["Año"] = proyecto.CrecimientosAnuales[i].AnoCrecimiento;
+                    row["Porcentaje"] = proyecto.CrecimientosAnuales[i].PorcentajeCrecimiento;
+                    ds.Tables["CrecimientoOferta"].Rows.Add(row);
+                }//foreach
+
+                // Aqui realizo este cambio de index debido a que las reinversiones cargan los años de 
+                // reinversión hasta que entra por segunda vez al tab de reinversiones
+                tbxRegistrarProyecto.SelectedIndex = 5;
+                tbxRegistrarProyecto.SelectedIndex = 4;
+            }//if
+
+            else
+            {
+                List<String> anosCrecimiento = new List<String>();
+                for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+                {
+                    int anoActual = proyecto.AnoInicial + i;
+                    anosCrecimiento.Add(anoActual.ToString());
+                }//for
+
+                foreach (String anoIver in anosCrecimiento)
+                {
+                    DataRow row = ds.Tables["CrecimientoOferta"].NewRow();
+                    row["Año"] = anoIver;
+                    row["Porcentaje"] = 0;
+                    ds.Tables["CrecimientoOferta"].Rows.Add(row);
+                }
+            }
+            DataTable dtCrecimientos = ds.Tables["CrecimientoOferta"];
+            dgvCrecimientoOferta.DataSource = dtCrecimientos;
+            dgvCrecimientoOferta.Columns[0].ReadOnly = true;
+            dgvCrecimientoOferta.Columns[1].HeaderText = "Porcentaje de crecimiento";
+
+        }//LlenaDGVCrecimientoOfertas
 
         private void LlenaDgvProyeccionesVentas()
         {

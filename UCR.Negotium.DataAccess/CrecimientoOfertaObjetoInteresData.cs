@@ -21,20 +21,21 @@ namespace UCR.Negotium.DataAccess
             conexion = new SQLiteConnection(cadenaConexion);
         }
 
-        public DataTable GetCrecimientoOfertaObjetoIntereses(String codProyecto)
+        public DataTable GetCrecimientoOfertaObjetoIntereses(Int32 codProyecto)
         {
-            String select = "SELECT cod_crecimiento,ano_crecimiento,porcentaje_crecimiento" +
+            String select = "SELECT cod_crecimiento,ano_crecimiento,porcentaje_crecimiento " +
                 "FROM CRECIMIENTO_OFERTA_OBJETO_INTERES WHERE cod_proyecto=" + codProyecto + ";";
 
             if (conexion.State != ConnectionState.Open)
                 conexion.Open();
-            command = conexion.CreateCommand();
+            SQLiteCommand command = conexion.CreateCommand();
+            //command = conexion.CreateCommand();
             command.CommandText = select;
-            SQLiteDataAdapter daProvincias = new SQLiteDataAdapter();
-            daProvincias.SelectCommand = new SQLiteCommand(select, conexion);
-            DataSet dsProvincia = new DataSet();
-            daProvincias.Fill(dsProvincia, "CrecimientoOfertaObjeto");
-            DataTable dtCrecimientos = dsProvincia.Tables["CrecimientoOfertaObjeto"];
+            SQLiteDataAdapter daCrecimientos = new SQLiteDataAdapter();
+            daCrecimientos.SelectCommand = new SQLiteCommand(select, conexion);
+            DataSet dsCrecimientos = new DataSet();
+            daCrecimientos.Fill(dsCrecimientos, "CrecimientoOfertaObjeto");
+            DataTable dtCrecimientos = dsCrecimientos.Tables["CrecimientoOfertaObjeto"];
             conexion.Close();
             return dtCrecimientos;
         }//GetCrecimientoOfertaObjetoIntereses 

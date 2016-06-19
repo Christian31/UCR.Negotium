@@ -162,9 +162,17 @@
             this.AnoReinversion = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.SubtotalReinversion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.crecimientoAnual = new System.Windows.Forms.TabPage();
-            this.dataGridView3 = new System.Windows.Forms.DataGridView();
-            this.ano = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.porcetajeCrecimiento = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel14 = new System.Windows.Forms.Panel();
+            this.lblProponente4 = new System.Windows.Forms.Label();
+            this.lblProyecto4 = new System.Windows.Forms.Label();
+            this.lblHorizonte4 = new System.Windows.Forms.Label();
+            this.label64 = new System.Windows.Forms.Label();
+            this.label65 = new System.Windows.Forms.Label();
+            this.label66 = new System.Windows.Forms.Label();
+            this.label67 = new System.Windows.Forms.Label();
+            this.button4 = new System.Windows.Forms.Button();
+            this.btnGuardarCrecimientoOferta = new System.Windows.Forms.Button();
+            this.dgvCrecimientoOferta = new System.Windows.Forms.DataGridView();
             this.proyeccionVentas = new System.Windows.Forms.TabPage();
             this.btnAgregarProyecciones = new System.Windows.Forms.Button();
             this.panel13 = new System.Windows.Forms.Panel();
@@ -177,7 +185,7 @@
             this.label63 = new System.Windows.Forms.Label();
             this.btnGuardarProyeccion = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.dgvIngresosGenerados = new System.Windows.Forms.DataGridView();
             this.label53 = new System.Windows.Forms.Label();
             this.dgvProyeccionesVentas = new System.Windows.Forms.DataGridView();
             this.resumenProyecto = new System.Windows.Forms.TabPage();
@@ -234,10 +242,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvTotalesReinversiones)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvReinversiones)).BeginInit();
             this.crecimientoAnual.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
+            this.panel14.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCrecimientoOferta)).BeginInit();
             this.proyeccionVentas.SuspendLayout();
             this.panel13.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvIngresosGenerados)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProyeccionesVentas)).BeginInit();
             this.resumenProyecto.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -1678,7 +1687,10 @@
             // crecimientoAnual
             // 
             this.crecimientoAnual.BackColor = System.Drawing.Color.Honeydew;
-            this.crecimientoAnual.Controls.Add(this.dataGridView3);
+            this.crecimientoAnual.Controls.Add(this.panel14);
+            this.crecimientoAnual.Controls.Add(this.button4);
+            this.crecimientoAnual.Controls.Add(this.btnGuardarCrecimientoOferta);
+            this.crecimientoAnual.Controls.Add(this.dgvCrecimientoOferta);
             this.crecimientoAnual.Location = new System.Drawing.Point(4, 22);
             this.crecimientoAnual.Name = "crecimientoAnual";
             this.crecimientoAnual.Padding = new System.Windows.Forms.Padding(3);
@@ -1686,27 +1698,127 @@
             this.crecimientoAnual.TabIndex = 7;
             this.crecimientoAnual.Text = "Crecimiento anual de Oferta";
             // 
-            // dataGridView3
+            // panel14
             // 
-            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView3.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ano,
-            this.porcetajeCrecimiento});
-            this.dataGridView3.Location = new System.Drawing.Point(295, 58);
-            this.dataGridView3.Name = "dataGridView3";
-            this.dataGridView3.Size = new System.Drawing.Size(262, 179);
-            this.dataGridView3.TabIndex = 0;
+            this.panel14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel14.Controls.Add(this.lblProponente4);
+            this.panel14.Controls.Add(this.lblProyecto4);
+            this.panel14.Controls.Add(this.lblHorizonte4);
+            this.panel14.Controls.Add(this.label64);
+            this.panel14.Controls.Add(this.label65);
+            this.panel14.Controls.Add(this.label66);
+            this.panel14.Controls.Add(this.label67);
+            this.panel14.Location = new System.Drawing.Point(775, 112);
+            this.panel14.Name = "panel14";
+            this.panel14.Size = new System.Drawing.Size(284, 194);
+            this.panel14.TabIndex = 37;
             // 
-            // ano
+            // lblProponente4
             // 
-            this.ano.HeaderText = "Año";
-            this.ano.Name = "ano";
-            this.ano.ReadOnly = true;
+            this.lblProponente4.AutoSize = true;
+            this.lblProponente4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProponente4.Location = new System.Drawing.Point(3, 158);
+            this.lblProponente4.Name = "lblProponente4";
+            this.lblProponente4.Size = new System.Drawing.Size(77, 16);
+            this.lblProponente4.TabIndex = 15;
+            this.lblProponente4.Text = "proponente";
             // 
-            // porcetajeCrecimiento
+            // lblProyecto4
             // 
-            this.porcetajeCrecimiento.HeaderText = "Porcentaje de Crecimiento";
-            this.porcetajeCrecimiento.Name = "porcetajeCrecimiento";
+            this.lblProyecto4.AutoSize = true;
+            this.lblProyecto4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProyecto4.Location = new System.Drawing.Point(3, 96);
+            this.lblProyecto4.Name = "lblProyecto4";
+            this.lblProyecto4.Size = new System.Drawing.Size(61, 16);
+            this.lblProyecto4.TabIndex = 14;
+            this.lblProyecto4.Text = "proyecto";
+            // 
+            // lblHorizonte4
+            // 
+            this.lblHorizonte4.AutoSize = true;
+            this.lblHorizonte4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHorizonte4.Location = new System.Drawing.Point(121, 43);
+            this.lblHorizonte4.Name = "lblHorizonte4";
+            this.lblHorizonte4.Size = new System.Drawing.Size(15, 16);
+            this.lblHorizonte4.TabIndex = 13;
+            this.lblHorizonte4.Text = "0";
+            // 
+            // label64
+            // 
+            this.label64.AutoSize = true;
+            this.label64.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label64.Location = new System.Drawing.Point(80, 11);
+            this.label64.Name = "label64";
+            this.label64.Size = new System.Drawing.Size(122, 16);
+            this.label64.TabIndex = 8;
+            this.label64.Text = "Datos del proyecto";
+            // 
+            // label65
+            // 
+            this.label65.AutoSize = true;
+            this.label65.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label65.Location = new System.Drawing.Point(3, 43);
+            this.label65.Name = "label65";
+            this.label65.Size = new System.Drawing.Size(124, 16);
+            this.label65.TabIndex = 1;
+            this.label65.Text = "Horizonte proyecto:";
+            // 
+            // label66
+            // 
+            this.label66.AutoSize = true;
+            this.label66.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label66.Location = new System.Drawing.Point(3, 142);
+            this.label66.Name = "label66";
+            this.label66.Size = new System.Drawing.Size(81, 16);
+            this.label66.TabIndex = 12;
+            this.label66.Text = "Proponente:";
+            // 
+            // label67
+            // 
+            this.label67.AutoSize = true;
+            this.label67.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label67.Location = new System.Drawing.Point(3, 80);
+            this.label67.Name = "label67";
+            this.label67.Size = new System.Drawing.Size(116, 16);
+            this.label67.TabIndex = 10;
+            this.label67.Text = "Nombre proyecto:";
+            // 
+            // button4
+            // 
+            this.button4.Image = ((System.Drawing.Image)(resources.GetObject("button4.Image")));
+            this.button4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button4.Location = new System.Drawing.Point(466, 418);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(93, 23);
+            this.button4.TabIndex = 2;
+            this.button4.Text = "Ver Resumen";
+            this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // btnGuardarCrecimientoOferta
+            // 
+            this.btnGuardarCrecimientoOferta.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardarCrecimientoOferta.Image")));
+            this.btnGuardarCrecimientoOferta.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnGuardarCrecimientoOferta.Location = new System.Drawing.Point(269, 418);
+            this.btnGuardarCrecimientoOferta.Name = "btnGuardarCrecimientoOferta";
+            this.btnGuardarCrecimientoOferta.Size = new System.Drawing.Size(75, 23);
+            this.btnGuardarCrecimientoOferta.TabIndex = 1;
+            this.btnGuardarCrecimientoOferta.Text = "Guardar";
+            this.btnGuardarCrecimientoOferta.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnGuardarCrecimientoOferta.UseVisualStyleBackColor = true;
+            this.btnGuardarCrecimientoOferta.Click += new System.EventHandler(this.btnGuardarCrecimientoOferta_Click);
+            // 
+            // dgvCrecimientoOferta
+            // 
+            this.dgvCrecimientoOferta.AllowDrop = true;
+            this.dgvCrecimientoOferta.AllowUserToAddRows = false;
+            this.dgvCrecimientoOferta.AllowUserToDeleteRows = false;
+            this.dgvCrecimientoOferta.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCrecimientoOferta.Location = new System.Drawing.Point(256, 60);
+            this.dgvCrecimientoOferta.Name = "dgvCrecimientoOferta";
+            this.dgvCrecimientoOferta.Size = new System.Drawing.Size(303, 331);
+            this.dgvCrecimientoOferta.TabIndex = 0;
+            this.dgvCrecimientoOferta.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCrecimientoOferta_CellValueChanged);
             // 
             // proyeccionVentas
             // 
@@ -1715,7 +1827,7 @@
             this.proyeccionVentas.Controls.Add(this.panel13);
             this.proyeccionVentas.Controls.Add(this.btnGuardarProyeccion);
             this.proyeccionVentas.Controls.Add(this.button2);
-            this.proyeccionVentas.Controls.Add(this.dataGridView2);
+            this.proyeccionVentas.Controls.Add(this.dgvIngresosGenerados);
             this.proyeccionVentas.Controls.Add(this.label53);
             this.proyeccionVentas.Controls.Add(this.dgvProyeccionesVentas);
             this.proyeccionVentas.Location = new System.Drawing.Point(4, 22);
@@ -1730,7 +1842,7 @@
             // 
             this.btnAgregarProyecciones.Image = ((System.Drawing.Image)(resources.GetObject("btnAgregarProyecciones.Image")));
             this.btnAgregarProyecciones.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAgregarProyecciones.Location = new System.Drawing.Point(979, 222);
+            this.btnAgregarProyecciones.Location = new System.Drawing.Point(953, 222);
             this.btnAgregarProyecciones.Name = "btnAgregarProyecciones";
             this.btnAgregarProyecciones.Size = new System.Drawing.Size(124, 23);
             this.btnAgregarProyecciones.TabIndex = 37;
@@ -1849,13 +1961,13 @@
             this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // dataGridView2
+            // dgvIngresosGenerados
             // 
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(33, 293);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.Size = new System.Drawing.Size(817, 119);
-            this.dataGridView2.TabIndex = 2;
+            this.dgvIngresosGenerados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvIngresosGenerados.Location = new System.Drawing.Point(33, 293);
+            this.dgvIngresosGenerados.Name = "dgvIngresosGenerados";
+            this.dgvIngresosGenerados.Size = new System.Drawing.Size(817, 119);
+            this.dgvIngresosGenerados.TabIndex = 2;
             // 
             // label53
             // 
@@ -2232,12 +2344,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvTotalesReinversiones)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvReinversiones)).EndInit();
             this.crecimientoAnual.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
+            this.panel14.ResumeLayout(false);
+            this.panel14.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCrecimientoOferta)).EndInit();
             this.proyeccionVentas.ResumeLayout(false);
             this.proyeccionVentas.PerformLayout();
             this.panel13.ResumeLayout(false);
             this.panel13.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvIngresosGenerados)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProyeccionesVentas)).EndInit();
             this.resumenProyecto.ResumeLayout(false);
             this.panel9.ResumeLayout(false);
@@ -2413,13 +2527,11 @@
         private System.Windows.Forms.Label lblHorizonte2;
         private System.Windows.Forms.Label lblProyecto2;
         private System.Windows.Forms.Label lblProponente;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView dgvIngresosGenerados;
         private System.Windows.Forms.Label label53;
         private System.Windows.Forms.Button btnGuardarProyeccion;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.DataGridView dataGridView3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ano;
-        private System.Windows.Forms.DataGridViewTextBoxColumn porcetajeCrecimiento;
+        private System.Windows.Forms.DataGridView dgvCrecimientoOferta;
         private System.Windows.Forms.Panel panel13;
         private System.Windows.Forms.Label label56;
         private System.Windows.Forms.Label label59;
@@ -2429,5 +2541,15 @@
         private System.Windows.Forms.Label lblProyecto3;
         private System.Windows.Forms.Label lblHorizonte3;
         private System.Windows.Forms.Button btnAgregarProyecciones;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button btnGuardarCrecimientoOferta;
+        private System.Windows.Forms.Panel panel14;
+        private System.Windows.Forms.Label lblProponente4;
+        private System.Windows.Forms.Label lblProyecto4;
+        private System.Windows.Forms.Label lblHorizonte4;
+        private System.Windows.Forms.Label label64;
+        private System.Windows.Forms.Label label65;
+        private System.Windows.Forms.Label label66;
+        private System.Windows.Forms.Label label67;
     }
 }

@@ -96,6 +96,7 @@ namespace UCR.Negotium.WindowsUI
                     proyecto.JustificacionDeMercado = fila["justificacion_de_mercado"].ToString();
                     proyecto.NombreProyecto = fila["nombre_proyecto"].ToString();
                     proyecto.ObjetoInteres = GetObjetoInteres(proyecto.CodProyecto);
+                    proyecto.CrecimientosAnuales = GetCrecimientosAnuales(proyecto.CodProyecto);
                     proyecto.OfertaAnual = Int32.Parse(fila["oferta_anual"].ToString());
                     proyecto.PagaImpuesto = Boolean.Parse(fila["paga_impuesto"].ToString());
                     proyecto.PorcentajeImpuesto = float.Parse(fila["porcentaje_impuesto"].ToString());
@@ -112,6 +113,25 @@ namespace UCR.Negotium.WindowsUI
         {
             ObjetoInteresData objetoInteresData = new ObjetoInteresData();
             return objetoInteresData.GetObjetoInteres(codProyecto);
+        }
+
+        private List<CrecimientoOfertaObjetoInteres> GetCrecimientosAnuales(int codProyecto) {
+            CrecimientoOfertaObjetoInteresData crecimientoAnual = new CrecimientoOfertaObjetoInteresData();
+
+            DataTable dt =  crecimientoAnual.GetCrecimientoOfertaObjetoIntereses(codProyecto);
+            List<CrecimientoOfertaObjetoInteres> list = new List<CrecimientoOfertaObjetoInteres>();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                CrecimientoOfertaObjetoInteres creTemp = new CrecimientoOfertaObjetoInteres();
+                creTemp.CodCrecimiento = Convert.ToInt32(row[0]);
+                creTemp.AnoCrecimiento = Convert.ToInt32(row[1]);
+                creTemp.PorcentajeCrecimiento = Convert.ToDouble(row[2]);
+
+                list.Add(creTemp);
+            }
+
+            return list;
         }
     }
 }
