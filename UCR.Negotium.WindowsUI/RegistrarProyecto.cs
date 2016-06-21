@@ -1,12 +1,8 @@
 ﻿//@Copyright Yordan Campos Piedra
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
@@ -62,6 +58,7 @@ namespace UCR.Negotium.WindowsUI
             LlenaValoresTotalesReinversiones();
             LlenaDgvProyeccionesVentas();
             LlenaDgvCrecimientoOferta();
+            LlenaDgvIngresosGenerados();
             lblHorizonteProyecto1.Text = proyecto.HorizonteEvaluacionEnAnos.ToString();
             lbNomProy1.Text = proyecto.NombreProyecto;
             lbProponente1.Text = proyecto.Proponente.Nombre + " " + proyecto.Proponente.Apellidos;
@@ -1203,8 +1200,37 @@ namespace UCR.Negotium.WindowsUI
                 }//for
             }//if
             else {
-                validaInsersion = 3;
-            }
+                //editar TODO cambiar el eliminar/insertar y usar el editar
+                try
+                {
+                    if(crecimientoOfertaData.eliminarCrecimientoObjetoInteres(this.proyecto.CodProyecto))
+                    { 
+                        for (int i = 0; i < dgvCrecimientoOferta.RowCount; i++)
+                        {
+                            if (Convert.ToInt32(this.dgvCrecimientoOferta.Rows[i].Cells["Porcentaje"].Value) > 0)
+                            {
+                        
+                                CrecimientoOfertaObjetoInteres crecimientoOferta = new CrecimientoOfertaObjetoInteres();
+                                crecimientoOferta.AnoCrecimiento =
+                                    Int32.Parse(this.dgvCrecimientoOferta.Rows[i].Cells["Año"].Value.ToString());
+                                crecimientoOferta.PorcentajeCrecimiento =
+                                    Int32.Parse(this.dgvCrecimientoOferta.Rows[i].Cells["Porcentaje"].Value.ToString());
+
+                                crecimientoOfertaData.InsertarCrecimientoOfertaObjetoIntereses(crecimientoOferta, this.proyecto.CodProyecto);
+                                validaInsersion = 1;
+                                listaCrecimientos.Add(crecimientoOferta);
+
+                        
+                            }//if
+                        }//for
+                    }//if
+                }//try
+                catch (Exception ex)
+                {
+                    validaInsersion = 2;
+                    Console.WriteLine(ex);
+                }//catch
+            }//else
             if (validaInsersion == 1)
             {
                 proyecto.CrecimientosAnuales = listaCrecimientos;
@@ -1267,6 +1293,11 @@ namespace UCR.Negotium.WindowsUI
                 tbxRegistrarProyecto.SelectedIndex = 3;
             }//if
         }//LlenaDgvInversiones
+
+        private void btnAgregarCosto_Click(object sender, EventArgs e)
+        {
+
+        }
 
         private void LlenaDgvReinversiones()
         {
@@ -1332,53 +1363,6 @@ namespace UCR.Negotium.WindowsUI
             dgvTotalesReinversiones.DataSource = dtRequerimientos;
         }//LlenaDgvTotalesReinversiones
 
-        private void LlenaDgvCrecimientoOferta() {
-            DataSet ds = new DataSet();
-            ds.Tables.Add("CrecimientoOferta");
-            ds.Tables["CrecimientoOferta"].Columns.Add("Año", Type.GetType("System.String"));
-            ds.Tables["CrecimientoOferta"].Columns.Add("Porcentaje", Type.GetType("System.String"));
-
-            if (this.proyecto.CrecimientosAnuales != null && this.proyecto.CrecimientosAnuales.Count > 0)
-            {
-                
-                for (Int32 i=0; i<proyecto.CrecimientosAnuales.Count; i++)
-                {
-                    DataRow row = ds.Tables["CrecimientoOferta"].NewRow();
-                    row["Año"] = proyecto.CrecimientosAnuales[i].AnoCrecimiento;
-                    row["Porcentaje"] = proyecto.CrecimientosAnuales[i].PorcentajeCrecimiento;
-                    ds.Tables["CrecimientoOferta"].Rows.Add(row);
-                }//foreach
-
-                // Aqui realizo este cambio de index debido a que las reinversiones cargan los años de 
-                // reinversión hasta que entra por segunda vez al tab de reinversiones
-                tbxRegistrarProyecto.SelectedIndex = 5;
-                tbxRegistrarProyecto.SelectedIndex = 4;
-            }//if
-
-            else
-            {
-                List<String> anosCrecimiento = new List<String>();
-                for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
-                {
-                    int anoActual = proyecto.AnoInicial + i;
-                    anosCrecimiento.Add(anoActual.ToString());
-                }//for
-
-                foreach (String anoIver in anosCrecimiento)
-                {
-                    DataRow row = ds.Tables["CrecimientoOferta"].NewRow();
-                    row["Año"] = anoIver;
-                    row["Porcentaje"] = 0;
-                    ds.Tables["CrecimientoOferta"].Rows.Add(row);
-                }
-            }
-            DataTable dtCrecimientos = ds.Tables["CrecimientoOferta"];
-            dgvCrecimientoOferta.DataSource = dtCrecimientos;
-            dgvCrecimientoOferta.Columns[0].ReadOnly = true;
-            dgvCrecimientoOferta.Columns[1].HeaderText = "Porcentaje de crecimiento";
-
-        }//LlenaDGVCrecimientoOfertas
-
         private void LlenaDgvProyeccionesVentas()
         {
             if ((proyecto.Proyecciones != null) && (this.proyecto.Proyecciones.Count > 0))
@@ -1425,6 +1409,261 @@ namespace UCR.Negotium.WindowsUI
                 this.dgvProyeccionesVentas.DataSource = dtProyecciones;
             }//if
         }//LlenaDgvProyeccionesVentas
+
+        private void LlenaDgvCrecimientoOferta()
+        {
+            DataSet ds = new DataSet();
+            ds.Tables.Add("CrecimientoOferta");
+            ds.Tables["CrecimientoOferta"].Columns.Add("Año", Type.GetType("System.String"));
+            ds.Tables["CrecimientoOferta"].Columns.Add("Porcentaje", Type.GetType("System.String"));
+
+            if (this.proyecto.CrecimientosAnuales != null && this.proyecto.CrecimientosAnuales.Count > 0)
+            {
+
+                for (Int32 i = 0; i < proyecto.CrecimientosAnuales.Count; i++)
+                {
+                    DataRow row = ds.Tables["CrecimientoOferta"].NewRow();
+                    row["Año"] = proyecto.CrecimientosAnuales[i].AnoCrecimiento;
+                    row["Porcentaje"] = proyecto.CrecimientosAnuales[i].PorcentajeCrecimiento;
+                    ds.Tables["CrecimientoOferta"].Rows.Add(row);
+                }//foreach
+
+                // Aqui realizo este cambio de index debido a que las reinversiones cargan los años de 
+                // reinversión hasta que entra por segunda vez al tab de reinversiones
+                tbxRegistrarProyecto.SelectedIndex = 5;
+                tbxRegistrarProyecto.SelectedIndex = 4;
+            }//if
+
+            else
+            {
+                List<String> anosCrecimiento = new List<String>();
+                for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+                {
+                    int anoActual = proyecto.AnoInicial + i;
+                    anosCrecimiento.Add(anoActual.ToString());
+                }//for
+
+                foreach (String anoIver in anosCrecimiento)
+                {
+                    DataRow row = ds.Tables["CrecimientoOferta"].NewRow();
+                    row["Año"] = anoIver;
+                    row["Porcentaje"] = 0;
+                    ds.Tables["CrecimientoOferta"].Rows.Add(row);
+                }
+            }
+            DataTable dtCrecimientos = ds.Tables["CrecimientoOferta"];
+            dgvCrecimientoOferta.DataSource = dtCrecimientos;
+            dgvCrecimientoOferta.Columns[0].ReadOnly = true;
+            dgvCrecimientoOferta.Columns[1].HeaderText = "Porcentaje de crecimiento";
+
+            lblHorizonte4.Text = proyecto.HorizonteEvaluacionEnAnos.ToString();
+            lblProyecto4.Text = proyecto.NombreProyecto;
+            lblProponente4.Text = proyecto.Proponente.Nombre + " " + proyecto.Proponente.Apellidos;
+
+        }//LlenaDGVCrecimientoOfertas
+
+        private void LlenaDgvIngresosGenerados()
+        {
+            DataSet ds = new DataSet();
+            ds.Tables.Add("IngresosGenerados");
+            
+            //ds.Tables["IngresosGenerados"].Columns.Add("Ingresos", Type.GetType("System.String"));
+
+            if (this.proyecto.CrecimientosAnuales != null && this.proyecto.CrecimientosAnuales.Count > 0)
+            {
+                Double val = 0;
+                ds.Tables["IngresosGenerados"].Columns.Add("titulo", Type.GetType("System.String"));
+
+                DataRow row = ds.Tables["IngresosGenerados"].NewRow();
+                row["titulo"] = "Ingresos";
+                Boolean bandera = false;
+                int a = 0;
+                for (Int32 i = 0; i < proyecto.CrecimientosAnuales.Count; i++)
+                {
+                    ds.Tables["IngresosGenerados"].Columns.Add("Año "+ a, Type.GetType("System.String"));
+                    //dgvIngresosGenerados.Columns["Año"+ (i+1)].HeaderText = "Año "+ (i+1);
+
+                    foreach (ProyeccionVentaArticulo articulo in proyecto.Proyecciones)
+                    {
+                        foreach (DetalleProyeccionVenta detArticulo in articulo.DetallesProyeccionVenta)
+                        { 
+                            val = val + (detArticulo.Cantidad*detArticulo.Precio);
+                        }
+                    }
+
+                    if (bandera)
+                    {
+                        val = ((val * proyecto.CrecimientosAnuales[i].PorcentajeCrecimiento)/100) + val;
+                    }
+                    else if (i==0)
+                    {
+                        i = i - 1;
+                    }
+                    bandera = true;
+
+                    //DataRow row2 = ds.Tables["IngresosGenerados"].NewRow();
+                    //row["Año"] = proyecto.CrecimientosAnuales[i].AnoCrecimiento;
+                    row["Año " + a] = "₡ "+ val.ToString("#,##0.##"); ;
+
+                    a = a + 1;
+                    val = 0;
+                }//foreach
+
+                ds.Tables["IngresosGenerados"].Rows.Add(row);
+
+                // Aqui realizo este cambio de index debido a que las reinversiones cargan los años de 
+                // reinversión hasta que entra por segunda vez al tab de reinversiones
+                tbxRegistrarProyecto.SelectedIndex = 5;
+                tbxRegistrarProyecto.SelectedIndex = 4;
+            }//if
+
+            else
+            {
+                //List<String> anosCrecimiento = new List<String>();
+                //for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+                //{
+                //    int anoActual = proyecto.AnoInicial + i;
+                //    anosCrecimiento.Add(anoActual.ToString());
+                //}//for
+
+                //foreach (String anoIver in anosCrecimiento)
+                //{
+                //    DataRow row = ds.Tables["IngresosGenerados"].NewRow();
+                //    row["Año"] = anoIver;
+                //    row["Ingresos"] = 0;
+                //    ds.Tables["IngresosGenerados"].Rows.Add(row);
+                //}
+            }
+            DataTable dtIngresosGenerados = ds.Tables["IngresosGenerados"];
+            dgvIngresosGenerados.DataSource = dtIngresosGenerados;
+            dgvIngresosGenerados.Columns[0].HeaderText = "";
+            dgvIngresosGenerados.Columns[1].HeaderText = "Año de Inicio";
+        }//LlenaDgvIngresosGenerados
+
+        private void LlenaDgvCostos()
+        {
+            if ((proyecto.Costos != null) && (this.proyecto.Costos.Count > 0))
+            {
+                DataSet ds = new DataSet();
+                ds.Tables.Add("Costos");
+                ds.Tables["Costos"].Columns.Add("Articulo", Type.GetType("System.String"));
+                ds.Tables["Costos"].Columns.Add("Unidad", Type.GetType("System.String"));
+                ds.Tables["Costos"].Columns.Add("Enero", Type.GetType("System.String"));
+                ds.Tables["Costos"].Columns.Add("Febrero", Type.GetType("System.String"));
+                ds.Tables["Costos"].Columns.Add("Marzo", Type.GetType("System.String"));
+                ds.Tables["Costos"].Columns.Add("Abril", Type.GetType("System.String"));
+                ds.Tables["Costos"].Columns.Add("Mayo", Type.GetType("System.String"));
+                ds.Tables["Costos"].Columns.Add("Junio", Type.GetType("System.String"));
+                ds.Tables["Costos"].Columns.Add("Julio", Type.GetType("System.String"));
+                ds.Tables["Costos"].Columns.Add("Agosto", Type.GetType("System.String"));
+                ds.Tables["Costos"].Columns.Add("Setiembre", Type.GetType("System.String"));
+                ds.Tables["Costos"].Columns.Add("Octubre", Type.GetType("System.String"));
+                ds.Tables["Costos"].Columns.Add("Noviembre", Type.GetType("System.String"));
+                ds.Tables["Costos"].Columns.Add("Diciembre", Type.GetType("System.String"));
+                foreach (ProyeccionVentaArticulo proyTemp in this.proyecto.Proyecciones)
+                {
+                    DataRow row = ds.Tables["Costos"].NewRow();
+                    row["Articulo"] = proyTemp.NombreArticulo;
+                    row["Unidad"] = proyTemp.UnidadMedida.NombreUnidad;
+                    row["Enero"] = ("₡" + proyTemp.DetallesProyeccionVenta[0].Precio + " | " + proyTemp.DetallesProyeccionVenta[0].Cantidad + " ud").ToString();
+                    row["Febrero"] = ("₡" + proyTemp.DetallesProyeccionVenta[1].Precio + " | " + proyTemp.DetallesProyeccionVenta[1].Cantidad + " ud").ToString();
+                    row["Marzo"] = ("₡" + proyTemp.DetallesProyeccionVenta[2].Precio + " | " + proyTemp.DetallesProyeccionVenta[2].Cantidad + " ud").ToString();
+                    row["Abril"] = ("₡" + proyTemp.DetallesProyeccionVenta[3].Precio + " | " + proyTemp.DetallesProyeccionVenta[3].Cantidad + " ud").ToString();
+                    row["Mayo"] = ("₡" + proyTemp.DetallesProyeccionVenta[4].Precio + " | " + proyTemp.DetallesProyeccionVenta[4].Cantidad + " ud").ToString();
+                    row["Junio"] = ("₡" + proyTemp.DetallesProyeccionVenta[5].Precio + " | " + proyTemp.DetallesProyeccionVenta[5].Cantidad + " ud").ToString();
+                    row["Julio"] = ("₡" + proyTemp.DetallesProyeccionVenta[6].Precio + " | " + proyTemp.DetallesProyeccionVenta[6].Cantidad + " ud").ToString();
+                    row["Agosto"] = ("₡" + proyTemp.DetallesProyeccionVenta[7].Precio + " | " + proyTemp.DetallesProyeccionVenta[7].Cantidad + " ud").ToString();
+                    row["Setiembre"] = ("₡" + proyTemp.DetallesProyeccionVenta[8].Precio + " | " + proyTemp.DetallesProyeccionVenta[8].Cantidad + " ud").ToString();
+                    row["Octubre"] = ("₡" + proyTemp.DetallesProyeccionVenta[9].Precio + " | " + proyTemp.DetallesProyeccionVenta[9].Cantidad + " ud").ToString();
+                    row["Noviembre"] = ("₡" + proyTemp.DetallesProyeccionVenta[10].Precio + " | " + proyTemp.DetallesProyeccionVenta[10].Cantidad + " ud").ToString();
+                    row["Diciembre"] = ("₡" + proyTemp.DetallesProyeccionVenta[11].Precio + " | " + proyTemp.DetallesProyeccionVenta[11].Cantidad + " ud").ToString();
+
+                    ds.Tables["Costos"].Rows.Add(row);
+
+                }//foreach
+
+                DataTable dtCostos = ds.Tables["Costos"];
+                this.dgvCostos.DataSource = dtCostos;
+            }//if
+        }//LlenaDgvCostos
+
+        private void LlenaDgvCostosGenerados()
+        {
+            DataSet ds = new DataSet();
+            ds.Tables.Add("CostosGenerados");
+
+            //ds.Tables["IngresosGenerados"].Columns.Add("Ingresos", Type.GetType("System.String"));
+
+            if (this.proyecto.VariacionCostos != null && this.proyecto.VariacionCostos.Count > 0)
+            {
+                Double val = 0;
+                ds.Tables["CostosGenerados"].Columns.Add("titulo", Type.GetType("System.String"));
+
+                DataRow row = ds.Tables["CostosGenerados"].NewRow();
+                row["titulo"] = "Ingresos";
+                Boolean bandera = false;
+                int a = 0;
+                for (Int32 i = 0; i < proyecto.CrecimientosAnuales.Count; i++)
+                {
+                    ds.Tables["CostosGenerados"].Columns.Add("Año " + a, Type.GetType("System.String"));
+                    //dgvIngresosGenerados.Columns["Año"+ (i+1)].HeaderText = "Año "+ (i+1);
+
+                    foreach (Costo articulo in proyecto.Costos)
+                    {
+                        foreach (CostoMensual detArticulo in articulo.CostosMensuales)
+                        {
+                            val = val + (detArticulo.Cantidad * detArticulo.CostoUnitario);
+                        }
+                    }
+
+                    if (bandera)
+                    {
+                        val = ((val * proyecto.VariacionCostos[i].ProcentajeIncremento) / 100) + val;
+                    }
+                    else if (i == 0)
+                    {
+                        i = i - 1;
+                    }
+                    bandera = true;
+
+                    //DataRow row2 = ds.Tables["IngresosGenerados"].NewRow();
+                    //row["Año"] = proyecto.CrecimientosAnuales[i].AnoCrecimiento;
+                    row["Año " + a] = "₡ " + val.ToString("#,##0.##"); ;
+
+                    a = a + 1;
+                    val = 0;
+                }//foreach
+
+                ds.Tables["CostosGenerados"].Rows.Add(row);
+
+                // Aqui realizo este cambio de index debido a que las reinversiones cargan los años de 
+                // reinversión hasta que entra por segunda vez al tab de reinversiones
+                tbxRegistrarProyecto.SelectedIndex = 5;
+                tbxRegistrarProyecto.SelectedIndex = 4;
+            }//if
+
+            else
+            {
+                //List<String> anosCrecimiento = new List<String>();
+                //for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+                //{
+                //    int anoActual = proyecto.AnoInicial + i;
+                //    anosCrecimiento.Add(anoActual.ToString());
+                //}//for
+
+                //foreach (String anoIver in anosCrecimiento)
+                //{
+                //    DataRow row = ds.Tables["IngresosGenerados"].NewRow();
+                //    row["Año"] = anoIver;
+                //    row["Ingresos"] = 0;
+                //    ds.Tables["IngresosGenerados"].Rows.Add(row);
+                //}
+            }
+            DataTable dtCostosTotales = ds.Tables["CostosGenerados"];
+            dgvCostosGenerados.DataSource = dtCostosTotales;
+            dgvCostosGenerados.Columns[0].HeaderText = "";
+            dgvCostosGenerados.Columns[1].HeaderText = "Año de Inicio";
+        }//LlenaDgvCostosTotales
 
         /**************************************FIN Metodos de utilidad*****************************************/
     }//Clase registrar proyecto

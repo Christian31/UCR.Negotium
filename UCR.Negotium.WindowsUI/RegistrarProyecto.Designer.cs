@@ -188,6 +188,7 @@
             this.dgvIngresosGenerados = new System.Windows.Forms.DataGridView();
             this.label53 = new System.Windows.Forms.Label();
             this.dgvProyeccionesVentas = new System.Windows.Forms.DataGridView();
+            this.costos = new System.Windows.Forms.TabPage();
             this.resumenProyecto = new System.Windows.Forms.TabPage();
             this.panel9 = new System.Windows.Forms.Panel();
             this.label46 = new System.Windows.Forms.Label();
@@ -216,6 +217,20 @@
             this.label38 = new System.Windows.Forms.Label();
             this.ttMensaje = new System.Windows.Forms.ToolTip(this.components);
             this.unidadMedidaDataBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dgvCostos = new System.Windows.Forms.DataGridView();
+            this.dgvCostosGenerados = new System.Windows.Forms.DataGridView();
+            this.label57 = new System.Windows.Forms.Label();
+            this.btnVerResumenCostos = new System.Windows.Forms.Button();
+            this.btnGuardarCostos = new System.Windows.Forms.Button();
+            this.panel15 = new System.Windows.Forms.Panel();
+            this.label61 = new System.Windows.Forms.Label();
+            this.label62 = new System.Windows.Forms.Label();
+            this.label68 = new System.Windows.Forms.Label();
+            this.label69 = new System.Windows.Forms.Label();
+            this.label70 = new System.Windows.Forms.Label();
+            this.label71 = new System.Windows.Forms.Label();
+            this.label72 = new System.Windows.Forms.Label();
+            this.btnAgregarCosto = new System.Windows.Forms.Button();
             this.tbxRegistrarProyecto.SuspendLayout();
             this.informacionGeneral.SuspendLayout();
             this.panelDatosGenerales.SuspendLayout();
@@ -248,10 +263,14 @@
             this.panel13.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvIngresosGenerados)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProyeccionesVentas)).BeginInit();
+            this.costos.SuspendLayout();
             this.resumenProyecto.SuspendLayout();
             this.panel9.SuspendLayout();
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.unidadMedidaDataBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCostos)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCostosGenerados)).BeginInit();
+            this.panel15.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbxRegistrarProyecto
@@ -263,6 +282,7 @@
             this.tbxRegistrarProyecto.Controls.Add(this.reinversiones);
             this.tbxRegistrarProyecto.Controls.Add(this.crecimientoAnual);
             this.tbxRegistrarProyecto.Controls.Add(this.proyeccionVentas);
+            this.tbxRegistrarProyecto.Controls.Add(this.costos);
             this.tbxRegistrarProyecto.Controls.Add(this.resumenProyecto);
             this.tbxRegistrarProyecto.Location = new System.Drawing.Point(0, -2);
             this.tbxRegistrarProyecto.Name = "tbxRegistrarProyecto";
@@ -1861,7 +1881,7 @@
             this.panel13.Controls.Add(this.label59);
             this.panel13.Controls.Add(this.label60);
             this.panel13.Controls.Add(this.label63);
-            this.panel13.Location = new System.Drawing.Point(874, 22);
+            this.panel13.Location = new System.Drawing.Point(874, 19);
             this.panel13.Name = "panel13";
             this.panel13.Size = new System.Drawing.Size(284, 194);
             this.panel13.TabIndex = 36;
@@ -1963,9 +1983,15 @@
             // 
             // dgvIngresosGenerados
             // 
+            this.dgvIngresosGenerados.AllowUserToAddRows = false;
+            this.dgvIngresosGenerados.AllowUserToDeleteRows = false;
+            this.dgvIngresosGenerados.AllowUserToOrderColumns = true;
+            this.dgvIngresosGenerados.AllowUserToResizeColumns = false;
+            this.dgvIngresosGenerados.AllowUserToResizeRows = false;
             this.dgvIngresosGenerados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvIngresosGenerados.Location = new System.Drawing.Point(33, 293);
             this.dgvIngresosGenerados.Name = "dgvIngresosGenerados";
+            this.dgvIngresosGenerados.ReadOnly = true;
             this.dgvIngresosGenerados.Size = new System.Drawing.Size(817, 119);
             this.dgvIngresosGenerados.TabIndex = 2;
             // 
@@ -1988,6 +2014,22 @@
             this.dgvProyeccionesVentas.ReadOnly = true;
             this.dgvProyeccionesVentas.Size = new System.Drawing.Size(817, 208);
             this.dgvProyeccionesVentas.TabIndex = 0;
+            // 
+            // costos
+            // 
+            this.costos.BackColor = System.Drawing.Color.Honeydew;
+            this.costos.Controls.Add(this.btnAgregarCosto);
+            this.costos.Controls.Add(this.panel15);
+            this.costos.Controls.Add(this.btnGuardarCostos);
+            this.costos.Controls.Add(this.btnVerResumenCostos);
+            this.costos.Controls.Add(this.label57);
+            this.costos.Controls.Add(this.dgvCostosGenerados);
+            this.costos.Controls.Add(this.dgvCostos);
+            this.costos.Location = new System.Drawing.Point(4, 22);
+            this.costos.Name = "costos";
+            this.costos.Size = new System.Drawing.Size(1178, 515);
+            this.costos.TabIndex = 8;
+            this.costos.Text = "Costos del Proyecto";
             // 
             // resumenProyecto
             // 
@@ -2291,6 +2333,153 @@
             // 
             this.unidadMedidaDataBindingSource.DataSource = typeof(UCR.Negotium.DataAccess.UnidadMedidaData);
             // 
+            // dgvCostos
+            // 
+            this.dgvCostos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCostos.Location = new System.Drawing.Point(34, 17);
+            this.dgvCostos.Name = "dgvCostos";
+            this.dgvCostos.Size = new System.Drawing.Size(821, 210);
+            this.dgvCostos.TabIndex = 0;
+            // 
+            // dgvCostosGenerados
+            // 
+            this.dgvCostosGenerados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCostosGenerados.Location = new System.Drawing.Point(34, 288);
+            this.dgvCostosGenerados.Name = "dgvCostosGenerados";
+            this.dgvCostosGenerados.Size = new System.Drawing.Size(821, 125);
+            this.dgvCostosGenerados.TabIndex = 1;
+            // 
+            // label57
+            // 
+            this.label57.AutoSize = true;
+            this.label57.Location = new System.Drawing.Point(31, 262);
+            this.label57.Name = "label57";
+            this.label57.Size = new System.Drawing.Size(92, 13);
+            this.label57.TabIndex = 2;
+            this.label57.Text = "Costos generados";
+            // 
+            // btnVerResumenCostos
+            // 
+            this.btnVerResumenCostos.Image = ((System.Drawing.Image)(resources.GetObject("btnVerResumenCostos.Image")));
+            this.btnVerResumenCostos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnVerResumenCostos.Location = new System.Drawing.Point(759, 451);
+            this.btnVerResumenCostos.Name = "btnVerResumenCostos";
+            this.btnVerResumenCostos.Size = new System.Drawing.Size(96, 23);
+            this.btnVerResumenCostos.TabIndex = 3;
+            this.btnVerResumenCostos.Text = "Ver Resumen";
+            this.btnVerResumenCostos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnVerResumenCostos.UseVisualStyleBackColor = true;
+            // 
+            // btnGuardarCostos
+            // 
+            this.btnGuardarCostos.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardarCostos.Image")));
+            this.btnGuardarCostos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnGuardarCostos.Location = new System.Drawing.Point(671, 451);
+            this.btnGuardarCostos.Name = "btnGuardarCostos";
+            this.btnGuardarCostos.Size = new System.Drawing.Size(71, 23);
+            this.btnGuardarCostos.TabIndex = 4;
+            this.btnGuardarCostos.Text = "Guardar";
+            this.btnGuardarCostos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnGuardarCostos.UseVisualStyleBackColor = true;
+            // 
+            // panel15
+            // 
+            this.panel15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel15.Controls.Add(this.label61);
+            this.panel15.Controls.Add(this.label62);
+            this.panel15.Controls.Add(this.label68);
+            this.panel15.Controls.Add(this.label69);
+            this.panel15.Controls.Add(this.label70);
+            this.panel15.Controls.Add(this.label71);
+            this.panel15.Controls.Add(this.label72);
+            this.panel15.Location = new System.Drawing.Point(875, 17);
+            this.panel15.Name = "panel15";
+            this.panel15.Size = new System.Drawing.Size(284, 194);
+            this.panel15.TabIndex = 37;
+            // 
+            // label61
+            // 
+            this.label61.AutoSize = true;
+            this.label61.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label61.Location = new System.Drawing.Point(3, 158);
+            this.label61.Name = "label61";
+            this.label61.Size = new System.Drawing.Size(77, 16);
+            this.label61.TabIndex = 15;
+            this.label61.Text = "proponente";
+            // 
+            // label62
+            // 
+            this.label62.AutoSize = true;
+            this.label62.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label62.Location = new System.Drawing.Point(3, 96);
+            this.label62.Name = "label62";
+            this.label62.Size = new System.Drawing.Size(61, 16);
+            this.label62.TabIndex = 14;
+            this.label62.Text = "proyecto";
+            // 
+            // label68
+            // 
+            this.label68.AutoSize = true;
+            this.label68.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label68.Location = new System.Drawing.Point(121, 43);
+            this.label68.Name = "label68";
+            this.label68.Size = new System.Drawing.Size(15, 16);
+            this.label68.TabIndex = 13;
+            this.label68.Text = "0";
+            // 
+            // label69
+            // 
+            this.label69.AutoSize = true;
+            this.label69.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label69.Location = new System.Drawing.Point(80, 11);
+            this.label69.Name = "label69";
+            this.label69.Size = new System.Drawing.Size(122, 16);
+            this.label69.TabIndex = 8;
+            this.label69.Text = "Datos del proyecto";
+            // 
+            // label70
+            // 
+            this.label70.AutoSize = true;
+            this.label70.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label70.Location = new System.Drawing.Point(3, 43);
+            this.label70.Name = "label70";
+            this.label70.Size = new System.Drawing.Size(124, 16);
+            this.label70.TabIndex = 1;
+            this.label70.Text = "Horizonte proyecto:";
+            // 
+            // label71
+            // 
+            this.label71.AutoSize = true;
+            this.label71.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label71.Location = new System.Drawing.Point(3, 142);
+            this.label71.Name = "label71";
+            this.label71.Size = new System.Drawing.Size(81, 16);
+            this.label71.TabIndex = 12;
+            this.label71.Text = "Proponente:";
+            // 
+            // label72
+            // 
+            this.label72.AutoSize = true;
+            this.label72.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label72.Location = new System.Drawing.Point(3, 80);
+            this.label72.Name = "label72";
+            this.label72.Size = new System.Drawing.Size(116, 16);
+            this.label72.TabIndex = 10;
+            this.label72.Text = "Nombre proyecto:";
+            // 
+            // btnAgregarCosto
+            // 
+            this.btnAgregarCosto.Image = ((System.Drawing.Image)(resources.GetObject("btnAgregarCosto.Image")));
+            this.btnAgregarCosto.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAgregarCosto.Location = new System.Drawing.Point(968, 217);
+            this.btnAgregarCosto.Name = "btnAgregarCosto";
+            this.btnAgregarCosto.Size = new System.Drawing.Size(97, 23);
+            this.btnAgregarCosto.TabIndex = 38;
+            this.btnAgregarCosto.Text = "Agregar Costo";
+            this.btnAgregarCosto.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnAgregarCosto.UseVisualStyleBackColor = true;
+            this.btnAgregarCosto.Click += new System.EventHandler(this.btnAgregarCosto_Click);
+            // 
             // RegistrarProyecto
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2353,12 +2542,18 @@
             this.panel13.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvIngresosGenerados)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProyeccionesVentas)).EndInit();
+            this.costos.ResumeLayout(false);
+            this.costos.PerformLayout();
             this.resumenProyecto.ResumeLayout(false);
             this.panel9.ResumeLayout(false);
             this.panel9.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.unidadMedidaDataBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCostos)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCostosGenerados)).EndInit();
+            this.panel15.ResumeLayout(false);
+            this.panel15.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2551,5 +2746,20 @@
         private System.Windows.Forms.Label label65;
         private System.Windows.Forms.Label label66;
         private System.Windows.Forms.Label label67;
+        private System.Windows.Forms.TabPage costos;
+        private System.Windows.Forms.Button btnAgregarCosto;
+        private System.Windows.Forms.Panel panel15;
+        private System.Windows.Forms.Label label61;
+        private System.Windows.Forms.Label label62;
+        private System.Windows.Forms.Label label68;
+        private System.Windows.Forms.Label label69;
+        private System.Windows.Forms.Label label70;
+        private System.Windows.Forms.Label label71;
+        private System.Windows.Forms.Label label72;
+        private System.Windows.Forms.Button btnGuardarCostos;
+        private System.Windows.Forms.Button btnVerResumenCostos;
+        private System.Windows.Forms.Label label57;
+        private System.Windows.Forms.DataGridView dgvCostosGenerados;
+        private System.Windows.Forms.DataGridView dgvCostos;
     }
 }

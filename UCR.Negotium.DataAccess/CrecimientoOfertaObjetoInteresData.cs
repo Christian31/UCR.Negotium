@@ -100,5 +100,28 @@ namespace UCR.Negotium.DataAccess
                 return crecimiento;
             }//catch
         }//EditarCrecimientoOfertaObjetoIntereses
+
+        public bool eliminarCrecimientoObjetoInteres(int codProyecto) {
+            String select = "DELETE FROM CRECIMIENTO_OFERTA_OBJETO_INTERES WHERE cod_proyecto=" + codProyecto + ";";
+
+            try
+            {
+                if (conexion.State != ConnectionState.Open)
+                    conexion.Open();
+                SQLiteCommand command = conexion.CreateCommand();
+                //command = conexion.CreateCommand();
+                command.CommandText = select;
+                command.ExecuteNonQuery();
+
+                conexion.Close();
+                return true;
+            }
+            catch (SQLiteException ex)
+            {
+                Console.WriteLine(ex.Message);
+                conexion.Close();
+                return false;
+            }
+        }
     }
 }

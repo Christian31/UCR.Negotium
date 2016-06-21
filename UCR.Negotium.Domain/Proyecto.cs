@@ -34,6 +34,8 @@ namespace UCR.Negotium.Domain
         List<RequerimientoReinversion> requerimientosReinversion;
         List<CrecimientoOfertaObjetoInteres> crecimientosAnuales;
         List<ProyeccionVentaArticulo> proyecciones;
+        List<Costo> costos;
+        List<VariacionAnualCosto> variacionCostos;
 
         public Proyecto()
         {
@@ -47,6 +49,10 @@ namespace UCR.Negotium.Domain
             this.proponente = new Proponente();
             this.objetoInteres = new ObjetoInteresProyecto();
             this.proponente.NumIdentificacion = "-1";
+            this.crecimientosAnuales = new List<CrecimientoOfertaObjetoInteres>();
+            this.proyecciones = new List<ProyeccionVentaArticulo>();
+            this.costos = new List<Costo>();
+            this.VariacionCostos = new List<VariacionAnualCosto>();
         }
 
         public int CodProyecto
@@ -371,6 +377,32 @@ namespace UCR.Negotium.Domain
             set
             {
                 proyecciones = value;
+            }
+        }
+
+        public List<Costo> Costos
+        {
+            get
+            {
+                return costos;
+            }
+
+            set
+            {
+                costos = value;
+            }
+        }
+
+        public List<VariacionAnualCosto> VariacionCostos
+        {
+            get
+            {
+                return variacionCostos;
+            }
+
+            set
+            {
+                variacionCostos = value;
             }
         }
     }

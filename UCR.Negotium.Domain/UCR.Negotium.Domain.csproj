@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Canton.cs" />
+    <Compile Include="Costo.cs" />
+    <Compile Include="CostoMensual.cs" />
     <Compile Include="CrecimientoOfertaObjetoInteres.cs" />
     <Compile Include="DetalleProyeccionVenta.cs" />
     <Compile Include="Distrito.cs" />
@@ -56,6 +58,7 @@
     <Compile Include="RequerimientoReinversion.cs" />
     <Compile Include="TipoOrganizacion.cs" />
     <Compile Include="UnidadMedida.cs" />
+    <Compile Include="VariacionAnualCosto.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
