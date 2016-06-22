@@ -61,7 +61,7 @@ namespace UCR.Negotium.WindowsUI
             LlenaDgvIngresosGenerados();
             LlenaDgvVariacionCostos();
             LlenaDgvCostos();
-
+            LlenaDgvCostosGenerados();
             lblHorizonteProyecto1.Text = proyecto.HorizonteEvaluacionEnAnos.ToString();
             lbNomProy1.Text = proyecto.NombreProyecto;
             lbProponente1.Text = proyecto.Proponente.Nombre + " " + proyecto.Proponente.Apellidos;

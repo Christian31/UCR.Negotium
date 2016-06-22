@@ -2180,9 +2180,15 @@
             // 
             // dgvCostosGenerados
             // 
+            this.dgvCostosGenerados.AllowUserToAddRows = false;
+            this.dgvCostosGenerados.AllowUserToDeleteRows = false;
+            this.dgvCostosGenerados.AllowUserToOrderColumns = true;
+            this.dgvCostosGenerados.AllowUserToResizeColumns = false;
+            this.dgvCostosGenerados.AllowUserToResizeRows = false;
             this.dgvCostosGenerados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCostosGenerados.Location = new System.Drawing.Point(34, 288);
             this.dgvCostosGenerados.Name = "dgvCostosGenerados";
+            this.dgvCostosGenerados.ReadOnly = true;
             this.dgvCostosGenerados.Size = new System.Drawing.Size(821, 125);
             this.dgvCostosGenerados.TabIndex = 1;
             // 
