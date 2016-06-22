@@ -67,6 +67,12 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgregarCosto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AgregarCosto.Designer.cs">
+      <DependentUpon>AgregarCosto.cs</DependentUpon>
+    </Compile>
     <Compile Include="AgregarProyeccion.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,6 +123,9 @@
     <Compile Include="VentanaPrincipal.Designer.cs">
       <DependentUpon>VentanaPrincipal.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AgregarCosto.resx">
+      <DependentUpon>AgregarCosto.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AgregarProyeccion.resx">
       <DependentUpon>AgregarProyeccion.cs</DependentUpon>
     </EmbeddedResource>

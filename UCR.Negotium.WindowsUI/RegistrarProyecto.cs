@@ -59,6 +59,9 @@ namespace UCR.Negotium.WindowsUI
             LlenaDgvProyeccionesVentas();
             LlenaDgvCrecimientoOferta();
             LlenaDgvIngresosGenerados();
+            LlenaDgvVariacionCostos();
+            LlenaDgvCostos();
+
             lblHorizonteProyecto1.Text = proyecto.HorizonteEvaluacionEnAnos.ToString();
             lbNomProy1.Text = proyecto.NombreProyecto;
             lbProponente1.Text = proyecto.Proponente.Nombre + " " + proyecto.Proponente.Apellidos;
@@ -1296,7 +1299,11 @@ namespace UCR.Negotium.WindowsUI
 
         private void btnAgregarCosto_Click(object sender, EventArgs e)
         {
-
+            mostrarMensajeSeguridad = false;
+            AgregarCosto agregarCosto = new AgregarCosto(evaluador, proyecto);
+            agregarCosto.MdiParent = this.MdiParent;
+            agregarCosto.Show();
+            this.Close();
         }
 
         private void LlenaDgvReinversiones()
@@ -1362,6 +1369,87 @@ namespace UCR.Negotium.WindowsUI
             DataTable dtRequerimientos = ds.Tables["TotalesReinversiones"];
             dgvTotalesReinversiones.DataSource = dtRequerimientos;
         }//LlenaDgvTotalesReinversiones
+
+        private void btnGuardarVariaciones_Click(object sender, EventArgs e)
+        {
+            int validaInsersion = 1;
+            List<VariacionAnualCosto> listaVariaciones = new List<VariacionAnualCosto>();
+            List<VariacionAnualCosto> listaVariacionesPersistente = new List<VariacionAnualCosto>();
+            VariacionAnualCostoData variacionCostoData = new VariacionAnualCostoData();
+            DataTable dt = variacionCostoData.GetVariacionAnualCostos(this.proyecto.CodProyecto);
+
+            if (dt == null || dt.Rows.Count == 0)
+            {
+                //aplicar insert
+                for (int i = 0; i < dgvVariacionesCostos.RowCount; i++)
+                {
+                    if (Convert.ToInt32(this.dgvVariacionesCostos.Rows[i].Cells["Porcentaje"].Value) > 0)
+                    {
+                        try
+                        {
+                            VariacionAnualCosto variacionAnual = new VariacionAnualCosto();
+                            variacionAnual.Ano =
+                                Int32.Parse(this.dgvVariacionesCostos.Rows[i].Cells["Año"].Value.ToString());
+                            variacionAnual.ProcentajeIncremento =
+                                Int32.Parse(this.dgvVariacionesCostos.Rows[i].Cells["Porcentaje"].Value.ToString());
+
+                            variacionCostoData.InsertarVariacionAnualCosto(variacionAnual, this.proyecto.CodProyecto);
+                            validaInsersion = 1;
+                            listaVariaciones.Add(variacionAnual);
+
+                        }//try
+                        catch (Exception ex)
+                        {
+                            validaInsersion = 2;
+                            Console.WriteLine(ex);
+                        }//catch
+                    }//if
+                }//for
+            }//if
+            else
+            {
+                //editar TODO cambiar el eliminar/insertar y usar el editar
+                try
+                {
+                    if (variacionCostoData.eliminarVariacionAnualCostos(this.proyecto.CodProyecto))
+                    {
+                        for (int i = 0; i < dgvVariacionesCostos.RowCount; i++)
+                        {
+                            if (Convert.ToInt32(this.dgvVariacionesCostos.Rows[i].Cells["Porcentaje"].Value) > 0)
+                            {
+
+                                VariacionAnualCosto variacionAnual = new VariacionAnualCosto();
+                                variacionAnual.Ano =
+                                    Int32.Parse(this.dgvVariacionesCostos.Rows[i].Cells["Año"].Value.ToString());
+                                variacionAnual.ProcentajeIncremento =
+                                    Int32.Parse(this.dgvVariacionesCostos.Rows[i].Cells["Porcentaje"].Value.ToString());
+
+                                variacionCostoData.InsertarVariacionAnualCosto(variacionAnual, this.proyecto.CodProyecto);
+                                validaInsersion = 1;
+                                listaVariaciones.Add(variacionAnual);
+
+                            }//if
+                        }//for
+                    }//if
+                }//try
+                catch (Exception ex)
+                {
+                    validaInsersion = 2;
+                    Console.WriteLine(ex);
+                }//catch
+            }//else
+            if (validaInsersion == 1)
+            {
+                proyecto.VariacionCostos = listaVariaciones;
+                MessageBox.Show("Porcentajes de incremento registrados con éxito",
+                            "Insertado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }//if
+            else if (validaInsersion == 2)
+            {
+                MessageBox.Show("Los porcentajes de incremento no se han podido registrar",
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }//else
+        }
 
         private void LlenaDgvProyeccionesVentas()
         {
@@ -1462,6 +1550,58 @@ namespace UCR.Negotium.WindowsUI
 
         }//LlenaDGVCrecimientoOfertas
 
+        private void LlenaDgvVariacionCostos()
+        {
+            DataSet ds = new DataSet();
+            ds.Tables.Add("VariacionCosto");
+            ds.Tables["VariacionCosto"].Columns.Add("Año", Type.GetType("System.String"));
+            ds.Tables["VariacionCosto"].Columns.Add("Porcentaje", Type.GetType("System.String"));
+
+            if (this.proyecto.VariacionCostos != null && this.proyecto.VariacionCostos.Count > 0)
+            {
+
+                for (Int32 i = 0; i < proyecto.VariacionCostos.Count; i++)
+                {
+                    DataRow row = ds.Tables["VariacionCosto"].NewRow();
+                    row["Año"] = proyecto.VariacionCostos[i].Ano;
+                    row["Porcentaje"] = proyecto.VariacionCostos[i].ProcentajeIncremento;
+                    ds.Tables["VariacionCosto"].Rows.Add(row);
+                }//foreach
+
+                // Aqui realizo este cambio de index debido a que las reinversiones cargan los años de 
+                // reinversión hasta que entra por segunda vez al tab de reinversiones
+                tbxRegistrarProyecto.SelectedIndex = 5;
+                tbxRegistrarProyecto.SelectedIndex = 4;
+            }//if
+
+            else
+            {
+                List<String> anosCrecimiento = new List<String>();
+                for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+                {
+                    int anoActual = proyecto.AnoInicial + i;
+                    anosCrecimiento.Add(anoActual.ToString());
+                }//for
+
+                foreach (String anoIver in anosCrecimiento)
+                {
+                    DataRow row = ds.Tables["VariacionCosto"].NewRow();
+                    row["Año"] = anoIver;
+                    row["Porcentaje"] = 0;
+                    ds.Tables["VariacionCosto"].Rows.Add(row);
+                }
+            }
+            DataTable dtCostos = ds.Tables["VariacionCosto"];
+            dgvVariacionesCostos.DataSource = dtCostos;
+            dgvVariacionesCostos.Columns[0].ReadOnly = true;
+            dgvVariacionesCostos.Columns[1].HeaderText = "Porcentaje de incremento";
+
+            lblHorizonte4.Text = proyecto.HorizonteEvaluacionEnAnos.ToString();
+            lblProyecto4.Text = proyecto.NombreProyecto;
+            lblProponente4.Text = proyecto.Proponente.Nombre + " " + proyecto.Proponente.Apellidos;
+
+        }//LlenaDgvVariacionCostos
+
         private void LlenaDgvIngresosGenerados()
         {
             DataSet ds = new DataSet();
@@ -1560,23 +1700,23 @@ namespace UCR.Negotium.WindowsUI
                 ds.Tables["Costos"].Columns.Add("Octubre", Type.GetType("System.String"));
                 ds.Tables["Costos"].Columns.Add("Noviembre", Type.GetType("System.String"));
                 ds.Tables["Costos"].Columns.Add("Diciembre", Type.GetType("System.String"));
-                foreach (ProyeccionVentaArticulo proyTemp in this.proyecto.Proyecciones)
+                foreach (Costo costoTemp in this.proyecto.Costos)
                 {
                     DataRow row = ds.Tables["Costos"].NewRow();
-                    row["Articulo"] = proyTemp.NombreArticulo;
-                    row["Unidad"] = proyTemp.UnidadMedida.NombreUnidad;
-                    row["Enero"] = ("₡" + proyTemp.DetallesProyeccionVenta[0].Precio + " | " + proyTemp.DetallesProyeccionVenta[0].Cantidad + " ud").ToString();
-                    row["Febrero"] = ("₡" + proyTemp.DetallesProyeccionVenta[1].Precio + " | " + proyTemp.DetallesProyeccionVenta[1].Cantidad + " ud").ToString();
-                    row["Marzo"] = ("₡" + proyTemp.DetallesProyeccionVenta[2].Precio + " | " + proyTemp.DetallesProyeccionVenta[2].Cantidad + " ud").ToString();
-                    row["Abril"] = ("₡" + proyTemp.DetallesProyeccionVenta[3].Precio + " | " + proyTemp.DetallesProyeccionVenta[3].Cantidad + " ud").ToString();
-                    row["Mayo"] = ("₡" + proyTemp.DetallesProyeccionVenta[4].Precio + " | " + proyTemp.DetallesProyeccionVenta[4].Cantidad + " ud").ToString();
-                    row["Junio"] = ("₡" + proyTemp.DetallesProyeccionVenta[5].Precio + " | " + proyTemp.DetallesProyeccionVenta[5].Cantidad + " ud").ToString();
-                    row["Julio"] = ("₡" + proyTemp.DetallesProyeccionVenta[6].Precio + " | " + proyTemp.DetallesProyeccionVenta[6].Cantidad + " ud").ToString();
-                    row["Agosto"] = ("₡" + proyTemp.DetallesProyeccionVenta[7].Precio + " | " + proyTemp.DetallesProyeccionVenta[7].Cantidad + " ud").ToString();
-                    row["Setiembre"] = ("₡" + proyTemp.DetallesProyeccionVenta[8].Precio + " | " + proyTemp.DetallesProyeccionVenta[8].Cantidad + " ud").ToString();
-                    row["Octubre"] = ("₡" + proyTemp.DetallesProyeccionVenta[9].Precio + " | " + proyTemp.DetallesProyeccionVenta[9].Cantidad + " ud").ToString();
-                    row["Noviembre"] = ("₡" + proyTemp.DetallesProyeccionVenta[10].Precio + " | " + proyTemp.DetallesProyeccionVenta[10].Cantidad + " ud").ToString();
-                    row["Diciembre"] = ("₡" + proyTemp.DetallesProyeccionVenta[11].Precio + " | " + proyTemp.DetallesProyeccionVenta[11].Cantidad + " ud").ToString();
+                    row["Articulo"] = costoTemp.NombreCosto;
+                    row["Unidad"] = costoTemp.UnidadMedida.NombreUnidad;
+                    row["Enero"] = ("₡" + costoTemp.CostosMensuales[0].CostoUnitario + " | " + costoTemp.CostosMensuales[0].Cantidad + " ud").ToString();
+                    row["Febrero"] = ("₡" + costoTemp.CostosMensuales[1].CostoUnitario + " | " + costoTemp.CostosMensuales[1].Cantidad + " ud").ToString();
+                    row["Marzo"] = ("₡" + costoTemp.CostosMensuales[2].CostoUnitario + " | " + costoTemp.CostosMensuales[2].Cantidad + " ud").ToString();
+                    row["Abril"] = ("₡" + costoTemp.CostosMensuales[3].CostoUnitario + " | " + costoTemp.CostosMensuales[3].Cantidad + " ud").ToString();
+                    row["Mayo"] = ("₡" + costoTemp.CostosMensuales[4].CostoUnitario + " | " + costoTemp.CostosMensuales[4].Cantidad + " ud").ToString();
+                    row["Junio"] = ("₡" + costoTemp.CostosMensuales[5].CostoUnitario + " | " + costoTemp.CostosMensuales[5].Cantidad + " ud").ToString();
+                    row["Julio"] = ("₡" + costoTemp.CostosMensuales[6].CostoUnitario + " | " + costoTemp.CostosMensuales[6].Cantidad + " ud").ToString();
+                    row["Agosto"] = ("₡" + costoTemp.CostosMensuales[7].CostoUnitario + " | " + costoTemp.CostosMensuales[7].Cantidad + " ud").ToString();
+                    row["Setiembre"] = ("₡" + costoTemp.CostosMensuales[8].CostoUnitario + " | " + costoTemp.CostosMensuales[8].Cantidad + " ud").ToString();
+                    row["Octubre"] = ("₡" + costoTemp.CostosMensuales[9].CostoUnitario + " | " + costoTemp.CostosMensuales[9].Cantidad + " ud").ToString();
+                    row["Noviembre"] = ("₡" + costoTemp.CostosMensuales[10].CostoUnitario + " | " + costoTemp.CostosMensuales[10].Cantidad + " ud").ToString();
+                    row["Diciembre"] = ("₡" + costoTemp.CostosMensuales[11].CostoUnitario + " | " + costoTemp.CostosMensuales[11].Cantidad + " ud").ToString();
 
                     ds.Tables["Costos"].Rows.Add(row);
 

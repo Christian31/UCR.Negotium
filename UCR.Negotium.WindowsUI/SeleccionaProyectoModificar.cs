@@ -97,6 +97,8 @@ namespace UCR.Negotium.WindowsUI
                     proyecto.NombreProyecto = fila["nombre_proyecto"].ToString();
                     proyecto.ObjetoInteres = GetObjetoInteres(proyecto.CodProyecto);
                     proyecto.CrecimientosAnuales = GetCrecimientosAnuales(proyecto.CodProyecto);
+                    proyecto.VariacionCostos = GetVariacionAnualCostos(proyecto.CodProyecto);
+                    proyecto.Costos = GetCostos(proyecto.CodProyecto);
                     proyecto.OfertaAnual = Int32.Parse(fila["oferta_anual"].ToString());
                     proyecto.PagaImpuesto = Boolean.Parse(fila["paga_impuesto"].ToString());
                     proyecto.PorcentajeImpuesto = float.Parse(fila["porcentaje_impuesto"].ToString());
@@ -132,6 +134,32 @@ namespace UCR.Negotium.WindowsUI
             }
 
             return list;
+        }
+
+        private List<VariacionAnualCosto> GetVariacionAnualCostos(int codProyecto)
+        {
+            VariacionAnualCostoData costosAnuales = new VariacionAnualCostoData();
+
+            DataTable dt = costosAnuales.GetVariacionAnualCostos(codProyecto);
+            List<VariacionAnualCosto> list = new List<VariacionAnualCosto>();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                VariacionAnualCosto creTemp = new VariacionAnualCosto();
+                creTemp.CodVariacionCosto = Convert.ToInt32(row[0]);
+                creTemp.Ano = Convert.ToInt32(row[1]);
+                creTemp.ProcentajeIncremento = Convert.ToDouble(row[2]);
+
+                list.Add(creTemp);
+            }
+
+            return list;
+        }
+
+        private List<Costo> GetCostos(int codProyecto)
+        {
+            CostoData costoData = new CostoData();
+            return costoData.GetCostos(codProyecto);
         }
     }
 }

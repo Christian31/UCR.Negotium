@@ -52,7 +52,7 @@ namespace UCR.Negotium.Domain
             this.crecimientosAnuales = new List<CrecimientoOfertaObjetoInteres>();
             this.proyecciones = new List<ProyeccionVentaArticulo>();
             this.costos = new List<Costo>();
-            this.VariacionCostos = new List<VariacionAnualCosto>();
+            this.variacionCostos = new List<VariacionAnualCosto>();
         }
 
         public int CodProyecto
