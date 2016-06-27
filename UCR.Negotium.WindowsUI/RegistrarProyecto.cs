@@ -57,17 +57,13 @@ namespace UCR.Negotium.WindowsUI
             LlenaDgvTotalesReinversiones();
             LlenaValoresTotalesReinversiones();
             LlenaDgvProyeccionesVentas();
-            LlenaDgvCrecimientoOferta();
             LlenaDgvIngresosGenerados();
-            LlenaDgvVariacionCostos();
             LlenaDgvCostos();
             LlenaDgvCostosGenerados();
             lblHorizonteProyecto1.Text = proyecto.HorizonteEvaluacionEnAnos.ToString();
             lbNomProy1.Text = proyecto.NombreProyecto;
             lbProponente1.Text = proyecto.Proponente.Nombre + " " + proyecto.Proponente.Apellidos;
         }
-
-        
 
         
         /******************************************INICIO DE VALIDACIONES DE CHECKBOX*******************************************************/
@@ -578,43 +574,6 @@ namespace UCR.Negotium.WindowsUI
                             "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }//else
         }//btnGuardar5_Click
-
-        private void dgvCrecimientoOferta_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            //hacer el editar
-        }
-
-        private void proyeccionVentas_Enter(object sender, EventArgs e)
-        {
-            lblHorizonte3.Text = proyecto.HorizonteEvaluacionEnAnos.ToString();
-            lblProyecto3.Text = proyecto.NombreProyecto;
-            lblProponente3.Text = proyecto.Proponente.Nombre + " " + proyecto.Proponente.Apellidos;
-        }
-
-        private void crecimientos_Enter(object sender, EventArgs e)
-        {
-            lblHorizonte4.Text = proyecto.HorizonteEvaluacionEnAnos.ToString();
-            lblProyecto4.Text = proyecto.NombreProyecto;
-            lblProponente4.Text = proyecto.Proponente.Nombre + " " + proyecto.Proponente.Apellidos;
-            
-            //aqui se va a actualizar siempre el gridview de ingresos
-        }
-
-        //private void dgvCrecimientoOferta_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        //{
-
-        //    int autoincrement = 0;
-        //    //EL siguiente foreach sirve para cargar la unidad medida al combobox del dgv correspondiente
-        //    foreach (RequerimientoInversion requerimiento in this.proyecto.RequerimientosInversion)
-        //    {
-        //        if (autoincrement < dgvCrecimientoOferta.RowCount)
-        //        {
-        //            this.dgvCrecimientoOferta.Rows[autoincrement].Cells["UnidadMedida"].Value
-        //                = requerimiento.UnidadMedida.NombreUnidad.ToString();
-        //            autoincrement++;
-        //        }
-        //    }//foreach
-        //}
 
         /*******************************************FIN DE ACCIONES ANTE EVENTOS*****************************************************/
 
@@ -1166,87 +1125,6 @@ namespace UCR.Negotium.WindowsUI
             this.Close();
         }
 
-        private void btnGuardarCrecimientoOferta_Click(object sender, EventArgs e)
-        {
-            int validaInsersion = 1;
-            List<CrecimientoOfertaObjetoInteres> listaCrecimientos = new List<CrecimientoOfertaObjetoInteres>();
-            List<CrecimientoOfertaObjetoInteres> listaCrecimientosPersistente = new List<CrecimientoOfertaObjetoInteres>();
-            CrecimientoOfertaObjetoInteresData crecimientoOfertaData = new CrecimientoOfertaObjetoInteresData();
-            DataTable dt = crecimientoOfertaData.GetCrecimientoOfertaObjetoIntereses(this.proyecto.CodProyecto);
-
-            if (dt == null || dt.Rows.Count == 0)
-            {
-                //aplicar insert
-                for (int i = 0; i < dgvCrecimientoOferta.RowCount; i++)
-                {
-                    if (Convert.ToInt32(this.dgvCrecimientoOferta.Rows[i].Cells["Porcentaje"].Value) > 0)
-                    {
-                        try
-                        {
-                            CrecimientoOfertaObjetoInteres crecimientoOferta = new CrecimientoOfertaObjetoInteres();
-                            crecimientoOferta.AnoCrecimiento =
-                                Int32.Parse(this.dgvCrecimientoOferta.Rows[i].Cells["Año"].Value.ToString());
-                            crecimientoOferta.PorcentajeCrecimiento =
-                                Int32.Parse(this.dgvCrecimientoOferta.Rows[i].Cells["Porcentaje"].Value.ToString());
-
-                            crecimientoOfertaData.InsertarCrecimientoOfertaObjetoIntereses(crecimientoOferta, this.proyecto.CodProyecto);
-                            validaInsersion = 1;
-                            listaCrecimientos.Add(crecimientoOferta);
-
-                        }//try
-                        catch (Exception ex)
-                        {
-                            validaInsersion = 2;
-                            Console.WriteLine(ex);
-                        }//catch
-                    }//if
-                }//for
-            }//if
-            else {
-                //editar TODO cambiar el eliminar/insertar y usar el editar
-                try
-                {
-                    if(crecimientoOfertaData.eliminarCrecimientoObjetoInteres(this.proyecto.CodProyecto))
-                    { 
-                        for (int i = 0; i < dgvCrecimientoOferta.RowCount; i++)
-                        {
-                            if (Convert.ToInt32(this.dgvCrecimientoOferta.Rows[i].Cells["Porcentaje"].Value) > 0)
-                            {
-                        
-                                CrecimientoOfertaObjetoInteres crecimientoOferta = new CrecimientoOfertaObjetoInteres();
-                                crecimientoOferta.AnoCrecimiento =
-                                    Int32.Parse(this.dgvCrecimientoOferta.Rows[i].Cells["Año"].Value.ToString());
-                                crecimientoOferta.PorcentajeCrecimiento =
-                                    Int32.Parse(this.dgvCrecimientoOferta.Rows[i].Cells["Porcentaje"].Value.ToString());
-
-                                crecimientoOfertaData.InsertarCrecimientoOfertaObjetoIntereses(crecimientoOferta, this.proyecto.CodProyecto);
-                                validaInsersion = 1;
-                                listaCrecimientos.Add(crecimientoOferta);
-
-                        
-                            }//if
-                        }//for
-                    }//if
-                }//try
-                catch (Exception ex)
-                {
-                    validaInsersion = 2;
-                    Console.WriteLine(ex);
-                }//catch
-            }//else
-            if (validaInsersion == 1)
-            {
-                proyecto.CrecimientosAnuales = listaCrecimientos;
-                MessageBox.Show("Porcentajes de crecimiento registrados con éxito",
-                            "Insertado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }//if
-            else if (validaInsersion == 2)
-            {
-                MessageBox.Show("Los porcentajes de crecimiento no se han podido registrar",
-                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }//else
-        }
-
         private ObjetoInteresProyecto GetObjetoInteres()
         {
             ObjetoInteresData objetoInteresData = new ObjetoInteresData();
@@ -1370,85 +1248,13 @@ namespace UCR.Negotium.WindowsUI
             dgvTotalesReinversiones.DataSource = dtRequerimientos;
         }//LlenaDgvTotalesReinversiones
 
-        private void btnGuardarVariaciones_Click(object sender, EventArgs e)
+        private void llbGestionVariacionCostos_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            int validaInsersion = 1;
-            List<VariacionAnualCosto> listaVariaciones = new List<VariacionAnualCosto>();
-            List<VariacionAnualCosto> listaVariacionesPersistente = new List<VariacionAnualCosto>();
-            VariacionAnualCostoData variacionCostoData = new VariacionAnualCostoData();
-            DataTable dt = variacionCostoData.GetVariacionAnualCostos(this.proyecto.CodProyecto);
-
-            if (dt == null || dt.Rows.Count == 0)
-            {
-                //aplicar insert
-                for (int i = 0; i < dgvVariacionesCostos.RowCount; i++)
-                {
-                    if (Convert.ToInt32(this.dgvVariacionesCostos.Rows[i].Cells["Porcentaje"].Value) > 0)
-                    {
-                        try
-                        {
-                            VariacionAnualCosto variacionAnual = new VariacionAnualCosto();
-                            variacionAnual.Ano =
-                                Int32.Parse(this.dgvVariacionesCostos.Rows[i].Cells["Año"].Value.ToString());
-                            variacionAnual.ProcentajeIncremento =
-                                Int32.Parse(this.dgvVariacionesCostos.Rows[i].Cells["Porcentaje"].Value.ToString());
-
-                            variacionCostoData.InsertarVariacionAnualCosto(variacionAnual, this.proyecto.CodProyecto);
-                            validaInsersion = 1;
-                            listaVariaciones.Add(variacionAnual);
-
-                        }//try
-                        catch (Exception ex)
-                        {
-                            validaInsersion = 2;
-                            Console.WriteLine(ex);
-                        }//catch
-                    }//if
-                }//for
-            }//if
-            else
-            {
-                //editar TODO cambiar el eliminar/insertar y usar el editar
-                try
-                {
-                    if (variacionCostoData.eliminarVariacionAnualCostos(this.proyecto.CodProyecto))
-                    {
-                        for (int i = 0; i < dgvVariacionesCostos.RowCount; i++)
-                        {
-                            if (Convert.ToInt32(this.dgvVariacionesCostos.Rows[i].Cells["Porcentaje"].Value) > 0)
-                            {
-
-                                VariacionAnualCosto variacionAnual = new VariacionAnualCosto();
-                                variacionAnual.Ano =
-                                    Int32.Parse(this.dgvVariacionesCostos.Rows[i].Cells["Año"].Value.ToString());
-                                variacionAnual.ProcentajeIncremento =
-                                    Int32.Parse(this.dgvVariacionesCostos.Rows[i].Cells["Porcentaje"].Value.ToString());
-
-                                variacionCostoData.InsertarVariacionAnualCosto(variacionAnual, this.proyecto.CodProyecto);
-                                validaInsersion = 1;
-                                listaVariaciones.Add(variacionAnual);
-
-                            }//if
-                        }//for
-                    }//if
-                }//try
-                catch (Exception ex)
-                {
-                    validaInsersion = 2;
-                    Console.WriteLine(ex);
-                }//catch
-            }//else
-            if (validaInsersion == 1)
-            {
-                proyecto.VariacionCostos = listaVariaciones;
-                MessageBox.Show("Porcentajes de incremento registrados con éxito",
-                            "Insertado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }//if
-            else if (validaInsersion == 2)
-            {
-                MessageBox.Show("Los porcentajes de incremento no se han podido registrar",
-                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }//else
+            mostrarMensajeSeguridad = false;
+            GestionVariacionCostos gestionVariacionCostos = new GestionVariacionCostos(evaluador, proyecto);
+            gestionVariacionCostos.MdiParent = this.MdiParent;
+            gestionVariacionCostos.Show();
+            this.Close();
         }
 
         private void LlenaDgvProyeccionesVentas()
@@ -1498,109 +1304,14 @@ namespace UCR.Negotium.WindowsUI
             }//if
         }//LlenaDgvProyeccionesVentas
 
-        private void LlenaDgvCrecimientoOferta()
+        private void llbRegistrarCrecimientosOferta_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            DataSet ds = new DataSet();
-            ds.Tables.Add("CrecimientoOferta");
-            ds.Tables["CrecimientoOferta"].Columns.Add("Año", Type.GetType("System.String"));
-            ds.Tables["CrecimientoOferta"].Columns.Add("Porcentaje", Type.GetType("System.String"));
-
-            if (this.proyecto.CrecimientosAnuales != null && this.proyecto.CrecimientosAnuales.Count > 0)
-            {
-
-                for (Int32 i = 0; i < proyecto.CrecimientosAnuales.Count; i++)
-                {
-                    DataRow row = ds.Tables["CrecimientoOferta"].NewRow();
-                    row["Año"] = proyecto.CrecimientosAnuales[i].AnoCrecimiento;
-                    row["Porcentaje"] = proyecto.CrecimientosAnuales[i].PorcentajeCrecimiento;
-                    ds.Tables["CrecimientoOferta"].Rows.Add(row);
-                }//foreach
-
-                // Aqui realizo este cambio de index debido a que las reinversiones cargan los años de 
-                // reinversión hasta que entra por segunda vez al tab de reinversiones
-                tbxRegistrarProyecto.SelectedIndex = 5;
-                tbxRegistrarProyecto.SelectedIndex = 4;
-            }//if
-
-            else
-            {
-                List<String> anosCrecimiento = new List<String>();
-                for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
-                {
-                    int anoActual = proyecto.AnoInicial + i;
-                    anosCrecimiento.Add(anoActual.ToString());
-                }//for
-
-                foreach (String anoIver in anosCrecimiento)
-                {
-                    DataRow row = ds.Tables["CrecimientoOferta"].NewRow();
-                    row["Año"] = anoIver;
-                    row["Porcentaje"] = 0;
-                    ds.Tables["CrecimientoOferta"].Rows.Add(row);
-                }
-            }
-            DataTable dtCrecimientos = ds.Tables["CrecimientoOferta"];
-            dgvCrecimientoOferta.DataSource = dtCrecimientos;
-            dgvCrecimientoOferta.Columns[0].ReadOnly = true;
-            dgvCrecimientoOferta.Columns[1].HeaderText = "Porcentaje de crecimiento";
-
-            lblHorizonte4.Text = proyecto.HorizonteEvaluacionEnAnos.ToString();
-            lblProyecto4.Text = proyecto.NombreProyecto;
-            lblProponente4.Text = proyecto.Proponente.Nombre + " " + proyecto.Proponente.Apellidos;
-
-        }//LlenaDGVCrecimientoOfertas
-
-        private void LlenaDgvVariacionCostos()
-        {
-            DataSet ds = new DataSet();
-            ds.Tables.Add("VariacionCosto");
-            ds.Tables["VariacionCosto"].Columns.Add("Año", Type.GetType("System.String"));
-            ds.Tables["VariacionCosto"].Columns.Add("Porcentaje", Type.GetType("System.String"));
-
-            if (this.proyecto.VariacionCostos != null && this.proyecto.VariacionCostos.Count > 0)
-            {
-
-                for (Int32 i = 0; i < proyecto.VariacionCostos.Count; i++)
-                {
-                    DataRow row = ds.Tables["VariacionCosto"].NewRow();
-                    row["Año"] = proyecto.VariacionCostos[i].Ano;
-                    row["Porcentaje"] = proyecto.VariacionCostos[i].ProcentajeIncremento;
-                    ds.Tables["VariacionCosto"].Rows.Add(row);
-                }//foreach
-
-                // Aqui realizo este cambio de index debido a que las reinversiones cargan los años de 
-                // reinversión hasta que entra por segunda vez al tab de reinversiones
-                tbxRegistrarProyecto.SelectedIndex = 5;
-                tbxRegistrarProyecto.SelectedIndex = 4;
-            }//if
-
-            else
-            {
-                List<String> anosCrecimiento = new List<String>();
-                for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
-                {
-                    int anoActual = proyecto.AnoInicial + i;
-                    anosCrecimiento.Add(anoActual.ToString());
-                }//for
-
-                foreach (String anoIver in anosCrecimiento)
-                {
-                    DataRow row = ds.Tables["VariacionCosto"].NewRow();
-                    row["Año"] = anoIver;
-                    row["Porcentaje"] = 0;
-                    ds.Tables["VariacionCosto"].Rows.Add(row);
-                }
-            }
-            DataTable dtCostos = ds.Tables["VariacionCosto"];
-            dgvVariacionesCostos.DataSource = dtCostos;
-            dgvVariacionesCostos.Columns[0].ReadOnly = true;
-            dgvVariacionesCostos.Columns[1].HeaderText = "Porcentaje de incremento";
-
-            lblHorizonte4.Text = proyecto.HorizonteEvaluacionEnAnos.ToString();
-            lblProyecto4.Text = proyecto.NombreProyecto;
-            lblProponente4.Text = proyecto.Proponente.Nombre + " " + proyecto.Proponente.Apellidos;
-
-        }//LlenaDgvVariacionCostos
+            mostrarMensajeSeguridad = false;
+            GestionCrecimientosOferta gestionCrecimientoOferta = new GestionCrecimientosOferta(evaluador, proyecto);
+            gestionCrecimientoOferta.MdiParent = this.MdiParent;
+            gestionCrecimientoOferta.Show();
+            this.Close();
+        }
 
         private void LlenaDgvIngresosGenerados()
         {
@@ -1740,7 +1451,7 @@ namespace UCR.Negotium.WindowsUI
                 ds.Tables["CostosGenerados"].Columns.Add("titulo", Type.GetType("System.String"));
 
                 DataRow row = ds.Tables["CostosGenerados"].NewRow();
-                row["titulo"] = "Ingresos";
+                row["titulo"] = "Costos";
                 Boolean bandera = false;
                 int a = 0;
                 for (Int32 i = 0; i < proyecto.CrecimientosAnuales.Count; i++)

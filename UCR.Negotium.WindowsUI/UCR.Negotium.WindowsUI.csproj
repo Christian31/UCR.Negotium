@@ -85,6 +85,18 @@
     <Compile Include="AgregarReinversion.Designer.cs">
       <DependentUpon>AgregarReinversion.cs</DependentUpon>
     </Compile>
+    <Compile Include="GestionCrecimientosOferta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GestionCrecimientosOferta.Designer.cs">
+      <DependentUpon>GestionCrecimientosOferta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GestionVariacionCostos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GestionVariacionCostos.Designer.cs">
+      <DependentUpon>GestionVariacionCostos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,6 +143,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AgregarReinversion.resx">
       <DependentUpon>AgregarReinversion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GestionCrecimientosOferta.resx">
+      <DependentUpon>GestionCrecimientosOferta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GestionVariacionCostos.resx">
+      <DependentUpon>GestionVariacionCostos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>

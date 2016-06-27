@@ -161,28 +161,10 @@
             this.DepreciableReinversion = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.AnoReinversion = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.SubtotalReinversion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.crecimientoAnual = new System.Windows.Forms.TabPage();
-            this.panel14 = new System.Windows.Forms.Panel();
-            this.lblProponente4 = new System.Windows.Forms.Label();
-            this.lblProyecto4 = new System.Windows.Forms.Label();
-            this.lblHorizonte4 = new System.Windows.Forms.Label();
-            this.label64 = new System.Windows.Forms.Label();
-            this.label65 = new System.Windows.Forms.Label();
-            this.label66 = new System.Windows.Forms.Label();
-            this.label67 = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
-            this.btnGuardarCrecimientoOferta = new System.Windows.Forms.Button();
-            this.dgvCrecimientoOferta = new System.Windows.Forms.DataGridView();
             this.proyeccionVentas = new System.Windows.Forms.TabPage();
+            this.llbRegistrarCrecimientosOferta = new System.Windows.Forms.LinkLabel();
+            this.label80 = new System.Windows.Forms.Label();
             this.btnAgregarProyecciones = new System.Windows.Forms.Button();
-            this.panel13 = new System.Windows.Forms.Panel();
-            this.lblProponente3 = new System.Windows.Forms.Label();
-            this.lblProyecto3 = new System.Windows.Forms.Label();
-            this.lblHorizonte3 = new System.Windows.Forms.Label();
-            this.label56 = new System.Windows.Forms.Label();
-            this.label59 = new System.Windows.Forms.Label();
-            this.label60 = new System.Windows.Forms.Label();
-            this.label63 = new System.Windows.Forms.Label();
             this.btnGuardarProyeccion = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.dgvIngresosGenerados = new System.Windows.Forms.DataGridView();
@@ -190,14 +172,6 @@
             this.dgvProyeccionesVentas = new System.Windows.Forms.DataGridView();
             this.costos = new System.Windows.Forms.TabPage();
             this.btnAgregarCosto = new System.Windows.Forms.Button();
-            this.panel15 = new System.Windows.Forms.Panel();
-            this.label61 = new System.Windows.Forms.Label();
-            this.label62 = new System.Windows.Forms.Label();
-            this.label68 = new System.Windows.Forms.Label();
-            this.label69 = new System.Windows.Forms.Label();
-            this.label70 = new System.Windows.Forms.Label();
-            this.label71 = new System.Windows.Forms.Label();
-            this.label72 = new System.Windows.Forms.Label();
             this.btnGuardarCostos = new System.Windows.Forms.Button();
             this.btnVerResumenCostos = new System.Windows.Forms.Button();
             this.label57 = new System.Windows.Forms.Label();
@@ -230,18 +204,8 @@
             this.label39 = new System.Windows.Forms.Label();
             this.label38 = new System.Windows.Forms.Label();
             this.ttMensaje = new System.Windows.Forms.ToolTip(this.components);
-            this.variacionCostos = new System.Windows.Forms.TabPage();
-            this.dgvVariacionesCostos = new System.Windows.Forms.DataGridView();
-            this.btnVerResumenVariaciones = new System.Windows.Forms.Button();
-            this.btnGuardarVariaciones = new System.Windows.Forms.Button();
-            this.panel16 = new System.Windows.Forms.Panel();
-            this.label73 = new System.Windows.Forms.Label();
-            this.label74 = new System.Windows.Forms.Label();
-            this.label75 = new System.Windows.Forms.Label();
-            this.label76 = new System.Windows.Forms.Label();
-            this.label77 = new System.Windows.Forms.Label();
-            this.label78 = new System.Windows.Forms.Label();
-            this.label79 = new System.Windows.Forms.Label();
+            this.label56 = new System.Windows.Forms.Label();
+            this.llbGestionVariacionCostos = new System.Windows.Forms.LinkLabel();
             this.unidadMedidaDataBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tbxRegistrarProyecto.SuspendLayout();
             this.informacionGeneral.SuspendLayout();
@@ -268,23 +232,15 @@
             this.panel11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTotalesReinversiones)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvReinversiones)).BeginInit();
-            this.crecimientoAnual.SuspendLayout();
-            this.panel14.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvCrecimientoOferta)).BeginInit();
             this.proyeccionVentas.SuspendLayout();
-            this.panel13.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvIngresosGenerados)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProyeccionesVentas)).BeginInit();
             this.costos.SuspendLayout();
-            this.panel15.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCostosGenerados)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCostos)).BeginInit();
             this.resumenProyecto.SuspendLayout();
             this.panel9.SuspendLayout();
             this.panel6.SuspendLayout();
-            this.variacionCostos.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvVariacionesCostos)).BeginInit();
-            this.panel16.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.unidadMedidaDataBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -295,9 +251,7 @@
             this.tbxRegistrarProyecto.Controls.Add(this.caracterizacion);
             this.tbxRegistrarProyecto.Controls.Add(this.inversiones);
             this.tbxRegistrarProyecto.Controls.Add(this.reinversiones);
-            this.tbxRegistrarProyecto.Controls.Add(this.crecimientoAnual);
             this.tbxRegistrarProyecto.Controls.Add(this.proyeccionVentas);
-            this.tbxRegistrarProyecto.Controls.Add(this.variacionCostos);
             this.tbxRegistrarProyecto.Controls.Add(this.costos);
             this.tbxRegistrarProyecto.Controls.Add(this.resumenProyecto);
             this.tbxRegistrarProyecto.Location = new System.Drawing.Point(0, -2);
@@ -1720,147 +1674,12 @@
             this.SubtotalReinversion.ReadOnly = true;
             this.SubtotalReinversion.Width = 75;
             // 
-            // crecimientoAnual
-            // 
-            this.crecimientoAnual.BackColor = System.Drawing.Color.Honeydew;
-            this.crecimientoAnual.Controls.Add(this.panel14);
-            this.crecimientoAnual.Controls.Add(this.button4);
-            this.crecimientoAnual.Controls.Add(this.btnGuardarCrecimientoOferta);
-            this.crecimientoAnual.Controls.Add(this.dgvCrecimientoOferta);
-            this.crecimientoAnual.Location = new System.Drawing.Point(4, 22);
-            this.crecimientoAnual.Name = "crecimientoAnual";
-            this.crecimientoAnual.Padding = new System.Windows.Forms.Padding(3);
-            this.crecimientoAnual.Size = new System.Drawing.Size(1178, 515);
-            this.crecimientoAnual.TabIndex = 7;
-            this.crecimientoAnual.Text = "Crecimiento anual de Oferta";
-            // 
-            // panel14
-            // 
-            this.panel14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel14.Controls.Add(this.lblProponente4);
-            this.panel14.Controls.Add(this.lblProyecto4);
-            this.panel14.Controls.Add(this.lblHorizonte4);
-            this.panel14.Controls.Add(this.label64);
-            this.panel14.Controls.Add(this.label65);
-            this.panel14.Controls.Add(this.label66);
-            this.panel14.Controls.Add(this.label67);
-            this.panel14.Location = new System.Drawing.Point(775, 112);
-            this.panel14.Name = "panel14";
-            this.panel14.Size = new System.Drawing.Size(284, 194);
-            this.panel14.TabIndex = 37;
-            // 
-            // lblProponente4
-            // 
-            this.lblProponente4.AutoSize = true;
-            this.lblProponente4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblProponente4.Location = new System.Drawing.Point(3, 158);
-            this.lblProponente4.Name = "lblProponente4";
-            this.lblProponente4.Size = new System.Drawing.Size(77, 16);
-            this.lblProponente4.TabIndex = 15;
-            this.lblProponente4.Text = "proponente";
-            // 
-            // lblProyecto4
-            // 
-            this.lblProyecto4.AutoSize = true;
-            this.lblProyecto4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblProyecto4.Location = new System.Drawing.Point(3, 96);
-            this.lblProyecto4.Name = "lblProyecto4";
-            this.lblProyecto4.Size = new System.Drawing.Size(61, 16);
-            this.lblProyecto4.TabIndex = 14;
-            this.lblProyecto4.Text = "proyecto";
-            // 
-            // lblHorizonte4
-            // 
-            this.lblHorizonte4.AutoSize = true;
-            this.lblHorizonte4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHorizonte4.Location = new System.Drawing.Point(121, 43);
-            this.lblHorizonte4.Name = "lblHorizonte4";
-            this.lblHorizonte4.Size = new System.Drawing.Size(15, 16);
-            this.lblHorizonte4.TabIndex = 13;
-            this.lblHorizonte4.Text = "0";
-            // 
-            // label64
-            // 
-            this.label64.AutoSize = true;
-            this.label64.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label64.Location = new System.Drawing.Point(80, 11);
-            this.label64.Name = "label64";
-            this.label64.Size = new System.Drawing.Size(122, 16);
-            this.label64.TabIndex = 8;
-            this.label64.Text = "Datos del proyecto";
-            // 
-            // label65
-            // 
-            this.label65.AutoSize = true;
-            this.label65.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label65.Location = new System.Drawing.Point(3, 43);
-            this.label65.Name = "label65";
-            this.label65.Size = new System.Drawing.Size(124, 16);
-            this.label65.TabIndex = 1;
-            this.label65.Text = "Horizonte proyecto:";
-            // 
-            // label66
-            // 
-            this.label66.AutoSize = true;
-            this.label66.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label66.Location = new System.Drawing.Point(3, 142);
-            this.label66.Name = "label66";
-            this.label66.Size = new System.Drawing.Size(81, 16);
-            this.label66.TabIndex = 12;
-            this.label66.Text = "Proponente:";
-            // 
-            // label67
-            // 
-            this.label67.AutoSize = true;
-            this.label67.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label67.Location = new System.Drawing.Point(3, 80);
-            this.label67.Name = "label67";
-            this.label67.Size = new System.Drawing.Size(116, 16);
-            this.label67.TabIndex = 10;
-            this.label67.Text = "Nombre proyecto:";
-            // 
-            // button4
-            // 
-            this.button4.Image = ((System.Drawing.Image)(resources.GetObject("button4.Image")));
-            this.button4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button4.Location = new System.Drawing.Point(466, 418);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(93, 23);
-            this.button4.TabIndex = 2;
-            this.button4.Text = "Ver Resumen";
-            this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // btnGuardarCrecimientoOferta
-            // 
-            this.btnGuardarCrecimientoOferta.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardarCrecimientoOferta.Image")));
-            this.btnGuardarCrecimientoOferta.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGuardarCrecimientoOferta.Location = new System.Drawing.Point(256, 418);
-            this.btnGuardarCrecimientoOferta.Name = "btnGuardarCrecimientoOferta";
-            this.btnGuardarCrecimientoOferta.Size = new System.Drawing.Size(75, 23);
-            this.btnGuardarCrecimientoOferta.TabIndex = 1;
-            this.btnGuardarCrecimientoOferta.Text = "Guardar";
-            this.btnGuardarCrecimientoOferta.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnGuardarCrecimientoOferta.UseVisualStyleBackColor = true;
-            this.btnGuardarCrecimientoOferta.Click += new System.EventHandler(this.btnGuardarCrecimientoOferta_Click);
-            // 
-            // dgvCrecimientoOferta
-            // 
-            this.dgvCrecimientoOferta.AllowDrop = true;
-            this.dgvCrecimientoOferta.AllowUserToAddRows = false;
-            this.dgvCrecimientoOferta.AllowUserToDeleteRows = false;
-            this.dgvCrecimientoOferta.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCrecimientoOferta.Location = new System.Drawing.Point(256, 60);
-            this.dgvCrecimientoOferta.Name = "dgvCrecimientoOferta";
-            this.dgvCrecimientoOferta.Size = new System.Drawing.Size(303, 331);
-            this.dgvCrecimientoOferta.TabIndex = 0;
-            this.dgvCrecimientoOferta.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCrecimientoOferta_CellValueChanged);
-            // 
             // proyeccionVentas
             // 
             this.proyeccionVentas.BackColor = System.Drawing.Color.Honeydew;
+            this.proyeccionVentas.Controls.Add(this.llbRegistrarCrecimientosOferta);
+            this.proyeccionVentas.Controls.Add(this.label80);
             this.proyeccionVentas.Controls.Add(this.btnAgregarProyecciones);
-            this.proyeccionVentas.Controls.Add(this.panel13);
             this.proyeccionVentas.Controls.Add(this.btnGuardarProyeccion);
             this.proyeccionVentas.Controls.Add(this.button2);
             this.proyeccionVentas.Controls.Add(this.dgvIngresosGenerados);
@@ -1872,111 +1691,46 @@
             this.proyeccionVentas.Size = new System.Drawing.Size(1178, 515);
             this.proyeccionVentas.TabIndex = 6;
             this.proyeccionVentas.Text = "Proyección de Ventas";
-            this.proyeccionVentas.Enter += new System.EventHandler(this.proyeccionVentas_Enter);
+            // 
+            // llbRegistrarCrecimientosOferta
+            // 
+            this.llbRegistrarCrecimientosOferta.Image = ((System.Drawing.Image)(resources.GetObject("llbRegistrarCrecimientosOferta.Image")));
+            this.llbRegistrarCrecimientosOferta.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.llbRegistrarCrecimientosOferta.Location = new System.Drawing.Point(993, 271);
+            this.llbRegistrarCrecimientosOferta.Name = "llbRegistrarCrecimientosOferta";
+            this.llbRegistrarCrecimientosOferta.Size = new System.Drawing.Size(158, 13);
+            this.llbRegistrarCrecimientosOferta.TabIndex = 39;
+            this.llbRegistrarCrecimientosOferta.TabStop = true;
+            this.llbRegistrarCrecimientosOferta.Text = "Crecimiento Anual de Oferta";
+            this.llbRegistrarCrecimientosOferta.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.llbRegistrarCrecimientosOferta.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbRegistrarCrecimientosOferta_LinkClicked);
+            // 
+            // label80
+            // 
+            this.label80.AutoSize = true;
+            this.label80.Location = new System.Drawing.Point(33, 26);
+            this.label80.Name = "label80";
+            this.label80.Size = new System.Drawing.Size(135, 13);
+            this.label80.TabIndex = 38;
+            this.label80.Text = "Productos para Proyección";
             // 
             // btnAgregarProyecciones
             // 
             this.btnAgregarProyecciones.Image = ((System.Drawing.Image)(resources.GetObject("btnAgregarProyecciones.Image")));
-            this.btnAgregarProyecciones.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAgregarProyecciones.Location = new System.Drawing.Point(953, 222);
+            this.btnAgregarProyecciones.Location = new System.Drawing.Point(33, 266);
             this.btnAgregarProyecciones.Name = "btnAgregarProyecciones";
-            this.btnAgregarProyecciones.Size = new System.Drawing.Size(124, 23);
+            this.btnAgregarProyecciones.Size = new System.Drawing.Size(27, 23);
             this.btnAgregarProyecciones.TabIndex = 37;
-            this.btnAgregarProyecciones.Text = "Agregar proyeccion";
             this.btnAgregarProyecciones.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.ttMensaje.SetToolTip(this.btnAgregarProyecciones, "Agregar Nueva Proyección");
             this.btnAgregarProyecciones.UseVisualStyleBackColor = true;
             this.btnAgregarProyecciones.Click += new System.EventHandler(this.btnAgregarProyecciones_Click);
-            // 
-            // panel13
-            // 
-            this.panel13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel13.Controls.Add(this.lblProponente3);
-            this.panel13.Controls.Add(this.lblProyecto3);
-            this.panel13.Controls.Add(this.lblHorizonte3);
-            this.panel13.Controls.Add(this.label56);
-            this.panel13.Controls.Add(this.label59);
-            this.panel13.Controls.Add(this.label60);
-            this.panel13.Controls.Add(this.label63);
-            this.panel13.Location = new System.Drawing.Point(874, 19);
-            this.panel13.Name = "panel13";
-            this.panel13.Size = new System.Drawing.Size(284, 194);
-            this.panel13.TabIndex = 36;
-            // 
-            // lblProponente3
-            // 
-            this.lblProponente3.AutoSize = true;
-            this.lblProponente3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblProponente3.Location = new System.Drawing.Point(3, 158);
-            this.lblProponente3.Name = "lblProponente3";
-            this.lblProponente3.Size = new System.Drawing.Size(77, 16);
-            this.lblProponente3.TabIndex = 15;
-            this.lblProponente3.Text = "proponente";
-            // 
-            // lblProyecto3
-            // 
-            this.lblProyecto3.AutoSize = true;
-            this.lblProyecto3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblProyecto3.Location = new System.Drawing.Point(3, 96);
-            this.lblProyecto3.Name = "lblProyecto3";
-            this.lblProyecto3.Size = new System.Drawing.Size(61, 16);
-            this.lblProyecto3.TabIndex = 14;
-            this.lblProyecto3.Text = "proyecto";
-            // 
-            // lblHorizonte3
-            // 
-            this.lblHorizonte3.AutoSize = true;
-            this.lblHorizonte3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHorizonte3.Location = new System.Drawing.Point(121, 43);
-            this.lblHorizonte3.Name = "lblHorizonte3";
-            this.lblHorizonte3.Size = new System.Drawing.Size(15, 16);
-            this.lblHorizonte3.TabIndex = 13;
-            this.lblHorizonte3.Text = "0";
-            // 
-            // label56
-            // 
-            this.label56.AutoSize = true;
-            this.label56.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label56.Location = new System.Drawing.Point(80, 11);
-            this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(122, 16);
-            this.label56.TabIndex = 8;
-            this.label56.Text = "Datos del proyecto";
-            // 
-            // label59
-            // 
-            this.label59.AutoSize = true;
-            this.label59.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label59.Location = new System.Drawing.Point(3, 43);
-            this.label59.Name = "label59";
-            this.label59.Size = new System.Drawing.Size(124, 16);
-            this.label59.TabIndex = 1;
-            this.label59.Text = "Horizonte proyecto:";
-            // 
-            // label60
-            // 
-            this.label60.AutoSize = true;
-            this.label60.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label60.Location = new System.Drawing.Point(3, 142);
-            this.label60.Name = "label60";
-            this.label60.Size = new System.Drawing.Size(81, 16);
-            this.label60.TabIndex = 12;
-            this.label60.Text = "Proponente:";
-            // 
-            // label63
-            // 
-            this.label63.AutoSize = true;
-            this.label63.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label63.Location = new System.Drawing.Point(3, 80);
-            this.label63.Name = "label63";
-            this.label63.Size = new System.Drawing.Size(116, 16);
-            this.label63.TabIndex = 10;
-            this.label63.Text = "Nombre proyecto:";
             // 
             // btnGuardarProyeccion
             // 
             this.btnGuardarProyeccion.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardarProyeccion.Image")));
             this.btnGuardarProyeccion.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.btnGuardarProyeccion.Location = new System.Drawing.Point(672, 448);
+            this.btnGuardarProyeccion.Location = new System.Drawing.Point(961, 447);
             this.btnGuardarProyeccion.Name = "btnGuardarProyeccion";
             this.btnGuardarProyeccion.Size = new System.Drawing.Size(75, 23);
             this.btnGuardarProyeccion.TabIndex = 4;
@@ -1989,7 +1743,7 @@
             // 
             this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
             this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(757, 448);
+            this.button2.Location = new System.Drawing.Point(1058, 447);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(93, 23);
             this.button2.TabIndex = 3;
@@ -2005,16 +1759,16 @@
             this.dgvIngresosGenerados.AllowUserToResizeColumns = false;
             this.dgvIngresosGenerados.AllowUserToResizeRows = false;
             this.dgvIngresosGenerados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvIngresosGenerados.Location = new System.Drawing.Point(33, 293);
+            this.dgvIngresosGenerados.Location = new System.Drawing.Point(33, 337);
             this.dgvIngresosGenerados.Name = "dgvIngresosGenerados";
             this.dgvIngresosGenerados.ReadOnly = true;
-            this.dgvIngresosGenerados.Size = new System.Drawing.Size(817, 119);
+            this.dgvIngresosGenerados.Size = new System.Drawing.Size(1118, 90);
             this.dgvIngresosGenerados.TabIndex = 2;
             // 
             // label53
             // 
             this.label53.AutoSize = true;
-            this.label53.Location = new System.Drawing.Point(30, 263);
+            this.label53.Location = new System.Drawing.Point(30, 309);
             this.label53.Name = "label53";
             this.label53.Size = new System.Drawing.Size(100, 13);
             this.label53.TabIndex = 1;
@@ -2025,17 +1779,18 @@
             this.dgvProyeccionesVentas.AllowUserToAddRows = false;
             this.dgvProyeccionesVentas.AllowUserToDeleteRows = false;
             this.dgvProyeccionesVentas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvProyeccionesVentas.Location = new System.Drawing.Point(33, 19);
+            this.dgvProyeccionesVentas.Location = new System.Drawing.Point(33, 49);
             this.dgvProyeccionesVentas.Name = "dgvProyeccionesVentas";
             this.dgvProyeccionesVentas.ReadOnly = true;
-            this.dgvProyeccionesVentas.Size = new System.Drawing.Size(817, 208);
+            this.dgvProyeccionesVentas.Size = new System.Drawing.Size(1118, 208);
             this.dgvProyeccionesVentas.TabIndex = 0;
             // 
             // costos
             // 
             this.costos.BackColor = System.Drawing.Color.Honeydew;
+            this.costos.Controls.Add(this.llbGestionVariacionCostos);
+            this.costos.Controls.Add(this.label56);
             this.costos.Controls.Add(this.btnAgregarCosto);
-            this.costos.Controls.Add(this.panel15);
             this.costos.Controls.Add(this.btnGuardarCostos);
             this.costos.Controls.Add(this.btnVerResumenCostos);
             this.costos.Controls.Add(this.label57);
@@ -2050,106 +1805,20 @@
             // btnAgregarCosto
             // 
             this.btnAgregarCosto.Image = ((System.Drawing.Image)(resources.GetObject("btnAgregarCosto.Image")));
-            this.btnAgregarCosto.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAgregarCosto.Location = new System.Drawing.Point(968, 217);
+            this.btnAgregarCosto.Location = new System.Drawing.Point(33, 266);
             this.btnAgregarCosto.Name = "btnAgregarCosto";
-            this.btnAgregarCosto.Size = new System.Drawing.Size(97, 23);
+            this.btnAgregarCosto.Size = new System.Drawing.Size(28, 23);
             this.btnAgregarCosto.TabIndex = 38;
-            this.btnAgregarCosto.Text = "Agregar Costo";
             this.btnAgregarCosto.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.ttMensaje.SetToolTip(this.btnAgregarCosto, "Agregar Nuevo Costo");
             this.btnAgregarCosto.UseVisualStyleBackColor = true;
             this.btnAgregarCosto.Click += new System.EventHandler(this.btnAgregarCosto_Click);
-            // 
-            // panel15
-            // 
-            this.panel15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel15.Controls.Add(this.label61);
-            this.panel15.Controls.Add(this.label62);
-            this.panel15.Controls.Add(this.label68);
-            this.panel15.Controls.Add(this.label69);
-            this.panel15.Controls.Add(this.label70);
-            this.panel15.Controls.Add(this.label71);
-            this.panel15.Controls.Add(this.label72);
-            this.panel15.Location = new System.Drawing.Point(875, 17);
-            this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(284, 194);
-            this.panel15.TabIndex = 37;
-            // 
-            // label61
-            // 
-            this.label61.AutoSize = true;
-            this.label61.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label61.Location = new System.Drawing.Point(3, 158);
-            this.label61.Name = "label61";
-            this.label61.Size = new System.Drawing.Size(77, 16);
-            this.label61.TabIndex = 15;
-            this.label61.Text = "proponente";
-            // 
-            // label62
-            // 
-            this.label62.AutoSize = true;
-            this.label62.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label62.Location = new System.Drawing.Point(3, 96);
-            this.label62.Name = "label62";
-            this.label62.Size = new System.Drawing.Size(61, 16);
-            this.label62.TabIndex = 14;
-            this.label62.Text = "proyecto";
-            // 
-            // label68
-            // 
-            this.label68.AutoSize = true;
-            this.label68.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label68.Location = new System.Drawing.Point(121, 43);
-            this.label68.Name = "label68";
-            this.label68.Size = new System.Drawing.Size(15, 16);
-            this.label68.TabIndex = 13;
-            this.label68.Text = "0";
-            // 
-            // label69
-            // 
-            this.label69.AutoSize = true;
-            this.label69.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label69.Location = new System.Drawing.Point(80, 11);
-            this.label69.Name = "label69";
-            this.label69.Size = new System.Drawing.Size(122, 16);
-            this.label69.TabIndex = 8;
-            this.label69.Text = "Datos del proyecto";
-            // 
-            // label70
-            // 
-            this.label70.AutoSize = true;
-            this.label70.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label70.Location = new System.Drawing.Point(3, 43);
-            this.label70.Name = "label70";
-            this.label70.Size = new System.Drawing.Size(124, 16);
-            this.label70.TabIndex = 1;
-            this.label70.Text = "Horizonte proyecto:";
-            // 
-            // label71
-            // 
-            this.label71.AutoSize = true;
-            this.label71.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label71.Location = new System.Drawing.Point(3, 142);
-            this.label71.Name = "label71";
-            this.label71.Size = new System.Drawing.Size(81, 16);
-            this.label71.TabIndex = 12;
-            this.label71.Text = "Proponente:";
-            // 
-            // label72
-            // 
-            this.label72.AutoSize = true;
-            this.label72.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label72.Location = new System.Drawing.Point(3, 80);
-            this.label72.Name = "label72";
-            this.label72.Size = new System.Drawing.Size(116, 16);
-            this.label72.TabIndex = 10;
-            this.label72.Text = "Nombre proyecto:";
             // 
             // btnGuardarCostos
             // 
             this.btnGuardarCostos.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardarCostos.Image")));
             this.btnGuardarCostos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGuardarCostos.Location = new System.Drawing.Point(671, 451);
+            this.btnGuardarCostos.Location = new System.Drawing.Point(958, 444);
             this.btnGuardarCostos.Name = "btnGuardarCostos";
             this.btnGuardarCostos.Size = new System.Drawing.Size(71, 23);
             this.btnGuardarCostos.TabIndex = 4;
@@ -2161,7 +1830,7 @@
             // 
             this.btnVerResumenCostos.Image = ((System.Drawing.Image)(resources.GetObject("btnVerResumenCostos.Image")));
             this.btnVerResumenCostos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnVerResumenCostos.Location = new System.Drawing.Point(759, 451);
+            this.btnVerResumenCostos.Location = new System.Drawing.Point(1056, 444);
             this.btnVerResumenCostos.Name = "btnVerResumenCostos";
             this.btnVerResumenCostos.Size = new System.Drawing.Size(96, 23);
             this.btnVerResumenCostos.TabIndex = 3;
@@ -2172,7 +1841,7 @@
             // label57
             // 
             this.label57.AutoSize = true;
-            this.label57.Location = new System.Drawing.Point(31, 262);
+            this.label57.Location = new System.Drawing.Point(31, 309);
             this.label57.Name = "label57";
             this.label57.Size = new System.Drawing.Size(92, 13);
             this.label57.TabIndex = 2;
@@ -2186,10 +1855,10 @@
             this.dgvCostosGenerados.AllowUserToResizeColumns = false;
             this.dgvCostosGenerados.AllowUserToResizeRows = false;
             this.dgvCostosGenerados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCostosGenerados.Location = new System.Drawing.Point(34, 288);
+            this.dgvCostosGenerados.Location = new System.Drawing.Point(34, 335);
             this.dgvCostosGenerados.Name = "dgvCostosGenerados";
             this.dgvCostosGenerados.ReadOnly = true;
-            this.dgvCostosGenerados.Size = new System.Drawing.Size(821, 125);
+            this.dgvCostosGenerados.Size = new System.Drawing.Size(1118, 90);
             this.dgvCostosGenerados.TabIndex = 1;
             // 
             // dgvCostos
@@ -2197,9 +1866,9 @@
             this.dgvCostos.AllowUserToAddRows = false;
             this.dgvCostos.AllowUserToDeleteRows = false;
             this.dgvCostos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCostos.Location = new System.Drawing.Point(34, 17);
+            this.dgvCostos.Location = new System.Drawing.Point(34, 46);
             this.dgvCostos.Name = "dgvCostos";
-            this.dgvCostos.Size = new System.Drawing.Size(821, 210);
+            this.dgvCostos.Size = new System.Drawing.Size(1118, 208);
             this.dgvCostos.TabIndex = 0;
             // 
             // resumenProyecto
@@ -2500,138 +2169,27 @@
             // 
             this.ttMensaje.IsBalloon = true;
             // 
-            // variacionCostos
+            // label56
             // 
-            this.variacionCostos.BackColor = System.Drawing.Color.Honeydew;
-            this.variacionCostos.Controls.Add(this.panel16);
-            this.variacionCostos.Controls.Add(this.btnGuardarVariaciones);
-            this.variacionCostos.Controls.Add(this.btnVerResumenVariaciones);
-            this.variacionCostos.Controls.Add(this.dgvVariacionesCostos);
-            this.variacionCostos.Location = new System.Drawing.Point(4, 22);
-            this.variacionCostos.Name = "variacionCostos";
-            this.variacionCostos.Size = new System.Drawing.Size(1178, 515);
-            this.variacionCostos.TabIndex = 9;
-            this.variacionCostos.Text = "Variación Anual de Costos";
+            this.label56.AutoSize = true;
+            this.label56.Location = new System.Drawing.Point(33, 26);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(101, 13);
+            this.label56.TabIndex = 39;
+            this.label56.Text = "Costos del Proyecto";
             // 
-            // dgvVariacionesCostos
+            // llbGestionVariacionCostos
             // 
-            this.dgvVariacionesCostos.AllowUserToAddRows = false;
-            this.dgvVariacionesCostos.AllowUserToDeleteRows = false;
-            this.dgvVariacionesCostos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvVariacionesCostos.Location = new System.Drawing.Point(256, 60);
-            this.dgvVariacionesCostos.Name = "dgvVariacionesCostos";
-            this.dgvVariacionesCostos.Size = new System.Drawing.Size(303, 331);
-            this.dgvVariacionesCostos.TabIndex = 0;
-            // 
-            // btnVerResumenVariaciones
-            // 
-            this.btnVerResumenVariaciones.Image = ((System.Drawing.Image)(resources.GetObject("btnVerResumenVariaciones.Image")));
-            this.btnVerResumenVariaciones.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnVerResumenVariaciones.Location = new System.Drawing.Point(466, 418);
-            this.btnVerResumenVariaciones.Name = "btnVerResumenVariaciones";
-            this.btnVerResumenVariaciones.Size = new System.Drawing.Size(93, 23);
-            this.btnVerResumenVariaciones.TabIndex = 1;
-            this.btnVerResumenVariaciones.Text = "Ver Resumen";
-            this.btnVerResumenVariaciones.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnVerResumenVariaciones.UseVisualStyleBackColor = true;
-            // 
-            // btnGuardarVariaciones
-            // 
-            this.btnGuardarVariaciones.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardarVariaciones.Image")));
-            this.btnGuardarVariaciones.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGuardarVariaciones.Location = new System.Drawing.Point(256, 418);
-            this.btnGuardarVariaciones.Name = "btnGuardarVariaciones";
-            this.btnGuardarVariaciones.Size = new System.Drawing.Size(75, 23);
-            this.btnGuardarVariaciones.TabIndex = 2;
-            this.btnGuardarVariaciones.Text = "Guardar";
-            this.btnGuardarVariaciones.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnGuardarVariaciones.UseVisualStyleBackColor = true;
-            this.btnGuardarVariaciones.Click += new System.EventHandler(this.btnGuardarVariaciones_Click);
-            // 
-            // panel16
-            // 
-            this.panel16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel16.Controls.Add(this.label73);
-            this.panel16.Controls.Add(this.label74);
-            this.panel16.Controls.Add(this.label75);
-            this.panel16.Controls.Add(this.label76);
-            this.panel16.Controls.Add(this.label77);
-            this.panel16.Controls.Add(this.label78);
-            this.panel16.Controls.Add(this.label79);
-            this.panel16.Location = new System.Drawing.Point(775, 112);
-            this.panel16.Name = "panel16";
-            this.panel16.Size = new System.Drawing.Size(284, 194);
-            this.panel16.TabIndex = 38;
-            // 
-            // label73
-            // 
-            this.label73.AutoSize = true;
-            this.label73.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label73.Location = new System.Drawing.Point(3, 158);
-            this.label73.Name = "label73";
-            this.label73.Size = new System.Drawing.Size(77, 16);
-            this.label73.TabIndex = 15;
-            this.label73.Text = "proponente";
-            // 
-            // label74
-            // 
-            this.label74.AutoSize = true;
-            this.label74.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label74.Location = new System.Drawing.Point(3, 96);
-            this.label74.Name = "label74";
-            this.label74.Size = new System.Drawing.Size(61, 16);
-            this.label74.TabIndex = 14;
-            this.label74.Text = "proyecto";
-            // 
-            // label75
-            // 
-            this.label75.AutoSize = true;
-            this.label75.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label75.Location = new System.Drawing.Point(121, 43);
-            this.label75.Name = "label75";
-            this.label75.Size = new System.Drawing.Size(15, 16);
-            this.label75.TabIndex = 13;
-            this.label75.Text = "0";
-            // 
-            // label76
-            // 
-            this.label76.AutoSize = true;
-            this.label76.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label76.Location = new System.Drawing.Point(80, 11);
-            this.label76.Name = "label76";
-            this.label76.Size = new System.Drawing.Size(122, 16);
-            this.label76.TabIndex = 8;
-            this.label76.Text = "Datos del proyecto";
-            // 
-            // label77
-            // 
-            this.label77.AutoSize = true;
-            this.label77.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label77.Location = new System.Drawing.Point(3, 43);
-            this.label77.Name = "label77";
-            this.label77.Size = new System.Drawing.Size(124, 16);
-            this.label77.TabIndex = 1;
-            this.label77.Text = "Horizonte proyecto:";
-            // 
-            // label78
-            // 
-            this.label78.AutoSize = true;
-            this.label78.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label78.Location = new System.Drawing.Point(3, 142);
-            this.label78.Name = "label78";
-            this.label78.Size = new System.Drawing.Size(81, 16);
-            this.label78.TabIndex = 12;
-            this.label78.Text = "Proponente:";
-            // 
-            // label79
-            // 
-            this.label79.AutoSize = true;
-            this.label79.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label79.Location = new System.Drawing.Point(3, 80);
-            this.label79.Name = "label79";
-            this.label79.Size = new System.Drawing.Size(116, 16);
-            this.label79.TabIndex = 10;
-            this.label79.Text = "Nombre proyecto:";
+            this.llbGestionVariacionCostos.Image = ((System.Drawing.Image)(resources.GetObject("llbGestionVariacionCostos.Image")));
+            this.llbGestionVariacionCostos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.llbGestionVariacionCostos.Location = new System.Drawing.Point(999, 267);
+            this.llbGestionVariacionCostos.Name = "llbGestionVariacionCostos";
+            this.llbGestionVariacionCostos.Size = new System.Drawing.Size(153, 23);
+            this.llbGestionVariacionCostos.TabIndex = 40;
+            this.llbGestionVariacionCostos.TabStop = true;
+            this.llbGestionVariacionCostos.Text = "Variación Anual de Costos";
+            this.llbGestionVariacionCostos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.llbGestionVariacionCostos.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbGestionVariacionCostos_LinkClicked);
             // 
             // unidadMedidaDataBindingSource
             // 
@@ -2689,20 +2247,12 @@
             this.panel11.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTotalesReinversiones)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvReinversiones)).EndInit();
-            this.crecimientoAnual.ResumeLayout(false);
-            this.panel14.ResumeLayout(false);
-            this.panel14.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvCrecimientoOferta)).EndInit();
             this.proyeccionVentas.ResumeLayout(false);
             this.proyeccionVentas.PerformLayout();
-            this.panel13.ResumeLayout(false);
-            this.panel13.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvIngresosGenerados)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProyeccionesVentas)).EndInit();
             this.costos.ResumeLayout(false);
             this.costos.PerformLayout();
-            this.panel15.ResumeLayout(false);
-            this.panel15.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCostosGenerados)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCostos)).EndInit();
             this.resumenProyecto.ResumeLayout(false);
@@ -2710,10 +2260,6 @@
             this.panel9.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
-            this.variacionCostos.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvVariacionesCostos)).EndInit();
-            this.panel16.ResumeLayout(false);
-            this.panel16.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.unidadMedidaDataBindingSource)).EndInit();
             this.ResumeLayout(false);
 
@@ -2860,7 +2406,6 @@
         private System.Windows.Forms.Button btnGuardar5;
         private System.Windows.Forms.Button btnVerResumen5;
         private System.Windows.Forms.TabPage proyeccionVentas;
-        private System.Windows.Forms.TabPage crecimientoAnual;
         private System.Windows.Forms.DataGridViewTextBoxColumn Descripcion;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cantidad;
         private System.Windows.Forms.DataGridViewTextBoxColumn CostoUnitario;
@@ -2887,52 +2432,17 @@
         private System.Windows.Forms.Label label53;
         private System.Windows.Forms.Button btnGuardarProyeccion;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.DataGridView dgvCrecimientoOferta;
-        private System.Windows.Forms.Panel panel13;
-        private System.Windows.Forms.Label label56;
-        private System.Windows.Forms.Label label59;
-        private System.Windows.Forms.Label label60;
-        private System.Windows.Forms.Label label63;
-        private System.Windows.Forms.Label lblProponente3;
-        private System.Windows.Forms.Label lblProyecto3;
-        private System.Windows.Forms.Label lblHorizonte3;
         private System.Windows.Forms.Button btnAgregarProyecciones;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button btnGuardarCrecimientoOferta;
-        private System.Windows.Forms.Panel panel14;
-        private System.Windows.Forms.Label lblProponente4;
-        private System.Windows.Forms.Label lblProyecto4;
-        private System.Windows.Forms.Label lblHorizonte4;
-        private System.Windows.Forms.Label label64;
-        private System.Windows.Forms.Label label65;
-        private System.Windows.Forms.Label label66;
-        private System.Windows.Forms.Label label67;
         private System.Windows.Forms.TabPage costos;
         private System.Windows.Forms.Button btnAgregarCosto;
-        private System.Windows.Forms.Panel panel15;
-        private System.Windows.Forms.Label label61;
-        private System.Windows.Forms.Label label62;
-        private System.Windows.Forms.Label label68;
-        private System.Windows.Forms.Label label69;
-        private System.Windows.Forms.Label label70;
-        private System.Windows.Forms.Label label71;
-        private System.Windows.Forms.Label label72;
         private System.Windows.Forms.Button btnGuardarCostos;
         private System.Windows.Forms.Button btnVerResumenCostos;
         private System.Windows.Forms.Label label57;
         private System.Windows.Forms.DataGridView dgvCostosGenerados;
         private System.Windows.Forms.DataGridView dgvCostos;
-        private System.Windows.Forms.TabPage variacionCostos;
-        private System.Windows.Forms.Panel panel16;
-        private System.Windows.Forms.Label label73;
-        private System.Windows.Forms.Label label74;
-        private System.Windows.Forms.Label label75;
-        private System.Windows.Forms.Label label76;
-        private System.Windows.Forms.Label label77;
-        private System.Windows.Forms.Label label78;
-        private System.Windows.Forms.Label label79;
-        private System.Windows.Forms.Button btnGuardarVariaciones;
-        private System.Windows.Forms.Button btnVerResumenVariaciones;
-        private System.Windows.Forms.DataGridView dgvVariacionesCostos;
+        private System.Windows.Forms.LinkLabel llbRegistrarCrecimientosOferta;
+        private System.Windows.Forms.Label label80;
+        private System.Windows.Forms.Label label56;
+        private System.Windows.Forms.LinkLabel llbGestionVariacionCostos;
     }
 }
