@@ -54,15 +54,13 @@ namespace UCR.Negotium.WindowsUI
             mostrarMensajeSeguridad = true;
             LlenaDgvInversiones();
             LlenaDgvReinversiones();
-            LlenaDgvTotalesReinversiones();
             LlenaValoresTotalesReinversiones();
+            LlenaDgvTotalesReinversiones();
             LlenaDgvProyeccionesVentas();
             LlenaDgvIngresosGenerados();
             LlenaDgvCostos();
             LlenaDgvCostosGenerados();
-            lblHorizonteProyecto1.Text = proyecto.HorizonteEvaluacionEnAnos.ToString();
-            lbNomProy1.Text = proyecto.NombreProyecto;
-            lbProponente1.Text = proyecto.Proponente.Nombre + " " + proyecto.Proponente.Apellidos;
+            LlenaFooter();
         }
 
         
@@ -291,6 +289,7 @@ namespace UCR.Negotium.WindowsUI
             {
                 ActualizarOrganizacionProponente();
                 ActualizarProponente();
+                LlenaFooter();
                 MessageBox.Show("Organizacion y proponente actualizados con éxito",
                             "Actualizados", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }//else
@@ -441,9 +440,6 @@ namespace UCR.Negotium.WindowsUI
 
         private void inversiones_Enter(object sender, EventArgs e)
         {
-            lblHorizonte2.Text = proyecto.HorizonteEvaluacionEnAnos.ToString();
-            lblProyecto2.Text = proyecto.NombreProyecto;
-            lblProponente.Text = proyecto.Proponente.Nombre + " " + proyecto.Proponente.Apellidos;
             UnidadMedidaData unidadMedidaData = new UnidadMedidaData();
             DataGridViewComboBoxColumn comboboxColumn = dgvInversiones.Columns["UnidadMedida"] as DataGridViewComboBoxColumn;
             comboboxColumn.DataSource = unidadMedidaData.GetUnidadesMedida();
@@ -475,9 +471,6 @@ namespace UCR.Negotium.WindowsUI
 
         private void reinversiones_Enter(object sender, EventArgs e)
         {
-            lblHorizonteProyecto1.Text = proyecto.HorizonteEvaluacionEnAnos.ToString();
-            lbNomProy1.Text = proyecto.NombreProyecto;
-            lbProponente1.Text = proyecto.Proponente.Nombre +" "+ proyecto.Proponente.Apellidos;
             for (int i = 0; i < dgvReinversiones.RowCount; i++)
             {
                 int cantidad = 0;
@@ -548,11 +541,11 @@ namespace UCR.Negotium.WindowsUI
 
                         listaRequerimientoReinversion.Add(requerimientoReinversion);
                         if (tam <= i) {
-                            requereinvData.InsertarRequerimientosReinversion(requerimientoReinversion, this.proyecto.CodProyecto);
+                            proyecto.RequerimientosReinversion.Add(requereinvData.InsertarRequerimientosReinversion(requerimientoReinversion, this.proyecto.CodProyecto));
                             validaInsersion = true;
                         }
-                        
-                    }//try
+
+        }//try
                     catch (Exception ex)
                     {
                         validaInsersion = false;
@@ -564,6 +557,7 @@ namespace UCR.Negotium.WindowsUI
 
             if (validaInsersion == true)
             {
+                LlenaValoresTotalesReinversiones();
                 proyecto.RequerimientosReinversion = listaRequerimientoReinversion;
                     MessageBox.Show("Reinversión registrada con éxito",
                                 "Insertado", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -622,6 +616,17 @@ namespace UCR.Negotium.WindowsUI
             cbxTipoOrganizacion.DataSource = tipoOrganizacionData.GetTiposDeOrganizacion();
             cbxTipoOrganizacion.DisplayMember = "descripcion";
             cbxTipoOrganizacion.ValueMember = "cod_tipo";
+        }
+
+        private void LlenaFooter() {
+            string info = "Info: Nombre del Proyecto: " + proyecto.NombreProyecto +
+                " - Horizonte del Proyecto: " + proyecto.HorizonteEvaluacionEnAnos +" Años"+
+                " - Proponente: " + proyecto.Proponente.Nombre + " " + proyecto.Proponente.Apellidos;
+
+            lblFoo1.Text = info;
+            lblFoo2.Text = info;
+            lblFoo3.Text = info;
+            lblFoo4.Text = info;
         }
 
         /****************************************FIN METODOS PARA CARGAR COMBOBOX*************************************/
@@ -983,22 +988,27 @@ namespace UCR.Negotium.WindowsUI
         private void LlenaValoresTotalesReinversiones()
         {
             inicializaTotalesReinversiones();
-            for (int i = 0; i < dgvReinversiones.RowCount; i++)
+
+            List<string> listVals = new List<string>();
+            for (int i = proyecto.AnoInicial + 1; i <= proyecto.AnoInicial + proyecto.HorizonteEvaluacionEnAnos; i++)
             {
-                if (this.dgvReinversiones.Rows[i].Cells[0].Value != null)
+                double val = 0;
+                foreach (RequerimientoReinversion reqReinv in proyecto.RequerimientosReinversion)
                 {
-                    for (int j = 0; j < dgvTotalesReinversiones.ColumnCount; j++)
+                    if (reqReinv.AnoReinversion == i)
                     {
-                        if (this.dgvTotalesReinversiones.Columns[j].Name.ToString()
-                                .Equals(this.dgvReinversiones.Rows[i].Cells[0].Value.ToString()))
-                        {
-                            this.dgvTotalesReinversiones.Rows[0].Cells[j].Value =
-                                double.Parse(this.dgvTotalesReinversiones.Rows[0].Cells[j].Value.ToString()) +
-                                   double.Parse(this.dgvReinversiones.Rows[i].Cells[5].Value.ToString());
-                        }//if
-                    }//for
-                }//if
-            }//for
+                        val = val + (reqReinv.Cantidad * reqReinv.CostoUnitario);
+                    }
+                }
+                listVals.Add(val.ToString());
+            }
+
+            for (int j = 0; j < dgvTotalesReinversiones.ColumnCount; j++)
+            {
+                this.dgvTotalesReinversiones.Rows[0].Cells[j].Value = listVals[j];
+            }
+
+                this.dgvTotalesReinversiones.ReadOnly = true;
         }//LlenaValoresTotalesReinversiones
 
         //El siguiente metodo inicializa el dgvtotal de las reinversiones
@@ -1243,9 +1253,11 @@ namespace UCR.Negotium.WindowsUI
                 int anoActual = proyecto.AnoInicial + i;
                 ds.Tables["TotalesReinversiones"].Columns.Add(anoActual.ToString(), Type.GetType("System.String"));
             }//for
-            DataRow row = ds.Tables["TotalesReinversiones"].NewRow();
-            DataTable dtRequerimientos = ds.Tables["TotalesReinversiones"];
-            dgvTotalesReinversiones.DataSource = dtRequerimientos;
+
+            //dgvTotalesReinversiones.Rows.Add();
+            ds.Tables["TotalesReinversiones"].Rows.Add();
+            DataTable dtTotalReinversiones = ds.Tables["TotalesReinversiones"];
+            dgvTotalesReinversiones.DataSource = dtTotalReinversiones;
         }//LlenaDgvTotalesReinversiones
 
         private void llbGestionVariacionCostos_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1393,12 +1405,14 @@ namespace UCR.Negotium.WindowsUI
 
         private void LlenaDgvCostos()
         {
-            if ((proyecto.Costos != null) && (this.proyecto.Costos.Count > 0))
+            if ((this.proyecto.Costos != null) && (this.proyecto.Costos.Count > 0))
             {
                 DataSet ds = new DataSet();
                 ds.Tables.Add("Costos");
                 ds.Tables["Costos"].Columns.Add("Articulo", Type.GetType("System.String"));
                 ds.Tables["Costos"].Columns.Add("Unidad", Type.GetType("System.String"));
+                ds.Tables["Costos"].Columns.Add("Variable", Type.GetType("System.Boolean"));
+                ds.Tables["Costos"].Columns.Add("Categoria", Type.GetType("System.String"));
                 ds.Tables["Costos"].Columns.Add("Enero", Type.GetType("System.String"));
                 ds.Tables["Costos"].Columns.Add("Febrero", Type.GetType("System.String"));
                 ds.Tables["Costos"].Columns.Add("Marzo", Type.GetType("System.String"));
@@ -1416,6 +1430,8 @@ namespace UCR.Negotium.WindowsUI
                     DataRow row = ds.Tables["Costos"].NewRow();
                     row["Articulo"] = costoTemp.NombreCosto;
                     row["Unidad"] = costoTemp.UnidadMedida.NombreUnidad;
+                    row["Variable"] = costoTemp.CostoVariable;
+                    row["Categoria"] = costoTemp.Categoria_costo;
                     row["Enero"] = ("₡" + costoTemp.CostosMensuales[0].CostoUnitario + " | " + costoTemp.CostosMensuales[0].Cantidad + " ud").ToString();
                     row["Febrero"] = ("₡" + costoTemp.CostosMensuales[1].CostoUnitario + " | " + costoTemp.CostosMensuales[1].Cantidad + " ud").ToString();
                     row["Marzo"] = ("₡" + costoTemp.CostosMensuales[2].CostoUnitario + " | " + costoTemp.CostosMensuales[2].Cantidad + " ud").ToString();

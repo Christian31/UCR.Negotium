@@ -44,6 +44,8 @@ namespace UCR.Negotium.DataAccess
                     costo.NombreCosto = reader.GetString(1);
                     costo.UnidadMedida = unidadMedidaData.GetUnidadMedida(reader.GetInt32(2));
                     costo.CostosMensuales = costoMensualData.GetCostosMensuales(reader.GetInt32(0));
+                    costo.CostoVariable = reader.GetBoolean(4);
+                    costo.Categoria_costo = reader.GetString(5);
                     listaCostos.Add(costo);
                 }//while
                 conexion.Close();
@@ -67,7 +69,7 @@ namespace UCR.Negotium.DataAccess
                 Object newProdID;
                 Object newProdID2;
                 String insert1 = "INSERT INTO COSTO(nombre_costo, " +
-                "unidad_medida, cod_proyecto) VALUES(?,?,?); " +
+                "unidad_medida, cod_proyecto, costo_variable, categoria_costo) VALUES(?,?,?,?,?); " +
             "SELECT last_insert_rowid();";
 
                 String insert2 = "INSERT INTO COSTO_MENSUAL(mes, costo_unitario, " +
@@ -79,6 +81,8 @@ namespace UCR.Negotium.DataAccess
                 command.Parameters.AddWithValue("nombre_costo", costoNuevo.NombreCosto);
                 command.Parameters.AddWithValue("unidad_medida", costoNuevo.UnidadMedida.CodUnidad);
                 command.Parameters.AddWithValue("cod_proyecto", codProyecto);
+                command.Parameters.AddWithValue("costo_variable", costoNuevo.CostoVariable);
+                command.Parameters.AddWithValue("categoria_costo", costoNuevo.Categoria_costo);
 
                 if (conexion.State != ConnectionState.Open)
                     conexion.Open();
@@ -157,7 +161,7 @@ namespace UCR.Negotium.DataAccess
             return costoNuevo;
         }//InsertarCosto
 
-        public bool EditarProyeccionVenta(Costo costoEditar, int codProyecto)
+        public bool EditarCosto(Costo costoEditar, int codProyecto)
         {
             SQLiteCommand command = conexion.CreateCommand();
             SQLiteTransaction transaction;
@@ -165,7 +169,7 @@ namespace UCR.Negotium.DataAccess
             try
             {
                 String insert1 = "UPDATE COSTO SET (nombre_costo = ?, unidad_medida = ?, " +
-                "cod_proyecto = ? WHERE cod_costo = ?; " +
+                "cod_proyecto = ?, costo_variable = ?, categoria_costo = ? WHERE cod_costo = ?; " +
             "SELECT last_insert_rowid();";
 
                 String insert2 = "UPDATE COSTO_MENSUAL SET (mes = ?, costo_unitario = ?, " +
@@ -178,6 +182,8 @@ namespace UCR.Negotium.DataAccess
                 command.Parameters.AddWithValue("unidad_medida", costoEditar.UnidadMedida.CodUnidad);
                 command.Parameters.AddWithValue("cod_proyecto", codProyecto);
                 command.Parameters.AddWithValue("cod_costo", costoEditar.CodCosto);
+                command.Parameters.AddWithValue("costo_variable", costoEditar.CostoVariable);
+                command.Parameters.AddWithValue("categoria_costo", costoEditar.Categoria_costo);
 
                 if (conexion.State != ConnectionState.Open)
                     conexion.Open();

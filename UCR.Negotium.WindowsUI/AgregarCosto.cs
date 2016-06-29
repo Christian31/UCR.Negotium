@@ -24,7 +24,6 @@ namespace UCR.Negotium.WindowsUI
         {
             this.evaluador = evaluador;
             costoNuevo = new Costo();
-
             InitializeComponent();
             this.proyecto = proyecto;
             this.LlenaDgvCosto();
@@ -61,6 +60,16 @@ namespace UCR.Negotium.WindowsUI
                 costoNuevo.NombreCosto = tbxNombreCosto.Text;
                 costoNuevo.UnidadMedida.CodUnidad = Convert.ToInt32(cbxUnidadCosto.SelectedValue);
                 costoNuevo.UnidadMedida.NombreUnidad = cbxUnidadCosto.Text;
+                costoNuevo.Categoria_costo = cbxCategoriasCosto.Text;
+
+                if (clbTipoCosto.SelectedIndex == 0)
+                {
+                    costoNuevo.CostoVariable = true;
+                }
+                else if (clbTipoCosto.SelectedIndex == 1)
+                {
+                    costoNuevo.CostoVariable = false;
+                }
                 //proyeccionNueva.UnidadMedida.NombreUnidad = ((UnidadMedida)cbxUnidadProyeccion.SelectedItem).NombreUnidad;
 
                 Int32 mes = 1;
@@ -96,6 +105,8 @@ namespace UCR.Negotium.WindowsUI
             cbxUnidadCosto.DisplayMember = "nombre_unidad";
             cbxUnidadCosto.ValueMember = "cod_unidad";
 
+            cbxUnidadCosto.SelectedIndex = 0;
+            cbxCategoriasCosto.SelectedIndex = 0;
         }
     }
 }

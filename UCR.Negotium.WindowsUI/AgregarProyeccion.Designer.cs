@@ -91,6 +91,7 @@
             // 
             // cbxUnidadProyeccion
             // 
+            this.cbxUnidadProyeccion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxUnidadProyeccion.FormattingEnabled = true;
             this.cbxUnidadProyeccion.Location = new System.Drawing.Point(386, 33);
             this.cbxUnidadProyeccion.Name = "cbxUnidadProyeccion";

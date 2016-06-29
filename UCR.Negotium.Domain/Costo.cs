@@ -11,6 +11,8 @@ namespace UCR.Negotium.Domain
         private int codCosto;
         private UnidadMedida unidadMedida;
         private string nombreCosto;
+        private Boolean costoVariable;
+        private string categoria_costo;
         private List<CostoMensual> costosMensuales;
 
         public Costo()
@@ -68,6 +70,32 @@ namespace UCR.Negotium.Domain
             set
             {
                 costosMensuales = value;
+            }
+        }
+
+        public bool CostoVariable
+        {
+            get
+            {
+                return costoVariable;
+            }
+
+            set
+            {
+                costoVariable = value;
+            }
+        }
+
+        public string Categoria_costo
+        {
+            get
+            {
+                return categoria_costo;
+            }
+
+            set
+            {
+                categoria_costo = value;
             }
         }
     }

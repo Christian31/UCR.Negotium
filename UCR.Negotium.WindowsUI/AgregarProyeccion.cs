@@ -94,7 +94,7 @@ namespace UCR.Negotium.WindowsUI
             cbxUnidadProyeccion.DataSource = unidadMedidaData.GetUnidadesMedida();
             cbxUnidadProyeccion.DisplayMember = "nombre_unidad";
             cbxUnidadProyeccion.ValueMember = "cod_unidad";
-
+            cbxUnidadProyeccion.SelectedIndex = 0;
         }
     }
 }
