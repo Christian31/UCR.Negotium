@@ -78,6 +78,7 @@
             this.btnCancelarCosto.Text = "Cancelar";
             this.btnCancelarCosto.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnCancelarCosto.UseVisualStyleBackColor = true;
+            this.btnCancelarCosto.Click += new System.EventHandler(this.btnCancelarCosto_Click);
             // 
             // label1
             // 

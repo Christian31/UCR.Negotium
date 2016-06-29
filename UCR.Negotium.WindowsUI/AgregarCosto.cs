@@ -108,5 +108,14 @@ namespace UCR.Negotium.WindowsUI
             cbxUnidadCosto.SelectedIndex = 0;
             cbxCategoriasCosto.SelectedIndex = 0;
         }
+
+        private void btnCancelarCosto_Click(object sender, EventArgs e)
+        {
+            new RegistrarProyecto(this.evaluador, this.proyecto)
+            {
+                MdiParent = base.MdiParent
+            }.Show();
+            base.Close();
+        }
     }
 }

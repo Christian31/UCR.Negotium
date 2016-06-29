@@ -17,5 +17,13 @@ namespace UCR.Negotium.WindowsUI
             InitializeComponent();
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            new RegistrarProyecto(this.evaluador, this.proyecto)
+            {
+                MdiParent = base.MdiParent
+            }.Show();
+            base.Close();
+        }
     }
 }

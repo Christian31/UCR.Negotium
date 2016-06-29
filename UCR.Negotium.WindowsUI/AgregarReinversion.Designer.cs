@@ -145,7 +145,7 @@ namespace UCR.Negotium.WindowsUI
             this.Agregar});
             this.dgvAgregaReinversion.Location = new System.Drawing.Point(0, 0);
             this.dgvAgregaReinversion.Name = "dgvAgregaReinversion";
-            this.dgvAgregaReinversion.Size = new System.Drawing.Size(722, 179);
+            this.dgvAgregaReinversion.Size = new System.Drawing.Size(720, 179);
             this.dgvAgregaReinversion.TabIndex = 0;
             // 
             // Codigo
@@ -223,6 +223,7 @@ namespace UCR.Negotium.WindowsUI
             this.button2.Text = "Cancelar";
             this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // AgregarReinversion
             // 

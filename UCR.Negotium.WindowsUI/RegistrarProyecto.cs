@@ -333,7 +333,7 @@ namespace UCR.Negotium.WindowsUI
                                 total += float.Parse(this.dgvInversiones.Rows[i].Cells["Subtotal"].Value.ToString());
                             }//if
                         }//for
-                        lblTotalInversiones.Text = total.ToString();
+                        lblTotalInversiones.Text = total.ToString("#,##0");
                     }//if
                 }//if
             }catch(Exception ex)
@@ -501,6 +501,37 @@ namespace UCR.Negotium.WindowsUI
         private void dgvReinversiones_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             LlenaValoresTotalesReinversiones();
+
+            try
+            {
+                //Basicamente valida si se cambio el valor de la cantidad o del costo unitario de una
+                //inversion, si esto ocurre actualiza el valor del total
+                if (dgvReinversiones.RowCount > 1)
+                {
+                    if (this.dgvReinversiones.Columns[e.ColumnIndex].Name == "CantidadReinversion" ||
+                        this.dgvReinversiones.Columns[e.ColumnIndex].Name == "CostoUnitarioReinversion")
+                    {
+                        Int32 cantidad = 0;
+                        Int32 costoUnitario = 0;
+                        if ((this.dgvReinversiones.Rows[e.RowIndex].Cells["CantidadReinversion"].Value != null) ||
+                            (this.dgvReinversiones.Rows[e.RowIndex].Cells["CantidadReinversion"].Value.ToString() != ""))
+                        {
+                            cantidad = Convert.ToInt32(this.dgvReinversiones.Rows[e.RowIndex].Cells["CantidadReinversion"].Value.ToString());
+                        }//if
+                        if ((this.dgvReinversiones.Rows[e.RowIndex].Cells["CostoUnitarioReinversion"].Value != null) ||
+                            (this.dgvReinversiones.Rows[e.RowIndex].Cells["CostoUnitarioReinversion"].Value.ToString() != ""))
+                        {
+                            costoUnitario = int.Parse(this.dgvReinversiones.Rows[e.RowIndex].Cells["CostoUnitarioReinversion"].Value.ToString());
+                        }//if
+                        this.dgvReinversiones.Rows[e.RowIndex].Cells["SubtotalReinversion"].Value = cantidad * costoUnitario;
+                        
+                    }//if
+                }//if
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
 
         //Este metodo se ejecuta ante la accion de guardar requerimientos de reinversión

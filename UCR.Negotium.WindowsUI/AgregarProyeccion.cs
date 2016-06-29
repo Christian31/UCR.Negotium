@@ -96,5 +96,14 @@ namespace UCR.Negotium.WindowsUI
             cbxUnidadProyeccion.ValueMember = "cod_unidad";
             cbxUnidadProyeccion.SelectedIndex = 0;
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            new RegistrarProyecto(this.evaluador, this.proyecto)
+            {
+                MdiParent = base.MdiParent
+            }.Show();
+            base.Close();
+        }
     }
 }
