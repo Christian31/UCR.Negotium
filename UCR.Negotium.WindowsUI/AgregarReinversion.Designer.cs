@@ -57,13 +57,15 @@ namespace UCR.Negotium.WindowsUI
             ds.Tables["RequerimientReinversion"].Columns.Add("VidaUtil", Type.GetType("System.String"));
             foreach (RequerimientoInversion requerimiento in this.proyecto.RequerimientosInversion)
             {
-                DataRow row = ds.Tables["RequerimientReinversion"].NewRow();
-                row["Codigo"] = requerimiento.CodRequerimientoInversion;
-                row["Descripcion"] = requerimiento.DescripcionRequerimiento;
-                row["Cantidad"] = requerimiento.Cantidad;
-                row["CostoUnitario"] = requerimiento.CostoUnitario;
-                row["VidaUtil"] = requerimiento.VidaUtil;
-                ds.Tables["RequerimientReinversion"].Rows.Add(row);
+                if (requerimiento.Depreciable) { 
+                    DataRow row = ds.Tables["RequerimientReinversion"].NewRow();
+                    row["Codigo"] = requerimiento.CodRequerimientoInversion;
+                    row["Descripcion"] = requerimiento.DescripcionRequerimiento;
+                    row["Cantidad"] = requerimiento.Cantidad;
+                    row["CostoUnitario"] = requerimiento.CostoUnitario;
+                    row["VidaUtil"] = requerimiento.VidaUtil;
+                    ds.Tables["RequerimientReinversion"].Rows.Add(row);
+                }
             }
             DataTable dtRequerimientos = ds.Tables["RequerimientReinversion"];
             this.dgvAgregaReinversion.DataSource = dtRequerimientos;
@@ -128,6 +130,7 @@ namespace UCR.Negotium.WindowsUI
             this.Agregar = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAgregaReinversion)).BeginInit();
             this.SuspendLayout();
             // 
@@ -143,7 +146,7 @@ namespace UCR.Negotium.WindowsUI
             this.costoUnitario,
             this.vidaUtil,
             this.Agregar});
-            this.dgvAgregaReinversion.Location = new System.Drawing.Point(0, 0);
+            this.dgvAgregaReinversion.Location = new System.Drawing.Point(22, 70);
             this.dgvAgregaReinversion.Name = "dgvAgregaReinversion";
             this.dgvAgregaReinversion.Size = new System.Drawing.Size(720, 179);
             this.dgvAgregaReinversion.TabIndex = 0;
@@ -203,7 +206,7 @@ namespace UCR.Negotium.WindowsUI
             // 
             this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
             this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(189, 209);
+            this.button1.Location = new System.Drawing.Point(210, 280);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(142, 23);
             this.button1.TabIndex = 1;
@@ -216,7 +219,7 @@ namespace UCR.Negotium.WindowsUI
             // 
             this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
             this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(394, 209);
+            this.button2.Location = new System.Drawing.Point(496, 280);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 2;
@@ -225,21 +228,36 @@ namespace UCR.Negotium.WindowsUI
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(295, 29);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(212, 16);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Lista de Inversiones Depreciables";
+            // 
             // AgregarReinversion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Honeydew;
-            this.ClientSize = new System.Drawing.Size(721, 261);
+            this.ClientSize = new System.Drawing.Size(759, 356);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.dgvAgregaReinversion);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "AgregarReinversion";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AgregarReinversion";
             ((System.ComponentModel.ISupportInitialize)(this.dgvAgregaReinversion)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
+
+        private Label label1;
     }
 }

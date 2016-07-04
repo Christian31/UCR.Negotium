@@ -27,8 +27,8 @@ namespace UCR.Negotium.DataAccess
             Object newProdID;
             String insert = "INSERT INTO REQUERIMIENTO_REINVERSION(ano_reinversion," +
                 " descripcion_requerimiento, cantidad, " +
-                "costo_unitario, depreciable, cod_proyecto) " +
-            "VALUES(?,?,?,?,?,?); " +
+                "costo_unitario, depreciable, vida_util, cod_unidad_medida, cod_proyecto) " +
+            "VALUES(?,?,?,?,?,?,?,?); " +
             "SELECT last_insert_rowid();";
             if (conexion.State != ConnectionState.Open)
                 conexion.Open();
@@ -39,6 +39,8 @@ namespace UCR.Negotium.DataAccess
             command.Parameters.AddWithValue("cantidad", requerimientoReinversion.Cantidad);
             command.Parameters.AddWithValue("costo_unitario", requerimientoReinversion.CostoUnitario);
             command.Parameters.AddWithValue("depreciable", requerimientoReinversion.Depreciable);
+            command.Parameters.AddWithValue("vida_util", requerimientoReinversion.VidaUtil);
+            command.Parameters.AddWithValue("cod_unidad_medida", requerimientoReinversion.UnidadMedida.CodUnidad);
             command.Parameters.AddWithValue("cod_proyecto", codProyecto);
             try
             {
@@ -62,7 +64,14 @@ namespace UCR.Negotium.DataAccess
             List<RequerimientoReinversion> listaRequerimientos = new List<RequerimientoReinversion>();
             try
             {
-                String select = "SELECT * FROM REQUERIMIENTO_REINVERSION WHERE cod_proyecto=" + codProyecto;
+                String select = "SELECT r.cod_requerimiento_reinversion, ano_reinversion, descripcion_requerimiento, "+
+                    "r.cantidad, r.costo_unitario, r.depreciable, r.vida_util, " +
+                    "u.cod_unidad, u.nombre_unidad " +
+                    "FROM REQUERIMIENTO_REINVERSION r, UNIDAD_MEDIDA u " +
+                    "WHERE r.cod_proyecto = " + codProyecto +
+                    " and r.cod_unidad_medida = u.cod_unidad;";
+
+                //String select = "SELECT * FROM REQUERIMIENTO_REINVERSION WHERE cod_proyecto=" + codProyecto;
                 if (conexion.State != ConnectionState.Open)
                     conexion.Open();
                 SQLiteCommand command = conexion.CreateCommand();
@@ -78,6 +87,9 @@ namespace UCR.Negotium.DataAccess
                     requerimiento.Cantidad = reader.GetInt32(3);
                     requerimiento.CostoUnitario = reader.GetDouble(4);
                     requerimiento.Depreciable = reader.GetBoolean(5);
+                    requerimiento.VidaUtil = reader.GetInt32(6);
+                    requerimiento.UnidadMedida.CodUnidad = reader.GetInt32(7);
+                    requerimiento.UnidadMedida.NombreUnidad = reader.GetString(8);
                     listaRequerimientos.Add(requerimiento);
                 }//while
                 conexion.Close();

@@ -62,16 +62,6 @@ namespace UCR.Negotium.WindowsUI
                 costoNuevo.UnidadMedida.NombreUnidad = cbxUnidadCosto.Text;
                 costoNuevo.Categoria_costo = cbxCategoriasCosto.Text;
 
-                if (clbTipoCosto.SelectedIndex == 0)
-                {
-                    costoNuevo.CostoVariable = true;
-                }
-                else if (clbTipoCosto.SelectedIndex == 1)
-                {
-                    costoNuevo.CostoVariable = false;
-                }
-                //proyeccionNueva.UnidadMedida.NombreUnidad = ((UnidadMedida)cbxUnidadProyeccion.SelectedItem).NombreUnidad;
-
                 Int32 mes = 1;
                 foreach (DataGridViewRow row in dgvCosto.Rows)
                 {

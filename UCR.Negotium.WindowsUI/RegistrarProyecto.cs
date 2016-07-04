@@ -495,9 +495,57 @@ namespace UCR.Negotium.WindowsUI
                         = requerimiento.AnoReinversion.ToString();
                 autoincrement++;
             }//foreach
+
+            UnidadMedidaData unidadMedidaData = new UnidadMedidaData();
+            DataGridViewComboBoxColumn comboboxColumn = dgvReinversiones.Columns["unidadMedidaRe"] as DataGridViewComboBoxColumn;
+            comboboxColumn.DataSource = unidadMedidaData.GetUnidadesMedida();
+            comboboxColumn.DisplayMember = "nombre_unidad";
+            comboboxColumn.ValueMember = "cod_unidad";
         }
 
-        //TODO hay q resolver el problema de cuando se cambia del año x al y se borre el subtotal del año x al año de la tabla totales
+        private void dgvReinversiones_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+
+            UnidadMedidaData unidadMedidaData = new UnidadMedidaData();
+            DataTable dtUnidades = unidadMedidaData.GetUnidadesMedida();
+            DataGridViewComboBoxColumn comboboxColumn = dgvReinversiones.Columns["unidadMedidaRe"] as DataGridViewComboBoxColumn;
+            comboboxColumn.DataSource = dtUnidades;
+            comboboxColumn.DisplayMember = "nombre_unidad";
+            comboboxColumn.ValueMember = "cod_unidad";
+
+            List<String> anosReinversion = new List<String>();
+            for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+            {
+                int anoActual = proyecto.AnoInicial + i;
+                anosReinversion.Add(anoActual.ToString());
+            }//for
+
+            DataGridViewComboBoxColumn anoInversionColumn = dgvReinversiones.Columns["AnoReinversion"]
+                    as DataGridViewComboBoxColumn;
+            anoInversionColumn.DataSource = anosReinversion;
+
+            int autoincrement = 0;
+            //EL siguiente foreach sirve para cargar la unidad medida al combobox del dgv correspondiente
+            foreach (RequerimientoReinversion requerimiento in this.proyecto.RequerimientosReinversion)
+            {
+                if (autoincrement < dgvReinversiones.RowCount)
+                {
+                    this.dgvReinversiones.Rows[autoincrement].Cells["unidadMedidaRe"].Value
+                        = requerimiento.UnidadMedida.NombreUnidad.ToString();
+
+                    this.dgvReinversiones.Rows[autoincrement].Cells["AnoReinversion"].Value
+                            = requerimiento.AnoReinversion.ToString();
+
+                    autoincrement++;
+                }
+            }//foreach
+            this.dgvReinversiones.Rows[dgvReinversiones.RowCount - 1].Cells["AnoReinversion"].Value = proyecto.AnoInicial + 1;
+            this.dgvReinversiones.Rows[dgvReinversiones.RowCount - 1].Cells["unidadMedidaRe"].Value = dtUnidades.Rows[0][0];
+
+
+
+        }
+
         private void dgvReinversiones_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             LlenaValoresTotalesReinversiones();
@@ -557,9 +605,16 @@ namespace UCR.Negotium.WindowsUI
                         requerimientoReinversion.CostoUnitario = 
                             Convert.ToDouble(Int32.Parse(this.dgvReinversiones.Rows[i].
                             Cells["CostoUnitarioReinversion"].Value.ToString()));
+
+                        requerimientoReinversion.VidaUtil =
+                            Int32.Parse(this.dgvReinversiones.Rows[i].Cells["vidaUtilRe"].Value.ToString());
                         requerimientoReinversion.AnoReinversion =
                             Int32.Parse(this.dgvReinversiones.Rows[i].Cells["AnoReinversion"].Value.ToString());
-                        
+                        requerimientoReinversion.UnidadMedida.CodUnidad =
+                            Int32.Parse(this.dgvReinversiones.Rows[i].Cells["unidadMedidaRe"].Value.ToString());
+                        requerimientoReinversion.UnidadMedida.NombreUnidad =
+                            this.dgvReinversiones.Rows[i].Cells["unidadMedidaRe"].Value.ToString();
+
                         if (this.dgvReinversiones.Rows[i].Cells["DepreciableReinversion"].Value.ToString().Equals(""))
                         {
                             requerimientoReinversion.Depreciable = false;
@@ -1241,6 +1296,7 @@ namespace UCR.Negotium.WindowsUI
                 ds.Tables["RequerimientReinversion"].Columns.Add("Cantidad", Type.GetType("System.String"));
                 ds.Tables["RequerimientReinversion"].Columns.Add("CostoUnitario", Type.GetType("System.String"));
                 ds.Tables["RequerimientReinversion"].Columns.Add("Depreciable", Type.GetType("System.Boolean"));
+                ds.Tables["RequerimientReinversion"].Columns.Add("vidaUtilRe", Type.GetType("System.String"));
                 ds.Tables["RequerimientReinversion"].Columns.Add("Subtotal", Type.GetType("System.String"));
                 foreach (RequerimientoReinversion requerimiento in this.proyecto.RequerimientosReinversion)
                 {
@@ -1249,6 +1305,7 @@ namespace UCR.Negotium.WindowsUI
                     row["Cantidad"] = requerimiento.Cantidad;
                     row["CostoUnitario"] = requerimiento.CostoUnitario;
                     row["Depreciable"] = requerimiento.Depreciable;
+                    row["vidaUtilRe"] = requerimiento.VidaUtil;
                     row["Subtotal"] = 0;
                     ds.Tables["RequerimientReinversion"].Rows.Add(row);
                 }//foreach
@@ -1263,6 +1320,9 @@ namespace UCR.Negotium.WindowsUI
                 {
                     this.dgvReinversiones.Rows[autoincrement].Cells["AnoReinversion"].Value
                             = requerimiento.AnoReinversion;
+
+                    this.dgvReinversiones.Rows[autoincrement].Cells["unidadMedidaRe"].Value
+                            = requerimiento.UnidadMedida.NombreUnidad.ToString();
                     autoincrement++;
                  }//foreach
 
@@ -1358,80 +1418,26 @@ namespace UCR.Negotium.WindowsUI
 
         private void LlenaDgvIngresosGenerados()
         {
+
             DataSet ds = new DataSet();
             ds.Tables.Add("IngresosGenerados");
-            
-            //ds.Tables["IngresosGenerados"].Columns.Add("Ingresos", Type.GetType("System.String"));
+            ds.Tables["IngresosGenerados"].Columns.Add("titulo", Type.GetType("System.String"));
 
-            if (this.proyecto.CrecimientosAnuales != null && this.proyecto.CrecimientosAnuales.Count > 0)
-            {
-                Double val = 0;
-                ds.Tables["IngresosGenerados"].Columns.Add("titulo", Type.GetType("System.String"));
+            DataRow row = ds.Tables["IngresosGenerados"].NewRow();
+            row["titulo"] = "Ingresos";
 
-                DataRow row = ds.Tables["IngresosGenerados"].NewRow();
-                row["titulo"] = "Ingresos";
-                Boolean bandera = false;
-                int a = 0;
-                for (Int32 i = 0; i < proyecto.CrecimientosAnuales.Count; i++)
-                {
-                    ds.Tables["IngresosGenerados"].Columns.Add("Año "+ a, Type.GetType("System.String"));
-                    //dgvIngresosGenerados.Columns["Año"+ (i+1)].HeaderText = "Año "+ (i+1);
-
-                    foreach (ProyeccionVentaArticulo articulo in proyecto.Proyecciones)
-                    {
-                        foreach (DetalleProyeccionVenta detArticulo in articulo.DetallesProyeccionVenta)
-                        { 
-                            val = val + (detArticulo.Cantidad*detArticulo.Precio);
-                        }
-                    }
-
-                    if (bandera)
-                    {
-                        val = ((val * proyecto.CrecimientosAnuales[i].PorcentajeCrecimiento)/100) + val;
-                    }
-                    else if (i==0)
-                    {
-                        i = i - 1;
-                    }
-                    bandera = true;
-
-                    //DataRow row2 = ds.Tables["IngresosGenerados"].NewRow();
-                    //row["Año"] = proyecto.CrecimientosAnuales[i].AnoCrecimiento;
-                    row["Año " + a] = "₡ "+ val.ToString("#,##0.##"); ;
-
-                    a = a + 1;
-                    val = 0;
-                }//foreach
-
-                ds.Tables["IngresosGenerados"].Rows.Add(row);
-
-                // Aqui realizo este cambio de index debido a que las reinversiones cargan los años de 
-                // reinversión hasta que entra por segunda vez al tab de reinversiones
-                tbxRegistrarProyecto.SelectedIndex = 5;
-                tbxRegistrarProyecto.SelectedIndex = 4;
-            }//if
-
-            else
-            {
-                //List<String> anosCrecimiento = new List<String>();
-                //for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
-                //{
-                //    int anoActual = proyecto.AnoInicial + i;
-                //    anosCrecimiento.Add(anoActual.ToString());
-                //}//for
-
-                //foreach (String anoIver in anosCrecimiento)
-                //{
-                //    DataRow row = ds.Tables["IngresosGenerados"].NewRow();
-                //    row["Año"] = anoIver;
-                //    row["Ingresos"] = 0;
-                //    ds.Tables["IngresosGenerados"].Rows.Add(row);
-                //}
+            int a = 1;
+            foreach (double IngreGenerado in proyecto.IngresosGenerados) {
+                ds.Tables["IngresosGenerados"].Columns.Add("Año " + a, Type.GetType("System.String"));
+                row["Año " + a] = "₡ " + IngreGenerado.ToString("#,##0.##");
+                a++;
             }
+            ds.Tables["IngresosGenerados"].Rows.Add(row);
+
             DataTable dtIngresosGenerados = ds.Tables["IngresosGenerados"];
             dgvIngresosGenerados.DataSource = dtIngresosGenerados;
             dgvIngresosGenerados.Columns[0].HeaderText = "";
-            dgvIngresosGenerados.Columns[1].HeaderText = "Año de Inicio";
+            
         }//LlenaDgvIngresosGenerados
 
         private void LlenaDgvCostos()
@@ -1538,6 +1544,11 @@ namespace UCR.Negotium.WindowsUI
                 // reinversión hasta que entra por segunda vez al tab de reinversiones
                 tbxRegistrarProyecto.SelectedIndex = 5;
                 tbxRegistrarProyecto.SelectedIndex = 4;
+
+                DataTable dtCostosTotales = ds.Tables["CostosGenerados"];
+                dgvCostosGenerados.DataSource = dtCostosTotales;
+                //dgvCostosGenerados.Columns[0].HeaderText = "";
+                //dgvCostosGenerados.Columns[1].HeaderText = "Año de Inicio";
             }//if
 
             else
@@ -1557,10 +1568,7 @@ namespace UCR.Negotium.WindowsUI
                 //    ds.Tables["IngresosGenerados"].Rows.Add(row);
                 //}
             }
-            DataTable dtCostosTotales = ds.Tables["CostosGenerados"];
-            dgvCostosGenerados.DataSource = dtCostosTotales;
-            dgvCostosGenerados.Columns[0].HeaderText = "";
-            dgvCostosGenerados.Columns[1].HeaderText = "Año de Inicio";
+            
         }//LlenaDgvCostosTotales
 
         /**************************************FIN Metodos de utilidad*****************************************/

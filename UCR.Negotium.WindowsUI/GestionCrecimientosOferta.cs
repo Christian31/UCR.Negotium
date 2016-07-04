@@ -129,7 +129,7 @@ namespace UCR.Negotium.WindowsUI
             else
             {
                 List<String> anosCrecimiento = new List<String>();
-                for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+                for (int i = 2; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
                 {
                     int anoActual = proyecto.AnoInicial + i;
                     anosCrecimiento.Add(anoActual.ToString());

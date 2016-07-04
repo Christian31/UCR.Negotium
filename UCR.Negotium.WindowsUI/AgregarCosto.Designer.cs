@@ -36,8 +36,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.tbxNombreCosto = new System.Windows.Forms.TextBox();
             this.cbxUnidadCosto = new System.Windows.Forms.ComboBox();
-            this.clbTipoCosto = new System.Windows.Forms.CheckedListBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.cbxCategoriasCosto = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCosto)).BeginInit();
@@ -114,31 +112,10 @@
             this.cbxUnidadCosto.Size = new System.Drawing.Size(121, 21);
             this.cbxUnidadCosto.TabIndex = 6;
             // 
-            // clbTipoCosto
-            // 
-            this.clbTipoCosto.FormattingEnabled = true;
-            this.clbTipoCosto.Items.AddRange(new object[] {
-            "Costo Variable",
-            "Costo Fijo"});
-            this.clbTipoCosto.Location = new System.Drawing.Point(131, 71);
-            this.clbTipoCosto.Name = "clbTipoCosto";
-            this.clbTipoCosto.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.clbTipoCosto.Size = new System.Drawing.Size(98, 34);
-            this.clbTipoCosto.TabIndex = 8;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(52, 82);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(73, 13);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "Tipo de Costo";
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(287, 82);
+            this.label4.Location = new System.Drawing.Point(29, 79);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(97, 13);
             this.label4.TabIndex = 10;
@@ -150,11 +127,10 @@
             this.cbxCategoriasCosto.FormattingEnabled = true;
             this.cbxCategoriasCosto.Items.AddRange(new object[] {
             "Operativos",
-            "Financieros",
             "Administrativos"});
-            this.cbxCategoriasCosto.Location = new System.Drawing.Point(386, 79);
+            this.cbxCategoriasCosto.Location = new System.Drawing.Point(132, 76);
             this.cbxCategoriasCosto.Name = "cbxCategoriasCosto";
-            this.cbxCategoriasCosto.Size = new System.Drawing.Size(121, 21);
+            this.cbxCategoriasCosto.Size = new System.Drawing.Size(141, 21);
             this.cbxCategoriasCosto.TabIndex = 11;
             // 
             // AgregarCosto
@@ -165,8 +141,6 @@
             this.ClientSize = new System.Drawing.Size(552, 494);
             this.Controls.Add(this.cbxCategoriasCosto);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.clbTipoCosto);
             this.Controls.Add(this.cbxUnidadCosto);
             this.Controls.Add(this.tbxNombreCosto);
             this.Controls.Add(this.label2);
@@ -193,8 +167,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tbxNombreCosto;
         private System.Windows.Forms.ComboBox cbxUnidadCosto;
-        private System.Windows.Forms.CheckedListBox clbTipoCosto;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox cbxCategoriasCosto;
     }

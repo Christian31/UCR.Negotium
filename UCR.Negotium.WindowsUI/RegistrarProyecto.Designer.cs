@@ -141,12 +141,6 @@
             this.panel13 = new System.Windows.Forms.Panel();
             this.label49 = new System.Windows.Forms.Label();
             this.dgvReinversiones = new System.Windows.Forms.DataGridView();
-            this.DescripcionReinversion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CantidadReinversion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CostoUnitarioReinversion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DepreciableReinversion = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.AnoReinversion = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.SubtotalReinversion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel14 = new System.Windows.Forms.Panel();
             this.panel20 = new System.Windows.Forms.Panel();
             this.lblFoo2 = new System.Windows.Forms.Label();
@@ -209,6 +203,14 @@
             this.label38 = new System.Windows.Forms.Label();
             this.ttMensaje = new System.Windows.Forms.ToolTip(this.components);
             this.unidadMedidaDataBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.DescripcionReinversion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CantidadReinversion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CostoUnitarioReinversion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.unidadMedidaRe = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.DepreciableReinversion = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.vidaUtilRe = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AnoReinversion = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.SubtotalReinversion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tbxRegistrarProyecto.SuspendLayout();
             this.informacionGeneral.SuspendLayout();
             this.panelDatosGenerales.SuspendLayout();
@@ -1463,13 +1465,14 @@
             // 
             // dgvReinversiones
             // 
-            this.dgvReinversiones.AllowUserToAddRows = false;
             this.dgvReinversiones.ColumnHeadersHeight = 21;
             this.dgvReinversiones.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.DescripcionReinversion,
             this.CantidadReinversion,
             this.CostoUnitarioReinversion,
+            this.unidadMedidaRe,
             this.DepreciableReinversion,
+            this.vidaUtilRe,
             this.AnoReinversion,
             this.SubtotalReinversion});
             this.dgvReinversiones.Location = new System.Drawing.Point(50, 71);
@@ -1478,53 +1481,7 @@
             this.dgvReinversiones.TabIndex = 0;
             this.dgvReinversiones.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvReinversiones_CellValueChanged);
             this.dgvReinversiones.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvReinversiones_DataError);
-            // 
-            // DescripcionReinversion
-            // 
-            this.DescripcionReinversion.DataPropertyName = "Descripcion";
-            this.DescripcionReinversion.HeaderText = "Descripción";
-            this.DescripcionReinversion.Name = "DescripcionReinversion";
-            this.DescripcionReinversion.Width = 368;
-            // 
-            // CantidadReinversion
-            // 
-            this.CantidadReinversion.DataPropertyName = "Cantidad";
-            this.CantidadReinversion.HeaderText = "Cantidad";
-            this.CantidadReinversion.Name = "CantidadReinversion";
-            this.CantidadReinversion.Width = 120;
-            // 
-            // CostoUnitarioReinversion
-            // 
-            this.CostoUnitarioReinversion.DataPropertyName = "CostoUnitario";
-            this.CostoUnitarioReinversion.HeaderText = "Costo unitario";
-            this.CostoUnitarioReinversion.Name = "CostoUnitarioReinversion";
-            this.CostoUnitarioReinversion.Width = 130;
-            // 
-            // DepreciableReinversion
-            // 
-            this.DepreciableReinversion.DataPropertyName = "Depreciable";
-            this.DepreciableReinversion.HeaderText = "Depreciable";
-            this.DepreciableReinversion.Name = "DepreciableReinversion";
-            this.DepreciableReinversion.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.DepreciableReinversion.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.DepreciableReinversion.Width = 120;
-            // 
-            // AnoReinversion
-            // 
-            this.AnoReinversion.DataPropertyName = "AnoReinversion";
-            this.AnoReinversion.HeaderText = "Año reinversión";
-            this.AnoReinversion.Name = "AnoReinversion";
-            this.AnoReinversion.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.AnoReinversion.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.AnoReinversion.Width = 120;
-            // 
-            // SubtotalReinversion
-            // 
-            this.SubtotalReinversion.DataPropertyName = "Subtotal";
-            this.SubtotalReinversion.HeaderText = "Subtotal";
-            this.SubtotalReinversion.Name = "SubtotalReinversion";
-            this.SubtotalReinversion.ReadOnly = true;
-            this.SubtotalReinversion.Width = 180;
+            this.dgvReinversiones.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgvReinversiones_RowsAdded);
             // 
             // panel14
             // 
@@ -1569,7 +1526,7 @@
             this.button1.Size = new System.Drawing.Size(28, 23);
             this.button1.TabIndex = 5;
             this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.ttMensaje.SetToolTip(this.button1, "Agregar Nueva Reinversión");
+            this.ttMensaje.SetToolTip(this.button1, "Agregar Nueva Reinversión a partir de una Inversión Registrada");
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -2222,6 +2179,62 @@
             // 
             this.unidadMedidaDataBindingSource.DataSource = typeof(UCR.Negotium.DataAccess.UnidadMedidaData);
             // 
+            // DescripcionReinversion
+            // 
+            this.DescripcionReinversion.DataPropertyName = "Descripcion";
+            this.DescripcionReinversion.HeaderText = "Descripción";
+            this.DescripcionReinversion.Name = "DescripcionReinversion";
+            this.DescripcionReinversion.Width = 208;
+            // 
+            // CantidadReinversion
+            // 
+            this.CantidadReinversion.DataPropertyName = "Cantidad";
+            this.CantidadReinversion.HeaderText = "Cantidad";
+            this.CantidadReinversion.Name = "CantidadReinversion";
+            // 
+            // CostoUnitarioReinversion
+            // 
+            this.CostoUnitarioReinversion.DataPropertyName = "CostoUnitario";
+            this.CostoUnitarioReinversion.HeaderText = "Costo unitario";
+            this.CostoUnitarioReinversion.Name = "CostoUnitarioReinversion";
+            this.CostoUnitarioReinversion.Width = 130;
+            // 
+            // unidadMedidaRe
+            // 
+            this.unidadMedidaRe.HeaderText = "Unidad Medida";
+            this.unidadMedidaRe.Name = "unidadMedidaRe";
+            // 
+            // DepreciableReinversion
+            // 
+            this.DepreciableReinversion.DataPropertyName = "Depreciable";
+            this.DepreciableReinversion.HeaderText = "Depreciable";
+            this.DepreciableReinversion.Name = "DepreciableReinversion";
+            this.DepreciableReinversion.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.DepreciableReinversion.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // vidaUtilRe
+            // 
+            this.vidaUtilRe.DataPropertyName = "vidaUtilRe";
+            this.vidaUtilRe.HeaderText = "Vida útil";
+            this.vidaUtilRe.Name = "vidaUtilRe";
+            // 
+            // AnoReinversion
+            // 
+            this.AnoReinversion.DataPropertyName = "AnoReinversion";
+            this.AnoReinversion.HeaderText = "Año reinversión";
+            this.AnoReinversion.Name = "AnoReinversion";
+            this.AnoReinversion.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.AnoReinversion.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.AnoReinversion.Width = 120;
+            // 
+            // SubtotalReinversion
+            // 
+            this.SubtotalReinversion.DataPropertyName = "Subtotal";
+            this.SubtotalReinversion.HeaderText = "Subtotal";
+            this.SubtotalReinversion.Name = "SubtotalReinversion";
+            this.SubtotalReinversion.ReadOnly = true;
+            this.SubtotalReinversion.Width = 180;
+            // 
             // RegistrarProyecto
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2472,12 +2485,6 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn Depreciable;
         private System.Windows.Forms.DataGridViewTextBoxColumn VidaUtil;
         private System.Windows.Forms.DataGridViewTextBoxColumn subtotal;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DescripcionReinversion;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CantidadReinversion;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CostoUnitarioReinversion;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn DepreciableReinversion;
-        private System.Windows.Forms.DataGridViewComboBoxColumn AnoReinversion;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SubtotalReinversion;
         private System.Windows.Forms.Panel panel17;
         private System.Windows.Forms.Panel panel18;
         private System.Windows.Forms.Panel panel19;
@@ -2489,5 +2496,13 @@
         private System.Windows.Forms.Label label55;
         private System.Windows.Forms.Panel panel22;
         private System.Windows.Forms.Label lblFoo4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DescripcionReinversion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CantidadReinversion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CostoUnitarioReinversion;
+        private System.Windows.Forms.DataGridViewComboBoxColumn unidadMedidaRe;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn DepreciableReinversion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn vidaUtilRe;
+        private System.Windows.Forms.DataGridViewComboBoxColumn AnoReinversion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SubtotalReinversion;
     }
 }

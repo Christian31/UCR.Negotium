@@ -34,6 +34,7 @@ namespace UCR.Negotium.Domain
         List<RequerimientoReinversion> requerimientosReinversion;
         List<CrecimientoOfertaObjetoInteres> crecimientosAnuales;
         List<ProyeccionVentaArticulo> proyecciones;
+        List<double> ingresosGenerados; //atributo calculado
         List<Costo> costos;
         List<VariacionAnualCosto> variacionCostos;
 
@@ -51,6 +52,7 @@ namespace UCR.Negotium.Domain
             this.proponente.NumIdentificacion = "-1";
             this.crecimientosAnuales = new List<CrecimientoOfertaObjetoInteres>();
             this.proyecciones = new List<ProyeccionVentaArticulo>();
+            this.IngresosGenerados = new List<double>();
             this.costos = new List<Costo>();
             this.variacionCostos = new List<VariacionAnualCosto>();
         }
@@ -404,6 +406,39 @@ namespace UCR.Negotium.Domain
             {
                 variacionCostos = value;
             }
+        }
+
+        public List<double> IngresosGenerados
+        {
+            get
+            {
+                return this.calcularIngresosGenerados();
+            }
+            set
+            {
+                ingresosGenerados = value;
+            }
+        }
+
+        private List<double> calcularIngresosGenerados()
+        {
+            double valIni = 0;
+            List<double> listIngresos = new List<double>();
+            foreach (ProyeccionVentaArticulo articulo in this.Proyecciones)
+            {
+                foreach (DetalleProyeccionVenta detArticulo in articulo.DetallesProyeccionVenta)
+                {
+                    valIni = valIni + (detArticulo.Cantidad * detArticulo.Precio);
+                }
+            }
+            listIngresos.Add(valIni);
+            for (int i =0; i<this.CrecimientosAnuales.Count; i++)
+            {
+                valIni = ((valIni * CrecimientosAnuales[i].PorcentajeCrecimiento) / 100) + valIni;
+                listIngresos.Add(valIni);
+            }
+
+            return listIngresos;
         }
     }
 }
