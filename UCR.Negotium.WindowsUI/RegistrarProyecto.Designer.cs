@@ -141,6 +141,14 @@
             this.panel13 = new System.Windows.Forms.Panel();
             this.label49 = new System.Windows.Forms.Label();
             this.dgvReinversiones = new System.Windows.Forms.DataGridView();
+            this.DescripcionReinversion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CantidadReinversion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CostoUnitarioReinversion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.unidadMedidaRe = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.DepreciableReinversion = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.vidaUtilRe = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AnoReinversion = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.SubtotalReinversion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel14 = new System.Windows.Forms.Panel();
             this.panel20 = new System.Windows.Forms.Panel();
             this.lblFoo2 = new System.Windows.Forms.Label();
@@ -175,6 +183,46 @@
             this.btnVerResumenCostos = new System.Windows.Forms.Button();
             this.dgvCostosGenerados = new System.Windows.Forms.DataGridView();
             this.label57 = new System.Windows.Forms.Label();
+            this.capitalTrabajo = new System.Windows.Forms.TabPage();
+            this.panel24 = new System.Windows.Forms.Panel();
+            this.panel27 = new System.Windows.Forms.Panel();
+            this.lblFoo5 = new System.Windows.Forms.Label();
+            this.lblRecuperacionCT = new System.Windows.Forms.Label();
+            this.label52 = new System.Windows.Forms.Label();
+            this.dgvCapitalTrabajo = new System.Windows.Forms.DataGridView();
+            this.panel23 = new System.Windows.Forms.Panel();
+            this.label51 = new System.Windows.Forms.Label();
+            this.depreciaciones = new System.Windows.Forms.TabPage();
+            this.panel26 = new System.Windows.Forms.Panel();
+            this.panel28 = new System.Windows.Forms.Panel();
+            this.lblFoo6 = new System.Windows.Forms.Label();
+            this.btnGuardarDep = new System.Windows.Forms.Button();
+            this.btnVerResumenDep = new System.Windows.Forms.Button();
+            this.label58 = new System.Windows.Forms.Label();
+            this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.label56 = new System.Windows.Forms.Label();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.panel25 = new System.Windows.Forms.Panel();
+            this.label54 = new System.Windows.Forms.Label();
+            this.financiamiento = new System.Windows.Forms.TabPage();
+            this.panel30 = new System.Windows.Forms.Panel();
+            this.label65 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.cbInteresVariable = new System.Windows.Forms.CheckBox();
+            this.label63 = new System.Windows.Forms.Label();
+            this.label62 = new System.Windows.Forms.Label();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.label61 = new System.Windows.Forms.Label();
+            this.dataGridView4 = new System.Windows.Forms.DataGridView();
+            this.panel31 = new System.Windows.Forms.Panel();
+            this.lblFoo7 = new System.Windows.Forms.Label();
+            this.panel29 = new System.Windows.Forms.Panel();
+            this.label59 = new System.Windows.Forms.Label();
+            this.flujoCaja = new System.Windows.Forms.TabPage();
+            this.label60 = new System.Windows.Forms.Label();
+            this.dataGridView5 = new System.Windows.Forms.DataGridView();
             this.resumenProyecto = new System.Windows.Forms.TabPage();
             this.panel9 = new System.Windows.Forms.Panel();
             this.label46 = new System.Windows.Forms.Label();
@@ -203,14 +251,7 @@
             this.label38 = new System.Windows.Forms.Label();
             this.ttMensaje = new System.Windows.Forms.ToolTip(this.components);
             this.unidadMedidaDataBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.DescripcionReinversion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CantidadReinversion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CostoUnitarioReinversion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.unidadMedidaRe = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.DepreciableReinversion = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.vidaUtilRe = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AnoReinversion = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.SubtotalReinversion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cbInteresFijo = new System.Windows.Forms.CheckBox();
             this.tbxRegistrarProyecto.SuspendLayout();
             this.informacionGeneral.SuspendLayout();
             this.panelDatosGenerales.SuspendLayout();
@@ -252,6 +293,24 @@
             this.panel18.SuspendLayout();
             this.panel22.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCostosGenerados)).BeginInit();
+            this.capitalTrabajo.SuspendLayout();
+            this.panel24.SuspendLayout();
+            this.panel27.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCapitalTrabajo)).BeginInit();
+            this.panel23.SuspendLayout();
+            this.depreciaciones.SuspendLayout();
+            this.panel26.SuspendLayout();
+            this.panel28.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            this.panel25.SuspendLayout();
+            this.financiamiento.SuspendLayout();
+            this.panel30.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
+            this.panel31.SuspendLayout();
+            this.panel29.SuspendLayout();
+            this.flujoCaja.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).BeginInit();
             this.resumenProyecto.SuspendLayout();
             this.panel9.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -267,6 +326,10 @@
             this.tbxRegistrarProyecto.Controls.Add(this.reinversiones);
             this.tbxRegistrarProyecto.Controls.Add(this.proyeccionVentas);
             this.tbxRegistrarProyecto.Controls.Add(this.costos);
+            this.tbxRegistrarProyecto.Controls.Add(this.capitalTrabajo);
+            this.tbxRegistrarProyecto.Controls.Add(this.depreciaciones);
+            this.tbxRegistrarProyecto.Controls.Add(this.financiamiento);
+            this.tbxRegistrarProyecto.Controls.Add(this.flujoCaja);
             this.tbxRegistrarProyecto.Controls.Add(this.resumenProyecto);
             this.tbxRegistrarProyecto.Location = new System.Drawing.Point(0, -2);
             this.tbxRegistrarProyecto.Name = "tbxRegistrarProyecto";
@@ -1483,6 +1546,62 @@
             this.dgvReinversiones.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvReinversiones_DataError);
             this.dgvReinversiones.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgvReinversiones_RowsAdded);
             // 
+            // DescripcionReinversion
+            // 
+            this.DescripcionReinversion.DataPropertyName = "Descripcion";
+            this.DescripcionReinversion.HeaderText = "Descripción";
+            this.DescripcionReinversion.Name = "DescripcionReinversion";
+            this.DescripcionReinversion.Width = 208;
+            // 
+            // CantidadReinversion
+            // 
+            this.CantidadReinversion.DataPropertyName = "Cantidad";
+            this.CantidadReinversion.HeaderText = "Cantidad";
+            this.CantidadReinversion.Name = "CantidadReinversion";
+            // 
+            // CostoUnitarioReinversion
+            // 
+            this.CostoUnitarioReinversion.DataPropertyName = "CostoUnitario";
+            this.CostoUnitarioReinversion.HeaderText = "Costo unitario";
+            this.CostoUnitarioReinversion.Name = "CostoUnitarioReinversion";
+            this.CostoUnitarioReinversion.Width = 130;
+            // 
+            // unidadMedidaRe
+            // 
+            this.unidadMedidaRe.HeaderText = "Unidad Medida";
+            this.unidadMedidaRe.Name = "unidadMedidaRe";
+            // 
+            // DepreciableReinversion
+            // 
+            this.DepreciableReinversion.DataPropertyName = "Depreciable";
+            this.DepreciableReinversion.HeaderText = "Depreciable";
+            this.DepreciableReinversion.Name = "DepreciableReinversion";
+            this.DepreciableReinversion.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.DepreciableReinversion.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // vidaUtilRe
+            // 
+            this.vidaUtilRe.DataPropertyName = "vidaUtilRe";
+            this.vidaUtilRe.HeaderText = "Vida útil";
+            this.vidaUtilRe.Name = "vidaUtilRe";
+            // 
+            // AnoReinversion
+            // 
+            this.AnoReinversion.DataPropertyName = "AnoReinversion";
+            this.AnoReinversion.HeaderText = "Año reinversión";
+            this.AnoReinversion.Name = "AnoReinversion";
+            this.AnoReinversion.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.AnoReinversion.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.AnoReinversion.Width = 120;
+            // 
+            // SubtotalReinversion
+            // 
+            this.SubtotalReinversion.DataPropertyName = "Subtotal";
+            this.SubtotalReinversion.HeaderText = "Subtotal";
+            this.SubtotalReinversion.Name = "SubtotalReinversion";
+            this.SubtotalReinversion.ReadOnly = true;
+            this.SubtotalReinversion.Width = 180;
+            // 
             // panel14
             // 
             this.panel14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -1533,9 +1652,10 @@
             // label48
             // 
             this.label48.AutoSize = true;
+            this.label48.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label48.Location = new System.Drawing.Point(22, 272);
             this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(122, 13);
+            this.label48.Size = new System.Drawing.Size(154, 16);
             this.label48.TabIndex = 3;
             this.label48.Text = "Total reinvertido por año";
             // 
@@ -1721,9 +1841,10 @@
             // label53
             // 
             this.label53.AutoSize = true;
+            this.label53.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label53.Location = new System.Drawing.Point(25, 276);
             this.label53.Name = "label53";
-            this.label53.Size = new System.Drawing.Size(100, 13);
+            this.label53.Size = new System.Drawing.Size(129, 16);
             this.label53.TabIndex = 1;
             this.label53.Text = "Ingresos generados";
             // 
@@ -1853,6 +1974,7 @@
             this.btnVerResumenCostos.Text = "Ver Resumen";
             this.btnVerResumenCostos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnVerResumenCostos.UseVisualStyleBackColor = true;
+            this.btnVerResumenCostos.Click += new System.EventHandler(this.btnVerResumenCostos_Click);
             // 
             // dgvCostosGenerados
             // 
@@ -1871,11 +1993,434 @@
             // label57
             // 
             this.label57.AutoSize = true;
+            this.label57.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label57.Location = new System.Drawing.Point(25, 276);
             this.label57.Name = "label57";
-            this.label57.Size = new System.Drawing.Size(92, 13);
+            this.label57.Size = new System.Drawing.Size(119, 16);
             this.label57.TabIndex = 2;
             this.label57.Text = "Costos generados";
+            // 
+            // capitalTrabajo
+            // 
+            this.capitalTrabajo.BackColor = System.Drawing.Color.Honeydew;
+            this.capitalTrabajo.Controls.Add(this.panel24);
+            this.capitalTrabajo.Controls.Add(this.panel23);
+            this.capitalTrabajo.Location = new System.Drawing.Point(4, 22);
+            this.capitalTrabajo.Name = "capitalTrabajo";
+            this.capitalTrabajo.Size = new System.Drawing.Size(1178, 515);
+            this.capitalTrabajo.TabIndex = 10;
+            this.capitalTrabajo.Text = "Capital del Proyecto";
+            // 
+            // panel24
+            // 
+            this.panel24.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel24.Controls.Add(this.panel27);
+            this.panel24.Controls.Add(this.lblRecuperacionCT);
+            this.panel24.Controls.Add(this.label52);
+            this.panel24.Controls.Add(this.dgvCapitalTrabajo);
+            this.panel24.Location = new System.Drawing.Point(24, 43);
+            this.panel24.Name = "panel24";
+            this.panel24.Size = new System.Drawing.Size(1128, 439);
+            this.panel24.TabIndex = 1;
+            // 
+            // panel27
+            // 
+            this.panel27.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.panel27.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel27.Controls.Add(this.lblFoo5);
+            this.panel27.Location = new System.Drawing.Point(-1, 405);
+            this.panel27.Name = "panel27";
+            this.panel27.Size = new System.Drawing.Size(1130, 33);
+            this.panel27.TabIndex = 3;
+            // 
+            // lblFoo5
+            // 
+            this.lblFoo5.AutoSize = true;
+            this.lblFoo5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFoo5.Location = new System.Drawing.Point(6, 7);
+            this.lblFoo5.Name = "lblFoo5";
+            this.lblFoo5.Size = new System.Drawing.Size(681, 16);
+            this.lblFoo5.TabIndex = 0;
+            this.lblFoo5.Text = "Info: Nombre del Proyecto: Proyecto nuevo horizonte - Horizonte del Proyecto: 5 A" +
+    "ños - Proponente: Luis Carcamo";
+            // 
+            // lblRecuperacionCT
+            // 
+            this.lblRecuperacionCT.AutoSize = true;
+            this.lblRecuperacionCT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRecuperacionCT.Location = new System.Drawing.Point(145, 279);
+            this.lblRecuperacionCT.Name = "lblRecuperacionCT";
+            this.lblRecuperacionCT.Size = new System.Drawing.Size(39, 16);
+            this.lblRecuperacionCT.TabIndex = 2;
+            this.lblRecuperacionCT.Text = "3,600";
+            // 
+            // label52
+            // 
+            this.label52.AutoSize = true;
+            this.label52.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label52.Location = new System.Drawing.Point(25, 279);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(117, 16);
+            this.label52.TabIndex = 1;
+            this.label52.Text = "Recuperación CT:";
+            // 
+            // dgvCapitalTrabajo
+            // 
+            this.dgvCapitalTrabajo.AllowUserToAddRows = false;
+            this.dgvCapitalTrabajo.AllowUserToDeleteRows = false;
+            this.dgvCapitalTrabajo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCapitalTrabajo.Location = new System.Drawing.Point(25, 27);
+            this.dgvCapitalTrabajo.Name = "dgvCapitalTrabajo";
+            this.dgvCapitalTrabajo.Size = new System.Drawing.Size(1081, 219);
+            this.dgvCapitalTrabajo.TabIndex = 0;
+            // 
+            // panel23
+            // 
+            this.panel23.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.panel23.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel23.Controls.Add(this.label51);
+            this.panel23.Location = new System.Drawing.Point(24, 18);
+            this.panel23.Name = "panel23";
+            this.panel23.Size = new System.Drawing.Size(1128, 27);
+            this.panel23.TabIndex = 0;
+            // 
+            // label51
+            // 
+            this.label51.AutoSize = true;
+            this.label51.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label51.Location = new System.Drawing.Point(4, 5);
+            this.label51.Name = "label51";
+            this.label51.Size = new System.Drawing.Size(123, 16);
+            this.label51.TabIndex = 0;
+            this.label51.Text = "Capital del Trabajo";
+            // 
+            // depreciaciones
+            // 
+            this.depreciaciones.BackColor = System.Drawing.Color.Honeydew;
+            this.depreciaciones.Controls.Add(this.panel26);
+            this.depreciaciones.Controls.Add(this.panel25);
+            this.depreciaciones.Location = new System.Drawing.Point(4, 22);
+            this.depreciaciones.Name = "depreciaciones";
+            this.depreciaciones.Size = new System.Drawing.Size(1178, 515);
+            this.depreciaciones.TabIndex = 11;
+            this.depreciaciones.Text = "Depreciaciones";
+            // 
+            // panel26
+            // 
+            this.panel26.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel26.Controls.Add(this.panel28);
+            this.panel26.Controls.Add(this.btnGuardarDep);
+            this.panel26.Controls.Add(this.btnVerResumenDep);
+            this.panel26.Controls.Add(this.label58);
+            this.panel26.Controls.Add(this.dataGridView3);
+            this.panel26.Controls.Add(this.label56);
+            this.panel26.Controls.Add(this.dataGridView2);
+            this.panel26.Location = new System.Drawing.Point(24, 43);
+            this.panel26.Name = "panel26";
+            this.panel26.Size = new System.Drawing.Size(1128, 439);
+            this.panel26.TabIndex = 1;
+            // 
+            // panel28
+            // 
+            this.panel28.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.panel28.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel28.Controls.Add(this.lblFoo6);
+            this.panel28.Location = new System.Drawing.Point(-1, 405);
+            this.panel28.Name = "panel28";
+            this.panel28.Size = new System.Drawing.Size(1130, 33);
+            this.panel28.TabIndex = 6;
+            // 
+            // lblFoo6
+            // 
+            this.lblFoo6.AutoSize = true;
+            this.lblFoo6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFoo6.Location = new System.Drawing.Point(6, 7);
+            this.lblFoo6.Name = "lblFoo6";
+            this.lblFoo6.Size = new System.Drawing.Size(681, 16);
+            this.lblFoo6.TabIndex = 0;
+            this.lblFoo6.Text = "Info: Nombre del Proyecto: Proyecto nuevo horizonte - Horizonte del Proyecto: 5 A" +
+    "ños - Proponente: Luis Carcamo";
+            // 
+            // btnGuardarDep
+            // 
+            this.btnGuardarDep.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardarDep.Image")));
+            this.btnGuardarDep.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnGuardarDep.Location = new System.Drawing.Point(918, 356);
+            this.btnGuardarDep.Name = "btnGuardarDep";
+            this.btnGuardarDep.Size = new System.Drawing.Size(75, 23);
+            this.btnGuardarDep.TabIndex = 5;
+            this.btnGuardarDep.Text = "Guardar";
+            this.btnGuardarDep.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnGuardarDep.UseVisualStyleBackColor = true;
+            this.btnGuardarDep.Click += new System.EventHandler(this.btnGuardarDep_Click);
+            // 
+            // btnVerResumenDep
+            // 
+            this.btnVerResumenDep.Image = ((System.Drawing.Image)(resources.GetObject("btnVerResumenDep.Image")));
+            this.btnVerResumenDep.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnVerResumenDep.Location = new System.Drawing.Point(1012, 356);
+            this.btnVerResumenDep.Name = "btnVerResumenDep";
+            this.btnVerResumenDep.Size = new System.Drawing.Size(96, 23);
+            this.btnVerResumenDep.TabIndex = 4;
+            this.btnVerResumenDep.Text = "Ver Resumen";
+            this.btnVerResumenDep.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnVerResumenDep.UseVisualStyleBackColor = true;
+            // 
+            // label58
+            // 
+            this.label58.AutoSize = true;
+            this.label58.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label58.Location = new System.Drawing.Point(34, 23);
+            this.label58.Name = "label58";
+            this.label58.Size = new System.Drawing.Size(52, 16);
+            this.label58.TabIndex = 3;
+            this.label58.Text = "Activos";
+            // 
+            // dataGridView3
+            // 
+            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView3.Location = new System.Drawing.Point(27, 221);
+            this.dataGridView3.Name = "dataGridView3";
+            this.dataGridView3.Size = new System.Drawing.Size(1079, 113);
+            this.dataGridView3.TabIndex = 2;
+            // 
+            // label56
+            // 
+            this.label56.AutoSize = true;
+            this.label56.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label56.Location = new System.Drawing.Point(35, 198);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(200, 16);
+            this.label56.TabIndex = 1;
+            this.label56.Text = "Maquinaria, Equipos y Animales";
+            // 
+            // dataGridView2
+            // 
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Location = new System.Drawing.Point(25, 46);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.Size = new System.Drawing.Size(1081, 128);
+            this.dataGridView2.TabIndex = 0;
+            // 
+            // panel25
+            // 
+            this.panel25.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.panel25.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel25.Controls.Add(this.label54);
+            this.panel25.Location = new System.Drawing.Point(24, 18);
+            this.panel25.Name = "panel25";
+            this.panel25.Size = new System.Drawing.Size(1128, 27);
+            this.panel25.TabIndex = 0;
+            // 
+            // label54
+            // 
+            this.label54.AutoSize = true;
+            this.label54.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label54.Location = new System.Drawing.Point(4, 5);
+            this.label54.Name = "label54";
+            this.label54.Size = new System.Drawing.Size(104, 16);
+            this.label54.TabIndex = 0;
+            this.label54.Text = "Depreciaciones";
+            // 
+            // financiamiento
+            // 
+            this.financiamiento.BackColor = System.Drawing.Color.Honeydew;
+            this.financiamiento.Controls.Add(this.panel30);
+            this.financiamiento.Controls.Add(this.panel29);
+            this.financiamiento.Location = new System.Drawing.Point(4, 22);
+            this.financiamiento.Name = "financiamiento";
+            this.financiamiento.Size = new System.Drawing.Size(1178, 515);
+            this.financiamiento.TabIndex = 9;
+            this.financiamiento.Text = "Financiamiento";
+            // 
+            // panel30
+            // 
+            this.panel30.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel30.Controls.Add(this.cbInteresFijo);
+            this.panel30.Controls.Add(this.label65);
+            this.panel30.Controls.Add(this.textBox2);
+            this.panel30.Controls.Add(this.textBox1);
+            this.panel30.Controls.Add(this.cbInteresVariable);
+            this.panel30.Controls.Add(this.label63);
+            this.panel30.Controls.Add(this.label62);
+            this.panel30.Controls.Add(this.button4);
+            this.panel30.Controls.Add(this.button3);
+            this.panel30.Controls.Add(this.label61);
+            this.panel30.Controls.Add(this.dataGridView4);
+            this.panel30.Controls.Add(this.panel31);
+            this.panel30.Location = new System.Drawing.Point(24, 43);
+            this.panel30.Name = "panel30";
+            this.panel30.Size = new System.Drawing.Size(1128, 439);
+            this.panel30.TabIndex = 1;
+            // 
+            // label65
+            // 
+            this.label65.AutoSize = true;
+            this.label65.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label65.Location = new System.Drawing.Point(469, 61);
+            this.label65.Name = "label65";
+            this.label65.Size = new System.Drawing.Size(98, 16);
+            this.label65.TabIndex = 12;
+            this.label65.Text = "Tipo de Interés";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(215, 79);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(199, 20);
+            this.textBox2.TabIndex = 10;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(206, 42);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(208, 20);
+            this.textBox1.TabIndex = 9;
+            // 
+            // cbInteresVariable
+            // 
+            this.cbInteresVariable.AutoSize = true;
+            this.cbInteresVariable.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.cbInteresVariable.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbInteresVariable.Location = new System.Drawing.Point(573, 42);
+            this.cbInteresVariable.Name = "cbInteresVariable";
+            this.cbInteresVariable.Size = new System.Drawing.Size(78, 20);
+            this.cbInteresVariable.TabIndex = 7;
+            this.cbInteresVariable.Text = "Variable";
+            this.cbInteresVariable.UseVisualStyleBackColor = true;
+            this.cbInteresVariable.CheckedChanged += new System.EventHandler(this.cbInteresVariable_CheckedChanged);
+            // 
+            // label63
+            // 
+            this.label63.AutoSize = true;
+            this.label63.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label63.Location = new System.Drawing.Point(41, 80);
+            this.label63.Name = "label63";
+            this.label63.Size = new System.Drawing.Size(168, 16);
+            this.label63.TabIndex = 6;
+            this.label63.Text = "Tiempo de Financiamiento";
+            // 
+            // label62
+            // 
+            this.label62.AutoSize = true;
+            this.label62.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label62.Location = new System.Drawing.Point(42, 42);
+            this.label62.Name = "label62";
+            this.label62.Size = new System.Drawing.Size(158, 16);
+            this.label62.TabIndex = 5;
+            this.label62.Text = "Monto de Financiamiento";
+            // 
+            // button4
+            // 
+            this.button4.Image = ((System.Drawing.Image)(resources.GetObject("button4.Image")));
+            this.button4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button4.Location = new System.Drawing.Point(907, 356);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.TabIndex = 4;
+            this.button4.Text = "Guardar";
+            this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Image = ((System.Drawing.Image)(resources.GetObject("button3.Image")));
+            this.button3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button3.Location = new System.Drawing.Point(1001, 356);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(99, 23);
+            this.button3.TabIndex = 3;
+            this.button3.Text = "Ver Resumen";
+            this.button3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // label61
+            // 
+            this.label61.AutoSize = true;
+            this.label61.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label61.Location = new System.Drawing.Point(45, 142);
+            this.label61.Name = "label61";
+            this.label61.Size = new System.Drawing.Size(168, 16);
+            this.label61.TabIndex = 2;
+            this.label61.Text = "Amortización del Préstamo";
+            // 
+            // dataGridView4
+            // 
+            this.dataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView4.Location = new System.Drawing.Point(27, 172);
+            this.dataGridView4.Name = "dataGridView4";
+            this.dataGridView4.Size = new System.Drawing.Size(1072, 164);
+            this.dataGridView4.TabIndex = 1;
+            // 
+            // panel31
+            // 
+            this.panel31.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.panel31.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel31.Controls.Add(this.lblFoo7);
+            this.panel31.Location = new System.Drawing.Point(-1, 405);
+            this.panel31.Name = "panel31";
+            this.panel31.Size = new System.Drawing.Size(1130, 33);
+            this.panel31.TabIndex = 0;
+            // 
+            // lblFoo7
+            // 
+            this.lblFoo7.AutoSize = true;
+            this.lblFoo7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFoo7.Location = new System.Drawing.Point(6, 7);
+            this.lblFoo7.Name = "lblFoo7";
+            this.lblFoo7.Size = new System.Drawing.Size(681, 16);
+            this.lblFoo7.TabIndex = 0;
+            this.lblFoo7.Text = "Info: Nombre del Proyecto: Proyecto nuevo horizonte - Horizonte del Proyecto: 5 A" +
+    "ños - Proponente: Luis Carcamo";
+            // 
+            // panel29
+            // 
+            this.panel29.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.panel29.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel29.Controls.Add(this.label59);
+            this.panel29.Location = new System.Drawing.Point(24, 18);
+            this.panel29.Name = "panel29";
+            this.panel29.Size = new System.Drawing.Size(1128, 27);
+            this.panel29.TabIndex = 0;
+            // 
+            // label59
+            // 
+            this.label59.AutoSize = true;
+            this.label59.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label59.Location = new System.Drawing.Point(4, 5);
+            this.label59.Name = "label59";
+            this.label59.Size = new System.Drawing.Size(178, 16);
+            this.label59.TabIndex = 0;
+            this.label59.Text = "Financiamiento del Proyecto";
+            // 
+            // flujoCaja
+            // 
+            this.flujoCaja.BackColor = System.Drawing.Color.Honeydew;
+            this.flujoCaja.Controls.Add(this.label60);
+            this.flujoCaja.Controls.Add(this.dataGridView5);
+            this.flujoCaja.Location = new System.Drawing.Point(4, 22);
+            this.flujoCaja.Name = "flujoCaja";
+            this.flujoCaja.Size = new System.Drawing.Size(1178, 515);
+            this.flujoCaja.TabIndex = 12;
+            this.flujoCaja.Text = "Flujo de Caja";
+            // 
+            // label60
+            // 
+            this.label60.AutoSize = true;
+            this.label60.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label60.Location = new System.Drawing.Point(41, 105);
+            this.label60.Name = "label60";
+            this.label60.Size = new System.Drawing.Size(107, 16);
+            this.label60.TabIndex = 1;
+            this.label60.Text = "Flujo de Efectivo";
+            // 
+            // dataGridView5
+            // 
+            this.dataGridView5.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView5.Location = new System.Drawing.Point(30, 130);
+            this.dataGridView5.Name = "dataGridView5";
+            this.dataGridView5.Size = new System.Drawing.Size(240, 150);
+            this.dataGridView5.TabIndex = 0;
             // 
             // resumenProyecto
             // 
@@ -2179,61 +2724,16 @@
             // 
             this.unidadMedidaDataBindingSource.DataSource = typeof(UCR.Negotium.DataAccess.UnidadMedidaData);
             // 
-            // DescripcionReinversion
+            // cbInteresFijo
             // 
-            this.DescripcionReinversion.DataPropertyName = "Descripcion";
-            this.DescripcionReinversion.HeaderText = "Descripción";
-            this.DescripcionReinversion.Name = "DescripcionReinversion";
-            this.DescripcionReinversion.Width = 208;
-            // 
-            // CantidadReinversion
-            // 
-            this.CantidadReinversion.DataPropertyName = "Cantidad";
-            this.CantidadReinversion.HeaderText = "Cantidad";
-            this.CantidadReinversion.Name = "CantidadReinversion";
-            // 
-            // CostoUnitarioReinversion
-            // 
-            this.CostoUnitarioReinversion.DataPropertyName = "CostoUnitario";
-            this.CostoUnitarioReinversion.HeaderText = "Costo unitario";
-            this.CostoUnitarioReinversion.Name = "CostoUnitarioReinversion";
-            this.CostoUnitarioReinversion.Width = 130;
-            // 
-            // unidadMedidaRe
-            // 
-            this.unidadMedidaRe.HeaderText = "Unidad Medida";
-            this.unidadMedidaRe.Name = "unidadMedidaRe";
-            // 
-            // DepreciableReinversion
-            // 
-            this.DepreciableReinversion.DataPropertyName = "Depreciable";
-            this.DepreciableReinversion.HeaderText = "Depreciable";
-            this.DepreciableReinversion.Name = "DepreciableReinversion";
-            this.DepreciableReinversion.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.DepreciableReinversion.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // vidaUtilRe
-            // 
-            this.vidaUtilRe.DataPropertyName = "vidaUtilRe";
-            this.vidaUtilRe.HeaderText = "Vida útil";
-            this.vidaUtilRe.Name = "vidaUtilRe";
-            // 
-            // AnoReinversion
-            // 
-            this.AnoReinversion.DataPropertyName = "AnoReinversion";
-            this.AnoReinversion.HeaderText = "Año reinversión";
-            this.AnoReinversion.Name = "AnoReinversion";
-            this.AnoReinversion.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.AnoReinversion.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.AnoReinversion.Width = 120;
-            // 
-            // SubtotalReinversion
-            // 
-            this.SubtotalReinversion.DataPropertyName = "Subtotal";
-            this.SubtotalReinversion.HeaderText = "Subtotal";
-            this.SubtotalReinversion.Name = "SubtotalReinversion";
-            this.SubtotalReinversion.ReadOnly = true;
-            this.SubtotalReinversion.Width = 180;
+            this.cbInteresFijo.AutoSize = true;
+            this.cbInteresFijo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbInteresFijo.Location = new System.Drawing.Point(573, 79);
+            this.cbInteresFijo.Name = "cbInteresFijo";
+            this.cbInteresFijo.Size = new System.Drawing.Size(49, 20);
+            this.cbInteresFijo.TabIndex = 13;
+            this.cbInteresFijo.Text = "Fijo";
+            this.cbInteresFijo.UseVisualStyleBackColor = true;
             // 
             // RegistrarProyecto
             // 
@@ -2311,6 +2811,34 @@
             this.panel22.ResumeLayout(false);
             this.panel22.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCostosGenerados)).EndInit();
+            this.capitalTrabajo.ResumeLayout(false);
+            this.panel24.ResumeLayout(false);
+            this.panel24.PerformLayout();
+            this.panel27.ResumeLayout(false);
+            this.panel27.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCapitalTrabajo)).EndInit();
+            this.panel23.ResumeLayout(false);
+            this.panel23.PerformLayout();
+            this.depreciaciones.ResumeLayout(false);
+            this.panel26.ResumeLayout(false);
+            this.panel26.PerformLayout();
+            this.panel28.ResumeLayout(false);
+            this.panel28.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            this.panel25.ResumeLayout(false);
+            this.panel25.PerformLayout();
+            this.financiamiento.ResumeLayout(false);
+            this.panel30.ResumeLayout(false);
+            this.panel30.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).EndInit();
+            this.panel31.ResumeLayout(false);
+            this.panel31.PerformLayout();
+            this.panel29.ResumeLayout(false);
+            this.panel29.PerformLayout();
+            this.flujoCaja.ResumeLayout(false);
+            this.flujoCaja.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).EndInit();
             this.resumenProyecto.ResumeLayout(false);
             this.panel9.ResumeLayout(false);
             this.panel9.PerformLayout();
@@ -2504,5 +3032,46 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn vidaUtilRe;
         private System.Windows.Forms.DataGridViewComboBoxColumn AnoReinversion;
         private System.Windows.Forms.DataGridViewTextBoxColumn SubtotalReinversion;
+        private System.Windows.Forms.TabPage capitalTrabajo;
+        private System.Windows.Forms.TabPage depreciaciones;
+        private System.Windows.Forms.TabPage financiamiento;
+        private System.Windows.Forms.TabPage flujoCaja;
+        private System.Windows.Forms.Panel panel24;
+        private System.Windows.Forms.Panel panel23;
+        private System.Windows.Forms.Label label51;
+        private System.Windows.Forms.Label lblRecuperacionCT;
+        private System.Windows.Forms.Label label52;
+        private System.Windows.Forms.DataGridView dgvCapitalTrabajo;
+        private System.Windows.Forms.Panel panel26;
+        private System.Windows.Forms.DataGridView dataGridView3;
+        private System.Windows.Forms.Label label56;
+        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.Panel panel25;
+        private System.Windows.Forms.Label label54;
+        private System.Windows.Forms.Button btnGuardarDep;
+        private System.Windows.Forms.Button btnVerResumenDep;
+        private System.Windows.Forms.Label label58;
+        private System.Windows.Forms.Panel panel27;
+        private System.Windows.Forms.Label lblFoo5;
+        private System.Windows.Forms.Panel panel28;
+        private System.Windows.Forms.Label lblFoo6;
+        private System.Windows.Forms.Panel panel30;
+        private System.Windows.Forms.Panel panel31;
+        private System.Windows.Forms.Label lblFoo7;
+        private System.Windows.Forms.Panel panel29;
+        private System.Windows.Forms.Label label59;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.CheckBox cbInteresVariable;
+        private System.Windows.Forms.Label label63;
+        private System.Windows.Forms.Label label62;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label label61;
+        private System.Windows.Forms.DataGridView dataGridView4;
+        private System.Windows.Forms.Label label65;
+        private System.Windows.Forms.Label label60;
+        private System.Windows.Forms.DataGridView dataGridView5;
+        private System.Windows.Forms.CheckBox cbInteresFijo;
     }
 }

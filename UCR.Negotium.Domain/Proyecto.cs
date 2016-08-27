@@ -35,6 +35,7 @@ namespace UCR.Negotium.Domain
         List<CrecimientoOfertaObjetoInteres> crecimientosAnuales;
         List<ProyeccionVentaArticulo> proyecciones;
         List<double> ingresosGenerados; //atributo calculado
+        List<double> costosGenerados; //atributo calculado
         List<Costo> costos;
         List<VariacionAnualCosto> variacionCostos;
 
@@ -439,6 +440,40 @@ namespace UCR.Negotium.Domain
             }
 
             return listIngresos;
+        }
+
+        public List<double> CostosGenerados
+        {
+            get
+            {
+                return this.calcularCostosGenerados();
+            }
+            set
+            {
+                costosGenerados = value;
+            }
+        }
+
+        private List<double> calcularCostosGenerados()
+        {
+            double valIni = 0;
+            List<double> listCostos = new List<double>();
+            foreach (Costo articulo in this.Costos)
+            {
+                foreach (CostoMensual detArticulo in articulo.CostosMensuales)
+                {
+                    valIni = valIni + (detArticulo.Cantidad * detArticulo.CostoUnitario);
+                }
+            }
+            listCostos.Add(valIni);
+
+            for (int i = 0; i < this.VariacionCostos.Count; i++)
+            {
+                valIni = ((valIni * VariacionCostos[i].ProcentajeIncremento) / 100) + valIni;
+                listCostos.Add(valIni);
+            }
+
+            return listCostos;
         }
     }
 }

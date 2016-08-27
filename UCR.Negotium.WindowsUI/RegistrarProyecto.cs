@@ -60,6 +60,7 @@ namespace UCR.Negotium.WindowsUI
             LlenaDgvIngresosGenerados();
             LlenaDgvCostos();
             LlenaDgvCostosGenerados();
+            LlenaDgvCapitalTrabajo();
             LlenaFooter();
         }
 
@@ -713,6 +714,9 @@ namespace UCR.Negotium.WindowsUI
             lblFoo2.Text = info;
             lblFoo3.Text = info;
             lblFoo4.Text = info;
+            lblFoo5.Text = info;
+            lblFoo6.Text = info;
+            lblFoo7.Text = info;
         }
 
         /****************************************FIN METODOS PARA CARGAR COMBOBOX*************************************/
@@ -1360,6 +1364,16 @@ namespace UCR.Negotium.WindowsUI
             this.Close();
         }
 
+        private void btnVerResumenCostos_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnGuardarDep_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void LlenaDgvProyeccionesVentas()
         {
             if ((proyecto.Proyecciones != null) && (this.proyecto.Proyecciones.Count > 0))
@@ -1406,6 +1420,11 @@ namespace UCR.Negotium.WindowsUI
                 this.dgvProyeccionesVentas.DataSource = dtProyecciones;
             }//if
         }//LlenaDgvProyeccionesVentas
+
+        private void cbInteresVariable_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
 
         private void llbRegistrarCrecimientosOferta_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -1495,81 +1514,86 @@ namespace UCR.Negotium.WindowsUI
         {
             DataSet ds = new DataSet();
             ds.Tables.Add("CostosGenerados");
+            ds.Tables["CostosGenerados"].Columns.Add("titulo", Type.GetType("System.String"));
 
-            //ds.Tables["IngresosGenerados"].Columns.Add("Ingresos", Type.GetType("System.String"));
+            DataRow row = ds.Tables["CostosGenerados"].NewRow();
+            row["titulo"] = "Costos";
 
-            if (this.proyecto.VariacionCostos != null && this.proyecto.VariacionCostos.Count > 0)
+            int a = 1;
+            foreach (double costoGenerado in proyecto.CostosGenerados)
             {
-                Double val = 0;
-                ds.Tables["CostosGenerados"].Columns.Add("titulo", Type.GetType("System.String"));
-
-                DataRow row = ds.Tables["CostosGenerados"].NewRow();
-                row["titulo"] = "Costos";
-                Boolean bandera = false;
-                int a = 0;
-                for (Int32 i = 0; i < proyecto.CrecimientosAnuales.Count; i++)
-                {
-                    ds.Tables["CostosGenerados"].Columns.Add("Año " + a, Type.GetType("System.String"));
-                    //dgvIngresosGenerados.Columns["Año"+ (i+1)].HeaderText = "Año "+ (i+1);
-
-                    foreach (Costo articulo in proyecto.Costos)
-                    {
-                        foreach (CostoMensual detArticulo in articulo.CostosMensuales)
-                        {
-                            val = val + (detArticulo.Cantidad * detArticulo.CostoUnitario);
-                        }
-                    }
-
-                    if (bandera)
-                    {
-                        val = ((val * proyecto.VariacionCostos[i].ProcentajeIncremento) / 100) + val;
-                    }
-                    else if (i == 0)
-                    {
-                        i = i - 1;
-                    }
-                    bandera = true;
-
-                    //DataRow row2 = ds.Tables["IngresosGenerados"].NewRow();
-                    //row["Año"] = proyecto.CrecimientosAnuales[i].AnoCrecimiento;
-                    row["Año " + a] = "₡ " + val.ToString("#,##0.##"); ;
-
-                    a = a + 1;
-                    val = 0;
-                }//foreach
-
-                ds.Tables["CostosGenerados"].Rows.Add(row);
-
-                // Aqui realizo este cambio de index debido a que las reinversiones cargan los años de 
-                // reinversión hasta que entra por segunda vez al tab de reinversiones
-                tbxRegistrarProyecto.SelectedIndex = 5;
-                tbxRegistrarProyecto.SelectedIndex = 4;
-
-                DataTable dtCostosTotales = ds.Tables["CostosGenerados"];
-                dgvCostosGenerados.DataSource = dtCostosTotales;
-                //dgvCostosGenerados.Columns[0].HeaderText = "";
-                //dgvCostosGenerados.Columns[1].HeaderText = "Año de Inicio";
-            }//if
-
-            else
-            {
-                //List<String> anosCrecimiento = new List<String>();
-                //for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
-                //{
-                //    int anoActual = proyecto.AnoInicial + i;
-                //    anosCrecimiento.Add(anoActual.ToString());
-                //}//for
-
-                //foreach (String anoIver in anosCrecimiento)
-                //{
-                //    DataRow row = ds.Tables["IngresosGenerados"].NewRow();
-                //    row["Año"] = anoIver;
-                //    row["Ingresos"] = 0;
-                //    ds.Tables["IngresosGenerados"].Rows.Add(row);
-                //}
+                ds.Tables["CostosGenerados"].Columns.Add("Año " + a, Type.GetType("System.String"));
+                row["Año " + a] = "₡ " + costoGenerado.ToString("#,##0.##");
+                a++;
             }
-            
-        }//LlenaDgvCostosTotales
+            ds.Tables["CostosGenerados"].Rows.Add(row);
+
+            DataTable dtCostosGenerados = ds.Tables["CostosGenerados"];
+            dgvCostosGenerados.DataSource = dtCostosGenerados;
+            dgvCostosGenerados.Columns[0].HeaderText = "";
+
+        }//LlenaDgvCostosGenerados
+
+        private void LlenaDgvCapitalTrabajo()
+        {
+            DataSet ds = new DataSet();
+            ds.Tables.Add("CapitalTrabajo");
+            ds.Tables["CapitalTrabajo"].Columns.Add("Rubro", Type.GetType("System.String"));
+
+            DataRow row = ds.Tables["CapitalTrabajo"].NewRow();
+            row["Rubro"] = "Costos variables";
+            int a = 1;
+            ds.Tables["CapitalTrabajo"].Columns.Add("Año 0", Type.GetType("System.String"));
+            foreach (double costoGenerado in proyecto.CostosGenerados)
+            {
+                ds.Tables["CapitalTrabajo"].Columns.Add("Año " + a, Type.GetType("System.String"));
+                row["Año " + a] = "₡ " + costoGenerado.ToString("#,##0.##");
+                a++;
+            }
+            ds.Tables["CapitalTrabajo"].Rows.Add(row);
+
+            //llena fila de capital de trabajo
+            DataRow row2 = ds.Tables["CapitalTrabajo"].NewRow();
+            row2["Rubro"] = "Capital de trabajo";
+            int a2 = 1;
+            foreach (double costoGenerado in proyecto.CostosGenerados)
+            {
+                row2["Año " + a2] = "₡ " + ((costoGenerado / 12) * 1.5).ToString("#,##0.##");
+                a2++;
+            }
+            ds.Tables["CapitalTrabajo"].Rows.Add(row2);
+
+            //llena incremental
+
+            Double recCT = 0;
+            Double val = 0;
+            DataRow row3 = ds.Tables["CapitalTrabajo"].NewRow();
+            row3["Rubro"] = "Incremental";
+
+            val = -((proyecto.CostosGenerados[0] / 12) * 1.5);
+            row3["Año 0"] = "₡ " + (val).ToString("#,##0.##");
+            recCT = recCT + val;
+
+            int a3 = 1;
+            for (int i=1; i<proyecto.CostosGenerados.Count; i++)
+            {
+                val = ((proyecto.CostosGenerados[i] / 12) * 1.5) - ((proyecto.CostosGenerados[i - 1] / 12) * 1.5);
+                row3["Año " + a3] = "₡ " + (val).ToString("#,##0.##");
+                recCT = recCT + val;
+                a3++;
+            }
+            ds.Tables["CapitalTrabajo"].Rows.Add(row3);
+
+            // Aqui realizo este cambio de index debido a que las reinversiones cargan los años de 
+            // reinversión hasta que entra por segunda vez al tab de reinversiones
+            tbxRegistrarProyecto.SelectedIndex = 5;
+            tbxRegistrarProyecto.SelectedIndex = 4;
+
+            DataTable dtCapitalTrabajo = ds.Tables["CapitalTrabajo"];
+            dgvCapitalTrabajo.DataSource = dtCapitalTrabajo;
+
+            lblRecuperacionCT.Text = "₡ " + recCT.ToString("#,##0.##");
+        }
 
         /**************************************FIN Metodos de utilidad*****************************************/
     }//Clase registrar proyecto
