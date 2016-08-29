@@ -52,6 +52,8 @@
     <Compile Include="DetalleProyeccionVentaData.cs" />
     <Compile Include="DistritoData.cs" />
     <Compile Include="EvaluadorData.cs" />
+    <Compile Include="FinanciamientoData.cs" />
+    <Compile Include="InteresFinanciamientoData.cs" />
     <Compile Include="ObjetoInteresData.cs" />
     <Compile Include="OrganizacionProponenteData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

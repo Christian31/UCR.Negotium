@@ -47,6 +47,8 @@
     <Compile Include="DetalleProyeccionVenta.cs" />
     <Compile Include="Distrito.cs" />
     <Compile Include="Evaluador.cs" />
+    <Compile Include="Financiamiento.cs" />
+    <Compile Include="InteresFinanciamiento.cs" />
     <Compile Include="ObjetoInteresProyecto.cs" />
     <Compile Include="OrganizacionProponente.cs" />
     <Compile Include="Proponente.cs" />

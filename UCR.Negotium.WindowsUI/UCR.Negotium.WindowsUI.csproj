@@ -52,6 +52,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -96,6 +97,12 @@
     </Compile>
     <Compile Include="GestionVariacionCostos.Designer.cs">
       <DependentUpon>GestionVariacionCostos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InteresFinanciamientoUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InteresFinanciamientoUI.Designer.cs">
+      <DependentUpon>InteresFinanciamientoUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
@@ -149,6 +156,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GestionVariacionCostos.resx">
       <DependentUpon>GestionVariacionCostos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InteresFinanciamientoUI.resx">
+      <DependentUpon>InteresFinanciamientoUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>

@@ -1421,9 +1421,29 @@ namespace UCR.Negotium.WindowsUI
             }//if
         }//LlenaDgvProyeccionesVentas
 
-        private void cbInteresVariable_CheckedChanged(object sender, EventArgs e)
+        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            int iSelectedIndex = checkedListBox1.SelectedIndex;
+            if (iSelectedIndex == -1) { return; }
 
+            for (int iIndex = 0; iIndex < checkedListBox1.Items.Count; iIndex++)
+            { 
+                checkedListBox1.SetItemCheckState(iIndex, CheckState.Unchecked);
+                checkedListBox1.SetItemCheckState(iSelectedIndex, CheckState.Checked);
+            }
+
+            int tiempo = Convert.ToInt32(nudTiempoFinanciamiento.Value);
+
+            mostrarMensajeSeguridad = false;
+            InteresFinanciamientoUI gestionCrecimientoOferta = new InteresFinanciamientoUI(evaluador, proyecto, iSelectedIndex, tiempo);
+            gestionCrecimientoOferta.MdiParent = this.MdiParent;
+            gestionCrecimientoOferta.Show();
+            this.Close();
+        }
+
+        private void btnGuardarFinanciamiento_Click(object sender, EventArgs e)
+        {
+            Llenadgvnanciamiento();
         }
 
         private void llbRegistrarCrecimientosOferta_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1595,6 +1615,42 @@ namespace UCR.Negotium.WindowsUI
             lblRecuperacionCT.Text = "₡ " + recCT.ToString("#,##0.##");
         }
 
+        private void Llenadgvnanciamiento()
+        {
+            double monto = Convert.ToInt32(tbMontoFinanciamiento.Text);
+            int tiempo = proyecto.Financiamiento.TiempoFinanciamiento;
+            List<InteresFinanciamiento> intereses = new List<InteresFinanciamiento>();
+            intereses = proyecto.InteresesFinanciamiento;
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add("AmortizacionPrestamo");
+            ds.Tables["AmortizacionPrestamo"].Columns.Add("titulo1", Type.GetType("System.String"));
+            ds.Tables["AmortizacionPrestamo"].Columns.Add("titulo2", Type.GetType("System.String"));
+            ds.Tables["AmortizacionPrestamo"].Columns.Add("titulo3", Type.GetType("System.String"));
+            ds.Tables["AmortizacionPrestamo"].Columns.Add("titulo4", Type.GetType("System.String"));
+
+            for (int i = 0; i < tiempo; i++) {
+                DataRow row1 = ds.Tables["AmortizacionPrestamo"].NewRow();
+                row1["titulo1"] = monto;
+
+                double cuota = (Math.Pow(monto * intereses[i].PorcentajeInteresFinanciamiento * (1 + intereses[i].PorcentajeInteresFinanciamiento), tiempo)) / (1 + Math.Pow(intereses[i].PorcentajeInteresFinanciamiento, tiempo - 1));
+                row1["titulo2"] = cuota;
+
+                double interes = monto * intereses[i].PorcentajeInteresFinanciamiento;
+                row1["titulo3"] = interes;
+
+                double amortizacion = monto - interes;
+                row1["titulo4"] = amortizacion;
+
+                ds.Tables["AmortizacionPrestamo"].Rows.Add(row1);
+
+                monto = monto - amortizacion;
+            }
+            DataTable dtCostosGenerados = ds.Tables["AmortizacionPrestamo"];
+            dgvFinanciamiento.DataSource = dtCostosGenerados;
+            dgvFinanciamiento.Columns[0].HeaderText = "";
+
+        }
         /**************************************FIN Metodos de utilidad*****************************************/
     }//Clase registrar proyecto
 }//namespace

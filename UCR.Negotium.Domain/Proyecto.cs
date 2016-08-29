@@ -38,6 +38,8 @@ namespace UCR.Negotium.Domain
         List<double> costosGenerados; //atributo calculado
         List<Costo> costos;
         List<VariacionAnualCosto> variacionCostos;
+        private List<InteresFinanciamiento> interesesFinanciamiento;
+        Financiamiento financiamiento;
 
         public Proyecto()
         {
@@ -56,6 +58,8 @@ namespace UCR.Negotium.Domain
             this.IngresosGenerados = new List<double>();
             this.costos = new List<Costo>();
             this.variacionCostos = new List<VariacionAnualCosto>();
+            this.interesesFinanciamiento = new List<InteresFinanciamiento>();
+            Financiamiento = new Financiamiento();
         }
 
         public int CodProyecto
@@ -451,6 +455,32 @@ namespace UCR.Negotium.Domain
             set
             {
                 costosGenerados = value;
+            }
+        }
+
+        public List<InteresFinanciamiento> InteresesFinanciamiento
+        {
+            get
+            {
+                return interesesFinanciamiento;
+            }
+
+            set
+            {
+                interesesFinanciamiento = value;
+            }
+        }
+
+        public Financiamiento Financiamiento
+        {
+            get
+            {
+                return financiamiento;
+            }
+
+            set
+            {
+                financiamiento = value;
             }
         }
 
