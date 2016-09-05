@@ -38,8 +38,10 @@ namespace UCR.Negotium.Domain
         List<double> costosGenerados; //atributo calculado
         List<Costo> costos;
         List<VariacionAnualCosto> variacionCostos;
-        private List<InteresFinanciamiento> interesesFinanciamiento;
-        Financiamiento financiamiento;
+        private List<InteresFinanciamiento> interesesFinanciamientoIV;
+        Financiamiento financiamientoIV;
+        private InteresFinanciamiento interesFinanciamientoIF;
+        Financiamiento financiamientoIF;
 
         public Proyecto()
         {
@@ -58,8 +60,10 @@ namespace UCR.Negotium.Domain
             this.IngresosGenerados = new List<double>();
             this.costos = new List<Costo>();
             this.variacionCostos = new List<VariacionAnualCosto>();
-            this.interesesFinanciamiento = new List<InteresFinanciamiento>();
-            Financiamiento = new Financiamiento();
+            this.interesesFinanciamientoIV = new List<InteresFinanciamiento>();
+            interesFinanciamientoIF = new InteresFinanciamiento();
+            financiamientoIV = new Financiamiento();
+            financiamientoIF = new Financiamiento();
         }
 
         public int CodProyecto
@@ -462,12 +466,12 @@ namespace UCR.Negotium.Domain
         {
             get
             {
-                return interesesFinanciamiento;
+                return interesesFinanciamientoIV;
             }
 
             set
             {
-                interesesFinanciamiento = value;
+                interesesFinanciamientoIV = value;
             }
         }
 
@@ -475,12 +479,38 @@ namespace UCR.Negotium.Domain
         {
             get
             {
-                return financiamiento;
+                return financiamientoIV;
             }
 
             set
             {
-                financiamiento = value;
+                financiamientoIV = value;
+            }
+        }
+
+        public InteresFinanciamiento InteresFinanciamientoIF
+        {
+            get
+            {
+                return interesFinanciamientoIF;
+            }
+
+            set
+            {
+                interesFinanciamientoIF = value;
+            }
+        }
+
+        public Financiamiento FinanciamientoIF
+        {
+            get
+            {
+                return financiamientoIF;
+            }
+
+            set
+            {
+                financiamientoIF = value;
             }
         }
 

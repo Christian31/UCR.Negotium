@@ -202,12 +202,12 @@
             this.label54 = new System.Windows.Forms.Label();
             this.financiamiento = new System.Windows.Forms.TabPage();
             this.panel30 = new System.Windows.Forms.Panel();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tcFinanciamiento = new System.Windows.Forms.TabControl();
             this.tpInteresFijo = new System.Windows.Forms.TabPage();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.tbMontoFinanciamientoIF = new System.Windows.Forms.TextBox();
+            this.nupTiempoFinanciamientoIF = new System.Windows.Forms.NumericUpDown();
+            this.nupPorcentajeInteresIF = new System.Windows.Forms.NumericUpDown();
+            this.dgvFinanciamientoIF = new System.Windows.Forms.DataGridView();
             this.label63 = new System.Windows.Forms.Label();
             this.label62 = new System.Windows.Forms.Label();
             this.label61 = new System.Windows.Forms.Label();
@@ -310,11 +310,11 @@
             this.panel25.SuspendLayout();
             this.financiamiento.SuspendLayout();
             this.panel30.SuspendLayout();
-            this.tabControl1.SuspendLayout();
+            this.tcFinanciamiento.SuspendLayout();
             this.tpInteresFijo.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupTiempoFinanciamientoIF)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupPorcentajeInteresIF)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFinanciamientoIF)).BeginInit();
             this.tpInteresVariable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
@@ -2200,35 +2200,36 @@
             // panel30
             // 
             this.panel30.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel30.Controls.Add(this.tabControl1);
+            this.panel30.Controls.Add(this.tcFinanciamiento);
             this.panel30.Controls.Add(this.panel31);
             this.panel30.Location = new System.Drawing.Point(24, 43);
             this.panel30.Name = "panel30";
             this.panel30.Size = new System.Drawing.Size(1128, 439);
             this.panel30.TabIndex = 1;
             // 
-            // tabControl1
+            // tcFinanciamiento
             // 
-            this.tabControl1.Controls.Add(this.tpInteresFijo);
-            this.tabControl1.Controls.Add(this.tpInteresVariable);
-            this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabControl1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.tabControl1.ItemSize = new System.Drawing.Size(562, 30);
-            this.tabControl1.Location = new System.Drawing.Point(-1, -1);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1128, 411);
-            this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-            this.tabControl1.TabIndex = 5;
+            this.tcFinanciamiento.Controls.Add(this.tpInteresFijo);
+            this.tcFinanciamiento.Controls.Add(this.tpInteresVariable);
+            this.tcFinanciamiento.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tcFinanciamiento.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.tcFinanciamiento.ItemSize = new System.Drawing.Size(562, 30);
+            this.tcFinanciamiento.Location = new System.Drawing.Point(-1, -1);
+            this.tcFinanciamiento.Name = "tcFinanciamiento";
+            this.tcFinanciamiento.SelectedIndex = 0;
+            this.tcFinanciamiento.Size = new System.Drawing.Size(1128, 411);
+            this.tcFinanciamiento.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            this.tcFinanciamiento.TabIndex = 5;
+            this.tcFinanciamiento.SelectedIndexChanged += new System.EventHandler(this.tcFinanciamiento_SelectedIndexChanged);
             // 
             // tpInteresFijo
             // 
             this.tpInteresFijo.BackColor = System.Drawing.Color.Honeydew;
             this.tpInteresFijo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tpInteresFijo.Controls.Add(this.textBox1);
-            this.tpInteresFijo.Controls.Add(this.numericUpDown2);
-            this.tpInteresFijo.Controls.Add(this.numericUpDown1);
-            this.tpInteresFijo.Controls.Add(this.dataGridView1);
+            this.tpInteresFijo.Controls.Add(this.tbMontoFinanciamientoIF);
+            this.tpInteresFijo.Controls.Add(this.nupTiempoFinanciamientoIF);
+            this.tpInteresFijo.Controls.Add(this.nupPorcentajeInteresIF);
+            this.tpInteresFijo.Controls.Add(this.dgvFinanciamientoIF);
             this.tpInteresFijo.Controls.Add(this.label63);
             this.tpInteresFijo.Controls.Add(this.label62);
             this.tpInteresFijo.Controls.Add(this.label61);
@@ -2241,42 +2242,52 @@
             this.tpInteresFijo.TabIndex = 0;
             this.tpInteresFijo.Text = "Financiamiento con interés fijo";
             // 
-            // textBox1
+            // tbMontoFinanciamientoIF
             // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(160, 44);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(160, 21);
-            this.textBox1.TabIndex = 12;
+            this.tbMontoFinanciamientoIF.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbMontoFinanciamientoIF.Location = new System.Drawing.Point(160, 44);
+            this.tbMontoFinanciamientoIF.Name = "tbMontoFinanciamientoIF";
+            this.tbMontoFinanciamientoIF.Size = new System.Drawing.Size(160, 21);
+            this.tbMontoFinanciamientoIF.TabIndex = 12;
+            this.tbMontoFinanciamientoIF.TextChanged += new System.EventHandler(this.tbMontoFinanciamientoIF_TextChanged);
             // 
-            // numericUpDown2
+            // nupTiempoFinanciamientoIF
             // 
-            this.numericUpDown2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericUpDown2.Location = new System.Drawing.Point(460, 44);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(120, 21);
-            this.numericUpDown2.TabIndex = 11;
-            this.numericUpDown2.Value = new decimal(new int[] {
+            this.nupTiempoFinanciamientoIF.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nupTiempoFinanciamientoIF.Location = new System.Drawing.Point(460, 44);
+            this.nupTiempoFinanciamientoIF.Name = "nupTiempoFinanciamientoIF";
+            this.nupTiempoFinanciamientoIF.Size = new System.Drawing.Size(120, 21);
+            this.nupTiempoFinanciamientoIF.TabIndex = 11;
+            this.nupTiempoFinanciamientoIF.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
+            this.nupTiempoFinanciamientoIF.ValueChanged += new System.EventHandler(this.nupTiempoFinanciamientoIF_ValueChanged);
             // 
-            // numericUpDown1
+            // nupPorcentajeInteresIF
             // 
-            this.numericUpDown1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericUpDown1.Location = new System.Drawing.Point(809, 44);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(163, 21);
-            this.numericUpDown1.TabIndex = 10;
+            this.nupPorcentajeInteresIF.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nupPorcentajeInteresIF.Location = new System.Drawing.Point(809, 44);
+            this.nupPorcentajeInteresIF.Name = "nupPorcentajeInteresIF";
+            this.nupPorcentajeInteresIF.Size = new System.Drawing.Size(163, 21);
+            this.nupPorcentajeInteresIF.TabIndex = 10;
+            this.nupPorcentajeInteresIF.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nupPorcentajeInteresIF.ValueChanged += new System.EventHandler(this.nupPorcentajeInteresIF_ValueChanged);
             // 
-            // dataGridView1
+            // dgvFinanciamientoIF
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(25, 95);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(1076, 198);
-            this.dataGridView1.TabIndex = 8;
+            this.dgvFinanciamientoIF.AllowUserToAddRows = false;
+            this.dgvFinanciamientoIF.AllowUserToDeleteRows = false;
+            this.dgvFinanciamientoIF.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvFinanciamientoIF.Location = new System.Drawing.Point(25, 95);
+            this.dgvFinanciamientoIF.Name = "dgvFinanciamientoIF";
+            this.dgvFinanciamientoIF.Size = new System.Drawing.Size(1076, 198);
+            this.dgvFinanciamientoIF.TabIndex = 8;
             // 
             // label63
             // 
@@ -2906,12 +2917,12 @@
             this.panel25.PerformLayout();
             this.financiamiento.ResumeLayout(false);
             this.panel30.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
+            this.tcFinanciamiento.ResumeLayout(false);
             this.tpInteresFijo.ResumeLayout(false);
             this.tpInteresFijo.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupTiempoFinanciamientoIF)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupPorcentajeInteresIF)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFinanciamientoIF)).EndInit();
             this.tpInteresVariable.ResumeLayout(false);
             this.tpInteresVariable.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).EndInit();
@@ -3144,13 +3155,13 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label60;
         private System.Windows.Forms.DataGridView dataGridView5;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl tcFinanciamiento;
         private System.Windows.Forms.TabPage tpInteresFijo;
         private System.Windows.Forms.TabPage tpInteresVariable;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.TextBox tbMontoFinanciamientoIF;
+        private System.Windows.Forms.NumericUpDown nupTiempoFinanciamientoIF;
+        private System.Windows.Forms.NumericUpDown nupPorcentajeInteresIF;
+        private System.Windows.Forms.DataGridView dgvFinanciamientoIF;
         private System.Windows.Forms.Label label63;
         private System.Windows.Forms.Label label62;
         private System.Windows.Forms.Label label61;

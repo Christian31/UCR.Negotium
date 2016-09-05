@@ -1421,29 +1421,8 @@ namespace UCR.Negotium.WindowsUI
             }//if
         }//LlenaDgvProyeccionesVentas
 
-        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            int iSelectedIndex = checkedListBox1.SelectedIndex;
-            if (iSelectedIndex == -1) { return; }
-
-            for (int iIndex = 0; iIndex < checkedListBox1.Items.Count; iIndex++)
-            { 
-                checkedListBox1.SetItemCheckState(iIndex, CheckState.Unchecked);
-                checkedListBox1.SetItemCheckState(iSelectedIndex, CheckState.Checked);
-            }
-
-            int tiempo = Convert.ToInt32(nudTiempoFinanciamiento.Value);
-
-            mostrarMensajeSeguridad = false;
-            InteresFinanciamientoUI gestionCrecimientoOferta = new InteresFinanciamientoUI(evaluador, proyecto, iSelectedIndex, tiempo);
-            gestionCrecimientoOferta.MdiParent = this.MdiParent;
-            gestionCrecimientoOferta.Show();
-            this.Close();
-        }
-
         private void btnGuardarFinanciamiento_Click(object sender, EventArgs e)
         {
-            Llenadgvnanciamiento();
         }
 
         private void llbRegistrarCrecimientosOferta_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1453,6 +1432,19 @@ namespace UCR.Negotium.WindowsUI
             gestionCrecimientoOferta.MdiParent = this.MdiParent;
             gestionCrecimientoOferta.Show();
             this.Close();
+        }
+
+        private void tcFinanciamiento_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int indexCb = tcFinanciamiento.SelectedIndex;
+            if (indexCb == 0)
+            {
+                LlenaDgvFinanciamientoIF();
+            }
+            else if (indexCb == 1)
+            {
+                LlenaDgvFinanciamientoIV();
+            }
         }
 
         private void LlenaDgvIngresosGenerados()
@@ -1478,6 +1470,22 @@ namespace UCR.Negotium.WindowsUI
             dgvIngresosGenerados.Columns[0].HeaderText = "";
             
         }//LlenaDgvIngresosGenerados
+
+        private void tbMontoFinanciamientoIF_TextChanged(object sender, EventArgs e)
+        {
+
+            LlenaDgvFinanciamientoIF();
+        }
+
+        private void nupTiempoFinanciamientoIF_ValueChanged(object sender, EventArgs e)
+        {
+            LlenaDgvFinanciamientoIF();
+        }
+
+        private void nupPorcentajeInteresIF_ValueChanged(object sender, EventArgs e)
+        {
+            LlenaDgvFinanciamientoIF();
+        }
 
         private void LlenaDgvCostos()
         {
@@ -1615,9 +1623,59 @@ namespace UCR.Negotium.WindowsUI
             lblRecuperacionCT.Text = "₡ " + recCT.ToString("#,##0.##");
         }
 
-        private void Llenadgvnanciamiento()
+        private void LlenaDgvFinanciamientoIF()
         {
-            double monto = Convert.ToInt32(tbMontoFinanciamiento.Text);
+            double monto = Convert.ToInt32(tbMontoFinanciamientoIF.Text);
+            int tiempo = Convert.ToInt32(nupTiempoFinanciamientoIF.Value);
+            double interesIF = Convert.ToInt32(nupPorcentajeInteresIF.Value);
+            double interesIFtemp = interesIF / 100;
+            double cuota = Math.Round((monto * interesIFtemp) / (1 - (Math.Pow((1 + interesIFtemp), (-tiempo)))), 2);
+
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add("AmortizacionPrestamo");
+            ds.Tables["AmortizacionPrestamo"].Columns.Add("titulo1", Type.GetType("System.String"));
+            ds.Tables["AmortizacionPrestamo"].Columns.Add("titulo2", Type.GetType("System.String"));
+            ds.Tables["AmortizacionPrestamo"].Columns.Add("titulo3", Type.GetType("System.String"));
+            ds.Tables["AmortizacionPrestamo"].Columns.Add("titulo4", Type.GetType("System.String"));
+
+            for (int i = 0; i <= tiempo; i++)
+            {
+                DataRow row1 = ds.Tables["AmortizacionPrestamo"].NewRow();
+                row1["titulo1"] = monto;
+                
+                //SRC TODO BORRAR
+                //tmp = Math.pow((1 + (apr / 100)), (-n)); //POTENCIA
+                //tmpd = 1 - tmp;
+                //tmpn = amount * (apr / 100);
+                //payment = tmpn / tmpd;  //CALCULO CUOTA
+                //((1+(apr/100)), (-n))
+                
+                row1["titulo2"] = cuota;
+
+                double interes = Math.Round((monto * interesIFtemp), 2);
+                row1["titulo3"] = interes;
+
+                double amortizacion = Math.Round(cuota - interes, 2);
+                row1["titulo4"] = amortizacion;
+
+                ds.Tables["AmortizacionPrestamo"].Rows.Add(row1);
+
+                monto = Math.Round((monto - amortizacion), 2);
+                if (monto < 1)
+                {
+                    monto = 0;
+                }
+            }
+            DataTable dtCostosGenerados = ds.Tables["AmortizacionPrestamo"];
+            dgvFinanciamientoIF.DataSource = dtCostosGenerados;
+            dgvFinanciamientoIF.Columns[0].HeaderText = "";
+
+        }
+
+        private void LlenaDgvFinanciamientoIV()
+        {
+            double monto = Convert.ToInt32(tbMontoFinanciamientoIF.Text);
             int tiempo = proyecto.Financiamiento.TiempoFinanciamiento;
             List<InteresFinanciamiento> intereses = new List<InteresFinanciamiento>();
             intereses = proyecto.InteresesFinanciamiento;
@@ -1629,7 +1687,8 @@ namespace UCR.Negotium.WindowsUI
             ds.Tables["AmortizacionPrestamo"].Columns.Add("titulo3", Type.GetType("System.String"));
             ds.Tables["AmortizacionPrestamo"].Columns.Add("titulo4", Type.GetType("System.String"));
 
-            for (int i = 0; i < tiempo; i++) {
+            for (int i = 0; i < tiempo; i++)
+            {
                 DataRow row1 = ds.Tables["AmortizacionPrestamo"].NewRow();
                 row1["titulo1"] = monto;
 
@@ -1647,8 +1706,8 @@ namespace UCR.Negotium.WindowsUI
                 monto = monto - amortizacion;
             }
             DataTable dtCostosGenerados = ds.Tables["AmortizacionPrestamo"];
-            dgvFinanciamiento.DataSource = dtCostosGenerados;
-            dgvFinanciamiento.Columns[0].HeaderText = "";
+            dgvFinanciamientoIF.DataSource = dtCostosGenerados;
+            dgvFinanciamientoIF.Columns[0].HeaderText = "";
 
         }
         /**************************************FIN Metodos de utilidad*****************************************/
