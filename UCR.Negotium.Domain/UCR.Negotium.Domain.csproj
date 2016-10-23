@@ -44,6 +44,7 @@
     <Compile Include="Costo.cs" />
     <Compile Include="CostoMensual.cs" />
     <Compile Include="CrecimientoOfertaObjetoInteres.cs" />
+    <Compile Include="Depreciacion.cs" />
     <Compile Include="DetalleProyeccionVenta.cs" />
     <Compile Include="Distrito.cs" />
     <Compile Include="Evaluador.cs" />

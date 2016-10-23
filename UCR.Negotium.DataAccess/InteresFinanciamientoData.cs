@@ -23,14 +23,15 @@ namespace UCR.Negotium.DataAccess
 
         public bool InsertarInteresFinanciamiento(InteresFinanciamiento intFinanciamiento, int codProyecto)
         {
-            String insert = "INSERT INTO INTERES_FINANCIAMIENTO(cod_proyecto, porcentaje_interes_financiamiento)" +
-                "VALUES(?,?)";
+            String insert = "INSERT INTO INTERES_FINANCIAMIENTO(cod_proyecto, porcentaje_interes_financiamiento, variable_interes)" +
+                "VALUES(?,?,?)";
             if (conexion.State != ConnectionState.Open)
                 conexion.Open();
             SQLiteCommand command = conexion.CreateCommand();
             command.CommandText = insert;
             command.Parameters.AddWithValue("cod_proyecto", codProyecto);
             command.Parameters.AddWithValue("porcentaje_interes_financiamiento", intFinanciamiento.PorcentajeInteresFinanciamiento);
+            command.Parameters.AddWithValue("variable_intereses", intFinanciamiento.VariableInteres);
             // Ejecutamos la sentencia INSERT y cerramos la conexión
             if (command.ExecuteNonQuery() != -1)
             {
@@ -44,25 +45,31 @@ namespace UCR.Negotium.DataAccess
             }//else
         }//InsertarInteresFinanciamiento
 
-        public DataTable GetInteresesFinanciamiento(int codProyecto)
+        public List<InteresFinanciamiento> GetInteresesFinanciamiento(int codProyecto, int variable)
         {
-            SQLiteCommand command = conexion.CreateCommand();
+            command = conexion.CreateCommand();
             List<InteresFinanciamiento> listaInteresesFinanciamiento = new List<InteresFinanciamiento>();
             try
             {
-                String select = "SELECT * FROM INTERESES_FINANCIAMIENTO WHERE cod_proyecto=" + codProyecto + ";";
+                String select = "SELECT * FROM INTERES_FINANCIAMIENTO"+
+                    " WHERE cod_proyecto=" + codProyecto + " AND variable_interes=" + variable + ";";
 
                 if (conexion.State != ConnectionState.Open)
                     conexion.Open();
 
                 command.CommandText = select;
-                SQLiteDataAdapter daIntereses = new SQLiteDataAdapter();
-                daIntereses.SelectCommand = new SQLiteCommand(select, conexion);
-                DataSet dsIntereses = new DataSet();
-                daIntereses.Fill(dsIntereses, "InteresesFinanciamiento");
-                DataTable dtIntereses = dsIntereses.Tables["InteresesFinanciamiento"];
+                SQLiteDataReader reader = command.ExecuteReader();
+                InteresFinanciamiento interes = null;
+                while (reader.Read())
+                {
+                    interes = new InteresFinanciamiento();
+                    interes.CodInteresFinanciamiento = reader.GetInt32(0);
+                    interes.PorcentajeInteresFinanciamiento = reader.GetDouble(2);
+                    interes.VariableInteres = reader.GetBoolean(3);
+                    listaInteresesFinanciamiento.Add(interes);
+                }//if
                 conexion.Close();
-                return dtIntereses;
+                return listaInteresesFinanciamiento;
             }//try
             catch
             {

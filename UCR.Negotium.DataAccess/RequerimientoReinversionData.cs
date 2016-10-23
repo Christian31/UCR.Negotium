@@ -27,8 +27,8 @@ namespace UCR.Negotium.DataAccess
             Object newProdID;
             String insert = "INSERT INTO REQUERIMIENTO_REINVERSION(ano_reinversion," +
                 " descripcion_requerimiento, cantidad, " +
-                "costo_unitario, depreciable, vida_util, cod_unidad_medida, cod_proyecto) " +
-            "VALUES(?,?,?,?,?,?,?,?); " +
+                "costo_unitario, depreciable, vida_util, cod_unidad_medida, cod_proyecto, cod_requerimiento_inversion) " +
+            "VALUES(?,?,?,?,?,?,?,?,?); " +
             "SELECT last_insert_rowid();";
             if (conexion.State != ConnectionState.Open)
                 conexion.Open();
@@ -42,6 +42,7 @@ namespace UCR.Negotium.DataAccess
             command.Parameters.AddWithValue("vida_util", requerimientoReinversion.VidaUtil);
             command.Parameters.AddWithValue("cod_unidad_medida", requerimientoReinversion.UnidadMedida.CodUnidad);
             command.Parameters.AddWithValue("cod_proyecto", codProyecto);
+            command.Parameters.AddWithValue("cod_requerimiento_inversion", requerimientoReinversion.CodRequerimientoInversion);
             try
             {
                 if (conexion.State != ConnectionState.Open)
@@ -66,7 +67,7 @@ namespace UCR.Negotium.DataAccess
             {
                 String select = "SELECT r.cod_requerimiento_reinversion, ano_reinversion, descripcion_requerimiento, "+
                     "r.cantidad, r.costo_unitario, r.depreciable, r.vida_util, " +
-                    "u.cod_unidad, u.nombre_unidad " +
+                    "u.cod_unidad, u.nombre_unidad, r.cod_requerimiento_inversion " +
                     "FROM REQUERIMIENTO_REINVERSION r, UNIDAD_MEDIDA u " +
                     "WHERE r.cod_proyecto = " + codProyecto +
                     " and r.cod_unidad_medida = u.cod_unidad;";
@@ -90,12 +91,13 @@ namespace UCR.Negotium.DataAccess
                     requerimiento.VidaUtil = reader.GetInt32(6);
                     requerimiento.UnidadMedida.CodUnidad = reader.GetInt32(7);
                     requerimiento.UnidadMedida.NombreUnidad = reader.GetString(8);
+                    requerimiento.CodRequerimientoInversion = reader.GetInt32(9);
                     listaRequerimientos.Add(requerimiento);
                 }//while
                 conexion.Close();
                 return listaRequerimientos;
             }//try
-            catch
+            catch (Exception ex)
             {
                 conexion.Close();
                 return listaRequerimientos;

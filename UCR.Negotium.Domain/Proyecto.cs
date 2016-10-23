@@ -9,411 +9,79 @@ namespace UCR.Negotium.Domain
 {
     public class Proyecto
     {
-        int codProyecto;
-        String nombreProyecto;
-        String resumenEjecutivo;
-        bool conIngresos; //Verdadero si es con ingresos falso si es sin ingresos
-        String descripcionPoblacionBeneficiaria;
-        String caraterizacionDelBienServicio;
-        String descripcionSostenibilidadDelProyecto;
-        String direccionExacta;
-        String justificacionDeMercado;
-        int anoInicial;
-        int horizonteEvaluacionEnAnos;
-        int demandaAnual;
-        int ofertaAnual;
-        bool pagaImpuesto;
-        double porcentajeImpuesto;
-        Evaluador evaluador;
-        Provincia provincia;
-        Canton canton;
-        Distrito distrito;
-        Proponente proponente;
-        ObjetoInteresProyecto objetoInteres;
-        List<RequerimientoInversion> requerimientosInversion;
-        List<RequerimientoReinversion> requerimientosReinversion;
-        List<CrecimientoOfertaObjetoInteres> crecimientosAnuales;
-        List<ProyeccionVentaArticulo> proyecciones;
-        List<double> ingresosGenerados; //atributo calculado
-        List<double> costosGenerados; //atributo calculado
-        List<Costo> costos;
-        List<VariacionAnualCosto> variacionCostos;
-        private List<InteresFinanciamiento> interesesFinanciamientoIV;
-        Financiamiento financiamientoIV;
-        private InteresFinanciamiento interesFinanciamientoIF;
-        Financiamiento financiamientoIF;
+        public int CodProyecto { get; set; }
+        public String NombreProyecto { get; set; }
+        public String ResumenEjecutivo { get; set; }
+        public bool ConIngresos { get; set; } //Verdadero si es con ingresos falso si es sin ingresos
+        public String DescripcionPoblacionBeneficiaria { get; set; }
+        public String CaraterizacionDelBienServicio { get; set; }
+        public String DescripcionSostenibilidadDelProyecto { get; set; }
+        public String DireccionExacta { get; set; }
+        public String JustificacionDeMercado { get; set; }
+        public int AnoInicial { get; set; }
+        public int HorizonteEvaluacionEnAnos { get; set; }
+        public int DemandaAnual { get; set; }
+        public int OfertaAnual { get; set; }
+        public bool PagaImpuesto { get; set; }
+        public double PorcentajeImpuesto { get; set; }
+        public Evaluador Evaluador { get; set; }
+        public Provincia Provincia { get; set; }
+        public Canton Canton { get; set; }
+        public Distrito Distrito { get; set; }
+        public Proponente Proponente { get; set; }
+        public ObjetoInteresProyecto ObjetoInteres { get; set; }
+        public List<RequerimientoInversion> RequerimientosInversion { get; set; }
+        public List<RequerimientoReinversion> RequerimientosReinversion { get; set; }
+        public List<CrecimientoOfertaObjetoInteres> CrecimientosAnuales { get; set; }
+        public List<ProyeccionVentaArticulo> Proyecciones { get; set; }
+        public List<Costo> Costos { get; set; }
+        public List<VariacionAnualCosto> VariacionCostos { get; set; }
+        public List<InteresFinanciamiento> InteresesFinanciamientoIV { get; set; }
+        public Financiamiento FinanciamientoIV { get; set; }
+        public InteresFinanciamiento InteresFinanciamientoIF { get; set; }
+        public Financiamiento FinanciamientoIF { get; set; }
+
+        private List<double> ingresosGenerados; //atributo calculado
+        private List<double> costosGenerados; //atributo calculado
+
+        //atributo calculado
+        //string nombre depreciacion
+        //double depreciacion
+        private List<Depreciacion> depreciaciones; 
 
         public Proyecto()
         {
             //TODO inicializar todos los proyectos
-            this.requerimientosInversion = new List<RequerimientoInversion>();
+            this.RequerimientosInversion = new List<RequerimientoInversion>();
             this.RequerimientosReinversion = new List<RequerimientoReinversion>();
-            this.evaluador = new Evaluador();
-            this.provincia = new Provincia();
-            this.canton = new Canton();
-            this.distrito = new Distrito();
-            this.proponente = new Proponente();
-            this.objetoInteres = new ObjetoInteresProyecto();
-            this.proponente.NumIdentificacion = "-1";
-            this.crecimientosAnuales = new List<CrecimientoOfertaObjetoInteres>();
-            this.proyecciones = new List<ProyeccionVentaArticulo>();
+            this.Evaluador = new Evaluador();
+            this.Provincia = new Provincia();
+            this.Canton = new Canton();
+            this.Distrito = new Distrito();
+            this.Proponente = new Proponente();
+            this.ObjetoInteres = new ObjetoInteresProyecto();
+            this.Proponente.NumIdentificacion = "-1";
+            this.CrecimientosAnuales = new List<CrecimientoOfertaObjetoInteres>();
+            this.Proyecciones = new List<ProyeccionVentaArticulo>();
             this.IngresosGenerados = new List<double>();
-            this.costos = new List<Costo>();
-            this.variacionCostos = new List<VariacionAnualCosto>();
-            this.interesesFinanciamientoIV = new List<InteresFinanciamiento>();
-            interesFinanciamientoIF = new InteresFinanciamiento();
-            financiamientoIV = new Financiamiento();
-            financiamientoIF = new Financiamiento();
+            this.Costos = new List<Costo>();
+            this.VariacionCostos = new List<VariacionAnualCosto>();
+            this.InteresesFinanciamientoIV = new List<InteresFinanciamiento>();
+            this.InteresFinanciamientoIF = new InteresFinanciamiento();
+            this.FinanciamientoIV = new Financiamiento();
+            this.FinanciamientoIF = new Financiamiento();
+            this.depreciaciones = new List<Depreciacion>();
         }
 
-        public int CodProyecto
+        public List<Depreciacion> Depreciaciones
         {
             get
             {
-                return codProyecto;
+                return this.calcularDepreciaciones();
             }
-
             set
             {
-                codProyecto = value;
-            }
-        }
-
-        public string NombreProyecto
-        {
-            get
-            {
-                return nombreProyecto;
-            }
-
-            set
-            {
-                nombreProyecto = value;
-            }
-        }
-
-        public string ResumenEjecutivo
-        {
-            get
-            {
-                return resumenEjecutivo;
-            }
-
-            set
-            {
-                resumenEjecutivo = value;
-            }
-        }
-
-        public bool ConIngresos
-        {
-            get
-            {
-                return conIngresos;
-            }
-
-            set
-            {
-                conIngresos = value;
-            }
-        }
-
-        public string DescripcionPoblacionBeneficiaria
-        {
-            get
-            {
-                return descripcionPoblacionBeneficiaria;
-            }
-
-            set
-            {
-                descripcionPoblacionBeneficiaria = value;
-            }
-        }
-
-        public string CaraterizacionDelBienServicio
-        {
-            get
-            {
-                return caraterizacionDelBienServicio;
-            }
-
-            set
-            {
-                caraterizacionDelBienServicio = value;
-            }
-        }
-
-        public string DescripcionSostenibilidadDelProyecto
-        {
-            get
-            {
-                return descripcionSostenibilidadDelProyecto;
-            }
-
-            set
-            {
-                descripcionSostenibilidadDelProyecto = value;
-            }
-        }
-
-        public string DireccionExacta
-        {
-            get
-            {
-                return direccionExacta;
-            }
-
-            set
-            {
-                direccionExacta = value;
-            }
-        }
-
-        public string JustificacionDeMercado
-        {
-            get
-            {
-                return justificacionDeMercado;
-            }
-
-            set
-            {
-                justificacionDeMercado = value;
-            }
-        }
-
-        public int AnoInicial
-        {
-            get
-            {
-                return anoInicial;
-            }
-
-            set
-            {
-                anoInicial = value;
-            }
-        }
-
-        public int HorizonteEvaluacionEnAnos
-        {
-            get
-            {
-                return horizonteEvaluacionEnAnos;
-            }
-
-            set
-            {
-                horizonteEvaluacionEnAnos = value;
-            }
-        }
-
-        public int DemandaAnual
-        {
-            get
-            {
-                return demandaAnual;
-            }
-
-            set
-            {
-                demandaAnual = value;
-            }
-        }
-
-        public int OfertaAnual
-        {
-            get
-            {
-                return ofertaAnual;
-            }
-
-            set
-            {
-                ofertaAnual = value;
-            }
-        }
-
-        public bool PagaImpuesto
-        {
-            get
-            {
-                return pagaImpuesto;
-            }
-
-            set
-            {
-                pagaImpuesto = value;
-            }
-        }
-
-        public double PorcentajeImpuesto
-        {
-            get
-            {
-                return porcentajeImpuesto;
-            }
-
-            set
-            {
-                porcentajeImpuesto = value;
-            }
-        }
-
-        public Evaluador Evaluador
-        {
-            get
-            {
-                return evaluador;
-            }
-
-            set
-            {
-                evaluador = value;
-            }
-        }
-
-        public Provincia Provincia
-        {
-            get
-            {
-                return provincia;
-            }
-
-            set
-            {
-                provincia = value;
-            }
-        }
-
-        public Canton Canton
-        {
-            get
-            {
-                return canton;
-            }
-
-            set
-            {
-                canton = value;
-            }
-        }
-
-        public Distrito Distrito
-        {
-            get
-            {
-                return distrito;
-            }
-
-            set
-            {
-                distrito = value;
-            }
-        }
-
-        public Proponente Proponente
-        {
-            get
-            {
-                return proponente;
-            }
-
-            set
-            {
-                proponente = value;
-            }
-        }
-
-        public ObjetoInteresProyecto ObjetoInteres
-        {
-            get
-            {
-                return objetoInteres;
-            }
-
-            set
-            {
-                objetoInteres = value;
-            }
-        }
-
-        public List<RequerimientoInversion> RequerimientosInversion
-        {
-            get
-            {
-                return requerimientosInversion;
-            }
-
-            set
-            {
-                requerimientosInversion = value;
-            }
-        }
-
-        public List<RequerimientoReinversion> RequerimientosReinversion
-        {
-            get
-            {
-                return requerimientosReinversion;
-            }
-
-            set
-            {
-                requerimientosReinversion = value;
-            }
-        }
-
-        public List<CrecimientoOfertaObjetoInteres> CrecimientosAnuales
-        {
-            get
-            {
-                return crecimientosAnuales;
-            }
-
-            set
-            {
-                crecimientosAnuales = value;
-            }
-        }
-
-        public List<ProyeccionVentaArticulo> Proyecciones
-        {
-            get
-            {
-                return proyecciones;
-            }
-
-            set
-            {
-                proyecciones = value;
-            }
-        }
-
-        public List<Costo> Costos
-        {
-            get
-            {
-                return costos;
-            }
-
-            set
-            {
-                costos = value;
-            }
-        }
-
-        public List<VariacionAnualCosto> VariacionCostos
-        {
-            get
-            {
-                return variacionCostos;
-            }
-
-            set
-            {
-                variacionCostos = value;
+                depreciaciones = value;
             }
         }
 
@@ -427,6 +95,117 @@ namespace UCR.Negotium.Domain
             {
                 ingresosGenerados = value;
             }
+        }
+
+        private List<Depreciacion> calcularDepreciaciones()
+        {
+            List<RequerimientoInversion> inversiones = this.RequerimientosInversion;
+            List<RequerimientoReinversion> reinversiones = this.RequerimientosReinversion;
+            List<Depreciacion> depreciaciones = new List<Depreciacion>();
+
+            foreach (RequerimientoInversion inversion in inversiones)
+            {
+                if (inversion.Depreciable && inversion.VidaUtil > 0)
+                {
+                    Depreciacion depreciacion = new Depreciacion();
+                    depreciacion.NombreDepreciacion = inversion.DescripcionRequerimiento;
+                    depreciacion.CodDepresiacion = inversion.CodRequerimientoInversion;
+                    int count = 0;
+                    while (count < this.HorizonteEvaluacionEnAnos)
+                    {
+                        if (count < inversion.VidaUtil)
+                        {
+                            depreciacion.MontoDepreciacion.Add(inversion.Depreciacion);
+                        }
+                        else
+                        {
+                            depreciacion.MontoDepreciacion.Add(0);
+                        }
+                        count++;
+                    }
+                    depreciaciones.Add(depreciacion);
+                }
+            }
+
+            foreach (RequerimientoReinversion reinversion in reinversiones)
+            {
+                if (reinversion.Depreciable && reinversion.VidaUtil > 0)
+                {
+                    if (reinversion.CodRequerimientoInversion != 0)
+                    {
+                        for (int i = 0; i < inversiones.Count; i++)
+                        {
+                            if (reinversion.CodRequerimientoInversion.Equals(inversiones[i].CodRequerimientoInversion) && inversiones[i].Depreciable && inversiones[i].VidaUtil > 0)
+                            {
+                                Depreciacion dep = depreciaciones.Where(s => s.CodDepresiacion.Equals(inversiones[i].CodRequerimientoInversion)).First();
+                                if (!dep.Equals(null))
+                                {
+                                    List<double> montosTemp = new List<double>();
+                                    int count2 = reinversion.AnoReinversion - this.AnoInicial;
+                                    int count = count2;
+                                    while (count > 0)
+                                    {
+                                        montosTemp.Add(0);
+                                        count--;
+                                    }
+
+                                    int countF = count2 + reinversion.VidaUtil;
+                                    while (count2 < this.HorizonteEvaluacionEnAnos - 1)
+                                    {
+                                        if (count2 < countF)
+                                        {
+                                            montosTemp.Add(reinversion.Depreciacion);
+                                        }
+                                        else
+                                        {
+                                            montosTemp.Add(0);
+                                        }
+                                        count2++;
+                                    }
+                                    montosTemp.Add(reinversion.Depreciacion);
+
+                                    List<double> m = montosTemp;
+                                    for (int ite = 0; ite < montosTemp.Count; ite++)
+                                    {
+                                        dep.MontoDepreciacion[ite] = dep.MontoDepreciacion[ite] + montosTemp[ite];
+                                    }
+
+                                    depreciaciones.Where(s => s.CodDepresiacion.Equals(inversiones[i].CodRequerimientoInversion)).First().MontoDepreciacion = dep.MontoDepreciacion;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Depreciacion depreciacion = new Depreciacion();
+                        depreciacion.NombreDepreciacion = reinversion.DescripcionRequerimiento;
+                        int count2 = reinversion.AnoReinversion - this.AnoInicial;
+                        int count = count2;
+                        while (count > 0)
+                        {
+                            depreciacion.MontoDepreciacion.Add(0);
+                            count--;
+                        }
+
+                        int countF = count2 + reinversion.VidaUtil;
+                        while (count2 < this.HorizonteEvaluacionEnAnos)
+                        {
+                            if (count2 < countF)
+                            {
+                                depreciacion.MontoDepreciacion.Add(reinversion.Depreciacion);
+                            }
+                            else
+                            {
+                                depreciacion.MontoDepreciacion.Add(0);
+                            }
+                            count2++;
+                        }
+                        depreciaciones.Add(depreciacion);
+                    }
+                }
+            }
+
+            return depreciaciones;
         }
 
         private List<double> calcularIngresosGenerados()
@@ -459,58 +238,6 @@ namespace UCR.Negotium.Domain
             set
             {
                 costosGenerados = value;
-            }
-        }
-
-        public List<InteresFinanciamiento> InteresesFinanciamiento
-        {
-            get
-            {
-                return interesesFinanciamientoIV;
-            }
-
-            set
-            {
-                interesesFinanciamientoIV = value;
-            }
-        }
-
-        public Financiamiento Financiamiento
-        {
-            get
-            {
-                return financiamientoIV;
-            }
-
-            set
-            {
-                financiamientoIV = value;
-            }
-        }
-
-        public InteresFinanciamiento InteresFinanciamientoIF
-        {
-            get
-            {
-                return interesFinanciamientoIF;
-            }
-
-            set
-            {
-                interesFinanciamientoIF = value;
-            }
-        }
-
-        public Financiamiento FinanciamientoIF
-        {
-            get
-            {
-                return financiamientoIF;
-            }
-
-            set
-            {
-                financiamientoIF = value;
             }
         }
 

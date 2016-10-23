@@ -17,14 +17,13 @@ namespace UCR.Negotium.WindowsUI
         private Proyecto proyecto;
         private Evaluador evaluador;
         private int tiempoFinanciamiento;
-        private int index;
         private InteresFinanciamientoData interesFinanciamientoData; 
-        public InteresFinanciamientoUI(Evaluador evaluador, Proyecto proyecto, int index, int tiempoFinanciamiento)
+        public InteresFinanciamientoUI(Evaluador evaluador, Proyecto proyecto)
         {
             this.proyecto = proyecto;
             this.evaluador = evaluador;
-            this.tiempoFinanciamiento = tiempoFinanciamiento;
-            this.index = index;
+
+            this.tiempoFinanciamiento = proyecto.FinanciamientoIV.TiempoFinanciamiento;
             this.interesFinanciamientoData = new InteresFinanciamientoData();
             InitializeComponent();
             LlenaDgvInteresFinanciamiento();
@@ -37,14 +36,14 @@ namespace UCR.Negotium.WindowsUI
             ds.Tables["InteresFinanciamiento"].Columns.Add("Año", Type.GetType("System.String"));
             ds.Tables["InteresFinanciamiento"].Columns.Add("Porcentaje", Type.GetType("System.String"));
 
-            if (this.proyecto.InteresesFinanciamiento != null && this.proyecto.InteresesFinanciamiento.Count > 0)
+            if (this.proyecto.InteresesFinanciamientoIV != null && this.proyecto.InteresesFinanciamientoIV.Count > 0)
             {
                 
-                    for (Int32 i = 0; i < proyecto.InteresesFinanciamiento.Count; i++)
+                    for (Int32 i = 0; i < proyecto.InteresesFinanciamientoIV.Count; i++)
                     {
                         DataRow row = ds.Tables["InteresFinanciamiento"].NewRow();
                         row["Año"] = "Año " + i;
-                        row["Porcentaje"] = proyecto.InteresesFinanciamiento[i].PorcentajeInteresFinanciamiento;
+                        row["Porcentaje"] = proyecto.InteresesFinanciamientoIV[i].PorcentajeInteresFinanciamiento;
                         ds.Tables["InteresFinanciamiento"].Rows.Add(row);
                     }//foreach
                 
@@ -52,7 +51,7 @@ namespace UCR.Negotium.WindowsUI
 
             else
             {
-                if (index == 0)
+                if (proyecto.InteresesFinanciamientoIV.Count == 0)
                 {
                     List<String> anosFinanciamiento = new List<String>();
                     for (int i = 1; i <= tiempoFinanciamiento; i++)
@@ -82,9 +81,8 @@ namespace UCR.Negotium.WindowsUI
             int validaInsersion = 1;
             List<InteresFinanciamiento> listaCrecimientos = new List<InteresFinanciamiento>();
             List<InteresFinanciamiento> listaCrecimientosPersistente = new List<InteresFinanciamiento>();
-            DataTable dt = interesFinanciamientoData.GetInteresesFinanciamiento(this.proyecto.CodProyecto);
 
-            if (dt == null || dt.Rows.Count == 0)
+            if (interesFinanciamientoData.GetInteresesFinanciamiento(this.proyecto.CodProyecto, 1).Count == 0)
             {
                 //aplicar insert
                 for (int i = 0; i < dgvInteresesFinanciamiento.RowCount; i++)
@@ -96,7 +94,7 @@ namespace UCR.Negotium.WindowsUI
                             InteresFinanciamiento interesFinanciamiento = new InteresFinanciamiento();
                             interesFinanciamiento.PorcentajeInteresFinanciamiento =
                                 Int32.Parse(this.dgvInteresesFinanciamiento.Rows[i].Cells["Porcentaje"].Value.ToString());
-
+                            interesFinanciamiento.VariableInteres = true;
                             interesFinanciamientoData.InsertarInteresFinanciamiento(interesFinanciamiento, this.proyecto.CodProyecto);
                             validaInsersion = 1;
                             listaCrecimientos.Add(interesFinanciamiento);
@@ -145,8 +143,7 @@ namespace UCR.Negotium.WindowsUI
             }//else
             if (validaInsersion == 1)
             {
-                proyecto.InteresesFinanciamiento = listaCrecimientos;
-                proyecto.Financiamiento.TiempoFinanciamiento = tiempoFinanciamiento;
+                proyecto.InteresesFinanciamientoIV = listaCrecimientos;
                 MessageBox.Show("Porcentajes de intereses registrados con éxito",
                             "Insertado", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }//if
@@ -159,7 +156,7 @@ namespace UCR.Negotium.WindowsUI
 
         private void btnCancelarInteres_Click(object sender, EventArgs e)
         {
-            new RegistrarProyecto(this.evaluador, this.proyecto)
+            new RegistrarProyecto(this.evaluador, this.proyecto, 9)
             {
                 MdiParent = base.MdiParent
             }.Show();

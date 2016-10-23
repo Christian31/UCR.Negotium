@@ -17,10 +17,26 @@ namespace UCR.Negotium.Domain
         private bool depreciable;
         private int vidaUtil;
         private UnidadMedida unidadMedida;
+        private double depreciacion;
+
+        //can be null
+        public int CodRequerimientoInversion { get; set; }
         
         public RequerimientoReinversion()
         {
             this.UnidadMedida = new UnidadMedida();
+        }
+
+        public double Depreciacion
+        {
+            get
+            {
+                return Math.Round((this.CostoUnitario * this.Cantidad) / this.VidaUtil, 2);
+            }
+            set
+            {
+                this.depreciacion = value;
+            }
         }
 
         public int CodRequerimientoReinversion

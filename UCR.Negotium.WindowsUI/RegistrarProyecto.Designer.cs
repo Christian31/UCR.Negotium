@@ -197,7 +197,7 @@
             this.panel28 = new System.Windows.Forms.Panel();
             this.lblFoo6 = new System.Windows.Forms.Label();
             this.label58 = new System.Windows.Forms.Label();
-            this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.dgvDepreciaciones = new System.Windows.Forms.DataGridView();
             this.panel25 = new System.Windows.Forms.Panel();
             this.label54 = new System.Windows.Forms.Label();
             this.financiamiento = new System.Windows.Forms.TabPage();
@@ -211,15 +211,15 @@
             this.label63 = new System.Windows.Forms.Label();
             this.label62 = new System.Windows.Forms.Label();
             this.label61 = new System.Windows.Forms.Label();
-            this.btnGuardarFinanciamiento = new System.Windows.Forms.Button();
+            this.btnGuardarFinanciamientoIF = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.tpInteresVariable = new System.Windows.Forms.TabPage();
-            this.button5 = new System.Windows.Forms.Button();
+            this.btnGuardarFinanciamientoIV = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.dataGridView4 = new System.Windows.Forms.DataGridView();
-            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.dgvFinanciamientoVariable = new System.Windows.Forms.DataGridView();
+            this.nudTiempoVariable = new System.Windows.Forms.NumericUpDown();
+            this.tbMontoVariable = new System.Windows.Forms.TextBox();
+            this.llInteresesVariables = new System.Windows.Forms.LinkLabel();
             this.label65 = new System.Windows.Forms.Label();
             this.label64 = new System.Windows.Forms.Label();
             this.panel31 = new System.Windows.Forms.Panel();
@@ -227,8 +227,6 @@
             this.panel29 = new System.Windows.Forms.Panel();
             this.label59 = new System.Windows.Forms.Label();
             this.flujoCaja = new System.Windows.Forms.TabPage();
-            this.label60 = new System.Windows.Forms.Label();
-            this.dataGridView5 = new System.Windows.Forms.DataGridView();
             this.resumenProyecto = new System.Windows.Forms.TabPage();
             this.panel9 = new System.Windows.Forms.Panel();
             this.label46 = new System.Windows.Forms.Label();
@@ -256,6 +254,19 @@
             this.label39 = new System.Windows.Forms.Label();
             this.label38 = new System.Windows.Forms.Label();
             this.ttMensaje = new System.Windows.Forms.ToolTip(this.components);
+            this.panel32 = new System.Windows.Forms.Panel();
+            this.label56 = new System.Windows.Forms.Label();
+            this.panel33 = new System.Windows.Forms.Panel();
+            this.tcFlujoCaja = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button6 = new System.Windows.Forms.Button();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.dgvFlujoCajaIntVariable = new System.Windows.Forms.DataGridView();
+            this.panel34 = new System.Windows.Forms.Panel();
+            this.label70 = new System.Windows.Forms.Label();
+            this.dgvFlujoCajaIntFijo = new System.Windows.Forms.DataGridView();
             this.unidadMedidaDataBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tbxRegistrarProyecto.SuspendLayout();
             this.informacionGeneral.SuspendLayout();
@@ -306,7 +317,7 @@
             this.depreciaciones.SuspendLayout();
             this.panel26.SuspendLayout();
             this.panel28.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDepreciaciones)).BeginInit();
             this.panel25.SuspendLayout();
             this.financiamiento.SuspendLayout();
             this.panel30.SuspendLayout();
@@ -316,15 +327,22 @@
             ((System.ComponentModel.ISupportInitialize)(this.nupPorcentajeInteresIF)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFinanciamientoIF)).BeginInit();
             this.tpInteresVariable.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFinanciamientoVariable)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTiempoVariable)).BeginInit();
             this.panel31.SuspendLayout();
             this.panel29.SuspendLayout();
             this.flujoCaja.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).BeginInit();
             this.resumenProyecto.SuspendLayout();
             this.panel9.SuspendLayout();
             this.panel6.SuspendLayout();
+            this.panel32.SuspendLayout();
+            this.panel33.SuspendLayout();
+            this.tcFlujoCaja.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFlujoCajaIntVariable)).BeginInit();
+            this.panel34.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFlujoCajaIntFijo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.unidadMedidaDataBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -1622,7 +1640,7 @@
             this.panel14.Controls.Add(this.btnGuardar5);
             this.panel14.Controls.Add(this.dgvTotalesReinversiones);
             this.panel14.Controls.Add(this.btnVerResumen5);
-            this.panel14.Location = new System.Drawing.Point(24, 32);
+            this.panel14.Location = new System.Drawing.Point(24, 42);
             this.panel14.Name = "panel14";
             this.panel14.Size = new System.Drawing.Size(1128, 439);
             this.panel14.TabIndex = 11;
@@ -2121,7 +2139,7 @@
             this.panel26.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel26.Controls.Add(this.panel28);
             this.panel26.Controls.Add(this.label58);
-            this.panel26.Controls.Add(this.dataGridView3);
+            this.panel26.Controls.Add(this.dgvDepreciaciones);
             this.panel26.Location = new System.Drawing.Point(24, 43);
             this.panel26.Name = "panel26";
             this.panel26.Size = new System.Drawing.Size(1128, 439);
@@ -2154,17 +2172,17 @@
             this.label58.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label58.Location = new System.Drawing.Point(34, 23);
             this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(170, 16);
+            this.label58.Size = new System.Drawing.Size(104, 16);
             this.label58.TabIndex = 3;
-            this.label58.Text = "Depreciaciones de Activos";
+            this.label58.Text = "Depreciaciones";
             // 
-            // dataGridView3
+            // dgvDepreciaciones
             // 
-            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView3.Location = new System.Drawing.Point(27, 46);
-            this.dataGridView3.Name = "dataGridView3";
-            this.dataGridView3.Size = new System.Drawing.Size(1079, 155);
-            this.dataGridView3.TabIndex = 2;
+            this.dgvDepreciaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvDepreciaciones.Location = new System.Drawing.Point(27, 46);
+            this.dgvDepreciaciones.Name = "dgvDepreciaciones";
+            this.dgvDepreciaciones.Size = new System.Drawing.Size(1079, 284);
+            this.dgvDepreciaciones.TabIndex = 2;
             // 
             // panel25
             // 
@@ -2233,7 +2251,7 @@
             this.tpInteresFijo.Controls.Add(this.label63);
             this.tpInteresFijo.Controls.Add(this.label62);
             this.tpInteresFijo.Controls.Add(this.label61);
-            this.tpInteresFijo.Controls.Add(this.btnGuardarFinanciamiento);
+            this.tpInteresFijo.Controls.Add(this.btnGuardarFinanciamientoIF);
             this.tpInteresFijo.Controls.Add(this.button3);
             this.tpInteresFijo.Location = new System.Drawing.Point(4, 34);
             this.tpInteresFijo.Name = "tpInteresFijo";
@@ -2319,19 +2337,19 @@
             this.label61.TabIndex = 5;
             this.label61.Text = "Monto a financiar";
             // 
-            // btnGuardarFinanciamiento
+            // btnGuardarFinanciamientoIF
             // 
-            this.btnGuardarFinanciamiento.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGuardarFinanciamiento.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardarFinanciamiento.Image")));
-            this.btnGuardarFinanciamiento.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGuardarFinanciamiento.Location = new System.Drawing.Point(895, 317);
-            this.btnGuardarFinanciamiento.Name = "btnGuardarFinanciamiento";
-            this.btnGuardarFinanciamiento.Size = new System.Drawing.Size(75, 23);
-            this.btnGuardarFinanciamiento.TabIndex = 4;
-            this.btnGuardarFinanciamiento.Text = "Guardar";
-            this.btnGuardarFinanciamiento.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnGuardarFinanciamiento.UseVisualStyleBackColor = true;
-            this.btnGuardarFinanciamiento.Click += new System.EventHandler(this.btnGuardarFinanciamiento_Click);
+            this.btnGuardarFinanciamientoIF.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGuardarFinanciamientoIF.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardarFinanciamientoIF.Image")));
+            this.btnGuardarFinanciamientoIF.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnGuardarFinanciamientoIF.Location = new System.Drawing.Point(895, 317);
+            this.btnGuardarFinanciamientoIF.Name = "btnGuardarFinanciamientoIF";
+            this.btnGuardarFinanciamientoIF.Size = new System.Drawing.Size(75, 23);
+            this.btnGuardarFinanciamientoIF.TabIndex = 4;
+            this.btnGuardarFinanciamientoIF.Text = "Guardar";
+            this.btnGuardarFinanciamientoIF.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnGuardarFinanciamientoIF.UseVisualStyleBackColor = true;
+            this.btnGuardarFinanciamientoIF.Click += new System.EventHandler(this.btnGuardarFinanciamientoIF_Click);
             // 
             // button3
             // 
@@ -2350,12 +2368,12 @@
             // 
             this.tpInteresVariable.BackColor = System.Drawing.Color.Honeydew;
             this.tpInteresVariable.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tpInteresVariable.Controls.Add(this.button5);
+            this.tpInteresVariable.Controls.Add(this.btnGuardarFinanciamientoIV);
             this.tpInteresVariable.Controls.Add(this.button4);
-            this.tpInteresVariable.Controls.Add(this.dataGridView4);
-            this.tpInteresVariable.Controls.Add(this.numericUpDown3);
-            this.tpInteresVariable.Controls.Add(this.textBox2);
-            this.tpInteresVariable.Controls.Add(this.linkLabel1);
+            this.tpInteresVariable.Controls.Add(this.dgvFinanciamientoVariable);
+            this.tpInteresVariable.Controls.Add(this.nudTiempoVariable);
+            this.tpInteresVariable.Controls.Add(this.tbMontoVariable);
+            this.tpInteresVariable.Controls.Add(this.llInteresesVariables);
             this.tpInteresVariable.Controls.Add(this.label65);
             this.tpInteresVariable.Controls.Add(this.label64);
             this.tpInteresVariable.Location = new System.Drawing.Point(4, 34);
@@ -2365,18 +2383,19 @@
             this.tpInteresVariable.TabIndex = 1;
             this.tpInteresVariable.Text = "Financiamiento con interés variable";
             // 
-            // button5
+            // btnGuardarFinanciamientoIV
             // 
-            this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button5.Image = ((System.Drawing.Image)(resources.GetObject("button5.Image")));
-            this.button5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button5.Location = new System.Drawing.Point(895, 317);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 7;
-            this.button5.Text = "Guardar";
-            this.button5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button5.UseVisualStyleBackColor = true;
+            this.btnGuardarFinanciamientoIV.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGuardarFinanciamientoIV.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardarFinanciamientoIV.Image")));
+            this.btnGuardarFinanciamientoIV.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnGuardarFinanciamientoIV.Location = new System.Drawing.Point(895, 317);
+            this.btnGuardarFinanciamientoIV.Name = "btnGuardarFinanciamientoIV";
+            this.btnGuardarFinanciamientoIV.Size = new System.Drawing.Size(75, 23);
+            this.btnGuardarFinanciamientoIV.TabIndex = 7;
+            this.btnGuardarFinanciamientoIV.Text = "Guardar";
+            this.btnGuardarFinanciamientoIV.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnGuardarFinanciamientoIV.UseVisualStyleBackColor = true;
+            this.btnGuardarFinanciamientoIV.Click += new System.EventHandler(this.btnGuardarFinanciamientoIV_Click);
             // 
             // button4
             // 
@@ -2391,45 +2410,52 @@
             this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.button4.UseVisualStyleBackColor = true;
             // 
-            // dataGridView4
+            // dgvFinanciamientoVariable
             // 
-            this.dataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView4.Location = new System.Drawing.Point(25, 95);
-            this.dataGridView4.Name = "dataGridView4";
-            this.dataGridView4.Size = new System.Drawing.Size(1076, 198);
-            this.dataGridView4.TabIndex = 5;
+            this.dgvFinanciamientoVariable.AllowUserToAddRows = false;
+            this.dgvFinanciamientoVariable.AllowUserToDeleteRows = false;
+            this.dgvFinanciamientoVariable.AllowUserToResizeColumns = false;
+            this.dgvFinanciamientoVariable.AllowUserToResizeRows = false;
+            this.dgvFinanciamientoVariable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvFinanciamientoVariable.Location = new System.Drawing.Point(25, 95);
+            this.dgvFinanciamientoVariable.Name = "dgvFinanciamientoVariable";
+            this.dgvFinanciamientoVariable.Size = new System.Drawing.Size(1076, 198);
+            this.dgvFinanciamientoVariable.TabIndex = 5;
             // 
-            // numericUpDown3
+            // nudTiempoVariable
             // 
-            this.numericUpDown3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericUpDown3.Location = new System.Drawing.Point(460, 44);
-            this.numericUpDown3.Name = "numericUpDown3";
-            this.numericUpDown3.Size = new System.Drawing.Size(120, 21);
-            this.numericUpDown3.TabIndex = 4;
-            this.numericUpDown3.Value = new decimal(new int[] {
+            this.nudTiempoVariable.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nudTiempoVariable.Location = new System.Drawing.Point(460, 44);
+            this.nudTiempoVariable.Name = "nudTiempoVariable";
+            this.nudTiempoVariable.Size = new System.Drawing.Size(120, 21);
+            this.nudTiempoVariable.TabIndex = 4;
+            this.nudTiempoVariable.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
+            this.nudTiempoVariable.ValueChanged += new System.EventHandler(this.nudTiempoVariable_ValueChanged);
             // 
-            // textBox2
+            // tbMontoVariable
             // 
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(160, 44);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(160, 21);
-            this.textBox2.TabIndex = 3;
+            this.tbMontoVariable.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbMontoVariable.Location = new System.Drawing.Point(160, 44);
+            this.tbMontoVariable.Name = "tbMontoVariable";
+            this.tbMontoVariable.Size = new System.Drawing.Size(160, 21);
+            this.tbMontoVariable.TabIndex = 3;
+            this.tbMontoVariable.TextChanged += new System.EventHandler(this.tbMontoVariable_TextChanged);
             // 
-            // linkLabel1
+            // llInteresesVariables
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabel1.Location = new System.Drawing.Point(668, 46);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(142, 16);
-            this.linkLabel1.TabIndex = 2;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Porcentajes de interés";
+            this.llInteresesVariables.AutoSize = true;
+            this.llInteresesVariables.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.llInteresesVariables.Location = new System.Drawing.Point(668, 46);
+            this.llInteresesVariables.Name = "llInteresesVariables";
+            this.llInteresesVariables.Size = new System.Drawing.Size(142, 16);
+            this.llInteresesVariables.TabIndex = 2;
+            this.llInteresesVariables.TabStop = true;
+            this.llInteresesVariables.Text = "Porcentajes de interés";
+            this.llInteresesVariables.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llInteresesVariables_LinkClicked);
             // 
             // label65
             // 
@@ -2495,31 +2521,13 @@
             // flujoCaja
             // 
             this.flujoCaja.BackColor = System.Drawing.Color.Honeydew;
-            this.flujoCaja.Controls.Add(this.label60);
-            this.flujoCaja.Controls.Add(this.dataGridView5);
+            this.flujoCaja.Controls.Add(this.panel33);
+            this.flujoCaja.Controls.Add(this.panel32);
             this.flujoCaja.Location = new System.Drawing.Point(4, 22);
             this.flujoCaja.Name = "flujoCaja";
             this.flujoCaja.Size = new System.Drawing.Size(1178, 515);
             this.flujoCaja.TabIndex = 12;
             this.flujoCaja.Text = "Flujo de Caja";
-            // 
-            // label60
-            // 
-            this.label60.AutoSize = true;
-            this.label60.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label60.Location = new System.Drawing.Point(41, 105);
-            this.label60.Name = "label60";
-            this.label60.Size = new System.Drawing.Size(107, 16);
-            this.label60.TabIndex = 1;
-            this.label60.Text = "Flujo de Efectivo";
-            // 
-            // dataGridView5
-            // 
-            this.dataGridView5.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView5.Location = new System.Drawing.Point(30, 130);
-            this.dataGridView5.Name = "dataGridView5";
-            this.dataGridView5.Size = new System.Drawing.Size(240, 150);
-            this.dataGridView5.TabIndex = 0;
             // 
             // resumenProyecto
             // 
@@ -2819,6 +2827,160 @@
             // 
             this.ttMensaje.IsBalloon = true;
             // 
+            // panel32
+            // 
+            this.panel32.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.panel32.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel32.Controls.Add(this.label56);
+            this.panel32.Location = new System.Drawing.Point(24, 18);
+            this.panel32.Name = "panel32";
+            this.panel32.Size = new System.Drawing.Size(1128, 27);
+            this.panel32.TabIndex = 2;
+            // 
+            // label56
+            // 
+            this.label56.AutoSize = true;
+            this.label56.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label56.Location = new System.Drawing.Point(4, 5);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(107, 16);
+            this.label56.TabIndex = 0;
+            this.label56.Text = "Flujo de Efectivo";
+            // 
+            // panel33
+            // 
+            this.panel33.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel33.Controls.Add(this.tcFlujoCaja);
+            this.panel33.Controls.Add(this.panel34);
+            this.panel33.Location = new System.Drawing.Point(24, 42);
+            this.panel33.Name = "panel33";
+            this.panel33.Size = new System.Drawing.Size(1128, 439);
+            this.panel33.TabIndex = 3;
+            // 
+            // tcFlujoCaja
+            // 
+            this.tcFlujoCaja.Controls.Add(this.tabPage1);
+            this.tcFlujoCaja.Controls.Add(this.tabPage2);
+            this.tcFlujoCaja.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tcFlujoCaja.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.tcFlujoCaja.ItemSize = new System.Drawing.Size(562, 30);
+            this.tcFlujoCaja.Location = new System.Drawing.Point(-1, -1);
+            this.tcFlujoCaja.Name = "tcFlujoCaja";
+            this.tcFlujoCaja.SelectedIndex = 0;
+            this.tcFlujoCaja.Size = new System.Drawing.Size(1128, 411);
+            this.tcFlujoCaja.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            this.tcFlujoCaja.TabIndex = 5;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.BackColor = System.Drawing.Color.Honeydew;
+            this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPage1.Controls.Add(this.dgvFlujoCajaIntFijo);
+            this.tabPage1.Controls.Add(this.button6);
+            this.tabPage1.Location = new System.Drawing.Point(4, 34);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1120, 373);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Flujo de Caja con interés fijo";
+            // 
+            // button6
+            // 
+            this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button6.Image = ((System.Drawing.Image)(resources.GetObject("button6.Image")));
+            this.button6.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button6.Location = new System.Drawing.Point(1002, 318);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(99, 23);
+            this.button6.TabIndex = 3;
+            this.button6.Text = "Ver Resumen";
+            this.button6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button6.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.BackColor = System.Drawing.Color.Honeydew;
+            this.tabPage2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPage2.Controls.Add(this.button7);
+            this.tabPage2.Controls.Add(this.button8);
+            this.tabPage2.Controls.Add(this.dgvFlujoCajaIntVariable);
+            this.tabPage2.Location = new System.Drawing.Point(4, 34);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1120, 373);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Flujo de Caja con interés variable";
+            // 
+            // button7
+            // 
+            this.button7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button7.Image = ((System.Drawing.Image)(resources.GetObject("button7.Image")));
+            this.button7.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button7.Location = new System.Drawing.Point(895, 317);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(75, 23);
+            this.button7.TabIndex = 7;
+            this.button7.Text = "Guardar";
+            this.button7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button7.UseVisualStyleBackColor = true;
+            // 
+            // button8
+            // 
+            this.button8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button8.Image = ((System.Drawing.Image)(resources.GetObject("button8.Image")));
+            this.button8.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button8.Location = new System.Drawing.Point(1002, 318);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(99, 23);
+            this.button8.TabIndex = 6;
+            this.button8.Text = "Ver Resumen";
+            this.button8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button8.UseVisualStyleBackColor = true;
+            // 
+            // dgvFlujoCajaIntVariable
+            // 
+            this.dgvFlujoCajaIntVariable.AllowUserToAddRows = false;
+            this.dgvFlujoCajaIntVariable.AllowUserToDeleteRows = false;
+            this.dgvFlujoCajaIntVariable.AllowUserToResizeColumns = false;
+            this.dgvFlujoCajaIntVariable.AllowUserToResizeRows = false;
+            this.dgvFlujoCajaIntVariable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvFlujoCajaIntVariable.Location = new System.Drawing.Point(25, 39);
+            this.dgvFlujoCajaIntVariable.Name = "dgvFlujoCajaIntVariable";
+            this.dgvFlujoCajaIntVariable.Size = new System.Drawing.Size(1076, 254);
+            this.dgvFlujoCajaIntVariable.TabIndex = 5;
+            // 
+            // panel34
+            // 
+            this.panel34.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.panel34.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel34.Controls.Add(this.label70);
+            this.panel34.Location = new System.Drawing.Point(-1, 405);
+            this.panel34.Name = "panel34";
+            this.panel34.Size = new System.Drawing.Size(1130, 33);
+            this.panel34.TabIndex = 0;
+            // 
+            // label70
+            // 
+            this.label70.AutoSize = true;
+            this.label70.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label70.Location = new System.Drawing.Point(6, 7);
+            this.label70.Name = "label70";
+            this.label70.Size = new System.Drawing.Size(681, 16);
+            this.label70.TabIndex = 0;
+            this.label70.Text = "Info: Nombre del Proyecto: Proyecto nuevo horizonte - Horizonte del Proyecto: 5 A" +
+    "ños - Proponente: Luis Carcamo";
+            // 
+            // dgvFlujoCajaIntFijo
+            // 
+            this.dgvFlujoCajaIntFijo.AllowUserToAddRows = false;
+            this.dgvFlujoCajaIntFijo.AllowUserToDeleteRows = false;
+            this.dgvFlujoCajaIntFijo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvFlujoCajaIntFijo.Location = new System.Drawing.Point(25, 39);
+            this.dgvFlujoCajaIntFijo.Name = "dgvFlujoCajaIntFijo";
+            this.dgvFlujoCajaIntFijo.ReadOnly = true;
+            this.dgvFlujoCajaIntFijo.Size = new System.Drawing.Size(1076, 254);
+            this.dgvFlujoCajaIntFijo.TabIndex = 8;
+            // 
             // unidadMedidaDataBindingSource
             // 
             this.unidadMedidaDataBindingSource.DataSource = typeof(UCR.Negotium.DataAccess.UnidadMedidaData);
@@ -2912,7 +3074,7 @@
             this.panel26.PerformLayout();
             this.panel28.ResumeLayout(false);
             this.panel28.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDepreciaciones)).EndInit();
             this.panel25.ResumeLayout(false);
             this.panel25.PerformLayout();
             this.financiamiento.ResumeLayout(false);
@@ -2925,20 +3087,28 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvFinanciamientoIF)).EndInit();
             this.tpInteresVariable.ResumeLayout(false);
             this.tpInteresVariable.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFinanciamientoVariable)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTiempoVariable)).EndInit();
             this.panel31.ResumeLayout(false);
             this.panel31.PerformLayout();
             this.panel29.ResumeLayout(false);
             this.panel29.PerformLayout();
             this.flujoCaja.ResumeLayout(false);
-            this.flujoCaja.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).EndInit();
             this.resumenProyecto.ResumeLayout(false);
             this.panel9.ResumeLayout(false);
             this.panel9.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
+            this.panel32.ResumeLayout(false);
+            this.panel32.PerformLayout();
+            this.panel33.ResumeLayout(false);
+            this.tcFlujoCaja.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFlujoCajaIntVariable)).EndInit();
+            this.panel34.ResumeLayout(false);
+            this.panel34.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFlujoCajaIntFijo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.unidadMedidaDataBindingSource)).EndInit();
             this.ResumeLayout(false);
 
@@ -3138,7 +3308,7 @@
         private System.Windows.Forms.Label label52;
         private System.Windows.Forms.DataGridView dgvCapitalTrabajo;
         private System.Windows.Forms.Panel panel26;
-        private System.Windows.Forms.DataGridView dataGridView3;
+        private System.Windows.Forms.DataGridView dgvDepreciaciones;
         private System.Windows.Forms.Panel panel25;
         private System.Windows.Forms.Label label54;
         private System.Windows.Forms.Label label58;
@@ -3151,10 +3321,8 @@
         private System.Windows.Forms.Label lblFoo7;
         private System.Windows.Forms.Panel panel29;
         private System.Windows.Forms.Label label59;
-        private System.Windows.Forms.Button btnGuardarFinanciamiento;
+        private System.Windows.Forms.Button btnGuardarFinanciamientoIF;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Label label60;
-        private System.Windows.Forms.DataGridView dataGridView5;
         private System.Windows.Forms.TabControl tcFinanciamiento;
         private System.Windows.Forms.TabPage tpInteresFijo;
         private System.Windows.Forms.TabPage tpInteresVariable;
@@ -3165,13 +3333,26 @@
         private System.Windows.Forms.Label label63;
         private System.Windows.Forms.Label label62;
         private System.Windows.Forms.Label label61;
-        private System.Windows.Forms.DataGridView dataGridView4;
-        private System.Windows.Forms.NumericUpDown numericUpDown3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.DataGridView dgvFinanciamientoVariable;
+        private System.Windows.Forms.NumericUpDown nudTiempoVariable;
+        private System.Windows.Forms.TextBox tbMontoVariable;
+        private System.Windows.Forms.LinkLabel llInteresesVariables;
         private System.Windows.Forms.Label label65;
         private System.Windows.Forms.Label label64;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button btnGuardarFinanciamientoIV;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Panel panel32;
+        private System.Windows.Forms.Label label56;
+        private System.Windows.Forms.Panel panel33;
+        private System.Windows.Forms.TabControl tcFlujoCaja;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.DataGridView dgvFlujoCajaIntVariable;
+        private System.Windows.Forms.Panel panel34;
+        private System.Windows.Forms.Label label70;
+        private System.Windows.Forms.DataGridView dgvFlujoCajaIntFijo;
     }
 }

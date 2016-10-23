@@ -76,7 +76,7 @@ namespace UCR.Negotium.WindowsUI
 
                 proyecto.Costos.Add(costoData.InsertarCosto(costoNuevo, this.proyecto.CodProyecto));
 
-                new RegistrarProyecto(this.evaluador, this.proyecto)
+                new RegistrarProyecto(this.evaluador, this.proyecto, 6)
                 {
                     MdiParent = base.MdiParent
                 }.Show();
@@ -101,7 +101,7 @@ namespace UCR.Negotium.WindowsUI
 
         private void btnCancelarCosto_Click(object sender, EventArgs e)
         {
-            new RegistrarProyecto(this.evaluador, this.proyecto)
+            new RegistrarProyecto(this.evaluador, this.proyecto, 6)
             {
                 MdiParent = base.MdiParent
             }.Show();

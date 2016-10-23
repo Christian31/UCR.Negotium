@@ -10,17 +10,11 @@ namespace UCR.Negotium.WindowsUI
 {
     partial class AgregarReinversion : Form
     {
-        private Proyecto proyecto;
-
-        private Evaluador evaluador;
-
-        private List<RequerimientoReinversion> requerimientoReinversionList;
-
         private IContainer components = null;
 
         private DataGridView dgvAgregaReinversion;
 
-        private Button button1;
+        private Button btnAgregarReinversion;
 
         private Button button2;
 
@@ -35,78 +29,6 @@ namespace UCR.Negotium.WindowsUI
         private DataGridViewTextBoxColumn vidaUtil;
 
         private DataGridViewCheckBoxColumn Agregar;
-
-        public AgregarReinversion(Evaluador evaluador, Proyecto proyecto)
-        {
-            this.InitializeComponent();
-            this.proyecto = proyecto;
-            this.LlenaDgvReinversion();
-            this.evaluador = evaluador;
-            this.requerimientoReinversionList = new List<RequerimientoReinversion>();
-            this.requerimientoReinversionList = proyecto.RequerimientosReinversion;
-        }
-
-        private void LlenaDgvReinversion()
-        {
-            DataSet ds = new DataSet();
-            ds.Tables.Add("RequerimientReinversion");
-            ds.Tables["RequerimientReinversion"].Columns.Add("Codigo", Type.GetType("System.String"));
-            ds.Tables["RequerimientReinversion"].Columns.Add("Descripcion", Type.GetType("System.String"));
-            ds.Tables["RequerimientReinversion"].Columns.Add("Cantidad", Type.GetType("System.String"));
-            ds.Tables["RequerimientReinversion"].Columns.Add("CostoUnitario", Type.GetType("System.String"));
-            ds.Tables["RequerimientReinversion"].Columns.Add("VidaUtil", Type.GetType("System.String"));
-            foreach (RequerimientoInversion requerimiento in this.proyecto.RequerimientosInversion)
-            {
-                if (requerimiento.Depreciable) { 
-                    DataRow row = ds.Tables["RequerimientReinversion"].NewRow();
-                    row["Codigo"] = requerimiento.CodRequerimientoInversion;
-                    row["Descripcion"] = requerimiento.DescripcionRequerimiento;
-                    row["Cantidad"] = requerimiento.Cantidad;
-                    row["CostoUnitario"] = requerimiento.CostoUnitario;
-                    row["VidaUtil"] = requerimiento.VidaUtil;
-                    ds.Tables["RequerimientReinversion"].Rows.Add(row);
-                }
-            }
-            DataTable dtRequerimientos = ds.Tables["RequerimientReinversion"];
-            this.dgvAgregaReinversion.DataSource = dtRequerimientos;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                for (int i = 0; i < this.dgvAgregaReinversion.RowCount; i++)
-                {
-                    bool flag = Convert.ToBoolean(this.dgvAgregaReinversion.Rows[i].Cells[0].Value);
-                    if (flag)
-                    {
-                        foreach (RequerimientoInversion requerimiento in this.proyecto.RequerimientosInversion)
-                        {
-                            bool flag2 = requerimiento.CodRequerimientoInversion == int.Parse(this.dgvAgregaReinversion.Rows[i].Cells[1].Value.ToString());
-                            if (flag2)
-                            {
-                                RequerimientoReinversion requerimientoReinversion = new RequerimientoReinversion();
-                                requerimientoReinversion.Cantidad = requerimiento.Cantidad;
-                                requerimientoReinversion.CostoUnitario = requerimiento.CostoUnitario;
-                                requerimientoReinversion.Depreciable = requerimiento.Depreciable;
-                                requerimientoReinversion.DescripcionRequerimiento = requerimiento.DescripcionRequerimiento;
-                                this.requerimientoReinversionList.Add(requerimientoReinversion);
-                            }
-                        }
-                    }
-                }
-                this.proyecto.RequerimientosReinversion = this.requerimientoReinversionList;
-                new RegistrarProyecto(this.evaluador, this.proyecto)
-                {
-                    MdiParent = base.MdiParent
-                }.Show();
-                base.Close();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
-        }
 
         protected override void Dispose(bool disposing)
         {
@@ -128,7 +50,7 @@ namespace UCR.Negotium.WindowsUI
             this.costoUnitario = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.vidaUtil = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Agregar = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnAgregarReinversion = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAgregaReinversion)).BeginInit();
@@ -202,18 +124,18 @@ namespace UCR.Negotium.WindowsUI
             this.Agregar.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Agregar.Width = 50;
             // 
-            // button1
+            // btnAgregarReinversion
             // 
-            this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(210, 280);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(142, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Agregar seleccionados";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnAgregarReinversion.Image = ((System.Drawing.Image)(resources.GetObject("btnAgregarReinversion.Image")));
+            this.btnAgregarReinversion.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAgregarReinversion.Location = new System.Drawing.Point(210, 280);
+            this.btnAgregarReinversion.Name = "btnAgregarReinversion";
+            this.btnAgregarReinversion.Size = new System.Drawing.Size(142, 23);
+            this.btnAgregarReinversion.TabIndex = 1;
+            this.btnAgregarReinversion.Text = "Agregar seleccionados";
+            this.btnAgregarReinversion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnAgregarReinversion.UseVisualStyleBackColor = true;
+            this.btnAgregarReinversion.Click += new System.EventHandler(this.btnAgregarReinversion_Click);
             // 
             // button2
             // 
@@ -246,7 +168,7 @@ namespace UCR.Negotium.WindowsUI
             this.ClientSize = new System.Drawing.Size(759, 356);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnAgregarReinversion);
             this.Controls.Add(this.dgvAgregaReinversion);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "AgregarReinversion";

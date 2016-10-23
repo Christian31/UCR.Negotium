@@ -47,11 +47,11 @@ namespace UCR.Negotium.DataAccess
             }//else
         }//InsertarFinanciamiento
 
-        public Financiamiento GetFinanciamiento(int codProyecto)
+        public Financiamiento GetFinanciamiento(int codProyecto, bool variable)
         {
             String select = "SELECT p.cod_financiamiento, p.monto_financiamiento, p.variable_financiamiento, " +
                 "p.tiempo_financiamiento " +
-                "FROM FINANCIAMIENTO p LIMIT 1 WHERE p.cod_proyecto=" + codProyecto;
+                "FROM FINANCIAMIENTO p WHERE p.cod_proyecto=" + codProyecto + " AND p.variable_financiamiento="+Convert.ToInt32(variable);
             if (conexion.State != ConnectionState.Open)
                 conexion.Open();
             command = conexion.CreateCommand();
@@ -61,10 +61,10 @@ namespace UCR.Negotium.DataAccess
             if (reader.Read())
             {
                 financiamiento = new Financiamiento();
-                financiamiento.CodFinanciamiento = reader.GetInt32(1);
-                financiamiento.MontoFinanciamiento = reader.GetDouble(2);
-                financiamiento.VariableFinanciamiento = reader.GetBoolean(3);
-                financiamiento.TiempoFinanciamiento = reader.GetInt32(4);
+                financiamiento.CodFinanciamiento = reader.GetInt32(0);
+                financiamiento.MontoFinanciamiento = reader.GetDouble(1);
+                financiamiento.VariableFinanciamiento = reader.GetBoolean(2);
+                financiamiento.TiempoFinanciamiento = reader.GetInt32(3);
             }//if
             conexion.Close();
             return financiamiento;

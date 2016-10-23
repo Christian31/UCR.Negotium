@@ -76,7 +76,7 @@ namespace UCR.Negotium.WindowsUI
                 
                 proyecto.Proyecciones.Add(proyeccionData.InsertarProyeccionVenta(proyeccionNueva, this.proyecto.CodProyecto));
 
-                new RegistrarProyecto(this.evaluador, this.proyecto)
+                new RegistrarProyecto(this.evaluador, this.proyecto, 5)
                 {
                     MdiParent = base.MdiParent
                 }.Show();
@@ -99,7 +99,7 @@ namespace UCR.Negotium.WindowsUI
 
         private void button2_Click(object sender, EventArgs e)
         {
-            new RegistrarProyecto(this.evaluador, this.proyecto)
+            new RegistrarProyecto(this.evaluador, this.proyecto, 5)
             {
                 MdiParent = base.MdiParent
             }.Show();

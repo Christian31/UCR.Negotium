@@ -109,7 +109,7 @@ namespace UCR.Negotium.WindowsUI
 
         private void btnVolverVariacionAnual_Click(object sender, EventArgs e)
         {
-            new RegistrarProyecto(this.evaluador, this.proyecto)
+            new RegistrarProyecto(this.evaluador, this.proyecto, 6)
             {
                 MdiParent = base.MdiParent
             }.Show();

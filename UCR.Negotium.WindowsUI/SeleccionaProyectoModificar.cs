@@ -63,7 +63,7 @@ namespace UCR.Negotium.WindowsUI
             this.proyecto.RequerimientosInversion = requerimientoInversionData.GetRequerimientosInversion(proyecto.CodProyecto);
             this.proyecto.RequerimientosReinversion = requerimientoReinversionData.GetRequerimientosReinversion(proyecto.CodProyecto);
             this.proyecto.Proyecciones = proyeccionVentaArticuloData.GetProyeccionesVentaArticulo(proyecto.CodProyecto);
-            RegistrarProyecto registrarProyecto = new RegistrarProyecto(evaluador, proyecto);
+            RegistrarProyecto registrarProyecto = new RegistrarProyecto(evaluador, proyecto, 0);
             registrarProyecto.MdiParent = this.MdiParent;
             registrarProyecto.Show();
             this.Close();
