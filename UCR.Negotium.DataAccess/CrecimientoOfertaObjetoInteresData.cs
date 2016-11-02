@@ -17,7 +17,7 @@ namespace UCR.Negotium.DataAccess
 
         public CrecimientoOfertaObjetoInteresData()
         {
-            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].ConnectionString;
+            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
             conexion = new SQLiteConnection(cadenaConexion);
         }
 
