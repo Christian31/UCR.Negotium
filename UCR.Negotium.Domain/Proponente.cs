@@ -9,123 +9,19 @@ namespace UCR.Negotium.Domain
 {
     public class Proponente
     {
-        int idProponente;
-        String nombre;
-        String apellidos;
-        String numIdentificacion;
-        String telefono;
-        String email;
-        String puestoEnOrganizacion;
-        char genero;
-        OrganizacionProponente organizacion;
+        public int IdProponente { get; set; }
+        public String Nombre { get; set; }
+        public String Apellidos { get; set; }
+        public String NumIdentificacion { get; set; }
+        public String Telefono { get; set; }
+        public String Email { get; set; }
+        public String PuestoEnOrganizacion { get; set; }
+        public char Genero { get; set; }
+        private OrganizacionProponente organizacion;
 
         public Proponente()
         {
             organizacion = new OrganizacionProponente();
-        }
-
-        public int IdProponente
-        {
-            get
-            {
-                return idProponente;
-            }
-
-            set
-            {
-                idProponente = value;
-            }
-        }
-
-        public string Nombre
-        {
-            get
-            {
-                return nombre;
-            }
-
-            set
-            {
-                nombre = value;
-            }
-        }
-
-        public string Apellidos
-        {
-            get
-            {
-                return apellidos;
-            }
-
-            set
-            {
-                apellidos = value;
-            }
-        }
-
-        public string NumIdentificacion
-        {
-            get
-            {
-                return numIdentificacion;
-            }
-
-            set
-            {
-                numIdentificacion = value;
-            }
-        }
-
-        public string Telefono
-        {
-            get
-            {
-                return telefono;
-            }
-
-            set
-            {
-                telefono = value;
-            }
-        }
-
-        public string Email
-        {
-            get
-            {
-                return email;
-            }
-
-            set
-            {
-                email = value;
-            }
-        }
-
-        public string PuestoEnOrganizacion
-        {
-            get
-            {
-                return puestoEnOrganizacion;
-            }
-
-            set
-            {
-                puestoEnOrganizacion = value;
-            }
-        }
-
-        public char Genero
-        {
-            get
-            {
-                return genero;
-            }
-
-            set
-            {
-                genero = value;
-            }
         }
 
         public OrganizacionProponente Organizacion

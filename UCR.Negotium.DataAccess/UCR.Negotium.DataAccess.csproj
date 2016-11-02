@@ -75,7 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Data\NegotiumDataBase.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

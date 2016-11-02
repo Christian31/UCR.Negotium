@@ -18,40 +18,34 @@ namespace UCR.Negotium.WindowsUI
 
         //variablesGlobales
         int idProyectoSeleccionado;
-        bool segundaSeleccionProyecto = false;
         Proyecto proyecto;
         Evaluador evaluador;
+        List<Proyecto> proyectosSinFiltro;
+        DataTable dtProyectos;
+        ProponenteData proponenteData;
 
         public SeleccionaProyectoModificar(Evaluador evaluador)
         {
-            InitializeComponent();
-            LlenaComboProyecto();
-            this.evaluador = evaluador;
-        }
-
-        //Metodo para llenar el comboBox del proyecto
-        public void LlenaComboProyecto()
-        {
+            proyecto = new Proyecto();
+            proyectosSinFiltro = new List<Proyecto>();
             ProyectoData proyectoData = new ProyectoData();
-            cbxProyecto.DataSource = proyectoData.GetProyectos();
-            cbxProyecto.DisplayMember = "nombre_proyecto";
-            cbxProyecto.ValueMember = "cod_proyecto";
-            idProyectoSeleccionado = Int32.Parse(cbxProyecto.SelectedValue.ToString());
-        }
+            proponenteData = new ProponenteData();
+            dtProyectos = proyectoData.GetProyectos();
 
-        private void cbxProyecto_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //Esta validacion evita un error que ocurre cuando se carga el combobox por primera vez pero
-            //aun no se han cargado los proyectos
-            if (segundaSeleccionProyecto == false)
+            proyectosSinFiltro = (from rw in dtProyectos.AsEnumerable()
+                                        select new Proyecto
+                                        {
+                                            CodProyecto = Convert.ToInt32(rw["cod_proyecto"]),
+                                            NombreProyecto = Convert.ToString(rw["nombre_proyecto"])
+                                        }).ToList();
+            foreach (Proyecto proyecto in proyectosSinFiltro)
             {
-                segundaSeleccionProyecto = true;
+                proyecto.Proponente = proponenteData.GetProponente(proyecto.CodProyecto);
             }
-            else
-            {
-                idProyectoSeleccionado = Int32.Parse(cbxProyecto.SelectedValue.ToString());
-                Console.WriteLine("El id es:" + idProyectoSeleccionado);
-            }//else
+
+            InitializeComponent();
+            LlenaDgvProyectos();
+            this.evaluador = evaluador;
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)
@@ -72,10 +66,7 @@ namespace UCR.Negotium.WindowsUI
         //Este metodo obtiene el proyecto que está seleccionado actualmente en el combobox
         private Proyecto ObtieneProyectoParaModificar()
         {
-            DataTable dtProyecto = (DataTable)cbxProyecto.DataSource;
-            Proyecto proyecto = new Proyecto();
-            ProponenteData proponenteData = new ProponenteData();
-            foreach (DataRow fila in dtProyecto.Rows)
+            foreach (DataRow fila in dtProyectos.Rows)
             {
                 if (idProyectoSeleccionado == Int32.Parse(fila["cod_proyecto"].ToString()))
                 {
@@ -160,6 +151,52 @@ namespace UCR.Negotium.WindowsUI
         {
             CostoData costoData = new CostoData();
             return costoData.GetCostos(codProyecto);
+        }
+
+        private void LlenaDgvProyectos(string search = "")
+        {
+            List<Proyecto> proyectos = proyectosSinFiltro;
+            if (!search.Equals(""))
+            {
+                proyectos = proyectos.Where(s => s.NombreProyecto.ToLower().Contains(search.ToLower()) ||
+                    s.Proponente.Nombre.ToLower().Contains(search.ToLower()) ||
+                    s.Proponente.Apellidos.ToLower().Contains(search.ToLower()) ||
+                    s.Proponente.Organizacion.NombreOrganizacion.ToLower().Contains(search.ToLower())
+                    ).ToList();
+            }
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add("Proyectos");
+            ds.Tables["Proyectos"].Columns.Add("codProyecto", Type.GetType("System.Int32"));
+            ds.Tables["Proyectos"].Columns.Add("nombreProyecto", Type.GetType("System.String"));
+            ds.Tables["Proyectos"].Columns.Add("organizacion", Type.GetType("System.String"));
+            ds.Tables["Proyectos"].Columns.Add("proponente", Type.GetType("System.String"));
+            foreach (Proyecto proyecto in proyectos)
+            {
+                DataRow row = ds.Tables["Proyectos"].NewRow();
+                row["codProyecto"] = proyecto.CodProyecto;
+                row["nombreProyecto"] = proyecto.NombreProyecto;
+                row["organizacion"] = proyecto.Proponente.Organizacion.NombreOrganizacion;
+                row["proponente"] = proyecto.Proponente.Nombre + " " + proyecto.Proponente.Apellidos;
+                ds.Tables["Proyectos"].Rows.Add(row);
+            }//foreach
+            DataTable dtProyectos = ds.Tables["Proyectos"];
+            dgvProyectos.DataSource = dtProyectos;
+
+            dgvProyectos.Columns[0].Visible = false;
+        }
+
+        private void tbBuscarProyectos_TextChanged(object sender, EventArgs e)
+        {
+            LlenaDgvProyectos(tbBuscarProyectos.Text);
+        }
+
+        private void dgvProyectos_SelectionChanged(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dgvProyectos.SelectedRows)
+            {
+                idProyectoSeleccionado = Convert.ToInt32(row.Cells[0].Value.ToString());
+            }
         }
     }
 }
