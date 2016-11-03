@@ -53,7 +53,7 @@ namespace UCR.Negotium.DataAccess
             {
                 Console.WriteLine(ex.Message);
                 conexion.Close();
-                return requerimientoInversion;
+                throw ex;
             }//catch
         }//InsertarRequerimientosInvesion
 
@@ -101,7 +101,7 @@ namespace UCR.Negotium.DataAccess
         public RequerimientoInversion EditarRequerimientosInvesion(RequerimientoInversion requerimientoInversion, int codProyecto)
         {
             Object newProdID;
-            String insert = "UPDATE REQUERIMIENTO_INVERSION SET (descripcion_requerimiento = ?, cantidad = ?, " +
+            String insert = "UPDATE REQUERIMIENTO_INVERSION SET descripcion_requerimiento = ?, cantidad = ?, " +
                 "costo_unitario = ?, cod_unidad_medida = ?, depreciable = ?, vida_util = ?, cod_proyecto = ? " +
             "WHERE cod_requerimiento_inversion = ?; " +
             "SELECT last_insert_rowid();";

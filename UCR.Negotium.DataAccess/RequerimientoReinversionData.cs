@@ -60,6 +60,43 @@ namespace UCR.Negotium.DataAccess
             }//catch
         }//InsertarRequerimientosInvesion
 
+        public RequerimientoReinversion EditarRequerimientoReinversion(RequerimientoReinversion requerimientoReinversion, int codProyecto)
+        {
+            Object newProdID;
+            String insert = "UPDATE REQUERIMIENTO_REINVERSION SET descripcion_requerimiento = ?, cantidad = ?, " +
+                "costo_unitario = ?, cod_unidad_medida = ?, depreciable = ?, vida_util = ?, cod_proyecto = ?,  ano_reinversion = ? " +
+            "WHERE cod_requerimiento_reinversion = ?; " +
+            "SELECT last_insert_rowid();";
+            if (conexion.State != ConnectionState.Open)
+                conexion.Open();
+            SQLiteCommand command = conexion.CreateCommand();
+            command.CommandText = insert;
+            command.Parameters.AddWithValue("descripcion_requerimiento", requerimientoReinversion.DescripcionRequerimiento);
+            command.Parameters.AddWithValue("cantidad", requerimientoReinversion.Cantidad);
+            command.Parameters.AddWithValue("costo_unitario", requerimientoReinversion.CostoUnitario);
+            command.Parameters.AddWithValue("cod_unidad_medida", requerimientoReinversion.UnidadMedida.CodUnidad);
+            command.Parameters.AddWithValue("depreciable", requerimientoReinversion.Depreciable);
+            command.Parameters.AddWithValue("vida_util", requerimientoReinversion.VidaUtil);
+            command.Parameters.AddWithValue("cod_proyecto", codProyecto);
+            command.Parameters.AddWithValue("ano_reinversion", requerimientoReinversion.AnoReinversion);
+            command.Parameters.AddWithValue("cod_requerimiento_reinversion", requerimientoReinversion.CodRequerimientoReinversion);
+            try
+            {
+                if (conexion.State != ConnectionState.Open)
+                    conexion.Open();
+                newProdID = command.ExecuteScalar();
+                requerimientoReinversion.CodRequerimientoInversion = Int32.Parse(newProdID.ToString());
+                conexion.Close();
+                return requerimientoReinversion;
+            }//try
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                conexion.Close();
+                return requerimientoReinversion;
+            }//catch
+        }
+
         public List<RequerimientoReinversion> GetRequerimientosReinversion(int codProyecto)
         {
             List<RequerimientoReinversion> listaRequerimientos = new List<RequerimientoReinversion>();

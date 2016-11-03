@@ -50,8 +50,6 @@
             this.label24 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
-            this.btnGuardar2 = new System.Windows.Forms.Button();
-            this.btnVerResumen2 = new System.Windows.Forms.Button();
             this.txbResumenEjecutivo = new System.Windows.Forms.TextBox();
             this.label31 = new System.Windows.Forms.Label();
             this.cbxDistrito = new System.Windows.Forms.ComboBox();
@@ -76,8 +74,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label21 = new System.Windows.Forms.Label();
-            this.btnVerResumen = new System.Windows.Forms.Button();
-            this.btnGuardar = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -109,8 +105,6 @@
             this.panel8 = new System.Windows.Forms.Panel();
             this.label30 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.btnVerResumen3 = new System.Windows.Forms.Button();
-            this.btnGuardar3 = new System.Windows.Forms.Button();
             this.txbJustificacionMercado = new System.Windows.Forms.TextBox();
             this.txbDescripcionSostenibilidadProyecto = new System.Windows.Forms.TextBox();
             this.label35 = new System.Windows.Forms.Label();
@@ -134,9 +128,7 @@
             this.panel19 = new System.Windows.Forms.Panel();
             this.lblFoo1 = new System.Windows.Forms.Label();
             this.lblTotalInversiones = new System.Windows.Forms.Label();
-            this.btnVerResumen4 = new System.Windows.Forms.Button();
             this.label26 = new System.Windows.Forms.Label();
-            this.btnGuardarInversion = new System.Windows.Forms.Button();
             this.reinversiones = new System.Windows.Forms.TabPage();
             this.panel13 = new System.Windows.Forms.Panel();
             this.label49 = new System.Windows.Forms.Label();
@@ -152,11 +144,8 @@
             this.panel14 = new System.Windows.Forms.Panel();
             this.panel20 = new System.Windows.Forms.Panel();
             this.lblFoo2 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.label48 = new System.Windows.Forms.Label();
-            this.btnGuardar5 = new System.Windows.Forms.Button();
             this.dgvTotalesReinversiones = new System.Windows.Forms.DataGridView();
-            this.btnVerResumen5 = new System.Windows.Forms.Button();
             this.proyeccionVentas = new System.Windows.Forms.TabPage();
             this.panel15 = new System.Windows.Forms.Panel();
             this.label50 = new System.Windows.Forms.Label();
@@ -164,10 +153,6 @@
             this.panel16 = new System.Windows.Forms.Panel();
             this.panel21 = new System.Windows.Forms.Panel();
             this.lblFoo3 = new System.Windows.Forms.Label();
-            this.btnAgregarProyecciones = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.btnGuardarProyeccion = new System.Windows.Forms.Button();
-            this.llbRegistrarCrecimientosOferta = new System.Windows.Forms.LinkLabel();
             this.dgvIngresosGenerados = new System.Windows.Forms.DataGridView();
             this.label53 = new System.Windows.Forms.Label();
             this.costos = new System.Windows.Forms.TabPage();
@@ -177,10 +162,6 @@
             this.panel18 = new System.Windows.Forms.Panel();
             this.panel22 = new System.Windows.Forms.Panel();
             this.lblFoo4 = new System.Windows.Forms.Label();
-            this.btnAgregarCosto = new System.Windows.Forms.Button();
-            this.btnGuardarCostos = new System.Windows.Forms.Button();
-            this.llbGestionVariacionCostos = new System.Windows.Forms.LinkLabel();
-            this.btnVerResumenCostos = new System.Windows.Forms.Button();
             this.dgvCostosGenerados = new System.Windows.Forms.DataGridView();
             this.label57 = new System.Windows.Forms.Label();
             this.capitalTrabajo = new System.Windows.Forms.TabPage();
@@ -211,11 +192,7 @@
             this.label63 = new System.Windows.Forms.Label();
             this.label62 = new System.Windows.Forms.Label();
             this.label61 = new System.Windows.Forms.Label();
-            this.btnGuardarFinanciamientoIF = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.tpInteresVariable = new System.Windows.Forms.TabPage();
-            this.btnGuardarFinanciamientoIV = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
             this.dgvFinanciamientoVariable = new System.Windows.Forms.DataGridView();
             this.nudTiempoVariable = new System.Windows.Forms.NumericUpDown();
             this.tbMontoVariable = new System.Windows.Forms.TextBox();
@@ -227,18 +204,22 @@
             this.panel29 = new System.Windows.Forms.Panel();
             this.label59 = new System.Windows.Forms.Label();
             this.flujoCaja = new System.Windows.Forms.TabPage();
+            this.panel33 = new System.Windows.Forms.Panel();
+            this.tcFlujoCaja = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.dgvFlujoCajaIntFijo = new System.Windows.Forms.DataGridView();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.dgvFlujoCajaIntVariable = new System.Windows.Forms.DataGridView();
+            this.panel34 = new System.Windows.Forms.Panel();
+            this.label70 = new System.Windows.Forms.Label();
+            this.panel32 = new System.Windows.Forms.Panel();
+            this.label56 = new System.Windows.Forms.Label();
             this.resumenProyecto = new System.Windows.Forms.TabPage();
             this.panel9 = new System.Windows.Forms.Panel();
             this.label46 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
             this.lblCedulaEvaluador = new System.Windows.Forms.Label();
             this.label45 = new System.Windows.Forms.Label();
-            this.llbCambiarTelefonoProponente = new System.Windows.Forms.LinkLabel();
-            this.llbCambiarNombreProponente = new System.Windows.Forms.LinkLabel();
-            this.llbCambiarOrganizacionProponente = new System.Windows.Forms.LinkLabel();
-            this.llbCambiarObjetoInteres = new System.Windows.Forms.LinkLabel();
-            this.llbCambiarTipoProyecto = new System.Windows.Forms.LinkLabel();
-            this.llbCambiarNombreProyecto = new System.Windows.Forms.LinkLabel();
             this.lblTelefonoProponente = new System.Windows.Forms.Label();
             this.lblNombreProponente = new System.Windows.Forms.Label();
             this.lblOrganizacionProponente = new System.Windows.Forms.Label();
@@ -254,20 +235,50 @@
             this.label39 = new System.Windows.Forms.Label();
             this.label38 = new System.Windows.Forms.Label();
             this.ttMensaje = new System.Windows.Forms.ToolTip(this.components);
-            this.panel32 = new System.Windows.Forms.Panel();
-            this.label56 = new System.Windows.Forms.Label();
-            this.panel33 = new System.Windows.Forms.Panel();
-            this.tcFlujoCaja = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.panel35 = new System.Windows.Forms.Panel();
+            this.label60 = new System.Windows.Forms.Label();
+            this.panel36 = new System.Windows.Forms.Panel();
+            this.label76 = new System.Windows.Forms.Label();
+            this.label77 = new System.Windows.Forms.Label();
+            this.label78 = new System.Windows.Forms.Label();
+            this.label80 = new System.Windows.Forms.Label();
+            this.label81 = new System.Windows.Forms.Label();
+            this.label82 = new System.Windows.Forms.Label();
+            this.btnGuardar2 = new System.Windows.Forms.Button();
+            this.btnVerResumen2 = new System.Windows.Forms.Button();
+            this.btnVerResumen = new System.Windows.Forms.Button();
+            this.btnGuardar = new System.Windows.Forms.Button();
+            this.btnVerResumen3 = new System.Windows.Forms.Button();
+            this.btnGuardar3 = new System.Windows.Forms.Button();
+            this.btnVerResumen4 = new System.Windows.Forms.Button();
+            this.btnGuardarInversion = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.btnGuardar5 = new System.Windows.Forms.Button();
+            this.btnVerResumen5 = new System.Windows.Forms.Button();
+            this.btnAgregarProyecciones = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.btnGuardarProyeccion = new System.Windows.Forms.Button();
+            this.llbRegistrarCrecimientosOferta = new System.Windows.Forms.LinkLabel();
+            this.btnAgregarCosto = new System.Windows.Forms.Button();
+            this.btnGuardarCostos = new System.Windows.Forms.Button();
+            this.llbGestionVariacionCostos = new System.Windows.Forms.LinkLabel();
+            this.btnVerResumenCostos = new System.Windows.Forms.Button();
+            this.btnGuardarFinanciamientoIF = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.btnGuardarFinanciamientoIV = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
-            this.dgvFlujoCajaIntVariable = new System.Windows.Forms.DataGridView();
-            this.panel34 = new System.Windows.Forms.Panel();
-            this.label70 = new System.Windows.Forms.Label();
-            this.dgvFlujoCajaIntFijo = new System.Windows.Forms.DataGridView();
+            this.pbPaso1B = new System.Windows.Forms.PictureBox();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pbPaso2A = new System.Windows.Forms.PictureBox();
+            this.pbPaso1A = new System.Windows.Forms.PictureBox();
             this.unidadMedidaDataBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.pbPaso2B = new System.Windows.Forms.PictureBox();
             this.tbxRegistrarProyecto.SuspendLayout();
             this.informacionGeneral.SuspendLayout();
             this.panelDatosGenerales.SuspendLayout();
@@ -332,18 +343,28 @@
             this.panel31.SuspendLayout();
             this.panel29.SuspendLayout();
             this.flujoCaja.SuspendLayout();
-            this.resumenProyecto.SuspendLayout();
-            this.panel9.SuspendLayout();
-            this.panel6.SuspendLayout();
-            this.panel32.SuspendLayout();
             this.panel33.SuspendLayout();
             this.tcFlujoCaja.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFlujoCajaIntFijo)).BeginInit();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFlujoCajaIntVariable)).BeginInit();
             this.panel34.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvFlujoCajaIntFijo)).BeginInit();
+            this.panel32.SuspendLayout();
+            this.resumenProyecto.SuspendLayout();
+            this.panel9.SuspendLayout();
+            this.panel6.SuspendLayout();
+            this.panel35.SuspendLayout();
+            this.panel36.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPaso1B)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPaso2A)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPaso1A)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.unidadMedidaDataBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPaso2B)).BeginInit();
             this.SuspendLayout();
             // 
             // tbxRegistrarProyecto
@@ -618,31 +639,6 @@
             this.label16.TabIndex = 1;
             this.label16.Text = "Nombre del proyecto:";
             // 
-            // btnGuardar2
-            // 
-            this.btnGuardar2.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardar2.Image")));
-            this.btnGuardar2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGuardar2.Location = new System.Drawing.Point(796, 421);
-            this.btnGuardar2.Name = "btnGuardar2";
-            this.btnGuardar2.Size = new System.Drawing.Size(75, 24);
-            this.btnGuardar2.TabIndex = 29;
-            this.btnGuardar2.Text = "Guardar";
-            this.btnGuardar2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnGuardar2.UseVisualStyleBackColor = true;
-            this.btnGuardar2.Click += new System.EventHandler(this.btnGuardar2_Click);
-            // 
-            // btnVerResumen2
-            // 
-            this.btnVerResumen2.Image = ((System.Drawing.Image)(resources.GetObject("btnVerResumen2.Image")));
-            this.btnVerResumen2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnVerResumen2.Location = new System.Drawing.Point(877, 421);
-            this.btnVerResumen2.Name = "btnVerResumen2";
-            this.btnVerResumen2.Size = new System.Drawing.Size(93, 24);
-            this.btnVerResumen2.TabIndex = 28;
-            this.btnVerResumen2.Text = "Ver resumen";
-            this.btnVerResumen2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnVerResumen2.UseVisualStyleBackColor = true;
-            // 
             // txbResumenEjecutivo
             // 
             this.txbResumenEjecutivo.Location = new System.Drawing.Point(12, 66);
@@ -897,31 +893,6 @@
             this.label21.Size = new System.Drawing.Size(160, 16);
             this.label21.TabIndex = 31;
             this.label21.Text = "Datos de la organización:";
-            // 
-            // btnVerResumen
-            // 
-            this.btnVerResumen.Image = ((System.Drawing.Image)(resources.GetObject("btnVerResumen.Image")));
-            this.btnVerResumen.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnVerResumen.Location = new System.Drawing.Point(872, 388);
-            this.btnVerResumen.Name = "btnVerResumen";
-            this.btnVerResumen.Size = new System.Drawing.Size(86, 23);
-            this.btnVerResumen.TabIndex = 19;
-            this.btnVerResumen.Text = "Ver resumen";
-            this.btnVerResumen.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnVerResumen.UseVisualStyleBackColor = true;
-            // 
-            // btnGuardar
-            // 
-            this.btnGuardar.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardar.Image")));
-            this.btnGuardar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGuardar.Location = new System.Drawing.Point(775, 388);
-            this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(72, 23);
-            this.btnGuardar.TabIndex = 20;
-            this.btnGuardar.Text = "Guardar";
-            this.btnGuardar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnGuardar.UseVisualStyleBackColor = true;
-            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // label4
             // 
@@ -1248,31 +1219,6 @@
             this.panel5.Size = new System.Drawing.Size(1128, 439);
             this.panel5.TabIndex = 0;
             // 
-            // btnVerResumen3
-            // 
-            this.btnVerResumen3.Image = ((System.Drawing.Image)(resources.GetObject("btnVerResumen3.Image")));
-            this.btnVerResumen3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnVerResumen3.Location = new System.Drawing.Point(987, 402);
-            this.btnVerResumen3.Name = "btnVerResumen3";
-            this.btnVerResumen3.Size = new System.Drawing.Size(90, 23);
-            this.btnVerResumen3.TabIndex = 13;
-            this.btnVerResumen3.Text = "Ver resumen";
-            this.btnVerResumen3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnVerResumen3.UseVisualStyleBackColor = true;
-            // 
-            // btnGuardar3
-            // 
-            this.btnGuardar3.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardar3.Image")));
-            this.btnGuardar3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGuardar3.Location = new System.Drawing.Point(906, 402);
-            this.btnGuardar3.Name = "btnGuardar3";
-            this.btnGuardar3.Size = new System.Drawing.Size(75, 23);
-            this.btnGuardar3.TabIndex = 12;
-            this.btnGuardar3.Text = "Guardar";
-            this.btnGuardar3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnGuardar3.UseVisualStyleBackColor = true;
-            this.btnGuardar3.Click += new System.EventHandler(this.btnGuardar3_Click);
-            // 
             // txbJustificacionMercado
             // 
             this.txbJustificacionMercado.Location = new System.Drawing.Point(543, 39);
@@ -1486,19 +1432,6 @@
             this.lblTotalInversiones.TabIndex = 2;
             this.lblTotalInversiones.Text = "0";
             // 
-            // btnVerResumen4
-            // 
-            this.btnVerResumen4.Image = ((System.Drawing.Image)(resources.GetObject("btnVerResumen4.Image")));
-            this.btnVerResumen4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnVerResumen4.Location = new System.Drawing.Point(1012, 356);
-            this.btnVerResumen4.Name = "btnVerResumen4";
-            this.btnVerResumen4.Size = new System.Drawing.Size(94, 23);
-            this.btnVerResumen4.TabIndex = 4;
-            this.btnVerResumen4.Text = "Ver Resumen";
-            this.btnVerResumen4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnVerResumen4.UseVisualStyleBackColor = true;
-            this.btnVerResumen4.Click += new System.EventHandler(this.btnVerResumen4_Click);
-            // 
             // label26
             // 
             this.label26.AutoSize = true;
@@ -1508,19 +1441,6 @@
             this.label26.Size = new System.Drawing.Size(44, 17);
             this.label26.TabIndex = 1;
             this.label26.Text = "Total:";
-            // 
-            // btnGuardarInversion
-            // 
-            this.btnGuardarInversion.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardarInversion.Image")));
-            this.btnGuardarInversion.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGuardarInversion.Location = new System.Drawing.Point(917, 356);
-            this.btnGuardarInversion.Name = "btnGuardarInversion";
-            this.btnGuardarInversion.Size = new System.Drawing.Size(76, 23);
-            this.btnGuardarInversion.TabIndex = 3;
-            this.btnGuardarInversion.Text = "Guardar";
-            this.btnGuardarInversion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnGuardarInversion.UseVisualStyleBackColor = true;
-            this.btnGuardarInversion.Click += new System.EventHandler(this.btnGuardarInversion_Click);
             // 
             // reinversiones
             // 
@@ -1666,18 +1586,6 @@
             this.lblFoo2.Text = "Info: Nombre del Proyecto: Proyecto nuevo horizonte - Horizonte del Proyecto: 5 A" +
     "ños - Proponente: Luis Carcamo";
             // 
-            // button1
-            // 
-            this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
-            this.button1.Location = new System.Drawing.Point(25, 231);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(28, 23);
-            this.button1.TabIndex = 5;
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.ttMensaje.SetToolTip(this.button1, "Agregar Nueva Reinversión a partir de una Inversión Registrada");
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // label48
             // 
             this.label48.AutoSize = true;
@@ -1688,19 +1596,6 @@
             this.label48.TabIndex = 3;
             this.label48.Text = "Total reinvertido por año";
             // 
-            // btnGuardar5
-            // 
-            this.btnGuardar5.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardar5.Image")));
-            this.btnGuardar5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGuardar5.Location = new System.Drawing.Point(918, 356);
-            this.btnGuardar5.Name = "btnGuardar5";
-            this.btnGuardar5.Size = new System.Drawing.Size(76, 23);
-            this.btnGuardar5.TabIndex = 9;
-            this.btnGuardar5.Text = "Guardar";
-            this.btnGuardar5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnGuardar5.UseVisualStyleBackColor = true;
-            this.btnGuardar5.Click += new System.EventHandler(this.btnGuardar5_Click);
-            // 
             // dgvTotalesReinversiones
             // 
             this.dgvTotalesReinversiones.AllowUserToAddRows = false;
@@ -1710,18 +1605,6 @@
             this.dgvTotalesReinversiones.Name = "dgvTotalesReinversiones";
             this.dgvTotalesReinversiones.Size = new System.Drawing.Size(1081, 43);
             this.dgvTotalesReinversiones.TabIndex = 2;
-            // 
-            // btnVerResumen5
-            // 
-            this.btnVerResumen5.Image = ((System.Drawing.Image)(resources.GetObject("btnVerResumen5.Image")));
-            this.btnVerResumen5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnVerResumen5.Location = new System.Drawing.Point(1012, 356);
-            this.btnVerResumen5.Name = "btnVerResumen5";
-            this.btnVerResumen5.Size = new System.Drawing.Size(94, 23);
-            this.btnVerResumen5.TabIndex = 8;
-            this.btnVerResumen5.Text = "Ver Resumen";
-            this.btnVerResumen5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnVerResumen5.UseVisualStyleBackColor = true;
             // 
             // proyeccionVentas
             // 
@@ -1802,56 +1685,6 @@
             this.lblFoo3.TabIndex = 0;
             this.lblFoo3.Text = "Info: Nombre del Proyecto: Proyecto nuevo horizonte - Horizonte del Proyecto: 5 A" +
     "ños - Proponente: Luis Carcamo";
-            // 
-            // btnAgregarProyecciones
-            // 
-            this.btnAgregarProyecciones.Image = ((System.Drawing.Image)(resources.GetObject("btnAgregarProyecciones.Image")));
-            this.btnAgregarProyecciones.Location = new System.Drawing.Point(25, 231);
-            this.btnAgregarProyecciones.Name = "btnAgregarProyecciones";
-            this.btnAgregarProyecciones.Size = new System.Drawing.Size(28, 23);
-            this.btnAgregarProyecciones.TabIndex = 37;
-            this.btnAgregarProyecciones.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.ttMensaje.SetToolTip(this.btnAgregarProyecciones, "Agregar Nueva Proyección");
-            this.btnAgregarProyecciones.UseVisualStyleBackColor = true;
-            this.btnAgregarProyecciones.Click += new System.EventHandler(this.btnAgregarProyecciones_Click);
-            // 
-            // button2
-            // 
-            this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
-            this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(1012, 356);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(93, 23);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Ver Resumen";
-            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // btnGuardarProyeccion
-            // 
-            this.btnGuardarProyeccion.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardarProyeccion.Image")));
-            this.btnGuardarProyeccion.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.btnGuardarProyeccion.Location = new System.Drawing.Point(918, 356);
-            this.btnGuardarProyeccion.Name = "btnGuardarProyeccion";
-            this.btnGuardarProyeccion.Size = new System.Drawing.Size(75, 23);
-            this.btnGuardarProyeccion.TabIndex = 4;
-            this.btnGuardarProyeccion.Text = "Guardar";
-            this.btnGuardarProyeccion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnGuardarProyeccion.UseVisualStyleBackColor = true;
-            this.btnGuardarProyeccion.Click += new System.EventHandler(this.btnGuardarProyeccion_Click);
-            // 
-            // llbRegistrarCrecimientosOferta
-            // 
-            this.llbRegistrarCrecimientosOferta.Image = ((System.Drawing.Image)(resources.GetObject("llbRegistrarCrecimientosOferta.Image")));
-            this.llbRegistrarCrecimientosOferta.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.llbRegistrarCrecimientosOferta.Location = new System.Drawing.Point(947, 241);
-            this.llbRegistrarCrecimientosOferta.Name = "llbRegistrarCrecimientosOferta";
-            this.llbRegistrarCrecimientosOferta.Size = new System.Drawing.Size(158, 13);
-            this.llbRegistrarCrecimientosOferta.TabIndex = 39;
-            this.llbRegistrarCrecimientosOferta.TabStop = true;
-            this.llbRegistrarCrecimientosOferta.Text = "Crecimiento Anual de Oferta";
-            this.llbRegistrarCrecimientosOferta.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.llbRegistrarCrecimientosOferta.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbRegistrarCrecimientosOferta_LinkClicked);
             // 
             // dgvIngresosGenerados
             // 
@@ -1954,56 +1787,6 @@
             this.lblFoo4.TabIndex = 0;
             this.lblFoo4.Text = "Info: Nombre del Proyecto: Proyecto nuevo horizonte - Horizonte del Proyecto: 5 A" +
     "ños - Proponente: Luis Carcamo";
-            // 
-            // btnAgregarCosto
-            // 
-            this.btnAgregarCosto.Image = ((System.Drawing.Image)(resources.GetObject("btnAgregarCosto.Image")));
-            this.btnAgregarCosto.Location = new System.Drawing.Point(25, 231);
-            this.btnAgregarCosto.Name = "btnAgregarCosto";
-            this.btnAgregarCosto.Size = new System.Drawing.Size(28, 23);
-            this.btnAgregarCosto.TabIndex = 38;
-            this.btnAgregarCosto.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.ttMensaje.SetToolTip(this.btnAgregarCosto, "Agregar Nuevo Costo");
-            this.btnAgregarCosto.UseVisualStyleBackColor = true;
-            this.btnAgregarCosto.Click += new System.EventHandler(this.btnAgregarCosto_Click);
-            // 
-            // btnGuardarCostos
-            // 
-            this.btnGuardarCostos.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardarCostos.Image")));
-            this.btnGuardarCostos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGuardarCostos.Location = new System.Drawing.Point(918, 356);
-            this.btnGuardarCostos.Name = "btnGuardarCostos";
-            this.btnGuardarCostos.Size = new System.Drawing.Size(71, 23);
-            this.btnGuardarCostos.TabIndex = 4;
-            this.btnGuardarCostos.Text = "Guardar";
-            this.btnGuardarCostos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnGuardarCostos.UseVisualStyleBackColor = true;
-            // 
-            // llbGestionVariacionCostos
-            // 
-            this.llbGestionVariacionCostos.Image = ((System.Drawing.Image)(resources.GetObject("llbGestionVariacionCostos.Image")));
-            this.llbGestionVariacionCostos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.llbGestionVariacionCostos.Location = new System.Drawing.Point(953, 231);
-            this.llbGestionVariacionCostos.Name = "llbGestionVariacionCostos";
-            this.llbGestionVariacionCostos.Size = new System.Drawing.Size(153, 23);
-            this.llbGestionVariacionCostos.TabIndex = 40;
-            this.llbGestionVariacionCostos.TabStop = true;
-            this.llbGestionVariacionCostos.Text = "Variación Anual de Costos";
-            this.llbGestionVariacionCostos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.llbGestionVariacionCostos.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbGestionVariacionCostos_LinkClicked);
-            // 
-            // btnVerResumenCostos
-            // 
-            this.btnVerResumenCostos.Image = ((System.Drawing.Image)(resources.GetObject("btnVerResumenCostos.Image")));
-            this.btnVerResumenCostos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnVerResumenCostos.Location = new System.Drawing.Point(1012, 356);
-            this.btnVerResumenCostos.Name = "btnVerResumenCostos";
-            this.btnVerResumenCostos.Size = new System.Drawing.Size(96, 23);
-            this.btnVerResumenCostos.TabIndex = 3;
-            this.btnVerResumenCostos.Text = "Ver Resumen";
-            this.btnVerResumenCostos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnVerResumenCostos.UseVisualStyleBackColor = true;
-            this.btnVerResumenCostos.Click += new System.EventHandler(this.btnVerResumenCostos_Click);
             // 
             // dgvCostosGenerados
             // 
@@ -2337,33 +2120,6 @@
             this.label61.TabIndex = 5;
             this.label61.Text = "Monto a financiar";
             // 
-            // btnGuardarFinanciamientoIF
-            // 
-            this.btnGuardarFinanciamientoIF.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGuardarFinanciamientoIF.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardarFinanciamientoIF.Image")));
-            this.btnGuardarFinanciamientoIF.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGuardarFinanciamientoIF.Location = new System.Drawing.Point(895, 317);
-            this.btnGuardarFinanciamientoIF.Name = "btnGuardarFinanciamientoIF";
-            this.btnGuardarFinanciamientoIF.Size = new System.Drawing.Size(75, 23);
-            this.btnGuardarFinanciamientoIF.TabIndex = 4;
-            this.btnGuardarFinanciamientoIF.Text = "Guardar";
-            this.btnGuardarFinanciamientoIF.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnGuardarFinanciamientoIF.UseVisualStyleBackColor = true;
-            this.btnGuardarFinanciamientoIF.Click += new System.EventHandler(this.btnGuardarFinanciamientoIF_Click);
-            // 
-            // button3
-            // 
-            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Image = ((System.Drawing.Image)(resources.GetObject("button3.Image")));
-            this.button3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button3.Location = new System.Drawing.Point(1002, 318);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(99, 23);
-            this.button3.TabIndex = 3;
-            this.button3.Text = "Ver Resumen";
-            this.button3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button3.UseVisualStyleBackColor = true;
-            // 
             // tpInteresVariable
             // 
             this.tpInteresVariable.BackColor = System.Drawing.Color.Honeydew;
@@ -2382,33 +2138,6 @@
             this.tpInteresVariable.Size = new System.Drawing.Size(1120, 373);
             this.tpInteresVariable.TabIndex = 1;
             this.tpInteresVariable.Text = "Financiamiento con interés variable";
-            // 
-            // btnGuardarFinanciamientoIV
-            // 
-            this.btnGuardarFinanciamientoIV.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGuardarFinanciamientoIV.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardarFinanciamientoIV.Image")));
-            this.btnGuardarFinanciamientoIV.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGuardarFinanciamientoIV.Location = new System.Drawing.Point(895, 317);
-            this.btnGuardarFinanciamientoIV.Name = "btnGuardarFinanciamientoIV";
-            this.btnGuardarFinanciamientoIV.Size = new System.Drawing.Size(75, 23);
-            this.btnGuardarFinanciamientoIV.TabIndex = 7;
-            this.btnGuardarFinanciamientoIV.Text = "Guardar";
-            this.btnGuardarFinanciamientoIV.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnGuardarFinanciamientoIV.UseVisualStyleBackColor = true;
-            this.btnGuardarFinanciamientoIV.Click += new System.EventHandler(this.btnGuardarFinanciamientoIV_Click);
-            // 
-            // button4
-            // 
-            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Image = ((System.Drawing.Image)(resources.GetObject("button4.Image")));
-            this.button4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button4.Location = new System.Drawing.Point(1002, 318);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(99, 23);
-            this.button4.TabIndex = 6;
-            this.button4.Text = "Ver Resumen";
-            this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button4.UseVisualStyleBackColor = true;
             // 
             // dgvFinanciamientoVariable
             // 
@@ -2529,9 +2258,127 @@
             this.flujoCaja.TabIndex = 12;
             this.flujoCaja.Text = "Flujo de Caja";
             // 
+            // panel33
+            // 
+            this.panel33.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel33.Controls.Add(this.tcFlujoCaja);
+            this.panel33.Controls.Add(this.panel34);
+            this.panel33.Location = new System.Drawing.Point(24, 42);
+            this.panel33.Name = "panel33";
+            this.panel33.Size = new System.Drawing.Size(1128, 439);
+            this.panel33.TabIndex = 3;
+            // 
+            // tcFlujoCaja
+            // 
+            this.tcFlujoCaja.Controls.Add(this.tabPage1);
+            this.tcFlujoCaja.Controls.Add(this.tabPage2);
+            this.tcFlujoCaja.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tcFlujoCaja.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.tcFlujoCaja.ItemSize = new System.Drawing.Size(562, 30);
+            this.tcFlujoCaja.Location = new System.Drawing.Point(-1, -1);
+            this.tcFlujoCaja.Name = "tcFlujoCaja";
+            this.tcFlujoCaja.SelectedIndex = 0;
+            this.tcFlujoCaja.Size = new System.Drawing.Size(1128, 411);
+            this.tcFlujoCaja.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            this.tcFlujoCaja.TabIndex = 5;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.BackColor = System.Drawing.Color.Honeydew;
+            this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPage1.Controls.Add(this.dgvFlujoCajaIntFijo);
+            this.tabPage1.Controls.Add(this.button6);
+            this.tabPage1.Location = new System.Drawing.Point(4, 34);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1120, 373);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Flujo de Caja con interés fijo";
+            // 
+            // dgvFlujoCajaIntFijo
+            // 
+            this.dgvFlujoCajaIntFijo.AllowUserToAddRows = false;
+            this.dgvFlujoCajaIntFijo.AllowUserToDeleteRows = false;
+            this.dgvFlujoCajaIntFijo.AllowUserToResizeColumns = false;
+            this.dgvFlujoCajaIntFijo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvFlujoCajaIntFijo.Location = new System.Drawing.Point(25, 21);
+            this.dgvFlujoCajaIntFijo.Name = "dgvFlujoCajaIntFijo";
+            this.dgvFlujoCajaIntFijo.ReadOnly = true;
+            this.dgvFlujoCajaIntFijo.Size = new System.Drawing.Size(1076, 291);
+            this.dgvFlujoCajaIntFijo.TabIndex = 8;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.BackColor = System.Drawing.Color.Honeydew;
+            this.tabPage2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPage2.Controls.Add(this.button7);
+            this.tabPage2.Controls.Add(this.button8);
+            this.tabPage2.Controls.Add(this.dgvFlujoCajaIntVariable);
+            this.tabPage2.Location = new System.Drawing.Point(4, 34);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1120, 373);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Flujo de Caja con interés variable";
+            // 
+            // dgvFlujoCajaIntVariable
+            // 
+            this.dgvFlujoCajaIntVariable.AllowUserToAddRows = false;
+            this.dgvFlujoCajaIntVariable.AllowUserToDeleteRows = false;
+            this.dgvFlujoCajaIntVariable.AllowUserToResizeColumns = false;
+            this.dgvFlujoCajaIntVariable.AllowUserToResizeRows = false;
+            this.dgvFlujoCajaIntVariable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvFlujoCajaIntVariable.Location = new System.Drawing.Point(25, 21);
+            this.dgvFlujoCajaIntVariable.Name = "dgvFlujoCajaIntVariable";
+            this.dgvFlujoCajaIntVariable.Size = new System.Drawing.Size(1076, 291);
+            this.dgvFlujoCajaIntVariable.TabIndex = 5;
+            // 
+            // panel34
+            // 
+            this.panel34.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.panel34.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel34.Controls.Add(this.label70);
+            this.panel34.Location = new System.Drawing.Point(-1, 405);
+            this.panel34.Name = "panel34";
+            this.panel34.Size = new System.Drawing.Size(1130, 33);
+            this.panel34.TabIndex = 0;
+            // 
+            // label70
+            // 
+            this.label70.AutoSize = true;
+            this.label70.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label70.Location = new System.Drawing.Point(6, 7);
+            this.label70.Name = "label70";
+            this.label70.Size = new System.Drawing.Size(681, 16);
+            this.label70.TabIndex = 0;
+            this.label70.Text = "Info: Nombre del Proyecto: Proyecto nuevo horizonte - Horizonte del Proyecto: 5 A" +
+    "ños - Proponente: Luis Carcamo";
+            // 
+            // panel32
+            // 
+            this.panel32.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.panel32.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel32.Controls.Add(this.label56);
+            this.panel32.Location = new System.Drawing.Point(24, 18);
+            this.panel32.Name = "panel32";
+            this.panel32.Size = new System.Drawing.Size(1128, 27);
+            this.panel32.TabIndex = 2;
+            // 
+            // label56
+            // 
+            this.label56.AutoSize = true;
+            this.label56.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label56.Location = new System.Drawing.Point(4, 5);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(107, 16);
+            this.label56.TabIndex = 0;
+            this.label56.Text = "Flujo de Efectivo";
+            // 
             // resumenProyecto
             // 
             this.resumenProyecto.BackColor = System.Drawing.Color.Honeydew;
+            this.resumenProyecto.Controls.Add(this.panel35);
+            this.resumenProyecto.Controls.Add(this.panel36);
             this.resumenProyecto.Controls.Add(this.panel9);
             this.resumenProyecto.Controls.Add(this.panel6);
             this.resumenProyecto.Location = new System.Drawing.Point(4, 22);
@@ -2547,7 +2394,7 @@
             this.panel9.Controls.Add(this.label46);
             this.panel9.Location = new System.Drawing.Point(24, 18);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(888, 30);
+            this.panel9.Size = new System.Drawing.Size(499, 30);
             this.panel9.TabIndex = 1;
             // 
             // label46
@@ -2566,12 +2413,6 @@
             this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel6.Controls.Add(this.lblCedulaEvaluador);
             this.panel6.Controls.Add(this.label45);
-            this.panel6.Controls.Add(this.llbCambiarTelefonoProponente);
-            this.panel6.Controls.Add(this.llbCambiarNombreProponente);
-            this.panel6.Controls.Add(this.llbCambiarOrganizacionProponente);
-            this.panel6.Controls.Add(this.llbCambiarObjetoInteres);
-            this.panel6.Controls.Add(this.llbCambiarTipoProyecto);
-            this.panel6.Controls.Add(this.llbCambiarNombreProyecto);
             this.panel6.Controls.Add(this.lblTelefonoProponente);
             this.panel6.Controls.Add(this.lblNombreProponente);
             this.panel6.Controls.Add(this.lblOrganizacionProponente);
@@ -2588,7 +2429,7 @@
             this.panel6.Controls.Add(this.label38);
             this.panel6.Location = new System.Drawing.Point(24, 43);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(888, 445);
+            this.panel6.Size = new System.Drawing.Size(499, 415);
             this.panel6.TabIndex = 0;
             // 
             // lblCedulaEvaluador
@@ -2610,78 +2451,6 @@
             this.label45.Size = new System.Drawing.Size(118, 16);
             this.label45.TabIndex = 21;
             this.label45.Text = "Cedula evaluador:";
-            // 
-            // llbCambiarTelefonoProponente
-            // 
-            this.llbCambiarTelefonoProponente.AutoSize = true;
-            this.llbCambiarTelefonoProponente.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.llbCambiarTelefonoProponente.Location = new System.Drawing.Point(454, 268);
-            this.llbCambiarTelefonoProponente.Name = "llbCambiarTelefonoProponente";
-            this.llbCambiarTelefonoProponente.Size = new System.Drawing.Size(59, 16);
-            this.llbCambiarTelefonoProponente.TabIndex = 20;
-            this.llbCambiarTelefonoProponente.TabStop = true;
-            this.llbCambiarTelefonoProponente.Text = "Cambiar";
-            this.llbCambiarTelefonoProponente.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbTelefonoProponente_LinkClicked);
-            // 
-            // llbCambiarNombreProponente
-            // 
-            this.llbCambiarNombreProponente.AutoSize = true;
-            this.llbCambiarNombreProponente.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.llbCambiarNombreProponente.Location = new System.Drawing.Point(454, 219);
-            this.llbCambiarNombreProponente.Name = "llbCambiarNombreProponente";
-            this.llbCambiarNombreProponente.Size = new System.Drawing.Size(59, 16);
-            this.llbCambiarNombreProponente.TabIndex = 19;
-            this.llbCambiarNombreProponente.TabStop = true;
-            this.llbCambiarNombreProponente.Text = "Cambiar";
-            this.llbCambiarNombreProponente.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbNombreProponente_LinkClicked);
-            // 
-            // llbCambiarOrganizacionProponente
-            // 
-            this.llbCambiarOrganizacionProponente.AutoSize = true;
-            this.llbCambiarOrganizacionProponente.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.llbCambiarOrganizacionProponente.Location = new System.Drawing.Point(454, 178);
-            this.llbCambiarOrganizacionProponente.Name = "llbCambiarOrganizacionProponente";
-            this.llbCambiarOrganizacionProponente.Size = new System.Drawing.Size(59, 16);
-            this.llbCambiarOrganizacionProponente.TabIndex = 18;
-            this.llbCambiarOrganizacionProponente.TabStop = true;
-            this.llbCambiarOrganizacionProponente.Text = "Cambiar";
-            this.llbCambiarOrganizacionProponente.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbOrganizacionProponente_LinkClicked);
-            // 
-            // llbCambiarObjetoInteres
-            // 
-            this.llbCambiarObjetoInteres.AutoSize = true;
-            this.llbCambiarObjetoInteres.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.llbCambiarObjetoInteres.Location = new System.Drawing.Point(454, 134);
-            this.llbCambiarObjetoInteres.Name = "llbCambiarObjetoInteres";
-            this.llbCambiarObjetoInteres.Size = new System.Drawing.Size(59, 16);
-            this.llbCambiarObjetoInteres.TabIndex = 16;
-            this.llbCambiarObjetoInteres.TabStop = true;
-            this.llbCambiarObjetoInteres.Text = "Cambiar";
-            this.llbCambiarObjetoInteres.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbCambiarObjetoInteres_LinkClicked);
-            // 
-            // llbCambiarTipoProyecto
-            // 
-            this.llbCambiarTipoProyecto.AutoSize = true;
-            this.llbCambiarTipoProyecto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.llbCambiarTipoProyecto.Location = new System.Drawing.Point(454, 88);
-            this.llbCambiarTipoProyecto.Name = "llbCambiarTipoProyecto";
-            this.llbCambiarTipoProyecto.Size = new System.Drawing.Size(59, 16);
-            this.llbCambiarTipoProyecto.TabIndex = 15;
-            this.llbCambiarTipoProyecto.TabStop = true;
-            this.llbCambiarTipoProyecto.Text = "Cambiar";
-            this.llbCambiarTipoProyecto.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbCambiarTipoProyecto_LinkClicked);
-            // 
-            // llbCambiarNombreProyecto
-            // 
-            this.llbCambiarNombreProyecto.AutoSize = true;
-            this.llbCambiarNombreProyecto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.llbCambiarNombreProyecto.Location = new System.Drawing.Point(454, 40);
-            this.llbCambiarNombreProyecto.Name = "llbCambiarNombreProyecto";
-            this.llbCambiarNombreProyecto.Size = new System.Drawing.Size(59, 16);
-            this.llbCambiarNombreProyecto.TabIndex = 14;
-            this.llbCambiarNombreProyecto.TabStop = true;
-            this.llbCambiarNombreProyecto.Text = "Cambiar";
-            this.llbCambiarNombreProyecto.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbCambiarNombreProyecto_LinkClicked);
             // 
             // lblTelefonoProponente
             // 
@@ -2827,62 +2596,400 @@
             // 
             this.ttMensaje.IsBalloon = true;
             // 
-            // panel32
+            // panel35
             // 
-            this.panel32.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.panel32.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel32.Controls.Add(this.label56);
-            this.panel32.Location = new System.Drawing.Point(24, 18);
-            this.panel32.Name = "panel32";
-            this.panel32.Size = new System.Drawing.Size(1128, 27);
-            this.panel32.TabIndex = 2;
+            this.panel35.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.panel35.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel35.Controls.Add(this.label60);
+            this.panel35.Location = new System.Drawing.Point(669, 18);
+            this.panel35.Name = "panel35";
+            this.panel35.Size = new System.Drawing.Size(407, 30);
+            this.panel35.TabIndex = 3;
             // 
-            // label56
+            // label60
             // 
-            this.label56.AutoSize = true;
-            this.label56.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label56.Location = new System.Drawing.Point(4, 5);
-            this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(107, 16);
-            this.label56.TabIndex = 0;
-            this.label56.Text = "Flujo de Efectivo";
+            this.label60.AutoSize = true;
+            this.label60.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label60.Location = new System.Drawing.Point(3, 5);
+            this.label60.Name = "label60";
+            this.label60.Size = new System.Drawing.Size(133, 16);
+            this.label60.TabIndex = 0;
+            this.label60.Text = "Avance del Proyecto";
             // 
-            // panel33
+            // panel36
             // 
-            this.panel33.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel33.Controls.Add(this.tcFlujoCaja);
-            this.panel33.Controls.Add(this.panel34);
-            this.panel33.Location = new System.Drawing.Point(24, 42);
-            this.panel33.Name = "panel33";
-            this.panel33.Size = new System.Drawing.Size(1128, 439);
-            this.panel33.TabIndex = 3;
+            this.panel36.BackColor = System.Drawing.Color.MintCream;
+            this.panel36.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel36.Controls.Add(this.pbPaso2B);
+            this.panel36.Controls.Add(this.pbPaso1B);
+            this.panel36.Controls.Add(this.pictureBox5);
+            this.panel36.Controls.Add(this.pictureBox4);
+            this.panel36.Controls.Add(this.pictureBox3);
+            this.panel36.Controls.Add(this.pictureBox2);
+            this.panel36.Controls.Add(this.pbPaso2A);
+            this.panel36.Controls.Add(this.pbPaso1A);
+            this.panel36.Controls.Add(this.label76);
+            this.panel36.Controls.Add(this.label77);
+            this.panel36.Controls.Add(this.label78);
+            this.panel36.Controls.Add(this.label80);
+            this.panel36.Controls.Add(this.label81);
+            this.panel36.Controls.Add(this.label82);
+            this.panel36.Location = new System.Drawing.Point(669, 43);
+            this.panel36.Name = "panel36";
+            this.panel36.Size = new System.Drawing.Size(407, 415);
+            this.panel36.TabIndex = 2;
             // 
-            // tcFlujoCaja
+            // label76
             // 
-            this.tcFlujoCaja.Controls.Add(this.tabPage1);
-            this.tcFlujoCaja.Controls.Add(this.tabPage2);
-            this.tcFlujoCaja.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tcFlujoCaja.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.tcFlujoCaja.ItemSize = new System.Drawing.Size(562, 30);
-            this.tcFlujoCaja.Location = new System.Drawing.Point(-1, -1);
-            this.tcFlujoCaja.Name = "tcFlujoCaja";
-            this.tcFlujoCaja.SelectedIndex = 0;
-            this.tcFlujoCaja.Size = new System.Drawing.Size(1128, 411);
-            this.tcFlujoCaja.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-            this.tcFlujoCaja.TabIndex = 5;
+            this.label76.AutoSize = true;
+            this.label76.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label76.Location = new System.Drawing.Point(126, 275);
+            this.label76.Name = "label76";
+            this.label76.Size = new System.Drawing.Size(218, 16);
+            this.label76.TabIndex = 6;
+            this.label76.Text = "Paso 6: Valoración del flujo de caja";
             // 
-            // tabPage1
+            // label77
             // 
-            this.tabPage1.BackColor = System.Drawing.Color.Honeydew;
-            this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tabPage1.Controls.Add(this.dgvFlujoCajaIntFijo);
-            this.tabPage1.Controls.Add(this.button6);
-            this.tabPage1.Location = new System.Drawing.Point(4, 34);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1120, 373);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Flujo de Caja con interés fijo";
+            this.label77.AutoSize = true;
+            this.label77.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label77.Location = new System.Drawing.Point(126, 228);
+            this.label77.Name = "label77";
+            this.label77.Size = new System.Drawing.Size(182, 16);
+            this.label77.TabIndex = 5;
+            this.label77.Text = "Paso 5: Llenar financiamiento";
+            // 
+            // label78
+            // 
+            this.label78.AutoSize = true;
+            this.label78.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label78.Location = new System.Drawing.Point(126, 180);
+            this.label78.Name = "label78";
+            this.label78.Size = new System.Drawing.Size(214, 16);
+            this.label78.TabIndex = 4;
+            this.label78.Text = "Paso 4: Llenar costos del proyecto";
+            // 
+            // label80
+            // 
+            this.label80.AutoSize = true;
+            this.label80.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label80.Location = new System.Drawing.Point(126, 134);
+            this.label80.Name = "label80";
+            this.label80.Size = new System.Drawing.Size(240, 16);
+            this.label80.TabIndex = 2;
+            this.label80.Text = "Paso 3: Llenar proyecciones de ventas";
+            // 
+            // label81
+            // 
+            this.label81.AutoSize = true;
+            this.label81.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label81.Location = new System.Drawing.Point(126, 88);
+            this.label81.Name = "label81";
+            this.label81.Size = new System.Drawing.Size(259, 16);
+            this.label81.TabIndex = 1;
+            this.label81.Text = "Paso 2: Llenar inversiones y reinversiones";
+            // 
+            // label82
+            // 
+            this.label82.AutoSize = true;
+            this.label82.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label82.Location = new System.Drawing.Point(126, 40);
+            this.label82.Name = "label82";
+            this.label82.Size = new System.Drawing.Size(209, 16);
+            this.label82.TabIndex = 0;
+            this.label82.Text = "Paso 1: Llenar información básica";
+            // 
+            // btnGuardar2
+            // 
+            this.btnGuardar2.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardar2.Image")));
+            this.btnGuardar2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnGuardar2.Location = new System.Drawing.Point(796, 421);
+            this.btnGuardar2.Name = "btnGuardar2";
+            this.btnGuardar2.Size = new System.Drawing.Size(75, 24);
+            this.btnGuardar2.TabIndex = 29;
+            this.btnGuardar2.Text = "Guardar";
+            this.btnGuardar2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnGuardar2.UseVisualStyleBackColor = true;
+            this.btnGuardar2.Click += new System.EventHandler(this.btnGuardar2_Click);
+            // 
+            // btnVerResumen2
+            // 
+            this.btnVerResumen2.Image = ((System.Drawing.Image)(resources.GetObject("btnVerResumen2.Image")));
+            this.btnVerResumen2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnVerResumen2.Location = new System.Drawing.Point(877, 421);
+            this.btnVerResumen2.Name = "btnVerResumen2";
+            this.btnVerResumen2.Size = new System.Drawing.Size(93, 24);
+            this.btnVerResumen2.TabIndex = 28;
+            this.btnVerResumen2.Text = "Ver resumen";
+            this.btnVerResumen2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnVerResumen2.UseVisualStyleBackColor = true;
+            // 
+            // btnVerResumen
+            // 
+            this.btnVerResumen.Image = ((System.Drawing.Image)(resources.GetObject("btnVerResumen.Image")));
+            this.btnVerResumen.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnVerResumen.Location = new System.Drawing.Point(872, 388);
+            this.btnVerResumen.Name = "btnVerResumen";
+            this.btnVerResumen.Size = new System.Drawing.Size(86, 23);
+            this.btnVerResumen.TabIndex = 19;
+            this.btnVerResumen.Text = "Ver resumen";
+            this.btnVerResumen.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnVerResumen.UseVisualStyleBackColor = true;
+            // 
+            // btnGuardar
+            // 
+            this.btnGuardar.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardar.Image")));
+            this.btnGuardar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnGuardar.Location = new System.Drawing.Point(775, 388);
+            this.btnGuardar.Name = "btnGuardar";
+            this.btnGuardar.Size = new System.Drawing.Size(72, 23);
+            this.btnGuardar.TabIndex = 20;
+            this.btnGuardar.Text = "Guardar";
+            this.btnGuardar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnGuardar.UseVisualStyleBackColor = true;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
+            // 
+            // btnVerResumen3
+            // 
+            this.btnVerResumen3.Image = ((System.Drawing.Image)(resources.GetObject("btnVerResumen3.Image")));
+            this.btnVerResumen3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnVerResumen3.Location = new System.Drawing.Point(987, 402);
+            this.btnVerResumen3.Name = "btnVerResumen3";
+            this.btnVerResumen3.Size = new System.Drawing.Size(90, 23);
+            this.btnVerResumen3.TabIndex = 13;
+            this.btnVerResumen3.Text = "Ver resumen";
+            this.btnVerResumen3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnVerResumen3.UseVisualStyleBackColor = true;
+            // 
+            // btnGuardar3
+            // 
+            this.btnGuardar3.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardar3.Image")));
+            this.btnGuardar3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnGuardar3.Location = new System.Drawing.Point(906, 402);
+            this.btnGuardar3.Name = "btnGuardar3";
+            this.btnGuardar3.Size = new System.Drawing.Size(75, 23);
+            this.btnGuardar3.TabIndex = 12;
+            this.btnGuardar3.Text = "Guardar";
+            this.btnGuardar3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnGuardar3.UseVisualStyleBackColor = true;
+            this.btnGuardar3.Click += new System.EventHandler(this.btnGuardar3_Click);
+            // 
+            // btnVerResumen4
+            // 
+            this.btnVerResumen4.Image = ((System.Drawing.Image)(resources.GetObject("btnVerResumen4.Image")));
+            this.btnVerResumen4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnVerResumen4.Location = new System.Drawing.Point(1012, 356);
+            this.btnVerResumen4.Name = "btnVerResumen4";
+            this.btnVerResumen4.Size = new System.Drawing.Size(94, 23);
+            this.btnVerResumen4.TabIndex = 4;
+            this.btnVerResumen4.Text = "Ver Resumen";
+            this.btnVerResumen4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnVerResumen4.UseVisualStyleBackColor = true;
+            this.btnVerResumen4.Click += new System.EventHandler(this.btnVerResumen4_Click);
+            // 
+            // btnGuardarInversion
+            // 
+            this.btnGuardarInversion.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardarInversion.Image")));
+            this.btnGuardarInversion.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnGuardarInversion.Location = new System.Drawing.Point(917, 356);
+            this.btnGuardarInversion.Name = "btnGuardarInversion";
+            this.btnGuardarInversion.Size = new System.Drawing.Size(76, 23);
+            this.btnGuardarInversion.TabIndex = 3;
+            this.btnGuardarInversion.Text = "Guardar";
+            this.btnGuardarInversion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnGuardarInversion.UseVisualStyleBackColor = true;
+            this.btnGuardarInversion.Click += new System.EventHandler(this.btnGuardarInversion_Click);
+            // 
+            // button1
+            // 
+            this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
+            this.button1.Location = new System.Drawing.Point(25, 231);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(28, 23);
+            this.button1.TabIndex = 5;
+            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.ttMensaje.SetToolTip(this.button1, "Agregar Nueva Reinversión a partir de una Inversión Registrada");
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // btnGuardar5
+            // 
+            this.btnGuardar5.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardar5.Image")));
+            this.btnGuardar5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnGuardar5.Location = new System.Drawing.Point(918, 356);
+            this.btnGuardar5.Name = "btnGuardar5";
+            this.btnGuardar5.Size = new System.Drawing.Size(76, 23);
+            this.btnGuardar5.TabIndex = 9;
+            this.btnGuardar5.Text = "Guardar";
+            this.btnGuardar5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnGuardar5.UseVisualStyleBackColor = true;
+            this.btnGuardar5.Click += new System.EventHandler(this.btnGuardar5_Click);
+            // 
+            // btnVerResumen5
+            // 
+            this.btnVerResumen5.Image = ((System.Drawing.Image)(resources.GetObject("btnVerResumen5.Image")));
+            this.btnVerResumen5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnVerResumen5.Location = new System.Drawing.Point(1012, 356);
+            this.btnVerResumen5.Name = "btnVerResumen5";
+            this.btnVerResumen5.Size = new System.Drawing.Size(94, 23);
+            this.btnVerResumen5.TabIndex = 8;
+            this.btnVerResumen5.Text = "Ver Resumen";
+            this.btnVerResumen5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnVerResumen5.UseVisualStyleBackColor = true;
+            // 
+            // btnAgregarProyecciones
+            // 
+            this.btnAgregarProyecciones.Image = ((System.Drawing.Image)(resources.GetObject("btnAgregarProyecciones.Image")));
+            this.btnAgregarProyecciones.Location = new System.Drawing.Point(25, 231);
+            this.btnAgregarProyecciones.Name = "btnAgregarProyecciones";
+            this.btnAgregarProyecciones.Size = new System.Drawing.Size(28, 23);
+            this.btnAgregarProyecciones.TabIndex = 37;
+            this.btnAgregarProyecciones.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.ttMensaje.SetToolTip(this.btnAgregarProyecciones, "Agregar Nueva Proyección");
+            this.btnAgregarProyecciones.UseVisualStyleBackColor = true;
+            this.btnAgregarProyecciones.Click += new System.EventHandler(this.btnAgregarProyecciones_Click);
+            // 
+            // button2
+            // 
+            this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
+            this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button2.Location = new System.Drawing.Point(1012, 356);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(93, 23);
+            this.button2.TabIndex = 3;
+            this.button2.Text = "Ver Resumen";
+            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // btnGuardarProyeccion
+            // 
+            this.btnGuardarProyeccion.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardarProyeccion.Image")));
+            this.btnGuardarProyeccion.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.btnGuardarProyeccion.Location = new System.Drawing.Point(918, 356);
+            this.btnGuardarProyeccion.Name = "btnGuardarProyeccion";
+            this.btnGuardarProyeccion.Size = new System.Drawing.Size(75, 23);
+            this.btnGuardarProyeccion.TabIndex = 4;
+            this.btnGuardarProyeccion.Text = "Guardar";
+            this.btnGuardarProyeccion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnGuardarProyeccion.UseVisualStyleBackColor = true;
+            this.btnGuardarProyeccion.Click += new System.EventHandler(this.btnGuardarProyeccion_Click);
+            // 
+            // llbRegistrarCrecimientosOferta
+            // 
+            this.llbRegistrarCrecimientosOferta.Image = ((System.Drawing.Image)(resources.GetObject("llbRegistrarCrecimientosOferta.Image")));
+            this.llbRegistrarCrecimientosOferta.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.llbRegistrarCrecimientosOferta.Location = new System.Drawing.Point(947, 241);
+            this.llbRegistrarCrecimientosOferta.Name = "llbRegistrarCrecimientosOferta";
+            this.llbRegistrarCrecimientosOferta.Size = new System.Drawing.Size(158, 13);
+            this.llbRegistrarCrecimientosOferta.TabIndex = 39;
+            this.llbRegistrarCrecimientosOferta.TabStop = true;
+            this.llbRegistrarCrecimientosOferta.Text = "Crecimiento Anual de Oferta";
+            this.llbRegistrarCrecimientosOferta.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.llbRegistrarCrecimientosOferta.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbRegistrarCrecimientosOferta_LinkClicked);
+            // 
+            // btnAgregarCosto
+            // 
+            this.btnAgregarCosto.Image = ((System.Drawing.Image)(resources.GetObject("btnAgregarCosto.Image")));
+            this.btnAgregarCosto.Location = new System.Drawing.Point(25, 231);
+            this.btnAgregarCosto.Name = "btnAgregarCosto";
+            this.btnAgregarCosto.Size = new System.Drawing.Size(28, 23);
+            this.btnAgregarCosto.TabIndex = 38;
+            this.btnAgregarCosto.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.ttMensaje.SetToolTip(this.btnAgregarCosto, "Agregar Nuevo Costo");
+            this.btnAgregarCosto.UseVisualStyleBackColor = true;
+            this.btnAgregarCosto.Click += new System.EventHandler(this.btnAgregarCosto_Click);
+            // 
+            // btnGuardarCostos
+            // 
+            this.btnGuardarCostos.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardarCostos.Image")));
+            this.btnGuardarCostos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnGuardarCostos.Location = new System.Drawing.Point(918, 356);
+            this.btnGuardarCostos.Name = "btnGuardarCostos";
+            this.btnGuardarCostos.Size = new System.Drawing.Size(71, 23);
+            this.btnGuardarCostos.TabIndex = 4;
+            this.btnGuardarCostos.Text = "Guardar";
+            this.btnGuardarCostos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnGuardarCostos.UseVisualStyleBackColor = true;
+            // 
+            // llbGestionVariacionCostos
+            // 
+            this.llbGestionVariacionCostos.Image = ((System.Drawing.Image)(resources.GetObject("llbGestionVariacionCostos.Image")));
+            this.llbGestionVariacionCostos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.llbGestionVariacionCostos.Location = new System.Drawing.Point(953, 231);
+            this.llbGestionVariacionCostos.Name = "llbGestionVariacionCostos";
+            this.llbGestionVariacionCostos.Size = new System.Drawing.Size(153, 23);
+            this.llbGestionVariacionCostos.TabIndex = 40;
+            this.llbGestionVariacionCostos.TabStop = true;
+            this.llbGestionVariacionCostos.Text = "Variación Anual de Costos";
+            this.llbGestionVariacionCostos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.llbGestionVariacionCostos.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbGestionVariacionCostos_LinkClicked);
+            // 
+            // btnVerResumenCostos
+            // 
+            this.btnVerResumenCostos.Image = ((System.Drawing.Image)(resources.GetObject("btnVerResumenCostos.Image")));
+            this.btnVerResumenCostos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnVerResumenCostos.Location = new System.Drawing.Point(1012, 356);
+            this.btnVerResumenCostos.Name = "btnVerResumenCostos";
+            this.btnVerResumenCostos.Size = new System.Drawing.Size(96, 23);
+            this.btnVerResumenCostos.TabIndex = 3;
+            this.btnVerResumenCostos.Text = "Ver Resumen";
+            this.btnVerResumenCostos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnVerResumenCostos.UseVisualStyleBackColor = true;
+            this.btnVerResumenCostos.Click += new System.EventHandler(this.btnVerResumenCostos_Click);
+            // 
+            // btnGuardarFinanciamientoIF
+            // 
+            this.btnGuardarFinanciamientoIF.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGuardarFinanciamientoIF.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardarFinanciamientoIF.Image")));
+            this.btnGuardarFinanciamientoIF.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnGuardarFinanciamientoIF.Location = new System.Drawing.Point(895, 317);
+            this.btnGuardarFinanciamientoIF.Name = "btnGuardarFinanciamientoIF";
+            this.btnGuardarFinanciamientoIF.Size = new System.Drawing.Size(75, 23);
+            this.btnGuardarFinanciamientoIF.TabIndex = 4;
+            this.btnGuardarFinanciamientoIF.Text = "Guardar";
+            this.btnGuardarFinanciamientoIF.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnGuardarFinanciamientoIF.UseVisualStyleBackColor = true;
+            this.btnGuardarFinanciamientoIF.Click += new System.EventHandler(this.btnGuardarFinanciamientoIF_Click);
+            // 
+            // button3
+            // 
+            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button3.Image = ((System.Drawing.Image)(resources.GetObject("button3.Image")));
+            this.button3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button3.Location = new System.Drawing.Point(1002, 318);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(99, 23);
+            this.button3.TabIndex = 3;
+            this.button3.Text = "Ver Resumen";
+            this.button3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // btnGuardarFinanciamientoIV
+            // 
+            this.btnGuardarFinanciamientoIV.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGuardarFinanciamientoIV.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardarFinanciamientoIV.Image")));
+            this.btnGuardarFinanciamientoIV.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnGuardarFinanciamientoIV.Location = new System.Drawing.Point(895, 317);
+            this.btnGuardarFinanciamientoIV.Name = "btnGuardarFinanciamientoIV";
+            this.btnGuardarFinanciamientoIV.Size = new System.Drawing.Size(75, 23);
+            this.btnGuardarFinanciamientoIV.TabIndex = 7;
+            this.btnGuardarFinanciamientoIV.Text = "Guardar";
+            this.btnGuardarFinanciamientoIV.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnGuardarFinanciamientoIV.UseVisualStyleBackColor = true;
+            this.btnGuardarFinanciamientoIV.Click += new System.EventHandler(this.btnGuardarFinanciamientoIV_Click);
+            // 
+            // button4
+            // 
+            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button4.Image = ((System.Drawing.Image)(resources.GetObject("button4.Image")));
+            this.button4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button4.Location = new System.Drawing.Point(1002, 318);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(99, 23);
+            this.button4.TabIndex = 6;
+            this.button4.Text = "Ver Resumen";
+            this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button4.UseVisualStyleBackColor = true;
             // 
             // button6
             // 
@@ -2896,20 +3003,6 @@
             this.button6.Text = "Ver Resumen";
             this.button6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.button6.UseVisualStyleBackColor = true;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.BackColor = System.Drawing.Color.Honeydew;
-            this.tabPage2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tabPage2.Controls.Add(this.button7);
-            this.tabPage2.Controls.Add(this.button8);
-            this.tabPage2.Controls.Add(this.dgvFlujoCajaIntVariable);
-            this.tabPage2.Location = new System.Drawing.Point(4, 34);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1120, 373);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Flujo de Caja con interés variable";
             // 
             // button7
             // 
@@ -2937,53 +3030,87 @@
             this.button8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.button8.UseVisualStyleBackColor = true;
             // 
-            // dgvFlujoCajaIntVariable
+            // pbPaso1B
             // 
-            this.dgvFlujoCajaIntVariable.AllowUserToAddRows = false;
-            this.dgvFlujoCajaIntVariable.AllowUserToDeleteRows = false;
-            this.dgvFlujoCajaIntVariable.AllowUserToResizeColumns = false;
-            this.dgvFlujoCajaIntVariable.AllowUserToResizeRows = false;
-            this.dgvFlujoCajaIntVariable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvFlujoCajaIntVariable.Location = new System.Drawing.Point(25, 39);
-            this.dgvFlujoCajaIntVariable.Name = "dgvFlujoCajaIntVariable";
-            this.dgvFlujoCajaIntVariable.Size = new System.Drawing.Size(1076, 254);
-            this.dgvFlujoCajaIntVariable.TabIndex = 5;
+            this.pbPaso1B.Location = new System.Drawing.Point(62, 30);
+            this.pbPaso1B.Name = "pbPaso1B";
+            this.pbPaso1B.Size = new System.Drawing.Size(32, 32);
+            this.pbPaso1B.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbPaso1B.TabIndex = 13;
+            this.pbPaso1B.TabStop = false;
             // 
-            // panel34
+            // pictureBox5
             // 
-            this.panel34.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.panel34.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel34.Controls.Add(this.label70);
-            this.panel34.Location = new System.Drawing.Point(-1, 405);
-            this.panel34.Name = "panel34";
-            this.panel34.Size = new System.Drawing.Size(1130, 33);
-            this.panel34.TabIndex = 0;
+            this.pictureBox5.Image = global::UCR.Negotium.WindowsUI.Properties.Resources._1478171906_Remove;
+            this.pictureBox5.Location = new System.Drawing.Point(62, 267);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox5.TabIndex = 12;
+            this.pictureBox5.TabStop = false;
             // 
-            // label70
+            // pictureBox4
             // 
-            this.label70.AutoSize = true;
-            this.label70.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label70.Location = new System.Drawing.Point(6, 7);
-            this.label70.Name = "label70";
-            this.label70.Size = new System.Drawing.Size(681, 16);
-            this.label70.TabIndex = 0;
-            this.label70.Text = "Info: Nombre del Proyecto: Proyecto nuevo horizonte - Horizonte del Proyecto: 5 A" +
-    "ños - Proponente: Luis Carcamo";
+            this.pictureBox4.Image = global::UCR.Negotium.WindowsUI.Properties.Resources._1478171906_Remove;
+            this.pictureBox4.Location = new System.Drawing.Point(62, 219);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox4.TabIndex = 11;
+            this.pictureBox4.TabStop = false;
             // 
-            // dgvFlujoCajaIntFijo
+            // pictureBox3
             // 
-            this.dgvFlujoCajaIntFijo.AllowUserToAddRows = false;
-            this.dgvFlujoCajaIntFijo.AllowUserToDeleteRows = false;
-            this.dgvFlujoCajaIntFijo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvFlujoCajaIntFijo.Location = new System.Drawing.Point(25, 39);
-            this.dgvFlujoCajaIntFijo.Name = "dgvFlujoCajaIntFijo";
-            this.dgvFlujoCajaIntFijo.ReadOnly = true;
-            this.dgvFlujoCajaIntFijo.Size = new System.Drawing.Size(1076, 254);
-            this.dgvFlujoCajaIntFijo.TabIndex = 8;
+            this.pictureBox3.Image = global::UCR.Negotium.WindowsUI.Properties.Resources._1478171906_Remove;
+            this.pictureBox3.Location = new System.Drawing.Point(62, 172);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox3.TabIndex = 10;
+            this.pictureBox3.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::UCR.Negotium.WindowsUI.Properties.Resources._1478171906_Remove;
+            this.pictureBox2.Location = new System.Drawing.Point(62, 127);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox2.TabIndex = 9;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pbPaso2A
+            // 
+            this.pbPaso2A.Image = global::UCR.Negotium.WindowsUI.Properties.Resources._1478171741_Check;
+            this.pbPaso2A.Location = new System.Drawing.Point(62, 78);
+            this.pbPaso2A.Name = "pbPaso2A";
+            this.pbPaso2A.Size = new System.Drawing.Size(32, 32);
+            this.pbPaso2A.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbPaso2A.TabIndex = 8;
+            this.pbPaso2A.TabStop = false;
+            // 
+            // pbPaso1A
+            // 
+            this.pbPaso1A.Image = global::UCR.Negotium.WindowsUI.Properties.Resources._1478171741_Check;
+            this.pbPaso1A.Location = new System.Drawing.Point(62, 30);
+            this.pbPaso1A.Name = "pbPaso1A";
+            this.pbPaso1A.Size = new System.Drawing.Size(32, 32);
+            this.pbPaso1A.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbPaso1A.TabIndex = 7;
+            this.pbPaso1A.TabStop = false;
             // 
             // unidadMedidaDataBindingSource
             // 
             this.unidadMedidaDataBindingSource.DataSource = typeof(UCR.Negotium.DataAccess.UnidadMedidaData);
+            // 
+            // pbPaso2B
+            // 
+            this.pbPaso2B.Location = new System.Drawing.Point(62, 78);
+            this.pbPaso2B.Name = "pbPaso2B";
+            this.pbPaso2B.Size = new System.Drawing.Size(32, 32);
+            this.pbPaso2B.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbPaso2B.TabIndex = 14;
+            this.pbPaso2B.TabStop = false;
             // 
             // RegistrarProyecto
             // 
@@ -3094,22 +3221,34 @@
             this.panel29.ResumeLayout(false);
             this.panel29.PerformLayout();
             this.flujoCaja.ResumeLayout(false);
+            this.panel33.ResumeLayout(false);
+            this.tcFlujoCaja.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFlujoCajaIntFijo)).EndInit();
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFlujoCajaIntVariable)).EndInit();
+            this.panel34.ResumeLayout(false);
+            this.panel34.PerformLayout();
+            this.panel32.ResumeLayout(false);
+            this.panel32.PerformLayout();
             this.resumenProyecto.ResumeLayout(false);
             this.panel9.ResumeLayout(false);
             this.panel9.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
-            this.panel32.ResumeLayout(false);
-            this.panel32.PerformLayout();
-            this.panel33.ResumeLayout(false);
-            this.tcFlujoCaja.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvFlujoCajaIntVariable)).EndInit();
-            this.panel34.ResumeLayout(false);
-            this.panel34.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvFlujoCajaIntFijo)).EndInit();
+            this.panel35.ResumeLayout(false);
+            this.panel35.PerformLayout();
+            this.panel36.ResumeLayout(false);
+            this.panel36.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPaso1B)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPaso2A)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPaso1A)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.unidadMedidaDataBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPaso2B)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -3174,12 +3313,6 @@
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.TabPage resumenProyecto;
         private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.LinkLabel llbCambiarTelefonoProponente;
-        private System.Windows.Forms.LinkLabel llbCambiarNombreProponente;
-        private System.Windows.Forms.LinkLabel llbCambiarOrganizacionProponente;
-        private System.Windows.Forms.LinkLabel llbCambiarObjetoInteres;
-        private System.Windows.Forms.LinkLabel llbCambiarTipoProyecto;
-        private System.Windows.Forms.LinkLabel llbCambiarNombreProyecto;
         private System.Windows.Forms.Label lblTelefonoProponente;
         private System.Windows.Forms.Label lblNombreProponente;
         private System.Windows.Forms.Label lblOrganizacionProponente;
@@ -3354,5 +3487,22 @@
         private System.Windows.Forms.Panel panel34;
         private System.Windows.Forms.Label label70;
         private System.Windows.Forms.DataGridView dgvFlujoCajaIntFijo;
+        private System.Windows.Forms.Panel panel35;
+        private System.Windows.Forms.Label label60;
+        private System.Windows.Forms.Panel panel36;
+        private System.Windows.Forms.Label label76;
+        private System.Windows.Forms.Label label77;
+        private System.Windows.Forms.Label label78;
+        private System.Windows.Forms.Label label80;
+        private System.Windows.Forms.Label label81;
+        private System.Windows.Forms.Label label82;
+        private System.Windows.Forms.PictureBox pbPaso1A;
+        private System.Windows.Forms.PictureBox pictureBox5;
+        private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pbPaso2A;
+        private System.Windows.Forms.PictureBox pbPaso1B;
+        private System.Windows.Forms.PictureBox pbPaso2B;
     }
 }

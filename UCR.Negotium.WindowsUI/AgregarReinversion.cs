@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.WindowsUI
@@ -85,11 +86,22 @@ namespace UCR.Negotium.WindowsUI
                                 requerimientoReinversion.DescripcionRequerimiento = requerimiento.DescripcionRequerimiento;
                                 requerimientoReinversion.CodRequerimientoInversion = requerimiento.CodRequerimientoInversion;
                                 requerimientoReinversion.UnidadMedida = requerimiento.UnidadMedida;
+                                requerimientoReinversion.AnoReinversion = 2001;
                                 this.requerimientoReinversionList.Add(requerimientoReinversion);
                             }
                         }
                     }
                 }
+
+                for (int i= 0; i<this.requerimientoReinversionList.Count; i++)
+                {
+                    RequerimientoReinversionData requereinvData = new RequerimientoReinversionData();
+                    if (requerimientoReinversionList[i].CodRequerimientoReinversion.Equals(0))
+                    {
+                        requerimientoReinversionList[i] = requereinvData.InsertarRequerimientosReinversion(requerimientoReinversionList[i], this.proyecto.CodProyecto);
+                    }
+                }
+
                 this.proyecto.RequerimientosReinversion = this.requerimientoReinversionList;
                 new RegistrarProyecto(this.evaluador, this.proyecto, 4)
                 {

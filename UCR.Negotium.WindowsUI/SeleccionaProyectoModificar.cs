@@ -176,8 +176,8 @@ namespace UCR.Negotium.WindowsUI
                 DataRow row = ds.Tables["Proyectos"].NewRow();
                 row["codProyecto"] = proyecto.CodProyecto;
                 row["nombreProyecto"] = proyecto.NombreProyecto;
-                row["organizacion"] = proyecto.Proponente.Organizacion.NombreOrganizacion;
-                row["proponente"] = proyecto.Proponente.Nombre + " " + proyecto.Proponente.Apellidos;
+                row["organizacion"] = proyecto.Proponente != null ? proyecto.Proponente.Organizacion.NombreOrganizacion : "";
+                row["proponente"] = proyecto.Proponente != null ? proyecto.Proponente.Nombre + " " + proyecto.Proponente.Apellidos : "";
                 ds.Tables["Proyectos"].Rows.Add(row);
             }//foreach
             DataTable dtProyectos = ds.Tables["Proyectos"];

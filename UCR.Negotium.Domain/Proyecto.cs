@@ -47,7 +47,10 @@ namespace UCR.Negotium.Domain
         //atributo calculado
         //string nombre depreciacion
         //double depreciacion
-        private List<Depreciacion> depreciaciones; 
+        private List<Depreciacion> depreciaciones;
+
+        private List<double> totalDepreciaciones;
+        private List<double> utilidadOperativa;
 
         public Proyecto()
         {
@@ -71,6 +74,32 @@ namespace UCR.Negotium.Domain
             this.FinanciamientoIV = new Financiamiento();
             this.FinanciamientoIF = new Financiamiento();
             this.depreciaciones = new List<Depreciacion>();
+            this.totalDepreciaciones = new List<double>();
+            this.utilidadOperativa = new List<double>();
+        }
+
+        public List<double> UtilidadOperativa
+        {
+            get
+            {
+                return calcularUtilidadOperativa();
+            }
+            set
+            {
+                utilidadOperativa = value;
+            }
+        }
+
+        public List<double> TotalDepreciaciones
+        {
+            get
+            {
+                return this.calcularTotalDepreciaciones();
+            }
+            set
+            {
+                totalDepreciaciones = value;
+            }
         }
 
         public List<Depreciacion> Depreciaciones
@@ -261,6 +290,33 @@ namespace UCR.Negotium.Domain
             }
 
             return listCostos;
+        }
+
+        public List<double> calcularTotalDepreciaciones()
+        {
+            List<double> totalDep = new List<double>();
+
+            for (int i=0; i< HorizonteEvaluacionEnAnos; i++)
+            {
+                double montoAnual = 0;
+                for (int a=0; a < Depreciaciones.Count; a++)
+                {
+                    montoAnual = montoAnual + Depreciaciones[a].MontoDepreciacion[i];
+                }
+                totalDep.Add(montoAnual);
+            }
+
+            return totalDep;
+        }
+
+        public List<double> calcularUtilidadOperativa()
+        {
+            List<double> utilidadOperativa = new List<double>();
+            for (int i = 0; i < HorizonteEvaluacionEnAnos; i++)
+            {
+                utilidadOperativa.Add(-TotalDepreciaciones[i] + IngresosGenerados[i] - CostosGenerados[i]);
+            }
+            return utilidadOperativa;
         }
     }
 }
