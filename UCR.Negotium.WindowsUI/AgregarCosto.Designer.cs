@@ -36,8 +36,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.tbxNombreCosto = new System.Windows.Forms.TextBox();
             this.cbxUnidadCosto = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.cbxCategoriasCosto = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cbxAnoInicialCosto = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCosto)).BeginInit();
             this.SuspendLayout();
             // 
@@ -47,7 +49,7 @@
             this.dgvCosto.AllowUserToAddRows = false;
             this.dgvCosto.AllowUserToDeleteRows = false;
             this.dgvCosto.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCosto.Location = new System.Drawing.Point(96, 125);
+            this.dgvCosto.Location = new System.Drawing.Point(101, 122);
             this.dgvCosto.Name = "dgvCosto";
             this.dgvCosto.Size = new System.Drawing.Size(346, 307);
             this.dgvCosto.TabIndex = 0;
@@ -56,7 +58,7 @@
             // 
             this.btnAgregarCosto.Image = ((System.Drawing.Image)(resources.GetObject("btnAgregarCosto.Image")));
             this.btnAgregarCosto.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAgregarCosto.Location = new System.Drawing.Point(131, 452);
+            this.btnAgregarCosto.Location = new System.Drawing.Point(101, 452);
             this.btnAgregarCosto.Name = "btnAgregarCosto";
             this.btnAgregarCosto.Size = new System.Drawing.Size(98, 23);
             this.btnAgregarCosto.TabIndex = 1;
@@ -69,7 +71,7 @@
             // 
             this.btnCancelarCosto.Image = ((System.Drawing.Image)(resources.GetObject("btnCancelarCosto.Image")));
             this.btnCancelarCosto.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCancelarCosto.Location = new System.Drawing.Point(326, 452);
+            this.btnCancelarCosto.Location = new System.Drawing.Point(372, 452);
             this.btnCancelarCosto.Name = "btnCancelarCosto";
             this.btnCancelarCosto.Size = new System.Drawing.Size(75, 23);
             this.btnCancelarCosto.TabIndex = 2;
@@ -81,20 +83,20 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(35, 36);
+            this.label1.Location = new System.Drawing.Point(34, 36);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(91, 13);
+            this.label1.Size = new System.Drawing.Size(94, 13);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Nombre del Costo";
+            this.label1.Text = "Nombre del Costo:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(294, 36);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(93, 13);
+            this.label2.Size = new System.Drawing.Size(96, 13);
             this.label2.TabIndex = 4;
-            this.label2.Text = "Unidad de medida";
+            this.label2.Text = "Unidad de medida:";
             // 
             // tbxNombreCosto
             // 
@@ -107,19 +109,19 @@
             // 
             this.cbxUnidadCosto.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxUnidadCosto.FormattingEnabled = true;
-            this.cbxUnidadCosto.Location = new System.Drawing.Point(386, 33);
+            this.cbxUnidadCosto.Location = new System.Drawing.Point(392, 33);
             this.cbxUnidadCosto.Name = "cbxUnidadCosto";
             this.cbxUnidadCosto.Size = new System.Drawing.Size(121, 21);
             this.cbxUnidadCosto.TabIndex = 6;
             // 
-            // label4
+            // label3
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(29, 79);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(97, 13);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "Categoria de Costo";
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(70, 81);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(58, 13);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "Año inicial:";
             // 
             // cbxCategoriasCosto
             // 
@@ -128,19 +130,39 @@
             this.cbxCategoriasCosto.Items.AddRange(new object[] {
             "Operativos",
             "Administrativos"});
-            this.cbxCategoriasCosto.Location = new System.Drawing.Point(132, 76);
+            this.cbxCategoriasCosto.Location = new System.Drawing.Point(392, 76);
             this.cbxCategoriasCosto.Name = "cbxCategoriasCosto";
-            this.cbxCategoriasCosto.Size = new System.Drawing.Size(141, 21);
-            this.cbxCategoriasCosto.TabIndex = 11;
+            this.cbxCategoriasCosto.Size = new System.Drawing.Size(121, 21);
+            this.cbxCategoriasCosto.TabIndex = 14;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(335, 80);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(55, 13);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "Categoria:";
+            // 
+            // cbxAnoInicialCosto
+            // 
+            this.cbxAnoInicialCosto.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxAnoInicialCosto.FormattingEnabled = true;
+            this.cbxAnoInicialCosto.Location = new System.Drawing.Point(131, 77);
+            this.cbxAnoInicialCosto.Name = "cbxAnoInicialCosto";
+            this.cbxAnoInicialCosto.Size = new System.Drawing.Size(142, 21);
+            this.cbxAnoInicialCosto.TabIndex = 15;
             // 
             // AgregarCosto
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Honeydew;
-            this.ClientSize = new System.Drawing.Size(552, 494);
+            this.ClientSize = new System.Drawing.Size(552, 505);
+            this.Controls.Add(this.cbxAnoInicialCosto);
             this.Controls.Add(this.cbxCategoriasCosto);
             this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.cbxUnidadCosto);
             this.Controls.Add(this.tbxNombreCosto);
             this.Controls.Add(this.label2);
@@ -167,7 +189,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tbxNombreCosto;
         private System.Windows.Forms.ComboBox cbxUnidadCosto;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cbxCategoriasCosto;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cbxAnoInicialCosto;
     }
 }

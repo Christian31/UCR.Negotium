@@ -8,49 +8,13 @@ namespace UCR.Negotium.Domain
 {
     public class InteresFinanciamiento
     {
-        private int codInteresFinanciamiento;
-        private Double porcentajeInteresFinanciamiento;
-        private bool variableInteres;
+        public int CodInteresFinanciamiento;
+        public Double PorcentajeInteresFinanciamiento;
+        public bool VariableInteres;
 
-        public InteresFinanciamiento() { porcentajeInteresFinanciamiento = 0; }
-
-        public int CodInteresFinanciamiento
+        public InteresFinanciamiento()
         {
-            get
-            {
-                return codInteresFinanciamiento;
-            }
-
-            set
-            {
-                codInteresFinanciamiento = value;
-            }
-        }
-
-        public double PorcentajeInteresFinanciamiento
-        {
-            get
-            {
-                return porcentajeInteresFinanciamiento;
-            }
-
-            set
-            {
-                porcentajeInteresFinanciamiento = value;
-            }
-        }
-
-        public bool VariableInteres
-        {
-            get
-            {
-                return variableInteres;
-            }
-
-            set
-            {
-                variableInteres = value;
-            }
+            PorcentajeInteresFinanciamiento = 0;
         }
     }
 }

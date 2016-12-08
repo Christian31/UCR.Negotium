@@ -8,27 +8,15 @@ namespace UCR.Negotium.Domain
 {
     public class ProyeccionVentaArticulo
     {
-        private int codArticulo;
-        private UnidadMedida unidadMedida;
-        private String nombreArticulo;
+        public int CodArticulo { get; set; }
+        public String NombreArticulo { get; set; }
+
         private List<DetalleProyeccionVenta> detallesProyeccionVenta;
+        private UnidadMedida unidadMedida;
 
         public ProyeccionVentaArticulo() {
             unidadMedida = new UnidadMedida();
             detallesProyeccionVenta = new List<DetalleProyeccionVenta>();
-        }
-
-        public int CodArticulo
-        {
-            get
-            {
-                return codArticulo;
-            }
-
-            set
-            {
-                codArticulo = value;
-            }
         }
 
         public UnidadMedida UnidadMedida
@@ -41,19 +29,6 @@ namespace UCR.Negotium.Domain
             set
             {
                 unidadMedida = value;
-            }
-        }
-
-        public string NombreArticulo
-        {
-            get
-            {
-                return nombreArticulo;
-            }
-
-            set
-            {
-                nombreArticulo = value;
             }
         }
 

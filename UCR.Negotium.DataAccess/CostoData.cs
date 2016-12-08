@@ -45,7 +45,9 @@ namespace UCR.Negotium.DataAccess
                     costo.UnidadMedida = unidadMedidaData.GetUnidadMedida(reader.GetInt32(2));
                     costo.CostosMensuales = costoMensualData.GetCostosMensuales(reader.GetInt32(0));
                     costo.CostoVariable = reader.GetBoolean(4);
-                    costo.Categoria_costo = reader.GetString(5);
+                    costo.CategoriaCosto = reader.GetString(5);
+                    costo.AnoCosto = reader.GetInt32(6);
+
                     listaCostos.Add(costo);
                 }//while
                 conexion.Close();
@@ -82,7 +84,8 @@ namespace UCR.Negotium.DataAccess
                 command.Parameters.AddWithValue("unidad_medida", costoNuevo.UnidadMedida.CodUnidad);
                 command.Parameters.AddWithValue("cod_proyecto", codProyecto);
                 command.Parameters.AddWithValue("costo_variable", costoNuevo.CostoVariable);
-                command.Parameters.AddWithValue("categoria_costo", costoNuevo.Categoria_costo);
+                command.Parameters.AddWithValue("categoria_costo", costoNuevo.CategoriaCosto);
+                command.Parameters.AddWithValue("ano_inicial", costoNuevo.AnoCosto);
 
                 if (conexion.State != ConnectionState.Open)
                     conexion.Open();
@@ -183,7 +186,8 @@ namespace UCR.Negotium.DataAccess
                 command.Parameters.AddWithValue("cod_proyecto", codProyecto);
                 command.Parameters.AddWithValue("cod_costo", costoEditar.CodCosto);
                 command.Parameters.AddWithValue("costo_variable", costoEditar.CostoVariable);
-                command.Parameters.AddWithValue("categoria_costo", costoEditar.Categoria_costo);
+                command.Parameters.AddWithValue("categoria_costo", costoEditar.CategoriaCosto);
+                command.Parameters.AddWithValue("ano_inicial", costoEditar.AnoCosto);
 
                 if (conexion.State != ConnectionState.Open)
                     conexion.Open();

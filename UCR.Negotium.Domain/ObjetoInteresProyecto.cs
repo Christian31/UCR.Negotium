@@ -9,34 +9,13 @@ namespace UCR.Negotium.Domain
 {
     public class ObjetoInteresProyecto
     {
-        private int codObjetoInteres;
-        private String descripcionObjetoInteres;
+        public int CodObjetoInteres;
+        public String DescripcionObjetoInteres;
         private UnidadMedida unidadMedida;
 
-        public int CodObjetoInteres
+        public ObjetoInteresProyecto()
         {
-            get
-            {
-                return codObjetoInteres;
-            }
-
-            set
-            {
-                codObjetoInteres = value;
-            }
-        }
-
-        public string DescripcionObjetoInteres
-        {
-            get
-            {
-                return descripcionObjetoInteres;
-            }
-
-            set
-            {
-                descripcionObjetoInteres = value;
-            }
+            unidadMedida = new UnidadMedida();
         }
 
         public UnidadMedida UnidadMedida

@@ -47,7 +47,22 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>1480055241_tools.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MetroFramework, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MetroFramework.Design, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Design.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MetroFramework.Fonts, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Fonts.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -85,6 +100,12 @@
     </Compile>
     <Compile Include="AgregarReinversion.Designer.cs">
       <DependentUpon>AgregarReinversion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AyudaModulo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AyudaModulo.Designer.cs">
+      <DependentUpon>AyudaModulo.cs</DependentUpon>
     </Compile>
     <Compile Include="GestionCrecimientosOferta.cs">
       <SubType>Form</SubType>
@@ -151,6 +172,9 @@
     <EmbeddedResource Include="AgregarReinversion.resx">
       <DependentUpon>AgregarReinversion.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AyudaModulo.resx">
+      <DependentUpon>AyudaModulo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GestionCrecimientosOferta.resx">
       <DependentUpon>GestionCrecimientosOferta.cs</DependentUpon>
     </EmbeddedResource>
@@ -188,6 +212,7 @@
     <EmbeddedResource Include="VentanaPrincipal.resx">
       <DependentUpon>VentanaPrincipal.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\DataSources\UCR.Negotium.DataAccess.UnidadMedidaData.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -233,6 +258,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="1480055241_tools.ico" />
     <Content Include="Imagenes\uncheck.ico" />
     <Content Include="Imagenes\check.ico" />
     <Content Include="Resources\1478171741_Check.ico" />

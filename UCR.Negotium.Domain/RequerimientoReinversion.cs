@@ -9,13 +9,13 @@ namespace UCR.Negotium.Domain
 {
     public class RequerimientoReinversion
     {
-        private int codRequerimientoReinversion;
-        private int anoReinversion;
-        private String descripcionRequerimiento;
-        private int cantidad;
-        private double costoUnitario;
-        private bool depreciable;
-        private int vidaUtil;
+        public int CodRequerimientoReinversion { get; set; }
+        public int AnoReinversion { get; set; }
+        public String DescripcionRequerimiento { get; set; }
+        public int Cantidad { get; set; }
+        public double CostoUnitario { get; set; }
+        public bool Depreciable { get; set; }
+        public int VidaUtil { get; set; }
         private UnidadMedida unidadMedida;
         private double depreciacion;
 
@@ -36,97 +36,6 @@ namespace UCR.Negotium.Domain
             set
             {
                 this.depreciacion = value;
-            }
-        }
-
-        public int CodRequerimientoReinversion
-        {
-            get
-            {
-                return codRequerimientoReinversion;
-            }
-
-            set
-            {
-                codRequerimientoReinversion = value;
-            }
-        }
-
-        public int AnoReinversion
-        {
-            get
-            {
-                return anoReinversion;
-            }
-
-            set
-            {
-                anoReinversion = value;
-            }
-        }
-
-        public string DescripcionRequerimiento
-        {
-            get
-            {
-                return descripcionRequerimiento;
-            }
-
-            set
-            {
-                descripcionRequerimiento = value;
-            }
-        }
-
-        public int Cantidad
-        {
-            get
-            {
-                return cantidad;
-            }
-
-            set
-            {
-                cantidad = value;
-            }
-        }
-
-        public double CostoUnitario
-        {
-            get
-            {
-                return costoUnitario;
-            }
-
-            set
-            {
-                costoUnitario = value;
-            }
-        }
-
-        public bool Depreciable
-        {
-            get
-            {
-                return depreciable;
-            }
-
-            set
-            {
-                depreciable = value;
-            }
-        }
-
-        public int VidaUtil
-        {
-            get
-            {
-                return vidaUtil;
-            }
-
-            set
-            {
-                vidaUtil = value;
             }
         }
 

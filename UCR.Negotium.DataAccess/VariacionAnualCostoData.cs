@@ -52,7 +52,7 @@ namespace UCR.Negotium.DataAccess
             command.CommandText = insert;
             command.Parameters.AddWithValue("cod_proyecto", codProyecto);
             command.Parameters.AddWithValue("ano", variacion.Ano);
-            command.Parameters.AddWithValue("porcentaje", variacion.ProcentajeIncremento);
+            command.Parameters.AddWithValue("porcentaje", variacion.PorcentajeIncremento);
             
             try
             {
@@ -82,7 +82,7 @@ namespace UCR.Negotium.DataAccess
             SQLiteCommand command = conexion.CreateCommand();
             command.CommandText = insert;
             command.Parameters.AddWithValue("ano", variacion.Ano);
-            command.Parameters.AddWithValue("porcentaje", variacion.ProcentajeIncremento);
+            command.Parameters.AddWithValue("porcentaje", variacion.PorcentajeIncremento);
             command.Parameters.AddWithValue("cod_proyecto", codProyecto);
             command.Parameters.AddWithValue("cod_variacion_anual", variacion.CodVariacionCosto);
             try

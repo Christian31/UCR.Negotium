@@ -48,7 +48,6 @@ namespace UCR.Negotium.Domain
         //string nombre depreciacion
         //double depreciacion
         private List<Depreciacion> depreciaciones;
-
         private List<double> totalDepreciaciones;
         private List<double> utilidadOperativa;
 
@@ -274,20 +273,31 @@ namespace UCR.Negotium.Domain
         {
             double valIni = 0;
             List<double> listCostos = new List<double>();
-            foreach (Costo articulo in this.Costos)
+            int inicio = this.AnoInicial;
+            while (inicio <= (this.AnoInicial + this.HorizonteEvaluacionEnAnos))
             {
-                foreach (CostoMensual detArticulo in articulo.CostosMensuales)
+                foreach (Costo articulo in this.Costos)
                 {
-                    valIni = valIni + (detArticulo.Cantidad * detArticulo.CostoUnitario);
+                    if (articulo.AnoCosto > this.AnoInicial || articulo.AnoCosto < this.AnoInicial+this.HorizonteEvaluacionEnAnos)
+                    {
+                        foreach (CostoMensual detArticulo in articulo.CostosMensuales)
+                        {
+                            valIni = valIni + detArticulo.Subtotal;
+                        }
+                    }
                 }
-            }
-            listCostos.Add(valIni);
-
-            for (int i = 0; i < this.VariacionCostos.Count; i++)
-            {
-                valIni = ((valIni * VariacionCostos[i].ProcentajeIncremento) / 100) + valIni;
                 listCostos.Add(valIni);
+
+                for (int i = 0; i < this.VariacionCostos.Count; i++)
+                {
+                    valIni = ((valIni * VariacionCostos[i].PorcentajeIncremento) / 100) + valIni;
+                    listCostos.Add(valIni);
+                }
+
+                inicio++;
             }
+
+            
 
             return listCostos;
         }

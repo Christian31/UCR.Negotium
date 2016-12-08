@@ -1,86 +1,20 @@
 ﻿//@Copyright Yordan Campos Piedra
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UCR.Negotium.Domain
 {
     public class OrganizacionProponente
     {
-        int codOrganizacion;
-        String nombreOrganizacion, cedulaJuridica, telefono, descripcion;
-        TipoOrganizacion tipo;
+        public int CodOrganizacion { get; set; }
+        public String NombreOrganizacion { get; set; }
+        public String CedulaJuridica { get; set; }
+        public String Telefono { get; set; }
+        public String Descripcion { get; set; }
+        public TipoOrganizacion tipo;
 
         public OrganizacionProponente()
         {
             tipo = new TipoOrganizacion();
-        }
-
-        public string CedulaJuridica
-        {
-            get
-            {
-                return cedulaJuridica;
-            }
-
-            set
-            {
-                cedulaJuridica = value;
-            }
-        }
-
-        public int CodOrganizacion
-        {
-            get
-            {
-                return codOrganizacion;
-            }
-
-            set
-            {
-                codOrganizacion = value;
-            }
-        }
-
-        public string Descripcion
-        {
-            get
-            {
-                return descripcion;
-            }
-
-            set
-            {
-                descripcion = value;
-            }
-        }
-
-        public string NombreOrganizacion
-        {
-            get
-            {
-                return nombreOrganizacion;
-            }
-
-            set
-            {
-                nombreOrganizacion = value;
-            }
-        }
-
-        public string Telefono
-        {
-            get
-            {
-                return telefono;
-            }
-
-            set
-            {
-                telefono = value;
-            }
         }
 
         public TipoOrganizacion Tipo

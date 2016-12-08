@@ -46,7 +46,7 @@ namespace UCR.Negotium.WindowsUI
                             VariacionAnualCosto variacionAnual = new VariacionAnualCosto();
                             variacionAnual.Ano =
                                 Int32.Parse(this.dgvVariacionCostos.Rows[i].Cells["Año"].Value.ToString());
-                            variacionAnual.ProcentajeIncremento =
+                            variacionAnual.PorcentajeIncremento =
                                 Int32.Parse(this.dgvVariacionCostos.Rows[i].Cells["Porcentaje"].Value.ToString());
 
                             variacionCostoData.InsertarVariacionAnualCosto(variacionAnual, this.proyecto.CodProyecto);
@@ -77,7 +77,7 @@ namespace UCR.Negotium.WindowsUI
                                 VariacionAnualCosto variacionAnual = new VariacionAnualCosto();
                                 variacionAnual.Ano =
                                     Int32.Parse(this.dgvVariacionCostos.Rows[i].Cells["Año"].Value.ToString());
-                                variacionAnual.ProcentajeIncremento =
+                                variacionAnual.PorcentajeIncremento =
                                     Int32.Parse(this.dgvVariacionCostos.Rows[i].Cells["Porcentaje"].Value.ToString());
 
                                 variacionCostoData.InsertarVariacionAnualCosto(variacionAnual, this.proyecto.CodProyecto);
@@ -130,7 +130,7 @@ namespace UCR.Negotium.WindowsUI
                 {
                     DataRow row = ds.Tables["VariacionCosto"].NewRow();
                     row["Año"] = proyecto.VariacionCostos[i].Ano;
-                    row["Porcentaje"] = proyecto.VariacionCostos[i].ProcentajeIncremento;
+                    row["Porcentaje"] = proyecto.VariacionCostos[i].PorcentajeIncremento;
                     ds.Tables["VariacionCosto"].Rows.Add(row);
                 }//foreach
             }//if

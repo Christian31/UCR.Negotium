@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
@@ -28,7 +29,9 @@ namespace UCR.Negotium.WindowsUI
             this.proyecto = proyecto;
             this.LlenaDgvCosto();
             this.LlenarComboUnidadMedida();
+            this.LlenarComboAnoInicial();
             this.costoData = new CostoData();
+            
         }
 
         private void LlenaDgvCosto()
@@ -60,7 +63,8 @@ namespace UCR.Negotium.WindowsUI
                 costoNuevo.NombreCosto = tbxNombreCosto.Text;
                 costoNuevo.UnidadMedida.CodUnidad = Convert.ToInt32(cbxUnidadCosto.SelectedValue);
                 costoNuevo.UnidadMedida.NombreUnidad = cbxUnidadCosto.Text;
-                costoNuevo.Categoria_costo = cbxCategoriasCosto.Text;
+                costoNuevo.CategoriaCosto = cbxCategoriasCosto.Text;
+                costoNuevo.AnoCosto = Convert.ToInt32(cbxAnoInicialCosto.Text);
 
                 Int32 mes = 1;
                 foreach (DataGridViewRow row in dgvCosto.Rows)
@@ -97,6 +101,16 @@ namespace UCR.Negotium.WindowsUI
 
             cbxUnidadCosto.SelectedIndex = 0;
             cbxCategoriasCosto.SelectedIndex = 0;
+        }
+
+        private void LlenarComboAnoInicial()
+        {
+            for(int i =1; i <=this.proyecto.HorizonteEvaluacionEnAnos; i++)
+            {
+                cbxAnoInicialCosto.Items.Add(this.proyecto.AnoInicial + i);
+            }
+
+            cbxAnoInicialCosto.SelectedIndex = 0;
         }
 
         private void btnCancelarCosto_Click(object sender, EventArgs e)

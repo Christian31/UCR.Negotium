@@ -9,8 +9,14 @@ namespace UCR.Negotium.Domain
 {
     public class Evaluador
     {
-        int idEvaluador;
-        String nombre, apellidos, telefono, email, numIdentificacion, password, organizacion;
+        public int IdEvaluador { get; set; }
+        public String Nombre { get; set; }
+        public String Apellidos { get; set; }
+        public String Telefono { get; set; }
+        public String Email { get; set; }
+        public String NumIdentificacion { get; set; }
+        public String Password { get; set; }
+        public String Organizacion { get; set; }
 
         public Evaluador()
         {
@@ -26,110 +32,6 @@ namespace UCR.Negotium.Domain
             this.Telefono = telefono;
             this.Email = email;
             this.NumIdentificacion = numIdentificacion;
-        }
-
-        public string Apellidos
-        {
-            get
-            {
-                return apellidos;
-            }
-
-            set
-            {
-                apellidos = value;
-            }
-        }
-
-        public string Email
-        {
-            get
-            {
-                return email;
-            }
-
-            set
-            {
-                email = value;
-            }
-        }
-
-        public int IdEvaluador
-        {
-            get
-            {
-                return idEvaluador;
-            }
-
-            set
-            {
-                idEvaluador = value;
-            }
-        }
-
-        public string Nombre
-        {
-            get
-            {
-                return nombre;
-            }
-
-            set
-            {
-                nombre = value;
-            }
-        }
-
-        public string NumIdentificacion
-        {
-            get
-            {
-                return numIdentificacion;
-            }
-
-            set
-            {
-                numIdentificacion = value;
-            }
-        }
-
-        public string Organizacion
-        {
-            get
-            {
-                return organizacion;
-            }
-
-            set
-            {
-                organizacion = value;
-            }
-        }
-
-        public string Password
-        {
-            get
-            {
-                return password;
-            }
-
-            set
-            {
-                password = value;
-            }
-        }
-
-        public string Telefono
-        {
-            get
-            {
-                return telefono;
-            }
-
-            set
-            {
-                telefono = value;
-            }
         }
     }
 }

@@ -1,10 +1,7 @@
 ﻿//@Copyright Yordan Campos Piedra
 using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
@@ -14,12 +11,12 @@ namespace UCR.Negotium.WindowsUI
     public partial class RegistrarProyecto : Form
     {
         //Variables globales
-        bool mostroMensaje = false, mostrarMensajeSeguridad=true;
+        bool mostroMensaje = false, mostrarMensajeSeguridad = true;
         int idProvinciaSeleccionada = 0, idCantonSeleccionado = 0, idDistritoSeleccionado = 0;
         bool segundaSeleccionProvincia = false, segundaSeleccionCanton = false, segundaSeleccionDistrito = false;
         Proyecto proyecto;
         Evaluador evaluador;
-        
+
         //Constructor sobrecargado que solo recibe al evaluador que esta logeado como parametro
         public RegistrarProyecto(Evaluador evaluador)
         {
@@ -58,22 +55,20 @@ namespace UCR.Negotium.WindowsUI
             LlenaDgvTotalesReinversiones();
             LlenaDgvProyeccionesVentas();
             LlenaDgvIngresosGenerados();
-            LlenaDgvCostos();
-            LlenaDgvCostosGenerados();
-            LlenaDgvCapitalTrabajo();
-            LlenaDgvDepreciaciones();
+
             LlenaFooter();
 
             tbxRegistrarProyecto.SelectedIndex = indexTab;
+            tbxRegistrarProyecto_Selected(this, null);
         }
 
-        
+
         /******************************************INICIO DE VALIDACIONES DE CHECKBOX*******************************************************/
         // El siguiente metodo es para cuando se realiza una accion en el checkbox primero desmarque la casilla
         // del otro check box y luego seleccione la casilla que se esta presionando
         private void chbConIngreso_CheckedChanged(object sender, EventArgs e)
         {
-            if ((chbSinIngreso.Checked) )
+            if ((chbSinIngreso.Checked))
             {
                 //Este if evita que se encicle las validaciones ya que cada vez que se hace un
                 //chechbox.Checked se ejecuta el evento de ese checkbox
@@ -88,7 +83,7 @@ namespace UCR.Negotium.WindowsUI
         // del otro check box y luego seleccione la casilla que se esta presionando
         private void chbSinIngreso_CheckedChanged(object sender, EventArgs e)
         {
-            if ((chbConIngreso.Checked) )
+            if ((chbConIngreso.Checked))
             {
                 //Este if evita que se encicle las validaciones ya que cada vez que se hace un
                 //chechbox.Checked se ejecuta el evento de ese checkbox
@@ -171,16 +166,80 @@ namespace UCR.Negotium.WindowsUI
                 int indice = tbxRegistrarProyecto.SelectedIndex;
                 switch (indice)
                 {
+                    case 6:
+                        LlenaDgvCostos();
+                        LlenaDgvCostosGenerados();
+                        break;
+
+                    case 7:
+                        LlenaDgvCapitalTrabajo();
+                        break;
+
+                    case 8:
+                        LlenaDgvDepreciaciones();
+                        break;
+
+                    case 9:
+                        //Llena datos de financiamiento
+                        InteresFinanciamientoData interesData = new InteresFinanciamientoData();
+                        FinanciamientoData financiamientoData = new FinanciamientoData();
+                        List<InteresFinanciamiento> listTemp = new List<InteresFinanciamiento>();
+                        listTemp = interesData.GetInteresesFinanciamiento(proyecto.CodProyecto, 0);
+                        if (listTemp.Count > 0)
+                        {
+                            proyecto.InteresFinanciamientoIF = listTemp[0];
+                        }
+                        //
+                        if (proyecto.FinanciamientoIF == null)
+                        {
+                            proyecto.FinanciamientoIF = financiamientoData.GetFinanciamiento(proyecto.CodProyecto, false);
+                        }
+
+                        if (proyecto.FinanciamientoIF != null)
+                        {
+                            tbMontoFinanciamientoIF.Text = proyecto.FinanciamientoIF.MontoFinanciamiento.ToString();
+                            nupTiempoFinanciamientoIF.Value = (Decimal)proyecto.FinanciamientoIF.TiempoFinanciamiento;
+                            if (proyecto.InteresFinanciamientoIF.PorcentajeInteresFinanciamiento != 0)
+                            {
+                                nupPorcentajeInteresIF.Value = (Decimal)proyecto.InteresFinanciamientoIF.PorcentajeInteresFinanciamiento;
+                            }
+                            LlenaDgvFinanciamientoIF();
+                        }
+
+                        if (proyecto.FinanciamientoIV == null)
+                        {
+                            proyecto.FinanciamientoIV = financiamientoData.GetFinanciamiento(proyecto.CodProyecto, true);
+                        }
+
+                        if (proyecto.FinanciamientoIV != null)
+                        {
+                            tbMontoVariable.Text = proyecto.FinanciamientoIV.MontoFinanciamiento.ToString();
+                            nudTiempoVariable.Value = (Decimal)proyecto.FinanciamientoIV.TiempoFinanciamiento;
+                            if (proyecto.InteresesFinanciamientoIV.Count == 0)
+                            {
+                                proyecto.InteresesFinanciamientoIV = interesData.GetInteresesFinanciamiento(proyecto.CodProyecto, 1);
+                            }
+                            LlenaDgvFinanciamientoIV();
+                        }
+                        break;
+
                     case 10:
+
+                        if (dgvCapitalTrabajo.RowCount == 0 && this.proyecto.CostosGenerados.Count != 0)
+                        {
+                            LlenaDgvCapitalTrabajo();
+                        }
                         LlenaDgvFlujoCajaIF();
                         LlenaDgvFlujoCajaIV();
+
                         break;
+
                     case 11:
                         lblNombreProyecto.Text = proyecto.NombreProyecto;
                         lblTipoProyecto.Text = proyecto.ConIngresos ? "Con Ingreso" : "Sin Ingreso";
                         lblObjetoInteres.Text = proyecto.ObjetoInteres.DescripcionObjetoInteres;
                         lblOrganizacionProponente.Text = proyecto.Proponente.Organizacion.NombreOrganizacion;
-                        lblNombreProponente.Text = proyecto.Proponente.Nombre +" "+ proyecto.Proponente.Apellidos;
+                        lblNombreProponente.Text = proyecto.Proponente.Nombre + " " + proyecto.Proponente.Apellidos;
                         lblTelefonoProponente.Text = proyecto.Proponente.Telefono;
                         lblNombreEvaluador.Text = evaluador.Nombre;
                         lblCedulaEvaluador.Text = evaluador.NumIdentificacion;
@@ -199,7 +258,7 @@ namespace UCR.Negotium.WindowsUI
         //memoria volatil
         private void RegistrarProyecto_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (mostrarMensajeSeguridad==true)
+            if (mostrarMensajeSeguridad == true)
             {
                 if (MessageBox.Show("¿Seguro que desea salir?", "Salir",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
@@ -219,24 +278,34 @@ namespace UCR.Negotium.WindowsUI
             {
                 ActualizarProyecto();
             }
-            
+
         }
 
         //Este boton guarda la información de la organizacion proponente y del proponente
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (proyecto.Proponente.NumIdentificacion == "-1")
+            if (!txbCedulaJuridica.Text.ToString().Equals(string.Empty) && !txbCedulaProponente.Text.ToString().Equals(string.Empty))
             {
-                InsertarOrganizacionProponente();
-            }//if
+                if (proyecto.Proponente.NumIdentificacion == "-1")
+                {
+                    InsertarOrganizacionProponente();
+                }//if
+                else
+                {
+                    ActualizarOrganizacionProponente();
+                    ActualizarProponente();
+                    LlenaFooter();
+                    MessageBox.Show("Organizacion y proponente actualizados con éxito",
+                                "Actualizados", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }//else
+            }
             else
             {
-                ActualizarOrganizacionProponente();
-                ActualizarProponente();
-                LlenaFooter();
-                MessageBox.Show("Organizacion y proponente actualizados con éxito",
-                            "Actualizados", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }//else
+                MessageBox.Show("Por favor ingrese todos los siguientes datos requeridos: "+
+                    "\n 1. Cédula Jurídica (Para organizaciones) "+
+                    "\n 2. Cédula del Representante",
+                             "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnGuardar3_Click(object sender, EventArgs e)
@@ -293,17 +362,17 @@ namespace UCR.Negotium.WindowsUI
             bool validaInsersion = false;
 
             List<RequerimientoInversion> listaRequerimientoInversion = new List<RequerimientoInversion>();
-            for (int i = 0; i < dgvInversiones.RowCount-1; i++)
+            for (int i = 0; i < dgvInversiones.RowCount - 1; i++)
             {
-                    try
-                    {
-                        RequerimientoInversion requerimientoInversiones = new RequerimientoInversion();
-                        requerimientoInversiones.DescripcionRequerimiento = 
-                            this.dgvInversiones.Rows[i].Cells["Descripcion"].Value.ToString();
-                        requerimientoInversiones.Cantidad = 
-                            Int32.Parse(this.dgvInversiones.Rows[i].Cells["Cantidad"].Value.ToString());
-                        requerimientoInversiones.CostoUnitario = Convert.ToDouble(Int32.Parse(this.dgvInversiones.Rows[i].
-                            Cells["CostoUnitario"].Value.ToString()));
+                try
+                {
+                    RequerimientoInversion requerimientoInversiones = new RequerimientoInversion();
+                    requerimientoInversiones.DescripcionRequerimiento =
+                        this.dgvInversiones.Rows[i].Cells["Descripcion"].Value.ToString();
+                    requerimientoInversiones.Cantidad = 
+                        Int32.Parse(this.dgvInversiones.Rows[i].Cells["Cantidad"].Value.ToString());
+                    requerimientoInversiones.CostoUnitario = Convert.ToDouble(Int32.Parse(this.dgvInversiones.Rows[i].
+                        Cells["CostoUnitario"].Value.ToString()));
 
                     if (this.dgvInversiones.Rows[i].Cells["codRequerimiento"].Value.ToString().Equals(string.Empty))
                     {
@@ -314,40 +383,42 @@ namespace UCR.Negotium.WindowsUI
                     {
                         requerimientoInversiones.CodRequerimientoInversion = Int32.Parse(this.dgvInversiones.Rows[i].Cells["codRequerimiento"].Value.ToString());
                     }
-                    
+
                     // Se realiza una instancia del dgv combobox column para poder manipularlo
-                    DataGridViewComboBoxColumn unidadMedidaColumn = 
+                    DataGridViewComboBoxColumn unidadMedidaColumn =
                             dgvInversiones.Columns["UnidadMedida"] as DataGridViewComboBoxColumn;
-                        DataTable dtUnidadMedida = (DataTable)unidadMedidaColumn.DataSource;
-                        UnidadMedida unidadMedida = new UnidadMedida();
-                        foreach (DataRow fila in dtUnidadMedida.Rows)
-                        {
-                            if (this.dgvInversiones.Rows[i].Cells["UnidadMedida"].Value.ToString() == fila["cod_unidad"].ToString())
-                            {
-                                unidadMedida.CodUnidad = Int32.Parse(fila["cod_unidad"].ToString());
-                                unidadMedida.NombreUnidad = fila["nombre_unidad"].ToString();
-                                break;
-                            }//if
-
-                        }//foreach
-
-                    if (unidadMedida.CodUnidad.Equals(0))
+                    DataTable dtUnidadMedida = (DataTable)unidadMedidaColumn.DataSource;
+                    UnidadMedida unidadMedida = new UnidadMedida();
+                    foreach (DataRow fila in dtUnidadMedida.Rows)
                     {
-                        unidadMedida.CodUnidad = 1;
-                        unidadMedida.NombreUnidad = "Litros";
-                    }
-                        requerimientoInversiones.UnidadMedida = unidadMedida;
-                        if(this.dgvInversiones.Rows[i].Cells["Depreciable"].Value.ToString().Equals(""))
+                        if (this.dgvInversiones.Rows[i].Cells["UnidadMedida"].Value.ToString() == fila["cod_unidad"].ToString())
                         {
-                            requerimientoInversiones.Depreciable = false;
-                        }
-                        else
-                        {
-                            requerimientoInversiones.Depreciable = 
-                                Convert.ToBoolean(this.dgvInversiones.Rows[i].Cells["Depreciable"].Value);
-                        }
+                            unidadMedida.CodUnidad = Int32.Parse(fila["cod_unidad"].ToString());
+                            unidadMedida.NombreUnidad = fila["nombre_unidad"].ToString();
+                            break;
+                        }//if
 
-                        if (i > listaRequerimientoInversion.Count-1 && requerimientoInversiones.UnidadMedida.CodUnidad != 0) {
+                    }//foreach
+
+                    //if (unidadMedida.CodUnidad.Equals(0))
+                    //{
+                    //    unidadMedida.CodUnidad = 1;
+                    //    unidadMedida.NombreUnidad = "Litros";
+                    //}
+                    //requerimientoInversiones.UnidadMedida = unidadMedida;
+
+                    if (this.dgvInversiones.Rows[i].Cells["Depreciable"].Value.ToString().Equals(""))
+                    {
+                        requerimientoInversiones.Depreciable = false;
+                    }
+                    else
+                    {
+                        requerimientoInversiones.Depreciable =
+                            Convert.ToBoolean(this.dgvInversiones.Rows[i].Cells["Depreciable"].Value);
+                    }
+
+                    if (i > listaRequerimientoInversion.Count - 1 && requerimientoInversiones.UnidadMedida.CodUnidad != 0)
+                    {
 
                         if (this.dgvInversiones.Rows[i].Cells["VidaUtil"].Value.ToString().Equals(string.Empty))
                         {
@@ -357,34 +428,34 @@ namespace UCR.Negotium.WindowsUI
                         {
                             requerimientoInversiones.VidaUtil = Int32.Parse(this.dgvInversiones.Rows[i].Cells["VidaUtil"].Value.ToString());
                         }
-                            
-                            RequerimientoInversionData requerimientosInversionData = new RequerimientoInversionData();
-                            if (requerimientoInversiones.CodRequerimientoInversion == 0)
-                            {
-                                requerimientosInversionData.InsertarRequerimientosInvesion(requerimientoInversiones, this.proyecto.CodProyecto);
-                                listaRequerimientoInversion.Add(requerimientoInversiones);
-                                validaInsersion = true;
-                            }
-                            else
-                            {
-                                requerimientosInversionData.EditarRequerimientosInvesion(requerimientoInversiones, this.proyecto.CodProyecto);
-                                validaInsersion = true;
-                            }
+
+                        RequerimientoInversionData requerimientosInversionData = new RequerimientoInversionData();
+                        if (requerimientoInversiones.CodRequerimientoInversion == 0)
+                        {
+                            requerimientosInversionData.InsertarRequerimientosInvesion(requerimientoInversiones, this.proyecto.CodProyecto);
+                            listaRequerimientoInversion.Add(requerimientoInversiones);
+                            validaInsersion = true;
                         }
-                    }//try
-                    catch(Exception ex)
-                    {
-                        validaInsersion = false;
-                        Console.WriteLine(ex);
-                    }//catch
+                        else
+                        {
+                            requerimientosInversionData.EditarRequerimientosInvesion(requerimientoInversiones, this.proyecto.CodProyecto);
+                            validaInsersion = true;
+                        }
+                    }
+                }//try
+                catch (Exception ex)
+                {
+                    validaInsersion = false;
+                    Console.WriteLine(ex);
+                }//catch
             }//for
             if (validaInsersion)
             {
-                foreach(RequerimientoInversion inversion in listaRequerimientoInversion)
+                foreach (RequerimientoInversion inversion in listaRequerimientoInversion)
                 {
                     proyecto.RequerimientosInversion.Add(inversion);
                 }
-                
+
                 dgvInversiones.Update();
                 dgvInversiones.Refresh();
 
@@ -419,7 +490,6 @@ namespace UCR.Negotium.WindowsUI
 
         private void dgvInversiones_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            
             UnidadMedidaData unidadMedidaData = new UnidadMedidaData();
             DataGridViewComboBoxColumn comboboxColumn = dgvInversiones.Columns["UnidadMedida"] as DataGridViewComboBoxColumn;
             comboboxColumn.DataSource = unidadMedidaData.GetUnidadesMedida();
@@ -742,7 +812,6 @@ namespace UCR.Negotium.WindowsUI
         {
             //Este if es para que se ejecute solo a partir de la segunda vez que se selecciona algo en el combobox
             //Debido a que si se permite ejecutar la primera lo q se trae es un dataRowView y no el ID del canton
-            //que es lo q ocupamos
             if (segundaSeleccionDistrito == false)
             {
                 segundaSeleccionDistrito = true;
@@ -751,11 +820,6 @@ namespace UCR.Negotium.WindowsUI
             {
                 idDistritoSeleccionado = Int32.Parse(cbxDistrito.SelectedValue.ToString());
             }//else
-        }
-
-        private void RegistrarProyecto_Activated(object sender, EventArgs e)
-        {
-            
         }
 
         //Estos metodos de ObtieneParaInsertar va a obtener del combobox el objeto completo para
@@ -1160,40 +1224,6 @@ namespace UCR.Negotium.WindowsUI
             txbJustificacionMercado.Text = proyecto.JustificacionDeMercado;
             txbCaracterizacionBienServicio.Text = proyecto.CaraterizacionDelBienServicio;
             txbDescripcionSostenibilidadProyecto.Text = proyecto.DescripcionSostenibilidadDelProyecto;
-
-            //Llena datos de financiamiento
-            InteresFinanciamientoData interesData = new InteresFinanciamientoData();
-            FinanciamientoData financiamientoData = new FinanciamientoData();
-            List<InteresFinanciamiento> listTemp = new List<InteresFinanciamiento>();
-            listTemp = interesData.GetInteresesFinanciamiento(proyecto.CodProyecto, 0);
-            if (listTemp.Count > 0)
-            {
-                proyecto.InteresFinanciamientoIF = listTemp[0];
-            }
-            //
-            proyecto.FinanciamientoIF = financiamientoData.GetFinanciamiento(proyecto.CodProyecto, false);
-            if (proyecto.FinanciamientoIF != null)
-            {
-                tbMontoFinanciamientoIF.Text = proyecto.FinanciamientoIF.MontoFinanciamiento.ToString();
-                nupTiempoFinanciamientoIF.Value = (Decimal)proyecto.FinanciamientoIF.TiempoFinanciamiento;
-                if (proyecto.InteresFinanciamientoIF.PorcentajeInteresFinanciamiento != 0)
-                {
-                    nupPorcentajeInteresIF.Value = (Decimal)proyecto.InteresFinanciamientoIF.PorcentajeInteresFinanciamiento;
-                }
-            }
-
-            proyecto.FinanciamientoIV = financiamientoData.GetFinanciamiento(proyecto.CodProyecto, true);
-            if (proyecto.FinanciamientoIV != null)
-            {
-                tbMontoVariable.Text = proyecto.FinanciamientoIV.MontoFinanciamiento.ToString();
-                nudTiempoVariable.Value = (Decimal)proyecto.FinanciamientoIV.TiempoFinanciamiento;
-                if (proyecto.InteresesFinanciamientoIV.Count == 0)
-                {
-                    proyecto.InteresesFinanciamientoIV = interesData.GetInteresesFinanciamiento(proyecto.CodProyecto, 1);
-                }
-                LlenaDgvFinanciamientoIV();
-            }
-
         }//LlenaInformacionProyecto
         
         //Llena la informacion de la organizacion cuando se selecciona un proyecto para modificar
@@ -1204,7 +1234,6 @@ namespace UCR.Negotium.WindowsUI
             txbCedulaJuridica.Text = proyecto.Proponente.Organizacion.CedulaJuridica;
             txbTelefonoOrganizacion.Text = proyecto.Proponente.Organizacion.Telefono;
             txbDescripcion.Text = proyecto.Proponente.Organizacion.Descripcion;
-
         }
 
         private void btnVerResumen4_Click(object sender, EventArgs e)
@@ -1419,21 +1448,20 @@ namespace UCR.Negotium.WindowsUI
                     DataRow row = ds.Tables["Proyecciones"].NewRow();
                     row["Articulo"] = proyTemp.NombreArticulo;
                     row["Unidad"] = proyTemp.UnidadMedida.NombreUnidad;
-                    row["Enero"] = ("₡" + proyTemp.DetallesProyeccionVenta[0].Precio +" | "+ proyTemp.DetallesProyeccionVenta[0].Cantidad + " ud").ToString();
-                    row["Febrero"] = ("₡" + proyTemp.DetallesProyeccionVenta[1].Precio + " | " + proyTemp.DetallesProyeccionVenta[1].Cantidad + " ud").ToString();
-                    row["Marzo"] = ("₡" + proyTemp.DetallesProyeccionVenta[2].Precio + " | " + proyTemp.DetallesProyeccionVenta[2].Cantidad + " ud").ToString();
-                    row["Abril"] = ("₡" + proyTemp.DetallesProyeccionVenta[3].Precio + " | " + proyTemp.DetallesProyeccionVenta[3].Cantidad + " ud").ToString();
-                    row["Mayo"] = ("₡" + proyTemp.DetallesProyeccionVenta[4].Precio + " | " + proyTemp.DetallesProyeccionVenta[4].Cantidad + " ud").ToString();
-                    row["Junio"] = ("₡" + proyTemp.DetallesProyeccionVenta[5].Precio + " | " + proyTemp.DetallesProyeccionVenta[5].Cantidad + " ud").ToString();
-                    row["Julio"] = ("₡" + proyTemp.DetallesProyeccionVenta[6].Precio + " | " + proyTemp.DetallesProyeccionVenta[6].Cantidad + " ud").ToString();
-                    row["Agosto"] = ("₡" + proyTemp.DetallesProyeccionVenta[7].Precio + " | " + proyTemp.DetallesProyeccionVenta[7].Cantidad + " ud").ToString();
-                    row["Setiembre"] = ("₡" + proyTemp.DetallesProyeccionVenta[8].Precio + " | " + proyTemp.DetallesProyeccionVenta[8].Cantidad + " ud").ToString();
-                    row["Octubre"] = ("₡" + proyTemp.DetallesProyeccionVenta[9].Precio + " | " + proyTemp.DetallesProyeccionVenta[9].Cantidad + " ud").ToString();
-                    row["Noviembre"] = ("₡" + proyTemp.DetallesProyeccionVenta[10].Precio + " | " + proyTemp.DetallesProyeccionVenta[10].Cantidad + " ud").ToString();
-                    row["Diciembre"] = ("₡" + proyTemp.DetallesProyeccionVenta[11].Precio + " | " + proyTemp.DetallesProyeccionVenta[11].Cantidad + " ud").ToString();
+                    row["Enero"] = ("₡ " + proyTemp.DetallesProyeccionVenta[0].Subtotal);
+                    row["Febrero"] = ("₡ " + proyTemp.DetallesProyeccionVenta[1].Subtotal);
+                    row["Marzo"] = ("₡ " + proyTemp.DetallesProyeccionVenta[2].Subtotal);
+                    row["Abril"] = ("₡ " + proyTemp.DetallesProyeccionVenta[3].Subtotal);
+                    row["Mayo"] = ("₡ " + proyTemp.DetallesProyeccionVenta[4].Subtotal);
+                    row["Junio"] = ("₡ " + proyTemp.DetallesProyeccionVenta[5].Subtotal);
+                    row["Julio"] = ("₡ " + proyTemp.DetallesProyeccionVenta[6].Subtotal);
+                    row["Agosto"] = ("₡ " + proyTemp.DetallesProyeccionVenta[7].Subtotal);
+                    row["Setiembre"] = ("₡ " + proyTemp.DetallesProyeccionVenta[8].Subtotal);
+                    row["Octubre"] = ("₡ " + proyTemp.DetallesProyeccionVenta[9].Subtotal);
+                    row["Noviembre"] = ("₡ " + proyTemp.DetallesProyeccionVenta[10].Subtotal);
+                    row["Diciembre"] = ("₡ " + proyTemp.DetallesProyeccionVenta[11].Subtotal);
 
                     ds.Tables["Proyecciones"].Rows.Add(row);
-                    
                 }//foreach
 
                 DataTable dtProyecciones = ds.Tables["Proyecciones"];
@@ -1448,19 +1476,6 @@ namespace UCR.Negotium.WindowsUI
             gestionCrecimientoOferta.MdiParent = this.MdiParent;
             gestionCrecimientoOferta.Show();
             this.Close();
-        }
-
-        private void tcFinanciamiento_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            int indexCb = tcFinanciamiento.SelectedIndex;
-            if (indexCb == 0)
-            {
-                LlenaDgvFinanciamientoIF();
-            }
-            else if (indexCb == 1)
-            {
-                LlenaDgvFinanciamientoIV();
-            }
         }
 
         private void LlenaDgvIngresosGenerados()
@@ -1488,7 +1503,6 @@ namespace UCR.Negotium.WindowsUI
 
         private void tbMontoFinanciamientoIF_TextChanged(object sender, EventArgs e)
         {
-
             LlenaDgvFinanciamientoIF();
         }
 
@@ -1521,6 +1535,7 @@ namespace UCR.Negotium.WindowsUI
                 if (intFinanData.InsertarInteresFinanciamiento(intFinanTemp, this.proyecto.CodProyecto))
                 {
                     this.proyecto.InteresFinanciamientoIF = intFinanTemp;
+                    LlenaDgvFinanciamientoIF();
                     MessageBox.Show("Financiamiento fijo registrado con éxito",
                            "Insertado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -1542,13 +1557,14 @@ namespace UCR.Negotium.WindowsUI
             Financiamiento finanTemp = new Financiamiento();
             finanTemp.MontoFinanciamiento = Convert.ToDouble(tbMontoVariable.Text.ToString());
             finanTemp.VariableFinanciamiento = true;
-            finanTemp.TiempoFinanciamiento = proyecto.FinanciamientoIV.TiempoFinanciamiento;
+            finanTemp.TiempoFinanciamiento = Convert.ToInt32(nudTiempoVariable.Value);
 
             FinanciamientoData finanData = new FinanciamientoData();
 
             if (finanData.InsertarFinanciamiento(finanTemp, this.proyecto.CodProyecto))
             {
                 this.proyecto.FinanciamientoIV = finanTemp;
+                LlenaDgvFinanciamientoIV();
                 MessageBox.Show("Financiamiento registrado con éxito",
                            "Insertado", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -1584,6 +1600,7 @@ namespace UCR.Negotium.WindowsUI
                 financiamientoV.TiempoFinanciamiento = Convert.ToInt32(nudTiempoVariable.Value);
             }
             financiamientoV.TiempoFinanciamiento = Convert.ToInt32(nudTiempoVariable.Value);
+            financiamientoV.VariableFinanciamiento = true;
             proyecto.FinanciamientoIV = financiamientoV;
             InteresFinanciamientoUI interesesFinanciamiento = new InteresFinanciamientoUI(evaluador, proyecto);
             interesesFinanciamiento.MdiParent = this.MdiParent;
@@ -1628,8 +1645,8 @@ namespace UCR.Negotium.WindowsUI
                 ds.Tables.Add("Costos");
                 ds.Tables["Costos"].Columns.Add("Articulo", Type.GetType("System.String"));
                 ds.Tables["Costos"].Columns.Add("Unidad", Type.GetType("System.String"));
-                ds.Tables["Costos"].Columns.Add("Variable", Type.GetType("System.Boolean"));
                 ds.Tables["Costos"].Columns.Add("Categoria", Type.GetType("System.String"));
+                ds.Tables["Costos"].Columns.Add("AñoInicial", Type.GetType("System.String"));
                 ds.Tables["Costos"].Columns.Add("Enero", Type.GetType("System.String"));
                 ds.Tables["Costos"].Columns.Add("Febrero", Type.GetType("System.String"));
                 ds.Tables["Costos"].Columns.Add("Marzo", Type.GetType("System.String"));
@@ -1642,25 +1659,26 @@ namespace UCR.Negotium.WindowsUI
                 ds.Tables["Costos"].Columns.Add("Octubre", Type.GetType("System.String"));
                 ds.Tables["Costos"].Columns.Add("Noviembre", Type.GetType("System.String"));
                 ds.Tables["Costos"].Columns.Add("Diciembre", Type.GetType("System.String"));
+
                 foreach (Costo costoTemp in this.proyecto.Costos)
                 {
                     DataRow row = ds.Tables["Costos"].NewRow();
                     row["Articulo"] = costoTemp.NombreCosto;
                     row["Unidad"] = costoTemp.UnidadMedida.NombreUnidad;
-                    row["Variable"] = costoTemp.CostoVariable;
-                    row["Categoria"] = costoTemp.Categoria_costo;
-                    row["Enero"] = ("₡" + costoTemp.CostosMensuales[0].CostoUnitario + " | " + costoTemp.CostosMensuales[0].Cantidad + " ud").ToString();
-                    row["Febrero"] = ("₡" + costoTemp.CostosMensuales[1].CostoUnitario + " | " + costoTemp.CostosMensuales[1].Cantidad + " ud").ToString();
-                    row["Marzo"] = ("₡" + costoTemp.CostosMensuales[2].CostoUnitario + " | " + costoTemp.CostosMensuales[2].Cantidad + " ud").ToString();
-                    row["Abril"] = ("₡" + costoTemp.CostosMensuales[3].CostoUnitario + " | " + costoTemp.CostosMensuales[3].Cantidad + " ud").ToString();
-                    row["Mayo"] = ("₡" + costoTemp.CostosMensuales[4].CostoUnitario + " | " + costoTemp.CostosMensuales[4].Cantidad + " ud").ToString();
-                    row["Junio"] = ("₡" + costoTemp.CostosMensuales[5].CostoUnitario + " | " + costoTemp.CostosMensuales[5].Cantidad + " ud").ToString();
-                    row["Julio"] = ("₡" + costoTemp.CostosMensuales[6].CostoUnitario + " | " + costoTemp.CostosMensuales[6].Cantidad + " ud").ToString();
-                    row["Agosto"] = ("₡" + costoTemp.CostosMensuales[7].CostoUnitario + " | " + costoTemp.CostosMensuales[7].Cantidad + " ud").ToString();
-                    row["Setiembre"] = ("₡" + costoTemp.CostosMensuales[8].CostoUnitario + " | " + costoTemp.CostosMensuales[8].Cantidad + " ud").ToString();
-                    row["Octubre"] = ("₡" + costoTemp.CostosMensuales[9].CostoUnitario + " | " + costoTemp.CostosMensuales[9].Cantidad + " ud").ToString();
-                    row["Noviembre"] = ("₡" + costoTemp.CostosMensuales[10].CostoUnitario + " | " + costoTemp.CostosMensuales[10].Cantidad + " ud").ToString();
-                    row["Diciembre"] = ("₡" + costoTemp.CostosMensuales[11].CostoUnitario + " | " + costoTemp.CostosMensuales[11].Cantidad + " ud").ToString();
+                    row["Categoria"] = costoTemp.CategoriaCosto;
+                    row["AñoInicial"] = costoTemp.AnoCosto;
+                    row["Enero"] = "₡ " + costoTemp.CostosMensuales[0].Subtotal.ToString("#,##0.##");
+                    row["Febrero"] = "₡ " + costoTemp.CostosMensuales[1].Subtotal.ToString("#,##0.##");
+                    row["Marzo"] = "₡ " + costoTemp.CostosMensuales[2].Subtotal.ToString("#,##0.##");
+                    row["Abril"] = "₡ " + costoTemp.CostosMensuales[3].Subtotal.ToString("#,##0.##");
+                    row["Mayo"] = "₡ " + costoTemp.CostosMensuales[4].Subtotal.ToString("#,##0.##");
+                    row["Junio"] = "₡ " + costoTemp.CostosMensuales[5].Subtotal.ToString("#,##0.##");
+                    row["Julio"] = "₡ " + costoTemp.CostosMensuales[6].Subtotal.ToString("#,##0.##");
+                    row["Agosto"] = "₡ " + costoTemp.CostosMensuales[7].Subtotal.ToString("#,##0.##");
+                    row["Setiembre"] = "₡ " + costoTemp.CostosMensuales[8].Subtotal.ToString("#,##0.##");
+                    row["Octubre"] = "₡ " + costoTemp.CostosMensuales[9].Subtotal.ToString("#,##0.##");
+                    row["Noviembre"] = "₡ " + costoTemp.CostosMensuales[10].Subtotal.ToString("#,##0.##");
+                    row["Diciembre"] = "₡ " + costoTemp.CostosMensuales[11].Subtotal.ToString("#,##0.##");
 
                     ds.Tables["Costos"].Rows.Add(row);
 
@@ -1668,6 +1686,7 @@ namespace UCR.Negotium.WindowsUI
 
                 DataTable dtCostos = ds.Tables["Costos"];
                 this.dgvCostos.DataSource = dtCostos;
+                this.dgvCostos.Columns[3].HeaderText = "Año Inicial";
             }//if
         }//LlenaDgvCostos
 
@@ -1693,6 +1712,39 @@ namespace UCR.Negotium.WindowsUI
             dgvCostosGenerados.Columns[0].HeaderText = "";
 
         }//LlenaDgvCostosGenerados
+
+        private void btnEditarProyeccion_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnEditarCosto_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void EsRepresentanteIndividual_CheckedChanged(object sender, EventArgs e)
+        {
+            if (EsRepresentanteIndividual.Checked)
+            {
+                cbxTipoOrganizacion.SelectedIndex = cbxTipoOrganizacion.Items.Count - 1;
+                txbNombreOrganizacion.Text = txbNombreProponente.Text +" "+ txbApellidos.Text;
+                txbCedulaJuridica.Text = txbCedulaProponente.Text;
+                txbTelefonoOrganizacion.Text = txbTelefonoProponente.Text;
+            }
+            else
+            {
+                cbxTipoOrganizacion.SelectedValue = this.proyecto.Proponente.Organizacion.Tipo.CodTipo;
+                txbNombreOrganizacion.Text = this.proyecto.Proponente.Organizacion.NombreOrganizacion;
+                txbCedulaJuridica.Text = this.proyecto.Proponente.Organizacion.CedulaJuridica;
+                txbTelefonoOrganizacion.Text = this.proyecto.Proponente.Organizacion.Telefono;
+            }
+        }
+
+        private void btnEliminarInversion_Click(object sender, EventArgs e)
+        {
+
+        }
 
         private void LlenaDgvCapitalTrabajo()
         {
@@ -1770,19 +1822,22 @@ namespace UCR.Negotium.WindowsUI
                     ds.Tables["AmortizacionPrestamo"].Columns.Add("titulo2", Type.GetType("System.String"));
                     ds.Tables["AmortizacionPrestamo"].Columns.Add("titulo3", Type.GetType("System.String"));
                     ds.Tables["AmortizacionPrestamo"].Columns.Add("titulo4", Type.GetType("System.String"));
+                    ds.Tables["AmortizacionPrestamo"].Columns.Add("titulo5", Type.GetType("System.String"));
 
                     for (int i = 0; i < tiempo; i++)
                     {
                         DataRow row1 = ds.Tables["AmortizacionPrestamo"].NewRow();
-                        row1["titulo1"] = monto;
+                        row1["titulo1"] = this.proyecto.AnoInicial + i;
 
-                        row1["titulo2"] = cuota;
+                        row1["titulo2"] = "" + monto;
+
+                        row1["titulo3"] = cuota;
 
                         double interes = Math.Round((monto * interesIFtemp), 2);
-                        row1["titulo3"] = interes;
+                        row1["titulo4"] = interes;
 
                         double amortizacion = Math.Round(cuota - interes, 2);
-                        row1["titulo4"] = amortizacion;
+                        row1["titulo5"] = amortizacion;
 
                         ds.Tables["AmortizacionPrestamo"].Rows.Add(row1);
 
@@ -1794,10 +1849,13 @@ namespace UCR.Negotium.WindowsUI
                     }
                     DataTable dtCostosGenerados = ds.Tables["AmortizacionPrestamo"];
                     dgvFinanciamientoIF.DataSource = dtCostosGenerados;
-                    dgvFinanciamientoIF.Columns[0].HeaderText = "Saldo";
-                    dgvFinanciamientoIF.Columns[1].HeaderText = "Cuota";
-                    dgvFinanciamientoIF.Columns[2].HeaderText = "Interés";
-                    dgvFinanciamientoIF.Columns[3].HeaderText = "Amortización";
+                    dgvFinanciamientoIF.Columns[0].HeaderText = "Año de Pago";
+                    dgvFinanciamientoIF.Columns[0].Width = 120;
+                    dgvFinanciamientoIF.Columns[1].HeaderText = "Saldo";
+                    dgvFinanciamientoIF.Columns[2].HeaderText = "Cuota";
+                    dgvFinanciamientoIF.Columns[3].HeaderText = "Interés";
+                    dgvFinanciamientoIF.Columns[4].HeaderText = "Amortización";
+                    
                 }
             }
         }
@@ -1821,6 +1879,7 @@ namespace UCR.Negotium.WindowsUI
                 ds.Tables["AmortizacionPrestamo"].Columns.Add("titulo2", Type.GetType("System.String"));
                 ds.Tables["AmortizacionPrestamo"].Columns.Add("titulo3", Type.GetType("System.String"));
                 ds.Tables["AmortizacionPrestamo"].Columns.Add("titulo4", Type.GetType("System.String"));
+                ds.Tables["AmortizacionPrestamo"].Columns.Add("titulo5", Type.GetType("System.String"));
                 int tiempoTemp = tiempo;
 
                 for (int i = 0; i < tiempo; i++)
@@ -1828,16 +1887,18 @@ namespace UCR.Negotium.WindowsUI
                     Double interesTemp = intereses[i].PorcentajeInteresFinanciamiento / 100;
 
                     DataRow row1 = ds.Tables["AmortizacionPrestamo"].NewRow();
-                    row1["titulo1"] = monto;
+                    row1["titulo1"] = this.proyecto.AnoInicial + i;
+
+                    row1["titulo2"] = monto;
 
                     double cuota = Math.Round((monto * interesTemp) / (1 - (Math.Pow((1 + interesTemp), (-tiempoTemp)))), 2);
-                    row1["titulo2"] = cuota;
+                    row1["titulo3"] = cuota;
 
                     double interes = Math.Round((monto * interesTemp), 2);
-                    row1["titulo3"] = interes;
+                    row1["titulo4"] = interes;
 
                     double amortizacion = Math.Round(cuota - interes, 2);
-                    row1["titulo4"] = amortizacion;
+                    row1["titulo5"] = amortizacion;
 
                     ds.Tables["AmortizacionPrestamo"].Rows.Add(row1);
 
@@ -1846,10 +1907,12 @@ namespace UCR.Negotium.WindowsUI
                 }
                 DataTable dtCostosGenerados = ds.Tables["AmortizacionPrestamo"];
                 dgvFinanciamientoVariable.DataSource = dtCostosGenerados;
-                dgvFinanciamientoVariable.Columns[0].HeaderText = "Saldo";
-                dgvFinanciamientoVariable.Columns[1].HeaderText = "Cuota";
-                dgvFinanciamientoVariable.Columns[2].HeaderText = "Interés";
-                dgvFinanciamientoVariable.Columns[3].HeaderText = "Amortización";
+                dgvFinanciamientoVariable.Columns[0].HeaderText = "Año de Pago";
+                dgvFinanciamientoVariable.Columns[0].Width = 120;
+                dgvFinanciamientoVariable.Columns[1].HeaderText = "Saldo";
+                dgvFinanciamientoVariable.Columns[2].HeaderText = "Cuota";
+                dgvFinanciamientoVariable.Columns[3].HeaderText = "Interés";
+                dgvFinanciamientoVariable.Columns[4].HeaderText = "Amortización";
             }
             
             //}
@@ -1857,12 +1920,12 @@ namespace UCR.Negotium.WindowsUI
 
         private void LlenaDgvFlujoCajaIF()
         {
-            if (proyecto != null && proyecto.RequerimientosInversion.Count != 0 && proyecto.Costos.Count != 0 && proyecto.Proyecciones.Count != 0 && proyecto.FinanciamientoIF != null && proyecto.FinanciamientoIV != null)
+            if (proyecto.RequerimientosInversion.Count != 0 && proyecto.Costos.Count != 0 && proyecto.Proyecciones.Count != 0 && proyecto.FinanciamientoIF != null)
             {
                 DataSet ds = new DataSet();
                 ds.Tables.Add("FlujoCajaIntFijo");
                 ds.Tables["FlujoCajaIntFijo"].Columns.Add("Rubro", Type.GetType("System.String"));
-                for (int i = 0; i <= proyecto.HorizonteEvaluacionEnAnos-1; i++)
+                for (int i = 0; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
                 {
                     ds.Tables["FlujoCajaIntFijo"].Columns.Add((this.proyecto.AnoInicial + i).ToString(), Type.GetType("System.String"));
                 }
@@ -2065,7 +2128,7 @@ namespace UCR.Negotium.WindowsUI
 
         private void LlenaDgvFlujoCajaIV()
         {
-            if (proyecto != null && proyecto.RequerimientosInversion.Count != 0 && proyecto.Costos.Count != 0 && proyecto.Proyecciones.Count != 0 && proyecto.FinanciamientoIF != null && proyecto.FinanciamientoIV != null)
+            if (proyecto.RequerimientosInversion.Count != 0 && proyecto.Costos.Count != 0 && proyecto.Proyecciones.Count != 0 && proyecto.FinanciamientoIV != null)
             {
                 DataSet ds = new DataSet();
                 ds.Tables.Add("FlujoCajaIntVariable");

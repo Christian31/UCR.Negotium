@@ -8,47 +8,8 @@ namespace UCR.Negotium.Domain
 {
     public class CrecimientoOfertaObjetoInteres
     {
-        private int codCrecimiento;
-        private int anoCrecimiento;
-        private double porcentajeCrecimiento;
-
-        public int CodCrecimiento
-        {
-            get
-            {
-                return codCrecimiento;
-            }
-
-            set
-            {
-                codCrecimiento = value;
-            }
-        }
-
-        public int AnoCrecimiento
-        {
-            get
-            {
-                return anoCrecimiento;
-            }
-
-            set
-            {
-                anoCrecimiento = value;
-            }
-        }
-
-        public double PorcentajeCrecimiento
-        {
-            get
-            {
-                return porcentajeCrecimiento;
-            }
-
-            set
-            {
-                porcentajeCrecimiento = value;
-            }
-        }
+        public int CodCrecimiento { get; set; }
+        public int AnoCrecimiento { get; set; }
+        public double PorcentajeCrecimiento { get; set; }
     }
 }

@@ -9,12 +9,12 @@ namespace UCR.Negotium.Domain
 {
     public class RequerimientoInversion
     {
-        private int codRequerimientoInversion;
-        private String descripcionRequerimiento;
-        private int cantidad;
-        private double costoUnitario;
-        private bool depreciable;
-        private int vidaUtil;
+        public int CodRequerimientoInversion { get; set; }
+        public String DescripcionRequerimiento { get; set; }
+        public int Cantidad { get; set; }
+        public double CostoUnitario { get; set; }
+        public bool Depreciable { get; set; }
+        public int VidaUtil { get; set; }
         private UnidadMedida unidadMedida;
         private double depreciacion;
 
@@ -32,84 +32,6 @@ namespace UCR.Negotium.Domain
             set
             {
                 this.depreciacion = value;
-            }
-        }
-
-        public int CodRequerimientoInversion
-        {
-            get
-            {
-                return codRequerimientoInversion;
-            }
-
-            set
-            {
-                codRequerimientoInversion = value;
-            }
-        }
-
-        public string DescripcionRequerimiento
-        {
-            get
-            {
-                return descripcionRequerimiento;
-            }
-
-            set
-            {
-                descripcionRequerimiento = value;
-            }
-        }
-
-        public int Cantidad
-        {
-            get
-            {
-                return cantidad;
-            }
-
-            set
-            {
-                cantidad = value;
-            }
-        }
-
-        public double CostoUnitario
-        {
-            get
-            {
-                return costoUnitario;
-            }
-
-            set
-            {
-                costoUnitario = value;
-            }
-        }
-
-        public bool Depreciable
-        {
-            get
-            {
-                return depreciable;
-            }
-
-            set
-            {
-                depreciable = value;
-            }
-        }
-
-        public int VidaUtil
-        {
-            get
-            {
-                return vidaUtil;
-            }
-
-            set
-            {
-                vidaUtil = value;
             }
         }
 

@@ -8,60 +8,18 @@ namespace UCR.Negotium.Domain
 {
     public class DetalleProyeccionVenta
     {
-        private int codDetalle;
-        private int mes;
-        private double cantidad;
-        private double precio;
+        public int CodDetalle { get; set; }
+        public int Mes { get; set; }
+        public double Cantidad { get; set; }
+        public double Precio { get; set; }  
 
-        public int CodDetalle
+        public DetalleProyeccionVenta() { }
+
+        public double Subtotal
         {
             get
             {
-                return codDetalle;
-            }
-
-            set
-            {
-                codDetalle = value;
-            }
-        }
-
-        public int Mes
-        {
-            get
-            {
-                return mes;
-            }
-
-            set
-            {
-                mes = value;
-            }
-        }
-
-        public double Cantidad
-        {
-            get
-            {
-                return cantidad;
-            }
-
-            set
-            {
-                cantidad = value;
-            }
-        }
-
-        public double Precio
-        {
-            get
-            {
-                return precio;
-            }
-
-            set
-            {
-                precio = value;
+                return this.Cantidad * this.Precio;
             }
         }
     }

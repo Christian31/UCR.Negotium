@@ -139,7 +139,7 @@ namespace UCR.Negotium.WindowsUI
                 VariacionAnualCosto creTemp = new VariacionAnualCosto();
                 creTemp.CodVariacionCosto = Convert.ToInt32(row[0]);
                 creTemp.Ano = Convert.ToInt32(row[1]);
-                creTemp.ProcentajeIncremento = Convert.ToDouble(row[2]);
+                creTemp.PorcentajeIncremento = Convert.ToDouble(row[2]);
 
                 list.Add(creTemp);
             }
@@ -197,6 +197,11 @@ namespace UCR.Negotium.WindowsUI
             {
                 idProyectoSeleccionado = Convert.ToInt32(row.Cells[0].Value.ToString());
             }
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
