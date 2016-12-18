@@ -39,8 +39,8 @@ namespace UCR.Negotium.WindowsUI
             DataSet ds = new DataSet();
             ds.Tables.Add("Costo");
             ds.Tables["Costo"].Columns.Add("Mes", Type.GetType("System.String"));
-            ds.Tables["Costo"].Columns.Add("Cantidad", Type.GetType("System.String"));
-            ds.Tables["Costo"].Columns.Add("Precio", Type.GetType("System.String"));
+            ds.Tables["Costo"].Columns.Add("Cantidad", Type.GetType("System.Int32"));
+            ds.Tables["Costo"].Columns.Add("Precio", Type.GetType("System.Int32"));
 
             string[] meses = new string[] { "Enero", "Febrero", "Marzo","Abril","Mayo","Junio","Julio","Agosto",
                 "Setiembre","Octubre","Noviembre", "Diciembre" };
@@ -54,37 +54,48 @@ namespace UCR.Negotium.WindowsUI
             }
             DataTable dtCosto = ds.Tables["Costo"];
             this.dgvCosto.DataSource = dtCosto;
+            this.dgvCosto.Columns["Precio"].HeaderText = "Precio (₡)";
+            this.dgvCosto.Columns["mes"].ReadOnly = true;
         }
 
         private void btnAgregarCosto_Click(object sender, EventArgs e)
         {
             try
             {
-                costoNuevo.NombreCosto = tbxNombreCosto.Text;
-                costoNuevo.UnidadMedida.CodUnidad = Convert.ToInt32(cbxUnidadCosto.SelectedValue);
-                costoNuevo.UnidadMedida.NombreUnidad = cbxUnidadCosto.Text;
-                costoNuevo.CategoriaCosto = cbxCategoriasCosto.Text;
-                costoNuevo.AnoCosto = Convert.ToInt32(cbxAnoInicialCosto.Text);
-
-                Int32 mes = 1;
-                foreach (DataGridViewRow row in dgvCosto.Rows)
+                if (tbxNombreCosto.Text.Length >0)
                 {
-                    costoMensualNuevo = new CostoMensual();
-                    costoMensualNuevo.Mes = mes;
-                    costoMensualNuevo.Cantidad = Convert.ToDouble(row.Cells[1].Value.ToString());
-                    costoMensualNuevo.CostoUnitario = Convert.ToDouble(row.Cells[2].Value.ToString());
-                    costoNuevo.CostosMensuales.Add(costoMensualNuevo);
+                    costoNuevo.NombreCosto = tbxNombreCosto.Text;
+                    costoNuevo.UnidadMedida.CodUnidad = Convert.ToInt32(cbxUnidadCosto.SelectedValue);
+                    costoNuevo.UnidadMedida.NombreUnidad = cbxUnidadCosto.Text;
+                    costoNuevo.CategoriaCosto = cbxCategoriasCosto.Text;
+                    costoNuevo.AnoCosto = Convert.ToInt32(cbxAnoInicialCosto.Text);
 
-                    mes++;
+                    Int32 mes = 1;
+                    foreach (DataGridViewRow row in dgvCosto.Rows)
+                    {
+                        costoMensualNuevo = new CostoMensual();
+                        costoMensualNuevo.Mes = mes;
+                        costoMensualNuevo.Cantidad = Convert.ToDouble(row.Cells[1].Value.ToString());
+                        costoMensualNuevo.CostoUnitario = Convert.ToDouble(row.Cells[2].Value.ToString());
+                        costoNuevo.CostosMensuales.Add(costoMensualNuevo);
+
+                        mes++;
+                    }
+
+                    proyecto.Costos.Add(costoData.InsertarCosto(costoNuevo, this.proyecto.CodProyecto));
+
+                    new RegistrarProyecto(this.evaluador, this.proyecto, 6)
+                    {
+                        MdiParent = base.MdiParent
+                    }.Show();
+                    base.Close();
                 }
-
-                proyecto.Costos.Add(costoData.InsertarCosto(costoNuevo, this.proyecto.CodProyecto));
-
-                new RegistrarProyecto(this.evaluador, this.proyecto, 6)
+                else
                 {
-                    MdiParent = base.MdiParent
-                }.Show();
-                base.Close();
+                    MessageBox.Show("El nombre del Costo no puede ser vacío",
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                
             }
             catch (Exception ex)
             {

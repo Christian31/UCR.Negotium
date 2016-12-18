@@ -134,29 +134,25 @@ namespace UCR.Negotium.DataAccess
             }//catch
         }//EditarRequerimientosInvesion
 
-        //public List<RequerimientoInversion> EliminarRequerimientosInversion(int codProyecto)
-        //{
-        //    List<RequerimientoInversion> listaRequerimientos = new List<RequerimientoInversion>();
-        //    try
-        //    {
-        //        String select = "DELETE FROM REQUERIMIENTO_INVERSION WHERE cod_proyecto = " + codProyecto;
+        public bool EliminarRequerimientoInversion(int codRequerimiento)
+        {
+            try
+            {
+                string sqlQuery = "DELETE FROM REQUERIMIENTO_INVERSION WHERE cod_requerimiento_inversion =" + codRequerimiento + ";";
+                if (conexion.State != ConnectionState.Open)
+                    conexion.Open();
+                SQLiteCommand command = conexion.CreateCommand();
+                command = conexion.CreateCommand();
+                command.CommandText = sqlQuery;
+                command.ExecuteNonQuery();
 
-        //        if (conexion.State != ConnectionState.Open)
-        //            conexion.Open();
-        //        SQLiteCommand command = conexion.CreateCommand();
-        //        command = conexion.CreateCommand();
-        //        command.CommandText = select;
-        //        command.ExecuteReader();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
 
-        //        conexion.Close();
-        //        return listaRequerimientos;
-        //    }//try
-        //    catch
-        //    {
-        //        conexion.Close();
-        //        return listaRequerimientos;
-        //    }//catch
-
-        //}//EliminarRequerimientosInversion
+        }
     }//RequerimientosInversionData
 }

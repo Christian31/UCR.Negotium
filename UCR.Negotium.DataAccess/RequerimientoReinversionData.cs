@@ -141,5 +141,25 @@ namespace UCR.Negotium.DataAccess
             }//catch
 
         }//GetRequerimientosInversion
+
+        public bool EliminarRequerimientoReinversion(int codRequerimiento)
+        {
+            try
+            {
+                string sqlQuery = "DELETE FROM REQUERIMIENTO_REINVERSION WHERE cod_requerimiento_reinversion =" + codRequerimiento + ";";
+                if (conexion.State != ConnectionState.Open)
+                    conexion.Open();
+                SQLiteCommand command = conexion.CreateCommand();
+                command = conexion.CreateCommand();
+                command.CommandText = sqlQuery;
+                command.ExecuteNonQuery();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }//RequerimientoReinversionData
 }

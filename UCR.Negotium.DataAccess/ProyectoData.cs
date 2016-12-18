@@ -116,6 +116,33 @@ namespace UCR.Negotium.DataAccess
             }//else
         }//ActualizarProyecto
 
+        public bool ActualizarProyectoFlujoCaja(Proyecto proyecto)
+        {
+            String update = "UPDATE PROYECTO SET tasa_costo_capital=?, " +
+                "personas_participantes=?, familias_involucradas=?, " +
+                "beneficiarios_indirectos=? WHERE cod_proyecto=?; ";
+            if (conexion.State != ConnectionState.Open)
+                conexion.Open();
+            SQLiteCommand command = conexion.CreateCommand();
+            command.CommandText = update;
+            command.Parameters.AddWithValue("tasa_costo_capital", proyecto.TasaCostoCapital);
+            command.Parameters.AddWithValue("personas_participantes", proyecto.PersonasParticipantes);
+            command.Parameters.AddWithValue("familias_involucradas", proyecto.FamiliasInvolucradas);
+            command.Parameters.AddWithValue("beneficiarios_indirectos", proyecto.PersonasBeneficiadas);
+            command.Parameters.AddWithValue("cod_proyecto", proyecto.CodProyecto);
+            // Ejecutamos la sentencia INSERT y cerramos la conexión
+            if (command.ExecuteNonQuery() != -1)
+            {
+                conexion.Close();
+                return true;
+            }//if
+            else
+            {
+                conexion.Close();
+                return false;
+            }//else
+        }//ActualizarProyecto
+
         //Extrae todos los proyectos de la base de datos y los retorna en un datatable
         public DataTable GetProyectos()
         {

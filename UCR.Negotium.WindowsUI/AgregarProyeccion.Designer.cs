@@ -43,7 +43,7 @@
             // 
             this.btnAgregarProyeccion.Image = ((System.Drawing.Image)(resources.GetObject("btnAgregarProyeccion.Image")));
             this.btnAgregarProyeccion.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAgregarProyeccion.Location = new System.Drawing.Point(131, 412);
+            this.btnAgregarProyeccion.Location = new System.Drawing.Point(96, 412);
             this.btnAgregarProyeccion.Name = "btnAgregarProyeccion";
             this.btnAgregarProyeccion.Size = new System.Drawing.Size(126, 25);
             this.btnAgregarProyeccion.TabIndex = 0;
@@ -56,7 +56,7 @@
             // 
             this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
             this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(326, 412);
+            this.button2.Location = new System.Drawing.Point(367, 412);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 25);
             this.button2.TabIndex = 1;

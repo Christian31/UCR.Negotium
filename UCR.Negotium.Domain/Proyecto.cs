@@ -40,16 +40,18 @@ namespace UCR.Negotium.Domain
         public Financiamiento FinanciamientoIV { get; set; }
         public InteresFinanciamiento InteresFinanciamientoIF { get; set; }
         public Financiamiento FinanciamientoIF { get; set; }
-
+        public double TasaCostoCapital { get; set; }
+        public int PersonasParticipantes { get; set; }
+        public int FamiliasInvolucradas { get; set; }
+        public int PersonasBeneficiadas { get; set; }
         private List<double> ingresosGenerados; //atributo calculado
         private List<double> costosGenerados; //atributo calculado
 
         //atributo calculado
-        //string nombre depreciacion
-        //double depreciacion
         private List<Depreciacion> depreciaciones;
         private List<double> totalDepreciaciones;
         private List<double> utilidadOperativa;
+        private double valorResidual;
 
         public Proyecto()
         {
@@ -113,6 +115,18 @@ namespace UCR.Negotium.Domain
             }
         }
 
+        public double ValorResidual
+        {
+            get
+            {
+                return calcularValorResidual();
+            }
+            set
+            {
+                this.valorResidual = value;
+            }
+        }
+
         public List<double> IngresosGenerados
         {
             get
@@ -133,7 +147,7 @@ namespace UCR.Negotium.Domain
 
             foreach (RequerimientoInversion inversion in inversiones)
             {
-                if (inversion.Depreciable && inversion.VidaUtil > 0)
+                if (inversion.Depreciable)
                 {
                     Depreciacion depreciacion = new Depreciacion();
                     depreciacion.NombreDepreciacion = inversion.DescripcionRequerimiento;
@@ -273,12 +287,12 @@ namespace UCR.Negotium.Domain
         {
             double valIni = 0;
             List<double> listCostos = new List<double>();
-            int inicio = this.AnoInicial;
+            int inicio = this.AnoInicial+1;
             while (inicio <= (this.AnoInicial + this.HorizonteEvaluacionEnAnos))
             {
                 foreach (Costo articulo in this.Costos)
                 {
-                    if (articulo.AnoCosto > this.AnoInicial || articulo.AnoCosto < this.AnoInicial+this.HorizonteEvaluacionEnAnos)
+                    if (articulo.AnoCosto <= inicio)
                     {
                         foreach (CostoMensual detArticulo in articulo.CostosMensuales)
                         {
@@ -286,18 +300,16 @@ namespace UCR.Negotium.Domain
                         }
                     }
                 }
-                listCostos.Add(valIni);
 
                 for (int i = 0; i < this.VariacionCostos.Count; i++)
                 {
                     valIni = ((valIni * VariacionCostos[i].PorcentajeIncremento) / 100) + valIni;
-                    listCostos.Add(valIni);
+                    
                 }
-
+                listCostos.Add(valIni);
                 inicio++;
+                
             }
-
-            
 
             return listCostos;
         }
@@ -327,6 +339,37 @@ namespace UCR.Negotium.Domain
                 utilidadOperativa.Add(-TotalDepreciaciones[i] + IngresosGenerados[i] - CostosGenerados[i]);
             }
             return utilidadOperativa;
+        }
+
+        public double calcularValorResidual()
+        {
+            List<RequerimientoInversion> inversiones = this.RequerimientosInversion;
+            List<RequerimientoReinversion> reinversiones = this.RequerimientosReinversion;
+            double valorRes = 0;
+            foreach (RequerimientoInversion inversion in inversiones)
+            {
+                if (inversion.Depreciable) { 
+                    if (inversion.VidaUtil > this.HorizonteEvaluacionEnAnos)
+                    {
+                        int res = inversion.VidaUtil - this.HorizonteEvaluacionEnAnos;
+                        valorRes += inversion.Depreciacion * res;
+                    }
+                }
+            }
+
+            foreach(RequerimientoReinversion reinversion in reinversiones)
+            {
+                if (reinversion.Depreciable)
+                {
+                    if ((reinversion.AnoReinversion + reinversion.VidaUtil) > (this.AnoInicial + this.HorizonteEvaluacionEnAnos))
+                    {
+                        int res = (reinversion.AnoReinversion + reinversion.VidaUtil) - (this.AnoInicial + this.HorizonteEvaluacionEnAnos);
+                        valorRes += reinversion.Depreciacion * res;
+                    }
+                }
+            }
+
+            return valorRes;
         }
     }
 }

@@ -95,6 +95,10 @@ namespace UCR.Negotium.WindowsUI
                     proyecto.PorcentajeImpuesto = float.Parse(fila["porcentaje_impuesto"].ToString());
                     proyecto.Proponente = proponenteData.GetProponente(proyecto.CodProyecto);
                     proyecto.ResumenEjecutivo = fila["resumen_ejecutivo"].ToString();
+                    //proyecto.FamiliasInvolucradas = Int32.Parse(fila["familias_involucradas"].ToString());
+                    //proyecto.TasaCostoCapital = Double.Parse(fila["tasa_costo_capital"].ToString());
+                    //proyecto.PersonasBeneficiadas = Int32.Parse(fila["beneficiarios_indirectos"].ToString());
+                    //proyecto.PersonasParticipantes = Int32.Parse(fila["personas_participantes"].ToString());
                     return proyecto;
                 }//if
             }//foreach

@@ -219,5 +219,25 @@ namespace UCR.Negotium.DataAccess
                 return false;
             }//catch
         }//EditarProyeccionVenta
+
+        public bool EliminarProyeccionVenta(int codProyeccion)
+        {
+            try
+            {
+                string sqlQuery = "DELETE FROM PROYECCION_VENTA_POR_ARTICULO WHERE cod_articulo =" + codProyeccion + ";";
+                if (conexion.State != ConnectionState.Open)
+                    conexion.Open();
+                SQLiteCommand command = conexion.CreateCommand();
+                command = conexion.CreateCommand();
+                command.CommandText = sqlQuery;
+                command.ExecuteNonQuery();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

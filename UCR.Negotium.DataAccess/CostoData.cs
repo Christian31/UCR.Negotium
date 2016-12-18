@@ -233,5 +233,10 @@ namespace UCR.Negotium.DataAccess
                 return false;
             }//catch
         }//EditarCosto
+
+        public bool EliminarCosto(int codCosto)
+        {
+            return true;
+        }
     }
 }
