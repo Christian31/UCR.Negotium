@@ -14,16 +14,16 @@ using System.Text.RegularExpressions;
 
 namespace UCR.Negotium.WindowsUI
 {
-    public partial class Registrarse : Form
+    public partial class RegistrarseWindow : Form
     {
-        public Registrarse()
+        public RegistrarseWindow()
         {
             InitializeComponent();
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            Login login = new Login();
+            LoginWindow login = new LoginWindow();
             this.Hide();
             login.ShowDialog();
             this.Close();
@@ -39,7 +39,7 @@ namespace UCR.Negotium.WindowsUI
             {
                 MessageBox.Show("Usuario registrado correctamente",
                    "Registro", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Login login = new Login();
+                LoginWindow login = new LoginWindow();
                 this.Hide();
                 login.ShowDialog();
                 this.Close();

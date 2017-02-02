@@ -153,42 +153,39 @@ namespace UCR.Negotium.DataAccess
             return proyeccion;
         }//InsertarProyeccionVenta
 
-        public bool EditarProyeccionVenta(ProyeccionVentaArticulo proyeccion, int codProyecto)
+        public bool EditarProyeccionVenta(ProyeccionVentaArticulo proyeccion)
         {
+            SQLiteTransaction transaction = null;
             SQLiteCommand command = conexion.CreateCommand();
-            SQLiteTransaction transaction;
-            transaction = conexion.BeginTransaction();
+            SQLiteCommand command2 = conexion.CreateCommand();
             try
             {
-                String insert1 = "UPDATE PROYECCION_VENTA_POR_ARTICULO SET (cod_unidad_medida = ?, nombre_articulo = ?, " +
-                "cod_proyecto = ? WHERE cod_articulo = ?; " +
-            "SELECT last_insert_rowid();";
+                String insert1 = "UPDATE PROYECCION_VENTA_POR_ARTICULO SET cod_unidad_medida = ?, nombre_articulo = ? " +
+                "WHERE cod_articulo = ?;";
 
-                String insert2 = "UPDATE DETALLE_PROYECCION_VENTA SET (cod_proyeccion_venta_articulo = ?, mes_proyeccion = ?, " +
-                "cantidad_proyeccion = ?, precio_proyeccion = ? WHERE cod_detalle = ?;" +
-            "SELECT last_insert_rowid();";
-                if (conexion.State != ConnectionState.Open)
-                    conexion.Open();
+                String insert2 = "UPDATE DETALLE_PROYECCION_VENTA SET cantidad_proyeccion = ?, precio_proyeccion = ? "+
+                    "WHERE cod_detalle = ?;";
+
                 command.CommandText = insert1;
                 command.Parameters.AddWithValue("cod_unidad_medida", proyeccion.UnidadMedida.CodUnidad);
                 command.Parameters.AddWithValue("nombre_articulo", proyeccion.NombreArticulo);
-                command.Parameters.AddWithValue("cod_proyecto", codProyecto);
                 command.Parameters.AddWithValue("cod_articulo", proyeccion.CodArticulo);
 
                 if (conexion.State != ConnectionState.Open)
                     conexion.Open();
+
+                transaction = conexion.BeginTransaction();
                 // Ejecutamos la sentencia UPDATE y cerramos la conexión
                 if (command.ExecuteNonQuery() != -1)
                 {
                     //transaccion
                     foreach (DetalleProyeccionVenta detTemp in proyeccion.DetallesProyeccionVenta)
                     {
-                        command.CommandText = insert2;
-                        command.Parameters.AddWithValue("cod_proyeccion_venta_articulo", proyeccion.CodArticulo);
-                        command.Parameters.AddWithValue("mes_proyeccion", detTemp.Mes);
-                        command.Parameters.AddWithValue("cantidad_proyeccion", detTemp.Cantidad);
-                        command.Parameters.AddWithValue("precio_proyeccion", detTemp.Precio);
-                        command.Parameters.AddWithValue("cod_detalle", detTemp.CodDetalle);
+                        command2.CommandText = insert2;
+                        command2.Parameters.AddWithValue("cantidad_proyeccion", detTemp.Cantidad);
+                        command2.Parameters.AddWithValue("precio_proyeccion", detTemp.Precio);
+                        command2.Parameters.AddWithValue("cod_detalle", detTemp.CodDetalle);
+                        command2.ExecuteNonQuery();
                     }
                     transaction.Commit();
                     conexion.Close();
@@ -222,22 +219,53 @@ namespace UCR.Negotium.DataAccess
 
         public bool EliminarProyeccionVenta(int codProyeccion)
         {
+            string sqlQuery2 = "DELETE FROM PROYECCION_VENTA_POR_ARTICULO WHERE cod_articulo =" + codProyeccion + ";";
+            string sqlQuery1 = "DELETE FROM DETALLE_PROYECCION_VENTA WHERE cod_proyeccion_venta_articulo =" + codProyeccion + ";";
+
+            SQLiteTransaction transaction = null;
+            SQLiteCommand command = conexion.CreateCommand();
+            SQLiteCommand command2 = conexion.CreateCommand();
             try
             {
-                string sqlQuery = "DELETE FROM PROYECCION_VENTA_POR_ARTICULO WHERE cod_articulo =" + codProyeccion + ";";
+                command.CommandText = sqlQuery1;
+
                 if (conexion.State != ConnectionState.Open)
                     conexion.Open();
-                SQLiteCommand command = conexion.CreateCommand();
-                command = conexion.CreateCommand();
-                command.CommandText = sqlQuery;
-                command.ExecuteNonQuery();
+                transaction = conexion.BeginTransaction();
+                // Ejecutamos la sentencia UPDATE y cerramos la conexión
+                if (command.ExecuteNonQuery() != -1)
+                {
+                    //transaccion
+                    command2.CommandText = sqlQuery2;
+                    command2.ExecuteNonQuery();
+                    transaction.Commit();
+                    conexion.Close();
+                    return true;
+                }//if
+                else
+                {
+                    conexion.Close();
+                    return false;
+                }//else
 
-                return true;
-            }
-            catch
+            }//try
+            catch (Exception ex)
             {
+                Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                Console.WriteLine("  Message: {0}", ex.Message);
+
+                try
+                {
+                    transaction.Rollback();
+                }
+                catch (Exception ex2)
+                {
+                    Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
+                    Console.WriteLine("  Message: {0}", ex2.Message);
+                }
+                conexion.Close();
                 return false;
-            }
+            }//catch
         }
     }
 }

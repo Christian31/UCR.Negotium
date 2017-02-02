@@ -1,6 +1,6 @@
 ﻿namespace UCR.Negotium.WindowsUI
 {
-    partial class OlvidoContrasena
+    partial class OlvidoContrasenaWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OlvidoContrasena));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OlvidoContrasenaWindow));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txbCorreo = new System.Windows.Forms.TextBox();

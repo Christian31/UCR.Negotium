@@ -12,12 +12,12 @@ using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.WindowsUI
 {
-    public partial class GestionCrecimientosOferta : Form
+    public partial class GestionCrecimientosOfertaDialog : Form
     {
         private Proyecto proyecto;
         private Evaluador evaluador;
         private CrecimientoOfertaObjetoInteresData crecimientoOfertaData;
-        public GestionCrecimientosOferta(Evaluador evaluador, Proyecto proyecto)
+        public GestionCrecimientosOfertaDialog(Evaluador evaluador, Proyecto proyecto)
         {
             InitializeComponent();
             this.proyecto = proyecto;
@@ -152,7 +152,7 @@ namespace UCR.Negotium.WindowsUI
 
         private void btnCancelarCrecimientos_Click(object sender, EventArgs e)
         {
-            new RegistrarProyecto(this.evaluador, this.proyecto, 5)
+            new RegistrarProyectoWindow(this.evaluador, this.proyecto, 5)
             {
                 MdiParent = base.MdiParent
             }.Show();

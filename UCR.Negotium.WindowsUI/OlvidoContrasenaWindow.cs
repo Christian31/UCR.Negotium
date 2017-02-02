@@ -13,12 +13,12 @@ using UCR.Negotium.DataAccess;
 
 namespace UCR.Negotium.WindowsUI
 {
-    public partial class OlvidoContrasena : Form
+    public partial class OlvidoContrasenaWindow : Form
     {
         //Gmail: smtp.gmail.com puerto:587
         SmtpClient server = new SmtpClient("smtp.gmail.com", 587);
 
-        public OlvidoContrasena()
+        public OlvidoContrasenaWindow()
         {
             InitializeComponent();
             server.Credentials = new System.Net.NetworkCredential("negotiumucr@gmail.com", "Negotium2015");

@@ -23,6 +23,14 @@ namespace UCR.Negotium.Domain
             unidadMedida = new UnidadMedida();
         }
 
+        public double Subtotal
+        {
+            get
+            {
+                return this.Cantidad * this.CostoUnitario;
+            }
+        }
+
         public double Depreciacion
         {
             get

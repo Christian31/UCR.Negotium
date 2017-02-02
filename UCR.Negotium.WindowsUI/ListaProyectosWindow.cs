@@ -13,7 +13,7 @@ using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.WindowsUI
 {
-    public partial class SeleccionaProyectoModificar : Form
+    public partial class ListaProyectosWindow : Form
     {
 
         //variablesGlobales
@@ -24,7 +24,7 @@ namespace UCR.Negotium.WindowsUI
         DataTable dtProyectos;
         ProponenteData proponenteData;
 
-        public SeleccionaProyectoModificar(Evaluador evaluador)
+        public ListaProyectosWindow(Evaluador evaluador)
         {
             proyecto = new Proyecto();
             proyectosSinFiltro = new List<Proyecto>();
@@ -57,7 +57,7 @@ namespace UCR.Negotium.WindowsUI
             this.proyecto.RequerimientosInversion = requerimientoInversionData.GetRequerimientosInversion(proyecto.CodProyecto);
             this.proyecto.RequerimientosReinversion = requerimientoReinversionData.GetRequerimientosReinversion(proyecto.CodProyecto);
             this.proyecto.Proyecciones = proyeccionVentaArticuloData.GetProyeccionesVentaArticulo(proyecto.CodProyecto);
-            RegistrarProyecto registrarProyecto = new RegistrarProyecto(evaluador, proyecto, 0);
+            RegistrarProyectoWindow registrarProyecto = new RegistrarProyectoWindow(evaluador, proyecto, 0);
             registrarProyecto.MdiParent = this.MdiParent;
             registrarProyecto.Show();
             this.Close();

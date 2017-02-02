@@ -1,6 +1,6 @@
 ﻿namespace UCR.Negotium.WindowsUI
 {
-    partial class GestionCrecimientosOferta
+    partial class GestionCrecimientosOfertaDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GestionCrecimientosOferta));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GestionCrecimientosOfertaDialog));
             this.dgvCrecimientosOferta = new System.Windows.Forms.DataGridView();
             this.btnGuardarCrecimientos = new System.Windows.Forms.Button();
             this.btnCancelarCrecimientos = new System.Windows.Forms.Button();

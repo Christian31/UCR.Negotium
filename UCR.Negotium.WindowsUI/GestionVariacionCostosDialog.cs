@@ -12,12 +12,12 @@ using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.WindowsUI
 {
-    public partial class GestionVariacionCostos : Form
+    public partial class GestionVariacionCostosDialog : Form
     {
         private Proyecto proyecto;
         private Evaluador evaluador;
         private VariacionAnualCostoData variacionAnualCostoData;
-        public GestionVariacionCostos(Evaluador evaluador, Proyecto proyecto)
+        public GestionVariacionCostosDialog(Evaluador evaluador, Proyecto proyecto)
         {
             InitializeComponent();
             this.proyecto = proyecto;
@@ -109,7 +109,7 @@ namespace UCR.Negotium.WindowsUI
 
         private void btnVolverVariacionAnual_Click(object sender, EventArgs e)
         {
-            new RegistrarProyecto(this.evaluador, this.proyecto, 6)
+            new RegistrarProyectoWindow(this.evaluador, this.proyecto, 6)
             {
                 MdiParent = base.MdiParent
             }.Show();

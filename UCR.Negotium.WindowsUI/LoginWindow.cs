@@ -14,9 +14,9 @@ using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.WindowsUI
 {
-    public partial class Login : Form
+    public partial class LoginWindow : Form
     {
-        public Login()
+        public LoginWindow()
         {
             InitializeComponent();
             lblEmail.BackColor = Color.Transparent;
@@ -53,7 +53,7 @@ namespace UCR.Negotium.WindowsUI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Registrarse registrarse = new Registrarse();
+            RegistrarseWindow registrarse = new RegistrarseWindow();
             this.Hide();
             registrarse.ShowDialog();
             this.Close();
@@ -61,7 +61,7 @@ namespace UCR.Negotium.WindowsUI
 
         private void llbOlvidoContraseña_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            OlvidoContrasena olvido = new OlvidoContrasena();
+            OlvidoContrasenaWindow olvido = new OlvidoContrasenaWindow();
             olvido.ShowDialog();
         }
 

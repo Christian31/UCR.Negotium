@@ -8,7 +8,7 @@ using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.WindowsUI
 {
-    partial class AgregarReinversion : Form
+    partial class AgregarReinversionDialog : Form
     {
         private IContainer components = null;
 
@@ -42,7 +42,7 @@ namespace UCR.Negotium.WindowsUI
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AgregarReinversion));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AgregarReinversionDialog));
             this.dgvAgregaReinversion = new System.Windows.Forms.DataGridView();
             this.Codigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.descripcion_requerimiento = new System.Windows.Forms.DataGridViewTextBoxColumn();

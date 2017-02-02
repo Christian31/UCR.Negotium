@@ -25,7 +25,7 @@ namespace UCR.Negotium.WindowsUI
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Login login = new Login();
+            LoginWindow login = new LoginWindow();
             this.Hide();
             login.ShowDialog();
             this.Close();
@@ -35,7 +35,7 @@ namespace UCR.Negotium.WindowsUI
         {
             if (MdiChildren.Length < 1)
             {
-                RegistrarProyecto registrarProyecto = new RegistrarProyecto(evaluadorLogeado);
+                RegistrarProyectoWindow registrarProyecto = new RegistrarProyectoWindow(evaluadorLogeado);
                 registrarProyecto.MdiParent = this;
                 //registrarProyecto.WindowState = FormWindowState.Maximized;
                 registrarProyecto.Size = new Size(1700, 590);
@@ -48,7 +48,7 @@ namespace UCR.Negotium.WindowsUI
             if (MdiChildren.Length < 1)
             {
                 //Evaluador evaluador = new Evaluador(1, "Yordan", "apellidos", "72056090", "ycampospiedra@gmail.com", "3-0476-0003");
-                SeleccionaProyectoModificar selecciona = new SeleccionaProyectoModificar(evaluadorLogeado);
+                ListaProyectosWindow selecciona = new ListaProyectosWindow(evaluadorLogeado);
                 selecciona.MdiParent = this;
                 selecciona.Show();
             }//if

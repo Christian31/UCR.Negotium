@@ -1,6 +1,6 @@
 ﻿namespace UCR.Negotium.WindowsUI
 {
-    partial class SeleccionaProyectoModificar
+    partial class ListaProyectosWindow
     {
         /// <summary>
         /// Required designer variable.

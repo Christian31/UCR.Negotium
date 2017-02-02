@@ -12,13 +12,13 @@ using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.WindowsUI
 {
-    public partial class InteresFinanciamientoUI : Form
+    public partial class InteresFinanciamientoIVDialog : Form
     {
         private Proyecto proyecto;
         private Evaluador evaluador;
         private int tiempoFinanciamiento;
         private InteresFinanciamientoData interesFinanciamientoData; 
-        public InteresFinanciamientoUI(Evaluador evaluador, Proyecto proyecto)
+        public InteresFinanciamientoIVDialog(Evaluador evaluador, Proyecto proyecto)
         {
             this.proyecto = proyecto;
             this.evaluador = evaluador;
@@ -156,7 +156,7 @@ namespace UCR.Negotium.WindowsUI
 
         private void btnCancelarInteres_Click(object sender, EventArgs e)
         {
-            new RegistrarProyecto(this.evaluador, this.proyecto, 9)
+            new RegistrarProyectoWindow(this.evaluador, this.proyecto, 9)
             {
                 MdiParent = base.MdiParent
             }.Show();

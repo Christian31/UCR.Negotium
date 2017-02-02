@@ -1,6 +1,6 @@
 ﻿namespace UCR.Negotium.WindowsUI
 {
-    partial class GestionVariacionCostos
+    partial class GestionVariacionCostosDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GestionVariacionCostos));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GestionVariacionCostosDialog));
             this.dgvVariacionCostos = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.btnGuardarVariacion = new System.Windows.Forms.Button();

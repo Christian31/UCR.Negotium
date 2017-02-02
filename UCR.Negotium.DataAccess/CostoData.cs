@@ -71,14 +71,13 @@ namespace UCR.Negotium.DataAccess
                 Object newProdID;
                 Object newProdID2;
                 String insert1 = "INSERT INTO COSTO(nombre_costo, " +
-                "unidad_medida, cod_proyecto, costo_variable, categoria_costo) VALUES(?,?,?,?,?); " +
+                "unidad_medida, cod_proyecto, costo_variable, categoria_costo, ano_inicial) VALUES(?,?,?,?,?,?); " +
             "SELECT last_insert_rowid();";
 
                 String insert2 = "INSERT INTO COSTO_MENSUAL(mes, costo_unitario, " +
                 " cantidad, cod_costo) VALUES(?,?,?,?); " +
             "SELECT last_insert_rowid();";
-                if (conexion.State != ConnectionState.Open)
-                    conexion.Open();
+
                 command.CommandText = insert1;
                 command.Parameters.AddWithValue("nombre_costo", costoNuevo.NombreCosto);
                 command.Parameters.AddWithValue("unidad_medida", costoNuevo.UnidadMedida.CodUnidad);
@@ -166,24 +165,20 @@ namespace UCR.Negotium.DataAccess
 
         public bool EditarCosto(Costo costoEditar, int codProyecto)
         {
+            SQLiteTransaction transaction = null;
             SQLiteCommand command = conexion.CreateCommand();
-            SQLiteTransaction transaction;
-            transaction = conexion.BeginTransaction();
+            SQLiteCommand command2 = conexion.CreateCommand();
             try
             {
-                String insert1 = "UPDATE COSTO SET (nombre_costo = ?, unidad_medida = ?, " +
-                "cod_proyecto = ?, costo_variable = ?, categoria_costo = ? WHERE cod_costo = ?; " +
-            "SELECT last_insert_rowid();";
+                String insert1 = "UPDATE COSTO SET nombre_costo = ?, unidad_medida = ?, " +
+                "costo_variable = ?, categoria_costo = ?, ano_inicial = ? WHERE cod_costo = ?;";
 
-                String insert2 = "UPDATE COSTO_MENSUAL SET (mes = ?, costo_unitario = ?, " +
-                "cantidad = ?, cod_costo = ? WHERE cod_costo_mensual = ?;" +
-            "SELECT last_insert_rowid();";
-                if (conexion.State != ConnectionState.Open)
-                    conexion.Open();
+                String insert2 = "UPDATE COSTO_MENSUAL SET costo_unitario = ?, " +
+                "cantidad = ? WHERE cod_costo_mensual = ?;";
+
                 command.CommandText = insert1;
                 command.Parameters.AddWithValue("nombre_costo", costoEditar.NombreCosto);
                 command.Parameters.AddWithValue("unidad_medida", costoEditar.UnidadMedida.CodUnidad);
-                command.Parameters.AddWithValue("cod_proyecto", codProyecto);
                 command.Parameters.AddWithValue("cod_costo", costoEditar.CodCosto);
                 command.Parameters.AddWithValue("costo_variable", costoEditar.CostoVariable);
                 command.Parameters.AddWithValue("categoria_costo", costoEditar.CategoriaCosto);
@@ -191,18 +186,18 @@ namespace UCR.Negotium.DataAccess
 
                 if (conexion.State != ConnectionState.Open)
                     conexion.Open();
+                transaction = conexion.BeginTransaction();
                 // Ejecutamos la sentencia UPDATE y cerramos la conexión
                 if (command.ExecuteNonQuery() != -1)
                 {
                     //transaccion
                     foreach (CostoMensual detTemp in costoEditar.CostosMensuales)
                     {
-                        command.CommandText = insert2;
-                        command.Parameters.AddWithValue("mes", detTemp.Mes);
-                        command.Parameters.AddWithValue("costo_unitario", detTemp.CostoUnitario);
-                        command.Parameters.AddWithValue("cantidad", detTemp.Cantidad);
-                        command.Parameters.AddWithValue("cod_costo", costoEditar.CodCosto);
-                        command.Parameters.AddWithValue("cod_costo_mensual", detTemp.CodCostoMensual);
+                        command2.CommandText = insert2;
+                        command2.Parameters.AddWithValue("costo_unitario", detTemp.CostoUnitario);
+                        command2.Parameters.AddWithValue("cantidad", detTemp.Cantidad);
+                        command2.Parameters.AddWithValue("cod_costo_mensual", detTemp.CodCostoMensual);
+                        command2.ExecuteNonQuery();
                     }
                     transaction.Commit();
                     conexion.Close();
@@ -236,7 +231,54 @@ namespace UCR.Negotium.DataAccess
 
         public bool EliminarCosto(int codCosto)
         {
-            return true;
+            string sqlQuery1 = "DELETE FROM COSTO_MENSUAL WHERE cod_costo = " + codCosto + ";";
+            string sqlQuery2 = "DELETE FROM COSTO WHERE cod_costo = " + codCosto + ";";
+
+            SQLiteTransaction transaction = null;
+            SQLiteCommand command = conexion.CreateCommand();
+            SQLiteCommand command2 = conexion.CreateCommand();
+            try
+            {
+                command.CommandText = sqlQuery1;
+
+                if (conexion.State != ConnectionState.Open)
+                    conexion.Open();
+                transaction = conexion.BeginTransaction();
+                // Ejecutamos la sentencia UPDATE y cerramos la conexión
+                if (command.ExecuteNonQuery() != -1)
+                {
+                    //transaccion
+                    command2.CommandText = sqlQuery2;
+                    command2.ExecuteNonQuery();
+
+                    transaction.Commit();
+                    conexion.Close();
+                    return true;
+                }//if
+                else
+                {
+                    conexion.Close();
+                    return false;
+                }//else
+
+            }//try
+            catch (Exception ex)
+            {
+                Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                Console.WriteLine("  Message: {0}", ex.Message);
+
+                try
+                {
+                    transaction.Rollback();
+                }
+                catch (Exception ex2)
+                {
+                    Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
+                    Console.WriteLine("  Message: {0}", ex2.Message);
+                }
+                conexion.Close();
+                return false;
+            }//catch
         }
     }
 }

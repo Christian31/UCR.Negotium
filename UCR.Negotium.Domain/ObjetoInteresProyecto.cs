@@ -1,16 +1,11 @@
 ﻿//@Copyright Yordan Campos Piedra
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UCR.Negotium.Domain
 {
     public class ObjetoInteresProyecto
     {
-        public int CodObjetoInteres;
-        public String DescripcionObjetoInteres;
+        public int CodObjetoInteres { get; set; }
+        public string DescripcionObjetoInteres { get; set; }
         private UnidadMedida unidadMedida;
 
         public ObjetoInteresProyecto()

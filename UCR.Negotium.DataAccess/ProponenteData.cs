@@ -25,8 +25,8 @@ namespace UCR.Negotium.DataAccess
         public bool InsertarProponente(Proponente proponente, int codProyecto)
         {
             String insert = "INSERT INTO PROPONENTE(nombre, apellidos, num_identificacion, telefono, "+
-                "email, puesto_en_organizacion, genero, cod_organizacion, cod_proyecto) "+
-                "VALUES(?,?,?,?,?,?,?,?,?)";
+                "email, puesto_en_organizacion, genero, cod_organizacion, cod_proyecto, representante_individual) "+
+                "VALUES(?,?,?,?,?,?,?,?,?,?)";
             if (conexion.State != ConnectionState.Open)
                 conexion.Open();
             SQLiteCommand command = conexion.CreateCommand();
@@ -40,6 +40,7 @@ namespace UCR.Negotium.DataAccess
             command.Parameters.AddWithValue("genero", proponente.Genero);
             command.Parameters.AddWithValue("cod_organizacion", proponente.Organizacion.CodOrganizacion);
             command.Parameters.AddWithValue("cod_proyecto", codProyecto);
+            command.Parameters.AddWithValue("representante_individual", proponente.EsRepresentanteIndividual);
             // Ejecutamos la sentencia INSERT y cerramos la conexión
             if (command.ExecuteNonQuery() != -1)
             {
@@ -56,9 +57,9 @@ namespace UCR.Negotium.DataAccess
         public Proponente GetProponente(int codProyecto)
         {
             String select = "SELECT p.nombre, p.apellidos, p.num_identificacion, "+
-                "p.telefono, p.email, p.puesto_en_organizacion, p.genero, p.cod_organizacion, "+
-                "p.cod_proyecto, p.id_proponente, o.nombre_organizacion, o.cedula_juridica, "+
-                "o.telefono, o.descripcion, o.cod_tipo, o.cod_organizacion "+
+                "p.telefono, p.email, p.puesto_en_organizacion, p.genero, "+
+                "p.id_proponente, o.nombre_organizacion, o.cedula_juridica, "+
+                "o.telefono, o.descripcion, o.cod_tipo, o.cod_organizacion, p.representante_individual " +
                 "FROM PROPONENTE p, ORGANIZACION_PROPONENTE o WHERE p.cod_organizacion=o.cod_organizacion and "+
                 "p.cod_proyecto=" + codProyecto;
             if (conexion.State != ConnectionState.Open)
@@ -70,20 +71,22 @@ namespace UCR.Negotium.DataAccess
             if (reader.Read())
             {
                 proponente = new Proponente();
-                proponente.Apellidos = reader.GetString(1);
-                proponente.Email = reader.GetString(4);
-                proponente.Genero = reader.GetChar(6);
-                proponente.IdProponente = reader.GetInt32(9);
                 proponente.Nombre = reader.GetString(0);
+                proponente.Apellidos = reader.GetString(1);
                 proponente.NumIdentificacion = reader.GetString(2);
-                proponente.Organizacion.CedulaJuridica = reader.GetString(11);
-                proponente.Organizacion.CodOrganizacion = reader.GetInt32(15);
-                proponente.Organizacion.Descripcion = reader.GetString(13);
-                proponente.Organizacion.NombreOrganizacion = reader.GetString(10);
-                proponente.Organizacion.Telefono = reader.GetString(12);
-                proponente.Organizacion.Tipo.CodTipo = reader.GetInt32(14);
+                proponente.Telefono = reader.GetString(3);
+                proponente.Email = reader.GetString(4);
                 proponente.PuestoEnOrganizacion = reader.GetString(5);
-                proponente.Telefono = reader.GetString(4);
+                proponente.Genero = reader.GetChar(6);
+                proponente.IdProponente = reader.GetInt32(7);
+                proponente.Organizacion.NombreOrganizacion = reader.GetString(8);
+                proponente.Organizacion.CedulaJuridica = reader.GetString(9);
+                proponente.Organizacion.Telefono = reader.GetString(10);
+                proponente.Organizacion.Descripcion = reader.GetString(11);
+                proponente.Organizacion.Tipo.CodTipo = reader.GetInt32(12);
+                proponente.Organizacion.CodOrganizacion = reader.GetInt32(13);
+                proponente.EsRepresentanteIndividual = reader.GetBoolean(14);
+
             }//if
             conexion.Close();
             return proponente;
@@ -93,7 +96,8 @@ namespace UCR.Negotium.DataAccess
         {
             String update = "UPDATE PROPONENTE SET nombre=?, apellidos=?, " +
                 "telefono=?, email=?, puesto_en_organizacion=?, " +
-                "genero=? WHERE num_identificacion=" + proponente.NumIdentificacion;
+                "genero=?, representante_individual=? " +
+                "WHERE num_identificacion=" + proponente.NumIdentificacion;
             if (conexion.State != ConnectionState.Open)
                 conexion.Open();
             SQLiteCommand command = conexion.CreateCommand();
@@ -104,6 +108,7 @@ namespace UCR.Negotium.DataAccess
             command.Parameters.AddWithValue("email", proponente.Email);
             command.Parameters.AddWithValue("genero", proponente.Genero);
             command.Parameters.AddWithValue("puesto_en_organizacion", proponente.PuestoEnOrganizacion);
+            command.Parameters.AddWithValue("representante_individual", proponente.EsRepresentanteIndividual);
             // Ejecutamos la sentencia INSERT y cerramos la conexión
             if (command.ExecuteNonQuery() != -1)
             {

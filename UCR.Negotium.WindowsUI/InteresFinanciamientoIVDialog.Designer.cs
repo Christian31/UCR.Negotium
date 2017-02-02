@@ -1,6 +1,6 @@
 ﻿namespace UCR.Negotium.WindowsUI
 {
-    partial class InteresFinanciamientoUI
+    partial class InteresFinanciamientoIVDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InteresFinanciamientoUI));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InteresFinanciamientoIVDialog));
             this.dgvInteresesFinanciamiento = new System.Windows.Forms.DataGridView();
             this.btnGuardarInteres = new System.Windows.Forms.Button();
             this.btnCancelarInteres = new System.Windows.Forms.Button();

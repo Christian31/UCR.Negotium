@@ -72,23 +72,23 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AgregarCosto.cs">
+    <Compile Include="AgregarCostoDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AgregarCosto.Designer.cs">
-      <DependentUpon>AgregarCosto.cs</DependentUpon>
+    <Compile Include="AgregarCostoDialog.Designer.cs">
+      <DependentUpon>AgregarCostoDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="AgregarProyeccion.cs">
+    <Compile Include="AgregarProyeccionDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AgregarProyeccion.Designer.cs">
-      <DependentUpon>AgregarProyeccion.cs</DependentUpon>
+    <Compile Include="AgregarProyeccionDialog.Designer.cs">
+      <DependentUpon>AgregarProyeccionDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="AgregarReinversion.cs">
+    <Compile Include="AgregarReinversionDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AgregarReinversion.Designer.cs">
-      <DependentUpon>AgregarReinversion.cs</DependentUpon>
+    <Compile Include="AgregarReinversionDialog.Designer.cs">
+      <DependentUpon>AgregarReinversionDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="AyudaModulo.cs">
       <SubType>Form</SubType>
@@ -96,55 +96,62 @@
     <Compile Include="AyudaModulo.Designer.cs">
       <DependentUpon>AyudaModulo.cs</DependentUpon>
     </Compile>
-    <Compile Include="GestionCrecimientosOferta.cs">
+    <Compile Include="Extensions\DatatableBuilder.cs" />
+    <Compile Include="GestionCrecimientosOfertaDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GestionCrecimientosOferta.Designer.cs">
-      <DependentUpon>GestionCrecimientosOferta.cs</DependentUpon>
+    <Compile Include="GestionCrecimientosOfertaDialog.Designer.cs">
+      <DependentUpon>GestionCrecimientosOfertaDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="GestionVariacionCostos.cs">
+    <Compile Include="GestionVariacionCostosDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GestionVariacionCostos.Designer.cs">
-      <DependentUpon>GestionVariacionCostos.cs</DependentUpon>
+    <Compile Include="GestionVariacionCostosDialog.Designer.cs">
+      <DependentUpon>GestionVariacionCostosDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="InteresFinanciamientoUI.cs">
+    <Compile Include="IndicadoresDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InteresFinanciamientoUI.Designer.cs">
-      <DependentUpon>InteresFinanciamientoUI.cs</DependentUpon>
+    <Compile Include="IndicadoresDialog.Designer.cs">
+      <DependentUpon>IndicadoresDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Login.cs">
+    <Compile Include="InteresFinanciamientoIVDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Login.Designer.cs">
-      <DependentUpon>Login.cs</DependentUpon>
+    <Compile Include="InteresFinanciamientoIVDialog.Designer.cs">
+      <DependentUpon>InteresFinanciamientoIVDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="OlvidoContrasena.cs">
+    <Compile Include="LoginWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OlvidoContrasena.Designer.cs">
-      <DependentUpon>OlvidoContrasena.cs</DependentUpon>
+    <Compile Include="LoginWindow.Designer.cs">
+      <DependentUpon>LoginWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OlvidoContrasenaWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OlvidoContrasenaWindow.Designer.cs">
+      <DependentUpon>OlvidoContrasenaWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegistrarProyecto.cs">
+    <Compile Include="RegistrarProyectoWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RegistrarProyecto.Designer.cs">
-      <DependentUpon>RegistrarProyecto.cs</DependentUpon>
+    <Compile Include="RegistrarProyectoWindow.Designer.cs">
+      <DependentUpon>RegistrarProyectoWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Registrarse.cs">
+    <Compile Include="RegistrarseWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Registrarse.Designer.cs">
-      <DependentUpon>Registrarse.cs</DependentUpon>
+    <Compile Include="RegistrarseWindow.Designer.cs">
+      <DependentUpon>RegistrarseWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="SeleccionaProyectoModificar.cs">
+    <Compile Include="ListaProyectosWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SeleccionaProyectoModificar.Designer.cs">
-      <DependentUpon>SeleccionaProyectoModificar.cs</DependentUpon>
+    <Compile Include="ListaProyectosWindow.Designer.cs">
+      <DependentUpon>ListaProyectosWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="VentanaPrincipal.cs">
       <SubType>Form</SubType>
@@ -152,32 +159,35 @@
     <Compile Include="VentanaPrincipal.Designer.cs">
       <DependentUpon>VentanaPrincipal.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="AgregarCosto.resx">
-      <DependentUpon>AgregarCosto.cs</DependentUpon>
+    <EmbeddedResource Include="AgregarCostoDialog.resx">
+      <DependentUpon>AgregarCostoDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AgregarProyeccion.resx">
-      <DependentUpon>AgregarProyeccion.cs</DependentUpon>
+    <EmbeddedResource Include="AgregarProyeccionDialog.resx">
+      <DependentUpon>AgregarProyeccionDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AgregarReinversion.resx">
-      <DependentUpon>AgregarReinversion.cs</DependentUpon>
+    <EmbeddedResource Include="AgregarReinversionDialog.resx">
+      <DependentUpon>AgregarReinversionDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AyudaModulo.resx">
       <DependentUpon>AyudaModulo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GestionCrecimientosOferta.resx">
-      <DependentUpon>GestionCrecimientosOferta.cs</DependentUpon>
+    <EmbeddedResource Include="GestionCrecimientosOfertaDialog.resx">
+      <DependentUpon>GestionCrecimientosOfertaDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GestionVariacionCostos.resx">
-      <DependentUpon>GestionVariacionCostos.cs</DependentUpon>
+    <EmbeddedResource Include="GestionVariacionCostosDialog.resx">
+      <DependentUpon>GestionVariacionCostosDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="InteresFinanciamientoUI.resx">
-      <DependentUpon>InteresFinanciamientoUI.cs</DependentUpon>
+    <EmbeddedResource Include="IndicadoresDialog.resx">
+      <DependentUpon>IndicadoresDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Login.resx">
-      <DependentUpon>Login.cs</DependentUpon>
+    <EmbeddedResource Include="InteresFinanciamientoIVDialog.resx">
+      <DependentUpon>InteresFinanciamientoIVDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OlvidoContrasena.resx">
-      <DependentUpon>OlvidoContrasena.cs</DependentUpon>
+    <EmbeddedResource Include="LoginWindow.resx">
+      <DependentUpon>LoginWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OlvidoContrasenaWindow.resx">
+      <DependentUpon>OlvidoContrasenaWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -189,14 +199,14 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="RegistrarProyecto.resx">
-      <DependentUpon>RegistrarProyecto.cs</DependentUpon>
+    <EmbeddedResource Include="RegistrarProyectoWindow.resx">
+      <DependentUpon>RegistrarProyectoWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Registrarse.resx">
-      <DependentUpon>Registrarse.cs</DependentUpon>
+    <EmbeddedResource Include="RegistrarseWindow.resx">
+      <DependentUpon>RegistrarseWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SeleccionaProyectoModificar.resx">
-      <DependentUpon>SeleccionaProyectoModificar.cs</DependentUpon>
+    <EmbeddedResource Include="ListaProyectosWindow.resx">
+      <DependentUpon>ListaProyectosWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VentanaPrincipal.resx">
       <DependentUpon>VentanaPrincipal.cs</DependentUpon>

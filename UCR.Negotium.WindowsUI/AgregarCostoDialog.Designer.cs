@@ -1,6 +1,6 @@
 ﻿namespace UCR.Negotium.WindowsUI
 {
-    partial class AgregarCosto
+    partial class AgregarCostoDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AgregarCosto));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AgregarCostoDialog));
             this.dgvCosto = new System.Windows.Forms.DataGridView();
             this.btnAgregarCosto = new System.Windows.Forms.Button();
             this.btnCancelarCosto = new System.Windows.Forms.Button();

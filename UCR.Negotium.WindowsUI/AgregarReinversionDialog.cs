@@ -12,13 +12,13 @@ using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.WindowsUI
 {
-    public partial class AgregarReinversion : Form
+    public partial class AgregarReinversionDialog : Form
     {
         private Proyecto proyecto;
         private Evaluador evaluador;
         private List<RequerimientoReinversion> requerimientoReinversionList;
 
-        public AgregarReinversion(Evaluador evaluador, Proyecto proyecto)
+        public AgregarReinversionDialog(Evaluador evaluador, Proyecto proyecto)
         {
             this.evaluador = new Evaluador();
             this.proyecto = new Proyecto();
@@ -32,7 +32,7 @@ namespace UCR.Negotium.WindowsUI
 
         private void button2_Click(object sender, EventArgs e)
         {
-            new RegistrarProyecto(this.evaluador, this.proyecto, 4)
+            new RegistrarProyectoWindow(this.evaluador, this.proyecto, 4)
             {
                 MdiParent = base.MdiParent
             }.Show();
@@ -103,7 +103,7 @@ namespace UCR.Negotium.WindowsUI
                 }
 
                 this.proyecto.RequerimientosReinversion = this.requerimientoReinversionList;
-                new RegistrarProyecto(this.evaluador, this.proyecto, 4)
+                new RegistrarProyectoWindow(this.evaluador, this.proyecto, 4)
                 {
                     MdiParent = base.MdiParent
                 }.Show();

@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -47,6 +48,8 @@
     <Compile Include="Depreciacion.cs" />
     <Compile Include="DetalleProyeccionVenta.cs" />
     <Compile Include="Distrito.cs" />
+    <Compile Include="Enums\Enum.cs" />
+    <Compile Include="Enums\EnumHelper.cs" />
     <Compile Include="Evaluador.cs" />
     <Compile Include="Financiamiento.cs" />
     <Compile Include="InteresFinanciamiento.cs" />
