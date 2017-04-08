@@ -36,6 +36,7 @@
             this.tbxNombreArticuloProyeccion = new System.Windows.Forms.TextBox();
             this.cbxUnidadProyeccion = new System.Windows.Forms.ComboBox();
             this.dgvProyecciones = new System.Windows.Forms.DataGridView();
+            this.lblNombreProyeccionError = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProyecciones)).BeginInit();
             this.SuspendLayout();
             // 
@@ -108,13 +109,25 @@
             this.dgvProyecciones.Name = "dgvProyecciones";
             this.dgvProyecciones.Size = new System.Drawing.Size(346, 307);
             this.dgvProyecciones.TabIndex = 7;
+            this.dgvProyecciones.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProyecciones_CellValueChanged);
             // 
-            // AgregarProyeccion
+            // lblNombreProyeccionError
+            // 
+            this.lblNombreProyeccionError.AutoSize = true;
+            this.lblNombreProyeccionError.ForeColor = System.Drawing.Color.Red;
+            this.lblNombreProyeccionError.Location = new System.Drawing.Point(274, 37);
+            this.lblNombreProyeccionError.Name = "lblNombreProyeccionError";
+            this.lblNombreProyeccionError.Size = new System.Drawing.Size(11, 13);
+            this.lblNombreProyeccionError.TabIndex = 17;
+            this.lblNombreProyeccionError.Text = "*";
+            // 
+            // AgregarProyeccionDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Honeydew;
             this.ClientSize = new System.Drawing.Size(552, 467);
+            this.Controls.Add(this.lblNombreProyeccionError);
             this.Controls.Add(this.dgvProyecciones);
             this.Controls.Add(this.cbxUnidadProyeccion);
             this.Controls.Add(this.tbxNombreArticuloProyeccion);
@@ -123,7 +136,7 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.btnAgregarProyeccion);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "AgregarProyeccion";
+            this.Name = "AgregarProyeccionDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AgregarProyeccion";
             ((System.ComponentModel.ISupportInitialize)(this.dgvProyecciones)).EndInit();
@@ -141,5 +154,6 @@
         private System.Windows.Forms.TextBox tbxNombreArticuloProyeccion;
         private System.Windows.Forms.ComboBox cbxUnidadProyeccion;
         private System.Windows.Forms.DataGridView dgvProyecciones;
+        private System.Windows.Forms.Label lblNombreProyeccionError;
     }
 }

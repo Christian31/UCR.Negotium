@@ -6,6 +6,7 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
@@ -25,7 +26,7 @@ namespace UCR.Negotium.DataAccess
         // de cantones en el combobox de cantones cada vez que la provincia cambia de opción
         public DataTable GetCantonesPorProvincia(int codProvincia)
         {
-            String select = "SELECT * FROM CANTON WHERE cod_provincia="+codProvincia +" ORDER BY nombre_canton";
+            string select = "SELECT * FROM CANTON WHERE cod_provincia="+codProvincia +" ORDER BY nombre_canton";
 
             if (conexion.State != ConnectionState.Open)
                 conexion.Open();
@@ -38,6 +39,30 @@ namespace UCR.Negotium.DataAccess
             DataTable dtCantones = dsCantones.Tables["Cantones"];
             conexion.Close();
             return dtCantones;
+        }
+
+        public List<Canton> GetCantonesPorProvinciaAux(int codProvincia)
+        {
+            DistritoData distritoData = new DistritoData();
+            List<Canton> cantones = new List<Canton>();
+            string select = "SELECT * FROM CANTON WHERE cod_provincia=" + codProvincia + " ORDER BY nombre_canton";
+
+            if (conexion.State != ConnectionState.Open)
+                conexion.Open();
+            command = conexion.CreateCommand();
+            command.CommandText = select;
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                Canton canton = new Canton();
+                canton.CodCanton = reader.GetInt32(0);
+                canton.NombreCanton = reader.GetString(2);
+                canton.Distritos = distritoData.GetDistritosPorCantonAux(canton.CodCanton);
+                cantones.Add(canton);
+            }
+            conexion.Close();
+
+            return cantones;
         }
     }
 }

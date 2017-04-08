@@ -1,0 +1,365 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0E4A0C2E-8313-430E-AC03-20488A349FEA}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UCR.Negotium</RootNamespace>
+    <AssemblyName>UCR.Negotium</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MahApps.Metro, Version=1.4.3.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.4.3\lib\net45\MahApps.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks, Version=1.7.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.1.7.1\lib\net45\MahApps.Metro.IconPacks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Select.HtmlToPdf, Version=17.1.0.0, Culture=neutral, PublicKeyToken=e0ae9f6e27a97018, processorArchitecture=MSIL">
+      <HintPath>..\packages\Select.HtmlToPdf.17.1.0\lib\net40\Select.HtmlToPdf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.4.3\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Dialogs\RegistrarCostoDialog.xaml.cs">
+      <DependentUpon>RegistrarCostoDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\RegistrarInversionDialog.xaml.cs">
+      <DependentUpon>RegistrarInversionDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\RegistrarProyeccionVentaDialog.xaml.cs">
+      <DependentUpon>RegistrarProyeccionVentaDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\RegistrarReinversionDialog.xaml.cs">
+      <DependentUpon>RegistrarReinversionDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProgresoProyectoUserControl.xaml.cs">
+      <DependentUpon>ProgresoProyectoUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProyectosDialog.xaml.cs">
+      <DependentUpon>ProyectosDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CapitalTrabajo.xaml.cs">
+      <DependentUpon>CapitalTrabajo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Caracterizacion.xaml.cs">
+      <DependentUpon>Caracterizacion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Costos.xaml.cs">
+      <DependentUpon>Costos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Depreciaciones.xaml.cs">
+      <DependentUpon>Depreciaciones.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Financiamiento.xaml.cs">
+      <DependentUpon>Financiamiento.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FlujoCaja.xaml.cs">
+      <DependentUpon>FlujoCaja.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\InformacionGeneral.xaml.cs">
+      <DependentUpon>InformacionGeneral.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Inversiones.xaml.cs">
+      <DependentUpon>Inversiones.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Proponente.xaml.cs">
+      <DependentUpon>Proponente.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ProyeccionVentas.xaml.cs">
+      <DependentUpon>ProyeccionVentas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Reinversiones.xaml.cs">
+      <DependentUpon>Reinversiones.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Resumen.xaml.cs">
+      <DependentUpon>Resumen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RegistrarProyectoWindow.xaml.cs">
+      <DependentUpon>RegistrarProyectoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RegistrarseWindow.xaml.cs">
+      <DependentUpon>RegistrarseWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\DatatableBuilder.cs" />
+    <Compile Include="Utils\GenerarReporte.cs" />
+    <Compile Include="Utils\RequiredFieldValidationRule.cs" />
+    <Page Include="Dialogs\RegistrarCostoDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\RegistrarInversionDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\RegistrarProyeccionVentaDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\RegistrarReinversionDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="ProgresoProyectoUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProyectosDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\CapitalTrabajo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Caracterizacion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Costos.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Depreciaciones.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Financiamiento.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FlujoCaja.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\InformacionGeneral.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Inversiones.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Proponente.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ProyeccionVentas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Reinversiones.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Resumen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RegistrarProyectoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RegistrarseWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <None Include="Report\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Resource Include="Report\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <None Include="Report\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Resource Include="Report\font-awesome\fonts\FontAwesome.otf" />
+    <None Include="Report\font-awesome\less\bordered-pulled.less" />
+    <None Include="Report\font-awesome\less\core.less" />
+    <None Include="Report\font-awesome\less\fixed-width.less" />
+    <None Include="Report\font-awesome\less\font-awesome.less" />
+    <None Include="Report\font-awesome\less\icons.less" />
+    <None Include="Report\font-awesome\less\larger.less" />
+    <None Include="Report\font-awesome\less\list.less" />
+    <None Include="Report\font-awesome\less\mixins.less" />
+    <None Include="Report\font-awesome\less\path.less" />
+    <None Include="Report\font-awesome\less\rotated-flipped.less" />
+    <None Include="Report\font-awesome\less\spinning.less" />
+    <None Include="Report\font-awesome\less\stacked.less" />
+    <None Include="Report\font-awesome\less\variables.less" />
+    <None Include="Report\font-awesome\scss\font-awesome.scss" />
+    <None Include="Report\font-awesome\scss\_bordered-pulled.scss" />
+    <None Include="Report\font-awesome\scss\_core.scss" />
+    <None Include="Report\font-awesome\scss\_fixed-width.scss" />
+    <None Include="Report\font-awesome\scss\_icons.scss" />
+    <None Include="Report\font-awesome\scss\_larger.scss" />
+    <None Include="Report\font-awesome\scss\_list.scss" />
+    <None Include="Report\font-awesome\scss\_mixins.scss" />
+    <None Include="Report\font-awesome\scss\_path.scss" />
+    <None Include="Report\font-awesome\scss\_rotated-flipped.scss" />
+    <None Include="Report\font-awesome\scss\_spinning.scss" />
+    <None Include="Report\font-awesome\scss\_stacked.scss" />
+    <None Include="Report\font-awesome\scss\_variables.scss" />
+    <None Include="Report\fonts\glyphicons-halflings-regular.eot" />
+    <Resource Include="Report\fonts\glyphicons-halflings-regular.ttf" />
+    <None Include="Report\fonts\glyphicons-halflings-regular.woff" />
+    <None Include="Report\fonts\glyphicons-halflings-regular.woff2" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UCR.Negotium.DataAccess\UCR.Negotium.DataAccess.csproj">
+      <Project>{858f9a52-dadf-4c16-9d2c-83932906ce55}</Project>
+      <Name>UCR.Negotium.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UCR.Negotium.Domain\UCR.Negotium.Domain.csproj">
+      <Project>{37573984-06ba-43f0-8aac-0d8caaa97867}</Project>
+      <Name>UCR.Negotium.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Report\css\bootstrap.css" />
+    <Content Include="Report\css\bootstrap.min.css" />
+    <Content Include="Report\css\sb-admin.css" />
+    <Content Include="Report\font-awesome\css\font-awesome.css" />
+    <Content Include="Report\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Report\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Report\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Report\js\bootstrap.js" />
+    <Content Include="Report\js\bootstrap.min.js" />
+    <Content Include="Report\js\jquery.js" />
+    <Content Include="Report\js\plugins\flot\excanvas.min.js" />
+    <Content Include="Report\js\plugins\flot\flot-data.js" />
+    <Content Include="Report\js\plugins\flot\jquery.flot.js" />
+    <Content Include="Report\js\plugins\flot\jquery.flot.pie.js" />
+    <Content Include="Report\js\plugins\flot\jquery.flot.resize.js" />
+    <Content Include="Report\js\plugins\flot\jquery.flot.tooltip.min.js" />
+    <Content Include="Report\template.html" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

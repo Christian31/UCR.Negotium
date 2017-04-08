@@ -35,7 +35,6 @@
             this.panelDatosGenerales = new System.Windows.Forms.Panel();
             this.label15 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.lblResumenEjecutivoError = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.txbDireccionExacta = new System.Windows.Forms.TextBox();
             this.txbResumenEjecutivo = new System.Windows.Forms.TextBox();
@@ -58,16 +57,12 @@
             this.txbNombreProyecto = new System.Windows.Forms.TextBox();
             this.chbSiPagaImpuesto = new System.Windows.Forms.CheckBox();
             this.nudPorcentajeImpuesto = new System.Windows.Forms.NumericUpDown();
-            this.nudOferaAnual = new System.Windows.Forms.NumericUpDown();
-            this.nudDemandaAnual = new System.Windows.Forms.NumericUpDown();
             this.nudHorizonteEvaluacion = new System.Windows.Forms.NumericUpDown();
             this.nudAnoInicialProyecto = new System.Windows.Forms.NumericUpDown();
             this.label29 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
             this.cbxDistrito = new System.Windows.Forms.ComboBox();
             this.cbxCanton = new System.Windows.Forms.ComboBox();
             this.label19 = new System.Windows.Forms.Label();
@@ -75,13 +70,14 @@
             this.label18 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.panel38 = new System.Windows.Forms.Panel();
-            this.lblDireccionExactaError = new System.Windows.Forms.Label();
             this.label67 = new System.Windows.Forms.Label();
             this.proponente = new System.Windows.Forms.TabPage();
             this.panel7 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel37 = new System.Windows.Forms.Panel();
+            this.lblTelefonoOrganizacionError = new System.Windows.Forms.Label();
+            this.lblCedulaJuridicaError = new System.Windows.Forms.Label();
             this.txbTelefonoOrganizacion = new System.Windows.Forms.MaskedTextBox();
             this.label21 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -94,6 +90,8 @@
             this.txbDescripcion = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.lblTelefonoProponenteError = new System.Windows.Forms.Label();
+            this.lblCedulaRepresentanteError = new System.Windows.Forms.Label();
             this.txbTelefonoProponente = new System.Windows.Forms.MaskedTextBox();
             this.txbCedulaProponente = new System.Windows.Forms.MaskedTextBox();
             this.EsRepresentanteIndividual = new System.Windows.Forms.CheckBox();
@@ -160,7 +158,6 @@
             this.AnoReinversion = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.SubtotalReinversion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel14 = new System.Windows.Forms.Panel();
-            this.btnEditarReinversion = new System.Windows.Forms.Button();
             this.btnEliminarReinversion = new System.Windows.Forms.Button();
             this.panel20 = new System.Windows.Forms.Panel();
             this.lblFoo2 = new System.Windows.Forms.Label();
@@ -243,7 +240,7 @@
             this.panel33 = new System.Windows.Forms.Panel();
             this.tcFlujoCaja = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.llblDetalleIndicadores = new System.Windows.Forms.LinkLabel();
             this.btnGuardarFlujoCaja = new System.Windows.Forms.Button();
             this.dgvFlujoCajaIntFijo = new System.Windows.Forms.DataGridView();
             this.button6 = new System.Windows.Forms.Button();
@@ -254,10 +251,10 @@
             this.label69 = new System.Windows.Forms.Label();
             this.label71 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
+            this.lblDetalleIndicadoresIV = new System.Windows.Forms.LinkLabel();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.tbxTIRIV = new System.Windows.Forms.TextBox();
+            this.tbxVANIV = new System.Windows.Forms.TextBox();
             this.label58 = new System.Windows.Forms.Label();
             this.label72 = new System.Windows.Forms.Label();
             this.label73 = new System.Windows.Forms.Label();
@@ -265,7 +262,7 @@
             this.button8 = new System.Windows.Forms.Button();
             this.dgvFlujoCajaIntVariable = new System.Windows.Forms.DataGridView();
             this.panel34 = new System.Windows.Forms.Panel();
-            this.label70 = new System.Windows.Forms.Label();
+            this.lblFoo8 = new System.Windows.Forms.Label();
             this.panel32 = new System.Windows.Forms.Panel();
             this.label56 = new System.Windows.Forms.Label();
             this.resumenProyecto = new System.Windows.Forms.TabPage();
@@ -314,8 +311,6 @@
             this.panel10.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudPorcentajeImpuesto)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudOferaAnual)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudDemandaAnual)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudHorizonteEvaluacion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudAnoInicialProyecto)).BeginInit();
             this.panel38.SuspendLayout();
@@ -456,7 +451,6 @@
             // 
             this.panel3.BackColor = System.Drawing.Color.MintCream;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.lblResumenEjecutivoError);
             this.panel3.Controls.Add(this.label20);
             this.panel3.Controls.Add(this.txbDireccionExacta);
             this.panel3.Controls.Add(this.txbResumenEjecutivo);
@@ -476,18 +470,6 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1128, 459);
             this.panel3.TabIndex = 6;
-            // 
-            // lblResumenEjecutivoError
-            // 
-            this.lblResumenEjecutivoError.AutoSize = true;
-            this.lblResumenEjecutivoError.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResumenEjecutivoError.ForeColor = System.Drawing.Color.Red;
-            this.lblResumenEjecutivoError.Location = new System.Drawing.Point(1090, 280);
-            this.lblResumenEjecutivoError.Name = "lblResumenEjecutivoError";
-            this.lblResumenEjecutivoError.Size = new System.Drawing.Size(15, 20);
-            this.lblResumenEjecutivoError.TabIndex = 47;
-            this.lblResumenEjecutivoError.Text = "*";
-            this.lblResumenEjecutivoError.Visible = false;
             // 
             // label20
             // 
@@ -549,6 +531,7 @@
             this.btnVerResumen2.Text = "Ver resumen";
             this.btnVerResumen2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnVerResumen2.UseVisualStyleBackColor = true;
+            this.btnVerResumen2.Click += new System.EventHandler(this.btnVerResumen2_Click);
             // 
             // panel10
             // 
@@ -561,7 +544,7 @@
             this.panel10.Controls.Add(this.chbConIngreso);
             this.panel10.Controls.Add(this.chbSinIngreso);
             this.panel10.Controls.Add(this.label36);
-            this.panel10.Location = new System.Drawing.Point(26, 270);
+            this.panel10.Location = new System.Drawing.Point(26, 225);
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(296, 159);
             this.panel10.TabIndex = 39;
@@ -660,19 +643,15 @@
             this.panel4.Controls.Add(this.txbNombreProyecto);
             this.panel4.Controls.Add(this.chbSiPagaImpuesto);
             this.panel4.Controls.Add(this.nudPorcentajeImpuesto);
-            this.panel4.Controls.Add(this.nudOferaAnual);
-            this.panel4.Controls.Add(this.nudDemandaAnual);
             this.panel4.Controls.Add(this.nudHorizonteEvaluacion);
             this.panel4.Controls.Add(this.nudAnoInicialProyecto);
             this.panel4.Controls.Add(this.label29);
             this.panel4.Controls.Add(this.label28);
-            this.panel4.Controls.Add(this.label27);
             this.panel4.Controls.Add(this.label23);
             this.panel4.Controls.Add(this.label24);
-            this.panel4.Controls.Add(this.label25);
             this.panel4.Location = new System.Drawing.Point(26, 23);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(296, 232);
+            this.panel4.Size = new System.Drawing.Size(296, 183);
             this.panel4.TabIndex = 35;
             // 
             // lblNombreProyectoError
@@ -701,7 +680,7 @@
             // 
             this.chbNoPagaImpuesto.AutoSize = true;
             this.chbNoPagaImpuesto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chbNoPagaImpuesto.Location = new System.Drawing.Point(240, 164);
+            this.chbNoPagaImpuesto.Location = new System.Drawing.Point(240, 113);
             this.chbNoPagaImpuesto.Name = "chbNoPagaImpuesto";
             this.chbNoPagaImpuesto.Size = new System.Drawing.Size(42, 19);
             this.chbNoPagaImpuesto.TabIndex = 25;
@@ -723,7 +702,7 @@
             this.chbSiPagaImpuesto.Checked = true;
             this.chbSiPagaImpuesto.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chbSiPagaImpuesto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chbSiPagaImpuesto.Location = new System.Drawing.Point(204, 164);
+            this.chbSiPagaImpuesto.Location = new System.Drawing.Point(204, 113);
             this.chbSiPagaImpuesto.Name = "chbSiPagaImpuesto";
             this.chbSiPagaImpuesto.Size = new System.Drawing.Size(37, 19);
             this.chbSiPagaImpuesto.TabIndex = 24;
@@ -734,54 +713,10 @@
             // nudPorcentajeImpuesto
             // 
             this.nudPorcentajeImpuesto.DecimalPlaces = 2;
-            this.nudPorcentajeImpuesto.Location = new System.Drawing.Point(203, 191);
+            this.nudPorcentajeImpuesto.Location = new System.Drawing.Point(203, 140);
             this.nudPorcentajeImpuesto.Name = "nudPorcentajeImpuesto";
             this.nudPorcentajeImpuesto.Size = new System.Drawing.Size(67, 20);
             this.nudPorcentajeImpuesto.TabIndex = 23;
-            // 
-            // nudOferaAnual
-            // 
-            this.nudOferaAnual.Location = new System.Drawing.Point(203, 138);
-            this.nudOferaAnual.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.nudOferaAnual.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudOferaAnual.Name = "nudOferaAnual";
-            this.nudOferaAnual.Size = new System.Drawing.Size(67, 20);
-            this.nudOferaAnual.TabIndex = 22;
-            this.nudOferaAnual.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // nudDemandaAnual
-            // 
-            this.nudDemandaAnual.Location = new System.Drawing.Point(203, 111);
-            this.nudDemandaAnual.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.nudDemandaAnual.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudDemandaAnual.Name = "nudDemandaAnual";
-            this.nudDemandaAnual.Size = new System.Drawing.Size(67, 20);
-            this.nudDemandaAnual.TabIndex = 20;
-            this.nudDemandaAnual.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             // 
             // nudHorizonteEvaluacion
             // 
@@ -831,7 +766,7 @@
             // 
             this.label29.AutoSize = true;
             this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label29.Location = new System.Drawing.Point(16, 193);
+            this.label29.Location = new System.Drawing.Point(16, 142);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(153, 16);
             this.label29.TabIndex = 15;
@@ -841,21 +776,11 @@
             // 
             this.label28.AutoSize = true;
             this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label28.Location = new System.Drawing.Point(15, 167);
+            this.label28.Location = new System.Drawing.Point(15, 116);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(109, 16);
             this.label28.TabIndex = 14;
             this.label28.Text = "Paga impuestos:";
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label27.Location = new System.Drawing.Point(16, 140);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(83, 16);
-            this.label27.TabIndex = 13;
-            this.label27.Text = "Oferta anual:";
             // 
             // label23
             // 
@@ -876,16 +801,6 @@
             this.label24.Size = new System.Drawing.Size(156, 16);
             this.label24.TabIndex = 10;
             this.label24.Text = "Horizonte de evaluación:";
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label25.Location = new System.Drawing.Point(15, 114);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(107, 16);
-            this.label25.TabIndex = 11;
-            this.label25.Text = "Demanda anual:";
             // 
             // cbxDistrito
             // 
@@ -950,24 +865,11 @@
             // panel38
             // 
             this.panel38.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel38.Controls.Add(this.lblDireccionExactaError);
             this.panel38.Controls.Add(this.label67);
             this.panel38.Location = new System.Drawing.Point(361, 23);
             this.panel38.Name = "panel38";
             this.panel38.Size = new System.Drawing.Size(727, 137);
             this.panel38.TabIndex = 46;
-            // 
-            // lblDireccionExactaError
-            // 
-            this.lblDireccionExactaError.AutoSize = true;
-            this.lblDireccionExactaError.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDireccionExactaError.ForeColor = System.Drawing.Color.Red;
-            this.lblDireccionExactaError.Location = new System.Drawing.Point(700, 73);
-            this.lblDireccionExactaError.Name = "lblDireccionExactaError";
-            this.lblDireccionExactaError.Size = new System.Drawing.Size(15, 20);
-            this.lblDireccionExactaError.TabIndex = 45;
-            this.lblDireccionExactaError.Text = "*";
-            this.lblDireccionExactaError.Visible = false;
             // 
             // label67
             // 
@@ -1027,6 +929,8 @@
             // panel37
             // 
             this.panel37.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel37.Controls.Add(this.lblTelefonoOrganizacionError);
+            this.panel37.Controls.Add(this.lblCedulaJuridicaError);
             this.panel37.Controls.Add(this.txbTelefonoOrganizacion);
             this.panel37.Controls.Add(this.label21);
             this.panel37.Controls.Add(this.label4);
@@ -1042,6 +946,30 @@
             this.panel37.Name = "panel37";
             this.panel37.Size = new System.Drawing.Size(586, 347);
             this.panel37.TabIndex = 33;
+            // 
+            // lblTelefonoOrganizacionError
+            // 
+            this.lblTelefonoOrganizacionError.AutoSize = true;
+            this.lblTelefonoOrganizacionError.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTelefonoOrganizacionError.ForeColor = System.Drawing.Color.Red;
+            this.lblTelefonoOrganizacionError.Location = new System.Drawing.Point(417, 140);
+            this.lblTelefonoOrganizacionError.Name = "lblTelefonoOrganizacionError";
+            this.lblTelefonoOrganizacionError.Size = new System.Drawing.Size(15, 20);
+            this.lblTelefonoOrganizacionError.TabIndex = 47;
+            this.lblTelefonoOrganizacionError.Text = "*";
+            this.lblTelefonoOrganizacionError.Visible = false;
+            // 
+            // lblCedulaJuridicaError
+            // 
+            this.lblCedulaJuridicaError.AutoSize = true;
+            this.lblCedulaJuridicaError.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCedulaJuridicaError.ForeColor = System.Drawing.Color.Red;
+            this.lblCedulaJuridicaError.Location = new System.Drawing.Point(417, 111);
+            this.lblCedulaJuridicaError.Name = "lblCedulaJuridicaError";
+            this.lblCedulaJuridicaError.Size = new System.Drawing.Size(15, 20);
+            this.lblCedulaJuridicaError.TabIndex = 45;
+            this.lblCedulaJuridicaError.Text = "*";
+            this.lblCedulaJuridicaError.Visible = false;
             // 
             // txbTelefonoOrganizacion
             // 
@@ -1151,6 +1079,8 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.MintCream;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.lblTelefonoProponenteError);
+            this.panel2.Controls.Add(this.lblCedulaRepresentanteError);
             this.panel2.Controls.Add(this.txbTelefonoProponente);
             this.panel2.Controls.Add(this.txbCedulaProponente);
             this.panel2.Controls.Add(this.EsRepresentanteIndividual);
@@ -1172,6 +1102,30 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(444, 347);
             this.panel2.TabIndex = 32;
+            // 
+            // lblTelefonoProponenteError
+            // 
+            this.lblTelefonoProponenteError.AutoSize = true;
+            this.lblTelefonoProponenteError.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTelefonoProponenteError.ForeColor = System.Drawing.Color.Red;
+            this.lblTelefonoProponenteError.Location = new System.Drawing.Point(407, 150);
+            this.lblTelefonoProponenteError.Name = "lblTelefonoProponenteError";
+            this.lblTelefonoProponenteError.Size = new System.Drawing.Size(15, 20);
+            this.lblTelefonoProponenteError.TabIndex = 46;
+            this.lblTelefonoProponenteError.Text = "*";
+            this.lblTelefonoProponenteError.Visible = false;
+            // 
+            // lblCedulaRepresentanteError
+            // 
+            this.lblCedulaRepresentanteError.AutoSize = true;
+            this.lblCedulaRepresentanteError.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCedulaRepresentanteError.ForeColor = System.Drawing.Color.Red;
+            this.lblCedulaRepresentanteError.Location = new System.Drawing.Point(407, 117);
+            this.lblCedulaRepresentanteError.Name = "lblCedulaRepresentanteError";
+            this.lblCedulaRepresentanteError.Size = new System.Drawing.Size(15, 20);
+            this.lblCedulaRepresentanteError.TabIndex = 45;
+            this.lblCedulaRepresentanteError.Text = "*";
+            this.lblCedulaRepresentanteError.Visible = false;
             // 
             // txbTelefonoProponente
             // 
@@ -1532,7 +1486,6 @@
             this.inversiones.Size = new System.Drawing.Size(1178, 515);
             this.inversiones.TabIndex = 4;
             this.inversiones.Text = "Inversiones";
-            this.inversiones.Enter += new System.EventHandler(this.inversiones_Enter);
             // 
             // panel11
             // 
@@ -1709,10 +1662,10 @@
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label26.Location = new System.Drawing.Point(110, 348);
+            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label26.Location = new System.Drawing.Point(115, 348);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(50, 17);
+            this.label26.Size = new System.Drawing.Size(44, 17);
             this.label26.TabIndex = 1;
             this.label26.Text = "Total:";
             // 
@@ -1846,7 +1799,6 @@
             // panel14
             // 
             this.panel14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel14.Controls.Add(this.btnEditarReinversion);
             this.panel14.Controls.Add(this.btnEliminarReinversion);
             this.panel14.Controls.Add(this.panel20);
             this.panel14.Controls.Add(this.btnAgregarReinversion);
@@ -1859,21 +1811,10 @@
             this.panel14.Size = new System.Drawing.Size(1128, 439);
             this.panel14.TabIndex = 11;
             // 
-            // btnEditarReinversion
-            // 
-            this.btnEditarReinversion.Image = ((System.Drawing.Image)(resources.GetObject("btnEditarReinversion.Image")));
-            this.btnEditarReinversion.Location = new System.Drawing.Point(59, 226);
-            this.btnEditarReinversion.Name = "btnEditarReinversion";
-            this.btnEditarReinversion.Size = new System.Drawing.Size(28, 23);
-            this.btnEditarReinversion.TabIndex = 12;
-            this.btnEditarReinversion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.ttMensaje.SetToolTip(this.btnEditarReinversion, "Editar reinversión seleccionada");
-            this.btnEditarReinversion.UseVisualStyleBackColor = true;
-            // 
             // btnEliminarReinversion
             // 
             this.btnEliminarReinversion.Image = ((System.Drawing.Image)(resources.GetObject("btnEliminarReinversion.Image")));
-            this.btnEliminarReinversion.Location = new System.Drawing.Point(93, 226);
+            this.btnEliminarReinversion.Location = new System.Drawing.Point(59, 226);
             this.btnEliminarReinversion.Name = "btnEliminarReinversion";
             this.btnEliminarReinversion.Size = new System.Drawing.Size(28, 23);
             this.btnEliminarReinversion.TabIndex = 11;
@@ -2168,6 +2109,7 @@
             this.dgvCostos.Location = new System.Drawing.Point(50, 71);
             this.dgvCostos.MultiSelect = false;
             this.dgvCostos.Name = "dgvCostos";
+            this.dgvCostos.ReadOnly = true;
             this.dgvCostos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvCostos.Size = new System.Drawing.Size(1081, 190);
             this.dgvCostos.TabIndex = 0;
@@ -2366,6 +2308,7 @@
             this.dgvCapitalTrabajo.MultiSelect = false;
             this.dgvCapitalTrabajo.Name = "dgvCapitalTrabajo";
             this.dgvCapitalTrabajo.ReadOnly = true;
+            this.dgvCapitalTrabajo.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvCapitalTrabajo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvCapitalTrabajo.Size = new System.Drawing.Size(1069, 219);
             this.dgvCapitalTrabajo.TabIndex = 0;
@@ -2521,7 +2464,7 @@
             // tbMontoFinanciamientoIF
             // 
             this.tbMontoFinanciamientoIF.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbMontoFinanciamientoIF.Location = new System.Drawing.Point(160, 44);
+            this.tbMontoFinanciamientoIF.Location = new System.Drawing.Point(135, 28);
             this.tbMontoFinanciamientoIF.Name = "tbMontoFinanciamientoIF";
             this.tbMontoFinanciamientoIF.Size = new System.Drawing.Size(160, 21);
             this.tbMontoFinanciamientoIF.TabIndex = 12;
@@ -2530,7 +2473,7 @@
             // nupTiempoFinanciamientoIF
             // 
             this.nupTiempoFinanciamientoIF.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nupTiempoFinanciamientoIF.Location = new System.Drawing.Point(460, 44);
+            this.nupTiempoFinanciamientoIF.Location = new System.Drawing.Point(499, 28);
             this.nupTiempoFinanciamientoIF.Name = "nupTiempoFinanciamientoIF";
             this.nupTiempoFinanciamientoIF.Size = new System.Drawing.Size(120, 21);
             this.nupTiempoFinanciamientoIF.TabIndex = 11;
@@ -2543,8 +2486,9 @@
             // 
             // nupPorcentajeInteresIF
             // 
+            this.nupPorcentajeInteresIF.DecimalPlaces = 2;
             this.nupPorcentajeInteresIF.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nupPorcentajeInteresIF.Location = new System.Drawing.Point(809, 44);
+            this.nupPorcentajeInteresIF.Location = new System.Drawing.Point(828, 26);
             this.nupPorcentajeInteresIF.Name = "nupPorcentajeInteresIF";
             this.nupPorcentajeInteresIF.Size = new System.Drawing.Size(163, 21);
             this.nupPorcentajeInteresIF.TabIndex = 10;
@@ -2562,39 +2506,39 @@
             this.dgvFinanciamientoIF.AllowUserToResizeColumns = false;
             this.dgvFinanciamientoIF.AllowUserToResizeRows = false;
             this.dgvFinanciamientoIF.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvFinanciamientoIF.Location = new System.Drawing.Point(25, 95);
+            this.dgvFinanciamientoIF.Location = new System.Drawing.Point(25, 69);
             this.dgvFinanciamientoIF.MultiSelect = false;
             this.dgvFinanciamientoIF.Name = "dgvFinanciamientoIF";
             this.dgvFinanciamientoIF.ReadOnly = true;
             this.dgvFinanciamientoIF.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvFinanciamientoIF.Size = new System.Drawing.Size(1076, 198);
+            this.dgvFinanciamientoIF.Size = new System.Drawing.Size(1076, 224);
             this.dgvFinanciamientoIF.TabIndex = 8;
             // 
             // label63
             // 
             this.label63.AutoSize = true;
             this.label63.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label63.Location = new System.Drawing.Point(668, 47);
+            this.label63.Location = new System.Drawing.Point(719, 30);
             this.label63.Name = "label63";
-            this.label63.Size = new System.Drawing.Size(138, 16);
+            this.label63.Size = new System.Drawing.Size(105, 16);
             this.label63.TabIndex = 7;
-            this.label63.Text = "Porcentaje de interés:";
+            this.label63.Text = "Tasa de interés:";
             // 
             // label62
             // 
             this.label62.AutoSize = true;
             this.label62.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label62.Location = new System.Drawing.Point(400, 46);
+            this.label62.Location = new System.Drawing.Point(385, 30);
             this.label62.Name = "label62";
-            this.label62.Size = new System.Drawing.Size(58, 16);
+            this.label62.Size = new System.Drawing.Size(110, 16);
             this.label62.TabIndex = 6;
-            this.label62.Text = "Tiempo:";
+            this.label62.Text = "Tiempo en Años:";
             // 
             // label61
             // 
             this.label61.AutoSize = true;
             this.label61.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label61.Location = new System.Drawing.Point(45, 47);
+            this.label61.Location = new System.Drawing.Point(22, 30);
             this.label61.Name = "label61";
             this.label61.Size = new System.Drawing.Size(112, 16);
             this.label61.TabIndex = 5;
@@ -2680,18 +2624,18 @@
             this.dgvFinanciamientoVariable.AllowUserToResizeColumns = false;
             this.dgvFinanciamientoVariable.AllowUserToResizeRows = false;
             this.dgvFinanciamientoVariable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvFinanciamientoVariable.Location = new System.Drawing.Point(25, 95);
+            this.dgvFinanciamientoVariable.Location = new System.Drawing.Point(25, 69);
             this.dgvFinanciamientoVariable.MultiSelect = false;
             this.dgvFinanciamientoVariable.Name = "dgvFinanciamientoVariable";
             this.dgvFinanciamientoVariable.ReadOnly = true;
             this.dgvFinanciamientoVariable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvFinanciamientoVariable.Size = new System.Drawing.Size(1076, 198);
+            this.dgvFinanciamientoVariable.Size = new System.Drawing.Size(1076, 225);
             this.dgvFinanciamientoVariable.TabIndex = 5;
             // 
             // nudTiempoVariable
             // 
             this.nudTiempoVariable.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nudTiempoVariable.Location = new System.Drawing.Point(460, 44);
+            this.nudTiempoVariable.Location = new System.Drawing.Point(487, 27);
             this.nudTiempoVariable.Name = "nudTiempoVariable";
             this.nudTiempoVariable.Size = new System.Drawing.Size(120, 21);
             this.nudTiempoVariable.TabIndex = 4;
@@ -2705,7 +2649,7 @@
             // tbMontoVariable
             // 
             this.tbMontoVariable.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbMontoVariable.Location = new System.Drawing.Point(160, 44);
+            this.tbMontoVariable.Location = new System.Drawing.Point(136, 27);
             this.tbMontoVariable.Name = "tbMontoVariable";
             this.tbMontoVariable.Size = new System.Drawing.Size(160, 21);
             this.tbMontoVariable.TabIndex = 3;
@@ -2715,29 +2659,29 @@
             // 
             this.llInteresesVariables.AutoSize = true;
             this.llInteresesVariables.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.llInteresesVariables.Location = new System.Drawing.Point(668, 46);
+            this.llInteresesVariables.Location = new System.Drawing.Point(699, 29);
             this.llInteresesVariables.Name = "llInteresesVariables";
-            this.llInteresesVariables.Size = new System.Drawing.Size(142, 16);
+            this.llInteresesVariables.Size = new System.Drawing.Size(102, 16);
             this.llInteresesVariables.TabIndex = 2;
             this.llInteresesVariables.TabStop = true;
-            this.llInteresesVariables.Text = "Porcentajes de interés";
+            this.llInteresesVariables.Text = "Tasa de interés";
             this.llInteresesVariables.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llInteresesVariables_LinkClicked);
             // 
             // label65
             // 
             this.label65.AutoSize = true;
             this.label65.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label65.Location = new System.Drawing.Point(399, 46);
+            this.label65.Location = new System.Drawing.Point(375, 29);
             this.label65.Name = "label65";
-            this.label65.Size = new System.Drawing.Size(58, 16);
+            this.label65.Size = new System.Drawing.Size(110, 16);
             this.label65.TabIndex = 1;
-            this.label65.Text = "Tiempo:";
+            this.label65.Text = "Tiempo en Años:";
             // 
             // label64
             // 
             this.label64.AutoSize = true;
             this.label64.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label64.Location = new System.Drawing.Point(45, 47);
+            this.label64.Location = new System.Drawing.Point(21, 30);
             this.label64.Name = "label64";
             this.label64.Size = new System.Drawing.Size(112, 16);
             this.label64.TabIndex = 0;
@@ -2823,7 +2767,7 @@
             // 
             this.tabPage1.BackColor = System.Drawing.Color.Honeydew;
             this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tabPage1.Controls.Add(this.linkLabel1);
+            this.tabPage1.Controls.Add(this.llblDetalleIndicadores);
             this.tabPage1.Controls.Add(this.btnGuardarFlujoCaja);
             this.tabPage1.Controls.Add(this.dgvFlujoCajaIntFijo);
             this.tabPage1.Controls.Add(this.button6);
@@ -2840,15 +2784,16 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Flujo de Caja con interés fijo";
             // 
-            // linkLabel1
+            // llblDetalleIndicadores
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(659, 320);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(149, 17);
-            this.linkLabel1.TabIndex = 11;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Detalle de Indicadores";
+            this.llblDetalleIndicadores.AutoSize = true;
+            this.llblDetalleIndicadores.Location = new System.Drawing.Point(659, 320);
+            this.llblDetalleIndicadores.Name = "llblDetalleIndicadores";
+            this.llblDetalleIndicadores.Size = new System.Drawing.Size(149, 17);
+            this.llblDetalleIndicadores.TabIndex = 11;
+            this.llblDetalleIndicadores.TabStop = true;
+            this.llblDetalleIndicadores.Text = "Detalle de Indicadores";
+            this.llblDetalleIndicadores.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llblDetalleIndicadores_LinkClicked);
             // 
             // btnGuardarFlujoCaja
             // 
@@ -2952,10 +2897,10 @@
             // 
             this.tabPage2.BackColor = System.Drawing.Color.Honeydew;
             this.tabPage2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tabPage2.Controls.Add(this.linkLabel2);
+            this.tabPage2.Controls.Add(this.lblDetalleIndicadoresIV);
             this.tabPage2.Controls.Add(this.numericUpDown1);
-            this.tabPage2.Controls.Add(this.textBox1);
-            this.tabPage2.Controls.Add(this.textBox2);
+            this.tabPage2.Controls.Add(this.tbxTIRIV);
+            this.tabPage2.Controls.Add(this.tbxVANIV);
             this.tabPage2.Controls.Add(this.label58);
             this.tabPage2.Controls.Add(this.label72);
             this.tabPage2.Controls.Add(this.label73);
@@ -2969,16 +2914,16 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Flujo de Caja con interés variable";
             // 
-            // linkLabel2
+            // lblDetalleIndicadoresIV
             // 
-            this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(660, 320);
-            this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(149, 17);
-            this.linkLabel2.TabIndex = 18;
-            this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "Detalle de Indicadores";
-            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
+            this.lblDetalleIndicadoresIV.AutoSize = true;
+            this.lblDetalleIndicadoresIV.Location = new System.Drawing.Point(660, 320);
+            this.lblDetalleIndicadoresIV.Name = "lblDetalleIndicadoresIV";
+            this.lblDetalleIndicadoresIV.Size = new System.Drawing.Size(149, 17);
+            this.lblDetalleIndicadoresIV.TabIndex = 18;
+            this.lblDetalleIndicadoresIV.TabStop = true;
+            this.lblDetalleIndicadoresIV.Text = "Detalle de Indicadores";
+            this.lblDetalleIndicadoresIV.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblDetalleIndicadoresIV_LinkClicked);
             // 
             // numericUpDown1
             // 
@@ -2989,25 +2934,23 @@
             this.numericUpDown1.Size = new System.Drawing.Size(78, 20);
             this.numericUpDown1.TabIndex = 15;
             // 
-            // textBox1
+            // tbxTIRIV
             // 
-            this.textBox1.Enabled = false;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(330, 318);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(108, 21);
-            this.textBox1.TabIndex = 16;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.tbxTIRIV.Enabled = false;
+            this.tbxTIRIV.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbxTIRIV.Location = new System.Drawing.Point(330, 318);
+            this.tbxTIRIV.Name = "tbxTIRIV";
+            this.tbxTIRIV.Size = new System.Drawing.Size(108, 21);
+            this.tbxTIRIV.TabIndex = 16;
             // 
-            // textBox2
+            // tbxVANIV
             // 
-            this.textBox2.Enabled = false;
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(514, 318);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(108, 21);
-            this.textBox2.TabIndex = 17;
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            this.tbxVANIV.Enabled = false;
+            this.tbxVANIV.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbxVANIV.Location = new System.Drawing.Point(514, 318);
+            this.tbxVANIV.Name = "tbxVANIV";
+            this.tbxVANIV.Size = new System.Drawing.Size(108, 21);
+            this.tbxVANIV.TabIndex = 17;
             // 
             // label58
             // 
@@ -3018,7 +2961,6 @@
             this.label58.Size = new System.Drawing.Size(33, 16);
             this.label58.TabIndex = 12;
             this.label58.Text = "TIR:";
-            this.label58.Click += new System.EventHandler(this.label58_Click);
             // 
             // label72
             // 
@@ -3029,7 +2971,6 @@
             this.label72.Size = new System.Drawing.Size(39, 16);
             this.label72.TabIndex = 13;
             this.label72.Text = "VAN:";
-            this.label72.Click += new System.EventHandler(this.label72_Click);
             // 
             // label73
             // 
@@ -3040,7 +2981,6 @@
             this.label73.Size = new System.Drawing.Size(162, 16);
             this.label73.TabIndex = 14;
             this.label73.Text = "Tasa de costo de Capital:";
-            this.label73.Click += new System.EventHandler(this.label73_Click);
             // 
             // button7
             // 
@@ -3084,21 +3024,21 @@
             // 
             this.panel34.BackColor = System.Drawing.Color.PaleTurquoise;
             this.panel34.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel34.Controls.Add(this.label70);
+            this.panel34.Controls.Add(this.lblFoo8);
             this.panel34.Location = new System.Drawing.Point(-1, 405);
             this.panel34.Name = "panel34";
             this.panel34.Size = new System.Drawing.Size(1130, 33);
             this.panel34.TabIndex = 0;
             // 
-            // label70
+            // lblFoo8
             // 
-            this.label70.AutoSize = true;
-            this.label70.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label70.Location = new System.Drawing.Point(6, 7);
-            this.label70.Name = "label70";
-            this.label70.Size = new System.Drawing.Size(681, 16);
-            this.label70.TabIndex = 0;
-            this.label70.Text = "Info: Nombre del Proyecto: Proyecto nuevo horizonte - Horizonte del Proyecto: 5 A" +
+            this.lblFoo8.AutoSize = true;
+            this.lblFoo8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFoo8.Location = new System.Drawing.Point(6, 7);
+            this.lblFoo8.Name = "lblFoo8";
+            this.lblFoo8.Size = new System.Drawing.Size(681, 16);
+            this.lblFoo8.TabIndex = 0;
+            this.lblFoo8.Text = "Info: Nombre del Proyecto: Proyecto nuevo horizonte - Horizonte del Proyecto: 5 A" +
     "ños - Proponente: Luis Carcamo";
             // 
             // panel32
@@ -3532,11 +3472,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1184, 551);
+            this.ClientSize = new System.Drawing.Size(1181, 551);
             this.Controls.Add(this.tbxRegistrarProyecto);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximumSize = new System.Drawing.Size(1200, 590);
-            this.MinimumSize = new System.Drawing.Size(1200, 590);
+            this.MinimumSize = new System.Drawing.Size(1022, 590);
             this.Name = "RegistrarProyectoWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Registrar Proyecto";
@@ -3552,8 +3492,6 @@
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudPorcentajeImpuesto)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudOferaAnual)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudDemandaAnual)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudHorizonteEvaluacion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudAnoInicialProyecto)).EndInit();
             this.panel38.ResumeLayout(false);
@@ -3830,7 +3768,7 @@
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.DataGridView dgvFlujoCajaIntVariable;
         private System.Windows.Forms.Panel panel34;
-        private System.Windows.Forms.Label label70;
+        private System.Windows.Forms.Label lblFoo8;
         private System.Windows.Forms.DataGridView dgvFlujoCajaIntFijo;
         private System.Windows.Forms.Panel panel35;
         private System.Windows.Forms.Label label60;
@@ -3866,16 +3804,12 @@
         private System.Windows.Forms.CheckBox chbNoPagaImpuesto;
         private System.Windows.Forms.CheckBox chbSiPagaImpuesto;
         private System.Windows.Forms.NumericUpDown nudPorcentajeImpuesto;
-        private System.Windows.Forms.NumericUpDown nudOferaAnual;
-        private System.Windows.Forms.NumericUpDown nudDemandaAnual;
         private System.Windows.Forms.NumericUpDown nudHorizonteEvaluacion;
         private System.Windows.Forms.NumericUpDown nudAnoInicialProyecto;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox txbNombreProyecto;
         private System.Windows.Forms.TextBox txbResumenEjecutivo;
@@ -3912,7 +3846,6 @@
         private System.Windows.Forms.Panel panel38;
         private System.Windows.Forms.Label label67;
         private System.Windows.Forms.Button btnEliminarInversion;
-        private System.Windows.Forms.Button btnEditarReinversion;
         private System.Windows.Forms.Button btnEliminarReinversion;
         private System.Windows.Forms.Button btnEliminarProyeccionVentas;
         private System.Windows.Forms.Button btnEliminarCosto;
@@ -3938,20 +3871,22 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn vidaUtilRe;
         private System.Windows.Forms.DataGridViewComboBoxColumn AnoReinversion;
         private System.Windows.Forms.DataGridViewTextBoxColumn SubtotalReinversion;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel llblDetalleIndicadores;
         private System.Windows.Forms.MaskedTextBox txbCedulaProponente;
         private System.Windows.Forms.MaskedTextBox txbTelefonoProponente;
         private System.Windows.Forms.MaskedTextBox txbTelefonoOrganizacion;
-        private System.Windows.Forms.Label lblResumenEjecutivoError;
         private System.Windows.Forms.Label lblObjetoInteresError;
         private System.Windows.Forms.Label lblNombreProyectoError;
-        private System.Windows.Forms.Label lblDireccionExactaError;
-        private System.Windows.Forms.LinkLabel linkLabel2;
+        private System.Windows.Forms.LinkLabel lblDetalleIndicadoresIV;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox tbxTIRIV;
+        private System.Windows.Forms.TextBox tbxVANIV;
         private System.Windows.Forms.Label label58;
         private System.Windows.Forms.Label label72;
         private System.Windows.Forms.Label label73;
+        private System.Windows.Forms.Label lblCedulaJuridicaError;
+        private System.Windows.Forms.Label lblCedulaRepresentanteError;
+        private System.Windows.Forms.Label lblTelefonoProponenteError;
+        private System.Windows.Forms.Label lblTelefonoOrganizacionError;
     }
 }

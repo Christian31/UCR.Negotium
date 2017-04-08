@@ -28,8 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IndicadoresDialog));
             this.panel39 = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbxVANBeneficiarios = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.nudTasaCostoCapital = new System.Windows.Forms.NumericUpDown();
             this.tbxTIR = new System.Windows.Forms.TextBox();
@@ -47,10 +48,10 @@
             this.label74 = new System.Windows.Forms.Label();
             this.label73 = new System.Windows.Forms.Label();
             this.label72 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnCancelarIndicadores = new System.Windows.Forms.Button();
+            this.btnGuardarIndicadores = new System.Windows.Forms.Button();
             this.panel39.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudTasaCostoCapital)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudBeneficiariosIndirectos)).BeginInit();
@@ -61,7 +62,7 @@
             // panel39
             // 
             this.panel39.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel39.Controls.Add(this.textBox1);
+            this.panel39.Controls.Add(this.tbxVANBeneficiarios);
             this.panel39.Controls.Add(this.label1);
             this.panel39.Controls.Add(this.nudTasaCostoCapital);
             this.panel39.Controls.Add(this.tbxTIR);
@@ -84,14 +85,14 @@
             this.panel39.Size = new System.Drawing.Size(392, 332);
             this.panel39.TabIndex = 10;
             // 
-            // textBox1
+            // tbxVANBeneficiarios
             // 
-            this.textBox1.Enabled = false;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(208, 285);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(142, 20);
-            this.textBox1.TabIndex = 23;
+            this.tbxVANBeneficiarios.Enabled = false;
+            this.tbxVANBeneficiarios.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbxVANBeneficiarios.Location = new System.Drawing.Point(208, 285);
+            this.tbxVANBeneficiarios.Name = "tbxVANBeneficiarios";
+            this.tbxVANBeneficiarios.Size = new System.Drawing.Size(142, 20);
+            this.tbxVANBeneficiarios.TabIndex = 23;
             // 
             // label1
             // 
@@ -185,6 +186,7 @@
             this.nudBeneficiariosIndirectos.Name = "nudBeneficiariosIndirectos";
             this.nudBeneficiariosIndirectos.Size = new System.Drawing.Size(142, 20);
             this.nudBeneficiariosIndirectos.TabIndex = 13;
+            this.nudBeneficiariosIndirectos.ValueChanged += new System.EventHandler(this.nudBeneficiariosIndirectos_ValueChanged);
             // 
             // nudFamiliasInvolucradas
             // 
@@ -193,6 +195,7 @@
             this.nudFamiliasInvolucradas.Name = "nudFamiliasInvolucradas";
             this.nudFamiliasInvolucradas.Size = new System.Drawing.Size(142, 20);
             this.nudFamiliasInvolucradas.TabIndex = 12;
+            this.nudFamiliasInvolucradas.ValueChanged += new System.EventHandler(this.nudFamiliasInvolucradas_ValueChanged);
             // 
             // nudPersonasParticipantes
             // 
@@ -201,6 +204,7 @@
             this.nudPersonasParticipantes.Name = "nudPersonasParticipantes";
             this.nudPersonasParticipantes.Size = new System.Drawing.Size(142, 20);
             this.nudPersonasParticipantes.TabIndex = 11;
+            this.nudPersonasParticipantes.ValueChanged += new System.EventHandler(this.nudPersonasParticipantes_ValueChanged);
             // 
             // label79
             // 
@@ -252,24 +256,6 @@
             this.label72.TabIndex = 3;
             this.label72.Text = "Personas participantes:";
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(38, 376);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 11;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(355, 376);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 12;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
             // richTextBox1
             // 
             this.richTextBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
@@ -299,16 +285,42 @@
             this.panel1.Size = new System.Drawing.Size(468, 66);
             this.panel1.TabIndex = 14;
             // 
+            // btnCancelarIndicadores
+            // 
+            this.btnCancelarIndicadores.Image = ((System.Drawing.Image)(resources.GetObject("btnCancelarIndicadores.Image")));
+            this.btnCancelarIndicadores.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCancelarIndicadores.Location = new System.Drawing.Point(363, 376);
+            this.btnCancelarIndicadores.Name = "btnCancelarIndicadores";
+            this.btnCancelarIndicadores.Size = new System.Drawing.Size(67, 23);
+            this.btnCancelarIndicadores.TabIndex = 16;
+            this.btnCancelarIndicadores.Text = "Volver";
+            this.btnCancelarIndicadores.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnCancelarIndicadores.UseVisualStyleBackColor = true;
+            this.btnCancelarIndicadores.Click += new System.EventHandler(this.btnCancelarIndicadores_Click);
+            // 
+            // btnGuardarIndicadores
+            // 
+            this.btnGuardarIndicadores.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardarIndicadores.Image")));
+            this.btnGuardarIndicadores.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnGuardarIndicadores.Location = new System.Drawing.Point(38, 376);
+            this.btnGuardarIndicadores.Name = "btnGuardarIndicadores";
+            this.btnGuardarIndicadores.Size = new System.Drawing.Size(75, 23);
+            this.btnGuardarIndicadores.TabIndex = 17;
+            this.btnGuardarIndicadores.Text = "Guardar";
+            this.btnGuardarIndicadores.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnGuardarIndicadores.UseVisualStyleBackColor = true;
+            this.btnGuardarIndicadores.Click += new System.EventHandler(this.btnGuardarIndicadores_Click);
+            // 
             // IndicadoresDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Honeydew;
             this.ClientSize = new System.Drawing.Size(472, 493);
+            this.Controls.Add(this.btnGuardarIndicadores);
+            this.Controls.Add(this.btnCancelarIndicadores);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.panel39);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "IndicadoresDialog";
@@ -343,11 +355,11 @@
         private System.Windows.Forms.Label label68;
         private System.Windows.Forms.Label label69;
         private System.Windows.Forms.Label label71;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbxVANBeneficiarios;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnCancelarIndicadores;
+        private System.Windows.Forms.Button btnGuardarIndicadores;
     }
 }

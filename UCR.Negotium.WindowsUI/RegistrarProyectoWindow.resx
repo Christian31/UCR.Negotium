@@ -318,22 +318,6 @@
   <metadata name="SubtotalReinversion.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="btnEditarReinversion.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAABl0RVh0U29m
-        dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAInSURBVDhPnZNdSFNhGMefLvrQUAspIeYskYKim6TL
-        CLrr67buugrCSloogVO2Kc7T6MY+pNaKCiLNxS6qfdrawqyIECHPmUbpjmbiVoM2w9gW/97nuCw/JtIf
-        fudw3ud5/uf9eF7SWQN9ZS0+bG72rhjOLzZ5HldIPUT84RhI4Eb/V9xcAZzH+VynbxMGpRYPXENJVF4Z
-        xPZrg9ixDBznPM7nuvK2AFGJyY1QdAYHH0RxpDOKo1354TjnhdSfKDZ7sIUNCpvc+B+RMCjkJaxrfKoN
-        KIoMWVEgRyKLUHJEhofxYfQjZJMfo1IPPhmdfw3UqIqoOrYk6tg4xj9/weRUDB0OB0ZcI3jd8RYDTS7M
-        GcRjMUzF4ouJf0M8kURiOoOr9ntQJybRckmCt8GPdzXXQWuNswapVBLfkwtITSM1k8YPEX9p0CEx5IRJ
-        akcg+BwXGutARNVzBr+yGaTTaY0Mk80iq0WAsKES6NsPPNwK+ZEJdefrsaY1jCJbiKggt4R8Cp3bJooP
-        AM5dgH0D7CcqtPH1Zr84RnEKoiW1gaUUrtUBvfuA7p3ArU24e1K8cyoxe6HjPiiq73rBJjwTXs5qoxvU
-        EMSrOzXAxEXgvRlwlOL+mT1YZe1HgSUoin3gOj3fBaEqbTMW0G09Dl+nRTRIO26f3ju7YfOp0i4TP/6g
-        l55Rma2XLtcepuazx2A9dUibCRc8MeymjbY3VC4F59Usp3//lkdEvwH1JZ3YmsC6+wAAAABJRU5ErkJg
-        gg==
-</value>
-  </data>
   <data name="btnEliminarReinversion.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAABl0RVh0U29m

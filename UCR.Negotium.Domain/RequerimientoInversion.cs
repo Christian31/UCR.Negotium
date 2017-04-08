@@ -23,11 +23,27 @@ namespace UCR.Negotium.Domain
             unidadMedida = new UnidadMedida();
         }
 
+        public string CostoUnitarioFormat
+        {
+            get
+            {
+                return "₡ " + CostoUnitario.ToString("#,##0.##");
+            }
+        }
+
         public double Subtotal
         {
             get
             {
                 return this.Cantidad * this.CostoUnitario;
+            }
+        }
+
+        public string SubtotalFormat
+        {
+            get
+            {
+                return "₡ " + Subtotal.ToString("#,##0.##");
             }
         }
 

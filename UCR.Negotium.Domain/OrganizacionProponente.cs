@@ -1,16 +1,13 @@
-﻿//@Copyright Yordan Campos Piedra
-using System;
-
-namespace UCR.Negotium.Domain
+﻿namespace UCR.Negotium.Domain
 {
     public class OrganizacionProponente
     {
         public int CodOrganizacion { get; set; }
-        public String NombreOrganizacion { get; set; }
-        public String CedulaJuridica { get; set; }
-        public String Telefono { get; set; }
-        public String Descripcion { get; set; }
-        public TipoOrganizacion tipo;
+        public string NombreOrganizacion { get; set; }
+        public string CedulaJuridica { get; set; }
+        public string Telefono { get; set; }
+        public string Descripcion { get; set; }
+        private TipoOrganizacion tipo;
 
         public OrganizacionProponente()
         {

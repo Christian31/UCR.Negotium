@@ -45,6 +45,7 @@
             this.dgvCrecimientosOferta.Name = "dgvCrecimientosOferta";
             this.dgvCrecimientosOferta.Size = new System.Drawing.Size(294, 312);
             this.dgvCrecimientosOferta.TabIndex = 0;
+            this.dgvCrecimientosOferta.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCrecimientosOferta_CellValueChanged);
             // 
             // btnGuardarCrecimientos
             // 
@@ -81,7 +82,7 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "Crecimiento Anual de Oferta";
             // 
-            // GestionCrecimientosOferta
+            // GestionCrecimientosOfertaDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -92,7 +93,7 @@
             this.Controls.Add(this.btnGuardarCrecimientos);
             this.Controls.Add(this.dgvCrecimientosOferta);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "GestionCrecimientosOferta";
+            this.Name = "GestionCrecimientosOfertaDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Gestion de Crecimiento Anual de Oferta";
             ((System.ComponentModel.ISupportInitialize)(this.dgvCrecimientosOferta)).EndInit();

@@ -6,6 +6,7 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
@@ -25,7 +26,7 @@ namespace UCR.Negotium.DataAccess
         // de distritos en el combobox de distritos cada vez que el canton cambia de opción
         public DataTable GetDistritosPorCanton(int codCanton)
         {
-            String select = "SELECT * FROM DISTRITO WHERE cod_canton="+codCanton +" ORDER BY nombre_distrito";
+            string select = "SELECT * FROM DISTRITO WHERE cod_canton="+codCanton +" ORDER BY nombre_distrito";
 
             if (conexion.State != ConnectionState.Open)
                 conexion.Open();
@@ -38,6 +39,28 @@ namespace UCR.Negotium.DataAccess
             DataTable dtDistritos = dsDistritos.Tables["Cantones"];
             conexion.Close();
             return dtDistritos;
+        }
+
+        public List<Distrito> GetDistritosPorCantonAux(int codCanton)
+        {
+            List<Distrito> cantones = new List<Distrito>();
+            string select = "SELECT * FROM DISTRITO WHERE cod_canton=" + codCanton + " ORDER BY nombre_distrito";
+
+            if (conexion.State != ConnectionState.Open)
+                conexion.Open();
+            command = conexion.CreateCommand();
+            command.CommandText = select;
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                Distrito distrito = new Distrito();
+                distrito.CodDistrito = reader.GetInt32(0);
+                distrito.NombreDistrito = reader.GetString(2);
+                cantones.Add(distrito);
+            }
+            conexion.Close();
+
+            return cantones;
         }
     }
 }

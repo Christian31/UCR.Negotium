@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
@@ -23,8 +18,8 @@ namespace UCR.Negotium.WindowsUI
             this.proyecto = proyecto;
             this.evaluador = evaluador;
 
-            this.tiempoFinanciamiento = proyecto.FinanciamientoIV.TiempoFinanciamiento;
-            this.interesFinanciamientoData = new InteresFinanciamientoData();
+            tiempoFinanciamiento = proyecto.FinanciamientoIV.TiempoFinanciamiento;
+            interesFinanciamientoData = new InteresFinanciamientoData();
             InitializeComponent();
             LlenaDgvInteresFinanciamiento();
         }
@@ -33,21 +28,23 @@ namespace UCR.Negotium.WindowsUI
         {
             DataSet ds = new DataSet();
             ds.Tables.Add("InteresFinanciamiento");
+            ds.Tables["InteresFinanciamiento"].Columns.Add("Codigo", Type.GetType("System.String"));
             ds.Tables["InteresFinanciamiento"].Columns.Add("Año", Type.GetType("System.String"));
             ds.Tables["InteresFinanciamiento"].Columns.Add("Porcentaje", Type.GetType("System.String"));
 
             if (this.proyecto.InteresesFinanciamientoIV != null && this.proyecto.InteresesFinanciamientoIV.Count > 0)
             {
-                
-                    for (Int32 i = 0; i < proyecto.InteresesFinanciamientoIV.Count; i++)
-                    {
-                        DataRow row = ds.Tables["InteresFinanciamiento"].NewRow();
-                        row["Año"] = "Año " + i;
-                        row["Porcentaje"] = proyecto.InteresesFinanciamientoIV[i].PorcentajeInteresFinanciamiento;
-                        ds.Tables["InteresFinanciamiento"].Rows.Add(row);
-                    }//foreach
-                
-        }//if
+
+                for (Int32 i = 0; i < proyecto.InteresesFinanciamientoIV.Count; i++)
+                {
+                    DataRow row = ds.Tables["InteresFinanciamiento"].NewRow();
+                    row["Codigo"] = proyecto.InteresesFinanciamientoIV[i].CodInteresFinanciamiento;
+                    row["Año"] = "Año " + i;
+                    row["Porcentaje"] = proyecto.InteresesFinanciamientoIV[i].PorcentajeInteresFinanciamiento;
+                    ds.Tables["InteresFinanciamiento"].Rows.Add(row);
+                }//foreach
+
+            }//if
 
             else
             {
@@ -62,7 +59,8 @@ namespace UCR.Negotium.WindowsUI
                         ds.Tables["InteresFinanciamiento"].Rows.Add(row);
                     }//for
                 }
-                else {
+                else
+                {
                     DataRow row = ds.Tables["InteresFinanciamiento"].NewRow();
                     row["Año"] = "Año General";
                     row["Porcentaje"] = 0;
@@ -71,8 +69,9 @@ namespace UCR.Negotium.WindowsUI
             }
             DataTable dtIntereses = ds.Tables["InteresFinanciamiento"];
             dgvInteresesFinanciamiento.DataSource = dtIntereses;
-            dgvInteresesFinanciamiento.Columns[0].ReadOnly = true;
-            dgvInteresesFinanciamiento.Columns[1].HeaderText = "Porcentaje de interés";
+            dgvInteresesFinanciamiento.Columns[0].Visible = false;
+            dgvInteresesFinanciamiento.Columns[1].ReadOnly = true;
+            dgvInteresesFinanciamiento.Columns[2].HeaderText = "Porcentaje de interés";
 
         }//LlenaDgvInteresFinanciamiento
 
@@ -111,35 +110,39 @@ namespace UCR.Negotium.WindowsUI
             else
             {
                 //editar TODO cambiar el eliminar/insertar y usar el editar
-                //try
-                //{
-                //    if (interesFinanciamientoData.eliminarCrecimientoObjetoInteres(this.proyecto.CodProyecto))
-                //    {
-                //        for (int i = 0; i < dgvCrecimientosOferta.RowCount; i++)
-                //        {
-                //            if (Convert.ToInt32(this.dgvCrecimientosOferta.Rows[i].Cells["Porcentaje"].Value) > 0)
-                //            {
+                try
+                {
+                    //if (interesFinanciamientoData.eliminarCrecimientoObjetoInteres(this.proyecto.CodProyecto))
+                    //{
+                    for (int i = 0; i < dgvInteresesFinanciamiento.RowCount; i++)
+                    {
+                        if (Convert.ToInt32(this.dgvInteresesFinanciamiento.Rows[i].Cells["Porcentaje"].Value) > 0)
+                        {
+                            InteresFinanciamiento interesIV = new InteresFinanciamiento();
+                            interesIV.CodInteresFinanciamiento =
+                            Int32.Parse(this.dgvInteresesFinanciamiento.Rows[i].Cells["Porcentaje"].Value.ToString());
 
-                //                CrecimientoOfertaObjetoInteres crecimientoOferta = new CrecimientoOfertaObjetoInteres();
-                //                crecimientoOferta.AnoCrecimiento =
-                //                    Int32.Parse(this.dgvCrecimientosOferta.Rows[i].Cells["Año"].Value.ToString());
-                //                crecimientoOferta.PorcentajeCrecimiento =
-                //                    Int32.Parse(this.dgvCrecimientosOferta.Rows[i].Cells["Porcentaje"].Value.ToString());
+                            interesIV.PorcentajeInteresFinanciamiento =
+                                Int32.Parse(this.dgvInteresesFinanciamiento.Rows[i].Cells["Porcentaje"].Value.ToString());
 
-                //                crecimientoOfertaData.InsertarCrecimientoOfertaObjetoIntereses(crecimientoOferta, this.proyecto.CodProyecto);
-                //                validaInsersion = 1;
-                //                listaCrecimientos.Add(crecimientoOferta);
-
-
-                //            }//if
-                //        }//for
-                //    }//if
-                //}//try
-                //catch (Exception ex)
-                //{
-                //    validaInsersion = 2;
-                //    Console.WriteLine(ex);
-                //}//catch
+                            if (interesFinanciamientoData.ActualizarInteresFinanciamiento(interesIV))
+                            {
+                                validaInsersion = 1;
+                                listaCrecimientos.Add(interesIV);
+                            }
+                            else
+                            {
+                                validaInsersion = 2;
+                            }
+                        }//if
+                    }//for
+                    //}//if
+                }//try
+                catch (Exception ex)
+                {
+                    validaInsersion = 2;
+                    Console.WriteLine(ex);
+                }//catch
             }//else
             if (validaInsersion == 1)
             {
@@ -156,11 +159,45 @@ namespace UCR.Negotium.WindowsUI
 
         private void btnCancelarInteres_Click(object sender, EventArgs e)
         {
-            new RegistrarProyectoWindow(this.evaluador, this.proyecto, 9)
+            new RegistrarProyectoWindow(evaluador, proyecto, 9)
             {
                 MdiParent = base.MdiParent
             }.Show();
-            base.Close();
+            Close();
         }
+
+        private void dgvInteresesFinanciamiento_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            List<int> intList = new List<int>(new int[] { 2 });
+            string valueToValidate = string.Empty;
+            bool isInList = false;
+            if (e.RowIndex >= 0)
+            {
+                valueToValidate = dgvInteresesFinanciamiento[e.ColumnIndex, e.RowIndex].Value.ToString();
+                isInList = intList.IndexOf(e.ColumnIndex) != -1;
+                bool isValid = isInList ? ValidaNumeros(valueToValidate) : true;
+
+                if (!isValid)
+                {
+                    dgvInteresesFinanciamiento[e.ColumnIndex, e.RowIndex].Value = 0;
+                    MessageBox.Show("Los datos ingresados son inválidos en ese campo",
+                                "Datos inválidos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+        }
+
+        private bool ValidaNumeros(string valor)
+        {
+            double n;
+            if (Double.TryParse(valor, out n))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

@@ -41,5 +41,28 @@ namespace UCR.Negotium.DataAccess
             conexion.Close();
             return dtProvincias;
         }//GetProvincias
+
+        public List<Provincia> GetProvinciasAux()
+        {
+            CantonData cantonData = new CantonData();
+            List<Provincia> provincias = new List<Provincia>();
+            string select = "SELECT * FROM PROVINCIA";
+            if (conexion.State != ConnectionState.Open)
+                conexion.Open();
+            command = conexion.CreateCommand();
+            command.CommandText = select;
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                Provincia provincia = new Provincia();
+                provincia.CodProvincia = reader.GetInt32(0);
+                provincia.NombreProvincia = reader.GetString(1);
+                provincia.Cantones = cantonData.GetCantonesPorProvinciaAux(provincia.CodProvincia);
+                provincias.Add(provincia);
+            }
+            conexion.Close();
+
+            return provincias;
+        }
     }//ProvinciaData
 }

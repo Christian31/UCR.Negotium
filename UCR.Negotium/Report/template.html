@@ -1,0 +1,605 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>SB Admin - Bootstrap Admin Template</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/sb-admin.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+    <div id="wrapper">
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            {{NOMBREPROYECTO}} <small>Reporte del proyecto</small>
+                        </h1>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Información General</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-lg-4">
+                                    <div class="panel panel-default panel-body">
+                                        <div class="form-group"> Año Inicial del proyecto: <b>{{ANOINICIAL}}</b></div>
+                                        <div class="form-group"> Horizonte de evaluación (años): <b>{{HORIZONTEEVALUACION}}</b></div>
+                                        <div class="form-group"> Paga Impuestos: <b>{{PAGAIMPUESTOS}}</b></div>
+                                        <div class="form-group"> Porcentaje de Impuesto: <b>{{PORCENTAJEIMPUESTO}}</b></div>
+                                    </div>
+                                    <div class="panel panel-default panel-body">
+                                        <div class="form-group"> Tipo de proyecto: <b>{{TIPOPROYECTO}}</b></div>
+                                        <div class="form-group"> Bien o Servicio: <b>{{BIENOSERVICIO}}</b></div>
+                                        <div class="form-group"> Unidad de Medida: <b>{{UNIDADMEDIDA}}</b></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-8">
+                                    <div class="panel panel-default panel-body">
+                                        <h4>Ubicación</h4>
+										<hr>
+                                        <div class="col-lg-4">
+                                            <div class="form-group"> Provincia: <b>{{PROVINCIA}}</b></div>
+                                            <div class="form-group"> Cantón: <b>{{CANTON}}</b></div>
+                                            <div class="form-group"> Distrito: <b>{{DISTRITO}}</b></div>
+                                        </div>
+
+                                        <div class="col-lg-8 form-group"> Dirección exacta: <b>{{DIRECCIONEXACTA}}</b></div>
+                                    </div>
+                                    <div class="panel panel-default panel-body">
+                                        <h4>Resumen Ejecutivo</h4>
+										<hr>
+                                        {{RESUMENEJECUTIVO}}<br>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Información de la Organización</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-lg-6">
+                                    <div class="panel panel-default panel-body">
+                                        <h4>Organización</h4>
+										<hr>
+                                        <div class="form-group"> Tipo: <b>{{TIPOORGANIZACION}}</b></div>
+                                        <div class="form-group"> Nombre de la Organización: <b>{{NOMBREORGANIZACION}}</b></div>
+                                        <div class="form-group"> Cédula Jurídica: <b>{{CEDULAORGANIZACION}}</b></div>
+                                        <div class="form-group"> Teléfono: <b>{{TELEFONOORGANIZACION}}</b></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="panel panel-default panel-body">
+                                        <h4>Representante legal de la Organización</h4>
+                                        <hr>
+										<div class="form-group"> Nombre: <b>{{NOMBREREPRESENTANTE}}</b></div>
+                                        <div class="form-group"> Cédula: <b>{{CEDULAREPRESENTANTE}}</b></div>
+                                        <div class="form-group"> Teléfono: <b>{{TELEFONOREPRESENTANTE}}</b></div>
+                                        <div class="form-group"> Puesto en la Organización: <b>{{PUESTOREPRESENTANTE}}</b></div>
+                                        <div class="form-group"> Género: <b>{{GENEROREPRESENTANTE}}</b></div>
+                                        <div class="form-group"> Es Representante Individual: <b>{{INDIVIDUALREPRESENTANTE}}</b></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Caracterización</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-lg-6 form-group"> Descripción población beneficiaria: <b>{{POBLACIONCARACTERIZACION}}</b></div>
+                                <div class="col-lg-6 form-group"> Justificación del mercado: <b>{{JUSTIFICATIONCARACTERIZACION}}</b></div>
+                                <div class="col-lg-12 form-group"> Caracterización del bien/servicio: <b>{{SERVICIOCARACTERIZACION}}</b></div>
+                                <div class="col-lg-12 form-group"> Descripción de la sostenibilidad del proyecto: <b>{{DESCRIPCIONCARACTERIZACION}}</b></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Inversiones</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Descripción</th>
+                                                <th>Cantidad</th>
+                                                <th>Costo Unitario</th>
+                                                <th>Unidad de Medida</th>
+                                                <th>Depreciable</th>
+                                                <th>Vida Útil</th>
+                                                <th>Subtotal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{{DESCRIPCIONINVERSION}}</td>
+                                                <td>{{CANTIDADINVERSION}}</td>
+                                                <td>{{COSTOINVERSION}}</td>
+                                                <td>{{UNIDADINVERSION}}</td>
+                                                <td>{{DEPRECIABLEINVERSION}}</td>
+                                                <td>{{VIDAUTILINVERSION}}</td>
+                                                <td>{{SUBTOTALINVERSION}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br />
+                                Total Inversiones: <b>{{TOTALINVERSIONES}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Reinversiones</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Descripción</th>
+                                                <th>Cantidad</th>
+                                                <th>Costo Unitario</th>
+                                                <th>Unidad de Medida</th>
+                                                <th>Depreciable</th>
+                                                <th>Vida Útil</th>
+                                                <th>Año Reinversión</th>
+                                                <th>Subtotal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{{DESCRIPCIONREINVERSION}}</td>
+                                                <td>{{CANTIDADREINVERSION}}</td>
+                                                <td>{{COSTOREINVERSION}}</td>
+                                                <td>{{UNIDADREINVERSION}}</td>
+                                                <td>{{DEPRECIABLEREINVERSION}}</td>
+                                                <td>{{VIDAUTILREINVERSION}}</td>
+                                                <td>{{ANOREINVERSION}}</td>
+                                                <td>{{SUBTOTALREINVERSION}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br />
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-striped">
+                                        <caption>Total reinvertido por año:</caption>
+                                        <thead>
+                                            <tr>
+                                                <th>{{ANOHORIZONTE}}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{{MONTOANUAL}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Capital del Proyecto</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Rubro</th>
+                                                <th>{{ANOCAPITAL}}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Costos variables</td>
+                                                <td>{{MONTOCAPITAL}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Capital de trabajo</td>
+                                                <td>{{MONTOCAPITAL}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Incremental</td>
+                                                <td>{{MONTOCAPITAL}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br />
+                                Recuperación Costo Total: <b>{{RECUPERACIONCAPITAL}}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Depreciaciones</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Descripción</th>
+                                                <th>{{ANOHORIZONTE}}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{{DESCRIPCIONDEPRECIACION}}</td>
+                                                <td>{{MONTODEPRECIACION}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Financiamiento</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="panel panel-default panel-body">
+                                    <h4>Financiamiento con Interés Fijo</h4>
+									<hr>
+                                    <div class="col-lg-6 form-group"> Monto: <b>{{MONTOIF}}</b></div>
+                                    <div class="col-lg-6 form-group"> Tiempo en Años: <b>{{TIEMPOIF}}</b></div>
+                                    <div class="col-lg-6 form-group"> Tasa de interés: <b>{{TASAINTERESIF}}</b></div>
+                                    <div class="col-lg-6 form-group"> Año inicial del préstamo: <b>{{ANOINICIALPAGOIF}}</b><br /></div>
+
+                                    <div class="col-lg-12 table-responsive">
+                                        <table class="table table-bordered table-hover table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Año de Pago</th>
+                                                    <th>Saldo</th>
+                                                    <th>Cuota</th>
+                                                    <th>Interés</th>
+                                                    <th>Amortización</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>{{ANOPAGOIF}}</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                    <td>{{CUOTAPAGOIF}}</td>
+                                                    <td>{{INTERESPAGOIF}}</td>
+                                                    <td>{{AMORTIZACIONPAGOIF}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default panel-body">
+                                    <h4>Financiamiento con Interés Variable</h4>
+									<hr>
+                                    <div class="col-lg-6 form-group"> Monto: <b>{{MONTOIV}}</b></div>
+                                    <div class="col-lg-6 form-group"> Tiempo en Años: <b>{{TIEMPOIV}}</b></div>
+                                    <div class="col-lg-6 form-group"> Año inicial del préstamo: <b>{{ANOINICIALPAGOIV}}</b><br /></div>
+                                    <div class="col-lg-12 table-responsive">
+                                        <table class="table table-bordered table-hover table-striped">
+                                            <caption>Tasa de Interés</caption>
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>{{ANOHORIZONTE}}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Porcentaje interés (%)</td>
+                                                    <td>{{PORCENTAJEINTERES}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <br /><br />
+                                    </div>
+                                    
+                                    <div class="col-lg-12 table-responsive">
+                                        <table class="table table-bordered table-hover table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Año de Pago</th>
+                                                    <th>Saldo</th>
+                                                    <th>Cuota</th>
+                                                    <th>Interés</th>
+                                                    <th>Amortización</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>{{ANOPAGOIV}}</td>
+                                                    <td>{{SALDOPAGOIV}}</td>
+                                                    <td>{{CUOTAPAGOIV}}</td>
+                                                    <td>{{INTERESPAGOIV}}</td>
+                                                    <td>{{AMORTIZACIONPAGOIV}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Flujo de Caja</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="panel panel-default panel-body">
+                                    <h4>Flujo de Caja con Interés Fijo</h4>
+                                    <hr>
+                                    <div class="col-lg-12 table-responsive">
+                                        <table class="table table-bordered table-hover table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Rubro</th>
+                                                    <th>{{ANOHORIZONTE}}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Ventas</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Costos Totales</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Depreciaciones</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Utilidad Operativa</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Intereses</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                <tr>
+                                                    <td>Utilidad Antes de Impuesto</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Impuesto</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Utilidad Neta</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Depreciaciones</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Flujo Operativo</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Inversiones</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Préstamo</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Amortzación del Préstamo</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Inv. Capital Trabajo</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Recuperación CT</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Valor Residual</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Flujo Efectivo</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <br />
+                                    </div>
+                                    
+                                    <h5><b>Detalle de Indicadores</b></h5>
+                                    <hr>
+                                    <div class="col-lg-4 form-group"> Tasa de Costo Capital: <b>{{MONTOIF}}</b></div>
+                                    <div class="col-lg-4 form-group"> TIR: <b>{{TIEMPOIF}}</b></div>
+                                    <div class="col-lg-4 form-group"> VAN: <b>{{TASAINTERESIF}}</b></div>
+                                    <div class="col-lg-4 form-group"> Personas participantes: <b>{{ANOINICIALPAGOIF}}</b><br /></div>
+                                    <div class="col-lg-4 form-group"> Personas involucradas: <b>{{MONTOIF}}</b></div>
+                                    <div class="col-lg-4 form-group"> Beneficiarios indirectos: <b>{{TIEMPOIF}}</b></div>
+                                    <div class="col-lg-4 form-group"> VAN/Personas participantes: <b>{{TASAINTERESIF}}</b></div>
+                                    <div class="col-lg-4 form-group"> VAN/Personas involucradas: <b>{{ANOINICIALPAGOIF}}</b><br /></div>
+                                    <div class="col-lg-4 form-group"> VAN/Beneficiarios indirectos: <b>{{ANOINICIALPAGOIF}}</b><br /></div>
+                                </div>
+
+                                <div class="panel panel-default panel-body">
+                                    <h4>Flujo de Caja con Interés Variable</h4>
+                                    <hr>
+                                    <div class="col-lg-12 table-responsive">
+                                        <table class="table table-bordered table-hover table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Rubro</th>
+                                                    <th>{{ANOHORIZONTE}}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Ventas</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Costos Totales</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Depreciaciones</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Utilidad Operativa</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Intereses</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                <tr>
+                                                    <td>Utilidad Antes de Impuesto</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Impuesto</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Utilidad Neta</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Depreciaciones</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Flujo Operativo</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Inversiones</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Préstamo</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Amortzación del Préstamo</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Inv. Capital Trabajo</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Recuperación CT</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Valor Residual</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Flujo Efectivo</td>
+                                                    <td>{{SALDOPAGOIF}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <br />
+                                    </div>
+
+                                    <h5><b>Detalle de Indicadores</b></h5>
+                                    <hr>
+                                    <div class="col-lg-4 form-group"> Tasa de Costo Capital: <b>{{MONTOIF}}</b></div>
+                                    <div class="col-lg-4 form-group"> TIR: <b>{{TIEMPOIF}}</b></div>
+                                    <div class="col-lg-4 form-group"> VAN: <b>{{TASAINTERESIF}}</b></div>
+                                    <div class="col-lg-4 form-group"> Personas participantes: <b>{{ANOINICIALPAGOIF}}</b><br /></div>
+                                    <div class="col-lg-4 form-group"> Personas involucradas: <b>{{MONTOIF}}</b></div>
+                                    <div class="col-lg-4 form-group"> Beneficiarios indirectos: <b>{{TIEMPOIF}}</b></div>
+                                    <div class="col-lg-4 form-group"> VAN/Personas participantes: <b>{{TASAINTERESIF}}</b></div>
+                                    <div class="col-lg-4 form-group"> VAN/Personas involucradas: <b>{{ANOINICIALPAGOIF}}</b><br /></div>
+                                    <div class="col-lg-4 form-group"> VAN/Beneficiarios indirectos: <b>{{ANOINICIALPAGOIF}}</b><br /></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+</body>
+
+</html>

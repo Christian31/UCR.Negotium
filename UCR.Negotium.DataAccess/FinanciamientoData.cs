@@ -57,7 +57,7 @@ namespace UCR.Negotium.DataAccess
             command = conexion.CreateCommand();
             command.CommandText = select;
             SQLiteDataReader reader = command.ExecuteReader();
-            Financiamiento financiamiento = null;
+            Financiamiento financiamiento = new Financiamiento();
             if (reader.Read())
             {
                 financiamiento = new Financiamiento();
@@ -72,15 +72,13 @@ namespace UCR.Negotium.DataAccess
 
         public bool ActualizarFinanciamiento(Financiamiento financiamiento)
         {
-            String update = "UPDATE FINANCIAMIENTO SET monto_financiamiento=?, variable_financiamiento=?, " +
-                "tiempo_financiamiento=? " +
+            String update = "UPDATE FINANCIAMIENTO SET monto_financiamiento=?, tiempo_financiamiento=? " +
                 "WHERE cod_financiamiento=" + financiamiento.CodFinanciamiento;
             if (conexion.State != ConnectionState.Open)
                 conexion.Open();
             SQLiteCommand command = conexion.CreateCommand();
             command.CommandText = update;
             command.Parameters.AddWithValue("monto_financiamiento", financiamiento.MontoFinanciamiento);
-            command.Parameters.AddWithValue("variable_financiamiento", financiamiento.VariableFinanciamiento);
             command.Parameters.AddWithValue("tiempo_financiamiento", financiamiento.TiempoFinanciamiento);
             // Ejecutamos la sentencia INSERT y cerramos la conexión
             if (command.ExecuteNonQuery() != -1)

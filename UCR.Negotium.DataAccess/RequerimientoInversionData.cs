@@ -98,13 +98,11 @@ namespace UCR.Negotium.DataAccess
 
         }//GetRequerimientosInversion
 
-        public RequerimientoInversion EditarRequerimientosInvesion(RequerimientoInversion requerimientoInversion, int codProyecto)
+        public RequerimientoInversion EditarRequerimientosInvesion(RequerimientoInversion requerimientoInversion)
         {
-            Object newProdID;
             String insert = "UPDATE REQUERIMIENTO_INVERSION SET descripcion_requerimiento = ?, cantidad = ?, " +
-                "costo_unitario = ?, cod_unidad_medida = ?, depreciable = ?, vida_util = ?, cod_proyecto = ? " +
-            "WHERE cod_requerimiento_inversion = ?; " +
-            "SELECT last_insert_rowid();";
+                "costo_unitario = ?, cod_unidad_medida = ?, depreciable = ?, vida_util = ? " +
+            "WHERE cod_requerimiento_inversion = ?; ";
             if (conexion.State != ConnectionState.Open)
                 conexion.Open();
             SQLiteCommand command = conexion.CreateCommand();
@@ -115,14 +113,12 @@ namespace UCR.Negotium.DataAccess
             command.Parameters.AddWithValue("cod_unidad_medida", requerimientoInversion.UnidadMedida.CodUnidad);
             command.Parameters.AddWithValue("depreciable", requerimientoInversion.Depreciable);
             command.Parameters.AddWithValue("vida_util", requerimientoInversion.VidaUtil);
-            command.Parameters.AddWithValue("cod_proyecto", codProyecto);
             command.Parameters.AddWithValue("cod_requerimiento_inversion", requerimientoInversion.CodRequerimientoInversion);
             try
             {
                 if (conexion.State != ConnectionState.Open)
                     conexion.Open();
-                newProdID = command.ExecuteScalar();
-                requerimientoInversion.CodRequerimientoInversion = Int32.Parse(newProdID.ToString());
+                command.ExecuteScalar();
                 conexion.Close();
                 return requerimientoInversion;
             }//try

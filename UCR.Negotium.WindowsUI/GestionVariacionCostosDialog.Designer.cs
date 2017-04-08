@@ -45,6 +45,7 @@
             this.dgvVariacionCostos.Name = "dgvVariacionCostos";
             this.dgvVariacionCostos.Size = new System.Drawing.Size(294, 312);
             this.dgvVariacionCostos.TabIndex = 0;
+            this.dgvVariacionCostos.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvVariacionCostos_CellValueChanged);
             // 
             // label1
             // 
@@ -81,7 +82,7 @@
             this.btnVolverVariacionAnual.UseVisualStyleBackColor = true;
             this.btnVolverVariacionAnual.Click += new System.EventHandler(this.btnVolverVariacionAnual_Click);
             // 
-            // GestionVariacionCostos
+            // GestionVariacionCostosDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -92,7 +93,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dgvVariacionCostos);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "GestionVariacionCostos";
+            this.Name = "GestionVariacionCostosDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Gestion de Variación Anual de Costos";
             ((System.ComponentModel.ISupportInitialize)(this.dgvVariacionCostos)).EndInit();

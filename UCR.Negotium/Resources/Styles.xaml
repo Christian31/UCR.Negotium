@@ -1,0 +1,110 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    >
+    
+    <Style x:Key="menuTabControl" TargetType="{x:Type TabControl}">
+        <Setter Property="BorderBrush" Value="Gainsboro"/>
+    </Style>
+
+    <Style x:Key="menuTabItem" TargetType="{x:Type TabItem}">
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="Gainsboro" CornerRadius="4,4,0,0" Margin="2,0">
+                        <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="4,2"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="#FF9CD6CE" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type ContentControl}">
+        <Setter Property="ContentStringFormat" 
+            Value="{Binding Resolution, StringFormat=N{0}}" />
+    </Style>
+    
+
+    <Style x:Key="progressBar" TargetType="ProgressBar">
+        <Setter Property="Height" Value="20"/>
+    </Style>
+
+    <Style x:Key="borderStyle" TargetType="Border">
+        <Setter Property="BorderBrush" Value="Gray"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+
+    <Style x:Key="borderBodyStyle" TargetType="Border" BasedOn="{StaticResource borderStyle}">
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="Margin" Value="5"/>
+    </Style>
+
+    <Style x:Key="textTitleStyle" TargetType="TextBlock">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Margin" Value="10,0,0,0"/>
+    </Style>
+
+    <Style x:Key="moduleStyle" TargetType="UserControl">
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Background" Value="AliceBlue"/>
+    </Style>
+
+    <Style x:Key="panelFormStyle" TargetType="StackPanel">
+        <Setter Property="Margin" Value="3"/>
+    </Style>
+    <Style x:Key="gridFormStyle" TargetType="Grid">
+        <Setter Property="Margin" Value="0,5"/>
+    </Style>
+    
+    <Style x:Key="verticalPanelFormStyle" TargetType="StackPanel" BasedOn="{StaticResource panelFormStyle}">
+        <Setter Property="Orientation" Value="Vertical"/>
+    </Style>
+    <Style x:Key="horizontalPanelFormStyle" TargetType="StackPanel" BasedOn="{StaticResource panelFormStyle}">
+        <Setter Property="Orientation" Value="Horizontal"/>
+    </Style>
+
+
+    <Style x:Key="generalButtons" TargetType="Button" BasedOn="{StaticResource MetroButton}">
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="Height" Value="30"/>
+    </Style>
+
+    <Style x:Key="editButtonStyle" TargetType="Button" BasedOn="{StaticResource generalButtons}">
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+    </Style>
+    <Style x:Key="cancelButtonStyle" TargetType="Button" BasedOn="{StaticResource generalButtons}">
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+    </Style>
+    
+    <Style x:Key="saveButtonStyle" TargetType="Button" BasedOn="{StaticResource generalButtons}">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+    </Style>
+
+    <Style x:Key="tableTitleStyle" TargetType="Label" BasedOn="{StaticResource MetroLabel}">
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Margin" Value="30,0,0,0"/>
+    </Style>
+
+    <Style x:Key="circleButton" TargetType="Button" BasedOn="{StaticResource MetroCircleButtonStyle}">
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+    </Style>
+</ResourceDictionary>

@@ -1,12 +1,8 @@
 ﻿//@Copyright Yordan Campos Piedra
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
@@ -77,7 +73,6 @@ namespace UCR.Negotium.WindowsUI
                     proyecto.CaraterizacionDelBienServicio = fila["categorizacion_bien_servicio"].ToString();
                     proyecto.CodProyecto = Int32.Parse(fila["cod_proyecto"].ToString());
                     proyecto.ConIngresos = Boolean.Parse(fila["con_ingresos"].ToString());
-                    proyecto.DemandaAnual = Int32.Parse(fila["demanda_anual"].ToString());
                     proyecto.DescripcionPoblacionBeneficiaria = fila["descripcion_poblacion_beneficiaria"].ToString();
                     proyecto.DescripcionSostenibilidadDelProyecto = fila["descripcion_sostenibilidad_proyecto"].ToString();
                     proyecto.DireccionExacta = fila["direccion_exacta"].ToString();
@@ -90,7 +85,6 @@ namespace UCR.Negotium.WindowsUI
                     proyecto.CrecimientosAnuales = GetCrecimientosAnuales(proyecto.CodProyecto);
                     proyecto.VariacionCostos = GetVariacionAnualCostos(proyecto.CodProyecto);
                     proyecto.Costos = GetCostos(proyecto.CodProyecto);
-                    proyecto.OfertaAnual = Int32.Parse(fila["oferta_anual"].ToString());
                     proyecto.PagaImpuesto = Boolean.Parse(fila["paga_impuesto"].ToString());
                     proyecto.PorcentajeImpuesto = float.Parse(fila["porcentaje_impuesto"].ToString());
                     proyecto.Proponente = proponenteData.GetProponente(proyecto.CodProyecto);

@@ -36,6 +36,27 @@ namespace UCR.Negotium.DataAccess
             return dtUnidadMedida;
         }
 
+        public List<UnidadMedida> GetUnidadesMedidaAux()
+        {
+            List<UnidadMedida> unidadesMedida = new List<UnidadMedida>();
+            string select = "SELECT * FROM UNIDAD_MEDIDA";
+            if (conexion.State != ConnectionState.Open)
+                conexion.Open();
+            command = conexion.CreateCommand();
+            command.CommandText = select;
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                UnidadMedida unidadMedida = new UnidadMedida();
+                unidadMedida.CodUnidad = reader.GetInt32(0);
+                unidadMedida.NombreUnidad = reader.GetString(1);
+                unidadesMedida.Add(unidadMedida);
+            }
+            conexion.Close();
+
+            return unidadesMedida;
+        }
+
         public UnidadMedida GetUnidadMedida(int codUnidadMedida)
         {
             String select = "SELECT * FROM UNIDAD_MEDIDA WHERE cod_unidad=" + codUnidadMedida;

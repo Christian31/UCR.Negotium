@@ -70,26 +70,22 @@ namespace UCR.Negotium.DataAccess
             }//catch
         }//InsertarCrecimientoOfertaObjetoIntereses
 
-        public CrecimientoOfertaObjetoInteres EditarCrecimientoOfertaObjetoIntereses(CrecimientoOfertaObjetoInteres crecimiento, int codProyecto)
+        public CrecimientoOfertaObjetoInteres EditarCrecimientoOfertaObjetoIntereses(CrecimientoOfertaObjetoInteres crecimiento)
         {
-            Object newProdID;
-            String insert = "UPDATE CRECIMIENTO_OFERTA_OBJETO_INTERES SET (ano_crecimiento = ?, porcentaje_crecimiento = ?, " +
-                "cod_proyecto = ? WHERE cod_crecimiento = ?; " +
-            "SELECT last_insert_rowid();";
+            String insert = "UPDATE CRECIMIENTO_OFERTA_OBJETO_INTERES SET porcentaje_crecimiento = ? WHERE cod_crecimiento = ?;";
             if (conexion.State != ConnectionState.Open)
                 conexion.Open();
             SQLiteCommand command = conexion.CreateCommand();
             command.CommandText = insert;
-            command.Parameters.AddWithValue("ano_crecimiento", crecimiento.AnoCrecimiento);
             command.Parameters.AddWithValue("porcentaje_crecimiento", crecimiento.PorcentajeCrecimiento);
-            command.Parameters.AddWithValue("cod_proyecto", codProyecto);
             command.Parameters.AddWithValue("cod_crecimiento", crecimiento.CodCrecimiento);
             try
             {
                 if (conexion.State != ConnectionState.Open)
                     conexion.Open();
-                newProdID = command.ExecuteScalar();
-                crecimiento.CodCrecimiento = Int32.Parse(newProdID.ToString());
+
+                command.ExecuteNonQuery();
+
                 conexion.Close();
                 return crecimiento;
             }//try
@@ -102,7 +98,7 @@ namespace UCR.Negotium.DataAccess
         }//EditarCrecimientoOfertaObjetoIntereses
 
         public bool eliminarCrecimientoObjetoInteres(int codProyecto) {
-            String select = "DELETE FROM CRECIMIENTO_OFERTA_OBJETO_INTERES WHERE cod_proyecto=" + codProyecto + ";";
+            string select = "DELETE FROM CRECIMIENTO_OFERTA_OBJETO_INTERES WHERE cod_proyecto=" + codProyecto + ";";
 
             try
             {

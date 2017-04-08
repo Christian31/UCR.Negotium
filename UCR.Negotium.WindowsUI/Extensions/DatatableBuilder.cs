@@ -377,15 +377,29 @@ namespace UCR.Negotium.WindowsUI.DatasetExtension
             }
 
             #region ventas
+
             DataRow row = ds.Tables[dsNombre].NewRow();
             row["Rubro"] = "Ventas";
             int a = 1;
-            foreach (double IngreGenerado in proyecto.IngresosGenerados)
+            if (proyecto.ConIngresos)
             {
-                row[(proyecto.AnoInicial + a).ToString()] = "₡ " + IngreGenerado.ToString("#,##0.##");
-                a++;
+                foreach (double IngreGenerado in proyecto.IngresosGenerados)
+                {
+                    row[(proyecto.AnoInicial + a).ToString()] = "₡ " + IngreGenerado.ToString("#,##0.##");
+                    a++;
+                }
             }
+            else
+            {
+                for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+                {
+                    row[(proyecto.AnoInicial + a).ToString()] = "₡ 0";
+                    a++;
+                }
+            }
+
             ds.Tables[dsNombre].Rows.Add(row);
+
             #endregion
 
             #region costos

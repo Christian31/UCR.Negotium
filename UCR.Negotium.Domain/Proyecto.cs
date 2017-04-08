@@ -20,8 +20,6 @@ namespace UCR.Negotium.Domain
         public String JustificacionDeMercado { get; set; }
         public int AnoInicial { get; set; }
         public int HorizonteEvaluacionEnAnos { get; set; }
-        public int DemandaAnual { get; set; }
-        public int OfertaAnual { get; set; }
         public bool PagaImpuesto { get; set; }
         public double PorcentajeImpuesto { get; set; }
         public Evaluador Evaluador { get; set; }

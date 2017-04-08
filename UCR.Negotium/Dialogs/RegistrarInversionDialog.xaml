@@ -1,0 +1,77 @@
+﻿<Controls:MetroWindow
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:UCR.Negotium.Dialogs"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:UserControls="clr-namespace:UCR.Negotium.UserControls" x:Class="UCR.Negotium.Dialogs.RegistrarInversionDialog"
+        mc:Ignorable="d"
+        BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
+        WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
+        Title="Inversión | Negotium v1.0" Height="400" Width="450">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="6.5*"/>
+            <RowDefinition Height="2.5*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="140"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="1">
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Label Content="Nombre de la Inversión:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Label Content="Unidad de Medida:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Label Content="Cantidad:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Label Content="Costo Unitario:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Label Content="Depreciable:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Label Content="Vida Útil (Años):" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,27,0">
+            <Grid Style="{StaticResource gridFormStyle}">
+                <TextBox Text="{Binding ProponenteSelected.Nombre}"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <ComboBox ItemsSource="{Binding UnidadMedidas}" SelectedValuePath="CodUnidad"
+                                          SelectedValue="{Binding ProyectoSelected.ObjetoInteres.UnidadMedida.CodUnidad}" />
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Controls:NumericUpDown Minimum="1" TextAlignment="Left"
+                    Value="{Binding ProyectoSelected.HorizonteEvaluacionEnAnos}" Margin="0,0,140,0"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <TextBox Text="{Binding lad, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N0}}" Margin="0,0,140,0" Name="tbCostoUnitario" TextChanged="tbCostoUnitario_TextChanged"/>
+            </Grid>
+            <StackPanel Style="{StaticResource horizontalPanelFormStyle}" Margin="0,10,0,10">
+                <CheckBox FlowDirection="LeftToRight" x:Name="cbFemenino" >
+                    <TextBlock Text="Si"/>
+                </CheckBox>
+                <CheckBox FlowDirection="LeftToRight" Margin="10,0,0,0" x:Name="cbMasculino" 
+                                          IsChecked="{Binding ProponenteSelected.GeneroBoolean}" 
+                                          >
+                    <TextBlock Text="No"/>
+                </CheckBox>
+            </StackPanel>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Controls:NumericUpDown Minimum="2" TextAlignment="Left" Margin="0,0,140,0"
+                                        Value="{Binding ProyectoSelected.HorizonteEvaluacionEnAnos}"/>
+            </Grid>
+        </StackPanel>
+        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="82,30,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="button1" Content="Button" HorizontalAlignment="Left" Margin="308,30,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75"/>
+    </Grid>
+</Controls:MetroWindow>

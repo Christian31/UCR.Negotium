@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
@@ -157,6 +152,39 @@ namespace UCR.Negotium.WindowsUI
                 MdiParent = base.MdiParent
             }.Show();
             base.Close();
+        }
+
+        private void dgvCrecimientosOferta_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            List<int> intList = new List<int>(new int[] { 1 });
+            string valueToValidate = string.Empty;
+            bool isInList = false;
+            if (e.RowIndex >= 0)
+            {
+                valueToValidate = dgvCrecimientosOferta[e.ColumnIndex, e.RowIndex].Value.ToString();
+                isInList = intList.IndexOf(e.ColumnIndex) != -1;
+                bool isValid = isInList ? ValidaNumeros(valueToValidate) : true;
+
+                if (!isValid)
+                {
+                    dgvCrecimientosOferta[e.ColumnIndex, e.RowIndex].Value = 0;
+                    MessageBox.Show("Los datos ingresados son inválidos en ese campo",
+                                "Datos inválidos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+        }
+
+        private bool ValidaNumeros(string valor)
+        {
+            double n;
+            if (Double.TryParse(valor, out n))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

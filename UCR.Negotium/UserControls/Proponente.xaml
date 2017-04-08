@@ -1,0 +1,161 @@
+﻿<UserControl x:Class="UCR.Negotium.UserControls.Proponente"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UCR.Negotium.UserControls"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             mc:Ignorable="d" 
+             d:DesignHeight="440" d:DesignWidth="1200">
+
+    <Grid Background="AliceBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="90*"/>
+        </Grid.RowDefinitions>
+        <Border Style="{StaticResource borderStyle}" Background="LightBlue">
+            <TextBlock Text="Información de la Organización" Style="{StaticResource textTitleStyle}"/>
+        </Border>
+        <Border Grid.Row="1" Style="{StaticResource borderStyle}">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="9*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="43*"/>
+                    <ColumnDefinition Width="57*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Row="0" Style="{StaticResource borderBodyStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="9*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.ColumnSpan="2" Text="Representante legal de la organización / Representante Individual" Style="{StaticResource textTitleStyle}"/>
+
+                        <StackPanel Grid.Row="1">
+                            <Grid Style="{StaticResource gridFormStyle}">
+                                <Label Content="Nombre:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <TextBox Text="{Binding ProponenteSelected.Nombre}" Margin="65,0,27,0" MinWidth="30"/>
+                            </Grid>
+                            <Grid Style="{StaticResource gridFormStyle}">
+                                <Label Content="Apellidos:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <TextBox Text="{Binding ProponenteSelected.Apellidos}" Margin="65,0,27,0"/>
+                            </Grid>
+                            <Grid Style="{StaticResource gridFormStyle}">
+                                <Label Content="Cédula de Identidad:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <TextBox Text="{Binding ProponenteSelected.NumIdentificacion}" Margin="130,0,27,0"/>
+                            </Grid>
+                            <Grid Style="{StaticResource gridFormStyle}">
+                                <Label Content="Teléfono:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <TextBox Text="{Binding ProponenteSelected.Telefono}" Margin="65,0,27,0"/>
+                            </Grid>
+                            <Grid Style="{StaticResource gridFormStyle}">
+                                <Label Content="Correo Electrónico:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <TextBox Text="{Binding ProponenteSelected.Email}" Margin="120,0,27,0"/>
+                            </Grid>
+                            <Grid Style="{StaticResource gridFormStyle}">
+                                <Label Content="Puesto en la Organización:"/>
+                                <TextBox Text="{Binding ProponenteSelected.PuestoEnOrganizacion}" Margin="165,0,27,0"/>
+                            </Grid>
+                            <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
+                                <Label Content="Género:"/>
+                                <CheckBox FlowDirection="LeftToRight" Name="cbFemenino" Checked="cbFemenino_Checked">
+                                    <TextBlock Text="Femenino"/>
+                                </CheckBox>
+                                <CheckBox FlowDirection="LeftToRight" Margin="10,0,0,0" Name="cbMasculino" 
+                                          IsChecked="{Binding ProponenteSelected.GeneroBoolean}" 
+                                          Checked="cbMasculino_Checked" Loaded="cbMasculino_Loaded">
+                                    <TextBlock Text="Masculino"/>
+                                </CheckBox>
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
+                                <Label Content="Soy Representante Individual:"/>
+                                <CheckBox IsChecked="{Binding ProponenteSelected.EsRepresentanteIndividual}"
+                                          Name="cbEsRepresentanteIndividual" 
+                                          Checked="cbEsRepresentanteIndividual_Checked" Unchecked="cbEsRepresentanteIndividual_Checked"/>
+                            </StackPanel>
+                        </StackPanel>
+                        
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="1" Style="{StaticResource borderBodyStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10*"/>
+                            <RowDefinition Height="40*"/>
+                            <RowDefinition Height="50*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.ColumnSpan="2" Text="Información de la Organización" Style="{StaticResource textTitleStyle}"/>
+
+                        <StackPanel Grid.Row="1">
+                            <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
+                                <Label Content="Tipo de Organización:"/>
+                                <ComboBox Margin="0,0,27,0" Width="220" ItemsSource="{Binding TipoOrganizaciones}" 
+                                          SelectedValuePath="CodTipo" Name="cbTipoOrganizaciones" 
+                                          SelectedValue="{Binding ProponenteSelected.Organizacion.Tipo.CodTipo}" 
+                                          Loaded="cbTipoOrganizaciones_Loaded"/>
+                            </StackPanel>
+
+                            <Grid Style="{StaticResource gridFormStyle}">
+                                <Label Content="Nombre de Organización:"/>
+                                <TextBox Text="{Binding ProponenteSelected.Organizacion.NombreOrganizacion}" Margin="160,0,27,0"/>
+                            </Grid>
+                            <Grid Style="{StaticResource gridFormStyle}">
+                                <Label Content="Cédula Jurídica:"/>
+                                <TextBox Text="{Binding ProponenteSelected.Organizacion.CedulaJuridica}" Margin="100,0,27,0"/>
+                            </Grid>
+                            <Grid Style="{StaticResource gridFormStyle}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid>
+                                    <Label Content="Teléfono:"/>
+                                    <TextBox Text="{Binding ProponenteSelected.Organizacion.Telefono}" Margin="65,0,27,0"/>
+                                </Grid>
+                                <Grid Grid.Column="1">
+                                    <Label Content="Correo Electrónico:" />
+                                    <TextBox Text="{Binding Search}" Margin="120,0,27,0"/>
+                                </Grid>
+                            </Grid>
+                        </StackPanel>
+                        <Grid Grid.Row="2" Margin="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="8*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Descripción:" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                            <RichTextBox Grid.Row="1">
+                                <FlowDocument>
+                                    <Paragraph>
+                                        <Run Text="{Binding ProponenteSelected.Organizacion.Descripcion}"/>
+                                    </Paragraph>
+                                </FlowDocument>
+                            </RichTextBox>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="3">
+                    <Button Style="{StaticResource saveButtonStyle}" Click="btnGuardarProponente">
+                        <Button.ContentTemplate>
+                            <DataTemplate DataType="MetroButton">
+                                <StackPanel Orientation="Horizontal">
+                                    <iconPacks:PackIconModern HorizontalAlignment="Left" Foreground="Teal" VerticalAlignment="Center" iconPacks:PackIconModern.Kind="Save"/>
+                                    <TextBlock Margin="10,0,0,0">Guardar</TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

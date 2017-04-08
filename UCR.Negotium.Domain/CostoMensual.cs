@@ -17,5 +17,13 @@
                 return this.Cantidad * this.CostoUnitario;
             }
         }
+
+        public string SubtotalFormat
+        {
+            get
+            {
+                return "₡ " + Subtotal.ToString("#,##0.##");
+            }
+        }
     }
 }

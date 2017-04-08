@@ -33,6 +33,22 @@ namespace UCR.Negotium.Domain
             set { this.subtotal = value; }
         }
 
+        public string CostoUnitarioFormat
+        {
+            get
+            {
+                return "₡ " + CostoUnitario.ToString("#,##0.##");
+            }
+        }
+
+        public string SubtotalFormat
+        {
+            get
+            {
+                return "₡ " + Subtotal.ToString("#,##0.##");
+            }
+        }
+
         public double Depreciacion
         {
             get { return Math.Round((this.CostoUnitario * this.Cantidad) / this.VidaUtil, 2); }

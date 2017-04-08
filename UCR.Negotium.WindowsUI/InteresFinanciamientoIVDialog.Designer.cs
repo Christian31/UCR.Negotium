@@ -44,6 +44,7 @@
             this.dgvInteresesFinanciamiento.Name = "dgvInteresesFinanciamiento";
             this.dgvInteresesFinanciamiento.Size = new System.Drawing.Size(294, 312);
             this.dgvInteresesFinanciamiento.TabIndex = 0;
+            this.dgvInteresesFinanciamiento.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInteresesFinanciamiento_CellValueChanged);
             // 
             // btnGuardarInteres
             // 
@@ -71,7 +72,7 @@
             this.btnCancelarInteres.UseVisualStyleBackColor = true;
             this.btnCancelarInteres.Click += new System.EventHandler(this.btnCancelarInteres_Click);
             // 
-            // InteresFinanciamientoUI
+            // InteresFinanciamientoIVDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -81,7 +82,7 @@
             this.Controls.Add(this.btnGuardarInteres);
             this.Controls.Add(this.dgvInteresesFinanciamiento);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "InteresFinanciamientoUI";
+            this.Name = "InteresFinanciamientoIVDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Intereses sobre el Financiamiento";
             ((System.ComponentModel.ISupportInitialize)(this.dgvInteresesFinanciamiento)).EndInit();

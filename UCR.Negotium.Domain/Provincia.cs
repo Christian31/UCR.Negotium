@@ -1,40 +1,32 @@
-﻿//@Copyright Yordan Campos Piedra
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace UCR.Negotium.Domain
 {
     public class Provincia
     {
-        int codProvincia;
-        String nombreProvincia;
+        public int CodProvincia { get; set; }
+        public string NombreProvincia { get; set; }
+        private List<Canton> cantones;
 
-        public int CodProvincia
+        public Provincia()
         {
-            get
-            {
-                return codProvincia;
-            }
-
-            set
-            {
-                codProvincia = value;
-            }
+            cantones = new List<Canton>();
         }
 
-        public string NombreProvincia
+        public override string ToString()
+        {
+            return NombreProvincia;
+        }
+
+        public List<Canton> Cantones
         {
             get
             {
-                return nombreProvincia;
+                return cantones;
             }
-
             set
             {
-                nombreProvincia = value;
+                cantones = value;
             }
         }
     }

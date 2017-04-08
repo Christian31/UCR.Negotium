@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
@@ -72,18 +68,27 @@ namespace UCR.Negotium.WindowsUI
             }
             
             DataTable dtProyeccion = ds.Tables["Proyeccion"];
-            this.dgvProyecciones.DataSource = dtProyeccion;
+            dgvProyecciones.DataSource = dtProyeccion;
+            dgvProyecciones.Columns["mes"].ReadOnly = true;
+            foreach (DataGridViewColumn column in dgvProyecciones.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
         private void btnAgregarProyeccion_Click(object sender, EventArgs e)
         {
-            if(proyeccionNueva.CodArticulo == 0)
+            ValidarProyeccionNuevo(true);
+            if (!ValidarProyeccionNuevo())
             {
-                GuardarProyeccion();
-            }
-            else
-            {
-                EditarProyeccion();
+                if (proyeccionNueva.CodArticulo == 0)
+                {
+                    GuardarProyeccion();
+                }
+                else
+                {
+                    EditarProyeccion();
+                }
             }
         }
 
@@ -181,6 +186,59 @@ namespace UCR.Negotium.WindowsUI
                 MdiParent = base.MdiParent
             }.Show();
             base.Close();
+        }
+
+        private void dgvProyecciones_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            List<int> intList = new List<int>(new int[] { 1, 2 });
+            string valueToValidate = string.Empty;
+            bool isInList = false;
+            if (e.RowIndex >= 0)
+            {
+                valueToValidate = dgvProyecciones[e.ColumnIndex, e.RowIndex].Value.ToString();
+                isInList = intList.IndexOf(e.ColumnIndex) != -1;
+                bool isValid = isInList ? ValidaNumeros(valueToValidate) : true;
+
+                if (!isValid)
+                {
+                    dgvProyecciones[e.ColumnIndex, e.RowIndex].Value = 0;
+                    MessageBox.Show("Los datos ingresados son inválidos en ese campo",
+                                "Datos inválidos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+        }
+
+        private bool ValidarProyeccionNuevo(bool isCleaning = false)
+        {
+            bool errorEncontrado = false;
+            if (isCleaning)
+            {
+                lblNombreProyeccionError.Visible = false;
+            }
+            else
+            {
+                if (string.IsNullOrWhiteSpace(tbxNombreArticuloProyeccion.Text))
+                {
+                    lblNombreProyeccionError.Visible = errorEncontrado = true;
+                    MessageBox.Show("Favor inserte todos los datos requeridos", "Datos Requeridos",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+
+            return errorEncontrado;
+        }
+
+        private bool ValidaNumeros(string valor)
+        {
+            double n;
+            if (Double.TryParse(valor, out n))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

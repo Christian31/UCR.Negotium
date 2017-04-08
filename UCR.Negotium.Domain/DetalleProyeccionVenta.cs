@@ -22,5 +22,13 @@ namespace UCR.Negotium.Domain
                 return this.Cantidad * this.Precio;
             }
         }
+
+        public string SubtotalFormat
+        {
+            get
+            {
+                return "₡ " + Subtotal.ToString("#,##0.##");
+            }
+        }
     }
 }

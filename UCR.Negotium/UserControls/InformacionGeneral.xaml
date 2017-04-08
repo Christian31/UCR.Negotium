@@ -1,0 +1,186 @@
+﻿<UserControl x:Class="UCR.Negotium.UserControls.InformacionGeneral"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UCR.Negotium.UserControls"
+             xmlns:validation="clr-namespace:UCR.Negotium.Utils"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             mc:Ignorable="d" 
+             d:DesignHeight="440" d:DesignWidth="1200">
+
+    <Grid Background="AliceBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="90*"/>
+        </Grid.RowDefinitions>
+        <Border Style="{StaticResource borderStyle}" Background="LightBlue">
+            <TextBlock Text="Datos del Proyecto" Style="{StaticResource textTitleStyle}"/>
+        </Border>
+        <Border Grid.Row="1" Style="{StaticResource borderStyle}">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="9*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="7*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="57*"/>
+                        <RowDefinition Height="43*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Style="{StaticResource borderBodyStyle}">
+                        <StackPanel>
+                            <StackPanel Style="{StaticResource verticalPanelFormStyle}">
+                                <Label Content="Nombre del Proyecto:"/>
+                                <TextBox Name="tbNombre" TextChanged="tbNombre_TextChanged" 
+                                         Text="{Binding ProyectoSelected.NombreProyecto}" Margin="0,0,27,0"
+                                         ToolTip="Ingrese en este campo el nombre del Proyecto"/>
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
+                                <Label Content="Año Inicial del Proyecto:"/>
+                                <Controls:NumericUpDown Minimum="2000" TextAlignment="Left" Value="{Binding ProyectoSelected.AnoInicial}"/>
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
+                                <Label Content="Horizonte de Evaluación:"/>
+                                <Controls:NumericUpDown Minimum="2" TextAlignment="Left" Value="{Binding ProyectoSelected.HorizonteEvaluacionEnAnos}"/>
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
+                                <Label Content="Paga Impuestos:"/>
+                                <CheckBox FlowDirection="LeftToRight" IsChecked="{Binding ProyectoSelected.PagaImpuesto}" 
+                                          Name="cbPagaImpuestos" Checked="cbPagaImpuestos_Checked" 
+                                          Loaded="cbPagaImpuestos_Loaded">
+                                    <TextBlock Text="Si"/>
+                                </CheckBox>
+                                <CheckBox FlowDirection="LeftToRight" Name="cbNoPagaImpuestos" Margin="10,0,0,0" Checked="cbNoPagaImpuestos_Checked">
+                                    <TextBlock Text="No"/>
+                                </CheckBox>
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
+                                <Label Content="Porcentaje de Impuestos:"/>
+                                <Controls:NumericUpDown Minimum="0" TextAlignment="Left" Value="{Binding ProyectoSelected.PorcentajeImpuesto}" HasDecimals="True"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Row="1" Style="{StaticResource borderBodyStyle}">
+                        <StackPanel>
+                            <StackPanel Style="{StaticResource verticalPanelFormStyle}">
+                                <Label Content="Tipo de Proyecto:"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox FlowDirection="LeftToRight" Name="cbConIngresos" 
+                                              IsChecked="{Binding ProyectoSelected.ConIngresos}" 
+                                              Checked="cbConIngresos_Checked" Loaded="cbConIngresos_Loaded">
+                                        <TextBlock Text="Con Ingresos"/>
+                                    </CheckBox>
+                                    <CheckBox FlowDirection="LeftToRight" Name="cbSinIngresos" Margin="10,0,0,0" Checked="cbSinIngresos_Checked">
+                                        <TextBlock Text="Sin Ingresos"/>
+                                    </CheckBox>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource verticalPanelFormStyle}">
+                                <Label Content="Bien o Servicio del Proyecto:"/>
+                                <TextBox Name="tbBienServicio" TextChanged="tbBienServicio_TextChanged"
+                                         ToolTip="Ingrese en este campo el Bien o Servicio del Proyecto" 
+                                         Text="{Binding ProyectoSelected.ObjetoInteres.DescripcionObjetoInteres}" Margin="0,0,27,0"/>
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
+                                <Label Content="Unidad de Medida:"/>
+                                <ComboBox Margin="0,0,27,0" Width="215" ItemsSource="{Binding UnidadMedidas}" SelectedValuePath="CodUnidad"
+                                          SelectedValue="{Binding ProyectoSelected.ObjetoInteres.UnidadMedida.CodUnidad}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40*"/>
+                        <RowDefinition Height="60*"/>
+                    </Grid.RowDefinitions>
+                    <Border Style="{StaticResource borderBodyStyle}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="7*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="8*"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.ColumnSpan="2" Text="Ubicación" Style="{StaticResource textTitleStyle}"/>
+                            
+                            <StackPanel Grid.Row="1">
+                                <Grid Style="{StaticResource gridFormStyle}">
+                                    <Label Content="Provincia:"/>
+                                    <ComboBox Margin="65,0,27,0" ItemsSource="{Binding Provincias}" SelectedValuePath="CodProvincia"
+                                          SelectedValue="{Binding ProyectoSelected.Provincia.CodProvincia}" Name="cbProvincias" 
+                                          SelectionChanged="cbProvincias_SelectionChanged" Loaded="cbProvincias_Loaded"/>
+                                </Grid>
+                                <Grid Style="{StaticResource gridFormStyle}">
+                                    <Label Content="Canton:"/>
+                                    <ComboBox Margin="65,0,27,0" ItemsSource="{Binding ProvinciaSelected.Cantones, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValuePath="CodCanton"
+                                          SelectedValue="{Binding ProyectoSelected.Canton.CodCanton}" Name="cbCanton" 
+                                              SelectionChanged="cbCanton_SelectionChanged"/>
+                                </Grid>
+                                <Grid Style="{StaticResource gridFormStyle}">
+                                    <Label Content="Distrito:"/>
+                                    <ComboBox Margin="65,0,27,0" ItemsSource="{Binding CantonSelected.Distritos, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValuePath="CodDistrito"
+                                          SelectedValue="{Binding ProyectoSelected.Distrito.CodDistrito}" Name="cbDistrito"/>
+                                </Grid>
+                            </StackPanel>
+                            <Grid Grid.Column="1" Grid.RowSpan="2" Margin="3">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="8*"/>
+                                </Grid.RowDefinitions>
+                                <Label Content="Dirección Exacta:" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                                <RichTextBox Grid.Row="1">
+                                    <FlowDocument>
+                                        <Paragraph>
+                                            <Run Text="{Binding ProyectoSelected.DireccionExacta}"/>
+                                        </Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                    <Grid Grid.Row="1" Margin="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="11*"/>
+                            <RowDefinition Height="89*"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Resumen Ejecutivo:" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                        <RichTextBox Grid.Row="1">
+                            <FlowDocument>
+                                <Paragraph>
+                                    <Run Text="{Binding ProyectoSelected.ResumenEjecutivo}"/>
+                                </Paragraph>
+                            </FlowDocument>
+                        </RichTextBox>
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="3">
+                    <Button Style="{StaticResource saveButtonStyle}" Click="btnGuardarInfoGeneral">
+                        <Button.ContentTemplate >
+                            <DataTemplate DataType="MetroButton">
+                                <StackPanel Orientation="Horizontal">
+                                    <iconPacks:PackIconModern HorizontalAlignment="Left" Foreground="Teal" VerticalAlignment="Center" iconPacks:PackIconModern.Kind="Save"/>
+                                    <TextBlock Margin="10,0,0,0">Guardar</TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

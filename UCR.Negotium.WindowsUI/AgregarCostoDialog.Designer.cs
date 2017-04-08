@@ -40,6 +40,7 @@
             this.cbxCategoriasCosto = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.cbxAnoInicialCosto = new System.Windows.Forms.ComboBox();
+            this.lblNombreCostoError = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCosto)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,11 +49,14 @@
             this.dgvCosto.AllowDrop = true;
             this.dgvCosto.AllowUserToAddRows = false;
             this.dgvCosto.AllowUserToDeleteRows = false;
+            this.dgvCosto.AllowUserToResizeColumns = false;
+            this.dgvCosto.AllowUserToResizeRows = false;
             this.dgvCosto.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCosto.Location = new System.Drawing.Point(101, 122);
             this.dgvCosto.Name = "dgvCosto";
             this.dgvCosto.Size = new System.Drawing.Size(346, 307);
             this.dgvCosto.TabIndex = 0;
+            this.dgvCosto.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCosto_CellValueChanged);
             // 
             // btnAgregarCosto
             // 
@@ -153,12 +157,23 @@
             this.cbxAnoInicialCosto.Size = new System.Drawing.Size(142, 21);
             this.cbxAnoInicialCosto.TabIndex = 15;
             // 
-            // AgregarCosto
+            // lblNombreCostoError
+            // 
+            this.lblNombreCostoError.AutoSize = true;
+            this.lblNombreCostoError.ForeColor = System.Drawing.Color.Red;
+            this.lblNombreCostoError.Location = new System.Drawing.Point(275, 38);
+            this.lblNombreCostoError.Name = "lblNombreCostoError";
+            this.lblNombreCostoError.Size = new System.Drawing.Size(11, 13);
+            this.lblNombreCostoError.TabIndex = 16;
+            this.lblNombreCostoError.Text = "*";
+            // 
+            // AgregarCostoDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Honeydew;
             this.ClientSize = new System.Drawing.Size(552, 505);
+            this.Controls.Add(this.lblNombreCostoError);
             this.Controls.Add(this.cbxAnoInicialCosto);
             this.Controls.Add(this.cbxCategoriasCosto);
             this.Controls.Add(this.label4);
@@ -171,7 +186,7 @@
             this.Controls.Add(this.btnAgregarCosto);
             this.Controls.Add(this.dgvCosto);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "AgregarCosto";
+            this.Name = "AgregarCostoDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AgregarCosto";
             ((System.ComponentModel.ISupportInitialize)(this.dgvCosto)).EndInit();
@@ -193,5 +208,6 @@
         private System.Windows.Forms.ComboBox cbxCategoriasCosto;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox cbxAnoInicialCosto;
+        private System.Windows.Forms.Label lblNombreCostoError;
     }
 }

@@ -1,7 +1,4 @@
-﻿//@Copyright Yordan Campos Piedra
-using System;
-
-namespace UCR.Negotium.Domain
+﻿namespace UCR.Negotium.Domain
 {
     public class Proponente
     {
@@ -19,6 +16,23 @@ namespace UCR.Negotium.Domain
         public Proponente()
         {
             organizacion = new OrganizacionProponente();
+        }
+
+        public override string ToString()
+        {
+            return Nombre + " " + Apellidos;
+        }
+
+        public bool GeneroBoolean
+        {
+            get
+            {
+                return Genero == 'm' ? true : false;
+            }
+            set
+            {
+                Genero = value.Equals(true) ? 'm' : 'f';
+            }
         }
 
         public OrganizacionProponente Organizacion
