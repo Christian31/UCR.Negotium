@@ -21,8 +21,8 @@ namespace UCR.Negotium.WindowsUI
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            Evaluador evaluador = new Evaluador();
-            EvaluadorData evaluadorData = new EvaluadorData();
+            Encargado evaluador = new Encargado();
+            EncargadoData evaluadorData = new EncargadoData();
             evaluador = evaluadorData.GetEvaluador(tbxCorreo.Text.ToString().Trim(),
                                                     tbxPass.Text.ToString().Trim());
             //Si existe el evaluador entonces que ingrese al sistema

@@ -10,21 +10,14 @@ using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class RequerimientoInversionData
+    public class RequerimientoInversionData : BaseData
     {
-        private String cadenaConexion;
-        private SQLiteConnection conexion;
 
-        public RequerimientoInversionData()
-        {
-            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
-            conexion = new SQLiteConnection(cadenaConexion);
-            conexion.Open();
-        }
+        public RequerimientoInversionData() { }
 
-        public RequerimientoInversion InsertarRequerimientosInvesion(RequerimientoInversion requerimientoInversion, int codProyecto)
+        public int InsertarRequerimientosInvesion(RequerimientoInversion requerimientoInversion, int codProyecto)
         {
-            Object newProdID;
+            int idInversion = -1;
             String insert = "INSERT INTO REQUERIMIENTO_INVERSION(descripcion_requerimiento, cantidad, " +
                 "costo_unitario, cod_unidad_medida, depreciable, vida_util, cod_proyecto) " +
             "VALUES(?,?,?,?,?,?,?); " +
@@ -44,16 +37,15 @@ namespace UCR.Negotium.DataAccess
             {
                 if (conexion.State != ConnectionState.Open)
                     conexion.Open();
-                newProdID = command.ExecuteScalar();
-                requerimientoInversion.CodRequerimientoInversion = Int32.Parse(newProdID.ToString());
+                idInversion = int.Parse(command.ExecuteScalar().ToString());
                 conexion.Close();
-                return requerimientoInversion;
+                return idInversion;
             }//try
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 conexion.Close();
-                throw ex;
+                return idInversion;
             }//catch
         }//InsertarRequerimientosInvesion
 
@@ -98,9 +90,49 @@ namespace UCR.Negotium.DataAccess
 
         }//GetRequerimientosInversion
 
-        public RequerimientoInversion EditarRequerimientosInvesion(RequerimientoInversion requerimientoInversion)
+        public RequerimientoInversion GetRequerimientoInversion(int codInversion)
         {
-            String insert = "UPDATE REQUERIMIENTO_INVERSION SET descripcion_requerimiento = ?, cantidad = ?, " +
+            RequerimientoInversion requerimiento = new RequerimientoInversion();
+            try
+            {
+                string select = "SELECT r.cod_requerimiento_inversion, r.descripcion_requerimiento, " +
+                    "r.cantidad, r.costo_unitario, r.cod_unidad_medida, r.depreciable, " +
+                    "r.vida_util, u.nombre_unidad FROM REQUERIMIENTO_INVERSION r, " +
+                    "UNIDAD_MEDIDA u WHERE r.cod_requerimiento_inversion = " + codInversion +
+                    " and r.cod_unidad_medida = u.cod_unidad;";
+
+                if (conexion.State != ConnectionState.Open)
+                    conexion.Open();
+                SQLiteCommand command = conexion.CreateCommand();
+                command = conexion.CreateCommand();
+                command.CommandText = select;
+                SQLiteDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    
+                    requerimiento.CodRequerimientoInversion = reader.GetInt32(0);
+                    requerimiento.DescripcionRequerimiento = reader.GetString(1);
+                    requerimiento.Cantidad = reader.GetInt32(2);
+                    requerimiento.CostoUnitario = reader.GetDouble(3);
+                    requerimiento.UnidadMedida.CodUnidad = reader.GetInt32(4);
+                    requerimiento.Depreciable = reader.GetBoolean(5);
+                    requerimiento.VidaUtil = reader.GetInt32(6);
+                    requerimiento.UnidadMedida.NombreUnidad = reader.GetString(7);
+                }//while
+                conexion.Close();
+                return requerimiento;
+            }//try
+            catch
+            {
+                conexion.Close();
+                return requerimiento;
+            }//catch
+
+        }//GetRequerimientosInversion
+
+        public bool EditarRequerimientosInvesion(RequerimientoInversion requerimientoInversion)
+        {
+            string insert = "UPDATE REQUERIMIENTO_INVERSION SET descripcion_requerimiento = ?, cantidad = ?, " +
                 "costo_unitario = ?, cod_unidad_medida = ?, depreciable = ?, vida_util = ? " +
             "WHERE cod_requerimiento_inversion = ?; ";
             if (conexion.State != ConnectionState.Open)
@@ -120,13 +152,13 @@ namespace UCR.Negotium.DataAccess
                     conexion.Open();
                 command.ExecuteScalar();
                 conexion.Close();
-                return requerimientoInversion;
+                return true;
             }//try
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 conexion.Close();
-                return requerimientoInversion;
+                return false;
             }//catch
         }//EditarRequerimientosInvesion
 

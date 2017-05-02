@@ -1,20 +1,11 @@
 ﻿using UCR.Negotium.Dialogs;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using UCR.Negotium.Domain;
+using UCR.Negotium.DataAccess;
 
 namespace UCR.Negotium.UserControls
 {
@@ -26,33 +17,38 @@ namespace UCR.Negotium.UserControls
         private RequerimientoInversion inversionSelected;
         private List<RequerimientoInversion> inversiones;
         private Proyecto proyectoSelected;
+        private int codProyecto;
 
-        public static readonly DependencyProperty ProyectoProperty = DependencyProperty.Register(
-            "ProyectoSelected", typeof(Proyecto), typeof(Inversiones), new PropertyMetadata(null));
+        private RequerimientoInversionData inversionData;
 
         public Inversiones()
         {
             InitializeComponent();
-            (this.Content as FrameworkElement).DataContext = this;
-
-            SetBinding(ProyectoProperty,
-                    new Binding { Path = new PropertyPath("proyectoSelected"), Mode = BindingMode.TwoWay });
+            DataContext = this;
 
             proyectoSelected = new Proyecto();
             inversionSelected = new RequerimientoInversion();
             inversiones = new List<RequerimientoInversion>();
-            InversionSelected = ProyectoSelected.RequerimientosInversion.FirstOrDefault();
+            inversionData = new RequerimientoInversionData();
         }
 
-        public Proyecto ProyectoSelected
+        public void Reload()
+        {
+            InversionesList = inversionData.GetRequerimientosInversion(CodProyecto);
+            PropertyChanged(this, new PropertyChangedEventArgs("InversionesTotal"));
+        }
+
+        #region Fields
+        public int CodProyecto
         {
             get
             {
-                return proyectoSelected;
+                return codProyecto;
             }
             set
             {
-                proyectoSelected = value;
+                codProyecto = value;
+                Reload();
             }
         }
 
@@ -65,6 +61,7 @@ namespace UCR.Negotium.UserControls
             set
             {
                 inversionSelected = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("InversionSelected"));
             }
         }
 
@@ -77,27 +74,77 @@ namespace UCR.Negotium.UserControls
             set
             {
                 inversiones = value;
+                InversionSelected = InversionesList.FirstOrDefault();
                 PropertyChanged(this, new PropertyChangedEventArgs("InversionesList"));
             }
         }
 
+        public string InversionesTotal
+        {
+            get
+            {
+                double valor = 0;
+                InversionesList.ForEach(reqInver => valor += reqInver.Subtotal);
+                return "₡ " + valor.ToString("#,##0.##");
+            }
+            set
+            {
+                InversionesTotal = value;
+            }
+        }
+        #endregion
+
+        #region Events
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
         private void btnCrearInversion_Click(object sender, RoutedEventArgs e)
         {
-            RegistrarInversionDialog registrarInversion = new RegistrarInversionDialog(26);
-            registrarInversion.Show();
+            RegistrarInversion registrarInversion = new RegistrarInversion(CodProyecto);
+            registrarInversion.ShowDialog();
+
+            if (registrarInversion.IsActive == false && registrarInversion.Reload)
+            {
+                RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
+                mainWindow.ReloadUserControls(CodProyecto);
+            }
         }
 
         private void btnEditarInversion_Click(object sender, RoutedEventArgs e)
         {
-            RegistrarInversionDialog registrarInversion = new RegistrarInversionDialog(26, 4);
-            registrarInversion.Show();
+            if (InversionSelected != null)
+            {
+                RegistrarInversion registrarInversion = new RegistrarInversion(CodProyecto, InversionSelected.CodRequerimientoInversion);
+                registrarInversion.ShowDialog();
+
+                if (registrarInversion.IsActive == false && registrarInversion.Reload)
+                {
+                    RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
+                    mainWindow.ReloadUserControls(CodProyecto);
+                }
+            }
         }
 
         private void btnEliminarInversion_Click(object sender, RoutedEventArgs e)
         {
-
+            if (InversionSelected != null)
+            {
+                if (MessageBox.Show("Esta seguro que desea eliminar esta inversión?", "Confirmar",
+                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    if (inversionData.EliminarRequerimientoInversion(InversionSelected.CodRequerimientoInversion))
+                    {
+                        RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
+                        mainWindow.ReloadUserControls(CodProyecto);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ha ocurrido un error al eliminar la inversión del proyecto," +
+                            "verifique que la inversión no esté vinculada a alguna reinversión",
+                            "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }           
         }
+        #endregion
     }
 }

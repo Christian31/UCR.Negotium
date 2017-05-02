@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
 
@@ -20,24 +11,52 @@ namespace UCR.Negotium.UserControls
     /// <summary>
     /// Interaction logic for Proponente.xaml
     /// </summary>
-    public partial class Proponente : UserControl
+    public partial class Proponente : UserControl, INotifyPropertyChanged
     {
-        private UCR.Negotium.Domain.Proponente proponenteSelected;
-        private List<TipoOrganizacion> tipoOrganizaciones;
+        private const string CAMPOREQUERIDO = "Este campo es requerido";
 
-        public static readonly DependencyProperty ProponenteProperty = DependencyProperty.Register(
-            "ProponenteSelected", typeof(UCR.Negotium.Domain.Proponente), typeof(Proponente), new PropertyMetadata(null));
+        private Domain.Proponente proponenteSelected;
+        private List<TipoOrganizacion> tipoOrganizaciones;
+        private int codProyecto { get; set; }
+
+        private ProponenteData proponenteData;
+        private TipoOrganizacionData tipoOrganizacionData;
+        private OrganizacionProponenteData organizacionProponenteData;
+
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
         public Proponente()
         {
             InitializeComponent();
-            (this.Content as FrameworkElement).DataContext = this;
-            SetBinding(ProponenteProperty,
-                    new Binding { Path = new PropertyPath("proponenteSelected"), Mode = BindingMode.TwoWay });
+            DataContext = this;
 
-            TipoOrganizacionData tipoOrganizacionData = new TipoOrganizacionData();
+            proponenteData = new ProponenteData();
+            proponenteSelected = new Domain.Proponente();
+
+            tipoOrganizacionData = new TipoOrganizacionData();
+            organizacionProponenteData = new OrganizacionProponenteData();
             tipoOrganizaciones = new List<TipoOrganizacion>();
+
             tipoOrganizaciones = tipoOrganizacionData.GetTiposDeOrganizacionAux();
+        }
+
+        public void Reload()
+        {
+            ProponenteSelected = proponenteData.GetProponente(CodProyecto);
+        }
+
+        #region Properties
+        public int CodProyecto
+        {
+            get
+            {
+                return codProyecto;
+            }
+            set
+            {
+                codProyecto = value;
+                Reload();
+            }
         }
 
         public List<TipoOrganizacion> TipoOrganizaciones
@@ -52,7 +71,7 @@ namespace UCR.Negotium.UserControls
             }
         }
 
-        public UCR.Negotium.Domain.Proponente ProponenteSelected
+        public Domain.Proponente ProponenteSelected
         {
             get
             {
@@ -61,12 +80,59 @@ namespace UCR.Negotium.UserControls
             set
             {
                 proponenteSelected = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("ProponenteSelected"));
             }
         }
+        #endregion
 
+        #region Events
         private void btnGuardarProponente(object sender, RoutedEventArgs e)
         {
+            if (!ValidateRequiredFields())
+            {
+                if (ProponenteSelected.IdProponente.Equals(0))
+                {
+                    int codOrganizacion = organizacionProponenteData.InsertarOrganizacionProponente(ProponenteSelected.Organizacion);
+                    if (!codOrganizacion.Equals(-1))
+                    {
+                        ProponenteSelected.Organizacion.CodOrganizacion = codOrganizacion;
+                        int codProponente = proponenteData.InsertarProponente(ProponenteSelected, CodProyecto);
+                        if (!codProponente.Equals(-1))
+                        {
+                            //success
+                            ProponenteSelected.IdProponente = codProponente;
+                            RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
+                            mainWindow.ReloadUserControls(CodProyecto);
 
+                            MessageBox.Show("El proponente del proyecto se ha insertado correctamente", "Proponente Insertado", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                        else
+                        {
+                            //error
+                            MessageBox.Show("Ha ocurrido un error al insertar el proponente del proyecto, verifique que los datos ingresados sean correctos", "Proponente Insertado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+                    else
+                    {
+                        //error
+                        MessageBox.Show("Ha ocurrido un error al insertar el proponente del proyecto, verifique que los datos ingresados sean correctos", "Proponente Insertado", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                else
+                {
+                    if (proponenteData.ActualizarProponente(ProponenteSelected) &&
+                        organizacionProponenteData.ActualizarOrganizacionProponente(ProponenteSelected.Organizacion))
+                    {
+                        //success
+                        MessageBox.Show("El proponente del proyecto se ha actualizado correctamente", "Proponente Actualizado", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        //error
+                        MessageBox.Show("Ha ocurrido un error al actualizar el proponente del proyecto, verifique que los datos ingresados sean correctos", "Proponente Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
         }
 
         private void cbMasculino_Checked(object sender, RoutedEventArgs e)
@@ -87,20 +153,6 @@ namespace UCR.Negotium.UserControls
             cbMasculino.IsChecked = false;
         }
 
-        private void cbEsRepresentanteIndividual_Checked(object sender, RoutedEventArgs e)
-        {
-            if (((CheckBox)sender).IsChecked.Value.Equals(true))
-            {
-                cbTipoOrganizaciones.SelectedItem = TipoOrganizaciones.LastOrDefault();
-                cbTipoOrganizaciones.IsEnabled = false;
-            }
-            else
-            {
-                cbTipoOrganizaciones.SelectedItem = TipoOrganizaciones.FirstOrDefault();
-                cbTipoOrganizaciones.IsEnabled = true;
-            }
-        }
-
         private void cbTipoOrganizaciones_Loaded(object sender, RoutedEventArgs e)
         {
             TipoOrganizacion tipoSelected = (TipoOrganizacion)cbTipoOrganizaciones.SelectedItem;
@@ -109,6 +161,39 @@ namespace UCR.Negotium.UserControls
                 tipoSelected = TipoOrganizaciones.FirstOrDefault();
                 cbTipoOrganizaciones.SelectedItem = tipoSelected;
             }
+        }
+        #endregion
+
+        #region InternalMethods
+        public bool ValidateRequiredFields()
+        {
+            bool validationResult = false;
+
+            return validationResult;
+        }
+
+        #endregion
+
+        private void cbSoyRepresentanteIndividual_Checked(object sender, RoutedEventArgs e)
+        {
+            cbTipoOrganizaciones.SelectedItem = TipoOrganizaciones.LastOrDefault();
+            cbTipoOrganizaciones.IsEnabled = false;
+            cbNoSoyRepresentanteIndividual.IsChecked = false;
+        }
+
+        private void cbSoyRepresentanteIndividual_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (cbSoyRepresentanteIndividual.IsChecked.Value.Equals(false))
+            {
+                cbNoSoyRepresentanteIndividual.IsChecked = true;
+            }
+        }
+
+        private void cbNoSoyRepresentanteIndividual_Checked(object sender, RoutedEventArgs e)
+        {
+            cbTipoOrganizaciones.SelectedItem = TipoOrganizaciones.FirstOrDefault();
+            cbTipoOrganizaciones.IsEnabled = true;
+            cbSoyRepresentanteIndividual.IsChecked = false;
         }
     }
 }

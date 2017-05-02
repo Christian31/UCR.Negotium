@@ -75,9 +75,15 @@
                             </StackPanel>
                             <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
                                 <Label Content="Soy Representante Individual:"/>
-                                <CheckBox IsChecked="{Binding ProponenteSelected.EsRepresentanteIndividual}"
-                                          Name="cbEsRepresentanteIndividual" 
-                                          Checked="cbEsRepresentanteIndividual_Checked" Unchecked="cbEsRepresentanteIndividual_Checked"/>
+                                <CheckBox FlowDirection="LeftToRight" IsChecked="{Binding ProponenteSelected.EsRepresentanteIndividual}" 
+                                          Name="cbSoyRepresentanteIndividual" Checked="cbSoyRepresentanteIndividual_Checked" 
+                                          Loaded="cbSoyRepresentanteIndividual_Loaded">
+                                    <TextBlock Text="Si"/>
+                                </CheckBox>
+                                <CheckBox FlowDirection="LeftToRight" Name="cbNoSoyRepresentanteIndividual" Margin="10,0,0,0" 
+                                          Checked="cbNoSoyRepresentanteIndividual_Checked">
+                                    <TextBlock Text="No"/>
+                                </CheckBox>
                             </StackPanel>
                         </StackPanel>
                         
@@ -122,7 +128,7 @@
                                 </Grid>
                                 <Grid Grid.Column="1">
                                     <Label Content="Correo Electrónico:" />
-                                    <TextBox Text="{Binding Search}" Margin="120,0,27,0"/>
+                                    <TextBox Text="{Binding ProponenteSelected.Organizacion.CorreoElectronico}" Margin="120,0,27,0"/>
                                 </Grid>
                             </Grid>
                         </StackPanel>

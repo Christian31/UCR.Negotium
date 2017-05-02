@@ -88,12 +88,13 @@
                         <iconPacks:PackIconModern Width="16" Height="16" Kind="Delete" Foreground="Teal"/>
                     </Button>
                 </Grid>
-                <DataGrid Grid.Row="2" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DTProyeccionesVentas}"
+                <Grid Grid.Row="2" Margin="30,5,30,15">
+                    <TextBlock Text="Ingresos Generados por Año:" FontSize="14"/>
+                    <DataGrid Margin="0,25,0,0" ItemsSource="{Binding DTProyeccionesVentas, UpdateSourceTrigger=PropertyChanged}"
                           SelectionUnit="FullRow" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
-                          Margin="30,5,30,15" ColumnWidth="100">
-
-                </DataGrid>
-                
+                           ColumnWidth="100">
+                    </DataGrid>
+                </Grid>
             </Grid>
         </Border>
     </Grid>

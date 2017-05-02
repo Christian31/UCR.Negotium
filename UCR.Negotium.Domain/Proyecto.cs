@@ -1,28 +1,24 @@
-﻿//@Copyright Yordan Campos Piedra
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UCR.Negotium.Domain
 {
     public class Proyecto
     {
         public int CodProyecto { get; set; }
-        public String NombreProyecto { get; set; }
-        public String ResumenEjecutivo { get; set; }
+        public string NombreProyecto { get; set; }
+        public string ResumenEjecutivo { get; set; }
         public bool ConIngresos { get; set; } //Verdadero si es con ingresos falso si es sin ingresos
-        public String DescripcionPoblacionBeneficiaria { get; set; }
-        public String CaraterizacionDelBienServicio { get; set; }
-        public String DescripcionSostenibilidadDelProyecto { get; set; }
-        public String DireccionExacta { get; set; }
-        public String JustificacionDeMercado { get; set; }
+        public string DescripcionPoblacionBeneficiaria { get; set; }
+        public string CaraterizacionDelBienServicio { get; set; }
+        public string DescripcionSostenibilidadDelProyecto { get; set; }
+        public string DireccionExacta { get; set; }
+        public string JustificacionDeMercado { get; set; }
         public int AnoInicial { get; set; }
         public int HorizonteEvaluacionEnAnos { get; set; }
         public bool PagaImpuesto { get; set; }
         public double PorcentajeImpuesto { get; set; }
-        public Evaluador Evaluador { get; set; }
+        public Encargado Encargado { get; set; }
         public Provincia Provincia { get; set; }
         public Canton Canton { get; set; }
         public Distrito Distrito { get; set; }
@@ -30,22 +26,20 @@ namespace UCR.Negotium.Domain
         public ObjetoInteresProyecto ObjetoInteres { get; set; }
         public List<RequerimientoInversion> RequerimientosInversion { get; set; }
         public List<RequerimientoReinversion> RequerimientosReinversion { get; set; }
-        public List<CrecimientoOfertaObjetoInteres> CrecimientosAnuales { get; set; }
         public List<ProyeccionVentaArticulo> Proyecciones { get; set; }
         public List<Costo> Costos { get; set; }
         public List<VariacionAnualCosto> VariacionCostos { get; set; }
-        public List<InteresFinanciamiento> InteresesFinanciamientoIV { get; set; }
-        public Financiamiento FinanciamientoIV { get; set; }
-        public InteresFinanciamiento InteresFinanciamientoIF { get; set; }
-        public Financiamiento FinanciamientoIF { get; set; }
+        public List<InteresFinanciamiento> InteresesFinanciamiento { get; set; }
+        public Financiamiento Financiamiento { get; set; }
         public double TasaCostoCapital { get; set; }
         public int PersonasParticipantes { get; set; }
         public int FamiliasInvolucradas { get; set; }
         public int PersonasBeneficiadas { get; set; }
-        private List<double> ingresosGenerados; //atributo calculado
-        private List<double> costosGenerados; //atributo calculado
+        public bool ConFinanciamiento { get; set; }
 
         //atributo calculado
+        private List<double> ingresosGenerados;
+        private List<double> costosGenerados;
         private List<Depreciacion> depreciaciones;
         private List<double> totalDepreciaciones;
         private List<double> utilidadOperativa;
@@ -53,25 +47,21 @@ namespace UCR.Negotium.Domain
 
         public Proyecto()
         {
-            //TODO inicializar todos los proyectos
             this.RequerimientosInversion = new List<RequerimientoInversion>();
             this.RequerimientosReinversion = new List<RequerimientoReinversion>();
-            this.Evaluador = new Evaluador();
+            this.Encargado = new Encargado();
             this.Provincia = new Provincia();
             this.Canton = new Canton();
             this.Distrito = new Distrito();
             this.Proponente = new Proponente();
             this.ObjetoInteres = new ObjetoInteresProyecto();
             this.Proponente.NumIdentificacion = "-1";
-            this.CrecimientosAnuales = new List<CrecimientoOfertaObjetoInteres>();
             this.Proyecciones = new List<ProyeccionVentaArticulo>();
             this.IngresosGenerados = new List<double>();
             this.Costos = new List<Costo>();
             this.VariacionCostos = new List<VariacionAnualCosto>();
-            this.InteresesFinanciamientoIV = new List<InteresFinanciamiento>();
-            this.InteresFinanciamientoIF = new InteresFinanciamiento();
-            this.FinanciamientoIV = new Financiamiento();
-            this.FinanciamientoIF = new Financiamiento();
+            this.InteresesFinanciamiento = new List<InteresFinanciamiento>();
+            this.Financiamiento = new Financiamiento();
             this.depreciaciones = new List<Depreciacion>();
             this.totalDepreciaciones = new List<double>();
             this.utilidadOperativa = new List<double>();
@@ -252,21 +242,50 @@ namespace UCR.Negotium.Domain
         {
             double valIni = 0;
             List<double> listIngresos = new List<double>();
+            
             foreach (ProyeccionVentaArticulo articulo in this.Proyecciones)
             {
+                List<double> listIngresosArticulo = new List<double>();
                 foreach (DetalleProyeccionVenta detArticulo in articulo.DetallesProyeccionVenta)
                 {
-                    valIni = valIni + (detArticulo.Cantidad * detArticulo.Precio);
+                    valIni += detArticulo.Subtotal;
                 }
-            }
-            listIngresos.Add(valIni);
-            for (int i =0; i<this.CrecimientosAnuales.Count; i++)
-            {
-                valIni = ((valIni * CrecimientosAnuales[i].PorcentajeCrecimiento) / 100) + valIni;
-                listIngresos.Add(valIni);
+
+                listIngresosArticulo.Add(valIni);
+                for (int i = 0; i < articulo.CrecimientoOferta.Count; i++)
+                {
+                    valIni = ((valIni * articulo.CrecimientoOferta[i].PorcentajeCrecimiento) / 100) + valIni;
+                    listIngresosArticulo.Add(valIni);
+                }
+
+                listIngresos = SumListDoubles(listIngresos, listIngresosArticulo);
             }
 
             return listIngresos;
+        }
+
+        private List<double> SumListDoubles(List<double> listIngresos, List<double> listIngresosArticulo)
+        {
+            if(listIngresos.Count > 0)
+            {
+                if (listIngresos.Count.Equals(listIngresosArticulo.Count))
+                {
+                    List<double> ingresosSumados = new List<double>();
+                    for (int i=0; i > listIngresos.Count; i++)
+                    {
+                        ingresosSumados.Add(listIngresos[i]+listIngresosArticulo[i]);
+                    }
+                    return ingresosSumados;
+                }
+                else
+                {
+                    return listIngresos;
+                }
+            }
+            else
+            {
+                return listIngresosArticulo;
+            }
         }
 
         public List<double> CostosGenerados

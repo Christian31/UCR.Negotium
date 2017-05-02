@@ -7,6 +7,8 @@
         public string CedulaJuridica { get; set; }
         public string Telefono { get; set; }
         public string Descripcion { get; set; }
+        public string CorreoElectronico { get; set; }
+
         private TipoOrganizacion tipo;
 
         public OrganizacionProponente()

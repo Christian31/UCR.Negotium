@@ -1,4 +1,4 @@
-﻿<Controls:MetroWindow x:Class="UCR.Negotium.Dialogs.RegistrarProyeccionVentaDialog"
+﻿<Controls:MetroWindow x:Class="UCR.Negotium.Dialogs.RegistrarVariacionAnualCostos"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,8 +7,8 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
         BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
-        WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
-        Title="Proyección Oferta de Artículo | Negotium v1.0" Height="400" Width="450">
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Title="Variación Anual de Costos | Negotium v1.0" Height="450" Width="400">
     <Grid>
         
     </Grid>

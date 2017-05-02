@@ -10,12 +10,12 @@ namespace UCR.Negotium.WindowsUI
     public partial class AgregarReinversionDialog : Form
     {
         private Proyecto proyecto;
-        private Evaluador evaluador;
+        private Encargado evaluador;
         private List<RequerimientoReinversion> requerimientoReinversionList;
 
-        public AgregarReinversionDialog(Evaluador evaluador, Proyecto proyecto)
+        public AgregarReinversionDialog(Encargado evaluador, Proyecto proyecto)
         {
-            this.evaluador = new Evaluador();
+            this.evaluador = new Encargado();
             this.proyecto = new Proyecto();
             InitializeComponent();
             this.proyecto = proyecto;

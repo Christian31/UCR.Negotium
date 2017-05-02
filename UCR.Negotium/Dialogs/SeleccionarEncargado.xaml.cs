@@ -16,18 +16,13 @@ using System.Windows.Shapes;
 namespace UCR.Negotium.Dialogs
 {
     /// <summary>
-    /// Interaction logic for RegistrarInversionDialog.xaml
+    /// Interaction logic for SeleccionarEncargado.xaml
     /// </summary>
-    public partial class RegistrarInversionDialog : MetroWindow
+    public partial class SeleccionarEncargado : MetroWindow
     {
-        public RegistrarInversionDialog(int idProyecto, int idInversion=0)
+        public SeleccionarEncargado()
         {
             InitializeComponent();
-        }
-
-        private void tbCostoUnitario_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            //tbCostoUnitario.Text = tbCostoUnitario.Text.ToString("N0");
         }
     }
 }

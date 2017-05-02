@@ -10,9 +10,9 @@ namespace UCR.Negotium.WindowsUI
     public partial class GestionVariacionCostosDialog : Form
     {
         private Proyecto proyecto;
-        private Evaluador evaluador;
+        private Encargado evaluador;
         private VariacionAnualCostoData variacionAnualCostoData;
-        public GestionVariacionCostosDialog(Evaluador evaluador, Proyecto proyecto)
+        public GestionVariacionCostosDialog(Encargado evaluador, Proyecto proyecto)
         {
             InitializeComponent();
             this.proyecto = proyecto;

@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using UCR.Negotium.DataAccess;
+using UCR.Negotium.Dialogs;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Utils;
 
 namespace UCR.Negotium.UserControls
 {
@@ -24,34 +18,45 @@ namespace UCR.Negotium.UserControls
     {
         private RequerimientoReinversion reinversionSelected;
         private List<RequerimientoReinversion> reinversiones;
-        private Proyecto proyectoSelected;
+        private int codProyecto;
+        private Proyecto proyecto;
+        private DataView totalesReinversiones;
 
-        public static readonly DependencyProperty ProyectoProperty = DependencyProperty.Register(
-            "ProyectoSelected", typeof(Proyecto), typeof(Reinversiones), new PropertyMetadata(null));
+        private RequerimientoReinversionData reinversionData;
+        private ProyectoData proyectoData;
 
         public Reinversiones()
         {
             InitializeComponent();
-            (this.Content as FrameworkElement).DataContext = this;
+            DataContext = this;
 
-            SetBinding(ProyectoProperty,
-                    new Binding { Path = new PropertyPath("proyectoSelected"), Mode = BindingMode.TwoWay });
+            reinversionData = new RequerimientoReinversionData();
+            proyectoData = new ProyectoData();
 
+            proyecto = new Proyecto();
             reinversionSelected = new RequerimientoReinversion();
             reinversiones = new List<RequerimientoReinversion>();
-            ReinversionSelected = reinversiones.FirstOrDefault();
-            proyectoSelected = new Proyecto();
+            totalesReinversiones = new DataView();
         }
 
-        public Proyecto ProyectoSelected
+        public void Reload()
+        {
+            ReinversionesList = reinversionData.GetRequerimientosReinversion(CodProyecto);
+            proyecto = proyectoData.GetProyecto(CodProyecto);
+            proyecto.RequerimientosReinversion = ReinversionesList;
+            DTTotalesReinversiones = DatatableBuilder.GenerarDTTotalesReinversiones(proyecto).AsDataView();
+        }
+
+        public int CodProyecto
         {
             get
             {
-                return proyectoSelected;
+                return codProyecto;
             }
             set
             {
-                proyectoSelected = value;
+                codProyecto = value;
+                Reload();
             }
         }
 
@@ -64,6 +69,7 @@ namespace UCR.Negotium.UserControls
             set
             {
                 reinversionSelected = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("ReinversionSelected"));
             }
         }
 
@@ -76,20 +82,73 @@ namespace UCR.Negotium.UserControls
             set
             {
                 reinversiones = value;
+                ReinversionSelected = ReinversionesList.FirstOrDefault();
                 PropertyChanged(this, new PropertyChangedEventArgs("ReinversionesList"));
+            }
+        }
+
+        public DataView DTTotalesReinversiones
+        {
+            get
+            {
+                return totalesReinversiones;
+            }
+            set
+            {
+                totalesReinversiones = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("DTTotalesReinversiones"));
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
-        private void menuItemEditar_Click(object sender, RoutedEventArgs e)
+        private void btnAgregarReinversion_Click(object sender, RoutedEventArgs e)
         {
+            RegistrarReinversion registrarReinversion = new RegistrarReinversion(CodProyecto);
+            registrarReinversion.ShowDialog();
 
+            if (registrarReinversion.IsActive == false && registrarReinversion.Reload)
+            {
+                RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
+                mainWindow.ReloadUserControls(CodProyecto);
+            }
         }
 
-        private void menuItemImprimir_Click(object sender, RoutedEventArgs e)
+        private void btnEditarReinversion_Click(object sender, RoutedEventArgs e)
         {
+            if(ReinversionSelected != null)
+            {
+                RegistrarReinversion registrarReinversion = new RegistrarReinversion(CodProyecto, ReinversionSelected.CodRequerimientoReinversion);
+                registrarReinversion.ShowDialog();
 
+                if (registrarReinversion.IsActive == false && registrarReinversion.Reload)
+                {
+                    RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
+                    mainWindow.ReloadUserControls(CodProyecto);
+                }
+            }
+        }
+
+        private void btnEliminarReinversion_Click(object sender, RoutedEventArgs e)
+        {
+            if(ReinversionSelected != null)
+            {
+                if (MessageBox.Show("Esta seguro que desea eliminar esta reinversión?", "Confirmar",
+                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    if (reinversionData.EliminarRequerimientoReinversion(ReinversionSelected.CodRequerimientoReinversion))
+                    {
+                        RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
+                        mainWindow.ReloadUserControls(CodProyecto);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ha ocurrido un error al eliminar la reinversión del proyecto," +
+                            "verifique que la inversión no esté vinculada a alguna otra reinversión",
+                            "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
         }
     }
 }

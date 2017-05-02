@@ -29,8 +29,8 @@
                     Content="Registro de Inversiones mayores a 1 Año (Menores a 1 Año registrarse como costos)"/>
                 
                 <DataGrid Grid.Column="0" Grid.Row="1"
-                ItemsSource="{Binding ProyectoSelected.RequerimientosInversion, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                SelectedItem="{Binding InversionSelected}"
+                ItemsSource="{Binding InversionesList, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                SelectedItem="{Binding InversionSelected, UpdateSourceTrigger=PropertyChanged}"
                 SelectionUnit="FullRow" 
                 BorderThickness="1"
                 BorderBrush="{DynamicResource AccentColorBrush}"
@@ -81,7 +81,7 @@
                         <iconPacks:PackIconModern Width="16" Height="16" Kind="Delete" Foreground="Teal"/>
                     </Button>
                     <Label Content="Total: " Margin="220,0,906,37" FontSize="16" FontWeight="Bold"/>
-                    <Label Content="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=InversionesTotal}" Margin="275,0,700,37" FontSize="16"/>
+                    <Label Content="{Binding InversionesTotal, UpdateSourceTrigger=PropertyChanged}" Margin="275,0,700,37" FontSize="16"/>
                 </Grid>
             </Grid>
         </Border>

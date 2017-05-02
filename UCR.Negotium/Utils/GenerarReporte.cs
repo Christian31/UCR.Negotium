@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
 
@@ -16,6 +17,7 @@ namespace UCR.Negotium.Utils
         {
             ObjetoInteresData objetoInteresData = new ObjetoInteresData();
             ProponenteData proponenteData = new ProponenteData();
+            RequerimientoInversionData inversionData = new RequerimientoInversionData();
             this.proyecto = proyecto;
             ObtieneProvincia();
             ObtieneCanton();
@@ -23,20 +25,14 @@ namespace UCR.Negotium.Utils
             this.proyecto.ObjetoInteres = objetoInteresData.GetObjetoInteres(proyecto.CodProyecto);
             this.proyecto.Proponente = proponenteData.GetProponente(proyecto.CodProyecto);
             ObtieneTipoOrganizacion();
+            this.proyecto.RequerimientosInversion = inversionData.GetRequerimientosInversion(proyecto.CodProyecto);
         }
 
         private void ObtieneProvincia()
         {
             ProvinciaData provinciaData = new ProvinciaData();
-            DataTable dtProvincia = provinciaData.GetProvincias();
-            Provincia provincia = new Provincia();
-            foreach (DataRow fila in dtProvincia.Rows)
-            {
-                if (proyecto.Provincia.CodProvincia == Int32.Parse(fila["cod_provincia"].ToString()))
-                {
-                    proyecto.Provincia.NombreProvincia = fila["nombre_provincia"].ToString();
-                }//if
-            }//foreach
+            proyecto.Provincia = provinciaData.GetProvincias()
+                .Where(prov => prov.CodProvincia.Equals(proyecto.Provincia.CodProvincia)).FirstOrDefault();
         }
 
         private void ObtieneCanton()
@@ -162,6 +158,24 @@ namespace UCR.Negotium.Utils
             objWriter.Close();
 
             return reportPath;
+        }
+
+        private string LoadInversiones()
+        {
+            string inversionesBody = string.Empty;
+            if (this.proyecto.RequerimientosInversion.Count.Equals(0))
+            {
+                foreach (RequerimientoInversion inversion in this.proyecto.RequerimientosInversion)
+                {
+
+                }
+            }
+            else
+            {
+                //inversionesBody = 
+            }
+
+            return inversionesBody;
         }
 
         #region Constantes

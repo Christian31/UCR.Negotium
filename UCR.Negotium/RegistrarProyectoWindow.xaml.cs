@@ -1,71 +1,54 @@
 ﻿using MahApps.Metro.Controls;
 using UCR.Negotium.Utils;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Controls;
+using System.Collections.Generic;
 
 namespace UCR.Negotium
 {
     /// <summary>
     /// Interaction logic for RegistrarProyectoWindow.xaml
     /// </summary>
-    public partial class RegistrarProyectoWindow : MetroWindow
+    public partial class RegistrarProyectoWindow : MetroWindow, INotifyPropertyChanged
     {
         private Proyecto proyecto;
         private ProyectoData proyectoData;
-        private ObjetoInteresData objetoInteresData;
         private ProponenteData proponenteData;
-        private RequerimientoInversionData inversionData;
-        private RequerimientoReinversionData reinversionData;
+        private EncargadoData encargadoData;
+        
         private ProyeccionVentaArticuloData proyeccionData;
-        private CostoData costoData;
-        private CrecimientoOfertaObjetoInteresData crecimientoOfertaData;
 
-        public RegistrarProyectoWindow(int codProyecto = 0)
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+        public RegistrarProyectoWindow(int codProyecto = 0, int codEncargado=0)
         {
-            InitializeComponent();
             DataContext = this;
-            proyectoData = new ProyectoData();
-            objetoInteresData = new ObjetoInteresData();
-            proponenteData = new ProponenteData();
-            inversionData = new RequerimientoInversionData();
-            reinversionData = new RequerimientoReinversionData();
+            InitializeComponent();
+
+            proyectoData = new ProyectoData();         
             proyeccionData = new ProyeccionVentaArticuloData();
-            crecimientoOfertaData = new CrecimientoOfertaObjetoInteresData();
-            costoData = new CostoData();
+            proponenteData = new ProponenteData();
+            encargadoData = new EncargadoData();
 
             proyecto = new Proyecto();
             if (!codProyecto.Equals(0))
             {
                 proyecto = proyectoData.GetProyecto(codProyecto);
-                proyecto.ObjetoInteres = objetoInteresData.GetObjetoInteres(codProyecto);
-                proyecto.Proponente = proponenteData.GetProponente(codProyecto);
-                proyecto.RequerimientosInversion = inversionData.GetRequerimientosInversion(codProyecto);
-                proyecto.RequerimientosReinversion = reinversionData.GetRequerimientosReinversion(codProyecto);
+                ReloadUserControls(proyecto.CodProyecto);
+
                 proyecto.Proyecciones = proyeccionData.GetProyeccionesVentaArticulo(codProyecto);
-                proyecto.Costos = costoData.GetCostos(codProyecto);
-                proyecto.CrecimientosAnuales = GetCrecimientosAnuales(codProyecto);
             }
-        }
 
-        private List<CrecimientoOfertaObjetoInteres> GetCrecimientosAnuales(int codProyecto)
-        {
-            DataTable dt = crecimientoOfertaData.GetCrecimientoOfertaObjetoIntereses(codProyecto);
-            List<CrecimientoOfertaObjetoInteres> list = new List<CrecimientoOfertaObjetoInteres>();
-
-            foreach (DataRow row in dt.Rows)
+            //Que hacer con el encargado
+            //TODDO HERE
+            if (!codEncargado.Equals(0))
             {
-                CrecimientoOfertaObjetoInteres creTemp = new CrecimientoOfertaObjetoInteres();
-                creTemp.CodCrecimiento = Convert.ToInt32(row[0]);
-                creTemp.AnoCrecimiento = Convert.ToInt32(row[1]);
-                creTemp.PorcentajeCrecimiento = Convert.ToDouble(row[2]);
-
-                list.Add(creTemp);
+                proyecto.Encargado = encargadoData.GetEncargado(codEncargado);
             }
-
-            return list;
         }
 
         public Proyecto ProyectoSelected
@@ -77,46 +60,11 @@ namespace UCR.Negotium
             set
             {
                 proyecto = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("ProyectoSelected"));
             }
         }
 
-        public string InversionesTotal
-        {
-            get
-            {
-                double valor = 0;
-                ProyectoSelected.RequerimientosInversion.ForEach(reqInver => valor += reqInver.Subtotal);
-                return "₡ " + valor.ToString("#,##0.##");
-            }
-            set
-            {
-                InversionesTotal = value;
-            }
-        }
-
-        public DataView DTCostos
-        {
-            get
-            {
-                return DatatableBuilder.GenerarDTCostos(ProyectoSelected).AsDataView();
-            }
-        }
-
-        public DataView DTCostosGenerados
-        {
-            get
-            {
-                return DatatableBuilder.GeneraDTCostosGenerados(ProyectoSelected).AsDataView();
-            }
-        }
-
-        public DataView DTTotalesReinversiones
-        {
-            get
-            {
-                return DatatableBuilder.GenerarDTTotalesReinversiones(ProyectoSelected).AsDataView();
-            }
-        }
+        public int CodProyecto { get; set; }        
 
         public DataView DTProyeccionesVentas
         {
@@ -126,24 +74,59 @@ namespace UCR.Negotium
             }
         }
 
-        public DataView DTDepreciaciones
+        private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
-            get
+            if(MessageBox.Show("Esta seguro que desea cerrar esta ventana?", "Confirmar", 
+                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                return DatatableBuilder.GenerarDTDepreciaciones(ProyectoSelected).AsDataView();
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+            }
+            else
+            {
+                e.Cancel = true;
             }
         }
 
-        //public DataTable DTCapitalTrabajo
-        //{
-        //    get
-        //    {
-        //        return DatatableBuilder.GenerarDTCapitalTrabajo(ProyectoSelected);
-        //    }
-        //    set
-        //    {
-        //        this.DTCostos = value;
-        //    }
-        //}
+        public void ReloadUserControls(int codProyecto)
+        {
+            proponente.CodProyecto = infoGeneral.CodProyecto = caracterizacion.CodProyecto =
+                    inversiones.CodProyecto = reinversiones.CodProyecto =
+                    capitalTrabajo.CodProyecto = depreciaciones.CodProyecto =
+                    costos.CodProyecto = codProyecto;
+
+            proyecto = proyectoData.GetProyecto(codProyecto);
+            proyecto.Proponente = proponenteData.GetProponente(codProyecto);
+        }
+
+        private void tcRegistrarProyecto_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (tcRegistrarProyecto.IsLoaded)
+            {
+                int indice = tcRegistrarProyecto.SelectedIndex;
+                if (proyecto.CodProyecto.Equals(0) && !indice.Equals(0))
+                {
+                    MessageBox.Show("Por favor ingrese todos los datos de Información General y guardelos para poder avanzar a la siguiente pestaña",
+                    "Datos vacios", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    tcRegistrarProyecto.SelectedIndex = 0;
+                }
+                else if (indice > 1 && proyecto.Proponente.IdProponente.Equals(0))
+                {
+                    MessageBox.Show("Por favor ingrese todos los datos del Proponente y guardelos para poder avanzar a la siguiente pestaña",
+                    "Datos vacios", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    tcRegistrarProyecto.SelectedIndex = 1;
+                }
+                else if (indice > 2 && proyecto.CaraterizacionDelBienServicio.Equals(string.Empty))
+                {
+                    MessageBox.Show("Por favor ingrese todos los datos de Caracterización y guardelos para poder avanzar a la siguiente pestaña",
+                    "Datos vacios", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    tcRegistrarProyecto.SelectedIndex = 2;
+                }
+                else if (indice.Equals(11))
+                {
+                    //llenar flujo de caja 
+                }
+            }
+        }
     }
 }

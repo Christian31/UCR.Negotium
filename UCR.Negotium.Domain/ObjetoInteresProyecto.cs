@@ -1,6 +1,4 @@
-﻿//@Copyright Yordan Campos Piedra
-
-namespace UCR.Negotium.Domain
+﻿namespace UCR.Negotium.Domain
 {
     public class ObjetoInteresProyecto
     {

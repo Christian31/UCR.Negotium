@@ -10,13 +10,13 @@ namespace UCR.Negotium.WindowsUI
 {
     public partial class AgregarCostoDialog : Form
     {
-        private Evaluador evaluador;
+        private Encargado evaluador;
         private Proyecto proyecto;
         private Costo costoNuevo;
         private CostoMensual costoMensualNuevo;
         private CostoData costoData;
 
-        public AgregarCostoDialog(Evaluador evaluador, Proyecto proyecto, int codCosto = 0)
+        public AgregarCostoDialog(Encargado evaluador, Proyecto proyecto, int codCosto = 0)
         {
             this.evaluador = evaluador;
             costoNuevo = codCosto == 0 ? new Costo() : proyecto.Costos.Where(c => c.CodCosto == codCosto).First();
@@ -230,7 +230,7 @@ namespace UCR.Negotium.WindowsUI
         private bool ValidaNumeros(string valor)
         {
             double n;
-            if (Double.TryParse(valor, out n))
+            if (double.TryParse(valor, out n))
             {
                 return true;
             }

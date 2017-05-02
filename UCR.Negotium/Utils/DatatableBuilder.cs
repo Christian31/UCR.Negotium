@@ -7,7 +7,7 @@ namespace UCR.Negotium.Utils
 {
     public static class DatatableBuilder
     {
-        public static void GenerarDTCapitalTrabajo(Proyecto proyecto, out DataTable dtCapitalTrabajo, out Double recCTResult)
+        public static void GenerarDTCapitalTrabajo(Proyecto proyecto, out DataView dtCapitalTrabajo, out double recCTResult)
         {
             DataSet ds = new DataSet();
             ds.Tables.Add("CapitalTrabajo");
@@ -37,26 +37,26 @@ namespace UCR.Negotium.Utils
 
             //llena incremental
 
-            Double recCT = 0;
-            Double val = 0;
+            double recCT = 0;
+            double val = 0;
             DataRow row3 = ds.Tables["CapitalTrabajo"].NewRow();
             row3["Rubro"] = "Incremental";
 
             val = -((proyecto.CostosGenerados[0] / 12) * 1.5);
             row3[proyecto.AnoInicial.ToString()] = "₡ " + (val).ToString("#,##0.##");
-            recCT = recCT + val;
+            recCT += val;
 
             int a3 = 1;
             for (int i = 1; i < proyecto.CostosGenerados.Count; i++)
             {
                 val = ((proyecto.CostosGenerados[i] / 12) * 1.5) - ((proyecto.CostosGenerados[i - 1] / 12) * 1.5);
                 row3[(proyecto.AnoInicial + a3).ToString()] = "₡ " + (val).ToString("#,##0.##");
-                recCT = recCT + val;
+                recCT += val;
                 a3++;
             }
             ds.Tables["CapitalTrabajo"].Rows.Add(row3);
 
-            dtCapitalTrabajo = ds.Tables["CapitalTrabajo"];
+            dtCapitalTrabajo = ds.Tables["CapitalTrabajo"].AsDataView();
             recCTResult = recCT;
         }
 
@@ -254,10 +254,12 @@ namespace UCR.Negotium.Utils
         {
             DataSet ds = new DataSet();
             ds.Tables.Add("TotalesReinversiones");
+            ds.Tables["TotalesReinversiones"].Columns.Add("titulo", Type.GetType("System.String"));
 
             if (proyecto != null && proyecto.RequerimientosReinversion.Count > 0)
             {
                 DataRow row = ds.Tables["TotalesReinversiones"].NewRow();
+                row["titulo"] = "Totales";
                 List<double> listVals = new List<double>();
                 for (int i = proyecto.AnoInicial + 1; i <= proyecto.AnoInicial + proyecto.HorizonteEvaluacionEnAnos; i++)
                 {
@@ -326,9 +328,9 @@ namespace UCR.Negotium.Utils
 
         public static DataTable GenerarDTFinanciamientoIV(Proyecto proyecto)
         {
-            double monto = proyecto.FinanciamientoIV.MontoFinanciamiento;
-            int tiempo = proyecto.FinanciamientoIV.TiempoFinanciamiento;
-            List<InteresFinanciamiento> intereses = proyecto.InteresesFinanciamientoIV;
+            double monto = proyecto.Financiamiento.MontoFinanciamiento;
+            int tiempo = proyecto.Financiamiento.TiempoFinanciamiento;
+            List<InteresFinanciamiento> intereses = proyecto.InteresesFinanciamiento;
 
             DataSet ds = new DataSet();
             ds.Tables.Add("AmortizacionPrestamo");

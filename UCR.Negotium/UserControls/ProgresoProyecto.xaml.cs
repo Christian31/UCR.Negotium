@@ -1,13 +1,13 @@
 ﻿using System.Windows.Controls;
 
-namespace UCR.Negotium
+namespace UCR.Negotium.UserControls
 {
     /// <summary>
     /// Interaction logic for ProgresoProyectoUserControl.xaml
     /// </summary>
-    public partial class ProgresoProyectoUserControl : UserControl
+    public partial class ProgresoProyecto : UserControl
     {
-        public ProgresoProyectoUserControl()
+        public ProgresoProyecto()
         {
             InitializeComponent();
         }

@@ -10,9 +10,9 @@ namespace UCR.Negotium.WindowsUI
     public partial class GestionCrecimientosOfertaDialog : Form
     {
         private Proyecto proyecto;
-        private Evaluador evaluador;
+        private Encargado evaluador;
         private CrecimientoOfertaObjetoInteresData crecimientoOfertaData;
-        public GestionCrecimientosOfertaDialog(Evaluador evaluador, Proyecto proyecto)
+        public GestionCrecimientosOfertaDialog(Encargado evaluador, Proyecto proyecto)
         {
             InitializeComponent();
             this.proyecto = proyecto;

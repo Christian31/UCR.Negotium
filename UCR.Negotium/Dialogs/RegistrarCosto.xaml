@@ -1,0 +1,101 @@
+﻿<Controls:MetroWindow x:Class="UCR.Negotium.Dialogs.RegistrarCosto"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UCR.Negotium.Dialogs"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        mc:Ignorable="d"
+        BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Title="Costo | Negotium v1.0" Height="650" Width="450">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="8.5*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="1">
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Label Content="Nombre del Costo:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Label Content="Año Inicial del Costo:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Label Content="Unidad de Medida:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Label Content="Categoría:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,27,0">
+            <Grid Style="{StaticResource gridFormStyle}">
+                <TextBox Text="{Binding CostoSelected.NombreCosto}" Name="tbNombreCosto"
+                         TextChanged="tbNombreCosto_TextChanged"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <ComboBox ItemsSource="{Binding AnosDisponibles}"
+                                          SelectedValue="{Binding CostoSelected.AnoCosto}" />
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <ComboBox ItemsSource="{Binding UnidadesMedida}" SelectedValuePath="CodUnidad"
+                                          SelectedValue="{Binding CostoSelected.UnidadMedida.CodUnidad}" />
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <ComboBox ItemsSource="{Binding Categorias}"
+                                          SelectedValue="{Binding CostoSelected.CategoriaCosto}" />
+            </Grid>
+        </StackPanel>
+        <DataGrid Grid.ColumnSpan="2" CanUserSortColumns="False" SelectionUnit="Cell" Name="dgCostosMensual"
+                ItemsSource="{Binding CostoSelected.CostosMensuales, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                SelectedItem="{Binding CostoMensualSelected, UpdateSourceTrigger=PropertyChanged}"
+                BorderThickness="1"
+                BorderBrush="{DynamicResource AccentColorBrush}"
+                AllowDrop="False" 
+                CanUserAddRows="False" 
+                CanUserDeleteRows="False" 
+                AutoGenerateColumns="False"
+                Margin="27,165,27,10" Grid.Row="1">
+
+            <DataGrid.Style>
+                <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                    <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
+                </Style>
+            </DataGrid.Style>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn IsReadOnly="True"
+                    Binding="{Binding Path=Mes}" Header="Mes" Width="4*"/>
+                <DataGridTextColumn 
+                    Binding="{Binding Path=Cantidad}" Header="Cantidad" Width="3*">
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="{x:Type TextBox}">
+                            <EventSetter Event="TextChanged" Handler="tbDatosPositivos_TextChanged" />
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn
+                    Binding="{Binding Path=CostoUnitario}" Header="Precio (₡)" Width="3*">
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="{x:Type TextBox}">
+                            <EventSetter Event="TextChanged" Handler="tbDatosPositivos_TextChanged" />
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid Grid.Row="2" Grid.ColumnSpan="2">
+            <Button  Name="btnGuardar" Content="Guardar" Click="btnGuardar_Click" Width="75"
+                     HorizontalAlignment="Left" Margin="82,15,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+
+            <Button Name="btnCancelar" Content="Cancelar" Width="75"
+                    HorizontalAlignment="Right" Margin="0,15,82,0" Grid.Row="2" VerticalAlignment="Top"
+                    Click="btnCancelar_Click"/>
+        </Grid>
+    </Grid>
+</Controls:MetroWindow>

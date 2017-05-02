@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.UserControls
@@ -24,22 +14,41 @@ namespace UCR.Negotium.UserControls
         private const string CAMPOREQUERIDO = "Este campo es requerido";
 
         private Proyecto proyectoSelected;
+        private int codProyecto;
 
-        public static readonly DependencyProperty ProyectoProperty = DependencyProperty.Register(
-            "ProyectoSelected", typeof(Proyecto), typeof(Caracterizacion), new PropertyMetadata(null));
+        private ProyectoData proyectoData;
 
         public Caracterizacion()
         {
             InitializeComponent();
-            (this.Content as FrameworkElement).DataContext = this;
-            SetBinding(ProyectoProperty,
-                    new Binding { Path = new PropertyPath("proyectoSelected"), Mode = BindingMode.TwoWay });
+            DataContext = this;
 
             rtbDescripcionPoblacion.ToolTip = "Ingrese en este campo la descripción de la población que se beneficia con el proyecto";
             rtbDescripcionMercado.ToolTip = "Ingrese en este campo la descripción del mercado al que va dirigido el proyecto";
             rtbCaraterizacionBienServicio.ToolTip = "Ingrese en este campo una descripción detallada del bien o servicio en el que consiste el proyecto";
             rtbDescripcionSostenibilidad.ToolTip = "Ingrese en este campo la descripción sobre cómo va mantenerse sostenible este proyecto posterior al apoyo de la Institución";
 
+            proyectoData = new ProyectoData();
+            proyectoSelected = new Proyecto();
+        }
+
+        public void Reload()
+        {
+            proyectoSelected = proyectoData.GetProyecto(CodProyecto);
+        }
+
+        #region Fields
+        public int CodProyecto
+        {
+            get
+            {
+                return codProyecto;
+            }
+            set
+            {
+                codProyecto = value;
+                Reload();
+            }
         }
 
         public Proyecto ProyectoSelected
@@ -53,12 +62,25 @@ namespace UCR.Negotium.UserControls
                 proyectoSelected = value;
             }
         }
+        #endregion
 
+        #region Events
         private void btnGuardarCaracterizacion(object sender, RoutedEventArgs e)
         {
             if (!ValidateRequiredFields())
             {
-
+                if (proyectoData.ActualizarProyectoCaracterizacion(ProyectoSelected))
+                {
+                    //success
+                    RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
+                    mainWindow.ReloadUserControls(ProyectoSelected.CodProyecto);
+                    MessageBox.Show("El proyecto se ha actualizado correctamente", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    //error
+                    MessageBox.Show("Ha ocurrido un error al actualizar el proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -131,5 +153,7 @@ namespace UCR.Negotium.UserControls
                 rtbDescripcionSostenibilidad.ToolTip = "Ingrese en este campo la descripción sobre cómo va mantenerse sostenible este proyecto posterior al apoyo de la Institución";
             }
         }
+
+        #endregion
     }
 }

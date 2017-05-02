@@ -18,12 +18,12 @@ namespace UCR.Negotium.WindowsUI
         int idProvinciaSeleccionada = 0, idCantonSeleccionado = 0, idDistritoSeleccionado = 0;
         bool segundaSeleccionProvincia = false, segundaSeleccionCanton = false, segundaSeleccionDistrito = false;
         Proyecto proyecto;
-        Evaluador evaluador;
+        Encargado evaluador;
         #endregion
 
         #region constructor
         //Constructor sobrecargado que solo recibe al evaluador que esta logeado como parametro
-        public RegistrarProyectoWindow(Evaluador evaluador)
+        public RegistrarProyectoWindow(Encargado evaluador)
         {
             this.evaluador = evaluador;
             InitializeComponent();
@@ -33,13 +33,12 @@ namespace UCR.Negotium.WindowsUI
             LlenarComboUnidadMedida();
             LlenaComboTipoOrganizacion();
             lblNombreEvaluador.Text = evaluador.Nombre;
-            lblCedulaEvaluador.Text = evaluador.NumIdentificacion;
             InformacionToolTip();
             mostrarMensajeSeguridad = true;
         }
 
         //constructor sobrecargado que se utiliza para abrir proyectos con informacion en memoria volatil
-        public RegistrarProyectoWindow(Evaluador evaluador, Proyecto proyecto, int indexTab)
+        public RegistrarProyectoWindow(Encargado evaluador, Proyecto proyecto, int indexTab)
         {
             this.proyecto = proyecto;
             this.evaluador = evaluador;
@@ -248,7 +247,6 @@ namespace UCR.Negotium.WindowsUI
                         lblNombreProponente.Text = proyecto.Proponente.Nombre + " " + proyecto.Proponente.Apellidos;
                         lblTelefonoProponente.Text = proyecto.Proponente.Telefono;
                         lblNombreEvaluador.Text = evaluador.Nombre;
-                        lblCedulaEvaluador.Text = evaluador.NumIdentificacion;
 
                         break;
                     default:
@@ -496,7 +494,7 @@ namespace UCR.Negotium.WindowsUI
                     proyecto.ConIngresos = chbConIngreso.Checked;
                     proyecto.DireccionExacta = txbDireccionExacta.Text;
                     proyecto.Distrito = ObtieneDistritoParaInsertar();
-                    proyecto.Evaluador = evaluador;
+                    proyecto.Encargado = evaluador;
                     proyecto.HorizonteEvaluacionEnAnos = Convert.ToInt32(nudHorizonteEvaluacion.Value);
                     proyecto.NombreProyecto = txbNombreProyecto.Text;
                     proyecto.PagaImpuesto = chbSiPagaImpuesto.Checked;

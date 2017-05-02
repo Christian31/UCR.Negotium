@@ -10,10 +10,10 @@ namespace UCR.Negotium.WindowsUI
     public partial class InteresFinanciamientoIVDialog : Form
     {
         private Proyecto proyecto;
-        private Evaluador evaluador;
+        private Encargado evaluador;
         private int tiempoFinanciamiento;
         private InteresFinanciamientoData interesFinanciamientoData; 
-        public InteresFinanciamientoIVDialog(Evaluador evaluador, Proyecto proyecto)
+        public InteresFinanciamientoIVDialog(Encargado evaluador, Proyecto proyecto)
         {
             this.proyecto = proyecto;
             this.evaluador = evaluador;

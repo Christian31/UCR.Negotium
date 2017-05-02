@@ -2,25 +2,15 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class DetalleProyeccionVentaData
+    public class DetalleProyeccionVentaData :BaseData
     {
-        private String cadenaConexion;
-        private SQLiteConnection conexion;
         private SQLiteCommand command;
-        
 
-        public DetalleProyeccionVentaData()
-        {
-            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
-            conexion = new SQLiteConnection(cadenaConexion);
-        }
+        public DetalleProyeccionVentaData() { }
 
         public List<DetalleProyeccionVenta> GetDetallesProyeccionVenta(int codProyeccion)
         {

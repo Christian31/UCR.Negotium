@@ -16,7 +16,7 @@ namespace UCR.Negotium.WindowsUI
         [STAThread]
         static void Main()
         {
-            Evaluador evaluador = new Evaluador(1, "Yordan", "apellidos", "72056090", "ycampospiedra@gmail.com", "3-0476-0003");
+            Encargado evaluador = new Encargado(1, "Yordan", "apellidos", "72056090", "ycampospiedra@gmail.com", "3-0476-0003");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new VentanaPrincipal(evaluador));

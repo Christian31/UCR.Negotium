@@ -1,25 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class VariacionAnualCostoData
+    public class VariacionAnualCostoData : BaseData
     {
-        private String cadenaConexion;
-        private SQLiteConnection conexion;
         private SQLiteCommand command;
 
-        public VariacionAnualCostoData()
-        {
-            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
-            conexion = new SQLiteConnection(cadenaConexion);
-        }
+        public VariacionAnualCostoData() { }
 
         public DataTable GetVariacionAnualCostos(int codProyecto)
         {

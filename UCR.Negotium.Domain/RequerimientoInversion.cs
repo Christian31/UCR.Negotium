@@ -1,16 +1,11 @@
-﻿//@Copyright Yordan Campos Piedra
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace UCR.Negotium.Domain
 {
     public class RequerimientoInversion
     {
         public int CodRequerimientoInversion { get; set; }
-        public String DescripcionRequerimiento { get; set; }
+        public string DescripcionRequerimiento { get; set; }
         public int Cantidad { get; set; }
         public double CostoUnitario { get; set; }
         public bool Depreciable { get; set; }
@@ -20,7 +15,11 @@ namespace UCR.Negotium.Domain
 
         public RequerimientoInversion()
         {
+            //datos por defecto
             unidadMedida = new UnidadMedida();
+            Cantidad = 1;
+            CostoUnitario = 1;
+            VidaUtil = 2;
         }
 
         public string CostoUnitarioFormat

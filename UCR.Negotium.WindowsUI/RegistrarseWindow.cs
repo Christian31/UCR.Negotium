@@ -23,11 +23,11 @@ namespace UCR.Negotium.WindowsUI
         }
 
         //Este metodo inserta a un evaluador en la base de datos
-        private void RegistrarEvaluador(Evaluador evaluador)
+        private void RegistrarEvaluador(Encargado evaluador)
         {
-            EvaluadorData evaluadorData = new EvaluadorData();
+            EncargadoData evaluadorData = new EncargadoData();
             //Si el evaluador fue insertado retorna true
-            bool result = evaluadorData.InsertarEvaluador(evaluador);
+            bool result = evaluadorData.InsertarEncargado(evaluador);
             if (result)
             {
                 MessageBox.Show("Usuario registrado correctamente",
@@ -63,7 +63,7 @@ namespace UCR.Negotium.WindowsUI
                     //por ultimo se valida que el correo tenga un formato correcto
                     if (ValidaCorreo(tbxEmail.Text))
                     {
-                        Evaluador evaluador = new Evaluador();
+                        Encargado evaluador = new Encargado();
                         evaluador.Nombre = tbxNombre.Text;
                         evaluador.Apellidos = tbxApellidos.Text;
                         evaluador.Email = tbxEmail.Text;

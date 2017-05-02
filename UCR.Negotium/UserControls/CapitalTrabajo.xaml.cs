@@ -1,38 +1,93 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Data;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Utils;
 
 namespace UCR.Negotium.UserControls
 {
     /// <summary>
     /// Interaction logic for CapitalTrabajo.xaml
     /// </summary>
-    public partial class CapitalTrabajo : UserControl
+    public partial class CapitalTrabajo : UserControl, INotifyPropertyChanged
     {
         private Proyecto proyectoSelected;
+        private int codProyecto;
+        private DataView capitalTrabajo;
+        private double recuperacionCT;
 
-        //public static readonly DependencyProperty ProyectoProperty = DependencyProperty.Register(
-        //    "ProyectoSelected", typeof(Proyecto), typeof(InformacionGeneral), new PropertyMetadata(null));
+        private ProyectoData proyectoData;
+        private CostoData costoData;
+
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
         public CapitalTrabajo()
         {
             InitializeComponent();
-            (this.Content as FrameworkElement).DataContext = this;
+            DataContext = this;
 
-            //SetBinding(ProyectoProperty,
-            //        new Binding { Path = new PropertyPath("_proyectoSelected"), Mode = BindingMode.TwoWay });
+            proyectoData = new ProyectoData();
+            costoData = new CostoData();
+
+            proyectoSelected = new Proyecto();
+            capitalTrabajo = new DataView();
+        }
+
+        #region Methods
+        public void Reload()
+        {
+            ProyectoSelected = proyectoData.GetProyecto(CodProyecto);
+            ProyectoSelected.Costos = costoData.GetCostos(CodProyecto);
+            recuperacionCT = 0;
+
+            if (!ProyectoSelected.Costos.Count.Equals(0))
+            {
+                DatatableBuilder.GenerarDTCapitalTrabajo(ProyectoSelected, out capitalTrabajo, out recuperacionCT);
+                PropertyChanged(this, new PropertyChangedEventArgs("RecuperacionCT"));
+                PropertyChanged(this, new PropertyChangedEventArgs("DTCapitalTrabajo"));
+            }
+        }
+        #endregion
+
+        #region Properties
+        public string RecuperacionCT
+        {
+            get
+            {
+                return "₡ " + recuperacionCT.ToString("#,##0.##");
+            }
+            set
+            {
+                recuperacionCT = Convert.ToInt32(value);
+            }
+        }
+
+        public DataView DTCapitalTrabajo
+        {
+            get
+            {
+                return capitalTrabajo;
+            }
+            set
+            {
+                capitalTrabajo = value;
+            }
+        }
+
+        public int CodProyecto
+        {
+            get
+            {
+                return codProyecto;
+            }
+            set
+            {
+                codProyecto = value;
+                Reload();
+            }
         }
 
         public Proyecto ProyectoSelected
@@ -46,5 +101,16 @@ namespace UCR.Negotium.UserControls
                 proyectoSelected = value;
             }
         }
+        #endregion
+
+        #region Events
+        private void datagridCapitalTrabajo_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (datagridCapitalTrabajo.Columns.Count >0)
+            {
+                datagridCapitalTrabajo.Columns[0].Width = 130;
+            }
+        }
+        #endregion
     }
 }

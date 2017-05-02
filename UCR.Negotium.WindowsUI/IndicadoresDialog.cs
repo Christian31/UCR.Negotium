@@ -8,10 +8,10 @@ namespace UCR.Negotium.WindowsUI
     public partial class IndicadoresDialog : Form
     {
         private Proyecto proyecto;
-        private Evaluador evaluador;
+        private Encargado evaluador;
         private double TIR, VAN;
 
-        public IndicadoresDialog(Evaluador evaluador, Proyecto proyecto, double TIR, double VAN)
+        public IndicadoresDialog(Encargado evaluador, Proyecto proyecto, double TIR, double VAN)
         {
             InitializeComponent();
             this.proyecto = proyecto;

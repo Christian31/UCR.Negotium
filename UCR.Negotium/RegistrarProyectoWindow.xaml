@@ -3,13 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:UCR.Negotium"
         xmlns:modulos="clr-namespace:UCR.Negotium.UserControls"              
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
         GlowBrush="{DynamicResource AccentColorBrush}"
         WindowStartupLocation="CenterScreen"
+                      Closing="MetroWindow_Closing"
         Title="Registrar Proyecto | Negotium v1.0" Height="680" Width="1360">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -20,34 +20,34 @@
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
 
-        <TabControl Grid.Column="0" Grid.Row="0" ItemContainerStyle="{StaticResource menuTabItem}" 
-                    Style="{StaticResource menuTabControl}" Margin="15">
+        <TabControl Grid.Column="0" Grid.Row="0" Name="tcRegistrarProyecto" ItemContainerStyle="{StaticResource menuTabItem}" 
+                    Style="{StaticResource menuTabControl}" Margin="15" SelectionChanged="tcRegistrarProyecto_SelectionChanged">
             <TabItem Header="Información General">
-                <modulos:InformacionGeneral ProyectoSelected="{Binding ProyectoSelected}" Style="{StaticResource moduleStyle}"/>
+                <modulos:InformacionGeneral x:Name="infoGeneral" Style="{StaticResource moduleStyle}"/>
             </TabItem>
             <TabItem Header="Proponente">
-                <modulos:Proponente ProponenteSelected="{Binding ProyectoSelected.Proponente}" Style="{StaticResource moduleStyle}"/>
+                <modulos:Proponente x:Name="proponente" Style="{StaticResource moduleStyle}"/>
             </TabItem>
             <TabItem Header="Caracterización">
-                <modulos:Caracterizacion ProyectoSelected="{Binding ProyectoSelected}" Style="{StaticResource moduleStyle}"/>
+                <modulos:Caracterizacion x:Name="caracterizacion" Style="{StaticResource moduleStyle}"/>
             </TabItem>
             <TabItem Header="Inversiones">
-                <modulos:Inversiones ProyectoSelected="{Binding ProyectoSelected}" Style="{StaticResource moduleStyle}"/>
+                <modulos:Inversiones x:Name="inversiones" Style="{StaticResource moduleStyle}"/>
             </TabItem>
             <TabItem Header="Reinversiones">
-                <modulos:Reinversiones ProyectoSelected="{Binding ProyectoSelected}" Style="{StaticResource moduleStyle}"/>
+                <modulos:Reinversiones x:Name="reinversiones" Style="{StaticResource moduleStyle}"/>
             </TabItem>
             <TabItem Header="Proyección de Ventas">
-                <modulos:ProyeccionVentas Style="{StaticResource moduleStyle}"/>
+                <modulos:ProyeccionVentas x:Name="proyeccionVentas" Style="{StaticResource moduleStyle}"/>
             </TabItem>
             <TabItem Header="Costos del Proyecto">
-                <modulos:Costos Style="{StaticResource moduleStyle}"/>
+                <modulos:Costos x:Name="costos" Style="{StaticResource moduleStyle}"/>
             </TabItem>
             <TabItem Header="Capital del Proyecto">
-                <modulos:CapitalTrabajo Style="{StaticResource moduleStyle}"/>
+                <modulos:CapitalTrabajo x:Name="capitalTrabajo" Style="{StaticResource moduleStyle}"/>
             </TabItem>
             <TabItem Header="Depreciaciones">
-                <modulos:Depreciaciones Style="{StaticResource moduleStyle}"/>
+                <modulos:Depreciaciones x:Name="depreciaciones" Style="{StaticResource moduleStyle}"/>
             </TabItem>
             <TabItem Header="Financiamiento">
                 <modulos:Financiamiento Style="{StaticResource moduleStyle}"/>
@@ -60,6 +60,6 @@
             </TabItem>
         </TabControl>
 
-        <local:ProgresoProyectoUserControl Grid.Column="0" Grid.Row="1" Margin="1,15,1,1" Background="#5D8AA3"/>
+        <modulos:ProgresoProyecto Grid.Column="0" Grid.Row="1" Margin="1,15,1,1" Background="#5D8AA3"/>
     </Grid>
 </Controls:MetroWindow>

@@ -1,22 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace UCR.Negotium.Domain
 {
     public class ProyeccionVentaArticulo
     {
         public int CodArticulo { get; set; }
-        public String NombreArticulo { get; set; }
+        public string NombreArticulo { get; set; }
 
         private List<DetalleProyeccionVenta> detallesProyeccionVenta;
         private UnidadMedida unidadMedida;
+        private List<CrecimientoOfertaObjetoInteres> crecimientoOferta;
 
-        public ProyeccionVentaArticulo() {
+        public ProyeccionVentaArticulo()
+        {
             unidadMedida = new UnidadMedida();
             detallesProyeccionVenta = new List<DetalleProyeccionVenta>();
+            crecimientoOferta = new List<CrecimientoOfertaObjetoInteres>();
+        }
+
+        public List<CrecimientoOfertaObjetoInteres> CrecimientoOferta
+        {
+            get
+            {
+                return crecimientoOferta;
+            }
+            set
+            {
+                crecimientoOferta = value;
+            }
         }
 
         public UnidadMedida UnidadMedida

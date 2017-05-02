@@ -10,12 +10,12 @@ namespace UCR.Negotium.WindowsUI
 {
     public partial class AgregarProyeccionDialog : Form
     {
-        private Evaluador evaluador;
+        private Encargado evaluador;
         private Proyecto proyecto;
         private ProyeccionVentaArticulo proyeccionNueva;
         private DetalleProyeccionVenta detalleNuevo;
         private ProyeccionVentaArticuloData proyeccionData;
-        public AgregarProyeccionDialog(Evaluador evaluador, Proyecto proyecto, int codProyeccion = 0)
+        public AgregarProyeccionDialog(Encargado evaluador, Proyecto proyecto, int codProyeccion = 0)
         {
             this.evaluador = evaluador;
             proyeccionNueva = codProyeccion == 0 ? new ProyeccionVentaArticulo(): proyecto.Proyecciones.Where(p => p.CodArticulo == codProyeccion).First();

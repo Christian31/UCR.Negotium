@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Media;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
@@ -24,32 +22,58 @@ namespace UCR.Negotium.UserControls
         private List<Provincia> provincias;
         private Provincia provinciaSelected;
         private Canton cantonSelected;
+        private int codProyecto;
 
-        public static readonly DependencyProperty ProyectoProperty = DependencyProperty.Register(
-            "ProyectoSelected", typeof(Proyecto), typeof(InformacionGeneral), new PropertyMetadata(null));
+        private ObjetoInteresData objetoInteresData;
+        private UnidadMedidaData unidadMedidaData;
+        private ProvinciaData provinciaData;
+        private ProyectoData proyectoData;
 
         public InformacionGeneral()
         {
             InitializeComponent();
-            (this.Content as FrameworkElement).DataContext = this;
+            DataContext = this;
+            proyectoSelected = new Proyecto();
+            provinciaSelected = new Provincia();
+            cantonSelected = new Canton();
 
-            SetBinding(ProyectoProperty,
-                    new Binding { Path = new PropertyPath("proyectoSelected"), Mode = BindingMode.TwoWay });
-
-            ObjetoInteresData objetoInteresData = new ObjetoInteresData();
-            UnidadMedidaData unidadMedidaData = new UnidadMedidaData();
-            ProvinciaData provinciaData = new ProvinciaData();
+            objetoInteresData = new ObjetoInteresData();
+            unidadMedidaData = new UnidadMedidaData();
+            provinciaData = new ProvinciaData();
+            proyectoData = new ProyectoData();
 
             unidadMedidas = new List<UnidadMedida>();
             unidadMedidas = unidadMedidaData.GetUnidadesMedidaAux();
 
             provincias = new List<Provincia>();
-            provincias = provinciaData.GetProvinciasAux();
+            provincias = provinciaData.GetProvincias();
 
-            //proyectoSelected.ObjetoInteres = objetoInteresData.GetObjetoInteres(proyectoSelected.CodProyecto);
+            proyectoSelected.ObjetoInteres.UnidadMedida = unidadMedidas.FirstOrDefault();
+            proyectoSelected.AnoInicial = 2000;
+            proyectoSelected.HorizonteEvaluacionEnAnos = 2;
         }
 
-        #region Fields
+        public void Reload()
+        {
+            ProyectoSelected = proyectoData.GetProyecto(CodProyecto);
+            ProyectoSelected.ObjetoInteres = objetoInteresData.GetObjetoInteres(CodProyecto);
+            PropertyChanged(this, new PropertyChangedEventArgs("ProyectoSelected"));
+        }
+
+        #region Properties
+        public int CodProyecto
+        {
+            get
+            {
+                return codProyecto;
+            }
+            set
+            {
+                codProyecto = value;
+                Reload();
+            }
+        }
+
         public Proyecto ProyectoSelected
         {
             get
@@ -113,12 +137,53 @@ namespace UCR.Negotium.UserControls
         }
         #endregion
 
-        #region Eventos
+        #region Events
         private void btnGuardarInfoGeneral(object sender, RoutedEventArgs e)
         {
-            if (ValidateRequiredFields())
+            if (!ValidateRequiredFields())
             {
+                if (ProyectoSelected.CodProyecto.Equals(0))
+                {
+                    int idProyecto = proyectoData.InsertarProyecto(ProyectoSelected);
 
+                    if (idProyecto != -1)
+                    {
+                        ProyectoSelected.CodProyecto = idProyecto;
+
+                        if(objetoInteresData.InsertarObjetoDeInteres(ProyectoSelected.ObjetoInteres, idProyecto))
+                        {
+                            //success
+                            RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
+                            mainWindow.ReloadUserControls(idProyecto);
+
+                            MessageBox.Show("El proyecto se ha insertado correctamente", "Proyecto Insertado", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                        else
+                        {
+                            //error
+                            MessageBox.Show("Ha ocurrido un error al insertar el proyecto, verifique que los datos ingresados sean correctos", "Proyecto Insertado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+                    else
+                    {
+                        //error
+                        MessageBox.Show("Ha ocurrido un error al insertar el proyecto, verifique que los datos ingresados sean correctos", "Proyecto Insertado", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                else
+                {
+                    if (proyectoData.ActualizarProyecto(ProyectoSelected) &&
+                        objetoInteresData.ActualizarObjetoInteres(ProyectoSelected.ObjetoInteres, CodProyecto))
+                    {
+                        //success
+                        MessageBox.Show("El proyecto se ha actualizado correctamente", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        //error
+                        MessageBox.Show("Ha ocurrido un error al actualizar el proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
             }
         }
 
@@ -246,5 +311,23 @@ namespace UCR.Negotium.UserControls
             return validationResult;
         }
         #endregion
+
+        private void cbConFinanciamiento_Checked(object sender, RoutedEventArgs e)
+        {
+            cbSinFinanciamiento.IsChecked = false;
+        }
+
+        private void cbConFinanciamiento_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (cbConFinanciamiento.IsChecked.Value.Equals(false))
+            {
+                cbSinFinanciamiento.IsChecked = true;
+            }
+        }
+
+        private void cbSinFinanciamiento_Checked(object sender, RoutedEventArgs e)
+        {
+            cbConFinanciamiento.IsChecked = false;
+        }
     }
 }

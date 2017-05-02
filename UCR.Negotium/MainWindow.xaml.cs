@@ -1,21 +1,13 @@
 ﻿using MahApps.Metro.Controls;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using UCR.Negotium.DataAccess;
+using UCR.Negotium.Dialogs;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Utils;
 
 namespace UCR.Negotium
 {
@@ -35,7 +27,7 @@ namespace UCR.Negotium
 
             proyectoData = new ProyectoData();
             proyectos = proyectosFiltrados = new List<Proyecto>();
-            proyectos = proyectosFiltrados = proyectoData.GetProyectosAux();
+            proyectos = proyectosFiltrados = proyectoData.GetProyectos();
             proyectoSelected = new Proyecto();
             proyectoSelected = proyectosFiltrados.FirstOrDefault();
         }
@@ -47,6 +39,8 @@ namespace UCR.Negotium
             || proy.Proponente.ToString().ToLower().Contains(textoBusqueda)
             || proy.Proponente.Organizacion.NombreOrganizacion.ToLower().Contains(textoBusqueda)
             ).ToList();
+
+            ProyectoSelected = Proyectos.FirstOrDefault();
         }
 
         public Proyecto ProyectoSelected
@@ -86,22 +80,28 @@ namespace UCR.Negotium
 
         private void btnCrear_Click(object sender, RoutedEventArgs e)
         {
-            RegistrarProyectoWindow registrarProyecto = new RegistrarProyectoWindow();
+            PoseeEncargadoConfirm poseeEncargadoConfirm = new PoseeEncargadoConfirm();
             Close();
-            registrarProyecto.Show();
+            poseeEncargadoConfirm.Show();
         }
 
         private void btnEditar_Click(object sender, RoutedEventArgs e)
         {
-            RegistrarProyectoWindow registrarProyecto = new RegistrarProyectoWindow(ProyectoSelected.CodProyecto);
-            Close();
-            registrarProyecto.Show();
+            if (ProyectoSelected != null)
+            {
+                RegistrarProyectoWindow registrarProyecto = new RegistrarProyectoWindow(ProyectoSelected.CodProyecto);
+                Close();
+                registrarProyecto.Show();
+            }
         }
 
         private void btnImprimir_Click(object sender, RoutedEventArgs e)
         {
-            //GenerarReporte reporte = new GenerarReporte(ProyectoSelected);
-            //reporte.CrearReporte();
+            if(ProyectoSelected != null)
+            {
+                GenerarReporte reporte = new GenerarReporte(ProyectoSelected);
+                reporte.CrearReporte();
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };

@@ -13,14 +13,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace UCR.Negotium
+namespace UCR.Negotium.Dialogs
 {
     /// <summary>
-    /// Interaction logic for LoginWindow.xaml
+    /// Interaction logic for RegistrarVariacionAnualCostos.xaml
     /// </summary>
-    public partial class LoginWindow : MetroWindow
+    public partial class RegistrarVariacionAnualCostos : MetroWindow
     {
-        public LoginWindow()
+        public RegistrarVariacionAnualCostos()
         {
             InitializeComponent();
         }

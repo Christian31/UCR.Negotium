@@ -95,23 +95,32 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Dialogs\RegistrarCostoDialog.xaml.cs">
-      <DependentUpon>RegistrarCostoDialog.xaml</DependentUpon>
+    <Compile Include="Dialogs\PoseeEncargadoConfirm.xaml.cs">
+      <DependentUpon>PoseeEncargadoConfirm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\RegistrarInversionDialog.xaml.cs">
-      <DependentUpon>RegistrarInversionDialog.xaml</DependentUpon>
+    <Compile Include="Dialogs\RegistrarCosto.xaml.cs">
+      <DependentUpon>RegistrarCosto.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\RegistrarProyeccionVentaDialog.xaml.cs">
-      <DependentUpon>RegistrarProyeccionVentaDialog.xaml</DependentUpon>
+    <Compile Include="Dialogs\RegistrarEncargado.xaml.cs">
+      <DependentUpon>RegistrarEncargado.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\RegistrarReinversionDialog.xaml.cs">
-      <DependentUpon>RegistrarReinversionDialog.xaml</DependentUpon>
+    <Compile Include="Dialogs\RegistrarInversion.xaml.cs">
+      <DependentUpon>RegistrarInversion.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ProgresoProyectoUserControl.xaml.cs">
-      <DependentUpon>ProgresoProyectoUserControl.xaml</DependentUpon>
+    <Compile Include="Dialogs\RegistrarProyeccionVenta.xaml.cs">
+      <DependentUpon>RegistrarProyeccionVenta.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ProyectosDialog.xaml.cs">
-      <DependentUpon>ProyectosDialog.xaml</DependentUpon>
+    <Compile Include="Dialogs\RegistrarReinversion.xaml.cs">
+      <DependentUpon>RegistrarReinversion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\RegistrarVariacionAnualCostos.xaml.cs">
+      <DependentUpon>RegistrarVariacionAnualCostos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\SeleccionarEncargado.xaml.cs">
+      <DependentUpon>SeleccionarEncargado.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ProgresoProyecto.xaml.cs">
+      <DependentUpon>ProgresoProyecto.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\CapitalTrabajo.xaml.cs">
       <DependentUpon>CapitalTrabajo.xaml</DependentUpon>
@@ -152,29 +161,37 @@
     <Compile Include="RegistrarProyectoWindow.xaml.cs">
       <DependentUpon>RegistrarProyectoWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RegistrarseWindow.xaml.cs">
-      <DependentUpon>RegistrarseWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Utils\DatatableBuilder.cs" />
     <Compile Include="Utils\GenerarReporte.cs" />
-    <Compile Include="Utils\RequiredFieldValidationRule.cs" />
-    <Page Include="Dialogs\RegistrarCostoDialog.xaml">
+    <Page Include="Dialogs\PoseeEncargadoConfirm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\RegistrarInversionDialog.xaml">
+    <Page Include="Dialogs\RegistrarCosto.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\RegistrarProyeccionVentaDialog.xaml">
+    <Page Include="Dialogs\RegistrarEncargado.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\RegistrarReinversionDialog.xaml">
+    <Page Include="Dialogs\RegistrarInversion.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LoginWindow.xaml">
+    <Page Include="Dialogs\RegistrarProyeccionVenta.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\RegistrarReinversion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\RegistrarVariacionAnualCostos.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\SeleccionarEncargado.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -186,18 +203,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LoginWindow.xaml.cs">
-      <DependentUpon>LoginWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ProgresoProyectoUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ProyectosDialog.xaml">
+    <Page Include="UserControls\ProgresoProyecto.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -253,10 +263,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RegistrarseWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Resources\Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -280,6 +286,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Data\NegotiumDataBase.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

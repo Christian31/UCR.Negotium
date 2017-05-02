@@ -1,9 +1,4 @@
-﻿//@Copyright Yordan Campos Piedra
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace UCR.Negotium.Domain
 {
@@ -11,7 +6,7 @@ namespace UCR.Negotium.Domain
     {
         public int CodRequerimientoReinversion { get; set; }
         public int AnoReinversion { get; set; }
-        public String DescripcionRequerimiento { get; set; }
+        public string DescripcionRequerimiento { get; set; }
         public int Cantidad { get; set; }
         public double CostoUnitario { get; set; }
         public bool Depreciable { get; set; }

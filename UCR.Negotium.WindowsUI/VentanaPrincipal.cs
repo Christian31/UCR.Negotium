@@ -9,8 +9,8 @@ namespace UCR.Negotium.WindowsUI
     public partial class VentanaPrincipal : Form
     {
 
-        Evaluador evaluadorLogeado = new Evaluador();
-        public VentanaPrincipal(Evaluador evaluador)
+        Encargado evaluadorLogeado = new Encargado();
+        public VentanaPrincipal(Encargado evaluador)
         {
             evaluadorLogeado = evaluador;
             InitializeComponent();

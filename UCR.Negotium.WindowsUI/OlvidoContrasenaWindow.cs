@@ -20,11 +20,11 @@ namespace UCR.Negotium.WindowsUI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            EvaluadorData evaluadorData = new EvaluadorData();
+            EncargadoData evaluadorData = new EncargadoData();
             //Si el evaluador es null entonces es porque no está en la base de datos.
-            if (evaluadorData.GetEvaluadorPorCorreo(txbCorreo.Text) != null)
+            if (evaluadorData.GetEncargados(txbCorreo.Text) != null)
             {
-                String password = evaluadorData.GetEvaluadorPorCorreo(txbCorreo.Text).Password;
+                String password = evaluadorData.GetEncargados(txbCorreo.Text).Password;
                 EnviarCorreo(txbCorreo.Text, password);
             }//if
             else

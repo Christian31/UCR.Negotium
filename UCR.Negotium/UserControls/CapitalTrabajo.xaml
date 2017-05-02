@@ -18,54 +18,19 @@
         <Border Grid.Row="1" Style="{StaticResource borderStyle}">
             <Grid Margin="10">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="7*"/>
+                    <RowDefinition Height="8*"/>
                     <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
-
-                <Label Grid.ColumnSpan="2" Style="{StaticResource tableTitleStyle}"
-                    Content="Registro de Inversiones mayores a 1 Año (Menores a 1 Año registrarse como costos)"/>
-
-                <DataGrid Grid.Column="0" Grid.Row="1"
-                ItemsSource="{Binding ProyectoSelected.RequerimientosInversion, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                SelectedItem="{Binding InversionSelected}"
-                SelectionUnit="FullRow" 
-                BorderThickness="1"
-                BorderBrush="{DynamicResource AccentColorBrush}"
-                AllowDrop="False" 
-                CanUserAddRows="False" 
-                CanUserDeleteRows="False" 
-                IsReadOnly="True" 
-                AutoGenerateColumns="False"
-                Margin="30,5,30,15">
-
-                    <DataGrid.Style>
-                        <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
-                            <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
-                        </Style>
-                    </DataGrid.Style>
-
-                    <DataGrid.Columns>
-                        <DataGridTextColumn
-                    Binding="{Binding Path=DescripcionRequerimiento}" Header="Descripción" Width="4*"/>
-                        <DataGridTextColumn
-                    Binding="{Binding Path=Cantidad}" Header="Cantidad" Width="2*"/>
-                        <DataGridTextColumn
-                    Binding="{Binding Path=CostoUnitario}" Header="Costo Unitario (₡)" Width="2.5*"/>
-                        <DataGridTextColumn
-                    Binding="{Binding Path=UnidadMedida}" Header="Unidad Medida" Width="2*"/>
-                        <DataGridCheckBoxColumn
-                    Binding="{Binding Path=Depreciable}" Header="Depreciable" Width="2*"/>
-                        <DataGridTextColumn
-                    Binding="{Binding Path=VidaUtil}" Header="Vida Útil(Años)" Width="2.5*"/>
-                        <DataGridTextColumn
-                    Binding="{Binding Path=Subtotal}" Header="Subtotal (₡)" Width="3*"/>
-                    </DataGrid.Columns>
+                
+                <DataGrid ItemsSource="{Binding DTCapitalTrabajo, UpdateSourceTrigger=PropertyChanged}"
+                          SelectionUnit="FullRow" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
+                          Margin="30,35,30,15" ColumnWidth="100" CanUserSortColumns="False"
+                          Name="datagridCapitalTrabajo" Loaded="datagridCapitalTrabajo_Loaded">
 
                 </DataGrid>
-                <Grid Grid.Row="3">
+                <Grid Grid.Row="1">
                     <Label Content="Recuperación de Costo Total: " Margin="30,0,906,37" FontSize="16" FontWeight="Bold"/>
-                    <Label Content="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=InversionesTotal}" Margin="265,0,700,37" FontSize="16"/>
+                    <Label Content="{Binding RecuperacionCT, UpdateSourceTrigger=PropertyChanged}" Margin="265,0,700,37" FontSize="16"/>
                 </Grid>
             </Grid>
         </Border>

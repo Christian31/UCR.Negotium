@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace UCR.Negotium.Domain
 {
@@ -11,7 +7,6 @@ namespace UCR.Negotium.Domain
         public int CodCosto { get; set; }
         private UnidadMedida unidadMedida;
         public string NombreCosto { get; set; }
-        public Boolean CostoVariable { get; set; }
         public string CategoriaCosto { get; set; }
         public int AnoCosto { get; set; }
         private List<CostoMensual> costosMensuales;
@@ -19,7 +14,13 @@ namespace UCR.Negotium.Domain
         public Costo()
         {
             unidadMedida = new UnidadMedida();
-            costosMensuales = new List<CostoMensual>();
+            costosMensuales = new List<CostoMensual>() { new CostoMensual { Mes= "Enero"},
+                new CostoMensual { Mes= "Febrero"}, new CostoMensual { Mes= "Marzo"},
+                new CostoMensual { Mes= "Abril"}, new CostoMensual { Mes= "Mayo"},
+                new CostoMensual { Mes= "Junio"}, new CostoMensual { Mes= "Julio"},
+                new CostoMensual { Mes= "Agosto"} ,new CostoMensual { Mes= "Setiembre"},
+                new CostoMensual { Mes= "Octubre"}, new CostoMensual { Mes= "Noviembre"},
+                new CostoMensual { Mes= "Diciembre"}};
         }
 
         public UnidadMedida UnidadMedida

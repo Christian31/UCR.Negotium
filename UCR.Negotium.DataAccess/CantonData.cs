@@ -1,26 +1,15 @@
-﻿//@Copyright Yordan Campos Piedra
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class CantonData
+    public class CantonData : BaseData
     {
-        private String cadenaConexion;
-        private SQLiteConnection conexion;
         private SQLiteCommand command;
 
-        public CantonData()
-        {
-            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
-            conexion = new SQLiteConnection(cadenaConexion);
-        }
+        public CantonData() { }
 
         // Extrae todos los los cantones de una provincia, este metodo es funcional para hacer el filtrado 
         // de cantones en el combobox de cantones cada vez que la provincia cambia de opción

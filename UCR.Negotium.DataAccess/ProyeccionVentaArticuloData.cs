@@ -2,26 +2,21 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class ProyeccionVentaArticuloData
+    public class ProyeccionVentaArticuloData : BaseData
     {
-        private String cadenaConexion;
-        private SQLiteConnection conexion;
         private UnidadMedidaData unidadMedidaData;
         private DetalleProyeccionVentaData detalleProyeccionData;
+        private CrecimientoOfertaObjetoInteresData crecimientoOfertaData;
 
         public ProyeccionVentaArticuloData()
         {
-            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
-            conexion = new SQLiteConnection(cadenaConexion);
             unidadMedidaData = new UnidadMedidaData();
             detalleProyeccionData = new DetalleProyeccionVentaData();
+            crecimientoOfertaData = new CrecimientoOfertaObjetoInteresData();
         }
 
         public List<ProyeccionVentaArticulo> GetProyeccionesVentaArticulo(int codProyecto)
@@ -30,7 +25,7 @@ namespace UCR.Negotium.DataAccess
             List<ProyeccionVentaArticulo> listaProyecciones = new List<ProyeccionVentaArticulo>();
             try
             {
-                String select = "SELECT * FROM PROYECCION_VENTA_POR_ARTICULO WHERE cod_proyecto="+codProyecto+";";
+                string select = "SELECT * FROM PROYECCION_VENTA_POR_ARTICULO WHERE cod_proyecto="+codProyecto+";";
 
             if (conexion.State != ConnectionState.Open)
                 conexion.Open();
@@ -44,6 +39,7 @@ namespace UCR.Negotium.DataAccess
                     proyeccion.UnidadMedida = unidadMedidaData.GetUnidadMedida(reader.GetInt32(1));
                     proyeccion.NombreArticulo = reader.GetString(2);
                     proyeccion.DetallesProyeccionVenta = detalleProyeccionData.GetDetallesProyeccionVenta(reader.GetInt32(0));
+                    //proyeccion.CrecimientoOferta = crecimientoOfertaData.GetCrecimientoOfertaObjetoIntereses(reader.GetInt32(0));
                     listaProyecciones.Add(proyeccion);
                 }//while
                 conexion.Close();

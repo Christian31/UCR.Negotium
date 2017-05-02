@@ -25,8 +25,8 @@
                 </Grid.RowDefinitions>
 
                 <DataGrid Grid.ColumnSpan="3"
-                ItemsSource="{Binding ProyectoSelected.Costos, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                SelectedItem="{Binding CostoSelected}"
+                ItemsSource="{Binding CostosList, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                SelectedItem="{Binding CostoSelected, UpdateSourceTrigger=PropertyChanged}"
                 SelectionUnit="FullRow" 
                 BorderThickness="1"
                 BorderBrush="{DynamicResource AccentColorBrush}"
@@ -47,17 +47,15 @@
                         <DataGridTextColumn
                     Binding="{Binding Path=NombreCosto}" Header="Artículo" Width="4*"/>
                         <DataGridTextColumn
-                    Binding="{Binding Path=UnidadMedida}" Header="Unidad" Width="3*"/>
+                    Binding="{Binding Path=AnoCosto}" Header="Año Inicial" Width="3.7*"/>
                         <DataGridTextColumn
-                    Binding="{Binding Path=CategoriaCosto}" Header="Categoría" Width="3*"/>
-                        <DataGridTextColumn
-                    Binding="{Binding Path=AnoCosto}" Header="Año Inicial" Width="3*"/>
+                    Binding="{Binding Path=UnidadMedida}" Header="Unidad" Width="2.7*"/>
                         <DataGridTextColumn
                     Binding="{Binding Path=CostosMensuales[0].SubtotalFormat}" Header="Enero" Width="2.5*"/>
                         <DataGridTextColumn
-                    Binding="{Binding Path=CostosMensuales[1].SubtotalFormat}" Header="Febrero" Width="3*"/>
+                    Binding="{Binding Path=CostosMensuales[1].SubtotalFormat}" Header="Febrero" Width="2.9*"/>
                         <DataGridTextColumn
-                    Binding="{Binding Path=CostosMensuales[2].SubtotalFormat}" Header="Marzo" Width="2.5*"/>
+                    Binding="{Binding Path=CostosMensuales[2].SubtotalFormat}" Header="Marzo" Width="2.6*"/>
                         <DataGridTextColumn
                     Binding="{Binding Path=CostosMensuales[3].SubtotalFormat}" Header="Abril" Width="2.5*"/>
                         <DataGridTextColumn
@@ -69,13 +67,13 @@
                         <DataGridTextColumn
                     Binding="{Binding Path=CostosMensuales[7].SubtotalFormat}" Header="Agosto" Width="3*"/>
                         <DataGridTextColumn
-                    Binding="{Binding Path=CostosMensuales[8].SubtotalFormat}" Header="Setiembre" Width="3*"/>
+                    Binding="{Binding Path=CostosMensuales[8].SubtotalFormat}" Header="Setiembre" Width="3.3*"/>
                         <DataGridTextColumn
                     Binding="{Binding Path=CostosMensuales[9].SubtotalFormat}" Header="Octubre" Width="3*"/>
                         <DataGridTextColumn
-                    Binding="{Binding Path=CostosMensuales[10].SubtotalFormat}" Header="Noviembre" Width="3*"/>
+                    Binding="{Binding Path=CostosMensuales[10].SubtotalFormat}" Header="Noviembre" Width="3.6*"/>
                         <DataGridTextColumn
-                    Binding="{Binding Path=CostosMensuales[11].SubtotalFormat}" Header="Diciembre" Width="3*"/>
+                    Binding="{Binding Path=CostosMensuales[11].SubtotalFormat}" Header="Diciembre" Width="3.3*"/>
                     </DataGrid.Columns>
                 </DataGrid>
                 <Grid Grid.Row="1">
@@ -84,20 +82,24 @@
                         Style="{StaticResource circleButton}" ToolTip="Agregar un Nuevo Costo">
                         <iconPacks:PackIconModern Width="16" Height="16" Kind="Add" Foreground="Teal"/>
                     </Button>
-                    <Button Width="40" Margin="70,0" Height="40"
+                    <Button Width="40" Margin="70,0" Height="40" Name="btnEditarCosto"
+                            Click="btnEditarCosto_Click"
                         Style="{StaticResource circleButton}" ToolTip="Editar el Costo Seleccionado">
                         <iconPacks:PackIconModern Width="16" Height="16" Kind="Edit" Foreground="Teal"/>
                     </Button>
-                    <Button Width="40" Margin="110,0" Height="40"
+                    <Button Width="40" Margin="110,0" Height="40" Name="btnEliminar"
+                            Click="btnEliminar_Click"
                         Style="{StaticResource circleButton}" ToolTip="Eliminar el Costo Seleccionado">
                         <iconPacks:PackIconModern Width="16" Height="16" Kind="Delete" Foreground="Teal"/>
                     </Button>
                 </Grid>
-                <DataGrid Grid.Row="2" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DTCostosGenerados}"
+                <Grid Grid.Row="2" Margin="30,5,30,15">
+                    <TextBlock Text="Costos Generados por Año:" FontSize="14"/>
+                    <DataGrid Margin="0,25,0,0" ItemsSource="{Binding DTCostosTotales, UpdateSourceTrigger=PropertyChanged}"
                           SelectionUnit="FullRow" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
-                          Margin="30,5,30,15" ColumnWidth="100">
-                    
-                </DataGrid>
+                           ColumnWidth="100">
+                    </DataGrid>
+                </Grid>
             </Grid>
         </Border>
     </Grid>

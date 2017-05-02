@@ -2,24 +2,17 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class CostoData
+    public class CostoData : BaseData
     {
-        private String cadenaConexion;
-        private SQLiteConnection conexion;
         private UnidadMedidaData unidadMedidaData;
         private CostoMensualData costoMensualData;
 
         public CostoData()
         {
-            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
-            conexion = new SQLiteConnection(cadenaConexion);
             unidadMedidaData = new UnidadMedidaData();
             costoMensualData = new CostoMensualData();
         }
@@ -30,7 +23,7 @@ namespace UCR.Negotium.DataAccess
             List<Costo> listaCostos = new List<Costo>();
             try
             {
-                String select = "SELECT * FROM COSTO WHERE cod_proyecto=" + codProyecto + ";";
+                string select = "SELECT * FROM COSTO WHERE cod_proyecto=" + codProyecto + ";";
 
                 if (conexion.State != ConnectionState.Open)
                     conexion.Open();
@@ -44,7 +37,7 @@ namespace UCR.Negotium.DataAccess
                     costo.NombreCosto = reader.GetString(1);
                     costo.UnidadMedida = unidadMedidaData.GetUnidadMedida(reader.GetInt32(2));
                     costo.CostosMensuales = costoMensualData.GetCostosMensuales(reader.GetInt32(0));
-                    costo.CostoVariable = reader.GetBoolean(4);
+                    //costo.CostoVariable = reader.GetBoolean(4);
                     costo.CategoriaCosto = reader.GetString(5);
                     costo.AnoCosto = reader.GetInt32(6);
 
@@ -60,6 +53,39 @@ namespace UCR.Negotium.DataAccess
             }//catch
         }//GetCostos 
 
+        public Costo GetCosto(int codCosto)
+        {
+            SQLiteCommand command = conexion.CreateCommand();
+            Costo costo = new Costo();
+            try
+            {
+                string select = "SELECT * FROM COSTO WHERE cod_costo=" + codCosto + ";";
+
+                if (conexion.State != ConnectionState.Open)
+                    conexion.Open();
+
+                command.CommandText = select;
+                SQLiteDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    costo.CodCosto = reader.GetInt32(0);
+                    costo.NombreCosto = reader.GetString(1);
+                    costo.UnidadMedida = unidadMedidaData.GetUnidadMedida(reader.GetInt32(2));
+                    costo.CostosMensuales = costoMensualData.GetCostosMensuales(reader.GetInt32(0));
+                    //costo.CostoVariable = reader.GetBoolean(4);
+                    costo.CategoriaCosto = reader.GetString(5);
+                    costo.AnoCosto = reader.GetInt32(6);
+                }//while
+                conexion.Close();
+                return costo;
+            }//try
+            catch
+            {
+                conexion.Close();
+                return costo;
+            }//catch
+        }//GetCostos 
+
         public Costo InsertarCosto(Costo costoNuevo, int codProyecto)
         {
             SQLiteTransaction transaction = null;
@@ -70,11 +96,11 @@ namespace UCR.Negotium.DataAccess
             {
                 Object newProdID;
                 Object newProdID2;
-                String insert1 = "INSERT INTO COSTO(nombre_costo, " +
-                "unidad_medida, cod_proyecto, costo_variable, categoria_costo, ano_inicial) VALUES(?,?,?,?,?,?); " +
+                string insert1 = "INSERT INTO COSTO(nombre_costo, " +
+                "unidad_medida, cod_proyecto, categoria_costo, ano_inicial) VALUES(?,?,?,?,?); " +
             "SELECT last_insert_rowid();";
 
-                String insert2 = "INSERT INTO COSTO_MENSUAL(mes, costo_unitario, " +
+                string insert2 = "INSERT INTO COSTO_MENSUAL(mes, costo_unitario, " +
                 " cantidad, cod_costo) VALUES(?,?,?,?); " +
             "SELECT last_insert_rowid();";
 
@@ -82,7 +108,6 @@ namespace UCR.Negotium.DataAccess
                 command.Parameters.AddWithValue("nombre_costo", costoNuevo.NombreCosto);
                 command.Parameters.AddWithValue("unidad_medida", costoNuevo.UnidadMedida.CodUnidad);
                 command.Parameters.AddWithValue("cod_proyecto", codProyecto);
-                command.Parameters.AddWithValue("costo_variable", costoNuevo.CostoVariable);
                 command.Parameters.AddWithValue("categoria_costo", costoNuevo.CategoriaCosto);
                 command.Parameters.AddWithValue("ano_inicial", costoNuevo.AnoCosto);
 
@@ -163,24 +188,23 @@ namespace UCR.Negotium.DataAccess
             return costoNuevo;
         }//InsertarCosto
 
-        public bool EditarCosto(Costo costoEditar, int codProyecto)
+        public bool EditarCosto(Costo costoEditar)
         {
             SQLiteTransaction transaction = null;
             SQLiteCommand command = conexion.CreateCommand();
             SQLiteCommand command2 = conexion.CreateCommand();
             try
             {
-                String insert1 = "UPDATE COSTO SET nombre_costo = ?, unidad_medida = ?, " +
-                "costo_variable = ?, categoria_costo = ?, ano_inicial = ? WHERE cod_costo = ?;";
+                string insert1 = "UPDATE COSTO SET nombre_costo = ?, unidad_medida = ?, " +
+                "categoria_costo = ?, ano_inicial = ? WHERE cod_costo = ?;";
 
-                String insert2 = "UPDATE COSTO_MENSUAL SET costo_unitario = ?, " +
+                string insert2 = "UPDATE COSTO_MENSUAL SET costo_unitario = ?, " +
                 "cantidad = ? WHERE cod_costo_mensual = ?;";
 
                 command.CommandText = insert1;
                 command.Parameters.AddWithValue("nombre_costo", costoEditar.NombreCosto);
                 command.Parameters.AddWithValue("unidad_medida", costoEditar.UnidadMedida.CodUnidad);
                 command.Parameters.AddWithValue("cod_costo", costoEditar.CodCosto);
-                command.Parameters.AddWithValue("costo_variable", costoEditar.CostoVariable);
                 command.Parameters.AddWithValue("categoria_costo", costoEditar.CategoriaCosto);
                 command.Parameters.AddWithValue("ano_inicial", costoEditar.AnoCosto);
 

@@ -1,30 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class CrecimientoOfertaObjetoInteresData
+    public class CrecimientoOfertaObjetoInteresData : BaseData
     {
-        private String cadenaConexion;
-        private SQLiteConnection conexion;
         private SQLiteCommand command;
 
-        public CrecimientoOfertaObjetoInteresData()
-        {
-            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
-            conexion = new SQLiteConnection(cadenaConexion);
-        }
+        public CrecimientoOfertaObjetoInteresData() { }
 
-        public DataTable GetCrecimientoOfertaObjetoIntereses(Int32 codProyecto)
+        public DataTable GetCrecimientoOfertaObjetoIntereses(int codProyeccion)
         {
-            String select = "SELECT cod_crecimiento,ano_crecimiento,porcentaje_crecimiento " +
-                "FROM CRECIMIENTO_OFERTA_OBJETO_INTERES WHERE cod_proyecto=" + codProyecto + ";";
+            string select = "SELECT cod_crecimiento,ano_crecimiento,porcentaje_crecimiento " +
+                "FROM CRECIMIENTO_OFERTA_OBJETO_INTERES WHERE cod_proyecto=" + codProyeccion + ";";
 
             if (conexion.State != ConnectionState.Open)
                 conexion.Open();
@@ -42,8 +32,8 @@ namespace UCR.Negotium.DataAccess
 
         public CrecimientoOfertaObjetoInteres InsertarCrecimientoOfertaObjetoIntereses(CrecimientoOfertaObjetoInteres crecimiento, int codProyecto)
         {
-            Object newProdID;
-            String insert = "INSERT INTO CRECIMIENTO_OFERTA_OBJETO_INTERES(ano_crecimiento," +
+            object newProdID;
+            string insert = "INSERT INTO CRECIMIENTO_OFERTA_OBJETO_INTERES(ano_crecimiento," +
                 " porcentaje_crecimiento, cod_proyecto) VALUES(?,?,?); " +
             "SELECT last_insert_rowid();";
             if (conexion.State != ConnectionState.Open)
@@ -72,7 +62,7 @@ namespace UCR.Negotium.DataAccess
 
         public CrecimientoOfertaObjetoInteres EditarCrecimientoOfertaObjetoIntereses(CrecimientoOfertaObjetoInteres crecimiento)
         {
-            String insert = "UPDATE CRECIMIENTO_OFERTA_OBJETO_INTERES SET porcentaje_crecimiento = ? WHERE cod_crecimiento = ?;";
+            string insert = "UPDATE CRECIMIENTO_OFERTA_OBJETO_INTERES SET porcentaje_crecimiento = ? WHERE cod_crecimiento = ?;";
             if (conexion.State != ConnectionState.Open)
                 conexion.Open();
             SQLiteCommand command = conexion.CreateCommand();

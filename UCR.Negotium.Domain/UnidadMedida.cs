@@ -1,7 +1,4 @@
-﻿//@Copyright Yordan Campos Piedra
-using System;
-
-namespace UCR.Negotium.Domain
+﻿namespace UCR.Negotium.Domain
 {
     public class UnidadMedida
     {

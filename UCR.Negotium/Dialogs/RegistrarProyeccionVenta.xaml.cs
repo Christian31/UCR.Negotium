@@ -18,9 +18,9 @@ namespace UCR.Negotium.Dialogs
     /// <summary>
     /// Interaction logic for RegistrarProyeccionVentaDialog.xaml
     /// </summary>
-    public partial class RegistrarProyeccionVentaDialog : MetroWindow
+    public partial class RegistrarProyeccionVenta : MetroWindow
     {
-        public RegistrarProyeccionVentaDialog(int idProyecto, int idEvaluador=0, int idProyeccion=0)
+        public RegistrarProyeccionVenta(int idProyecto, int idEvaluador=0, int idProyeccion=0)
         {
             InitializeComponent();
         }

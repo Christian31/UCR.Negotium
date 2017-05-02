@@ -15,12 +15,12 @@ namespace UCR.Negotium.WindowsUI
         //variablesGlobales
         int idProyectoSeleccionado;
         Proyecto proyecto;
-        Evaluador evaluador;
+        Encargado evaluador;
         List<Proyecto> proyectosSinFiltro;
         DataTable dtProyectos;
         ProponenteData proponenteData;
 
-        public ListaProyectosWindow(Evaluador evaluador)
+        public ListaProyectosWindow(Encargado evaluador)
         {
             proyecto = new Proyecto();
             proyectosSinFiltro = new List<Proyecto>();
@@ -77,7 +77,7 @@ namespace UCR.Negotium.WindowsUI
                     proyecto.DescripcionSostenibilidadDelProyecto = fila["descripcion_sostenibilidad_proyecto"].ToString();
                     proyecto.DireccionExacta = fila["direccion_exacta"].ToString();
                     proyecto.Distrito.CodDistrito = Int32.Parse(fila["cod_distrito"].ToString());
-                    proyecto.Evaluador = this.evaluador;
+                    proyecto.Encargado = this.evaluador;
                     proyecto.HorizonteEvaluacionEnAnos = Int32.Parse(fila["horizonte_evaluacion_en_anos"].ToString());
                     proyecto.JustificacionDeMercado = fila["justificacion_de_mercado"].ToString();
                     proyecto.NombreProyecto = fila["nombre_proyecto"].ToString();
