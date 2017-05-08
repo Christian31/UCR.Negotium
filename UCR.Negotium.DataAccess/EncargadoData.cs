@@ -5,11 +5,19 @@ using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class EncargadoData :BaseData
+    public class EncargadoData
     {
+        private string cadenaConexion;
+        private SQLiteConnection conexion;
         private SQLiteCommand command;
         
-        public EncargadoData() { }
+        public EncargadoData()
+        {
+            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].
+                ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
+
+            conexion = new SQLiteConnection(cadenaConexion);
+        }
 
         public int InsertarEncargado(Encargado encargado)
         {

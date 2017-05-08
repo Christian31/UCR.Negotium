@@ -6,6 +6,7 @@ namespace UCR.Negotium.Domain
     public class Proyecto
     {
         public int CodProyecto { get; set; }
+        public bool Archivado { get; set; }
         public string NombreProyecto { get; set; }
         public string ResumenEjecutivo { get; set; }
         public bool ConIngresos { get; set; } //Verdadero si es con ingresos falso si es sin ingresos
@@ -23,7 +24,7 @@ namespace UCR.Negotium.Domain
         public Canton Canton { get; set; }
         public Distrito Distrito { get; set; }
         public Proponente Proponente { get; set; }
-        public ObjetoInteresProyecto ObjetoInteres { get; set; }
+        public string ObjetoInteres { get; set; }
         public List<RequerimientoInversion> RequerimientosInversion { get; set; }
         public List<RequerimientoReinversion> RequerimientosReinversion { get; set; }
         public List<ProyeccionVentaArticulo> Proyecciones { get; set; }
@@ -47,6 +48,7 @@ namespace UCR.Negotium.Domain
 
         public Proyecto()
         {
+            Archivado = false;
             this.RequerimientosInversion = new List<RequerimientoInversion>();
             this.RequerimientosReinversion = new List<RequerimientoReinversion>();
             this.Encargado = new Encargado();
@@ -54,7 +56,6 @@ namespace UCR.Negotium.Domain
             this.Canton = new Canton();
             this.Distrito = new Distrito();
             this.Proponente = new Proponente();
-            this.ObjetoInteres = new ObjetoInteresProyecto();
             this.Proponente.NumIdentificacion = "-1";
             this.Proyecciones = new List<ProyeccionVentaArticulo>();
             this.IngresosGenerados = new List<double>();
@@ -192,7 +193,7 @@ namespace UCR.Negotium.Domain
                                         }
                                         count2++;
                                     }
-                                    montosTemp.Add(reinversion.Depreciacion);
+                                    //montosTemp.Add(reinversion.Depreciacion);
 
                                     List<double> m = montosTemp;
                                     for (int ite = 0; ite < montosTemp.Count; ite++)

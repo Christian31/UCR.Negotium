@@ -1,15 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class CostoMensualData :BaseData
+    public class CostoMensualData
     {
+        private string cadenaConexion;
+        private SQLiteConnection conexion;
         private SQLiteCommand command;
 
-        public CostoMensualData() { }
+        public CostoMensualData()
+        {
+            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].
+                ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
+
+            conexion = new SQLiteConnection(cadenaConexion);
+        }
 
         public List<CostoMensual> GetCostosMensuales(int codCosto)
         {

@@ -6,8 +6,9 @@ namespace UCR.Negotium.Domain
     {
         public int CodFinanciamiento { get; set; }
         public double MontoFinanciamiento { get; set; }
-        public bool VariableFinanciamiento { get; set; }
+        public bool InteresFijo { get; set; }
         public int TiempoFinanciamiento { get; set; }
+        public int AnoInicialPago { get; set; }
 
         public Financiamiento()
         {

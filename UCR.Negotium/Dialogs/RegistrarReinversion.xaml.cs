@@ -19,11 +19,13 @@ namespace UCR.Negotium.Dialogs
         private const string CAMPOREQUERIDOPOSITIVO = "Este campo es requerido y debe tener un valor mayor a 0";
 
         private RequerimientoReinversionData requerimientoReinversionData;
+        private RequerimientoInversionData requerimientoInversionData;
         private ProyectoData proyectoData;
         private UnidadMedidaData unidadMedidaData;
         private RequerimientoReinversion reinversion;
         private List<UnidadMedida> unidadMedidas;
         private Proyecto proyecto;
+        private List<RequerimientoInversion> inversiones;
 
         public RegistrarReinversion(int codProyecto, int codReinversion = 0)
         {
@@ -35,22 +37,40 @@ namespace UCR.Negotium.Dialogs
             proyecto = new Proyecto();
 
             requerimientoReinversionData = new RequerimientoReinversionData();
+            requerimientoInversionData = new RequerimientoInversionData();
             proyectoData = new ProyectoData();
             unidadMedidaData = new UnidadMedidaData();
 
             reinversion = new RequerimientoReinversion();
             unidadMedidas = new List<UnidadMedida>();
+            inversiones = new List<RequerimientoInversion>();
 
             proyecto = proyectoData.GetProyecto(codProyecto);
             unidadMedidas = unidadMedidaData.GetUnidadesMedidaAux();
+            inversiones.Add(new RequerimientoInversion());
+            inversiones.AddRange(requerimientoInversionData.GetRequerimientosInversion(codProyecto).Where(inv => inv.Depreciable.Equals(true)).ToList());
+            
             reinversion.UnidadMedida = unidadMedidas.FirstOrDefault();
             reinversion.AnoReinversion = AnosDisponibles.FirstOrDefault();
+            reinversion.Cantidad = 1;
 
             if (codReinversion != 0)
                 reinversion = requerimientoReinversionData.GetRequerimientoReinversion(codReinversion);
         }
 
         public bool Reload { get; set; }
+
+        public List<RequerimientoInversion> Inversiones
+        {
+            get
+            {
+                return inversiones;
+            }
+            set
+            {
+                inversiones = value;
+            }
+        }
 
         public List<UnidadMedida> UnidadesMedida
         {
@@ -102,7 +122,7 @@ namespace UCR.Negotium.Dialogs
                 if (!Reinversion.Depreciable)
                     Reinversion.VidaUtil = 0;
 
-                if (Reinversion.CodRequerimientoInversion.Equals(0))
+                if (Reinversion.CodRequerimientoReinversion.Equals(0))
                 {
                     int idInversion = requerimientoReinversionData.InsertarRequerimientosReinversion(Reinversion, proyecto.CodProyecto);
                     if (!idInversion.Equals(-1))

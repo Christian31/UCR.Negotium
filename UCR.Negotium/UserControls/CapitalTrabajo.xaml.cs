@@ -39,16 +39,19 @@ namespace UCR.Negotium.UserControls
         #region Methods
         public void Reload()
         {
+            DTCapitalTrabajo = new DataView();
+            recuperacionCT = 0;
+
             ProyectoSelected = proyectoData.GetProyecto(CodProyecto);
             ProyectoSelected.Costos = costoData.GetCostos(CodProyecto);
-            recuperacionCT = 0;
 
             if (!ProyectoSelected.Costos.Count.Equals(0))
             {
                 DatatableBuilder.GenerarDTCapitalTrabajo(ProyectoSelected, out capitalTrabajo, out recuperacionCT);
-                PropertyChanged(this, new PropertyChangedEventArgs("RecuperacionCT"));
-                PropertyChanged(this, new PropertyChangedEventArgs("DTCapitalTrabajo"));
             }
+
+            PropertyChanged(this, new PropertyChangedEventArgs("RecuperacionCT"));
+            PropertyChanged(this, new PropertyChangedEventArgs("DTCapitalTrabajo"));
         }
         #endregion
 

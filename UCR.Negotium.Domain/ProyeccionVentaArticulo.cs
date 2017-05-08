@@ -14,7 +14,14 @@ namespace UCR.Negotium.Domain
         public ProyeccionVentaArticulo()
         {
             unidadMedida = new UnidadMedida();
-            detallesProyeccionVenta = new List<DetalleProyeccionVenta>();
+            detallesProyeccionVenta = new List<DetalleProyeccionVenta>() { new DetalleProyeccionVenta { Mes= "Enero"},
+                new DetalleProyeccionVenta { Mes= "Febrero"}, new DetalleProyeccionVenta { Mes= "Marzo"},
+                new DetalleProyeccionVenta { Mes= "Abril"}, new DetalleProyeccionVenta { Mes= "Mayo"},
+                new DetalleProyeccionVenta { Mes= "Junio"}, new DetalleProyeccionVenta { Mes= "Julio"},
+                new DetalleProyeccionVenta { Mes= "Agosto"} ,new DetalleProyeccionVenta { Mes= "Setiembre"},
+                new DetalleProyeccionVenta { Mes= "Octubre"}, new DetalleProyeccionVenta { Mes= "Noviembre"},
+                new DetalleProyeccionVenta { Mes= "Diciembre"}};
+
             crecimientoOferta = new List<CrecimientoOfertaObjetoInteres>();
         }
 

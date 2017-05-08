@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Data;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using UCR.Negotium.DataAccess;
@@ -34,14 +35,22 @@ namespace UCR.Negotium.UserControls
             proyectoData = new ProyectoData();
             requerimientoInversionData = new RequerimientoInversionData();
             requerimientoReinversionData = new RequerimientoReinversionData();
+
+            Reload();
         }
 
         public void Reload()
         {
+            DTDepreciaciones = new DataView();
             ProyectoSelected = proyectoData.GetProyecto(CodProyecto);
             ProyectoSelected.RequerimientosInversion = requerimientoInversionData.GetRequerimientosInversion(CodProyecto);
             ProyectoSelected.RequerimientosReinversion = requerimientoReinversionData.GetRequerimientosReinversion(CodProyecto);
-            DTDepreciaciones = DatatableBuilder.GenerarDTDepreciaciones(ProyectoSelected).AsDataView();
+
+            if (!ProyectoSelected.RequerimientosInversion.Where(inv => inv.Depreciable).Count().Equals(0) ||
+                !ProyectoSelected.RequerimientosReinversion.Where(reinv => reinv.Depreciable).Count().Equals(0))
+            {
+                DTDepreciaciones = DatatableBuilder.GenerarDTDepreciaciones(ProyectoSelected).AsDataView();
+            }
         }
 
         public DataView DTDepreciaciones

@@ -22,6 +22,11 @@ namespace UCR.Negotium.Domain
             VidaUtil = 2;
         }
 
+        public override string ToString()
+        {
+            return DescripcionRequerimiento;
+        }
+
         public string CostoUnitarioFormat
         {
             get

@@ -6,13 +6,21 @@ using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class CostoData : BaseData
+    public class CostoData
     {
+        private string cadenaConexion;
+        private SQLiteConnection conexion;
+
         private UnidadMedidaData unidadMedidaData;
         private CostoMensualData costoMensualData;
 
         public CostoData()
         {
+            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].
+                ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
+
+            conexion = new SQLiteConnection(cadenaConexion);
+
             unidadMedidaData = new UnidadMedidaData();
             costoMensualData = new CostoMensualData();
         }
@@ -37,16 +45,15 @@ namespace UCR.Negotium.DataAccess
                     costo.NombreCosto = reader.GetString(1);
                     costo.UnidadMedida = unidadMedidaData.GetUnidadMedida(reader.GetInt32(2));
                     costo.CostosMensuales = costoMensualData.GetCostosMensuales(reader.GetInt32(0));
-                    //costo.CostoVariable = reader.GetBoolean(4);
-                    costo.CategoriaCosto = reader.GetString(5);
-                    costo.AnoCosto = reader.GetInt32(6);
+                    costo.CategoriaCosto = reader.GetString(4);
+                    costo.AnoCosto = reader.GetInt32(5);
 
                     listaCostos.Add(costo);
                 }//while
                 conexion.Close();
                 return listaCostos;
             }//try
-            catch
+            catch (Exception ex)
             {
                 conexion.Close();
                 return listaCostos;
@@ -72,9 +79,8 @@ namespace UCR.Negotium.DataAccess
                     costo.NombreCosto = reader.GetString(1);
                     costo.UnidadMedida = unidadMedidaData.GetUnidadMedida(reader.GetInt32(2));
                     costo.CostosMensuales = costoMensualData.GetCostosMensuales(reader.GetInt32(0));
-                    //costo.CostoVariable = reader.GetBoolean(4);
-                    costo.CategoriaCosto = reader.GetString(5);
-                    costo.AnoCosto = reader.GetInt32(6);
+                    costo.CategoriaCosto = reader.GetString(4);
+                    costo.AnoCosto = reader.GetInt32(5);
                 }//while
                 conexion.Close();
                 return costo;

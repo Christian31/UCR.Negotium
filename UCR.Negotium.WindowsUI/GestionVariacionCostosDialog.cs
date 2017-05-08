@@ -62,7 +62,7 @@ namespace UCR.Negotium.WindowsUI
                 //editar TODO cambiar el eliminar/insertar y usar el editar
                 try
                 {
-                    if (variacionCostoData.eliminarVariacionAnualCostos(this.proyecto.CodProyecto))
+                    if (variacionCostoData.EliminarVariacionAnualCostos(this.proyecto.CodProyecto))
                     {
                         for (int i = 0; i < dgvVariacionCostos.RowCount; i++)
                         {

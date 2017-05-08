@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
         WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
-        Title="Inversión | Negotium v1.0" Height="450" Width="450">
+        Title="Inversión | Negotium v1.0" Height="490" Width="450">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
@@ -24,6 +24,9 @@
         <StackPanel Grid.Row="1">
             <Grid Style="{StaticResource gridFormStyle}">
                 <Label Content="Nombre de la Reinversión:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Label Content="Inversión:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
             </Grid>
             <Grid Style="{StaticResource gridFormStyle}">
                 <Label Content="Año de Reinversión:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
@@ -50,7 +53,11 @@
                          TextChanged="tbDescReinversion_TextChanged"/>
             </Grid>
             <Grid Style="{StaticResource gridFormStyle}">
-                <ComboBox ItemsSource="{Binding AnosDisponibles}"
+                <ComboBox ItemsSource="{Binding Inversiones}" SelectedValuePath="CodRequerimientoInversion"
+                                          SelectedValue="{Binding Reinversion.CodRequerimientoInversion}" />
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <ComboBox ItemsSource="{Binding AnosDisponibles}" 
                                           SelectedValue="{Binding Reinversion.AnoReinversion}" />
             </Grid>
             <Grid Style="{StaticResource gridFormStyle}">

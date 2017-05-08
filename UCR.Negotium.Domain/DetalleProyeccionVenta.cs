@@ -3,7 +3,7 @@
     public class DetalleProyeccionVenta
     {
         public int CodDetalle { get; set; }
-        public int Mes { get; set; }
+        public string Mes { get; set; }
         public double Cantidad { get; set; }
         public double Precio { get; set; }  
 

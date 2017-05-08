@@ -6,11 +6,19 @@ using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class DetalleProyeccionVentaData :BaseData
+    public class DetalleProyeccionVentaData
     {
+        private string cadenaConexion;
+        private SQLiteConnection conexion;
         private SQLiteCommand command;
 
-        public DetalleProyeccionVentaData() { }
+        public DetalleProyeccionVentaData()
+        {
+            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].
+                ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
+
+            conexion = new SQLiteConnection(cadenaConexion);
+        }
 
         public List<DetalleProyeccionVenta> GetDetallesProyeccionVenta(int codProyeccion)
         {
@@ -29,7 +37,7 @@ namespace UCR.Negotium.DataAccess
                 {
                     DetalleProyeccionVenta detalleProyeccion = new DetalleProyeccionVenta();
                     detalleProyeccion.CodDetalle = reader.GetInt32(0);
-                    detalleProyeccion.Mes = reader.GetInt32(1);
+                    detalleProyeccion.Mes = reader.GetString(1);
                     detalleProyeccion.Cantidad = reader.GetInt32(2);
                     detalleProyeccion.Precio = reader.GetDouble(3);
                     listaDetalles.Add(detalleProyeccion);

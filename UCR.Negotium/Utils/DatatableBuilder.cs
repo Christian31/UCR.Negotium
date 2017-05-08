@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Windows.Forms;
 using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.Utils
@@ -287,9 +288,9 @@ namespace UCR.Negotium.Utils
             return ds.Tables["TotalesReinversiones"];
         }
 
-        public static DataTable GenerarDTFinanciamientoIF(Proyecto proyecto, double monto, double tiempo, double interesIF)
+        public static DataTable GenerarDTFinanciamientoIF(Proyecto proyecto, double monto, double tiempo, InteresFinanciamiento interesIF)
         {
-            double interesIFtemp = interesIF / 100;
+            double interesIFtemp = interesIF.PorcentajeInteresFinanciamiento / 100;
             double cuota = Math.Round((monto * interesIFtemp) / (1 - (Math.Pow((1 + interesIFtemp), (-tiempo)))), 2);
 
             DataSet ds = new DataSet();
@@ -367,266 +368,265 @@ namespace UCR.Negotium.Utils
             return ds.Tables["AmortizacionPrestamo"];
         }
 
-        //public static DataTable GenerarDTFlujoCaja(bool isFijo, Proyecto proyecto, DataGridView dgvCapitalTrabajo, DataGridView dgvFinanciamiento, DataGridView dgvTotalesReinversiones, string totalInversiones, string recuperacionCT)
-        //{
-        //    string dsNombre = isFijo ? "FlujoCajaIntFijo" : "FlujoCajaIntVariable";
-        //    DataSet ds = new DataSet();
-        //    ds.Tables.Add(dsNombre);
-        //    ds.Tables[dsNombre].Columns.Add("Rubro", Type.GetType("System.String"));
-        //    for (int i = 0; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
-        //    {
-        //        ds.Tables[dsNombre].Columns.Add((proyecto.AnoInicial + i).ToString(), Type.GetType("System.String"));
-        //    }
+        public static DataTable GenerarDTFlujoCaja(Proyecto proyecto, DataGridView dgvCapitalTrabajo, DataGridView dgvFinanciamiento, DataGridView dgvTotalesReinversiones, string totalInversiones, string recuperacionCT)
+        {
+            string dsNombre = "FlujoCaja";
+            DataSet ds = new DataSet();
+            ds.Tables.Add(dsNombre);
+            ds.Tables[dsNombre].Columns.Add("Rubro", Type.GetType("System.String"));
+            for (int i = 0; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+            {
+                ds.Tables[dsNombre].Columns.Add((proyecto.AnoInicial + i).ToString(), Type.GetType("System.String"));
+            }
 
-        //    #region ventas
+            #region ventas
 
-        //    DataRow row = ds.Tables[dsNombre].NewRow();
-        //    row["Rubro"] = "Ventas";
-        //    int a = 1;
-        //    if (proyecto.ConIngresos)
-        //    {
-        //        foreach (double IngreGenerado in proyecto.IngresosGenerados)
-        //        {
-        //            row[(proyecto.AnoInicial + a).ToString()] = "₡ " + IngreGenerado.ToString("#,##0.##");
-        //            a++;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
-        //        {
-        //            row[(proyecto.AnoInicial + a).ToString()] = "₡ 0";
-        //            a++;
-        //        }
-        //    }
+            DataRow row = ds.Tables[dsNombre].NewRow();
+            row["Rubro"] = "Ventas";
+            int a = 1;
+            if (proyecto.ConIngresos)
+            {
+                foreach (double IngreGenerado in proyecto.IngresosGenerados)
+                {
+                    row[(proyecto.AnoInicial + a).ToString()] = "₡ " + IngreGenerado.ToString("#,##0.##");
+                    a++;
+                }
+            }
+            else
+            {
+                for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+                {
+                    row[(proyecto.AnoInicial + a).ToString()] = "₡ 0";
+                    a++;
+                }
+            }
 
-        //    ds.Tables[dsNombre].Rows.Add(row);
+            ds.Tables[dsNombre].Rows.Add(row);
 
-        //    #endregion
+            #endregion
 
-        //    #region costos
-        //    DataRow row2 = ds.Tables[dsNombre].NewRow();
-        //    row2["Rubro"] = "Costos Totales";
-        //    int a2 = 1;
-        //    foreach (double costoGenerado in proyecto.CostosGenerados)
-        //    {
-        //        row2[(proyecto.AnoInicial + a2).ToString()] = "₡ " + (-costoGenerado).ToString("#,##0.##");
-        //        a2++;
-        //    }
-        //    ds.Tables[dsNombre].Rows.Add(row2);
-        //    #endregion
+            #region costos
+            DataRow row2 = ds.Tables[dsNombre].NewRow();
+            row2["Rubro"] = "Costos Totales";
+            int a2 = 1;
+            foreach (double costoGenerado in proyecto.CostosGenerados)
+            {
+                row2[(proyecto.AnoInicial + a2).ToString()] = "₡ " + (-costoGenerado).ToString("#,##0.##");
+                a2++;
+            }
+            ds.Tables[dsNombre].Rows.Add(row2);
+            #endregion
 
-        //    #region depreciaciones
-        //    DataRow row3 = ds.Tables[dsNombre].NewRow();
-        //    row3["Rubro"] = "Depreciaciones";
-        //    int a3 = 1;
-        //    foreach (double depreciacionAnual in proyecto.TotalDepreciaciones)
-        //    {
-        //        row3[(proyecto.AnoInicial + a3).ToString()] = "₡ -" + depreciacionAnual.ToString("#,##0.##");
-        //        a3++;
-        //    }
-        //    ds.Tables[dsNombre].Rows.Add(row3);
-        //    #endregion
+            #region depreciaciones
+            DataRow row3 = ds.Tables[dsNombre].NewRow();
+            row3["Rubro"] = "Depreciaciones";
+            int a3 = 1;
+            foreach (double depreciacionAnual in proyecto.TotalDepreciaciones)
+            {
+                row3[(proyecto.AnoInicial + a3).ToString()] = "₡ -" + depreciacionAnual.ToString("#,##0.##");
+                a3++;
+            }
+            ds.Tables[dsNombre].Rows.Add(row3);
+            #endregion
 
-        //    #region utilidad operativa
-        //    DataRow row4 = ds.Tables[dsNombre].NewRow();
-        //    row4["Rubro"] = "Utilidad Operativa";
-        //    int a4 = 1;
-        //    foreach (double utilidad in proyecto.UtilidadOperativa)
-        //    {
-        //        row4[(proyecto.AnoInicial + a4).ToString()] = "₡ " + utilidad.ToString("#,##0.##");
-        //        a4++;
-        //    }
+            #region utilidad operativa
+            DataRow row4 = ds.Tables[dsNombre].NewRow();
+            row4["Rubro"] = "Utilidad Operativa";
+            int a4 = 1;
+            foreach (double utilidad in proyecto.UtilidadOperativa)
+            {
+                row4[(proyecto.AnoInicial + a4).ToString()] = "₡ " + utilidad.ToString("#,##0.##");
+                a4++;
+            }
 
-        //    ds.Tables[dsNombre].Rows.Add(row4);
-        //    #endregion
+            ds.Tables[dsNombre].Rows.Add(row4);
+            #endregion
 
-        //    #region intereses
-        //    DataRow row5 = ds.Tables[dsNombre].NewRow();
-        //    row5["Rubro"] = "Intereses";
-        //    int a5 = 1;
+            #region intereses
+            DataRow row5 = ds.Tables[dsNombre].NewRow();
+            row5["Rubro"] = "Intereses";
+            int a5 = 1;
 
-        //    for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
-        //    {
-        //        if (i < dgvFinanciamiento.Rows.Count)
-        //        {
-        //            row5[(proyecto.AnoInicial + a5).ToString()] = "₡ -" + dgvFinanciamiento.Rows[i].Cells[2].Value.ToString().Replace("₡ ", string.Empty);
-        //        }
-        //        else
-        //        {
-        //            row5[(proyecto.AnoInicial + a5).ToString()] = "₡ 0";
-        //        }
-        //        a5++;
-        //    }
-        //    ds.Tables[dsNombre].Rows.Add(row5);
-        //    #endregion
+            for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
+            {
+                if (i < dgvFinanciamiento.Rows.Count)
+                {
+                    row5[(proyecto.AnoInicial + a5).ToString()] = "₡ -" + dgvFinanciamiento.Rows[i].Cells[2].Value.ToString().Replace("₡ ", string.Empty);
+                }
+                else
+                {
+                    row5[(proyecto.AnoInicial + a5).ToString()] = "₡ 0";
+                }
+                a5++;
+            }
+            ds.Tables[dsNombre].Rows.Add(row5);
+            #endregion
 
-        //    #region utilidad sin impuesto
-        //    DataRow row6 = ds.Tables[dsNombre].NewRow();
-        //    row6["Rubro"] = "Utilidad Antes de Impuesto";
-        //    int a6 = 1;
+            #region utilidad sin impuesto
+            DataRow row6 = ds.Tables[dsNombre].NewRow();
+            row6["Rubro"] = "Utilidad Antes de Impuesto";
+            int a6 = 1;
 
-        //    for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
-        //    {
-        //        string val = ds.Tables[dsNombre].Rows[4].ItemArray[i + 2].ToString().Replace("₡ ", string.Empty);
-        //        row6[(proyecto.AnoInicial + a6).ToString()] = "₡ " + Math.Round(proyecto.UtilidadOperativa[i] + Convert.ToDouble(ds.Tables[dsNombre].Rows[4].ItemArray[i + 2].ToString().Replace("₡ ", string.Empty)), 2).ToString("#,##0.##");
-        //        a6++;
-        //    }
-        //    ds.Tables[dsNombre].Rows.Add(row6);
-        //    #endregion
+            for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
+            {
+                string val = ds.Tables[dsNombre].Rows[4].ItemArray[i + 2].ToString().Replace("₡ ", string.Empty);
+                row6[(proyecto.AnoInicial + a6).ToString()] = "₡ " + Math.Round(proyecto.UtilidadOperativa[i] + Convert.ToDouble(ds.Tables[dsNombre].Rows[4].ItemArray[i + 2].ToString().Replace("₡ ", string.Empty)), 2).ToString("#,##0.##");
+                a6++;
+            }
+            ds.Tables[dsNombre].Rows.Add(row6);
+            #endregion
 
-        //    #region impuesto
-        //    DataRow row7 = ds.Tables[dsNombre].NewRow();
-        //    row7["Rubro"] = "Impuesto";
-        //    int a7 = 1;
+            #region impuesto
+            DataRow row7 = ds.Tables[dsNombre].NewRow();
+            row7["Rubro"] = "Impuesto";
+            int a7 = 1;
 
-        //    for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
-        //    {
-        //        double val = Convert.ToDouble(ds.Tables[dsNombre].Rows[5].ItemArray[i + 2].ToString().Replace("₡ ", string.Empty));
-        //        double valImp = 0;
-        //        if (proyecto.PagaImpuesto)
-        //        {
-        //            valImp = proyecto.PorcentajeImpuesto;
-        //        }
+            for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
+            {
+                double val = Convert.ToDouble(ds.Tables[dsNombre].Rows[5].ItemArray[i + 2].ToString().Replace("₡ ", string.Empty));
+                double valImp = 0;
+                if (proyecto.PagaImpuesto)
+                {
+                    valImp = proyecto.PorcentajeImpuesto;
+                }
 
-        //        if (proyecto.PagaImpuesto)
-        //        {
-        //            row7[(proyecto.AnoInicial + a7).ToString()] = "₡ " + Math.Round(((valImp * val) / 100), 2).ToString("#,##0.##");
-        //        }
-        //        else
-        //        {
-        //            row7[(proyecto.AnoInicial + a7).ToString()] = "₡ 0";
-        //        }
+                if (proyecto.PagaImpuesto)
+                {
+                    row7[(proyecto.AnoInicial + a7).ToString()] = "₡ " + Math.Round(((valImp * val) / 100), 2).ToString("#,##0.##");
+                }
+                else
+                {
+                    row7[(proyecto.AnoInicial + a7).ToString()] = "₡ 0";
+                }
 
-        //        a7++;
-        //    }
-        //    ds.Tables[dsNombre].Rows.Add(row7);
-        //    #endregion
+                a7++;
+            }
+            ds.Tables[dsNombre].Rows.Add(row7);
+            #endregion
 
-        //    #region utilidad neta
-        //    DataRow row8 = ds.Tables[dsNombre].NewRow();
-        //    row8["Rubro"] = "Utilidad Neta";
-        //    int a8 = 1;
+            #region utilidad neta
+            DataRow row8 = ds.Tables[dsNombre].NewRow();
+            row8["Rubro"] = "Utilidad Neta";
+            int a8 = 1;
 
-        //    for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
-        //    {
-        //        row8[(proyecto.AnoInicial + a8).ToString()] = "₡ " + Math.Round(Convert.ToDouble(ds.Tables[dsNombre].Rows[5].ItemArray[i + 2].ToString().Replace("₡ ", string.Empty)) - Convert.ToDouble(ds.Tables[dsNombre].Rows[6].ItemArray[i + 2].ToString().Replace("₡ ", string.Empty)), 2).ToString("#,##0.##");
-        //        a8++;
-        //    }
-        //    ds.Tables[dsNombre].Rows.Add(row8);
-        //    #endregion
+            for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
+            {
+                row8[(proyecto.AnoInicial + a8).ToString()] = "₡ " + Math.Round(Convert.ToDouble(ds.Tables[dsNombre].Rows[5].ItemArray[i + 2].ToString().Replace("₡ ", string.Empty)) - Convert.ToDouble(ds.Tables[dsNombre].Rows[6].ItemArray[i + 2].ToString().Replace("₡ ", string.Empty)), 2).ToString("#,##0.##");
+                a8++;
+            }
+            ds.Tables[dsNombre].Rows.Add(row8);
+            #endregion
 
-        //    #region depreciaciones
-        //    DataRow row9 = ds.Tables[dsNombre].NewRow();
-        //    row9["Rubro"] = "Depreciaciones";
-        //    int a9 = 1;
-        //    foreach (double depreciacionAnual in proyecto.TotalDepreciaciones)
-        //    {
-        //        row9[(proyecto.AnoInicial + a9).ToString()] = "₡ " + depreciacionAnual.ToString("#,##0.##");
-        //        a9++;
-        //    }
-        //    ds.Tables[dsNombre].Rows.Add(row9);
-        //    #endregion
+            #region depreciaciones
+            DataRow row9 = ds.Tables[dsNombre].NewRow();
+            row9["Rubro"] = "Depreciaciones";
+            int a9 = 1;
+            foreach (double depreciacionAnual in proyecto.TotalDepreciaciones)
+            {
+                row9[(proyecto.AnoInicial + a9).ToString()] = "₡ " + depreciacionAnual.ToString("#,##0.##");
+                a9++;
+            }
+            ds.Tables[dsNombre].Rows.Add(row9);
+            #endregion
 
-        //    #region flujo operativo
-        //    DataRow row10 = ds.Tables[dsNombre].NewRow();
-        //    row10["Rubro"] = "Flujo Operativo";
-        //    int a10 = 1;
+            #region flujo operativo
+            DataRow row10 = ds.Tables[dsNombre].NewRow();
+            row10["Rubro"] = "Flujo Operativo";
+            int a10 = 1;
 
-        //    for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
-        //    {
-        //        row10[(proyecto.AnoInicial + a10).ToString()] = "₡ " + Math.Round(Convert.ToDouble(ds.Tables[dsNombre].Rows[7].ItemArray[i + 2].ToString().Replace("₡ ", string.Empty)) + Convert.ToDouble(ds.Tables[dsNombre].Rows[8].ItemArray[i + 2].ToString().Replace("₡ ", string.Empty)), 2).ToString("#,##0.##");
-        //        a10++;
-        //    }
-        //    ds.Tables[dsNombre].Rows.Add(row10);
-        //    #endregion
+            for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
+            {
+                row10[(proyecto.AnoInicial + a10).ToString()] = "₡ " + Math.Round(Convert.ToDouble(ds.Tables[dsNombre].Rows[7].ItemArray[i + 2].ToString().Replace("₡ ", string.Empty)) + Convert.ToDouble(ds.Tables[dsNombre].Rows[8].ItemArray[i + 2].ToString().Replace("₡ ", string.Empty)), 2).ToString("#,##0.##");
+                a10++;
+            }
+            ds.Tables[dsNombre].Rows.Add(row10);
+            #endregion
 
-        //    #region inversiones
-        //    DataRow row11 = ds.Tables[dsNombre].NewRow();
-        //    row11["Rubro"] = "Inversiones";
-        //    int a11 = 0;
-        //    row11[(proyecto.AnoInicial + a11).ToString()] = "₡ -" + totalInversiones;
-        //    a11++;
-        //    for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
-        //    {
-        //        row11[(proyecto.AnoInicial + a11).ToString()] = "₡ -" + dgvTotalesReinversiones.Rows[0].Cells[i].Value.ToString().Replace("₡ ", string.Empty);
-        //        a11++;
-        //    }
-        //    ds.Tables[dsNombre].Rows.Add(row11);
-        //    #endregion
+            #region inversiones
+            DataRow row11 = ds.Tables[dsNombre].NewRow();
+            row11["Rubro"] = "Inversiones";
+            int a11 = 0;
+            row11[(proyecto.AnoInicial + a11).ToString()] = "₡ -" + totalInversiones;
+            a11++;
+            for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
+            {
+                row11[(proyecto.AnoInicial + a11).ToString()] = "₡ -" + dgvTotalesReinversiones.Rows[0].Cells[i].Value.ToString().Replace("₡ ", string.Empty);
+                a11++;
+            }
+            ds.Tables[dsNombre].Rows.Add(row11);
+            #endregion
 
-        //    #region prestamo
-        //    double montoFinanciamiento = isFijo ? proyecto.FinanciamientoIF.MontoFinanciamiento : proyecto.FinanciamientoIV.MontoFinanciamiento;
-        //    DataRow row12 = ds.Tables[dsNombre].NewRow();
-        //    row12["Rubro"] = "Préstamo";
-        //    row12[(proyecto.AnoInicial).ToString()] = "₡ " + montoFinanciamiento;
-        //    ds.Tables[dsNombre].Rows.Add(row12);
-        //    #endregion
+            #region prestamo
+            DataRow row12 = ds.Tables[dsNombre].NewRow();
+            row12["Rubro"] = "Préstamo";
+            row12[(proyecto.AnoInicial).ToString()] = "₡ " + proyecto.Financiamiento.MontoFinanciamiento;
+            ds.Tables[dsNombre].Rows.Add(row12);
+            #endregion
 
-        //    #region amortizacion prestamo
-        //    DataRow row13 = ds.Tables[dsNombre].NewRow();
-        //    row13["Rubro"] = "Amortizacion del préstamo";
-        //    for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
-        //    {
-        //        if (i < dgvFinanciamiento.Rows.Count)
-        //        {
-        //            row13[(proyecto.AnoInicial + i + 1).ToString()] = "₡ -" + dgvFinanciamiento.Rows[i].Cells[3].Value.ToString().Replace("₡ ", string.Empty);
-        //        }
-        //        else
-        //        {
-        //            row13[(proyecto.AnoInicial + i + 1).ToString()] = "₡ 0";
-        //        }
-        //    }
-        //    ds.Tables[dsNombre].Rows.Add(row13);
-        //    #endregion
+            #region amortizacion prestamo
+            DataRow row13 = ds.Tables[dsNombre].NewRow();
+            row13["Rubro"] = "Amortizacion del préstamo";
+            for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
+            {
+                if (i < dgvFinanciamiento.Rows.Count)
+                {
+                    row13[(proyecto.AnoInicial + i + 1).ToString()] = "₡ -" + dgvFinanciamiento.Rows[i].Cells[3].Value.ToString().Replace("₡ ", string.Empty);
+                }
+                else
+                {
+                    row13[(proyecto.AnoInicial + i + 1).ToString()] = "₡ 0";
+                }
+            }
+            ds.Tables[dsNombre].Rows.Add(row13);
+            #endregion
 
-        //    #region inv capital trabajo
-        //    DataRow row14 = ds.Tables[dsNombre].NewRow();
-        //    row14["Rubro"] = "Inv. Capital Trabajo";
-        //    int a14 = 0;
-        //    for (int i = 1; i < proyecto.HorizonteEvaluacionEnAnos + 1; i++)
-        //    {
-        //        row14[(proyecto.AnoInicial + a14).ToString()] = dgvCapitalTrabajo.Rows[2].Cells[i].Value.ToString();
-        //        a14++;
-        //    }
-        //    row14[(proyecto.AnoInicial + a14).ToString()] = "₡ 0";
-        //    ds.Tables[dsNombre].Rows.Add(row14);
-        //    #endregion
+            #region inv capital trabajo
+            DataRow row14 = ds.Tables[dsNombre].NewRow();
+            row14["Rubro"] = "Inv. Capital Trabajo";
+            int a14 = 0;
+            for (int i = 1; i < proyecto.HorizonteEvaluacionEnAnos + 1; i++)
+            {
+                row14[(proyecto.AnoInicial + a14).ToString()] = dgvCapitalTrabajo.Rows[2].Cells[i].Value.ToString();
+                a14++;
+            }
+            row14[(proyecto.AnoInicial + a14).ToString()] = "₡ 0";
+            ds.Tables[dsNombre].Rows.Add(row14);
+            #endregion
 
-        //    #region recuperacionCT
-        //    DataRow row15 = ds.Tables[dsNombre].NewRow();
-        //    row15["Rubro"] = "Recuperación CT";
-        //    row15[(proyecto.AnoInicial + proyecto.HorizonteEvaluacionEnAnos).ToString()] = recuperacionCT;
-        //    ds.Tables[dsNombre].Rows.Add(row15);
-        //    #endregion
+            #region recuperacionCT
+            DataRow row15 = ds.Tables[dsNombre].NewRow();
+            row15["Rubro"] = "Recuperación CT";
+            row15[(proyecto.AnoInicial + proyecto.HorizonteEvaluacionEnAnos).ToString()] = recuperacionCT;
+            ds.Tables[dsNombre].Rows.Add(row15);
+            #endregion
 
-        //    #region valorResidual
-        //    DataRow row16 = ds.Tables[dsNombre].NewRow();
-        //    row16["Rubro"] = "Valor Residual";
-        //    row16[(proyecto.AnoInicial + proyecto.HorizonteEvaluacionEnAnos).ToString()] = "₡ " + proyecto.ValorResidual.ToString("#,##0.##");
-        //    ds.Tables[dsNombre].Rows.Add(row16);
-        //    #endregion
+            #region valorResidual
+            DataRow row16 = ds.Tables[dsNombre].NewRow();
+            row16["Rubro"] = "Valor Residual";
+            row16[(proyecto.AnoInicial + proyecto.HorizonteEvaluacionEnAnos).ToString()] = "₡ " + proyecto.ValorResidual.ToString("#,##0.##");
+            ds.Tables[dsNombre].Rows.Add(row16);
+            #endregion
 
-        //    #region flujo efectivo
-        //    DataRow row17 = ds.Tables[dsNombre].NewRow();
-        //    row17["Rubro"] = "Flujo Efectivo";
+            #region flujo efectivo
+            DataRow row17 = ds.Tables[dsNombre].NewRow();
+            row17["Rubro"] = "Flujo Efectivo";
 
-        //    for (int i = 0; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
-        //    {
-        //        row17[(proyecto.AnoInicial + i).ToString()] = "₡ " + Math.Round(
-        //            Convert.ToDouble(ds.Tables[dsNombre].Rows[9].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[9].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).ToString())) +
-        //            Convert.ToDouble(ds.Tables[dsNombre].Rows[10].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[10].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).ToString())) +
-        //            Convert.ToDouble(ds.Tables[dsNombre].Rows[11].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[11].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).ToString())) +
-        //            Convert.ToDouble(ds.Tables[dsNombre].Rows[12].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[12].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).ToString())) +
-        //            Convert.ToDouble(ds.Tables[dsNombre].Rows[13].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[13].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).ToString())) +
-        //            Convert.ToDouble(ds.Tables[dsNombre].Rows[14].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[14].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).ToString())) +
-        //            Convert.ToDouble(ds.Tables[dsNombre].Rows[15].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[15].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).ToString()))
-        //            , 2).ToString("#,##0.##");
-        //    }
-        //    ds.Tables[dsNombre].Rows.Add(row17);
-        //    #endregion
+            for (int i = 0; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+            {
+                row17[(proyecto.AnoInicial + i).ToString()] = "₡ " + Math.Round(
+                    Convert.ToDouble(ds.Tables[dsNombre].Rows[9].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[9].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).ToString())) +
+                    Convert.ToDouble(ds.Tables[dsNombre].Rows[10].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[10].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).ToString())) +
+                    Convert.ToDouble(ds.Tables[dsNombre].Rows[11].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[11].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).ToString())) +
+                    Convert.ToDouble(ds.Tables[dsNombre].Rows[12].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[12].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).ToString())) +
+                    Convert.ToDouble(ds.Tables[dsNombre].Rows[13].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[13].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).ToString())) +
+                    Convert.ToDouble(ds.Tables[dsNombre].Rows[14].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[14].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).ToString())) +
+                    Convert.ToDouble(ds.Tables[dsNombre].Rows[15].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[15].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).ToString()))
+                    , 2).ToString("#,##0.##");
+            }
+            ds.Tables[dsNombre].Rows.Add(row17);
+            #endregion
 
-        //    return ds.Tables[dsNombre];
-        //}
+            return ds.Tables[dsNombre];
+        }
     }
 }

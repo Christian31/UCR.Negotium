@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UCR.Negotium.DataAccess", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UCR.Negotium.Domain", "UCR.Negotium.Domain\UCR.Negotium.Domain.csproj", "{37573984-06BA-43F0-8AAC-0D8CAAA97867}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UCR.Negotium.WindowsUI", "UCR.Negotium.WindowsUI\UCR.Negotium.WindowsUI.csproj", "{A07BCE55-CB66-4BFA-BEA4-18114235B953}"
-EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Negotium", "Installer\Installer.vdproj", "{3AC95FF2-5242-4C6E-ACAB-CD5F0A4316C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UCR.Negotium", "UCR.Negotium\UCR.Negotium.csproj", "{0E4A0C2E-8313-430E-AC03-20488A349FEA}"
@@ -27,10 +25,6 @@ Global
 		{37573984-06BA-43F0-8AAC-0D8CAAA97867}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37573984-06BA-43F0-8AAC-0D8CAAA97867}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37573984-06BA-43F0-8AAC-0D8CAAA97867}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A07BCE55-CB66-4BFA-BEA4-18114235B953}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A07BCE55-CB66-4BFA-BEA4-18114235B953}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A07BCE55-CB66-4BFA-BEA4-18114235B953}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A07BCE55-CB66-4BFA-BEA4-18114235B953}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3AC95FF2-5242-4C6E-ACAB-CD5F0A4316C7}.Debug|Any CPU.ActiveCfg = Debug
 		{3AC95FF2-5242-4C6E-ACAB-CD5F0A4316C7}.Release|Any CPU.ActiveCfg = Release
 		{0E4A0C2E-8313-430E-AC03-20488A349FEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

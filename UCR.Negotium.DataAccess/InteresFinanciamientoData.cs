@@ -6,11 +6,19 @@ using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class InteresFinanciamientoData : BaseData
+    public class InteresFinanciamientoData
     {
+        private string cadenaConexion;
+        private SQLiteConnection conexion;
         private SQLiteCommand command;
 
-        public InteresFinanciamientoData() { }
+        public InteresFinanciamientoData()
+        {
+            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].
+                ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
+
+            conexion = new SQLiteConnection(cadenaConexion);
+        }
 
         public bool InsertarInteresFinanciamiento(InteresFinanciamiento intFinanciamiento, int codProyecto)
         {
@@ -36,14 +44,14 @@ namespace UCR.Negotium.DataAccess
             }//else
         }//InsertarInteresFinanciamiento
 
-        public List<InteresFinanciamiento> GetInteresesFinanciamiento(int codProyecto, int variable)
+        public List<InteresFinanciamiento> GetInteresesFinanciamiento(int codProyecto)
         {
             command = conexion.CreateCommand();
             List<InteresFinanciamiento> listaInteresesFinanciamiento = new List<InteresFinanciamiento>();
             try
             {
                 String select = "SELECT * FROM INTERES_FINANCIAMIENTO"+
-                    " WHERE cod_proyecto=" + codProyecto + " AND variable_interes=" + variable + ";";
+                    " WHERE cod_proyecto=" + codProyecto + ";";
 
                 if (conexion.State != ConnectionState.Open)
                     conexion.Open();

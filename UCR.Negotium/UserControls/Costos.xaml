@@ -92,6 +92,14 @@
                         Style="{StaticResource circleButton}" ToolTip="Eliminar el Costo Seleccionado">
                         <iconPacks:PackIconModern Width="16" Height="16" Kind="Delete" Foreground="Teal"/>
                     </Button>
+                    <Grid Margin="962,7,31,7">
+                        <iconPacks:PackIconModern Width="16" Height="16" Kind="EditAdd" Foreground="Teal"
+                                                  Margin="0,7,160,0" HorizontalAlignment="Right"/>
+                        <Label Margin="30,0,0,0" HorizontalAlignment="Right">
+                            <Hyperlink Name="lblVariacionCostos" Click="lblVariacionCostos_Click">Variación Anual de Costos</Hyperlink>
+                        </Label>
+                    </Grid>
+                    
                 </Grid>
                 <Grid Grid.Row="2" Margin="30,5,30,15">
                     <TextBlock Text="Costos Generados por Año:" FontSize="14"/>

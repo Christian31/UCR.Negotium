@@ -181,15 +181,21 @@ namespace UCR.Negotium.Dialogs
                 validationResult = true;
             }
 
+            bool hasValues = false;
             foreach (CostoMensual costoMensual in CostoSelected.CostosMensuales)
             {
-                if(costoMensual.CostoUnitario <= 0 || costoMensual.Cantidad <= 0)
+                if(costoMensual.CostoUnitario > 0 && costoMensual.Cantidad > 0)
                 {
-                    dgCostosMensual.BorderBrush = Brushes.Red;
-                    dgCostosMensual.ToolTip = CAMPOREQUERIDO;
-                    validationResult = true;
+                    hasValues = true;
                     break;
                 }
+            }
+
+            if (!hasValues)
+            {
+                dgCostosMensual.BorderBrush = Brushes.Red;
+                dgCostosMensual.ToolTip = CAMPOREQUERIDO;
+                validationResult = true;
             }
             
             return validationResult;

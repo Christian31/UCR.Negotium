@@ -61,7 +61,7 @@ namespace UCR.Negotium.WindowsUI
                 //editar TODO cambiar el eliminar/insertar y usar el editar
                 try
                 {
-                    if (crecimientoOfertaData.eliminarCrecimientoObjetoInteres(this.proyecto.CodProyecto))
+                    if (crecimientoOfertaData.EliminarCrecimientoObjetoInteres(this.proyecto.CodProyecto))
                     {
                         for (int i = 0; i < dgvCrecimientosOferta.RowCount; i++)
                         {

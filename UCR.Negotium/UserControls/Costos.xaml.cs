@@ -24,6 +24,7 @@ namespace UCR.Negotium.UserControls
 
         private CostoData costoData;
         private ProyectoData proyectoData;
+        private VariacionAnualCostoData variacionCostoData;
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
@@ -34,6 +35,7 @@ namespace UCR.Negotium.UserControls
 
             costoData = new CostoData();
             proyectoData = new ProyectoData();
+            variacionCostoData = new VariacionAnualCostoData();
 
             proyecto = new Proyecto();
             costoSelected = new Costo();
@@ -43,9 +45,11 @@ namespace UCR.Negotium.UserControls
 
         public void Reload()
         {
+            DTCostosTotales = new DataView();
             CostosList = costoData.GetCostos(CodProyecto);
             proyecto = proyectoData.GetProyecto(CodProyecto);
             proyecto.Costos = CostosList;
+            proyecto.VariacionCostos = variacionCostoData.GetVariacionAnualCostos(CodProyecto);
             if (!proyecto.Costos.Count.Equals(0))
             {
                 DTCostosTotales = DatatableBuilder.GeneraDTCostosGenerados(proyecto).AsDataView();
@@ -112,7 +116,8 @@ namespace UCR.Negotium.UserControls
 
             if (registarCosto.IsActive == false && registarCosto.Reload)
             {
-                Reload();
+                RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
+                mainWindow.ReloadUserControls(CodProyecto);
             }
         }
 
@@ -125,7 +130,8 @@ namespace UCR.Negotium.UserControls
 
                 if (registarCosto.IsActive == false && registarCosto.Reload)
                 {
-                    Reload();
+                    RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
+                    mainWindow.ReloadUserControls(CodProyecto);
                 }
             }
         }
@@ -147,6 +153,17 @@ namespace UCR.Negotium.UserControls
                             "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
+            }
+        }
+
+        private void lblVariacionCostos_Click(object sender, RoutedEventArgs e)
+        {
+            RegistrarVariacionAnualCostos registrarVariacionAnual = new RegistrarVariacionAnualCostos(CodProyecto);
+            registrarVariacionAnual.ShowDialog();
+
+            if (registrarVariacionAnual.IsActive == false && registrarVariacionAnual.Reload)
+            {
+                Reload();
             }
         }
     }

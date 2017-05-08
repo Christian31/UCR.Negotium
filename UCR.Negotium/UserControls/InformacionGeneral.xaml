@@ -90,12 +90,7 @@
                                 <Label Content="Bien o Servicio del Proyecto:"/>
                                 <TextBox Name="tbBienServicio" TextChanged="tbBienServicio_TextChanged"
                                          ToolTip="Ingrese en este campo el Bien o Servicio del Proyecto" 
-                                         Text="{Binding ProyectoSelected.ObjetoInteres.DescripcionObjetoInteres}" Margin="0,0,27,0"/>
-                            </StackPanel>
-                            <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
-                                <Label Content="Unidad de Medida:"/>
-                                <ComboBox Margin="0,0,27,0" Width="215" ItemsSource="{Binding UnidadMedidas}" SelectedValuePath="CodUnidad"
-                                          SelectedValue="{Binding ProyectoSelected.ObjetoInteres.UnidadMedida.CodUnidad}" />
+                                         Text="{Binding ProyectoSelected.ObjetoInteres}" Margin="0,0,27,0"/>
                             </StackPanel>
                         </StackPanel>
                     </Border>

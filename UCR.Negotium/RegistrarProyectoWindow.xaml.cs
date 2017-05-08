@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace UCR.Negotium
 {
@@ -16,11 +17,10 @@ namespace UCR.Negotium
     public partial class RegistrarProyectoWindow : MetroWindow, INotifyPropertyChanged
     {
         private Proyecto proyecto;
+        private DataView dtFlujoCaja;
         private ProyectoData proyectoData;
         private ProponenteData proponenteData;
         private EncargadoData encargadoData;
-        
-        private ProyeccionVentaArticuloData proyeccionData;
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
@@ -30,17 +30,16 @@ namespace UCR.Negotium
             InitializeComponent();
 
             proyectoData = new ProyectoData();         
-            proyeccionData = new ProyeccionVentaArticuloData();
             proponenteData = new ProponenteData();
             encargadoData = new EncargadoData();
 
+            dtFlujoCaja = new DataView();
             proyecto = new Proyecto();
+
             if (!codProyecto.Equals(0))
             {
                 proyecto = proyectoData.GetProyecto(codProyecto);
                 ReloadUserControls(proyecto.CodProyecto);
-
-                proyecto.Proyecciones = proyeccionData.GetProyeccionesVentaArticulo(codProyecto);
             }
 
             //Que hacer con el encargado
@@ -49,6 +48,10 @@ namespace UCR.Negotium
             {
                 proyecto.Encargado = encargadoData.GetEncargado(codEncargado);
             }
+
+            
+
+            InitializeComponent();
         }
 
         public Proyecto ProyectoSelected
@@ -64,19 +67,24 @@ namespace UCR.Negotium
             }
         }
 
-        public int CodProyecto { get; set; }        
-
-        public DataView DTProyeccionesVentas
+        public DataView DTFlujoCaja
         {
             get
             {
-                return DatatableBuilder.GenerarDTIngresosGenerados(ProyectoSelected).AsDataView();
+                return dtFlujoCaja;
+            }
+            set
+            {
+                dtFlujoCaja = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("DTFlujoCaja"));
             }
         }
 
+        public int CodProyecto { get; set; }
+
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
-            if(MessageBox.Show("Esta seguro que desea cerrar esta ventana?", "Confirmar", 
+            if(System.Windows.MessageBox.Show("Esta seguro que desea cerrar esta ventana?", "Confirmar", 
                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 MainWindow mainWindow = new MainWindow();
@@ -93,10 +101,20 @@ namespace UCR.Negotium
             proponente.CodProyecto = infoGeneral.CodProyecto = caracterizacion.CodProyecto =
                     inversiones.CodProyecto = reinversiones.CodProyecto =
                     capitalTrabajo.CodProyecto = depreciaciones.CodProyecto =
-                    costos.CodProyecto = codProyecto;
+                    costos.CodProyecto = proyeccionVentas.CodProyecto = 
+                    financiamientoUc.CodProyecto = codProyecto;
 
             proyecto = proyectoData.GetProyecto(codProyecto);
             proyecto.Proponente = proponenteData.GetProponente(codProyecto);
+
+            if (!proyecto.ConFinanciamiento)
+            {
+                ((TabItem)tcRegistrarProyecto.Items[9]).IsEnabled = false;
+            }
+            else
+            {
+                ((TabItem)tcRegistrarProyecto.Items[9]).IsEnabled = true;
+            }
         }
 
         private void tcRegistrarProyecto_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -106,27 +124,48 @@ namespace UCR.Negotium
                 int indice = tcRegistrarProyecto.SelectedIndex;
                 if (proyecto.CodProyecto.Equals(0) && !indice.Equals(0))
                 {
-                    MessageBox.Show("Por favor ingrese todos los datos de Información General y guardelos para poder avanzar a la siguiente pestaña",
+                    System.Windows.MessageBox.Show("Por favor ingrese todos los datos de Información General y guardelos para poder avanzar a la siguiente pestaña",
                     "Datos vacios", MessageBoxButton.OK, MessageBoxImage.Warning);
                     tcRegistrarProyecto.SelectedIndex = 0;
                 }
                 else if (indice > 1 && proyecto.Proponente.IdProponente.Equals(0))
                 {
-                    MessageBox.Show("Por favor ingrese todos los datos del Proponente y guardelos para poder avanzar a la siguiente pestaña",
+                    System.Windows.MessageBox.Show("Por favor ingrese todos los datos del Proponente y guardelos para poder avanzar a la siguiente pestaña",
                     "Datos vacios", MessageBoxButton.OK, MessageBoxImage.Warning);
                     tcRegistrarProyecto.SelectedIndex = 1;
                 }
                 else if (indice > 2 && proyecto.CaraterizacionDelBienServicio.Equals(string.Empty))
                 {
-                    MessageBox.Show("Por favor ingrese todos los datos de Caracterización y guardelos para poder avanzar a la siguiente pestaña",
+                    System.Windows.MessageBox.Show("Por favor ingrese todos los datos de Caracterización y guardelos para poder avanzar a la siguiente pestaña",
                     "Datos vacios", MessageBoxButton.OK, MessageBoxImage.Warning);
                     tcRegistrarProyecto.SelectedIndex = 2;
                 }
-                else if (indice.Equals(11))
-                {
-                    //llenar flujo de caja 
-                }
+                //else if (indice.Equals(10))
+                //{
+                //    //llenar flujo de caja 
+                //    CastToDataGridView(capitalTrabajo.DTCapitalTrabajo.ToTable(),
+                //financiamientoUc.DTFinanciamiento.ToTable(), reinversiones.DTTotalesReinversiones.ToTable());
+
+                //    DTFlujoCaja = DatatableBuilder.GenerarDTFlujoCaja(proyecto, gridView[0], gridView[1], gridView[2],
+                //        inversiones.InversionesTotal, capitalTrabajo.RecuperacionCT).AsDataView();
+                //}
             }
+        }
+
+        private List<DataGridView> gridView { get; set; }
+
+        private void CastToDataGridView(DataTable capital, DataTable financiamiento, DataTable reinversiones)
+        {
+            gridView = new List<DataGridView>();
+            DataGridView view = new DataGridView();
+            view.DataSource = capital;
+            gridView.Add(view);
+            DataGridView view2 = new DataGridView();
+            view.DataSource = financiamiento;
+            gridView.Add(view2);
+            DataGridView view3 = new DataGridView();
+            view.DataSource = reinversiones;
+            gridView.Add(view3);
         }
     }
 }

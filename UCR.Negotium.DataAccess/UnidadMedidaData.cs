@@ -7,11 +7,19 @@ using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class UnidadMedidaData : BaseData
+    public class UnidadMedidaData
     {
+        private string cadenaConexion;
+        private SQLiteConnection conexion;
         private SQLiteCommand command;
 
-        public UnidadMedidaData() { }
+        public UnidadMedidaData()
+        {
+            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].
+                ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
+
+            conexion = new SQLiteConnection(cadenaConexion);
+        }
 
         public DataTable GetUnidadesMedida()
         {

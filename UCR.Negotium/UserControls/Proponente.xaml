@@ -40,27 +40,33 @@
                         <StackPanel Grid.Row="1">
                             <Grid Style="{StaticResource gridFormStyle}">
                                 <Label Content="Nombre:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                <TextBox Text="{Binding ProponenteSelected.Nombre}" Margin="65,0,27,0" MinWidth="30"/>
+                                <TextBox Text="{Binding ProponenteSelected.Nombre}" Margin="65,0,27,0" MinWidth="30"
+                                         Name="tbNombreProponente" TextChanged="tbNombreProponente_TextChanged"/>
                             </Grid>
                             <Grid Style="{StaticResource gridFormStyle}">
                                 <Label Content="Apellidos:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                <TextBox Text="{Binding ProponenteSelected.Apellidos}" Margin="65,0,27,0"/>
+                                <TextBox Text="{Binding ProponenteSelected.Apellidos}" Margin="65,0,27,0"
+                                         Name="tbApellidosProponente" TextChanged="tbApellidosProponente_TextChanged"/>
                             </Grid>
                             <Grid Style="{StaticResource gridFormStyle}">
                                 <Label Content="Cédula de Identidad:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                <TextBox Text="{Binding ProponenteSelected.NumIdentificacion}" Margin="130,0,27,0"/>
+                                <TextBox Text="{Binding ProponenteSelected.NumIdentificacion}" Name="tbCedulaProponente"
+                                         Margin="130,0,27,0" TextChanged="tbCedulaProponente_TextChanged"/>
                             </Grid>
                             <Grid Style="{StaticResource gridFormStyle}">
                                 <Label Content="Teléfono:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                <TextBox Text="{Binding ProponenteSelected.Telefono}" Margin="65,0,27,0"/>
+                                <TextBox Text="{Binding ProponenteSelected.Telefono}" Margin="65,0,27,0"
+                                         Name="tbTelefonoProponente" TextChanged="tbTelefonoProponente_TextChanged"/>
                             </Grid>
                             <Grid Style="{StaticResource gridFormStyle}">
                                 <Label Content="Correo Electrónico:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                <TextBox Text="{Binding ProponenteSelected.Email}" Margin="120,0,27,0"/>
+                                <TextBox Text="{Binding ProponenteSelected.Email}" Margin="120,0,27,0"
+                                         Name="tbCorreoProponente" TextChanged="tbCorreoProponente_TextChanged"/>
                             </Grid>
                             <Grid Style="{StaticResource gridFormStyle}">
                                 <Label Content="Puesto en la Organización:"/>
-                                <TextBox Text="{Binding ProponenteSelected.PuestoEnOrganizacion}" Margin="165,0,27,0"/>
+                                <TextBox Text="{Binding ProponenteSelected.PuestoEnOrganizacion}" Margin="165,0,27,0"
+                                         Name="tbPuestoProponente"/>
                             </Grid>
                             <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
                                 <Label Content="Género:"/>
@@ -111,11 +117,13 @@
 
                             <Grid Style="{StaticResource gridFormStyle}">
                                 <Label Content="Nombre de Organización:"/>
-                                <TextBox Text="{Binding ProponenteSelected.Organizacion.NombreOrganizacion}" Margin="160,0,27,0"/>
+                                <TextBox Text="{Binding ProponenteSelected.Organizacion.NombreOrganizacion}" 
+                                         Margin="160,0,27,0" Name="tbNombreOrganizacion" TextChanged="tbNombreOrganizacion_TextChanged"/>
                             </Grid>
                             <Grid Style="{StaticResource gridFormStyle}">
                                 <Label Content="Cédula Jurídica:"/>
-                                <TextBox Text="{Binding ProponenteSelected.Organizacion.CedulaJuridica}" Margin="100,0,27,0"/>
+                                <TextBox Text="{Binding ProponenteSelected.Organizacion.CedulaJuridica}" 
+                                         Margin="100,0,27,0" Name="tbCedulaOrganizacion" TextChanged="tbCedulaOrganizacion_TextChanged"/>
                             </Grid>
                             <Grid Style="{StaticResource gridFormStyle}">
                                 <Grid.ColumnDefinitions>
@@ -124,11 +132,13 @@
                                 </Grid.ColumnDefinitions>
                                 <Grid>
                                     <Label Content="Teléfono:"/>
-                                    <TextBox Text="{Binding ProponenteSelected.Organizacion.Telefono}" Margin="65,0,27,0"/>
+                                    <TextBox Text="{Binding ProponenteSelected.Organizacion.Telefono}" 
+                                             Margin="65,0,27,0" Name="tbTelefonoOrganizacion" TextChanged="tbTelefonoOrganizacion_TextChanged"/>
                                 </Grid>
                                 <Grid Grid.Column="1">
                                     <Label Content="Correo Electrónico:" />
-                                    <TextBox Text="{Binding ProponenteSelected.Organizacion.CorreoElectronico}" Margin="120,0,27,0"/>
+                                    <TextBox Text="{Binding ProponenteSelected.Organizacion.CorreoElectronico}" 
+                                             Margin="120,0,27,0" Name="tbCorreoOrganizacion" TextChanged="tbCorreoOrganizacion_TextChanged"/>
                                 </Grid>
                             </Grid>
                         </StackPanel>
@@ -137,7 +147,7 @@
                                 <RowDefinition Height="2*"/>
                                 <RowDefinition Height="8*"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Text="Descripción:" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                            <TextBlock Text="Descripción:" Name="tbDescripcionOrganizacion" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                             <RichTextBox Grid.Row="1">
                                 <FlowDocument>
                                     <Paragraph>

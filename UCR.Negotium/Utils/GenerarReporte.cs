@@ -15,14 +15,12 @@ namespace UCR.Negotium.Utils
 
         public GenerarReporte(Proyecto proyecto)
         {
-            ObjetoInteresData objetoInteresData = new ObjetoInteresData();
             ProponenteData proponenteData = new ProponenteData();
             RequerimientoInversionData inversionData = new RequerimientoInversionData();
             this.proyecto = proyecto;
             ObtieneProvincia();
             ObtieneCanton();
             ObtieneDistrito();
-            this.proyecto.ObjetoInteres = objetoInteresData.GetObjetoInteres(proyecto.CodProyecto);
             this.proyecto.Proponente = proponenteData.GetProponente(proyecto.CodProyecto);
             ObtieneTipoOrganizacion();
             this.proyecto.RequerimientosInversion = inversionData.GetRequerimientosInversion(proyecto.CodProyecto);
@@ -131,8 +129,7 @@ namespace UCR.Negotium.Utils
             bodyReport = bodyReport.Replace(PAGAIMPUESTOS, proyecto.PagaImpuesto ? "Si" : "No");
             bodyReport = bodyReport.Replace(PORCENTAJEIMPUESTOS, proyecto.PorcentajeImpuesto.ToString() + " %");
             bodyReport = bodyReport.Replace(TIPOPROYECTO, proyecto.ConIngresos ? "Con Ingresos" : "Sin Ingresos");
-            bodyReport = bodyReport.Replace(BIENOSERVICIO, proyecto.ObjetoInteres.DescripcionObjetoInteres);
-            bodyReport = bodyReport.Replace(UNIDADMEDIDABIENOSERVICIO, proyecto.ObjetoInteres.UnidadMedida.NombreUnidad);
+            bodyReport = bodyReport.Replace(BIENOSERVICIO, proyecto.ObjetoInteres);
             bodyReport = bodyReport.Replace(CANTON, proyecto.Canton.NombreCanton);
             bodyReport = bodyReport.Replace(PROVINCIA, proyecto.Provincia.NombreProvincia);
             bodyReport = bodyReport.Replace(DISTRITO, proyecto.Distrito.NombreDistrito);

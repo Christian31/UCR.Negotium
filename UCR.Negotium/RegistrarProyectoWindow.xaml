@@ -50,13 +50,21 @@
                 <modulos:Depreciaciones x:Name="depreciaciones" Style="{StaticResource moduleStyle}"/>
             </TabItem>
             <TabItem Header="Financiamiento">
-                <modulos:Financiamiento Style="{StaticResource moduleStyle}"/>
+                <modulos:Financiamiento x:Name="financiamientoUc" Style="{StaticResource moduleStyle}"/>
             </TabItem>
             <TabItem Header="Flujo de Caja">
-                <modulos:FlujoCaja Style="{StaticResource moduleStyle}"/>
-            </TabItem>
-            <TabItem Header="Resumen del Proyecto">
-                <modulos:Resumen Style="{StaticResource moduleStyle}"/>
+                <Grid Background="AliceBlue" Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="7*"/>
+                        <RowDefinition Height="90*"/>
+                    </Grid.RowDefinitions>
+                    <Border Style="{StaticResource borderStyle}" Background="LightBlue">
+                        <TextBlock Text="Flujo de Caja" Style="{StaticResource textTitleStyle}"/>
+                    </Border>
+                    <Border Grid.Row="1" Style="{StaticResource borderStyle}">
+
+                    </Border>
+                </Grid>
             </TabItem>
         </TabControl>
 

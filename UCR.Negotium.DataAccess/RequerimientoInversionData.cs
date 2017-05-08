@@ -3,17 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class RequerimientoInversionData : BaseData
+    public class RequerimientoInversionData
     {
+        private string cadenaConexion;
+        private SQLiteConnection conexion;
 
-        public RequerimientoInversionData() { }
+        public RequerimientoInversionData()
+        {
+            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].
+                ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
+
+            conexion = new SQLiteConnection(cadenaConexion);
+        }
 
         public int InsertarRequerimientosInvesion(RequerimientoInversion requerimientoInversion, int codProyecto)
         {
@@ -43,7 +48,6 @@ namespace UCR.Negotium.DataAccess
             }//try
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
                 conexion.Close();
                 return idInversion;
             }//catch
@@ -154,9 +158,8 @@ namespace UCR.Negotium.DataAccess
                 conexion.Close();
                 return true;
             }//try
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine(ex.Message);
                 conexion.Close();
                 return false;
             }//catch
@@ -169,15 +172,17 @@ namespace UCR.Negotium.DataAccess
                 string sqlQuery = "DELETE FROM REQUERIMIENTO_INVERSION WHERE cod_requerimiento_inversion =" + codRequerimiento + ";";
                 if (conexion.State != ConnectionState.Open)
                     conexion.Open();
+
                 SQLiteCommand command = conexion.CreateCommand();
-                command = conexion.CreateCommand();
                 command.CommandText = sqlQuery;
                 command.ExecuteNonQuery();
+                conexion.Close();
 
                 return true;
             }
             catch
             {
+                conexion.Close();
                 return false;
             }
 

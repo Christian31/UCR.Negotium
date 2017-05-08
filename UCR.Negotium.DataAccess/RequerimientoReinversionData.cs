@@ -7,10 +7,18 @@ using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class RequerimientoReinversionData : BaseData
+    public class RequerimientoReinversionData
     {
+        private string cadenaConexion;
+        private SQLiteConnection conexion;
 
-        public RequerimientoReinversionData() { }
+        public RequerimientoReinversionData()
+        {
+            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].
+                ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
+
+            conexion = new SQLiteConnection(cadenaConexion);
+        }
 
         public int InsertarRequerimientosReinversion(RequerimientoReinversion requerimientoReinversion, int codProyecto)
         {
@@ -52,7 +60,7 @@ namespace UCR.Negotium.DataAccess
         public bool EditarRequerimientoReinversion(RequerimientoReinversion requerimientoReinversion)
         {
             string insert = "UPDATE REQUERIMIENTO_REINVERSION SET descripcion_requerimiento = ?, cantidad = ?, " +
-                "costo_unitario = ?, cod_unidad_medida = ?, depreciable = ?, vida_util = ?,  ano_reinversion = ? " +
+                "costo_unitario = ?, cod_unidad_medida = ?, depreciable = ?, vida_util = ?,  ano_reinversion = ?, cod_requerimiento_inversion =? " +
             "WHERE cod_requerimiento_reinversion = ?; " +
             "SELECT last_insert_rowid();";
             if (conexion.State != ConnectionState.Open)
@@ -66,6 +74,7 @@ namespace UCR.Negotium.DataAccess
             command.Parameters.AddWithValue("depreciable", requerimientoReinversion.Depreciable);
             command.Parameters.AddWithValue("vida_util", requerimientoReinversion.VidaUtil);
             command.Parameters.AddWithValue("ano_reinversion", requerimientoReinversion.AnoReinversion);
+            command.Parameters.AddWithValue("cod_requerimiento_inversion", requerimientoReinversion.CodRequerimientoInversion);
             command.Parameters.AddWithValue("cod_requerimiento_reinversion", requerimientoReinversion.CodRequerimientoReinversion);
             try
             {
@@ -179,14 +188,15 @@ namespace UCR.Negotium.DataAccess
                 if (conexion.State != ConnectionState.Open)
                     conexion.Open();
                 SQLiteCommand command = conexion.CreateCommand();
-                command = conexion.CreateCommand();
                 command.CommandText = sqlQuery;
                 command.ExecuteNonQuery();
+                conexion.Close();
 
                 return true;
             }
             catch
             {
+                conexion.Close();
                 return false;
             }
         }

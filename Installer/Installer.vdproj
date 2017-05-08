@@ -15,122 +15,212 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_5CABE1C541DF4B6D9F492D9F290FE17F"
+        "MsmKey" = "8:_1971E12B48904EEFA3539AE7F3646698"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_63591678945082A450FABC6EF5F34E62"
-        "OwnerKey" = "8:_8F405003BF44475CAB0F478DBF734AD9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_63591678945082A450FABC6EF5F34E62"
-        "OwnerKey" = "8:_B01F4F51C67D4CF2B942CB42E29679B2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_63591678945082A450FABC6EF5F34E62"
-        "OwnerKey" = "8:_BD3B76D9B9C01E0E7CBC99091B63C0AE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_73E0F1CD56A0F8710828B6453391F761"
-        "OwnerKey" = "8:_8F405003BF44475CAB0F478DBF734AD9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_73E0F1CD56A0F8710828B6453391F761"
-        "OwnerKey" = "8:_BD3B76D9B9C01E0E7CBC99091B63C0AE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_815B7C8FBC5F4A0AA5E9519AB20E2671"
+        "MsmKey" = "8:_297C9F3D631448579A5698DA6E113D63"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_8F405003BF44475CAB0F478DBF734AD9"
+        "MsmKey" = "8:_3649B72B19670BF6A8B9AF7AA429BF32"
+        "OwnerKey" = "8:_ED228014F7FB19D02BDE8CCF3F1303FD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3649B72B19670BF6A8B9AF7AA429BF32"
+        "OwnerKey" = "8:_7D3BBDA039C2414AB88F54E64C00E47D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3DF39F12319D4BBCB8C3092D6DD83ED3"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_9A9046C25951412697011E562B26BE96"
+        "MsmKey" = "8:_5895E61F14484E2996445A2DBF79FF76"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_B01F4F51C67D4CF2B942CB42E29679B2"
+        "MsmKey" = "8:_60E1A1D009EC3A0F42CAF7A797210D56"
+        "OwnerKey" = "8:_E89974480E8F4C61A43FD04E87BD6374"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_641E962CAFCE4ADA95D79FAD5033F629"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_BD3B76D9B9C01E0E7CBC99091B63C0AE"
-        "OwnerKey" = "8:_B01F4F51C67D4CF2B942CB42E29679B2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_C0CE8B4E83CB4D58B9D8B2FCD895E1A9"
+        "MsmKey" = "8:_7D3BBDA039C2414AB88F54E64C00E47D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_CB2E8941E7604878A04FFB7821321C7E"
+        "MsmKey" = "8:_88129724301768B1D0AD222CC32A48E4"
+        "OwnerKey" = "8:_E89974480E8F4C61A43FD04E87BD6374"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_88129724301768B1D0AD222CC32A48E4"
+        "OwnerKey" = "8:_7D3BBDA039C2414AB88F54E64C00E47D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_88129724301768B1D0AD222CC32A48E4"
+        "OwnerKey" = "8:_ED228014F7FB19D02BDE8CCF3F1303FD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_936B882470574B49B307270A9D1C8C35"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C0CE8B4E83CB4D58B9D8B2FCD895E1A9"
+        "MsmKey" = "8:_98864A09C7D14386BB8BAD479A4CFB37"
+        "OwnerKey" = "8:_EE0E567A676B1361D246CB8FD9F0EBB5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_98864A09C7D14386BB8BAD479A4CFB37"
+        "OwnerKey" = "8:_D31FFEC3787D43C69B9C59B43560485E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C62A1135736042BFA75B0AF4155DEF1D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D31FFEC3787D43C69B9C59B43560485E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E30B9D9526B4452B8FC91AA0C1766FD6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E89974480E8F4C61A43FD04E87BD6374"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED228014F7FB19D02BDE8CCF3F1303FD"
+        "OwnerKey" = "8:_E89974480E8F4C61A43FD04E87BD6374"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EE0E567A676B1361D246CB8FD9F0EBB5"
+        "OwnerKey" = "8:_E89974480E8F4C61A43FD04E87BD6374"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B01F4F51C67D4CF2B942CB42E29679B2"
+        "OwnerKey" = "8:_7D3BBDA039C2414AB88F54E64C00E47D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_BD3B76D9B9C01E0E7CBC99091B63C0AE"
+        "OwnerKey" = "8:_641E962CAFCE4ADA95D79FAD5033F629"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_CB2E8941E7604878A04FFB7821321C7E"
+        "OwnerKey" = "8:_D31FFEC3787D43C69B9C59B43560485E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_8F405003BF44475CAB0F478DBF734AD9"
+        "OwnerKey" = "8:_EE0E567A676B1361D246CB8FD9F0EBB5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_63591678945082A450FABC6EF5F34E62"
+        "OwnerKey" = "8:_E89974480E8F4C61A43FD04E87BD6374"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_73E0F1CD56A0F8710828B6453391F761"
+        "OwnerKey" = "8:_ED228014F7FB19D02BDE8CCF3F1303FD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_60E1A1D009EC3A0F42CAF7A797210D56"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E30B9D9526B4452B8FC91AA0C1766FD6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_88129724301768B1D0AD222CC32A48E4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_3649B72B19670BF6A8B9AF7AA429BF32"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_98864A09C7D14386BB8BAD479A4CFB37"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_3DF39F12319D4BBCB8C3092D6DD83ED3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_297C9F3D631448579A5698DA6E113D63"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_1971E12B48904EEFA3539AE7F3646698"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -151,6 +241,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -167,6 +273,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -196,10 +318,21 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5CABE1C541DF4B6D9F492D9F290FE17F"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1971E12B48904EEFA3539AE7F3646698"
             {
-            "SourcePath" = "8:..\\UCR.Negotium.WindowsUI\\bin\\Release\\UCR.Negotium.WindowsUI.exe.config"
-            "TargetName" = "8:UCR.Negotium.WindowsUI.exe.config"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Data.SQLite, Version=1.0.81.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86"
+                "ScatterAssemblies"
+                {
+                    "_1971E12B48904EEFA3539AE7F3646698"
+                    {
+                    "Name" = "8:System.Data.SQLite.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\UCR.Negotium\\bin\\Release\\System.Data.SQLite.dll"
+            "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_301B8F48AD2C4A0B8D7F6FA6AA0C6D65"
             "Condition" = "8:"
@@ -216,20 +349,20 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_63591678945082A450FABC6EF5F34E62"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_297C9F3D631448579A5698DA6E113D63"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:UCR.Negotium.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:MahApps.Metro.IconPacks, Version=1.7.1.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_63591678945082A450FABC6EF5F34E62"
+                    "_297C9F3D631448579A5698DA6E113D63"
                     {
-                    "Name" = "8:UCR.Negotium.Domain.DLL"
+                    "Name" = "8:MahApps.Metro.IconPacks.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:UCR.Negotium.Domain.DLL"
+            "SourcePath" = "8:..\\UCR.Negotium\\bin\\Release\\MahApps.Metro.IconPacks.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_301B8F48AD2C4A0B8D7F6FA6AA0C6D65"
@@ -244,17 +377,17 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_73E0F1CD56A0F8710828B6453391F761"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3649B72B19670BF6A8B9AF7AA429BF32"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:System.Data.SQLite, Version=1.0.81.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_73E0F1CD56A0F8710828B6453391F761"
+                    "_3649B72B19670BF6A8B9AF7AA429BF32"
                     {
                     "Name" = "8:System.Data.SQLite.DLL"
                     "Attributes" = "3:512"
@@ -274,13 +407,198 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:FALSE"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_815B7C8FBC5F4A0AA5E9519AB20E2671"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3DF39F12319D4BBCB8C3092D6DD83ED3"
             {
-            "SourcePath" = "8:..\\..\\..\\..\\Desktop\\NegotiumDataBase.db"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_3DF39F12319D4BBCB8C3092D6DD83ED3"
+                    {
+                    "Name" = "8:System.Windows.Interactivity.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\UCR.Negotium\\bin\\Release\\System.Windows.Interactivity.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_301B8F48AD2C4A0B8D7F6FA6AA0C6D65"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5895E61F14484E2996445A2DBF79FF76"
+            {
+            "SourcePath" = "8:..\\UCR.Negotium\\bin\\Release\\UCR.Negotium.exe.config"
+            "TargetName" = "8:UCR.Negotium.exe.config"
+            "Tag" = "8:"
+            "Folder" = "8:_301B8F48AD2C4A0B8D7F6FA6AA0C6D65"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_60E1A1D009EC3A0F42CAF7A797210D56"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Select.HtmlToPdf, Version=17.1.0.0, Culture=neutral, PublicKeyToken=e0ae9f6e27a97018, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_60E1A1D009EC3A0F42CAF7A797210D56"
+                    {
+                    "Name" = "8:Select.HtmlToPdf.DLL"
+                    "Attributes" = "3:512"
+                    }
+                    "_A4D4EEC14B1B1DB1A3050054C5B46951"
+                    {
+                    "Name" = "8:Select.Html.dep"
+                    "Attributes" = "3:1"
+                    }
+                }
+            "SourcePath" = "8:Select.HtmlToPdf.DLL"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_301B8F48AD2C4A0B8D7F6FA6AA0C6D65"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_641E962CAFCE4ADA95D79FAD5033F629"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Select.HtmlToPdf, Version=17.1.0.0, Culture=neutral, PublicKeyToken=e0ae9f6e27a97018, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_4439DFEB728DCFBA2DE7948A9251AE96"
+                    {
+                    "Name" = "8:Select.Html.dep"
+                    "Attributes" = "3:1"
+                    }
+                    "_641E962CAFCE4ADA95D79FAD5033F629"
+                    {
+                    "Name" = "8:Select.HtmlToPdf.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\UCR.Negotium\\bin\\Release\\Select.HtmlToPdf.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_301B8F48AD2C4A0B8D7F6FA6AA0C6D65"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7D3BBDA039C2414AB88F54E64C00E47D"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:UCR.Negotium.DataAccess, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_7D3BBDA039C2414AB88F54E64C00E47D"
+                    {
+                    "Name" = "8:UCR.Negotium.DataAccess.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\UCR.Negotium\\bin\\Release\\UCR.Negotium.DataAccess.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_301B8F48AD2C4A0B8D7F6FA6AA0C6D65"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_88129724301768B1D0AD222CC32A48E4"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:UCR.Negotium.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_88129724301768B1D0AD222CC32A48E4"
+                    {
+                    "Name" = "8:UCR.Negotium.Domain.DLL"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:UCR.Negotium.Domain.DLL"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_301B8F48AD2C4A0B8D7F6FA6AA0C6D65"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_936B882470574B49B307270A9D1C8C35"
+            {
+            "SourcePath" = "8:..\\UCR.Negotium\\bin\\Release\\Data\\NegotiumDataBase.db"
             "TargetName" = "8:NegotiumDataBase.db"
             "Tag" = "8:"
             "Folder" = "8:_37299CE823B94300B3B18E9B7EB9BD80"
@@ -298,20 +616,71 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8F405003BF44475CAB0F478DBF734AD9"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_98864A09C7D14386BB8BAD479A4CFB37"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:UCR.Negotium.DataAccess, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_8F405003BF44475CAB0F478DBF734AD9"
+                    "_98864A09C7D14386BB8BAD479A4CFB37"
                     {
-                    "Name" = "8:UCR.Negotium.DataAccess.dll"
+                    "Name" = "8:System.Windows.Interactivity.DLL"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:..\\UCR.Negotium.WindowsUI\\bin\\Release\\UCR.Negotium.DataAccess.dll"
+            "SourcePath" = "8:System.Windows.Interactivity.DLL"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_301B8F48AD2C4A0B8D7F6FA6AA0C6D65"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C62A1135736042BFA75B0AF4155DEF1D"
+            {
+            "SourcePath" = "8:..\\UCR.Negotium\\bin\\Release\\Select.Html.dep"
+            "TargetName" = "8:Select.Html.dep"
+            "Tag" = "8:"
+            "Folder" = "8:_301B8F48AD2C4A0B8D7F6FA6AA0C6D65"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D31FFEC3787D43C69B9C59B43560485E"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:MahApps.Metro, Version=1.4.3.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_D31FFEC3787D43C69B9C59B43560485E"
+                    {
+                    "Name" = "8:MahApps.Metro.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\UCR.Negotium\\bin\\Release\\MahApps.Metro.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_301B8F48AD2C4A0B8D7F6FA6AA0C6D65"
@@ -329,40 +698,20 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9A9046C25951412697011E562B26BE96"
-            {
-            "SourcePath" = "8:..\\UCR.Negotium.WindowsUI\\bin\\Release\\1480055241_tools.ico"
-            "TargetName" = "8:1480055241_tools.ico"
-            "Tag" = "8:"
-            "Folder" = "8:_301B8F48AD2C4A0B8D7F6FA6AA0C6D65"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B01F4F51C67D4CF2B942CB42E29679B2"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E30B9D9526B4452B8FC91AA0C1766FD6"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:UCR.Negotium.WindowsUI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:UCR.Negotium.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_B01F4F51C67D4CF2B942CB42E29679B2"
+                    "_E30B9D9526B4452B8FC91AA0C1766FD6"
                     {
-                    "Name" = "8:UCR.Negotium.WindowsUI.exe"
+                    "Name" = "8:UCR.Negotium.Domain.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:..\\UCR.Negotium.WindowsUI\\bin\\Release\\UCR.Negotium.WindowsUI.exe"
+            "SourcePath" = "8:..\\UCR.Negotium\\bin\\Release\\UCR.Negotium.Domain.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_301B8F48AD2C4A0B8D7F6FA6AA0C6D65"
@@ -380,14 +729,45 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BD3B76D9B9C01E0E7CBC99091B63C0AE"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E89974480E8F4C61A43FD04E87BD6374"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:UCR.Negotium, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_E89974480E8F4C61A43FD04E87BD6374"
+                    {
+                    "Name" = "8:UCR.Negotium.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\UCR.Negotium\\bin\\Release\\UCR.Negotium.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_301B8F48AD2C4A0B8D7F6FA6AA0C6D65"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_ED228014F7FB19D02BDE8CCF3F1303FD"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:UCR.Negotium.DataAccess, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_BD3B76D9B9C01E0E7CBC99091B63C0AE"
+                    "_ED228014F7FB19D02BDE8CCF3F1303FD"
                     {
                     "Name" = "8:UCR.Negotium.DataAccess.DLL"
                     "Attributes" = "3:512"
@@ -407,24 +787,24 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:FALSE"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C0CE8B4E83CB4D58B9D8B2FCD895E1A9"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EE0E567A676B1361D246CB8FD9F0EBB5"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:System.Data.SQLite, Version=1.0.81.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:MahApps.Metro, Version=1.4.3.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_C0CE8B4E83CB4D58B9D8B2FCD895E1A9"
+                    "_EE0E567A676B1361D246CB8FD9F0EBB5"
                     {
-                    "Name" = "8:System.Data.SQLite.dll"
+                    "Name" = "8:MahApps.Metro.DLL"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:..\\UCR.Negotium.WindowsUI\\bin\\Release\\System.Data.SQLite.dll"
+            "SourcePath" = "8:MahApps.Metro.DLL"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_301B8F48AD2C4A0B8D7F6FA6AA0C6D65"
@@ -438,39 +818,8 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_CB2E8941E7604878A04FFB7821321C7E"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:UCR.Negotium.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_CB2E8941E7604878A04FFB7821321C7E"
-                    {
-                    "Name" = "8:UCR.Negotium.Domain.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\UCR.Negotium.WindowsUI\\bin\\Release\\UCR.Negotium.Domain.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_301B8F48AD2C4A0B8D7F6FA6AA0C6D65"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
         }
@@ -492,7 +841,7 @@
                     "{9EF0B969-E518-4E46-987F-47570745A589}:_37299CE823B94300B3B18E9B7EB9BD80"
                     {
                     "Name" = "8:Data"
-                    "AlwaysCreate" = "11:FALSE"
+                    "AlwaysCreate" = "11:TRUE"
                     "Condition" = "8:"
                     "Transitive" = "11:FALSE"
                     "Property" = "8:_9AB6A780A4844A0C87570F0D5623AED0"
@@ -541,7 +890,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Installer"
         "ProductCode" = "8:{E35D9631-B8CB-401A-938E-00148EF94C5A}"
-        "PackageCode" = "8:{25773420-3040-4598-8B98-1A19D981D363}"
+        "PackageCode" = "8:{0D68EDB8-7126-49F0-8BD9-EEF97B9E9339}"
         "UpgradeCode" = "8:{AFD41D9F-8957-419C-94DF-FA0AD0DF3205}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -661,18 +1010,18 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_8B47D1F4C9B54325A3FE8540733EA7A9"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_C659FCDA1E4B4E00845529905A0CD646"
             {
-            "Name" = "8:Negotium.exe"
+            "Name" = "8:UCR.Negotium.exe"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_B01F4F51C67D4CF2B942CB42E29679B2"
+            "Target" = "8:_E89974480E8F4C61A43FD04E87BD6374"
             "Folder" = "8:_986E650552B64D0A92516506B7B29903"
             "WorkingFolder" = "8:_301B8F48AD2C4A0B8D7F6FA6AA0C6D65"
-            "Icon" = "8:_9A9046C25951412697011E562B26BE96"
+            "Icon" = "8:"
             "Feature" = "8:"
             }
         }

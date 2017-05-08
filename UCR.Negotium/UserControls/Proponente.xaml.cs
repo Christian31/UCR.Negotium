@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
 
@@ -14,6 +16,8 @@ namespace UCR.Negotium.UserControls
     public partial class Proponente : UserControl, INotifyPropertyChanged
     {
         private const string CAMPOREQUERIDO = "Este campo es requerido";
+        private Regex emailExpresion = new Regex(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
+        private Regex numbers = new Regex(@"([^\d]*\d){8,}");
 
         private Domain.Proponente proponenteSelected;
         private List<TipoOrganizacion> tipoOrganizaciones;
@@ -168,6 +172,61 @@ namespace UCR.Negotium.UserControls
         public bool ValidateRequiredFields()
         {
             bool validationResult = false;
+            if (string.IsNullOrWhiteSpace(tbNombreProponente.Text))
+            {
+                tbNombreProponente.ToolTip = CAMPOREQUERIDO;
+                tbNombreProponente.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+            if (string.IsNullOrWhiteSpace(tbApellidosProponente.Text))
+            {
+                tbApellidosProponente.ToolTip = CAMPOREQUERIDO;
+                tbApellidosProponente.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+            if (string.IsNullOrWhiteSpace(tbCedulaProponente.Text))
+            {
+                tbCedulaProponente.ToolTip = CAMPOREQUERIDO;
+                tbCedulaProponente.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+            if (!numbers.IsMatch(tbTelefonoProponente.Text))
+            {
+                tbTelefonoProponente.ToolTip = CAMPOREQUERIDO;
+                tbTelefonoProponente.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+            if (string.IsNullOrWhiteSpace(tbNombreOrganizacion.Text))
+            {
+                tbNombreOrganizacion.ToolTip = CAMPOREQUERIDO;
+                tbNombreOrganizacion.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+            if (string.IsNullOrWhiteSpace(tbCedulaOrganizacion.Text))
+            {
+                tbCedulaOrganizacion.ToolTip = CAMPOREQUERIDO;
+                tbCedulaOrganizacion.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+            if (!numbers.IsMatch(tbTelefonoOrganizacion.Text))
+            {
+                tbTelefonoOrganizacion.ToolTip = CAMPOREQUERIDO;
+                tbTelefonoOrganizacion.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+
+            if (!emailExpresion.IsMatch(tbCorreoProponente.Text))
+            {
+                tbCorreoProponente.ToolTip = CAMPOREQUERIDO;
+                tbCorreoProponente.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+            if (!emailExpresion.IsMatch(tbCorreoOrganizacion.Text))
+            {
+                tbCorreoOrganizacion.ToolTip = CAMPOREQUERIDO;
+                tbCorreoOrganizacion.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
 
             return validationResult;
         }
@@ -194,6 +253,87 @@ namespace UCR.Negotium.UserControls
             cbTipoOrganizaciones.SelectedItem = TipoOrganizaciones.FirstOrDefault();
             cbTipoOrganizaciones.IsEnabled = true;
             cbSoyRepresentanteIndividual.IsChecked = false;
+        }
+
+        private void tbNombreProponente_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (tbNombreProponente.BorderBrush == Brushes.Red)
+            {
+                tbNombreProponente.BorderBrush = Brushes.Gray;
+                tbNombreProponente.ToolTip = "";
+            }
+        }
+
+        private void tbApellidosProponente_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (tbApellidosProponente.BorderBrush == Brushes.Red)
+            {
+                tbApellidosProponente.BorderBrush = Brushes.Gray;
+                tbApellidosProponente.ToolTip = "";
+            }
+        }
+
+        private void tbCedulaProponente_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (tbCedulaProponente.BorderBrush == Brushes.Red)
+            {
+                tbCedulaProponente.BorderBrush = Brushes.Gray;
+                tbCedulaProponente.ToolTip = "";
+            }
+        }
+
+        private void tbTelefonoProponente_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (tbTelefonoProponente.BorderBrush == Brushes.Red)
+            {
+                tbTelefonoProponente.BorderBrush = Brushes.Gray;
+                tbTelefonoProponente.ToolTip = "";
+            }
+        }
+
+        private void tbNombreOrganizacion_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (tbNombreOrganizacion.BorderBrush == Brushes.Red)
+            {
+                tbNombreOrganizacion.BorderBrush = Brushes.Gray;
+                tbNombreOrganizacion.ToolTip = "";
+            }
+        }
+
+        private void tbCedulaOrganizacion_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (tbCedulaOrganizacion.BorderBrush == Brushes.Red)
+            {
+                tbCedulaOrganizacion.BorderBrush = Brushes.Gray;
+                tbCedulaOrganizacion.ToolTip = "";
+            }
+        }
+
+        private void tbTelefonoOrganizacion_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (tbTelefonoOrganizacion.BorderBrush == Brushes.Red)
+            {
+                tbTelefonoOrganizacion.BorderBrush = Brushes.Gray;
+                tbTelefonoOrganizacion.ToolTip = "";
+            }
+        }
+
+        private void tbCorreoProponente_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (tbCorreoProponente.BorderBrush == Brushes.Red)
+            {
+                tbCorreoProponente.BorderBrush = Brushes.Gray;
+                tbCorreoProponente.ToolTip = "";
+            }
+        }
+
+        private void tbCorreoOrganizacion_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (tbCorreoOrganizacion.BorderBrush == Brushes.Red)
+            {
+                tbCorreoOrganizacion.BorderBrush = Brushes.Gray;
+                tbCorreoOrganizacion.ToolTip = "";
+            }
         }
     }
 }

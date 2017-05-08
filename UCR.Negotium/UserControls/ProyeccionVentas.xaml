@@ -25,7 +25,7 @@
                 </Grid.RowDefinitions>
 
                 <DataGrid Grid.ColumnSpan="3"
-                ItemsSource="{Binding ProyectoSelected.Proyecciones, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                ItemsSource="{Binding ProyeccionesList, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
                 SelectedItem="{Binding ProyeccionSelected}"
                 SelectionUnit="FullRow" 
                 BorderThickness="1"
@@ -75,22 +75,22 @@
                     </DataGrid.Columns>
                 </DataGrid>
                 <Grid Grid.Row="1">
-                    <Button Width="40" Margin="30,0" Height="40"
+                    <Button Width="40" Margin="30,0" Height="40" Name="btnAgregarProyeccion" Click="btnAgregarProyeccion_Click"
                         Style="{StaticResource circleButton}" ToolTip="Agregar un Nuevo Producto para Proyección de Oferta">
                         <iconPacks:PackIconModern Width="16" Height="16" Kind="Add" Foreground="Teal"/>
                     </Button>
-                    <Button Width="40" Margin="70,0" Height="40"
+                    <Button Width="40" Margin="70,0" Height="40" Name="btnEditarProyeccion" Click="btnEditarProyeccion_Click"
                         Style="{StaticResource circleButton}" ToolTip="Editar la Proyección de Oferta Seleccionada">
                         <iconPacks:PackIconModern Width="16" Height="16" Kind="Edit" Foreground="Teal"/>
                     </Button>
-                    <Button Width="40" Margin="110,0" Height="40"
+                    <Button Width="40" Margin="110,0" Height="40" Name="btnEliminarProyeccion" Click="btnEliminarProyeccion_Click"
                         Style="{StaticResource circleButton}" ToolTip="Eliminar la Proyección de Oferta Seleccionada">
                         <iconPacks:PackIconModern Width="16" Height="16" Kind="Delete" Foreground="Teal"/>
                     </Button>
                 </Grid>
                 <Grid Grid.Row="2" Margin="30,5,30,15">
                     <TextBlock Text="Ingresos Generados por Año:" FontSize="14"/>
-                    <DataGrid Margin="0,25,0,0" ItemsSource="{Binding DTProyeccionesVentas, UpdateSourceTrigger=PropertyChanged}"
+                    <DataGrid Margin="0,25,0,0" ItemsSource="{Binding DTProyeccionesTotales, UpdateSourceTrigger=PropertyChanged}"
                           SelectionUnit="FullRow" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
                            ColumnWidth="100">
                     </DataGrid>

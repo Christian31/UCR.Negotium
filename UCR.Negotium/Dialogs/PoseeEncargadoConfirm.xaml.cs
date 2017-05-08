@@ -23,7 +23,7 @@ namespace UCR.Negotium.Dialogs
         public PoseeEncargadoConfirm()
         {
             InitializeComponent();
-            tbMensajeConfirm.AppendText("¿Posee usted asesoría de alguna Entidad, representante " +
+            tbMensajeConfirm.AppendText("¿Recibe usted asesoría de alguna Entidad, representante " +
                 "o encargado con conocimientos técnicos para ingresar toda la información " +
                 "respectiva a este proyecto?");
         }

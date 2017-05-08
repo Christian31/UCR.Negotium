@@ -24,7 +24,6 @@ namespace UCR.Negotium.UserControls
         private Canton cantonSelected;
         private int codProyecto;
 
-        private ObjetoInteresData objetoInteresData;
         private UnidadMedidaData unidadMedidaData;
         private ProvinciaData provinciaData;
         private ProyectoData proyectoData;
@@ -37,7 +36,6 @@ namespace UCR.Negotium.UserControls
             provinciaSelected = new Provincia();
             cantonSelected = new Canton();
 
-            objetoInteresData = new ObjetoInteresData();
             unidadMedidaData = new UnidadMedidaData();
             provinciaData = new ProvinciaData();
             proyectoData = new ProyectoData();
@@ -48,7 +46,6 @@ namespace UCR.Negotium.UserControls
             provincias = new List<Provincia>();
             provincias = provinciaData.GetProvincias();
 
-            proyectoSelected.ObjetoInteres.UnidadMedida = unidadMedidas.FirstOrDefault();
             proyectoSelected.AnoInicial = 2000;
             proyectoSelected.HorizonteEvaluacionEnAnos = 2;
         }
@@ -56,8 +53,6 @@ namespace UCR.Negotium.UserControls
         public void Reload()
         {
             ProyectoSelected = proyectoData.GetProyecto(CodProyecto);
-            ProyectoSelected.ObjetoInteres = objetoInteresData.GetObjetoInteres(CodProyecto);
-            PropertyChanged(this, new PropertyChangedEventArgs("ProyectoSelected"));
         }
 
         #region Properties
@@ -83,6 +78,7 @@ namespace UCR.Negotium.UserControls
             set
             {
                 proyectoSelected = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("ProyectoSelected"));
             }
         }
 
@@ -149,38 +145,26 @@ namespace UCR.Negotium.UserControls
                     if (idProyecto != -1)
                     {
                         ProyectoSelected.CodProyecto = idProyecto;
+                        RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
+                        mainWindow.ReloadUserControls(idProyecto);
 
-                        if(objetoInteresData.InsertarObjetoDeInteres(ProyectoSelected.ObjetoInteres, idProyecto))
-                        {
-                            //success
-                            RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
-                            mainWindow.ReloadUserControls(idProyecto);
-
-                            MessageBox.Show("El proyecto se ha insertado correctamente", "Proyecto Insertado", MessageBoxButton.OK, MessageBoxImage.Information);
-                        }
-                        else
-                        {
-                            //error
-                            MessageBox.Show("Ha ocurrido un error al insertar el proyecto, verifique que los datos ingresados sean correctos", "Proyecto Insertado", MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
+                        MessageBox.Show("El proyecto se ha insertado correctamente", "Proyecto Insertado", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     else
                     {
-                        //error
                         MessageBox.Show("Ha ocurrido un error al insertar el proyecto, verifique que los datos ingresados sean correctos", "Proyecto Insertado", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
                 {
-                    if (proyectoData.ActualizarProyecto(ProyectoSelected) &&
-                        objetoInteresData.ActualizarObjetoInteres(ProyectoSelected.ObjetoInteres, CodProyecto))
+                    if (proyectoData.ActualizarProyecto(ProyectoSelected))
                     {
-                        //success
+                        RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
+                        mainWindow.ReloadUserControls(CodProyecto);
                         MessageBox.Show("El proyecto se ha actualizado correctamente", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     else
                     {
-                        //error
                         MessageBox.Show("Ha ocurrido un error al actualizar el proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }

@@ -8,8 +8,114 @@
         mc:Ignorable="d"
         BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
         WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
-        Title="Proyección Oferta de Artículo | Negotium v1.0" Height="400" Width="450">
-    <Grid>
-        
+        Title="Proyección Oferta de Artículo | Negotium v1.0" Height="550" Width="700">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="8.5*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10.5*"/>
+            <ColumnDefinition Width="17.5*"/>
+            <ColumnDefinition Width="21*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="1">
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Label Content="Nombre del Producto o Servicio:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Label Content="Unidad de Medida:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,27,0">
+            <Grid Style="{StaticResource gridFormStyle}">
+                <TextBox Text="{Binding ProyeccionSelected.NombreArticulo}" Name="tbNombreArticulo"
+                         TextChanged="tbNombreArticulo_TextChanged"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <ComboBox ItemsSource="{Binding UnidadesMedida}" SelectedValuePath="CodUnidad"
+                                          SelectedValue="{Binding ProyeccionSelected.UnidadMedida.CodUnidad}" />
+            </Grid>
+        </StackPanel>
+        <DataGrid Grid.ColumnSpan="2" CanUserSortColumns="False" SelectionUnit="Cell" Name="dgDetalleProyeccion"
+                ItemsSource="{Binding ProyeccionSelected.DetallesProyeccionVenta, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                BorderThickness="1"
+                BorderBrush="{DynamicResource AccentColorBrush}"
+                AllowDrop="False" 
+                CanUserAddRows="False" 
+                CanUserDeleteRows="False" 
+                AutoGenerateColumns="False"
+                Margin="27,85,27,10" Grid.Row="1">
+
+            <DataGrid.Style>
+                <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                    <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
+                </Style>
+            </DataGrid.Style>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn IsReadOnly="True"
+                    Binding="{Binding Path=Mes}" Header="Mes" Width="4*"/>
+                <DataGridTextColumn 
+                    Binding="{Binding Path=Cantidad}" Header="Cantidad" Width="3*">
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="{x:Type TextBox}">
+                            <EventSetter Event="TextChanged" Handler="tbDatosPositivos_TextChanged" />
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn
+                    Binding="{Binding Path=Precio}" Header="Precio (₡)" Width="3*">
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="{x:Type TextBox}">
+                            <EventSetter Event="TextChanged" Handler="tbDatosPositivos_TextChanged" />
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Grid.Column="3" Grid.RowSpan="2">
+            <RichTextBox IsReadOnly="True" FontSize="14" Name="lbCrecimientoOferta"
+                     BorderThickness="0" Margin="10"></RichTextBox>
+            <DataGrid CanUserSortColumns="False" SelectionUnit="Cell" Name="dgDetalleCrecimiento"
+                ItemsSource="{Binding ProyeccionSelected.CrecimientoOferta, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                BorderThickness="1"
+                BorderBrush="{DynamicResource AccentColorBrush}"
+                AllowDrop="False" 
+                CanUserAddRows="False" 
+                CanUserDeleteRows="False" 
+                AutoGenerateColumns="False"
+                Margin="27,85,27,10">
+
+                <DataGrid.Style>
+                    <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                        <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
+                    </Style>
+                </DataGrid.Style>
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn IsReadOnly="True"
+                    Binding="{Binding Path=AnoCrecimiento}" Header="Año" Width="4*"/>
+                    <DataGridTextColumn 
+                    Binding="{Binding Path=PorcentajeCrecimiento}" Header="Porcentaje (%)" Width="6*">
+                        <DataGridTextColumn.EditingElementStyle>
+                            <Style TargetType="{x:Type TextBox}">
+                                <EventSetter Event="TextChanged" Handler="tbDatosPositivos_TextChanged" />
+                            </Style>
+                        </DataGridTextColumn.EditingElementStyle>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <Grid Grid.ColumnSpan="3" Grid.Row="2">
+            <Button  Name="btnGuardar" Content="Guardar" Click="btnGuardar_Click" Width="75"
+                     HorizontalAlignment="Left" Margin="200,15,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+
+            <Button Name="btnCancelar" Content="Cancelar" Width="75"
+                    HorizontalAlignment="Right" Margin="0,15,200,0" Grid.Row="2" VerticalAlignment="Top"
+                    Click="btnCancelar_Click"/>
+        </Grid>
     </Grid>
 </Controls:MetroWindow>

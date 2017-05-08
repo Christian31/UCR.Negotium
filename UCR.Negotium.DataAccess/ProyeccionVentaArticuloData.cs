@@ -6,14 +6,22 @@ using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class ProyeccionVentaArticuloData : BaseData
+    public class ProyeccionVentaArticuloData
     {
+        private string cadenaConexion;
+        private SQLiteConnection conexion;
+
         private UnidadMedidaData unidadMedidaData;
         private DetalleProyeccionVentaData detalleProyeccionData;
         private CrecimientoOfertaObjetoInteresData crecimientoOfertaData;
 
         public ProyeccionVentaArticuloData()
         {
+            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].
+                ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
+
+            conexion = new SQLiteConnection(cadenaConexion);
+
             unidadMedidaData = new UnidadMedidaData();
             detalleProyeccionData = new DetalleProyeccionVentaData();
             crecimientoOfertaData = new CrecimientoOfertaObjetoInteresData();
@@ -39,11 +47,11 @@ namespace UCR.Negotium.DataAccess
                     proyeccion.UnidadMedida = unidadMedidaData.GetUnidadMedida(reader.GetInt32(1));
                     proyeccion.NombreArticulo = reader.GetString(2);
                     proyeccion.DetallesProyeccionVenta = detalleProyeccionData.GetDetallesProyeccionVenta(reader.GetInt32(0));
-                    //proyeccion.CrecimientoOferta = crecimientoOfertaData.GetCrecimientoOfertaObjetoIntereses(reader.GetInt32(0));
+                    proyeccion.CrecimientoOferta = crecimientoOfertaData.GetCrecimientoOfertaObjetoIntereses(reader.GetInt32(0));
                     listaProyecciones.Add(proyeccion);
                 }//while
                 conexion.Close();
-            return listaProyecciones;
+                return listaProyecciones;
             }//try
             catch
             {
@@ -51,6 +59,38 @@ namespace UCR.Negotium.DataAccess
                 return listaProyecciones;
             }//catch
         }//GetProyeccionesVentaArticulo 
+
+        public ProyeccionVentaArticulo GetProyeccionVentaArticulo(int codProyeccion)
+        {
+            string select = "SELECT * FROM PROYECCION_VENTA_POR_ARTICULO WHERE cod_articulo=" + codProyeccion + ";";
+
+            ProyeccionVentaArticulo proyeccion = new ProyeccionVentaArticulo();
+            try
+            {
+                
+                if (conexion.State != ConnectionState.Open)
+                    conexion.Open();
+
+                SQLiteCommand command = conexion.CreateCommand();
+                command.CommandText = select;
+                SQLiteDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    proyeccion.CodArticulo = reader.GetInt32(0);
+                    proyeccion.UnidadMedida = unidadMedidaData.GetUnidadMedida(reader.GetInt32(1));
+                    proyeccion.NombreArticulo = reader.GetString(2);
+                    proyeccion.DetallesProyeccionVenta = detalleProyeccionData.GetDetallesProyeccionVenta(reader.GetInt32(0));
+                    proyeccion.CrecimientoOferta = crecimientoOfertaData.GetCrecimientoOfertaObjetoIntereses(reader.GetInt32(0));
+                }//if
+                conexion.Close();
+                return proyeccion;
+            }//try
+            catch
+            {
+                conexion.Close();
+                return proyeccion;
+            }//catch
+        }//GetProyeccionVentaArticulo
 
         public ProyeccionVentaArticulo InsertarProyeccionVenta(ProyeccionVentaArticulo proyeccion, int codProyecto)
         {
@@ -91,12 +131,12 @@ namespace UCR.Negotium.DataAccess
                     command2.Parameters.AddWithValue("cantidad_proyeccion", detTemp.Cantidad);
                     command2.Parameters.AddWithValue("precio_proyeccion", detTemp.Precio);
                     newProdID2 = command2.ExecuteScalar();
-                    detTemp.CodDetalle = Int32.Parse(newProdID2.ToString());
+                    detTemp.CodDetalle = int.Parse(newProdID2.ToString());
                 }
-
                 transaction.Commit();
                 conexion.Close();
                 return proyeccion;
+                
             }//try
             catch (SQLiteException ex)
             {

@@ -6,10 +6,18 @@ using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class OrganizacionProponenteData : BaseData
+    public class OrganizacionProponenteData
     {
+        private string cadenaConexion;
+        private SQLiteConnection conexion;
 
-        public OrganizacionProponenteData() { }
+        public OrganizacionProponenteData()
+        {
+            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].
+                ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
+
+            conexion = new SQLiteConnection(cadenaConexion);
+        }
 
         public int InsertarOrganizacionProponente(OrganizacionProponente organizacionProponente)
         {

@@ -41,10 +41,15 @@ namespace UCR.Negotium.UserControls
 
         public void Reload()
         {
+            DTTotalesReinversiones = new DataView();
             ReinversionesList = reinversionData.GetRequerimientosReinversion(CodProyecto);
             proyecto = proyectoData.GetProyecto(CodProyecto);
             proyecto.RequerimientosReinversion = ReinversionesList;
-            DTTotalesReinversiones = DatatableBuilder.GenerarDTTotalesReinversiones(proyecto).AsDataView();
+
+            if (!proyecto.RequerimientosReinversion.Count.Equals(0))
+            {
+                DTTotalesReinversiones = DatatableBuilder.GenerarDTTotalesReinversiones(proyecto).AsDataView();
+            }
         }
 
         public int CodProyecto
