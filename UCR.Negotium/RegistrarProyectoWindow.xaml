@@ -67,7 +67,7 @@
                 </Grid>
             </TabItem>
         </TabControl>
-
-        <modulos:ProgresoProyecto Grid.Column="0" Grid.Row="1" Margin="1,15,1,1" Background="#5D8AA3"/>
+        <modulos:ProgresoProyecto Grid.Column="0" Grid.Row="1" Margin="1,15,1,1" Background="#5D8AA3" 
+                                  x:Name="progreso"/>
     </Grid>
 </Controls:MetroWindow>

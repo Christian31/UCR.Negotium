@@ -12,9 +12,9 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.8*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1.2*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -22,91 +22,212 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0" Style="{DynamicResource styleStatusStep1}">
+        <Grid Grid.Column="0">
             <Border BorderBrush="White" BorderThickness="1">
                 <Grid Margin="5,0,0,5">
-                    <TextBlock VerticalAlignment="Bottom" Foreground="White" Text="Información General"/>
-                    <iconPacks:PackIconModern Foreground="White" Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top" iconPacks:PackIconModern.Kind="Check"/>
+                    <TextBlock VerticalAlignment="Bottom" Foreground="White" Margin="0,0,5,0" Text="Información General"/>
+                    <iconPacks:PackIconModern Foreground="White" Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <iconPacks:PackIconModern.Style>
+                            <Style TargetType="{x:Type FrameworkElement}">
+                                <Setter Property="iconPacks:PackIconModern.Kind" Value="Hourglass"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding StatusSteps[0], UpdateSourceTrigger=PropertyChanged}" Value="True" >
+                                        <Setter Property="iconPacks:PackIconModern.Kind" Value="Check"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </iconPacks:PackIconModern.Style>
+                    </iconPacks:PackIconModern>
                 </Grid>
             </Border>
         </Grid>
-        <Grid Grid.Column="1" Style="{DynamicResource styleStatusStep2}">
+        <Grid Grid.Column="1">
             <Border BorderBrush="White" BorderThickness="1">
                 <Grid Margin="5,0,0,5">
                     <TextBlock VerticalAlignment="Bottom" Foreground="White" Margin="0,0,5,0" Text="Proponente"/>
-                    <iconPacks:PackIconModern Foreground="White" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource styleShowHideIconStep2}"/>
+                    <iconPacks:PackIconModern Foreground="White" Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <iconPacks:PackIconModern.Style>
+                            <Style TargetType="{x:Type FrameworkElement}">
+                                <Setter Property="iconPacks:PackIconModern.Kind" Value="Hourglass"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding StatusSteps[1], UpdateSourceTrigger=PropertyChanged}" Value="True" >
+                                        <Setter Property="iconPacks:PackIconModern.Kind" Value="Check"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </iconPacks:PackIconModern.Style>
+                    </iconPacks:PackIconModern>
                 </Grid>
             </Border>
         </Grid>
-        <Grid Grid.Column="2" Style="{DynamicResource styleStatusStep3}">
+        <Grid Grid.Column="2">
             <Border BorderBrush="White" BorderThickness="1">
                 <Grid Margin="5,0,0,5">
                     <TextBlock VerticalAlignment="Bottom" Foreground="White" Text="Caracterización"/>
-                    <iconPacks:PackIconModern Foreground="White" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource styleShowHideIconStep3}"/>
+                    <iconPacks:PackIconModern Foreground="White" Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <iconPacks:PackIconModern.Style>
+                            <Style TargetType="{x:Type FrameworkElement}">
+                                <Setter Property="iconPacks:PackIconModern.Kind" Value="Hourglass"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding StatusSteps[2], UpdateSourceTrigger=PropertyChanged}" Value="True" >
+                                        <Setter Property="iconPacks:PackIconModern.Kind" Value="Check"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </iconPacks:PackIconModern.Style>
+                    </iconPacks:PackIconModern>
                 </Grid>
             </Border>
         </Grid>
-        <Grid Grid.Column="3" Style="{DynamicResource styleStatusStep4}">
+        <Grid Grid.Column="3">
             <Border BorderBrush="White" BorderThickness="1">
                 <Grid Margin="5,0,0,5">
                     <TextBlock VerticalAlignment="Bottom" Foreground="White" Text="Inversiones"/>
-                    <iconPacks:PackIconModern Foreground="White" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource styleShowHideIconStep4}"/>
+                    <iconPacks:PackIconModern Foreground="White" Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <iconPacks:PackIconModern.Style>
+                            <Style TargetType="{x:Type FrameworkElement}">
+                                <Setter Property="iconPacks:PackIconModern.Kind" Value="Hourglass"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding StatusSteps[3], UpdateSourceTrigger=PropertyChanged}" Value="True" >
+                                        <Setter Property="iconPacks:PackIconModern.Kind" Value="Check"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </iconPacks:PackIconModern.Style>
+                    </iconPacks:PackIconModern>              
                 </Grid>
             </Border>
         </Grid>
-        <Grid Grid.Column="4" Style="{DynamicResource styleStatusStep1}">
+        <Grid Grid.Column="4">
             <Border BorderBrush="White" BorderThickness="1">
                 <Grid Margin="5,0,0,5">
                     <TextBlock VerticalAlignment="Bottom" Foreground="White" Text="Reinversiones"/>
-                    <iconPacks:PackIconModern Foreground="White" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource styleShowHideIconStep1}"/>
+                    <iconPacks:PackIconModern Foreground="White" Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <iconPacks:PackIconModern.Style>
+                            <Style TargetType="{x:Type FrameworkElement}">
+                                <Setter Property="iconPacks:PackIconModern.Kind" Value="Hourglass"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding StatusSteps[4], UpdateSourceTrigger=PropertyChanged}" Value="True" >
+                                        <Setter Property="iconPacks:PackIconModern.Kind" Value="Check"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </iconPacks:PackIconModern.Style>
+                    </iconPacks:PackIconModern>
                 </Grid>
             </Border>
         </Grid>
-        <Grid Grid.Column="5" Style="{DynamicResource styleStatusStep2}">
+        <Grid Grid.Column="5">
             <Border BorderBrush="White" BorderThickness="1">
                 <Grid Margin="5,0,0,5">
                     <TextBlock VerticalAlignment="Bottom" Foreground="White" Margin="0,0,5,0" Text="Proyección de Ventas"/>
-                    <iconPacks:PackIconModern Foreground="White" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource styleShowHideIconStep2}"/>
+                    <iconPacks:PackIconModern Foreground="White" Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <iconPacks:PackIconModern.Style>
+                            <Style TargetType="{x:Type FrameworkElement}">
+                                <Setter Property="iconPacks:PackIconModern.Kind" Value="Hourglass"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding StatusSteps[5], UpdateSourceTrigger=PropertyChanged}" Value="True" >
+                                        <Setter Property="iconPacks:PackIconModern.Kind" Value="Check"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </iconPacks:PackIconModern.Style>
+                    </iconPacks:PackIconModern>
                 </Grid>
             </Border>
         </Grid>
-        <Grid Grid.Column="6" Style="{DynamicResource styleStatusStep3}">
+        <Grid Grid.Column="6">
             <Border BorderBrush="White" BorderThickness="1">
                 <Grid Margin="5,0,0,5">
                     <TextBlock VerticalAlignment="Bottom" Foreground="White" Text="Costos del Proyecto"/>
-                    <iconPacks:PackIconModern Foreground="White" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource styleShowHideIconStep3}"/>
+                    <iconPacks:PackIconModern Foreground="White" Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <iconPacks:PackIconModern.Style>
+                            <Style TargetType="{x:Type FrameworkElement}">
+                                <Setter Property="iconPacks:PackIconModern.Kind" Value="Hourglass"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding StatusSteps[6], UpdateSourceTrigger=PropertyChanged}" Value="True" >
+                                        <Setter Property="iconPacks:PackIconModern.Kind" Value="Check"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </iconPacks:PackIconModern.Style>
+                    </iconPacks:PackIconModern>
                 </Grid>
             </Border>
         </Grid>
-        <Grid Grid.Column="7" Style="{DynamicResource styleStatusStep4}">
+        <Grid Grid.Column="7">
             <Border BorderBrush="White" BorderThickness="1">
                 <Grid Margin="5,0,0,5">
                     <TextBlock VerticalAlignment="Bottom" Foreground="White" Text="Capital del Proyecto"/>
-                    <iconPacks:PackIconModern Foreground="White" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource styleShowHideIconStep4}"/>
+                    <iconPacks:PackIconModern Foreground="White" Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <iconPacks:PackIconModern.Style>
+                            <Style TargetType="{x:Type FrameworkElement}">
+                                <Setter Property="iconPacks:PackIconModern.Kind" Value="Hourglass"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding StatusSteps[7], UpdateSourceTrigger=PropertyChanged}" Value="True" >
+                                        <Setter Property="iconPacks:PackIconModern.Kind" Value="Check"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </iconPacks:PackIconModern.Style>
+                    </iconPacks:PackIconModern>
                 </Grid>
             </Border>
         </Grid>
-        <Grid Grid.Column="8" Style="{DynamicResource styleStatusStep1}">
+        <Grid Grid.Column="8">
             <Border BorderBrush="White" BorderThickness="1">
                 <Grid Margin="5,0,0,5">
                     <TextBlock VerticalAlignment="Bottom" Foreground="White" Text="Depreciaciones"/>
-                    <iconPacks:PackIconModern Foreground="White" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource styleShowHideIconStep1}"/>
+                    <iconPacks:PackIconModern Foreground="White" Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <iconPacks:PackIconModern.Style>
+                            <Style TargetType="{x:Type FrameworkElement}">
+                                <Setter Property="iconPacks:PackIconModern.Kind" Value="Hourglass"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding StatusSteps[8], UpdateSourceTrigger=PropertyChanged}" Value="True" >
+                                        <Setter Property="iconPacks:PackIconModern.Kind" Value="Check"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </iconPacks:PackIconModern.Style>
+                    </iconPacks:PackIconModern>
                 </Grid>
             </Border>
         </Grid>
-        <Grid Grid.Column="9" Style="{DynamicResource styleStatusStep2}">
+        <Grid Grid.Column="9">
             <Border BorderBrush="White" BorderThickness="1">
                 <Grid Margin="5,0,0,5">
                     <TextBlock VerticalAlignment="Bottom" Foreground="White" Margin="0,0,5,0" Text="Financiamiento"/>
-                    <iconPacks:PackIconModern Foreground="White" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource styleShowHideIconStep2}"/>
+                    <iconPacks:PackIconModern Foreground="White" Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <iconPacks:PackIconModern.Style>
+                            <Style TargetType="{x:Type FrameworkElement}">
+                                <Setter Property="iconPacks:PackIconModern.Kind" Value="Hourglass"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding StatusSteps[9], UpdateSourceTrigger=PropertyChanged}" Value="True" >
+                                        <Setter Property="iconPacks:PackIconModern.Kind" Value="Check"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </iconPacks:PackIconModern.Style>
+                    </iconPacks:PackIconModern>
                 </Grid>
             </Border>
         </Grid>
-        <Grid Grid.Column="10" Style="{DynamicResource styleStatusStep3}">
+        <Grid Grid.Column="10">
             <Border BorderBrush="White" BorderThickness="1">
                 <Grid Margin="5,0,0,5">
                     <TextBlock VerticalAlignment="Bottom" Foreground="White" Text="Flujo de Caja"/>
-                    <iconPacks:PackIconModern Foreground="White" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource styleShowHideIconStep3}"/>
+                    <iconPacks:PackIconModern Foreground="White" Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <iconPacks:PackIconModern.Style>
+                            <Style TargetType="{x:Type FrameworkElement}">
+                                <Setter Property="iconPacks:PackIconModern.Kind" Value="Hourglass"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding StatusSteps[10], UpdateSourceTrigger=PropertyChanged}" Value="True" >
+                                        <Setter Property="iconPacks:PackIconModern.Kind" Value="Check"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </iconPacks:PackIconModern.Style>
+                    </iconPacks:PackIconModern>
                 </Grid>
             </Border>
         </Grid>

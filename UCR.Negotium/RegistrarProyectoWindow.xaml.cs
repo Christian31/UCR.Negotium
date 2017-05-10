@@ -1,5 +1,4 @@
 ﻿using MahApps.Metro.Controls;
-using UCR.Negotium.Utils;
 using System.Data;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
@@ -24,12 +23,12 @@ namespace UCR.Negotium
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
-        public RegistrarProyectoWindow(int codProyecto = 0, int codEncargado=0)
+        public RegistrarProyectoWindow(int codProyecto = 0, int codEncargado = 0)
         {
             DataContext = this;
             InitializeComponent();
 
-            proyectoData = new ProyectoData();         
+            proyectoData = new ProyectoData();
             proponenteData = new ProponenteData();
             encargadoData = new EncargadoData();
 
@@ -49,7 +48,7 @@ namespace UCR.Negotium
                 proyecto.Encargado = encargadoData.GetEncargado(codEncargado);
             }
 
-            
+
 
             InitializeComponent();
         }
@@ -84,7 +83,7 @@ namespace UCR.Negotium
 
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
-            if(System.Windows.MessageBox.Show("Esta seguro que desea cerrar esta ventana?", "Confirmar", 
+            if (System.Windows.MessageBox.Show("Esta seguro que desea cerrar esta ventana?", "Confirmar",
                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 MainWindow mainWindow = new MainWindow();
@@ -101,7 +100,7 @@ namespace UCR.Negotium
             proponente.CodProyecto = infoGeneral.CodProyecto = caracterizacion.CodProyecto =
                     inversiones.CodProyecto = reinversiones.CodProyecto =
                     capitalTrabajo.CodProyecto = depreciaciones.CodProyecto =
-                    costos.CodProyecto = proyeccionVentas.CodProyecto = 
+                    costos.CodProyecto = proyeccionVentas.CodProyecto =
                     financiamientoUc.CodProyecto = codProyecto;
 
             proyecto = proyectoData.GetProyecto(codProyecto);
@@ -115,6 +114,46 @@ namespace UCR.Negotium
             {
                 ((TabItem)tcRegistrarProyecto.Items[9]).IsEnabled = true;
             }
+
+            ReloadProgress();
+        }
+
+        public void ReloadProgress()
+        {
+            List<bool> stepsProgress = new List<bool>(11);
+
+            stepsProgress.Add(!proyecto.CodProyecto.Equals(0));
+            stepsProgress.Add(!proponente.ProponenteSelected.IdProponente.Equals(0));
+            stepsProgress.Add(!string.IsNullOrWhiteSpace(proyecto.CaraterizacionDelBienServicio));
+            stepsProgress.Add(!inversiones.InversionesList.Count.Equals(0));
+            stepsProgress.Add(!reinversiones.ReinversionesList.Count.Equals(0));
+            stepsProgress.Add(!proyeccionVentas.ProyeccionesList.Count.Equals(0));
+            stepsProgress.Add(!costos.CostosList.Count.Equals(0));
+            stepsProgress.Add(!costos.CostosList.Count.Equals(0));
+
+            if (!inversiones.InversionesList.Count.Equals(0) || !reinversiones.ReinversionesList.Count.Equals(0))
+            {
+                stepsProgress.Add(true);
+            }
+            else
+            {
+                stepsProgress.Add(false);
+            }
+
+            stepsProgress.Add(!financiamientoUc.FinanciamientoSelected.CodFinanciamiento.Equals(0));
+
+            if (!inversiones.InversionesList.Count.Equals(0) || !reinversiones.ReinversionesList.Count.Equals(0) ||
+                !proyeccionVentas.ProyeccionesList.Count.Equals(0) || !costos.CostosList.Count.Equals(0) ||
+                !financiamientoUc.FinanciamientoSelected.CodFinanciamiento.Equals(0))
+            {
+                stepsProgress.Add(true);
+            }
+            else
+            {
+                stepsProgress.Add(false);
+            }
+
+            progreso.Reload(stepsProgress);
         }
 
         private void tcRegistrarProyecto_SelectionChanged(object sender, SelectionChangedEventArgs e)
