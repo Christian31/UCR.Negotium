@@ -13,14 +13,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace UCR.Negotium.Dialogs
+namespace UCR.Negotium
 {
     /// <summary>
-    /// Interaction logic for SeleccionarEncargado.xaml
+    /// Interaction logic for AnalisisAmbientalWindow.xaml
     /// </summary>
-    public partial class SeleccionarEncargado : MetroWindow
+    public partial class AnalisisAmbientalWindow : MetroWindow
     {
-        public SeleccionarEncargado()
+        public AnalisisAmbientalWindow()
         {
             InitializeComponent();
         }

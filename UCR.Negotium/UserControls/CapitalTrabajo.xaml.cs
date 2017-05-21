@@ -64,7 +64,7 @@ namespace UCR.Negotium.UserControls
             }
             set
             {
-                recuperacionCT = Convert.ToInt32(value);
+                recuperacionCT = Convert.ToDouble(value);
             }
         }
 

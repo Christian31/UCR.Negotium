@@ -2,13 +2,13 @@
 {
     public class InteresFinanciamiento
     {
-        public int CodInteresFinanciamiento;
-        public double PorcentajeInteresFinanciamiento;
-        public bool VariableInteres;
+        public int CodInteresFinanciamiento { get; set; }
+        public double PorcentajeInteres { get; set; }
+        public int AnoInteres { get; set; }
 
         public InteresFinanciamiento()
         {
-            PorcentajeInteresFinanciamiento = 0;
+            PorcentajeInteres = 0;
         }
     }
 }

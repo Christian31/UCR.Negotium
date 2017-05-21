@@ -158,6 +158,26 @@ namespace UCR.Negotium.Utils
             return ds.Tables["Depreciaciones"];
         }
 
+        public static DataTable GenerarDTTotalesDepreciaciones(Proyecto proyecto)
+        {
+            DataSet ds = new DataSet();
+            ds.Tables.Add("DepreciacionesTotales");
+            ds.Tables["DepreciacionesTotales"].Columns.Add("titulo", Type.GetType("System.String"));
+            DataRow row = ds.Tables["DepreciacionesTotales"].NewRow();
+            row["titulo"] = "Depreciaciones Totales";
+
+            for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+            {
+                ds.Tables["DepreciacionesTotales"].Columns.Add((proyecto.AnoInicial + i).ToString(), Type.GetType("System.String"));
+                double sumaAnual = 0;
+                proyecto.Depreciaciones.ForEach(dep => sumaAnual += dep.MontoDepreciacion[i-1]);
+                row[(proyecto.AnoInicial + i).ToString()] = "₡ " + sumaAnual.ToString("#,##0.##");
+            }
+            ds.Tables["DepreciacionesTotales"].Rows.Add(row);
+
+            return ds.Tables["DepreciacionesTotales"];
+        }
+
         public static void GenerarDTInversiones(Proyecto proyecto, out DataTable dtInversiones, out Double totalInversiones)
         {
             DataSet ds = new DataSet();
@@ -288,9 +308,9 @@ namespace UCR.Negotium.Utils
             return ds.Tables["TotalesReinversiones"];
         }
 
-        public static DataTable GenerarDTFinanciamientoIF(Proyecto proyecto, double monto, double tiempo, InteresFinanciamiento interesIF)
+        public static DataTable GenerarDTFinanciamientoIF(int anoInicial, double monto, double tiempo, InteresFinanciamiento interesIF)
         {
-            double interesIFtemp = interesIF.PorcentajeInteresFinanciamiento / 100;
+            double interesIFtemp = interesIF.PorcentajeInteres / 100;
             double cuota = Math.Round((monto * interesIFtemp) / (1 - (Math.Pow((1 + interesIFtemp), (-tiempo)))), 2);
 
             DataSet ds = new DataSet();
@@ -304,7 +324,7 @@ namespace UCR.Negotium.Utils
             for (int i = 1; i <= tiempo; i++)
             {
                 DataRow row1 = ds.Tables["AmortizacionPrestamo"].NewRow();
-                row1["titulo1"] = proyecto.AnoInicial + i;
+                row1["titulo1"] = anoInicial + i;
 
                 row1["titulo2"] = "₡ " + monto.ToString("#,##0.##");
 
@@ -344,7 +364,7 @@ namespace UCR.Negotium.Utils
 
             for (int i = 1; i <= tiempo; i++)
             {
-                Double interesTemp = intereses[i - 1].PorcentajeInteresFinanciamiento / 100;
+                Double interesTemp = intereses[i - 1].PorcentajeInteres / 100;
 
                 DataRow row1 = ds.Tables["AmortizacionPrestamo"].NewRow();
                 row1["titulo1"] = proyecto.AnoInicial + i;
@@ -368,7 +388,7 @@ namespace UCR.Negotium.Utils
             return ds.Tables["AmortizacionPrestamo"];
         }
 
-        public static DataTable GenerarDTFlujoCaja(Proyecto proyecto, DataGridView dgvCapitalTrabajo, DataGridView dgvFinanciamiento, DataGridView dgvTotalesReinversiones, string totalInversiones, string recuperacionCT)
+        public static DataTable GenerarDTFlujoCaja(Proyecto proyecto, DataView dgvCapitalTrabajo, DataView dgvFinanciamiento, DataView dgvTotalesReinversiones, string totalInversiones, string recuperacionCT)
         {
             string dsNombre = "FlujoCaja";
             DataSet ds = new DataSet();
@@ -449,9 +469,9 @@ namespace UCR.Negotium.Utils
 
             for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
             {
-                if (i < dgvFinanciamiento.Rows.Count)
+                if (i < dgvFinanciamiento.Table.Rows.Count)
                 {
-                    row5[(proyecto.AnoInicial + a5).ToString()] = "₡ -" + dgvFinanciamiento.Rows[i].Cells[2].Value.ToString().Replace("₡ ", string.Empty);
+                    row5[(proyecto.AnoInicial + a5).ToString()] = "₡ -" + dgvFinanciamiento.Table.Rows[i][2].ToString().Replace("₡ ", string.Empty);
                 }
                 else
                 {
@@ -546,11 +566,11 @@ namespace UCR.Negotium.Utils
             DataRow row11 = ds.Tables[dsNombre].NewRow();
             row11["Rubro"] = "Inversiones";
             int a11 = 0;
-            row11[(proyecto.AnoInicial + a11).ToString()] = "₡ -" + totalInversiones;
+            row11[(proyecto.AnoInicial + a11).ToString()] = "₡ -" + totalInversiones.ToString().Replace("₡ ", string.Empty);
             a11++;
-            for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
+            for (int i = 1; i < proyecto.HorizonteEvaluacionEnAnos; i++)
             {
-                row11[(proyecto.AnoInicial + a11).ToString()] = "₡ -" + dgvTotalesReinversiones.Rows[0].Cells[i].Value.ToString().Replace("₡ ", string.Empty);
+                row11[(proyecto.AnoInicial + a11).ToString()] = "₡ -" + dgvTotalesReinversiones.Table.Rows[0][i].ToString().Replace("₡ ", string.Empty);
                 a11++;
             }
             ds.Tables[dsNombre].Rows.Add(row11);
@@ -568,9 +588,9 @@ namespace UCR.Negotium.Utils
             row13["Rubro"] = "Amortizacion del préstamo";
             for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
             {
-                if (i < dgvFinanciamiento.Rows.Count)
+                if (i < dgvFinanciamiento.Table.Rows.Count)
                 {
-                    row13[(proyecto.AnoInicial + i + 1).ToString()] = "₡ -" + dgvFinanciamiento.Rows[i].Cells[3].Value.ToString().Replace("₡ ", string.Empty);
+                    row13[(proyecto.AnoInicial + i + 1).ToString()] = "₡ -" + dgvFinanciamiento.Table.Rows[i][3].ToString().Replace("₡ ", string.Empty);
                 }
                 else
                 {
@@ -586,7 +606,7 @@ namespace UCR.Negotium.Utils
             int a14 = 0;
             for (int i = 1; i < proyecto.HorizonteEvaluacionEnAnos + 1; i++)
             {
-                row14[(proyecto.AnoInicial + a14).ToString()] = dgvCapitalTrabajo.Rows[2].Cells[i].Value.ToString();
+                row14[(proyecto.AnoInicial + a14).ToString()] = dgvCapitalTrabajo.Table.Rows[2][i].ToString();
                 a14++;
             }
             row14[(proyecto.AnoInicial + a14).ToString()] = "₡ 0";

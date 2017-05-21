@@ -20,6 +20,7 @@ namespace UCR.Negotium.Dialogs
     /// </summary>
     public partial class PoseeEncargadoConfirm : MetroWindow
     {
+        #region Constructor
         public PoseeEncargadoConfirm()
         {
             InitializeComponent();
@@ -27,7 +28,9 @@ namespace UCR.Negotium.Dialogs
                 "o encargado con conocimientos técnicos para ingresar toda la información " +
                 "respectiva a este proyecto?");
         }
+        #endregion
 
+        #region Events
         private void btnSi_Click(object sender, RoutedEventArgs e)
         {
             RegistrarEncargado registrarEncargado = new RegistrarEncargado();
@@ -41,5 +44,6 @@ namespace UCR.Negotium.Dialogs
             Close();
             registrarProyecto.ShowDialog();
         }
+        #endregion
     }
 }

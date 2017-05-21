@@ -1,17 +1,9 @@
 ﻿using MahApps.Metro.Controls;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
 
@@ -22,6 +14,7 @@ namespace UCR.Negotium.Dialogs
     /// </summary>
     public partial class RegistrarProyeccionVenta : MetroWindow
     {
+        #region PrivateProperties
         private const string CAMPOREQUERIDO = "Este campo es requerido";
 
         private Proyecto proyecto;
@@ -32,13 +25,14 @@ namespace UCR.Negotium.Dialogs
         private ProyeccionVentaArticuloData proyeccionArticuloData;
         private UnidadMedidaData unidadMedidaData;
         private CrecimientoOfertaObjetoInteresData crecimientoOfertaData;
+        #endregion
 
+        #region Constructor
         public RegistrarProyeccionVenta(int idProyecto, int idProyeccion = 0)
         {
             InitializeComponent();
             DataContext = this;
             tbNombreArticulo.ToolTip = "Ingrese en este campo el Nombre de la Proyección del Producto que desea registrar";
-            lbCrecimientoOferta.AppendText("Ingrese los porcentajes de Crecimiento anual de Oferta del Artículo");
 
             proyecto = new Proyecto();
             unidadMedidas = new List<UnidadMedida>();
@@ -67,16 +61,9 @@ namespace UCR.Negotium.Dialogs
             }
 
         }
+        #endregion
 
-        private void LoadDefaultValues()
-        {
-            for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
-            {
-                int anoActual = proyecto.AnoInicial + i;
-                proyeccionSelected.CrecimientoOferta.Add(new CrecimientoOfertaObjetoInteres() { AnoCrecimiento = anoActual });
-            }//for
-        }
-
+        #region Properties
         public bool Reload { get; set; }
 
         public ProyeccionVentaArticulo ProyeccionSelected
@@ -102,12 +89,14 @@ namespace UCR.Negotium.Dialogs
                 unidadMedidas = value;
             }
         }
+        #endregion
 
+        #region Events
         //check validation
-        private void tbDatosPositivos_TextChanged(object sender, TextChangedEventArgs e)
+        private void tbNumerosPositivos_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox val = (TextBox)sender;
-            if (!val.Text.Equals(string.Empty) && !ValidaNumeros(val.Text))
+            if (!val.Text.Equals(string.Empty) && !ValidaNumeros(val.Text, true))
             {
                 val.Text = 0.ToString();
             }
@@ -116,10 +105,14 @@ namespace UCR.Negotium.Dialogs
                 dgDetalleProyeccion.BorderBrush = Brushes.Gray;
                 dgDetalleProyeccion.ToolTip = string.Empty;
             }
-            else if (dgDetalleCrecimiento.BorderBrush == Brushes.Red)
+        }
+
+        private void tbNumeros_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox val = (TextBox)sender;
+            if (!val.Text.Equals(string.Empty) && !ValidaNumeros(val.Text))
             {
-                dgDetalleCrecimiento.BorderBrush = Brushes.Gray;
-                dgDetalleCrecimiento.ToolTip = string.Empty;
+                val.Text = 0.ToString();
             }
         }
 
@@ -188,6 +181,17 @@ namespace UCR.Negotium.Dialogs
             Close();
         }
 
+        private void tbNombreArticulo_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (tbNombreArticulo.BorderBrush == Brushes.Red)
+            {
+                tbNombreArticulo.BorderBrush = Brushes.Gray;
+                tbNombreArticulo.ToolTip = "Ingrese en este campo el Nombre de la Proyección del Producto que desea registrar";
+            }
+        }
+        #endregion
+
+        #region PrivateMethods
         private bool ValidateRequiredFields()
         {
             bool validationResult = false;
@@ -215,39 +219,28 @@ namespace UCR.Negotium.Dialogs
                 validationResult = true;
             }
 
-            foreach (CrecimientoOfertaObjetoInteres detalleCrecimiento in ProyeccionSelected.CrecimientoOferta)
-            {
-                if (detalleCrecimiento.PorcentajeCrecimiento <= 0)
-                {
-                    dgDetalleCrecimiento.BorderBrush = Brushes.Red;
-                    dgDetalleCrecimiento.ToolTip = CAMPOREQUERIDO;
-                    validationResult = true;
-                    break;
-                }
-            }
-
             return validationResult;
         }
 
-        private bool ValidaNumeros(string valor)
+        private bool ValidaNumeros(string valor, bool positivos = false)
         {
             double n;
             if (double.TryParse(valor, out n))
             {
-                if (n >= 0)
-                    return true;
+                return positivos ? (n >= 0) : true;
             }
 
             return false;
         }
 
-        private void tbNombreArticulo_TextChanged(object sender, TextChangedEventArgs e)
+        private void LoadDefaultValues()
         {
-            if (tbNombreArticulo.BorderBrush == Brushes.Red)
+            for (int i = 2; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
             {
-                tbNombreArticulo.BorderBrush = Brushes.Gray;
-                tbNombreArticulo.ToolTip = "Ingrese en este campo el Nombre de la Proyección del Producto que desea registrar";
-            }
+                int anoActual = proyecto.AnoInicial + i;
+                proyeccionSelected.CrecimientoOferta.Add(new CrecimientoOfertaObjetoInteres() { AnoCrecimiento = anoActual });
+            }//for
         }
+        #endregion
     }
 }

@@ -201,8 +201,8 @@ namespace UCR.Negotium.DataAccess
             SQLiteCommand command2 = conexion.CreateCommand();
             try
             {
-                string insert1 = "UPDATE COSTO SET nombre_costo = ?, unidad_medida = ?, " +
-                "categoria_costo = ?, ano_inicial = ? WHERE cod_costo = ?;";
+                string insert1 = "UPDATE COSTO SET nombre_costo=?, unidad_medida=?, " +
+                "categoria_costo=?, ano_inicial=? WHERE cod_costo=?;";
 
                 string insert2 = "UPDATE COSTO_MENSUAL SET costo_unitario = ?, " +
                 "cantidad = ? WHERE cod_costo_mensual = ?;";

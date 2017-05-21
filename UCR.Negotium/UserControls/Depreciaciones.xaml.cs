@@ -17,6 +17,7 @@ namespace UCR.Negotium.UserControls
         private Proyecto proyectoSelected;
         private int codProyecto;
         private DataView depreciaciones;
+        private DataView totalDepreciaciones;
 
         private ProyectoData proyectoData;
         private RequerimientoInversionData requerimientoInversionData;
@@ -31,6 +32,7 @@ namespace UCR.Negotium.UserControls
 
             proyectoSelected = new Proyecto();
             depreciaciones = new DataView();
+            totalDepreciaciones = new DataView();
 
             proyectoData = new ProyectoData();
             requerimientoInversionData = new RequerimientoInversionData();
@@ -50,6 +52,7 @@ namespace UCR.Negotium.UserControls
                 !ProyectoSelected.RequerimientosReinversion.Where(reinv => reinv.Depreciable).Count().Equals(0))
             {
                 DTDepreciaciones = DatatableBuilder.GenerarDTDepreciaciones(ProyectoSelected).AsDataView();
+                DTTotalesDepreciaciones = DatatableBuilder.GenerarDTTotalesDepreciaciones(ProyectoSelected).AsDataView();
             }
         }
 
@@ -63,6 +66,19 @@ namespace UCR.Negotium.UserControls
             {
                 depreciaciones = value;
                 PropertyChanged(this, new PropertyChangedEventArgs("DTDepreciaciones"));
+            }
+        }
+
+        public DataView DTTotalesDepreciaciones
+        {
+            get
+            {
+                return totalDepreciaciones;
+            }
+            set
+            {
+                totalDepreciaciones = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("DTTotalesDepreciaciones"));
             }
         }
 

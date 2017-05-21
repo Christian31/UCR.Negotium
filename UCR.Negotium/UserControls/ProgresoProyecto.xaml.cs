@@ -22,7 +22,6 @@ namespace UCR.Negotium.UserControls
         public void Reload(List<bool> statusSteps)
         {
             StatusSteps = statusSteps;
-
         }
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };

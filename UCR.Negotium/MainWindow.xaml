@@ -20,7 +20,7 @@
         </Grid.RowDefinitions>
         
         <Menu Grid.Column="0" Grid.Row="0" x:Name="mainMenu" Margin="5,5,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Left">
-            <MenuItem Header="Archivos">
+            <MenuItem Header="Archivo">
                 <MenuItem Header="Nuevo Proyecto" Name="menuItemCrear" Click="btnCrear_Click">
                 </MenuItem>
             </MenuItem>
@@ -40,15 +40,17 @@
                 <RowDefinition Height="50*"/>
                 <RowDefinition Height="25*"/>
             </Grid.RowDefinitions>
-
-            <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="275,47,20,5">
+            <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="100,47,20,5">
+                <Label Content="Filtrar por: "/>
+                <ComboBox ItemsSource="{Binding Estados}" Width="120" Margin="0,0,15,0" 
+                          Name="cbFiltro" SelectionChanged="cbFiltro_SelectionChanged"/>
                 <Label Target="{Binding ElementName=tbName}" Content="Buscar: "/>
-                <TextBox Controls:TextBoxHelper.Watermark="Búsqueda" Name="tbBusqueda" TextChanged="tbBusqueda_TextChanged" Width="275" />
+                <TextBox Controls:TextBoxHelper.Watermark="Búsqueda" Name="tbBusqueda" TextChanged="tbBusqueda_TextChanged" Width="250" />
             </StackPanel>
 
             <DataGrid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
                 ItemsSource="{Binding Proyectos, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                SelectedItem="{Binding ProyectoSelected}"
+                SelectedItem="{Binding ProyectoSelected, UpdateSourceTrigger=PropertyChanged}"
                 SelectionUnit="FullRow"
                 BorderThickness="1"
                 BorderBrush="{DynamicResource AccentColorBrush}"
@@ -57,14 +59,37 @@
                 CanUserDeleteRows="False" 
                 IsReadOnly="True" 
                 AutoGenerateColumns="False"
-                Margin="30,20">
+                Margin="30,32,30,8">
 
                 <DataGrid.Style>
                     <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
                         <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
                     </Style>
                 </DataGrid.Style>
-
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Editar" Click="btnEditar_Click">
+                            <MenuItem.Icon>
+                                <iconPacks:PackIconModern Kind="Edit" Width="16" Height="16" Margin="4,0,0,0" Foreground="Teal"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Imprimir" Click="btnImprimir_Click">
+                            <MenuItem.Icon>
+                                <iconPacks:PackIconModern Kind="Printer" Width="16" Height="16" Margin="4,0,0,0" Foreground="Teal"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Archivar" Click="btnArchivar_Click">
+                            <MenuItem.Icon>
+                                <iconPacks:PackIconModern Kind="FolderLock" Width="16" Height="16" Margin="4,0,0,0" Foreground="Teal"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Reabrir" Click="btnReabrir_Click">
+                            <MenuItem.Icon>
+                                <iconPacks:PackIconModern Kind="FolderOpen" Width="16" Height="16" Margin="4,0,0,0" Foreground="Teal"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
                 <DataGrid.Columns>
                     <DataGridTextColumn
                     Binding="{Binding Path=NombreProyecto}" Header="Nombre del Proyecto" Width="3*"/>
@@ -108,6 +133,16 @@
                     Click="btnImprimir_Click"
                     Style="{StaticResource circleButton}" ToolTip="Imprimir el Proyecto Seleccionado">
                     <iconPacks:PackIconModern Width="16" Height="16" Kind="Printer" Foreground="Teal"/>
+                </Button>
+                <Button Width="40" Margin="150,0" Height="40" Name="btnArchivar"
+                    Click="btnArchivar_Click"
+                    Style="{StaticResource circleButton}" ToolTip="Archivar el Proyecto Seleccionado">
+                    <iconPacks:PackIconModern Width="16" Height="16" Kind="FolderLock" Foreground="Teal"/>
+                </Button>
+                <Button Width="40" Margin="190,0" Height="40" Name="btnReabrir"
+                    Click="btnReabrir_Click"
+                    Style="{StaticResource circleButton}" ToolTip="Reabrir el Proyecto Seleccionado">
+                    <iconPacks:PackIconModern Width="16" Height="16" Kind="FolderOpen" Foreground="Teal"/>
                 </Button>
             </Grid>
         </Grid>

@@ -22,6 +22,7 @@ namespace UCR.Negotium.Dialogs
     /// </summary>
     public partial class RegistrarInversion : MetroWindow
     {
+        #region PrivateProperties
         private const string CAMPOREQUERIDO = "Este campo es requerido";
         private const string CAMPOREQUERIDOPOSITIVO = "Este campo es requerido y debe tener un valor mayor a 0";
 
@@ -30,7 +31,9 @@ namespace UCR.Negotium.Dialogs
         private RequerimientoInversion inversion;
         private List<UnidadMedida> unidadMedidas;
         private int codProyecto;
+        #endregion
 
+        #region Constructor
         public RegistrarInversion(int codProyecto, int codInversion = 0)
         {
             InitializeComponent();
@@ -51,7 +54,9 @@ namespace UCR.Negotium.Dialogs
             if (codInversion != 0)
                 inversion = requerimientoInversionData.GetRequerimientoInversion(codInversion);
         }
+        #endregion
 
+        #region Properties
         public bool Reload { get; set; }
 
         public List<UnidadMedida> UnidadesMedida
@@ -77,7 +82,9 @@ namespace UCR.Negotium.Dialogs
                 inversion = value;
             }
         }
+        #endregion
 
+        #region Events
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
             if (!ValidateRequiredFields())
@@ -131,25 +138,6 @@ namespace UCR.Negotium.Dialogs
             }
         }
 
-        private bool ValidateRequiredFields()
-        {
-            bool validationResult = false;
-            if (string.IsNullOrWhiteSpace(tbDescInversion.Text))
-            {
-                tbDescInversion.ToolTip = CAMPOREQUERIDO;
-                tbDescInversion.BorderBrush = Brushes.Red;
-                validationResult = true;
-            }
-            if (Convert.ToInt64(tbCostoUnitario.Text.ToString()) <= 0)
-            {
-                tbCostoUnitario.ToolTip = CAMPOREQUERIDOPOSITIVO;
-                tbCostoUnitario.BorderBrush = Brushes.Red;
-                validationResult = true;
-            }
-
-            return validationResult;
-        }
-
         private void tbDescInversion_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (tbDescInversion.BorderBrush == Brushes.Red)
@@ -183,5 +171,27 @@ namespace UCR.Negotium.Dialogs
         {
             cbDepreciable.IsChecked = nudVidaUtil.IsEnabled = false;
         }
+        #endregion
+
+        #region PrivateMethods
+        private bool ValidateRequiredFields()
+        {
+            bool validationResult = false;
+            if (string.IsNullOrWhiteSpace(tbDescInversion.Text))
+            {
+                tbDescInversion.ToolTip = CAMPOREQUERIDO;
+                tbDescInversion.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+            if (Convert.ToInt64(tbCostoUnitario.Text.ToString()) <= 0)
+            {
+                tbCostoUnitario.ToolTip = CAMPOREQUERIDOPOSITIVO;
+                tbCostoUnitario.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+
+            return validationResult;
+        }
+        #endregion
     }
 }

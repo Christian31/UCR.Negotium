@@ -1,17 +1,8 @@
 ﻿using MahApps.Metro.Controls;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
 
@@ -22,6 +13,7 @@ namespace UCR.Negotium.Dialogs
     /// </summary>
     public partial class RegistrarVariacionAnualCostos : MetroWindow
     {
+        #region PrivateProperties
         private const string CAMPOREQUERIDO = "Este campo es requerido";
 
         private List<VariacionAnualCosto> variacionCostos;
@@ -29,7 +21,9 @@ namespace UCR.Negotium.Dialogs
 
         private VariacionAnualCostoData variacionCostoData;
         private ProyectoData proyectoData;
+        #endregion
 
+        #region Constructor
         public RegistrarVariacionAnualCostos(int codProyecto)
         {
             InitializeComponent();
@@ -49,16 +43,9 @@ namespace UCR.Negotium.Dialogs
                 LoadDefaultValues();
             }
         }
+        #endregion
 
-        private void LoadDefaultValues()
-        {
-            for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
-            {
-                int anoActual = proyecto.AnoInicial + i;
-                variacionCostos.Add(new VariacionAnualCosto() { Ano = anoActual });
-            }//for
-        }
-
+        #region Properties
         public List<VariacionAnualCosto> VariacionCostos
         {
             get
@@ -72,7 +59,9 @@ namespace UCR.Negotium.Dialogs
         }
 
         public bool Reload { get; set; }
+        #endregion
 
+        #region Events
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
             if (!ValidateRequiredFields())
@@ -104,7 +93,7 @@ namespace UCR.Negotium.Dialogs
                         else
                         {
                             //error
-                            MessageBox.Show("Ha ocurrido un error al actualizarla variacion anual de costos del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show("Ha ocurrido un error al actualizar la variacion anual de costos del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
                             break;
                         }
                     }
@@ -132,6 +121,17 @@ namespace UCR.Negotium.Dialogs
                 dgVariacionAnual.BorderBrush = Brushes.Gray;
                 dgVariacionAnual.ToolTip = string.Empty;
             }
+        }
+        #endregion
+
+        #region PrivateMethods
+        private void LoadDefaultValues()
+        {
+            for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+            {
+                int anoActual = proyecto.AnoInicial + i;
+                variacionCostos.Add(new VariacionAnualCosto() { Ano = anoActual });
+            }//for
         }
 
         private bool ValidateRequiredFields()
@@ -163,5 +163,6 @@ namespace UCR.Negotium.Dialogs
 
             return false;
         }
+        #endregion
     }
 }

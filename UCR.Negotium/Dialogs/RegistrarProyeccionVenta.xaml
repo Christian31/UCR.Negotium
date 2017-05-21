@@ -8,10 +8,10 @@
         mc:Ignorable="d"
         BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
         WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
-        Title="Proyección Oferta de Artículo | Negotium v1.0" Height="550" Width="700">
+        Title="Proyección Oferta de Producto o Servicio | Negotium v1.0" Height="580" Width="700">
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.1*"/>
             <RowDefinition Height="8.5*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
@@ -22,7 +22,7 @@
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Row="1">
             <Grid Style="{StaticResource gridFormStyle}">
-                <Label Content="Nombre del Producto o Servicio:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <Label Content="Nombre del Producto:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
             </Grid>
             <Grid Style="{StaticResource gridFormStyle}">
                 <Label Content="Unidad de Medida:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
@@ -38,6 +38,13 @@
                                           SelectedValue="{Binding ProyeccionSelected.UnidadMedida.CodUnidad}" />
             </Grid>
         </StackPanel>
+        <RichTextBox FontSize="12" BorderThickness="0" Grid.ColumnSpan="2" Grid.Row="1" Margin="27,85,27,10">
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text="Registro de Estimación de ventas del Año 1"/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
         <DataGrid Grid.ColumnSpan="2" CanUserSortColumns="False" SelectionUnit="Cell" Name="dgDetalleProyeccion"
                 ItemsSource="{Binding ProyeccionSelected.DetallesProyeccionVenta, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
                 BorderThickness="1"
@@ -46,7 +53,7 @@
                 CanUserAddRows="False" 
                 CanUserDeleteRows="False" 
                 AutoGenerateColumns="False"
-                Margin="27,85,27,10" Grid.Row="1">
+                Margin="27,110,27,10" Grid.Row="1">
 
             <DataGrid.Style>
                 <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
@@ -61,7 +68,7 @@
                     Binding="{Binding Path=Cantidad}" Header="Cantidad" Width="3*">
                     <DataGridTextColumn.EditingElementStyle>
                         <Style TargetType="{x:Type TextBox}">
-                            <EventSetter Event="TextChanged" Handler="tbDatosPositivos_TextChanged" />
+                            <EventSetter Event="TextChanged" Handler="tbNumerosPositivos_TextChanged" />
                         </Style>
                     </DataGridTextColumn.EditingElementStyle>
                 </DataGridTextColumn>
@@ -69,7 +76,7 @@
                     Binding="{Binding Path=Precio}" Header="Precio (₡)" Width="3*">
                     <DataGridTextColumn.EditingElementStyle>
                         <Style TargetType="{x:Type TextBox}">
-                            <EventSetter Event="TextChanged" Handler="tbDatosPositivos_TextChanged" />
+                            <EventSetter Event="TextChanged" Handler="tbNumerosPositivos_TextChanged" />
                         </Style>
                     </DataGridTextColumn.EditingElementStyle>
                 </DataGridTextColumn>
@@ -77,8 +84,14 @@
         </DataGrid>
 
         <Grid Grid.Column="3" Grid.RowSpan="2">
-            <RichTextBox IsReadOnly="True" FontSize="14" Name="lbCrecimientoOferta"
-                     BorderThickness="0" Margin="10"></RichTextBox>
+            <RichTextBox IsReadOnly="True" FontSize="14"
+                     BorderThickness="0" Margin="27,20,27,400">
+                <FlowDocument>
+                    <Paragraph>
+                        <Run Text="Ingrese los porcentajes de Crecimiento anual de Oferta del Producto o Servicio"/>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
             <DataGrid CanUserSortColumns="False" SelectionUnit="Cell" Name="dgDetalleCrecimiento"
                 ItemsSource="{Binding ProyeccionSelected.CrecimientoOferta, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
                 BorderThickness="1"
@@ -102,7 +115,7 @@
                     Binding="{Binding Path=PorcentajeCrecimiento}" Header="Porcentaje (%)" Width="6*">
                         <DataGridTextColumn.EditingElementStyle>
                             <Style TargetType="{x:Type TextBox}">
-                                <EventSetter Event="TextChanged" Handler="tbDatosPositivos_TextChanged" />
+                                <EventSetter Event="TextChanged" Handler="tbNumeros_TextChanged" />
                             </Style>
                         </DataGridTextColumn.EditingElementStyle>
                     </DataGridTextColumn>

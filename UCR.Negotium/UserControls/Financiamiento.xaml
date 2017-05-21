@@ -68,7 +68,7 @@
                     </Label>
                 </Grid>
 
-                <DataGrid ItemsSource="{Binding DTCapitalTrabajo, UpdateSourceTrigger=PropertyChanged}"
+                <DataGrid ItemsSource="{Binding DTFinanciamiento, UpdateSourceTrigger=PropertyChanged}"
                           SelectionUnit="FullRow" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
                           Margin="30,0,30,15" ColumnWidth="100" CanUserSortColumns="False"
                           Grid.ColumnSpan="5" Grid.Row="1"

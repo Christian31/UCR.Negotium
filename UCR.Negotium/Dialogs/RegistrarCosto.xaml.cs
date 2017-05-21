@@ -14,6 +14,7 @@ namespace UCR.Negotium.Dialogs
     /// </summary>
     public partial class RegistrarCosto : MetroWindow
     {
+        #region PrivateProperties
         private const string CAMPOREQUERIDO = "Este campo es requerido";
 
         private Proyecto proyecto;
@@ -23,7 +24,9 @@ namespace UCR.Negotium.Dialogs
         private ProyectoData proyectoData;
         private CostoData costoData;
         private UnidadMedidaData unidadMedidaData;
+        #endregion
 
+        #region Constructor
         public RegistrarCosto(int idProyecto, int idCosto = 0)
         {
             InitializeComponent();
@@ -51,7 +54,9 @@ namespace UCR.Negotium.Dialogs
                 costoSelected = costoData.GetCosto(idCosto);
             }
         }
+        #endregion
 
+        #region Properties
         public bool Reload { get; set; }
 
         public Costo CostoSelected
@@ -106,7 +111,9 @@ namespace UCR.Negotium.Dialogs
                 AnosDisponibles = value;
             }
         }
+        #endregion
 
+        #region Events
         private void tbDatosPositivos_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox val = (TextBox)sender;
@@ -170,7 +177,9 @@ namespace UCR.Negotium.Dialogs
         {
             Close();
         }
+        #endregion
 
+        #region PrivateMethods
         private bool ValidateRequiredFields()
         {
             bool validationResult = false;
@@ -212,5 +221,6 @@ namespace UCR.Negotium.Dialogs
 
             return false;
         }
+        #endregion
     }
 }

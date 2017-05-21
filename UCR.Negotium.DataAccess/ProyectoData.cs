@@ -1,5 +1,4 @@
-﻿//@Copyright Yordan Campos Piedra
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
@@ -20,7 +19,6 @@ namespace UCR.Negotium.DataAccess
             conexion = new SQLiteConnection(cadenaConexion);
         }
 
-        //El siguiente metodo va a insertar un proyecto en la base de datos
         public int InsertarProyecto(Proyecto proyecto)
         {
             int idProyecto = -1;
@@ -51,7 +49,7 @@ namespace UCR.Negotium.DataAccess
                 command.Parameters.AddWithValue("cod_evaluador", proyecto.Encargado.IdEncargado);
                 command.Parameters.AddWithValue("con_financiamiento", proyecto.ConFinanciamiento);
                 command.Parameters.AddWithValue("objeto_interes", proyecto.ObjetoInteres);
-                command.Parameters.AddWithValue("archivado", proyecto.ConFinanciamiento);
+                command.Parameters.AddWithValue("archivado", proyecto.Archivado);
 
                 if (conexion.State != ConnectionState.Open)
                     conexion.Open();
@@ -66,16 +64,14 @@ namespace UCR.Negotium.DataAccess
                 conexion.Close();
                 return idProyecto;
             }
-        }//InsertarProyecto
+        }
 
-        //El siguiente metodo va a actualizar un proyecto en la base de datos
         public bool ActualizarProyecto(Proyecto proyecto)
         {
             string update = "UPDATE PROYECTO SET nombre_proyecto=?, resumen_ejecutivo=?, con_ingresos=?, "+
-                "descripcion_poblacion_beneficiaria=?, categorizacion_bien_servicio=?, "+
-                "descripcion_sostenibilidad_proyecto=?, justificacion_de_mercado=?, ano_inicial_proyecto=?, "+
-                "horizonte_evaluacion_en_anos=?, paga_impuesto=?, porcentaje_impuesto=?, direccion_exacta=?, "+
-                "cod_provincia=?, cod_canton=?, cod_distrito=?, cod_evaluador=?, con_financiamiento=?, objeto_interes=? WHERE cod_proyecto=?; ";
+                "ano_inicial_proyecto=?, horizonte_evaluacion_en_anos=?, paga_impuesto=?, "+ 
+                "porcentaje_impuesto=?, direccion_exacta=?, cod_provincia=?, cod_canton=?, cod_distrito=?," +
+                "con_financiamiento=?, objeto_interes=? WHERE cod_proyecto=?; ";
 
             if (conexion.State != ConnectionState.Open)
                 conexion.Open();
@@ -84,10 +80,6 @@ namespace UCR.Negotium.DataAccess
             command.Parameters.AddWithValue("nombre_proyecto", proyecto.NombreProyecto);
             command.Parameters.AddWithValue("resumen_ejecutivo", proyecto.ResumenEjecutivo);
             command.Parameters.AddWithValue("con_ingresos", proyecto.ConIngresos);
-            command.Parameters.AddWithValue("descripcion_poblacion_beneficiaria", proyecto.DescripcionPoblacionBeneficiaria);
-            command.Parameters.AddWithValue("categorizacion_bien_servicio", proyecto.CaraterizacionDelBienServicio);
-            command.Parameters.AddWithValue("descripcion_sostenibilidad_proyecto", proyecto.DescripcionSostenibilidadDelProyecto);
-            command.Parameters.AddWithValue("justificacion_de_mercado", proyecto.JustificacionDeMercado);
             command.Parameters.AddWithValue("ano_inicial_proyecto", proyecto.AnoInicial);
             command.Parameters.AddWithValue("horizonte_evaluacion_en_anos", proyecto.HorizonteEvaluacionEnAnos);
             command.Parameters.AddWithValue("paga_impuesto", proyecto.PagaImpuesto);
@@ -96,7 +88,6 @@ namespace UCR.Negotium.DataAccess
             command.Parameters.AddWithValue("cod_provincia", proyecto.Provincia.CodProvincia);
             command.Parameters.AddWithValue("cod_canton", proyecto.Canton.CodCanton);
             command.Parameters.AddWithValue("cod_distrito", proyecto.Distrito.CodDistrito);
-            command.Parameters.AddWithValue("cod_evaluador", proyecto.Encargado.IdEncargado);
             command.Parameters.AddWithValue("con_financiamiento", proyecto.ConFinanciamiento);
             command.Parameters.AddWithValue("cod_proyecto", proyecto.CodProyecto);
             command.Parameters.AddWithValue("objeto_interes", proyecto.ObjetoInteres);
@@ -112,7 +103,7 @@ namespace UCR.Negotium.DataAccess
                 conexion.Close();
                 return false;
             }//else
-        }//ActualizarProyecto
+        }
 
         public bool ActualizarProyectoCaracterizacion(Proyecto proyecto)
         {
@@ -165,7 +156,7 @@ namespace UCR.Negotium.DataAccess
                 conexion.Close();
                 return false;
             }//else
-        }//ActualizarProyecto
+        }
 
         public bool ArchivarProyecto(int codProyecto, bool archivar)
         {

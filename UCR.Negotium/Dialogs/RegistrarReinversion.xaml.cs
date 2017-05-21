@@ -15,6 +15,7 @@ namespace UCR.Negotium.Dialogs
     /// </summary>
     public partial class RegistrarReinversion : MetroWindow
     {
+        #region PrivateProperties
         private const string CAMPOREQUERIDO = "Este campo es requerido";
         private const string CAMPOREQUERIDOPOSITIVO = "Este campo es requerido y debe tener un valor mayor a 0";
 
@@ -26,7 +27,9 @@ namespace UCR.Negotium.Dialogs
         private List<UnidadMedida> unidadMedidas;
         private Proyecto proyecto;
         private List<RequerimientoInversion> inversiones;
+        #endregion
 
+        #region Constructor
         public RegistrarReinversion(int codProyecto, int codReinversion = 0)
         {
             InitializeComponent();
@@ -57,7 +60,9 @@ namespace UCR.Negotium.Dialogs
             if (codReinversion != 0)
                 reinversion = requerimientoReinversionData.GetRequerimientoReinversion(codReinversion);
         }
+        #endregion
 
+        #region Properties
         public bool Reload { get; set; }
 
         public List<RequerimientoInversion> Inversiones
@@ -114,7 +119,9 @@ namespace UCR.Negotium.Dialogs
                 reinversion = value;
             }
         }
+        #endregion
 
+        #region Events
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
             if (!ValidateRequiredFields())
@@ -167,26 +174,7 @@ namespace UCR.Negotium.Dialogs
                 tbCostoUnitario.Text = string.Empty;
             }
         }
-
-        private bool ValidateRequiredFields()
-        {
-            bool validationResult = false;
-            if (string.IsNullOrWhiteSpace(tbDescReinversion.Text))
-            {
-                tbDescReinversion.ToolTip = CAMPOREQUERIDO;
-                tbDescReinversion.BorderBrush = Brushes.Red;
-                validationResult = true;
-            }
-            if (Convert.ToInt64(tbCostoUnitario.Text.ToString()) <= 0)
-            {
-                tbCostoUnitario.ToolTip = CAMPOREQUERIDOPOSITIVO;
-                tbCostoUnitario.BorderBrush = Brushes.Red;
-                validationResult = true;
-            }
-
-            return validationResult;
-        }
-
+        
         private void btnCancelar_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -220,5 +208,27 @@ namespace UCR.Negotium.Dialogs
                 tbDescReinversion.ToolTip = "Ingrese en este campo el Nombre de la Reinversión que desea registrar";
             }
         }
+        #endregion
+
+        #region PrivateMethods
+        private bool ValidateRequiredFields()
+        {
+            bool validationResult = false;
+            if (string.IsNullOrWhiteSpace(tbDescReinversion.Text))
+            {
+                tbDescReinversion.ToolTip = CAMPOREQUERIDO;
+                tbDescReinversion.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+            if (Convert.ToInt64(tbCostoUnitario.Text.ToString()) <= 0)
+            {
+                tbCostoUnitario.ToolTip = CAMPOREQUERIDOPOSITIVO;
+                tbCostoUnitario.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+
+            return validationResult;
+        }
+        #endregion
     }
 }

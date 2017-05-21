@@ -22,15 +22,15 @@ namespace UCR.Negotium.DataAccess
 
         public bool InsertarInteresFinanciamiento(InteresFinanciamiento intFinanciamiento, int codProyecto)
         {
-            String insert = "INSERT INTO INTERES_FINANCIAMIENTO(cod_proyecto, porcentaje_interes_financiamiento, variable_interes)" +
+            String insert = "INSERT INTO INTERES_FINANCIAMIENTO(cod_proyecto, porcentaje_interes, ano_interes)" +
                 "VALUES(?,?,?)";
             if (conexion.State != ConnectionState.Open)
                 conexion.Open();
             SQLiteCommand command = conexion.CreateCommand();
             command.CommandText = insert;
             command.Parameters.AddWithValue("cod_proyecto", codProyecto);
-            command.Parameters.AddWithValue("porcentaje_interes_financiamiento", intFinanciamiento.PorcentajeInteresFinanciamiento);
-            command.Parameters.AddWithValue("variable_intereses", intFinanciamiento.VariableInteres);
+            command.Parameters.AddWithValue("porcentaje_interes", intFinanciamiento.PorcentajeInteres);
+            command.Parameters.AddWithValue("ano_intereses", intFinanciamiento.AnoInteres);
             // Ejecutamos la sentencia INSERT y cerramos la conexión
             if (command.ExecuteNonQuery() != -1)
             {
@@ -63,8 +63,8 @@ namespace UCR.Negotium.DataAccess
                 {
                     interes = new InteresFinanciamiento();
                     interes.CodInteresFinanciamiento = reader.GetInt32(0);
-                    interes.PorcentajeInteresFinanciamiento = reader.GetDouble(2);
-                    interes.VariableInteres = reader.GetBoolean(3);
+                    interes.PorcentajeInteres = reader.GetDouble(2);
+                    interes.AnoInteres = reader.GetInt32(3);
                     listaInteresesFinanciamiento.Add(interes);
                 }//if
                 conexion.Close();
@@ -79,13 +79,13 @@ namespace UCR.Negotium.DataAccess
 
         public bool ActualizarInteresFinanciamiento(InteresFinanciamiento intFinanciamiento)
         {
-            String update = "UPDATE INTERES_FINANCIAMIENTO SET porcentaje_interes_financiamiento=? " +
+            String update = "UPDATE INTERES_FINANCIAMIENTO SET porcentaje_interes=? " +
                 "WHERE cod_interes_financiamiento=" + intFinanciamiento.CodInteresFinanciamiento;
             if (conexion.State != ConnectionState.Open)
                 conexion.Open();
             SQLiteCommand command = conexion.CreateCommand();
             command.CommandText = update;
-            command.Parameters.AddWithValue("porcentaje_interes_financiamiento", intFinanciamiento.PorcentajeInteresFinanciamiento);
+            command.Parameters.AddWithValue("porcentaje_interes_financiamiento", intFinanciamiento.PorcentajeInteres);
             // Ejecutamos la sentencia INSERT y cerramos la conexión
             if (command.ExecuteNonQuery() != -1)
             {
@@ -98,5 +98,28 @@ namespace UCR.Negotium.DataAccess
                 return false;
             }//else
         }//ActualizarInteresFinanciamiento
+
+        public bool EliminarInteresFinanciamiento(int codProyecto)
+        {
+            try
+            {
+                string sqlQuery = "DELETE FROM INTERES_FINANCIAMIENTO WHERE cod_proyecto =" + codProyecto + ";";
+                if (conexion.State != ConnectionState.Open)
+                    conexion.Open();
+
+                SQLiteCommand command = conexion.CreateCommand();
+                command.CommandText = sqlQuery;
+                command.ExecuteNonQuery();
+                conexion.Close();
+
+                return true;
+            }
+            catch
+            {
+                conexion.Close();
+                return false;
+            }
+
+        }
     }
 }

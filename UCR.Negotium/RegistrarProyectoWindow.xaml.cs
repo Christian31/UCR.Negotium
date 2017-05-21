@@ -7,6 +7,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using UCR.Negotium.Utils;
+using System;
+using Microsoft.VisualBasic;
+using UCR.Negotium.Dialogs;
 
 namespace UCR.Negotium
 {
@@ -17,8 +21,13 @@ namespace UCR.Negotium
     {
         private Proyecto proyecto;
         private DataView dtFlujoCaja;
+        private string tir;
+        private string van;
+
+        private double montoInicial;
+        private double[] flujoCaja;
+
         private ProyectoData proyectoData;
-        private ProponenteData proponenteData;
         private EncargadoData encargadoData;
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
@@ -29,7 +38,6 @@ namespace UCR.Negotium
             InitializeComponent();
 
             proyectoData = new ProyectoData();
-            proponenteData = new ProponenteData();
             encargadoData = new EncargadoData();
 
             dtFlujoCaja = new DataView();
@@ -37,7 +45,7 @@ namespace UCR.Negotium
 
             if (!codProyecto.Equals(0))
             {
-                proyecto = proyectoData.GetProyecto(codProyecto);
+                ProyectoSelected = proyectoData.GetProyecto(codProyecto);
                 ReloadUserControls(proyecto.CodProyecto);
             }
 
@@ -47,8 +55,6 @@ namespace UCR.Negotium
             {
                 proyecto.Encargado = encargadoData.GetEncargado(codEncargado);
             }
-
-
 
             InitializeComponent();
         }
@@ -79,6 +85,26 @@ namespace UCR.Negotium
             }
         }
 
+        public string TIR
+        {
+            get { return tir; }
+            set
+            {
+                tir = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("TIR"));
+            }
+        }
+
+        public string VAN
+        {
+            get { return van; }
+            set
+            {
+                van = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("VAN"));
+            }
+        }
+
         public int CodProyecto { get; set; }
 
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
@@ -104,7 +130,12 @@ namespace UCR.Negotium
                     financiamientoUc.CodProyecto = codProyecto;
 
             proyecto = proyectoData.GetProyecto(codProyecto);
-            proyecto.Proponente = proponenteData.GetProponente(codProyecto);
+            proyecto.Proponente = proponente.ProponenteSelected;
+            proyecto.Proyecciones = proyeccionVentas.ProyeccionesList;
+            proyecto.Financiamiento = financiamientoUc.FinanciamientoSelected;
+            proyecto.Costos = costos.CostosList;
+            proyecto.RequerimientosInversion = inversiones.InversionesList;
+            proyecto.RequerimientosReinversion = reinversiones.ReinversionesList;
 
             if (!proyecto.ConFinanciamiento)
             {
@@ -179,17 +210,57 @@ namespace UCR.Negotium
                     "Datos vacios", MessageBoxButton.OK, MessageBoxImage.Warning);
                     tcRegistrarProyecto.SelectedIndex = 2;
                 }
-                //else if (indice.Equals(10))
-                //{
-                //    //llenar flujo de caja 
-                //    CastToDataGridView(capitalTrabajo.DTCapitalTrabajo.ToTable(),
-                //financiamientoUc.DTFinanciamiento.ToTable(), reinversiones.DTTotalesReinversiones.ToTable());
-
-                //    DTFlujoCaja = DatatableBuilder.GenerarDTFlujoCaja(proyecto, gridView[0], gridView[1], gridView[2],
-                //        inversiones.InversionesTotal, capitalTrabajo.RecuperacionCT).AsDataView();
-                //}
+                else if (indice.Equals(10))
+                {
+                    //llenar flujo de caja 
+                    LlenaFlujoCaja();
+                }
             }
         }
+
+        private void LlenaFlujoCaja()
+        {
+            CastToDataGridView(capitalTrabajo.DTCapitalTrabajo.ToTable(),
+                financiamientoUc.DTFinanciamiento.ToTable(), reinversiones.DTTotalesReinversiones.ToTable());
+
+            DTFlujoCaja = DatatableBuilder.GenerarDTFlujoCaja(proyecto, capitalTrabajo.DTCapitalTrabajo, financiamientoUc.DTFinanciamiento, reinversiones.DTTotalesReinversiones,
+                inversiones.InversionesTotal, capitalTrabajo.RecuperacionCT).AsDataView();
+
+            LlenaCalculosFinales();
+        }
+        private void LlenaCalculosFinales()
+        {
+            double[] num = new double[ProyectoSelected.HorizonteEvaluacionEnAnos + 1];
+            double[] numArray = new double[ProyectoSelected.HorizonteEvaluacionEnAnos];
+            for (int i = 0; i <= ProyectoSelected.HorizonteEvaluacionEnAnos; i++)
+            {
+                num[i] = Convert.ToDouble(DTFlujoCaja.Table.Rows[16][i + 1].ToString().Replace("₡", string.Empty));
+            }
+
+            for (int k = 0; k < ProyectoSelected.HorizonteEvaluacionEnAnos; k++)
+            {
+                numArray[k] = num[k + 1];
+            }
+
+            montoInicial = num[0];
+            flujoCaja = numArray;
+
+            try
+            {
+                double num2 = num[0] + Financial.NPV(ProyectoSelected.TasaCostoCapital, ref numArray);
+                VAN = string.Concat("₡ ", num2.ToString("#,##0.##"));
+            }
+            catch { VAN = "INDEFINIDA"; }
+
+            try
+            {
+                double num1 = Financial.IRR(ref num, 0.3) * 100;
+
+                TIR = string.Concat(num1.ToString("#,##0.##"), " %");
+            }
+            catch { TIR = "INDEFINIDA"; }
+        }
+
 
         private List<DataGridView> gridView { get; set; }
 
@@ -205,6 +276,29 @@ namespace UCR.Negotium
             DataGridView view3 = new DataGridView();
             view.DataSource = reinversiones;
             gridView.Add(view3);
+        }
+
+        private void dgFlujoCaja_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (dgFlujoCaja.Columns.Count > 0)
+            {
+                this.dgFlujoCaja.Columns[0].Width = 180;
+            }
+        }
+
+        private void lbDetalleIndicadores_Click(object sender, RoutedEventArgs e)
+        {
+            double tir = Convert.ToDouble(TIR.Replace("%", string.Empty));
+            double van = Convert.ToDouble(VAN.Replace("₡", string.Empty));
+            IndicadoresFinales indicadores = new IndicadoresFinales(ProyectoSelected.CodProyecto, tir, van, montoInicial, flujoCaja);
+            indicadores.ShowDialog();
+
+            if (indicadores.IsActive == false && indicadores.Reload)
+            {
+                ProyectoSelected.TasaCostoCapital = proyectoData.GetProyecto(ProyectoSelected.CodProyecto).TasaCostoCapital;
+                PropertyChanged(this, new PropertyChangedEventArgs("ProyectoSelected"));
+                LlenaCalculosFinales();
+            }
         }
     }
 }

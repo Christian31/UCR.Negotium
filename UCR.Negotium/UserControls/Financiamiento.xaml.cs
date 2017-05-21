@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using UCR.Negotium.DataAccess;
+using UCR.Negotium.Dialogs;
 using UCR.Negotium.Domain;
 using UCR.Negotium.Utils;
 
@@ -70,11 +71,25 @@ namespace UCR.Negotium.UserControls
             {
                 if (FinanciamientoSelected.InteresFijo)
                 {
-                    DTFinanciamiento = DatatableBuilder.GenerarDTFinanciamientoIV(proyecto).AsDataView();
+                    DTFinanciamiento = DatatableBuilder.GenerarDTFinanciamientoIF(proyecto.AnoInicial, FinanciamientoSelected.MontoFinanciamiento, FinanciamientoSelected.TiempoFinanciamiento, tasaInteres.FirstOrDefault()).AsDataView();
                 }
                 else
                 {
-                    DTFinanciamiento = DatatableBuilder.GenerarDTFinanciamientoIF(proyecto, FinanciamientoSelected.MontoFinanciamiento, FinanciamientoSelected.TiempoFinanciamiento, tasaInteres.FirstOrDefault()).AsDataView();
+                    DTFinanciamiento = DatatableBuilder.GenerarDTFinanciamientoIV(proyecto).AsDataView();                
+                }
+
+                if (dgFinanciamiento.IsLoaded && dgFinanciamiento.Columns.Count > 0)
+                {
+                    this.dgFinanciamiento.Columns[0].Header = "Año de Pago";
+                    this.dgFinanciamiento.Columns[1].Header = "Saldo";
+                    this.dgFinanciamiento.Columns[2].Header = "Cuota";
+                    this.dgFinanciamiento.Columns[3].Header = "Interés";
+                    this.dgFinanciamiento.Columns[4].Header = "Amortización";
+                    this.dgFinanciamiento.Columns[0].Width = 130;
+                    this.dgFinanciamiento.Columns[1].Width = 160;
+                    this.dgFinanciamiento.Columns[2].Width = 150;
+                    this.dgFinanciamiento.Columns[3].Width = 150;
+                    this.dgFinanciamiento.Columns[4].Width = 160;
                 }
             }
         }
@@ -193,14 +208,42 @@ namespace UCR.Negotium.UserControls
 
         private void lblTasaInteres_Click(object sender, RoutedEventArgs e)
         {
+            if (FinanciamientoSelected.InteresFijo)
+            {
+                RegistrarTasaInteresFijo interesFinanciamiento = new RegistrarTasaInteresFijo(CodProyecto, FinanciamientoSelected);
+                interesFinanciamiento.ShowDialog();
 
+                if (!interesFinanciamiento.IsActive && interesFinanciamiento.Reload)
+                {
+                    Reload();
+                }
+            }
+            else
+            {
+                RegistrarTasaInteresFinanciamiento interesFinanciamiento = new RegistrarTasaInteresFinanciamiento(CodProyecto, FinanciamientoSelected);
+                interesFinanciamiento.ShowDialog();
+
+                if (!interesFinanciamiento.IsActive && interesFinanciamiento.Reload)
+                {
+                    Reload();
+                }
+            }
         }
 
         private void dgFinanciamiento_Loaded(object sender, RoutedEventArgs e)
         {
             if (dgFinanciamiento.Columns.Count > 0)
             {
-                dgFinanciamiento.Columns[0].Width = 130;
+                this.dgFinanciamiento.Columns[0].Header = "Año de Pago";
+                this.dgFinanciamiento.Columns[1].Header = "Saldo";
+                this.dgFinanciamiento.Columns[2].Header = "Cuota";
+                this.dgFinanciamiento.Columns[3].Header = "Interés";
+                this.dgFinanciamiento.Columns[4].Header = "Amortización";
+                this.dgFinanciamiento.Columns[0].Width = 130;
+                this.dgFinanciamiento.Columns[1].Width = 160;
+                this.dgFinanciamiento.Columns[2].Width = 150;
+                this.dgFinanciamiento.Columns[3].Width = 150;
+                this.dgFinanciamiento.Columns[4].Width = 160;
             }
         }
 
@@ -215,6 +258,7 @@ namespace UCR.Negotium.UserControls
                     {
                         //success
                         ActualizarDTFinanciamiento();
+                        FinanciamientoSelected = financiamientoTemp;
                         MessageBox.Show("El financiamiento del proyecto se ha insertado correctamente", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     else
