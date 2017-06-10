@@ -214,7 +214,6 @@ namespace UCR.Negotium.UserControls
                 tbTelefonoOrganizacion.BorderBrush = Brushes.Red;
                 validationResult = true;
             }
-
             if (!emailExpresion.IsMatch(tbCorreoProponente.Text))
             {
                 tbCorreoProponente.ToolTip = CAMPOREQUERIDO;

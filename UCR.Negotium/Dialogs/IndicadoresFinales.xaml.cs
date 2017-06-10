@@ -1,19 +1,9 @@
 ﻿using MahApps.Metro.Controls;
 using Microsoft.VisualBasic;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
 
@@ -50,41 +40,46 @@ namespace UCR.Negotium.Dialogs
 
         public bool Reload { get; set; }
 
-        public double TIR
+        public string TIR
         {
-            get { return tir; }
-            set { tir = value; }
+            get { return string.Concat(tir.ToString("#,##0.##"), " %"); }
+            set { }
         }
 
-        public double VAN
+        public string VAN
         {
-            get { return van; }
-            set
+            get { return string.Concat("₡ ", van.ToString("#,##0.##")); }
+            set { }
+        }
+
+        public string VANPersonas
+        {
+            get
             {
-                van = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("VAN"));
-                PropertyChanged(this, new PropertyChangedEventArgs("VANPersonas"));
-                PropertyChanged(this, new PropertyChangedEventArgs("VANFamilias"));
-                PropertyChanged(this, new PropertyChangedEventArgs("VANBeneficiarios"));
+                return string.Concat("₡ ", (Math.Round(
+                    van / ProyectoSelected.PersonasParticipantes, 2)).ToString("#,##0.##"));
             }
+            set { }
         }
 
-        public double VANPersonas
+        public string VANFamilias
         {
-            get { return VAN / ProyectoSelected.PersonasParticipantes; }
-            set { VAN = value * ProyectoSelected.PersonasParticipantes; }
+            get
+            {
+                return string.Concat("₡ ", (Math.Round(
+                    van / ProyectoSelected.FamiliasInvolucradas, 2)).ToString("#,##0.##"));
+            }
+            set { }
         }
 
-        public double VANFamilias
+        public string VANBeneficiarios
         {
-            get { return VAN / ProyectoSelected.FamiliasInvolucradas; }
-            set { VAN = value * ProyectoSelected.FamiliasInvolucradas; }
-        }
-
-        public double VANBeneficiarios
-        {
-            get { return VAN / ProyectoSelected.PersonasBeneficiadas; }
-            set { VAN = value * ProyectoSelected.PersonasBeneficiadas; }
+            get
+            {
+                return string.Concat("₡ ", (Math.Round(
+                    van / ProyectoSelected.PersonasBeneficiadas, 2)).ToString("#,##0.##"));
+            }
+            set { }
         }
 
         public Proyecto ProyectoSelected
@@ -145,11 +140,15 @@ namespace UCR.Negotium.Dialogs
 
             try
             {
-                VAN = montoInicial + Financial.NPV(Convert.ToDouble(val.Text), ref flujoCaja);
-
-                //VAN = string.Concat("₡ ", num2.ToString("#,##0.##"));
+                van = montoInicial + Financial.NPV(Convert.ToDouble(val.Text), ref flujoCaja);
             }
-            catch { VAN = 0; }
+            catch { van = 0; }
+            finally {
+                PropertyChanged(this, new PropertyChangedEventArgs("VAN"));
+                PropertyChanged(this, new PropertyChangedEventArgs("VANPersonas"));
+                PropertyChanged(this, new PropertyChangedEventArgs("VANFamilias"));
+                PropertyChanged(this, new PropertyChangedEventArgs("VANBeneficiarios"));
+            }
         }
     }
 }

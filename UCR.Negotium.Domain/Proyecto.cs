@@ -250,21 +250,32 @@ namespace UCR.Negotium.Domain
         {
             double valIni = 0;
             List<double> listIngresos = new List<double>();
-            
-            foreach (ProyeccionVentaArticulo articulo in this.Proyecciones)
+
+            if (this.Proyecciones.Count.Equals(0))
             {
-                List<double> listIngresosArticulo = new List<double>();
-                articulo.DetallesProyeccionVenta.ForEach(detArticulo => valIni += detArticulo.Subtotal);
-
-                listIngresosArticulo.Add(valIni);
-                for (int i = 0; i < articulo.CrecimientoOferta.Count; i++)
+                for (int i=0; i < this.HorizonteEvaluacionEnAnos; i++)
                 {
-                    valIni = ((valIni * articulo.CrecimientoOferta[i].PorcentajeCrecimiento) / 100) + valIni;
-                    listIngresosArticulo.Add(valIni);
+                    listIngresos.Add(0);
                 }
-
-                listIngresos = SumListDoubles(listIngresos, listIngresosArticulo);
             }
+            else
+            {
+                foreach (ProyeccionVentaArticulo articulo in this.Proyecciones)
+                {
+                    List<double> listIngresosArticulo = new List<double>();
+                    articulo.DetallesProyeccionVenta.ForEach(detArticulo => valIni += detArticulo.Subtotal);
+
+                    listIngresosArticulo.Add(valIni);
+                    for (int i = 0; i < articulo.CrecimientoOferta.Count; i++)
+                    {
+                        valIni = ((valIni * articulo.CrecimientoOferta[i].PorcentajeCrecimiento) / 100) + valIni;
+                        listIngresosArticulo.Add(valIni);
+                    }
+
+                    listIngresos = SumListDoubles(listIngresos, listIngresosArticulo);
+                }
+            }
+            
 
             return listIngresos;
         }
@@ -276,7 +287,7 @@ namespace UCR.Negotium.Domain
                 if (listIngresos.Count.Equals(listIngresosArticulo.Count))
                 {
                     List<double> ingresosSumados = new List<double>();
-                    for (int i=0; i > listIngresos.Count; i++)
+                    for (int i=0; i < listIngresos.Count; i++)
                     {
                         ingresosSumados.Add(listIngresos[i]+listIngresosArticulo[i]);
                     }
@@ -308,22 +319,34 @@ namespace UCR.Negotium.Domain
         private List<double> calcularCostosGenerados()
         {
             double valIni = 0;
+            double porcentaje = 0;
             List<double> listCostos = new List<double>();
             int inicio = this.AnoInicial+1;
+            int count = 0;
             while (inicio <= (this.AnoInicial + this.HorizonteEvaluacionEnAnos))
             {
                 foreach (Costo articulo in this.Costos)
                 {
-                    if (articulo.AnoCosto <= inicio)
+                    if (articulo.AnoCosto == inicio)
                     {
                         articulo.CostosMensuales.ForEach(detalle => valIni += detalle.Subtotal);
                     }
                 }
 
-                this.VariacionCostos.ForEach(variacion => valIni += ((valIni * variacion.PorcentajeIncremento) / 100));
+                if (count > 0)
+                {
+                    porcentaje = VariacionCostos.Count > 0 ? ((listCostos[listCostos.Count - 1] + valIni) * VariacionCostos[count].PorcentajeIncremento) / 100 : 0;
+                    listCostos.Add(listCostos[listCostos.Count - 1] + valIni + porcentaje);
+                }
+                else
+                {
+                    porcentaje = VariacionCostos.Count > 0 ? (valIni * VariacionCostos[count].PorcentajeIncremento) / 100 : 0;
+                    listCostos.Add(valIni + porcentaje);
+                }
 
-                listCostos.Add(valIni);
+                valIni = 0;
                 inicio++;
+                count++;
             }
 
             return listCostos;

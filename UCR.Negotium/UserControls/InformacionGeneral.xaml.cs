@@ -145,7 +145,7 @@ namespace UCR.Negotium.UserControls
                     if (idProyecto != -1)
                     {
                         ProyectoSelected.CodProyecto = idProyecto;
-                        RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
+                        RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[2];
                         mainWindow.ReloadUserControls(idProyecto);
 
                         MessageBox.Show("El proyecto se ha insertado correctamente", "Proyecto Insertado", MessageBoxButton.OK, MessageBoxImage.Information);

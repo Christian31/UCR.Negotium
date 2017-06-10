@@ -469,7 +469,7 @@ namespace UCR.Negotium.Utils
 
             for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
             {
-                if (i < dgvFinanciamiento.Table.Rows.Count)
+                if (dgvFinanciamiento.Table != null && i < dgvFinanciamiento.Table.Rows.Count)
                 {
                     row5[(proyecto.AnoInicial + a5).ToString()] = "₡ -" + dgvFinanciamiento.Table.Rows[i][2].ToString().Replace("₡ ", string.Empty);
                 }
@@ -570,7 +570,14 @@ namespace UCR.Negotium.Utils
             a11++;
             for (int i = 1; i < proyecto.HorizonteEvaluacionEnAnos; i++)
             {
-                row11[(proyecto.AnoInicial + a11).ToString()] = "₡ -" + dgvTotalesReinversiones.Table.Rows[0][i].ToString().Replace("₡ ", string.Empty);
+                if(dgvTotalesReinversiones.Table != null)
+                {
+                    row11[(proyecto.AnoInicial + a11).ToString()] = "₡ -" + dgvTotalesReinversiones.Table.Rows[0][i].ToString().Replace("₡ ", string.Empty);
+                }
+                else
+                {
+                    row11[(proyecto.AnoInicial + a11).ToString()] = "₡ -0";
+                }
                 a11++;
             }
             ds.Tables[dsNombre].Rows.Add(row11);
@@ -588,7 +595,7 @@ namespace UCR.Negotium.Utils
             row13["Rubro"] = "Amortizacion del préstamo";
             for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
             {
-                if (i < dgvFinanciamiento.Table.Rows.Count)
+                if (dgvFinanciamiento.Table != null && i < dgvFinanciamiento.Table.Rows.Count)
                 {
                     row13[(proyecto.AnoInicial + i + 1).ToString()] = "₡ -" + dgvFinanciamiento.Table.Rows[i][3].ToString().Replace("₡ ", string.Empty);
                 }
@@ -606,7 +613,14 @@ namespace UCR.Negotium.Utils
             int a14 = 0;
             for (int i = 1; i < proyecto.HorizonteEvaluacionEnAnos + 1; i++)
             {
-                row14[(proyecto.AnoInicial + a14).ToString()] = dgvCapitalTrabajo.Table.Rows[2][i].ToString();
+                if(dgvCapitalTrabajo.Table != null)
+                {
+                    row14[(proyecto.AnoInicial + a14).ToString()] = dgvCapitalTrabajo.Table.Rows[2][i].ToString();
+                }
+                else
+                {
+                    row14[(proyecto.AnoInicial + a14).ToString()] = "₡ 0";
+                }
                 a14++;
             }
             row14[(proyecto.AnoInicial + a14).ToString()] = "₡ 0";

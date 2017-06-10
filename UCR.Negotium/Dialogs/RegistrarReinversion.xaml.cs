@@ -50,7 +50,6 @@ namespace UCR.Negotium.Dialogs
 
             proyecto = proyectoData.GetProyecto(codProyecto);
             unidadMedidas = unidadMedidaData.GetUnidadesMedidaAux();
-            inversiones.Add(new RequerimientoInversion());
             inversiones.AddRange(requerimientoInversionData.GetRequerimientosInversion(codProyecto).Where(inv => inv.Depreciable.Equals(true)).ToList());
             
             reinversion.UnidadMedida = unidadMedidas.FirstOrDefault();
@@ -58,11 +57,16 @@ namespace UCR.Negotium.Dialogs
             reinversion.Cantidad = 1;
 
             if (codReinversion != 0)
+            {
                 reinversion = requerimientoReinversionData.GetRequerimientoReinversion(codReinversion);
+                VincularInversion = !reinversion.CodRequerimientoInversion.Equals(0);
+            }
         }
         #endregion
 
         #region Properties
+        public bool VincularInversion { get; set; }
+
         public bool Reload { get; set; }
 
         public List<RequerimientoInversion> Inversiones
@@ -128,6 +132,9 @@ namespace UCR.Negotium.Dialogs
             {
                 if (!Reinversion.Depreciable)
                     Reinversion.VidaUtil = 0;
+
+                if (!VincularInversion)
+                    Reinversion.CodRequerimientoInversion = 0;
 
                 if (Reinversion.CodRequerimientoReinversion.Equals(0))
                 {
@@ -200,6 +207,29 @@ namespace UCR.Negotium.Dialogs
             cbDepreciable.IsChecked = nudVidaUtil.IsEnabled = false;
         }
 
+        private void cbInversion_Checked(object sender, RoutedEventArgs e)
+        {
+            cbNoInversion.IsChecked = tbDescReinversion.IsEnabled = false;
+            cbxInversiones.IsEnabled = true;
+            cbxInversiones.SelectedItem = Inversiones.FirstOrDefault();
+        }
+
+        private void cbInversion_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (cbInversion.IsChecked.Value.Equals(false))
+            {
+                cbNoInversion.IsChecked = tbDescReinversion.IsEnabled = true;
+                cbxInversiones.IsEnabled = false;
+            }
+        }
+
+        private void cbNoInversion_Checked(object sender, RoutedEventArgs e)
+        {
+            cbInversion.IsChecked = cbxInversiones.IsEnabled = false;
+            tbDescReinversion.IsEnabled = true;
+            tbDescReinversion.Text = "";
+        }
+
         private void tbDescReinversion_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (tbDescReinversion.BorderBrush == Brushes.Red)
@@ -230,5 +260,12 @@ namespace UCR.Negotium.Dialogs
             return validationResult;
         }
         #endregion
+
+        private void cbxInversiones_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RequerimientoInversion inversion = (RequerimientoInversion)cbxInversiones.SelectedItem;
+            tbDescReinversion.Text = inversion.DescripcionRequerimiento;
+            Reinversion.CodRequerimientoInversion = inversion.CodRequerimientoInversion;
+        }
     }
 }

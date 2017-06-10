@@ -6,7 +6,6 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using UCR.Negotium.Utils;
 using System;
 using Microsoft.VisualBasic;
@@ -49,11 +48,9 @@ namespace UCR.Negotium
                 ReloadUserControls(proyecto.CodProyecto);
             }
 
-            //Que hacer con el encargado
-            //TODDO HERE
             if (!codEncargado.Equals(0))
             {
-                proyecto.Encargado = encargadoData.GetEncargado(codEncargado);
+                ProyectoSelected.Encargado = encargadoData.GetEncargado(codEncargado);
             }
 
             InitializeComponent();
@@ -109,9 +106,13 @@ namespace UCR.Negotium
 
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
-            if (System.Windows.MessageBox.Show("Esta seguro que desea cerrar esta ventana?", "Confirmar",
+            if (MessageBox.Show("Esta seguro que desea cerrar esta ventana?", "Confirmar",
                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
+                if(ProyectoSelected.CodProyecto.Equals(0) && !ProyectoSelected.Encargado.IdEncargado.Equals(0))
+                {
+                    encargadoData.EliminarEncargado(ProyectoSelected.Encargado.IdEncargado);
+                }
                 MainWindow mainWindow = new MainWindow();
                 mainWindow.Show();
             }
@@ -129,13 +130,7 @@ namespace UCR.Negotium
                     costos.CodProyecto = proyeccionVentas.CodProyecto =
                     financiamientoUc.CodProyecto = codProyecto;
 
-            proyecto = proyectoData.GetProyecto(codProyecto);
-            proyecto.Proponente = proponente.ProponenteSelected;
-            proyecto.Proyecciones = proyeccionVentas.ProyeccionesList;
-            proyecto.Financiamiento = financiamientoUc.FinanciamientoSelected;
-            proyecto.Costos = costos.CostosList;
-            proyecto.RequerimientosInversion = inversiones.InversionesList;
-            proyecto.RequerimientosReinversion = reinversiones.ReinversionesList;
+            ReloadProyecto(codProyecto);
 
             if (!proyecto.ConFinanciamiento)
             {
@@ -147,6 +142,17 @@ namespace UCR.Negotium
             }
 
             ReloadProgress();
+        }
+
+        private void ReloadProyecto(int codProyecto)
+        {
+            proyecto = proyectoData.GetProyecto(codProyecto);
+            proyecto.Proponente = proponente.ProponenteSelected;
+            proyecto.Proyecciones = proyeccionVentas.ProyeccionesList;
+            proyecto.Financiamiento = financiamientoUc.FinanciamientoSelected;
+            proyecto.Costos = costos.CostosList;
+            proyecto.RequerimientosInversion = inversiones.InversionesList;
+            proyecto.RequerimientosReinversion = reinversiones.ReinversionesList;
         }
 
         public void ReloadProgress()
@@ -220,8 +226,7 @@ namespace UCR.Negotium
 
         private void LlenaFlujoCaja()
         {
-            CastToDataGridView(capitalTrabajo.DTCapitalTrabajo.ToTable(),
-                financiamientoUc.DTFinanciamiento.ToTable(), reinversiones.DTTotalesReinversiones.ToTable());
+            ReloadProyecto(proyecto.CodProyecto);
 
             DTFlujoCaja = DatatableBuilder.GenerarDTFlujoCaja(proyecto, capitalTrabajo.DTCapitalTrabajo, financiamientoUc.DTFinanciamiento, reinversiones.DTTotalesReinversiones,
                 inversiones.InversionesTotal, capitalTrabajo.RecuperacionCT).AsDataView();
@@ -250,7 +255,7 @@ namespace UCR.Negotium
                 double num2 = num[0] + Financial.NPV(ProyectoSelected.TasaCostoCapital, ref numArray);
                 VAN = string.Concat("₡ ", num2.ToString("#,##0.##"));
             }
-            catch { VAN = "INDEFINIDA"; }
+            catch { VAN = string.Concat("₡ ", 0.ToString("#,##0.##")); }
 
             try
             {
@@ -258,24 +263,7 @@ namespace UCR.Negotium
 
                 TIR = string.Concat(num1.ToString("#,##0.##"), " %");
             }
-            catch { TIR = "INDEFINIDA"; }
-        }
-
-
-        private List<DataGridView> gridView { get; set; }
-
-        private void CastToDataGridView(DataTable capital, DataTable financiamiento, DataTable reinversiones)
-        {
-            gridView = new List<DataGridView>();
-            DataGridView view = new DataGridView();
-            view.DataSource = capital;
-            gridView.Add(view);
-            DataGridView view2 = new DataGridView();
-            view.DataSource = financiamiento;
-            gridView.Add(view2);
-            DataGridView view3 = new DataGridView();
-            view.DataSource = reinversiones;
-            gridView.Add(view3);
+            catch { TIR = string.Concat(0.ToString("#,##0.##"), " %"); }
         }
 
         private void dgFlujoCaja_Loaded(object sender, RoutedEventArgs e)

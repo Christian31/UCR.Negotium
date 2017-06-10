@@ -9,7 +9,49 @@
         BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
         WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
         Title="Análisis Ambiental | Negotium v1.0" Height="550" Width="950">
-    <Grid Margin="10">
-        
+    <Grid Background="AliceBlue" Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="90*"/>
+        </Grid.RowDefinitions>
+        <Border Style="{StaticResource borderStyle}" Background="LightBlue">
+            <TextBlock Text="Factores de Análisis de Impacto Ambiental" Style="{StaticResource textTitleStyle}"/>
+        </Border>
+        <Border Grid.Row="1" Style="{StaticResource borderStyle}">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="8*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <DataGrid ItemsSource="{Binding Proyectos, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                SelectedItem="{Binding ProyectoSelected, UpdateSourceTrigger=PropertyChanged}"
+                SelectionUnit="FullRow"
+                BorderThickness="1"
+                BorderBrush="{DynamicResource AccentColorBrush}"
+                AllowDrop="False" 
+                CanUserAddRows="False" 
+                CanUserDeleteRows="False" 
+                IsReadOnly="True" 
+                AutoGenerateColumns="False"
+                Margin="30,32,30,8">
+
+                    <DataGrid.Style>
+                        <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                            <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
+                        </Style>
+                    </DataGrid.Style>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                    Binding="{Binding Path=NombreProyecto}" Header="Factor" Width="2.5*"/>
+                        <DataGridTextColumn
+                    Binding="{Binding Path=Proponente}" Header="Condición Afectada" Width="2*"/>
+                        <DataGridTextColumn
+                    Binding="{Binding Path=Proponente.Organizacion.NombreOrganizacion}" Header="Elemento Ambiental" Width="2*"/>
+                        <DataGridTextColumn
+                    Binding="{Binding Path=AnoInicial}" Header="Clasificación" Width="2.5*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
     </Grid>
 </Controls:MetroWindow>

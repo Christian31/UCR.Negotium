@@ -1,0 +1,59 @@
+﻿<Controls:MetroWindow x:Class="UCR.Negotium.Dialogs.RegistrarFactorAmbiental"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UCR.Negotium.Dialogs"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        mc:Ignorable="d"
+        Title="Registrar Factor Ambiental" Height="500" Width="650">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8.5*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+                <Grid Style="{StaticResource gridFormStyle}">
+                    <Label Content="Nombre del Factor:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding ProponenteSelected.Nombre}" Margin="110,0,27,0" MinWidth="30"
+                                         Name="tbNombreProponente"/>
+                </Grid>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Margin="0,40,0,0">
+                <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
+                    <Label Content="Condición Afectada:"/>
+                    <ComboBox Margin="0,0,27,0" Width="175" ItemsSource="{Binding TipoOrganizaciones}" 
+                                          SelectedValuePath="CodTipo" Name="cbTipoOrganizaciones" 
+                                          SelectedValue="{Binding ProponenteSelected.Organizacion.Tipo.CodTipo}" 
+                                          />
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="0,40,0,0">
+                <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
+                    <Label Content="Elemento Ambiental:"/>
+                    <ComboBox Margin="0,0,27,0" Width="175" ItemsSource="{Binding TipoOrganizaciones}" 
+                                          SelectedValuePath="CodTipo" Name="dbbla" 
+                                          SelectedValue="{Binding ProponenteSelected.Organizacion.Tipo.CodTipo}" 
+                                          />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        
+        
+
+        <Grid Grid.Row="2">
+            <Button  Name="btnGuardar" Content="Guardar" Click="btnGuardar_Click" Width="75"
+                     HorizontalAlignment="Left" Margin="90,0,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+
+            <Button Name="btnCancelar" Content="Cancelar" Width="75"
+                    HorizontalAlignment="Right" Margin="0,0,90,0" Grid.Row="2" VerticalAlignment="Top"
+                    Click="btnCancelar_Click"/>
+        </Grid>
+    </Grid>
+</Controls:MetroWindow>

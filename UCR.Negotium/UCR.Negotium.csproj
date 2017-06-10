@@ -110,6 +110,9 @@
     <Compile Include="AnalisisAmbientalWindow.xaml.cs">
       <DependentUpon>AnalisisAmbientalWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\AnalisisAmbiental\RegistrarFactorAmbiental.xaml.cs">
+      <DependentUpon>RegistrarFactorAmbiental.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\IndicadoresFinales.xaml.cs">
       <DependentUpon>IndicadoresFinales.xaml</DependentUpon>
     </Compile>
@@ -182,6 +185,10 @@
     <Compile Include="Utils\DatatableBuilder.cs" />
     <Compile Include="Utils\GenerarReporte.cs" />
     <Compile Include="Utils\Installation.cs" />
+    <Page Include="Dialogs\AnalisisAmbiental\RegistrarFactorAmbiental.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\IndicadoresFinales.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -5,22 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:UCR.Negotium.Dialogs"
-        mc:Ignorable="d"
+        mc:Ignorable="d" Closing="MetroWindow_Closing"
         BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
         WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
-        Title="Encargado | Negotium v1.0" Height="340" Width="530">
+        Title="Encargado | Negotium v1.0" Height="340" Width="450">
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1.5*"/>
             <RowDefinition Height="6.5*"/>
-            <RowDefinition Height="2.5*"/>
+            <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="170"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Label Grid.ColumnSpan="2" FontSize="14"
-            Content="Ingrese los datos del Encargado de asesorar el proceso de registro del Proyecto"/>
+        <Grid Grid.ColumnSpan="2">
+            <RichTextBox FontSize="14" BorderThickness="0">
+                <FlowDocument>
+                    <Paragraph>
+                        <Run Text="Ingrese los datos del Encargado de asesorar el proceso de registro del Proyecto"/>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+        </Grid>
         <StackPanel Grid.Row="1">
             <Grid Style="{StaticResource gridFormStyle}">
                 <Label Content="Nombre Encargado:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
@@ -40,27 +47,32 @@
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,27,0">
             <Grid Style="{StaticResource gridFormStyle}">
-                <TextBox Text="{Binding EncargadoSelected.Nombre}" Name="tbNombreEncargado"/>
+                <TextBox Text="{Binding EncargadoSelected.Nombre}" Name="tbNombreEncargado" 
+                         TextChanged="tbNombreEncargado_TextChanged"/>
             </Grid>
             <Grid Style="{StaticResource gridFormStyle}">
-                <TextBox Text="{Binding EncargadoSelected.Apellidos}" Name="tbApellidos" />
+                <TextBox Text="{Binding EncargadoSelected.Apellidos}" Name="tbApellidos" 
+                         TextChanged="tbApellidos_TextChanged"/>
             </Grid>
             <Grid Style="{StaticResource gridFormStyle}">
-                <TextBox Text="{Binding EncargadoSelected.Organizacion}" Name="tbNombreOrganizacion" />
+                <TextBox Text="{Binding EncargadoSelected.Organizacion}" Name="tbNombreOrganizacion" 
+                         TextChanged="tbNombreOrganizacion_TextChanged"/>
             </Grid>
             <Grid Style="{StaticResource gridFormStyle}">
-                <TextBox Text="{Binding EncargadoSelected.Telefono}" Name="tbTelefono" />
+                <TextBox Text="{Binding EncargadoSelected.Telefono}" Name="tbTelefono" 
+                         TextChanged="tbTelefono_TextChanged"/>
             </Grid>
             <Grid Style="{StaticResource gridFormStyle}">
-                <TextBox Text="{Binding EncargadoSelected.Email}" Name="tbEmail" />
+                <TextBox Text="{Binding EncargadoSelected.Email}" Name="tbEmail" 
+                         TextChanged="tbEmail_TextChanged"/>
             </Grid>
         </StackPanel>
         <Grid Grid.Row="2" Grid.ColumnSpan="2">
             <Button  Name="btnGuardar" Content="Guardar" Click="btnGuardar_Click" Width="75"
-                     HorizontalAlignment="Left" Margin="82,30,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+                     HorizontalAlignment="Left" Margin="82,10,0,0" Grid.Row="2" VerticalAlignment="Top"/>
 
             <Button Name="btnCancelar" Content="Cancelar" Width="75"
-                    HorizontalAlignment="Right" Margin="0,30,82,0" Grid.Row="2" VerticalAlignment="Top"
+                    HorizontalAlignment="Right" Margin="0,10,82,0" Grid.Row="2" VerticalAlignment="Top"
                     Click="btnCancelar_Click"/>
         </Grid>
     </Grid>

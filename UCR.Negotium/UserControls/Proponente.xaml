@@ -132,8 +132,8 @@
                                 </Grid.ColumnDefinitions>
                                 <Grid>
                                     <Label Content="Teléfono:"/>
-                                    <TextBox Text="{Binding ProponenteSelected.Organizacion.Telefono}" 
-                                             Margin="65,0,27,0" Name="tbTelefonoOrganizacion" TextChanged="tbTelefonoOrganizacion_TextChanged"/>
+                                    <TextBox Text="{Binding ProponenteSelected.Organizacion.Telefono}" Margin="65,0,27,0" 
+                                             Name="tbTelefonoOrganizacion" TextChanged="tbTelefonoOrganizacion_TextChanged"/>
                                 </Grid>
                                 <Grid Grid.Column="1">
                                     <Label Content="Correo Electrónico:" />

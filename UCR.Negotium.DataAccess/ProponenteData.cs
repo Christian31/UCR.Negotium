@@ -20,16 +20,14 @@ namespace UCR.Negotium.DataAccess
             conexion = new SQLiteConnection(cadenaConexion);
         }
 
-        //REVISAR EXECUTE SCALAR
         public int InsertarProponente(Proponente proponente, int codProyecto)
         {
             int idProponente = -1;
             object newProdID;
-            string insert = "INSERT INTO PROPONENTE(nombre, apellidos, num_identificacion, telefono, "+
-                "email, puesto_en_organizacion, genero, cod_organizacion, cod_proyecto, representante_individual) "+
-                "VALUES(?,?,?,?,?,?,?,?,?,?)";
+            string insert = "INSERT INTO PROPONENTE(nombre, apellidos, num_identificacion, telefono, " +
+                "email, puesto_en_organizacion, genero, cod_organizacion, cod_proyecto, representante_individual) " +
+                "VALUES(?,?,?,?,?,?,?,?,?,?); SELECT last_insert_rowid();";
 
-            
             // Ejecutamos la sentencia INSERT y cerramos la conexión
             try
             {
@@ -49,13 +47,8 @@ namespace UCR.Negotium.DataAccess
                 command.Parameters.AddWithValue("cod_proyecto", codProyecto);
                 command.Parameters.AddWithValue("representante_individual", proponente.EsRepresentanteIndividual);
 
-                if (command.ExecuteNonQuery() != -1)
-                {
-                    conexion.Close();
-                    idProponente = this.GetProponente(codProyecto).IdProponente;
-                    return idProponente;
-                }
-
+                newProdID = command.ExecuteScalar();
+                idProponente = Int32.Parse(newProdID.ToString());
                 conexion.Close();
                 return idProponente;
             }
