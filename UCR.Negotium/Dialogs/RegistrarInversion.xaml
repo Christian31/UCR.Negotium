@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
         WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
-        Title="Inversión | Negotium v1.0" Height="400" Width="470">
+        Title="Inversión | Negotium v1.0" Height="400" Width="520">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="1.3*"/>
@@ -18,10 +18,11 @@
             <RowDefinition Height="2.2*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="140"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="15*"/>
+            <ColumnDefinition Width="15*"/>
+            <ColumnDefinition Width="20*"/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.ColumnSpan="2">
+        <Grid Grid.ColumnSpan="3">
             <RichTextBox FontSize="14" BorderThickness="0">
                 <FlowDocument>
                     <Paragraph>
@@ -50,21 +51,21 @@
                 <Label Content="Vida Útil (Años):" HorizontalAlignment="Right" VerticalAlignment="Center"/>
             </Grid>
         </StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,27,0">
+        <StackPanel Grid.Row="1" Grid.Column="1" >
             <Grid Style="{StaticResource gridFormStyle}">
                 <TextBox Text="{Binding Inversion.DescripcionRequerimiento}" Name="tbDescInversion"
                          TextChanged="tbDescInversion_TextChanged"/>
             </Grid>
             <Grid Style="{StaticResource gridFormStyle}">
-                <ComboBox ItemsSource="{Binding UnidadesMedida}" SelectedValuePath="CodUnidad"
-                                          SelectedValue="{Binding Inversion.UnidadMedida.CodUnidad}" />
+                <ComboBox ItemsSource="{Binding UnidadesMedida}" SelectedValuePath="CodUnidad" 
+                          SelectedValue="{Binding Inversion.UnidadMedida.CodUnidad}" />
             </Grid>
             <Grid Style="{StaticResource gridFormStyle}">
                 <Controls:NumericUpDown Minimum="1" TextAlignment="Left"
-                    Value="{Binding Inversion.Cantidad}" Margin="0,0,140,0"/>
+                    Value="{Binding Inversion.Cantidad}" Margin="0,0,60,0"/>
             </Grid>
             <Grid Style="{StaticResource gridFormStyle}">
-                <TextBox Text="{Binding Inversion.CostoUnitario}" Margin="0,0,140,0" Name="tbCostoUnitario" 
+                <TextBox Text="{Binding Inversion.CostoUnitario}" Margin="0,0,60,0" Name="tbCostoUnitario" 
                          TextChanged="tbCostoUnitario_TextChanged"/>
             </Grid>
             <StackPanel Style="{StaticResource horizontalPanelFormStyle}" Margin="0,10,0,10">
@@ -78,17 +79,39 @@
                 </CheckBox>
             </StackPanel>
             <Grid Style="{StaticResource gridFormStyle}">
-                <Controls:NumericUpDown Minimum="2" TextAlignment="Left" Margin="0,0,140,0"
-                                        Value="{Binding Inversion.VidaUtil}" Name="nudVidaUtil"/>
+                <Controls:NumericUpDown Minimum="2" TextAlignment="Left" Margin="0,0,60,0"
+                          Value="{Binding Inversion.VidaUtil}" Name="nudVidaUtil"/>
             </Grid>
         </StackPanel>
-        <Grid Grid.Row="2" Grid.ColumnSpan="2">
-            <Button  Name="btnGuardar" Content="Guardar" Click="btnGuardar_Click" Width="75"
-                     HorizontalAlignment="Left" Margin="90,30,0,0" Grid.Row="2" VerticalAlignment="Top"/>
-
-            <Button Name="btnCancelar" Content="Cancelar" Width="75"
-                    HorizontalAlignment="Right" Margin="0,30,90,0" Grid.Row="2" VerticalAlignment="Top"
-                    Click="btnCancelar_Click"/>
+        <Grid Grid.Column="3" Grid.RowSpan="2">
+            <RichTextBox IsReadOnly="True" BorderThickness="0" Margin="17,55,7,185">
+                <FlowDocument>
+                    <Paragraph>
+                        <Run Text="Selecione los años en los que se repite esta inversión"/>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+            <DataGrid CanUserSortColumns="False" SelectionUnit="Cell" Name="dgAnosDisponibles"
+                ItemsSource="{Binding AnosDisponibles, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}" AllowDrop="False" 
+                CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False" Margin="17,90,7,10">
+                <DataGrid.Style>
+                    <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                        <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
+                    </Style>
+                </DataGrid.Style>
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Binding="{Binding Path=AnoCrecimiento}" Width="3*"/>
+                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding Path=.}" Header="Año" Width="7*">
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <Grid Grid.Row="2" Grid.ColumnSpan="3">
+            <Button Name="btnGuardar" Content="Guardar" Click="btnGuardar_Click" Width="75"
+                    HorizontalAlignment="Left" Margin="90,30,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+            <Button Name="btnCancelar" Content="Cancelar" Width="75" Click="btnCancelar_Click"
+                    HorizontalAlignment="Right" Margin="0,30,90,0" Grid.Row="2" VerticalAlignment="Top"/>
         </Grid>
     </Grid>
 </Controls:MetroWindow>

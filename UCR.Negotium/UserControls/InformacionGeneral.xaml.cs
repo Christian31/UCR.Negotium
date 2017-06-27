@@ -145,7 +145,7 @@ namespace UCR.Negotium.UserControls
                     if (idProyecto != -1)
                     {
                         ProyectoSelected.CodProyecto = idProyecto;
-                        RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[2];
+                        RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
                         mainWindow.ReloadUserControls(idProyecto);
 
                         MessageBox.Show("El proyecto se ha insertado correctamente", "Proyecto Insertado", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -171,23 +171,23 @@ namespace UCR.Negotium.UserControls
             }
         }
 
-        private void cbConIngresos_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (cbConIngresos.IsChecked.Value.Equals(false))
-            {
-                cbSinIngresos.IsChecked = true;
-            }
-        }
+        //private void cbConIngresos_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    if (cbConIngresos.IsChecked.Value.Equals(false))
+        //    {
+        //        cbSinIngresos.IsChecked = true;
+        //    }
+        //}
 
-        private void cbConIngresos_Checked(object sender, RoutedEventArgs e)
-        {
-            cbSinIngresos.IsChecked = false;
-        }
+        //private void cbConIngresos_Checked(object sender, RoutedEventArgs e)
+        //{
+        //    cbSinIngresos.IsChecked = false;
+        //}
 
-        private void cbSinIngresos_Checked(object sender, RoutedEventArgs e)
-        {
-            cbConIngresos.IsChecked = false;
-        }
+        //private void cbSinIngresos_Checked(object sender, RoutedEventArgs e)
+        //{
+        //    cbConIngresos.IsChecked = false;
+        //}
 
         private void cbPagaImpuestos_Checked(object sender, RoutedEventArgs e)
         {

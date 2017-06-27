@@ -64,7 +64,7 @@
     </Style>
 
     <Style x:Key="panelFormStyle" TargetType="StackPanel">
-        <Setter Property="Margin" Value="3"/>
+        <Setter Property="Margin" Value="0,4"/>
     </Style>
     <Style x:Key="gridFormStyle" TargetType="Grid">
         <Setter Property="Margin" Value="0,5"/>

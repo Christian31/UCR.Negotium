@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnalisisAmbiental\FactorAmbiental.cs" />
     <Compile Include="Canton.cs" />
     <Compile Include="Costo.cs" />
     <Compile Include="CostoMensual.cs" />
@@ -48,8 +49,6 @@
     <Compile Include="Depreciacion.cs" />
     <Compile Include="DetalleProyeccionVenta.cs" />
     <Compile Include="Distrito.cs" />
-    <Compile Include="Enums\Enum.cs" />
-    <Compile Include="Enums\EnumHelper.cs" />
     <Compile Include="Encargado.cs" />
     <Compile Include="Financiamiento.cs" />
     <Compile Include="InteresFinanciamiento.cs" />

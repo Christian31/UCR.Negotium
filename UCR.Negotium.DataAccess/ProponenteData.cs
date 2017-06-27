@@ -42,7 +42,7 @@ namespace UCR.Negotium.DataAccess
                 command.Parameters.AddWithValue("telefono", proponente.Telefono);
                 command.Parameters.AddWithValue("email", proponente.Email);
                 command.Parameters.AddWithValue("puesto_en_organizacion", proponente.PuestoEnOrganizacion);
-                command.Parameters.AddWithValue("genero", proponente.Genero);
+                command.Parameters.AddWithValue("genero", proponente.Genero ? 'm': 'f');
                 command.Parameters.AddWithValue("cod_organizacion", proponente.Organizacion.CodOrganizacion);
                 command.Parameters.AddWithValue("cod_proyecto", codProyecto);
                 command.Parameters.AddWithValue("representante_individual", proponente.EsRepresentanteIndividual);
@@ -88,7 +88,7 @@ namespace UCR.Negotium.DataAccess
                     proponente.Telefono = reader.GetString(3);
                     proponente.Email = reader.GetString(4);
                     proponente.PuestoEnOrganizacion = reader.GetString(5);
-                    proponente.Genero = reader.GetChar(6);
+                    proponente.Genero = reader.GetChar(6).Equals('m')? true: false;
                     proponente.IdProponente = reader.GetInt32(7);
                     proponente.Organizacion.NombreOrganizacion = reader.GetString(8);
                     proponente.Organizacion.CedulaJuridica = reader.GetString(9);
@@ -127,7 +127,7 @@ namespace UCR.Negotium.DataAccess
                 command.Parameters.AddWithValue("apellidos", proponente.Apellidos);
                 command.Parameters.AddWithValue("telefono", proponente.Telefono);
                 command.Parameters.AddWithValue("email", proponente.Email);
-                command.Parameters.AddWithValue("genero", proponente.Genero);
+                command.Parameters.AddWithValue("genero", proponente.Genero?'m':'f');
                 command.Parameters.AddWithValue("puesto_en_organizacion", proponente.PuestoEnOrganizacion);
                 command.Parameters.AddWithValue("representante_individual", proponente.EsRepresentanteIndividual);
                 // Ejecutamos la sentencia INSERT y cerramos la conexión

@@ -21,32 +21,29 @@ namespace UCR.Negotium.DataAccess
 
         public Financiamiento InsertarFinanciamiento(Financiamiento financiamiento, int codProyecto)
         {
-            String insert = "INSERT INTO FINANCIAMIENTO(cod_proyecto, monto_financiamiento, interes_fijo, " +
+            string insert = "INSERT INTO FINANCIAMIENTO(cod_proyecto, monto_financiamiento, interes_fijo, " +
                 "tiempo_financiamiento, ano_inicial_pago) " +
-                "VALUES(?,?,?,?,?)";
+                "VALUES(?,?,?,?,?); "
+                + "SELECT last_insert_rowid();";
 
             try
             {
-                if (conexion.State != ConnectionState.Open)
-                    conexion.Open();
                 SQLiteCommand command = conexion.CreateCommand();
                 command.CommandText = insert;
                 command.Parameters.AddWithValue("cod_proyecto", codProyecto);
                 command.Parameters.AddWithValue("monto_financiamiento", financiamiento.MontoFinanciamiento);
-                command.Parameters.AddWithValue("interes_fijo", financiamiento.InteresFijo);
+                command.Parameters.AddWithValue("interes_fijo", financiamiento.InteresFijo?1:0);
                 command.Parameters.AddWithValue("tiempo_financiamiento", financiamiento.TiempoFinanciamiento);
                 command.Parameters.AddWithValue("ano_inicial_pago", financiamiento.AnoInicialPago);
+
+                if (conexion.State != ConnectionState.Open)
+                    conexion.Open();
+
                 // Ejecutamos la sentencia INSERT y cerramos la conexión
-                if (command.ExecuteNonQuery() != -1)
-                {
-                    conexion.Close();
-                    return this.GetFinanciamiento(codProyecto);
-                }//if
-                else
-                {
-                    conexion.Close();
-                    return new Financiamiento();
-                }//else
+                financiamiento.CodFinanciamiento = int.Parse(command.ExecuteScalar().ToString());
+                conexion.Close();
+
+                return financiamiento;
             }
             catch
             {
@@ -92,7 +89,7 @@ namespace UCR.Negotium.DataAccess
             command.Parameters.AddWithValue("monto_financiamiento", financiamiento.MontoFinanciamiento);
             command.Parameters.AddWithValue("tiempo_financiamiento", financiamiento.TiempoFinanciamiento);
             command.Parameters.AddWithValue("ano_inicial_pago", financiamiento.AnoInicialPago);
-            command.Parameters.AddWithValue("interes_fijo", financiamiento.InteresFijo);
+            command.Parameters.AddWithValue("interes_fijo", financiamiento.InteresFijo?1:0);
 
             // Ejecutamos la sentencia INSERT y cerramos la conexión
             if (command.ExecuteNonQuery() != -1)

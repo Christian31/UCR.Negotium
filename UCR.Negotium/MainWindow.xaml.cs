@@ -28,9 +28,6 @@ namespace UCR.Negotium
             proyectoData = new ProyectoData();
             proyectos = proyectosFiltrados = new List<Proyecto>();
             proyectoSelected = new Proyecto();
-            proyectos = proyectoData.GetProyectos().OrderByDescending(proy => proy.CodProyecto).ToList();
-            ProyectoSelected = Proyectos.FirstOrDefault();
-
             cbFiltro.SelectedValue = Estados.First();
 
             Reload();
@@ -38,7 +35,7 @@ namespace UCR.Negotium
 
         private void Reload()
         {
-            Proyectos = proyectos;
+            Proyectos = proyectos = proyectoData.GetProyectos().OrderByDescending(proy => proy.CodProyecto).ToList();
             ProyectoSelected = Proyectos.FirstOrDefault();
         }
 

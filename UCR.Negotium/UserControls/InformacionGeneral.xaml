@@ -28,93 +28,85 @@
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="7*"/>
                 </Grid.ColumnDefinitions>
-
-                <Grid>
-                    <Border Style="{StaticResource borderBodyStyle}">
-                        <StackPanel>
-                            <StackPanel Style="{StaticResource verticalPanelFormStyle}">
-                                <Label Content="Nombre del Proyecto:"/>
-                                <TextBox Name="tbNombre" TextChanged="tbNombre_TextChanged" 
+                
+                <GroupBox Header="Información Básica">
+                    <StackPanel>
+                        <StackPanel Style="{StaticResource verticalPanelFormStyle}">
+                            <Label Content="Nombre del Proyecto:"/>
+                            <TextBox Name="tbNombre" TextChanged="tbNombre_TextChanged" 
                                          Text="{Binding ProyectoSelected.NombreProyecto}" Margin="0,0,27,0"
                                          ToolTip="Ingrese en este campo el nombre del Proyecto"/>
-                            </StackPanel>
-                            <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
-                                <Label Content="Año Inicial del Proyecto:"/>
-                                <Controls:NumericUpDown Minimum="2000" TextAlignment="Left" Value="{Binding ProyectoSelected.AnoInicial}"/>
-                            </StackPanel>
-                            <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
-                                <Label Content="Horizonte de Evaluación:"/>
-                                <Controls:NumericUpDown Minimum="2" TextAlignment="Left" Value="{Binding ProyectoSelected.HorizonteEvaluacionEnAnos}"/>
-                            </StackPanel>
-                            <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
-                                <Label Content="Paga Impuestos:"/>
-                                <CheckBox FlowDirection="LeftToRight" IsChecked="{Binding ProyectoSelected.PagaImpuesto}" 
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
+                            <Label Content="Año Inicial del Proyecto:"/>
+                            <Controls:NumericUpDown Minimum="2000" TextAlignment="Left" Value="{Binding ProyectoSelected.AnoInicial}"/>
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
+                            <Label Content="Horizonte de Evaluación:"/>
+                            <Controls:NumericUpDown Minimum="2" TextAlignment="Left" Value="{Binding ProyectoSelected.HorizonteEvaluacionEnAnos}"/>
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
+                            <Label Content="Paga Impuestos:"/>
+                            <CheckBox FlowDirection="LeftToRight" IsChecked="{Binding ProyectoSelected.PagaImpuesto}" 
                                           Name="cbPagaImpuestos" Checked="cbPagaImpuestos_Checked" 
                                           Loaded="cbPagaImpuestos_Loaded">
-                                    <TextBlock Text="Si"/>
-                                </CheckBox>
-                                <CheckBox FlowDirection="LeftToRight" Name="cbNoPagaImpuestos" Margin="10,0,0,0" Checked="cbNoPagaImpuestos_Checked">
-                                    <TextBlock Text="No"/>
-                                </CheckBox>
-                            </StackPanel>
-                            <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
-                                <Label Content="Porcentaje de Impuestos:"/>
-                                <Controls:NumericUpDown Minimum="0" TextAlignment="Left" Value="{Binding ProyectoSelected.PorcentajeImpuesto}" HasDecimals="True"/>
-                            </StackPanel>
-                            <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
-                                <Label Content="Posee Financiamiento:"/>
-                                <CheckBox FlowDirection="LeftToRight" IsChecked="{Binding ProyectoSelected.ConFinanciamiento}" 
+                                <TextBlock Text="Si"/>
+                            </CheckBox>
+                            <CheckBox FlowDirection="LeftToRight" Name="cbNoPagaImpuestos" Margin="10,0,0,0" Checked="cbNoPagaImpuestos_Checked">
+                                <TextBlock Text="No"/>
+                            </CheckBox>
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
+                            <Label Content="Porcentaje de Impuestos:"/>
+                            <Controls:NumericUpDown Minimum="0" TextAlignment="Left" Value="{Binding ProyectoSelected.PorcentajeImpuesto}" HasDecimals="True"/>
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
+                            <Label Content="Posee Financiamiento:"/>
+                            <CheckBox FlowDirection="LeftToRight" IsChecked="{Binding ProyectoSelected.ConFinanciamiento}" 
                                           Name="cbConFinanciamiento" Checked="cbConFinanciamiento_Checked" 
                                           Loaded="cbConFinanciamiento_Loaded">
-                                    <TextBlock Text="Si"/>
-                                </CheckBox>
-                                <CheckBox FlowDirection="LeftToRight" Name="cbSinFinanciamiento" Margin="10,0,0,0" 
+                                <TextBlock Text="Si"/>
+                            </CheckBox>
+                            <CheckBox FlowDirection="LeftToRight" Name="cbSinFinanciamiento" Margin="10,0,0,0" 
                                           Checked="cbSinFinanciamiento_Checked">
-                                    <TextBlock Text="No"/>
-                                </CheckBox>
-                            </StackPanel>
-                            <StackPanel Style="{StaticResource verticalPanelFormStyle}">
-                                <Label Content="Tipo de Proyecto:"/>
-                                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
-                                    <CheckBox FlowDirection="LeftToRight" Name="cbConIngresos" 
+                                <TextBlock Text="No"/>
+                            </CheckBox>
+                        </StackPanel>
+                        <!--<StackPanel Style="{StaticResource verticalPanelFormStyle}">
+                            <Label Content="Tipo de Proyecto:"/>
+                            <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                                <CheckBox FlowDirection="LeftToRight" Name="cbConIngresos" 
                                               IsChecked="{Binding ProyectoSelected.ConIngresos}" 
                                               Checked="cbConIngresos_Checked" Loaded="cbConIngresos_Loaded">
-                                        <TextBlock Text="Con Ingresos"/>
-                                    </CheckBox>
-                                    <CheckBox FlowDirection="LeftToRight" Name="cbSinIngresos" Margin="10,0,0,0" Checked="cbSinIngresos_Checked">
-                                        <TextBlock Text="Sin Ingresos"/>
-                                    </CheckBox>
-                                </StackPanel>
+                                    <TextBlock Text="Con Ingresos"/>
+                                </CheckBox>
+                                <CheckBox FlowDirection="LeftToRight" Name="cbSinIngresos" Margin="10,0,0,0" Checked="cbSinIngresos_Checked">
+                                    <TextBlock Text="Sin Ingresos"/>
+                                </CheckBox>
                             </StackPanel>
-                            <StackPanel Style="{StaticResource verticalPanelFormStyle}">
-                                <Label Content="Bien o Servicio del Proyecto:"/>
-                                <TextBox Name="tbBienServicio" TextChanged="tbBienServicio_TextChanged"
+                        </StackPanel>-->
+                        <StackPanel Style="{StaticResource verticalPanelFormStyle}">
+                            <Label Content="Bien o Servicio del Proyecto:"/>
+                            <TextBox Name="tbBienServicio" TextChanged="tbBienServicio_TextChanged"
                                          ToolTip="Ingrese en este campo el Bien o Servicio del Proyecto" 
                                          Text="{Binding ProyectoSelected.ObjetoInteres}" Margin="0,0,27,0"/>
-                            </StackPanel>
                         </StackPanel>
-                    </Border>
-                </Grid>
+                    </StackPanel>
+                </GroupBox>
 
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40*"/>
                         <RowDefinition Height="60*"/>
                     </Grid.RowDefinitions>
-                    <Border Style="{StaticResource borderBodyStyle}">
+                    <GroupBox Header="Ubicación">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="3*"/>
                                 <ColumnDefinition Width="7*"/>
                             </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="2*"/>
-                                <RowDefinition Height="8*"/>
-                            </Grid.RowDefinitions>
 
-                            <TextBlock Grid.ColumnSpan="2" Text="Ubicación" Style="{StaticResource textTitleStyle}"/>
-                            
-                            <StackPanel Grid.Row="1">
+                            <StackPanel>
                                 <Grid Style="{StaticResource gridFormStyle}">
                                     <Label Content="Provincia:"/>
                                     <ComboBox Margin="65,0,27,0" ItemsSource="{Binding Provincias}" SelectedValuePath="CodProvincia"
@@ -135,8 +127,8 @@
                             </StackPanel>
                             <Grid Grid.Column="1" Grid.RowSpan="2" Margin="3">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="2*"/>
-                                    <RowDefinition Height="8*"/>
+                                    <RowDefinition Height="2.5*"/>
+                                    <RowDefinition Height="7.5*"/>
                                 </Grid.RowDefinitions>
                                 <Label Content="Dirección Exacta:" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                                 <RichTextBox Grid.Row="1">
@@ -148,7 +140,7 @@
                                 </RichTextBox>
                             </Grid>
                         </Grid>
-                    </Border>
+                    </GroupBox>
                     <Grid Grid.Row="1" Margin="3">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="11*"/>

@@ -27,10 +27,13 @@ namespace UCR.Negotium.Dialogs
         private const string CAMPOREQUERIDOPOSITIVO = "Este campo es requerido y debe tener un valor mayor a 0";
 
         private RequerimientoInversionData requerimientoInversionData;
+        private ProyectoData proyectoData = new ProyectoData();
         private UnidadMedidaData unidadMedidaData;
         private RequerimientoInversion inversion;
         private List<UnidadMedida> unidadMedidas;
         private int codProyecto;
+        private Proyecto proyecto;
+
         #endregion
 
         #region Constructor
@@ -46,6 +49,7 @@ namespace UCR.Negotium.Dialogs
             requerimientoInversionData = new RequerimientoInversionData();
             unidadMedidaData = new UnidadMedidaData();
 
+            proyecto = new Proyecto();
             inversion = new RequerimientoInversion();
             unidadMedidas = new List<UnidadMedida>();
             unidadMedidas = unidadMedidaData.GetUnidadesMedidaAux();
@@ -53,11 +57,32 @@ namespace UCR.Negotium.Dialogs
 
             if (codInversion != 0)
                 inversion = requerimientoInversionData.GetRequerimientoInversion(codInversion);
+
+            proyecto = proyectoData.GetProyecto(codProyecto);
         }
         #endregion
 
         #region Properties
         public bool Reload { get; set; }
+
+        public List<int> AnosDisponibles
+        {
+            get
+            {
+                List<int> anos = new List<int>();
+                for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+                {
+                    int anoActual = proyecto.AnoInicial + i;
+                    anos.Add(anoActual);
+                }//for
+
+                return anos;
+            }
+            set
+            {
+                AnosDisponibles = value;
+            }
+        }
 
         public List<UnidadMedida> UnidadesMedida
         {

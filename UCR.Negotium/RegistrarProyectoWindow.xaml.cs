@@ -33,8 +33,11 @@ namespace UCR.Negotium
 
         public RegistrarProyectoWindow(int codProyecto = 0, int codEncargado = 0)
         {
-            DataContext = this;
             InitializeComponent();
+
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) return;
+
+            DataContext = this;
 
             proyectoData = new ProyectoData();
             encargadoData = new EncargadoData();
@@ -104,21 +107,31 @@ namespace UCR.Negotium
 
         public int CodProyecto { get; set; }
 
+        private bool displayWarningClosing = true;
+
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
-            if (MessageBox.Show("Esta seguro que desea cerrar esta ventana?", "Confirmar",
-                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (displayWarningClosing)
             {
-                if(ProyectoSelected.CodProyecto.Equals(0) && !ProyectoSelected.Encargado.IdEncargado.Equals(0))
+                if (MessageBox.Show("Esta seguro que desea cerrar esta ventana?", "Confirmar",
+                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
-                    encargadoData.EliminarEncargado(ProyectoSelected.Encargado.IdEncargado);
+                    if (ProyectoSelected.CodProyecto.Equals(0) && !ProyectoSelected.Encargado.IdEncargado.Equals(0))
+                    {
+                        encargadoData.EliminarEncargado(ProyectoSelected.Encargado.IdEncargado);
+                    }
+                    MainWindow mainWindow = new MainWindow();
+                    mainWindow.Show();
                 }
-                MainWindow mainWindow = new MainWindow();
-                mainWindow.Show();
+                else
+                {
+                    e.Cancel = true;
+                }
             }
             else
             {
-                e.Cancel = true;
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
             }
         }
 
@@ -198,28 +211,32 @@ namespace UCR.Negotium
             if (tcRegistrarProyecto.IsLoaded)
             {
                 int indice = tcRegistrarProyecto.SelectedIndex;
-                if (proyecto.CodProyecto.Equals(0) && !indice.Equals(0))
+
+                if (!indice.Equals(11))
                 {
-                    System.Windows.MessageBox.Show("Por favor ingrese todos los datos de Información General y guardelos para poder avanzar a la siguiente pestaña",
-                    "Datos vacios", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    tcRegistrarProyecto.SelectedIndex = 0;
-                }
-                else if (indice > 1 && proyecto.Proponente.IdProponente.Equals(0))
-                {
-                    System.Windows.MessageBox.Show("Por favor ingrese todos los datos del Proponente y guardelos para poder avanzar a la siguiente pestaña",
-                    "Datos vacios", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    tcRegistrarProyecto.SelectedIndex = 1;
-                }
-                else if (indice > 2 && proyecto.CaraterizacionDelBienServicio.Equals(string.Empty))
-                {
-                    System.Windows.MessageBox.Show("Por favor ingrese todos los datos de Caracterización y guardelos para poder avanzar a la siguiente pestaña",
-                    "Datos vacios", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    tcRegistrarProyecto.SelectedIndex = 2;
-                }
-                else if (indice.Equals(10))
-                {
-                    //llenar flujo de caja 
-                    LlenaFlujoCaja();
+                    if (proyecto.CodProyecto.Equals(0) && !indice.Equals(0))
+                    {
+                        MessageBox.Show("Por favor ingrese todos los datos de Información General y guardelos para poder avanzar a la siguiente pestaña",
+                        "Datos vacios", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        tcRegistrarProyecto.SelectedIndex = 0;
+                    }
+                    else if (indice > 1 && proyecto.Proponente.IdProponente.Equals(0))
+                    {
+                        MessageBox.Show("Por favor ingrese todos los datos del Proponente y guardelos para poder avanzar a la siguiente pestaña",
+                        "Datos vacios", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        tcRegistrarProyecto.SelectedIndex = 1;
+                    }
+                    else if (indice > 2 && proyecto.CaraterizacionDelBienServicio.Equals(string.Empty))
+                    {
+                        MessageBox.Show("Por favor ingrese todos los datos de Caracterización y guardelos para poder avanzar a la siguiente pestaña",
+                        "Datos vacios", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        tcRegistrarProyecto.SelectedIndex = 2;
+                    }
+                    else if (indice.Equals(10))
+                    {
+                        //llenar flujo de caja 
+                        LlenaFlujoCaja();
+                    }
                 }
             }
         }
@@ -286,6 +303,27 @@ namespace UCR.Negotium
                 ProyectoSelected.TasaCostoCapital = proyectoData.GetProyecto(ProyectoSelected.CodProyecto).TasaCostoCapital;
                 PropertyChanged(this, new PropertyChangedEventArgs("ProyectoSelected"));
                 LlenaCalculosFinales();
+            }
+        }
+
+        private void btnGenerarReporte_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnArchivar_Click(object sender, RoutedEventArgs e)
+        {
+            if (ProyectoSelected != null && !ProyectoSelected.Archivado)
+            {
+                if (MessageBox.Show("Esta seguro que desea archivar este Proyecto?", "Confirmar",
+                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    if (proyectoData.ArchivarProyecto(ProyectoSelected.CodProyecto, true))
+                    {
+                        displayWarningClosing = false;
+                        this.Close();
+                    }
+                }
             }
         }
     }

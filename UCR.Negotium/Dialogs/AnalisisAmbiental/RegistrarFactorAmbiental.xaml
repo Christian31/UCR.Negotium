@@ -5,54 +5,128 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UCR.Negotium.Dialogs"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        mc:Ignorable="d"
-        Title="Registrar Factor Ambiental" Height="500" Width="650">
+        mc:Ignorable="d" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Title="Registrar Factor Ambiental" Height="540" Width="680">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="8.5*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Grid Margin="10">
+        <Grid Margin="10,30,10,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5*"/>
                 <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
-
-            <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
-                <Grid Style="{StaticResource gridFormStyle}">
-                    <Label Content="Nombre del Factor:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding ProponenteSelected.Nombre}" Margin="110,0,27,0" MinWidth="30"
-                                         Name="tbNombreProponente"/>
-                </Grid>
-            </StackPanel>
-            <StackPanel Grid.Row="1" Margin="0,40,0,0">
-                <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
-                    <Label Content="Condición Afectada:"/>
-                    <ComboBox Margin="0,0,27,0" Width="175" ItemsSource="{Binding TipoOrganizaciones}" 
-                                          SelectedValuePath="CodTipo" Name="cbTipoOrganizaciones" 
-                                          SelectedValue="{Binding ProponenteSelected.Organizacion.Tipo.CodTipo}" 
-                                          />
+            <StackPanel Grid.ColumnSpan="2">
+                <StackPanel Style="{StaticResource horizontalPanelFormStyle}" HorizontalAlignment="Center">
+                    <Label Content="Nombre del Factor:" HorizontalAlignment="Left" />
+                    <TextBox Text="{Binding ProponenteSelected.Nombre}" MinWidth="30"
+                             Name="tbNombreProponente" Width="276"/>
                 </StackPanel>
             </StackPanel>
-            <StackPanel Grid.Column="1" Margin="0,40,0,0">
-                <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
+            <StackPanel Grid.Column="0" Margin="5,45,5,0">
+                <StackPanel Style="{StaticResource horizontalPanelFormStyle}" HorizontalAlignment="Right" Margin="0,5,0,15">
+                    <Label Content="Condición Afectada:"/>
+                    <ComboBox Width="195" Height="12" ItemsSource="{Binding CondicionesAfectadas}" 
+                              Name="cbCondicionesAfectadas" SelectedValuePath="Item1" DisplayMemberPath="Item2"
+                              SelectedValue="{Binding FactorAmbientalSelected.CodCondicionAfectada}" 
+                              SelectionChanged="cbCondicionesAfectadas_SelectionChanged"/>
+                </StackPanel>
+                <StackPanel Style="{StaticResource horizontalPanelFormStyle}" HorizontalAlignment="Right" Margin="0,15,0,5">
+                    <Label Content="Signo:"/>
+                    <ComboBox Width="195" ItemsSource="{Binding Signos}" SelectedValuePath="Item1" 
+                              SelectedValue="{Binding FactorAmbientalSelected.CodSigno}" 
+                              DisplayMemberPath="Item2"/>
+                </StackPanel>
+                <Border BorderBrush="LightBlue" BorderThickness="1" Margin="0,10">
+                    <StackPanel Style="{StaticResource verticalPanelFormStyle}">
+                        <StackPanel Style="{StaticResource horizontalPanelFormStyle}" HorizontalAlignment="Right" Margin="0,5">
+                            <Label Content="Extensión:"/>
+                            <ComboBox Width="195" ItemsSource="{Binding Extensiones}"
+                                      SelectedValuePath="Item1" DisplayMemberPath="Item2"
+                                      SelectedValue="{Binding FactorAmbientalSelected.CodExtension}"/>
+                        </StackPanel>
+                        <CheckBox Margin="0,5" FlowDirection="LeftToRight" HorizontalAlignment="Center">
+                            <TextBlock Text="Es crítico"/>
+                        </CheckBox>
+                    </StackPanel>
+                </Border>
+                <StackPanel Style="{StaticResource horizontalPanelFormStyle}" HorizontalAlignment="Right" Margin="0,5">
+                    <Label Content="Persistencia:"/>
+                    <ComboBox Width="195" ItemsSource="{Binding Persistencias}" 
+                                          SelectedValuePath="Item1" DisplayMemberPath="Item2"
+                                          SelectedValue="{Binding FactorAmbientalSelected.CodPersistencia}"/>
+                </StackPanel>
+                <StackPanel Style="{StaticResource horizontalPanelFormStyle}" HorizontalAlignment="Right" Margin="0,5">
+                    <Label Content="Sinergia:"/>
+                    <ComboBox Width="195" ItemsSource="{Binding Sinergias}" 
+                              SelectedValuePath="Item1" DisplayMemberPath="Item2"
+                              SelectedValue="{Binding FactorAmbientalSelected.CodSinergia}"/>
+                </StackPanel>
+                <StackPanel Style="{StaticResource horizontalPanelFormStyle}" HorizontalAlignment="Right" Margin="0,5">
+                    <Label Content="Efecto:"/>
+                    <ComboBox Width="195" ItemsSource="{Binding Efectos}" SelectedValuePath="Item1" 
+                              DisplayMemberPath="Item2" SelectedValue="{Binding FactorAmbientalSelected.CodEfecto}"/>
+                </StackPanel>
+                <StackPanel Style="{StaticResource horizontalPanelFormStyle}" HorizontalAlignment="Right" Margin="0,5">
+                    <Label Content="Recuperabilidad:"/>
+                    <ComboBox Width="195" ItemsSource="{Binding Recuperabilidades}" DisplayMemberPath="Item2"
+                              SelectedValuePath="Item1" SelectedValue="{Binding FactorAmbientalSelected.CodRecuperabilidad}" />
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="5,45,5,0">
+                <StackPanel Style="{StaticResource horizontalPanelFormStyle}" HorizontalAlignment="Right" Margin="0,5,0,15">
                     <Label Content="Elemento Ambiental:"/>
-                    <ComboBox Margin="0,0,27,0" Width="175" ItemsSource="{Binding TipoOrganizaciones}" 
-                                          SelectedValuePath="CodTipo" Name="dbbla" 
-                                          SelectedValue="{Binding ProponenteSelected.Organizacion.Tipo.CodTipo}" 
-                                          />
+                    <ComboBox Width="195" ItemsSource="{Binding ElementosAmbientales,UpdateSourceTrigger=PropertyChanged}" 
+                              SelectedValuePath="Item1" 
+                              SelectedValue="{Binding FactorAmbientalSelected.CodElementoAmbiental}"
+                              DisplayMemberPath="Item2" Name="cbElementosAmbientales"/>
+                </StackPanel>
+                <StackPanel Style="{StaticResource horizontalPanelFormStyle}" HorizontalAlignment="Right" Margin="0,15,0,5">
+                    <Label Content="Intensidad:"/>
+                    <ComboBox Width="195" ItemsSource="{Binding Intensidades}" SelectedValuePath="Item1" 
+                              SelectedValue="{Binding FactorAmbientalSelected.CodIntensidad}"
+                              DisplayMemberPath="Item2"/>
+                </StackPanel>
+                <Border BorderBrush="LightBlue" BorderThickness="1" Margin="0,10">
+                    <StackPanel Style="{StaticResource verticalPanelFormStyle}">
+                        <StackPanel Style="{StaticResource horizontalPanelFormStyle}" HorizontalAlignment="Right" Margin="0,5">
+                            <Label Content="Momento:"/>
+                            <ComboBox Width="195" ItemsSource="{Binding Momentos}" SelectedValuePath="Item1" 
+                                          DisplayMemberPath="Item2"
+                                          SelectedValue="{Binding FactorAmbientalSelected.CodMomento}"/>
+                        </StackPanel>
+                        <CheckBox Margin="0,5" FlowDirection="LeftToRight" HorizontalAlignment="Center">
+                            <TextBlock Text="Es crítico"/>
+                        </CheckBox>
+                    </StackPanel>
+                </Border>
+                <StackPanel Style="{StaticResource horizontalPanelFormStyle}" HorizontalAlignment="Right" Margin="0,5">
+                    <Label Content="Reversibilidad:"/>
+                    <ComboBox Width="195" ItemsSource="{Binding Reversibilidades}" SelectedValuePath="Item1"
+                                          DisplayMemberPath="Item2" 
+                                          SelectedValue="{Binding FactorAmbientalSelected.CodReversibilidad}"/>
+                </StackPanel>
+                <StackPanel Style="{StaticResource horizontalPanelFormStyle}" HorizontalAlignment="Right" Margin="0,5">
+                    <Label Content="Acumulación:"/>
+                    <ComboBox Width="195" ItemsSource="{Binding Acumulaciones}" 
+                                          SelectedValuePath="Item1" DisplayMemberPath="Item2"
+                                          SelectedValue="{Binding FactorAmbientalSelected.CodAcumulacion}"/>
+                </StackPanel>
+                <StackPanel Style="{StaticResource horizontalPanelFormStyle}" HorizontalAlignment="Right" Margin="0,5">
+                    <Label Content="Periodicidad:"/>
+                    <ComboBox Width="195" ItemsSource="{Binding Periodicidades}" SelectedValuePath="Item1" 
+                                          SelectedValue="{Binding FactorAmbientalSelected.CodPeriodicidad}" 
+                                          DisplayMemberPath="Item2"/>
                 </StackPanel>
             </StackPanel>
         </Grid>
-        
-        
-
         <Grid Grid.Row="2">
             <Button  Name="btnGuardar" Content="Guardar" Click="btnGuardar_Click" Width="75"
-                     HorizontalAlignment="Left" Margin="90,0,0,0" Grid.Row="2" VerticalAlignment="Top"/>
-
+                     HorizontalAlignment="Left" Margin="150,0,0,0" Grid.Row="2" VerticalAlignment="Top"/>
             <Button Name="btnCancelar" Content="Cancelar" Width="75"
-                    HorizontalAlignment="Right" Margin="0,0,90,0" Grid.Row="2" VerticalAlignment="Top"
+                    HorizontalAlignment="Right" Margin="0,0,150,0" Grid.Row="2" VerticalAlignment="Top"
                     Click="btnCancelar_Click"/>
         </Grid>
     </Grid>

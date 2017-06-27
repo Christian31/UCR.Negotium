@@ -310,6 +310,7 @@ namespace UCR.Negotium.Utils
 
         public static DataTable GenerarDTFinanciamientoIF(int anoInicial, double monto, double tiempo, InteresFinanciamiento interesIF)
         {
+            tiempo -= anoInicial;
             double interesIFtemp = interesIF.PorcentajeInteres / 100;
             double cuota = Math.Round((monto * interesIFtemp) / (1 - (Math.Pow((1 + interesIFtemp), (-tiempo)))), 2);
 
@@ -350,7 +351,7 @@ namespace UCR.Negotium.Utils
         public static DataTable GenerarDTFinanciamientoIV(Proyecto proyecto)
         {
             double monto = proyecto.Financiamiento.MontoFinanciamiento;
-            int tiempo = proyecto.Financiamiento.TiempoFinanciamiento;
+            int tiempo = proyecto.Financiamiento.TiempoFinanciamiento-proyecto.AnoInicial;
             List<InteresFinanciamiento> intereses = proyecto.InteresesFinanciamiento;
 
             DataSet ds = new DataSet();
@@ -404,21 +405,10 @@ namespace UCR.Negotium.Utils
             DataRow row = ds.Tables[dsNombre].NewRow();
             row["Rubro"] = "Ventas";
             int a = 1;
-            if (proyecto.ConIngresos)
+            foreach (double IngreGenerado in proyecto.IngresosGenerados)
             {
-                foreach (double IngreGenerado in proyecto.IngresosGenerados)
-                {
-                    row[(proyecto.AnoInicial + a).ToString()] = "₡ " + IngreGenerado.ToString("#,##0.##");
-                    a++;
-                }
-            }
-            else
-            {
-                for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
-                {
-                    row[(proyecto.AnoInicial + a).ToString()] = "₡ 0";
-                    a++;
-                }
+                row[(proyecto.AnoInicial + a).ToString()] = "₡ " + IngreGenerado.ToString("#,##0.##");
+                a++;
             }
 
             ds.Tables[dsNombre].Rows.Add(row);

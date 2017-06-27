@@ -11,6 +11,23 @@
         WindowStartupLocation="CenterScreen"
                       Closing="MetroWindow_Closing"
         Title="Registrar Proyecto | Negotium v1.0" Height="680" Width="1360">
+
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button Width="20" Height="20" Name="btnArchivar"
+                    Click="btnArchivar_Click"
+                    Style="{StaticResource circleButton}" ToolTip="Archivar el Proyecto">
+                <iconPacks:PackIconModern Kind="FolderLock" Foreground="White"/>
+            </Button>
+            <Button Width="20" Height="20" Name="btnGenerarReporte"
+                    Click="btnGenerarReporte_Click"
+                    Style="{StaticResource circleButton}" ToolTip="Imprimir el Proyecto">
+                <iconPacks:PackIconModern Kind="Printer" Foreground="White"/>
+            </Button>
+            
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -97,6 +114,10 @@
                         </Grid>
                     </Border>
                 </Grid>
+            </TabItem>
+
+            <TabItem Header="Análisis Ambiental">
+                <modulos:AnalisisAmbiental x:Name="analisisAmbiental" Style="{StaticResource moduleStyle}"/>
             </TabItem>
         </TabControl>
         <modulos:ProgresoProyecto Grid.Column="0" Grid.Row="1" Margin="1,15,1,1" Background="#5D8AA3" 

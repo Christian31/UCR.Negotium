@@ -18,17 +18,16 @@
             <RowDefinition Height="10*"/>
             <RowDefinition Height="90*"/>
         </Grid.RowDefinitions>
-        
-        <Menu Grid.Column="0" Grid.Row="0" x:Name="mainMenu" Margin="5,5,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Left">
+        <Menu Grid.Column="0" Grid.Row="0" x:Name="mainMenu" Margin="5,5,0,0" VerticalAlignment="Stretch" 
+              HorizontalAlignment="Left">
             <MenuItem Header="Archivo">
                 <MenuItem Header="Nuevo Proyecto" Name="menuItemCrear" Click="btnCrear_Click">
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Ayuda">
-                
+
             </MenuItem>
         </Menu>
-
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="4*"/>
@@ -47,20 +46,12 @@
                 <Label Target="{Binding ElementName=tbName}" Content="Buscar: "/>
                 <TextBox Controls:TextBoxHelper.Watermark="Búsqueda" Name="tbBusqueda" TextChanged="tbBusqueda_TextChanged" Width="250" />
             </StackPanel>
-
             <DataGrid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
                 ItemsSource="{Binding Proyectos, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
                 SelectedItem="{Binding ProyectoSelected, UpdateSourceTrigger=PropertyChanged}"
-                SelectionUnit="FullRow"
-                BorderThickness="1"
-                BorderBrush="{DynamicResource AccentColorBrush}"
-                AllowDrop="False" 
-                CanUserAddRows="False" 
-                CanUserDeleteRows="False" 
-                IsReadOnly="True" 
-                AutoGenerateColumns="False"
-                Margin="30,32,30,8">
-
+                SelectionUnit="FullRow" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
+                AllowDrop="False" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" 
+                AutoGenerateColumns="False" Margin="30,32,30,8">
                 <DataGrid.Style>
                     <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
                         <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
@@ -91,14 +82,10 @@
                     </ContextMenu>
                 </DataGrid.ContextMenu>
                 <DataGrid.Columns>
-                    <DataGridTextColumn
-                    Binding="{Binding Path=NombreProyecto}" Header="Nombre del Proyecto" Width="3*"/>
-                    <DataGridTextColumn
-                    Binding="{Binding Path=Proponente}" Header="Proponente" Width="2*"/>
-                    <DataGridTextColumn
-                    Binding="{Binding Path=Proponente.Organizacion.NombreOrganizacion}" Header="Organización" Width="3*"/>
-                    <DataGridTextColumn
-                    Binding="{Binding Path=AnoInicial}" Header="Año Inicial" Width="2*"/>
+                    <DataGridTextColumn Binding="{Binding Path=NombreProyecto}" Header="Nombre del Proyecto" Width="3*"/>
+                    <DataGridTextColumn Binding="{Binding Path=Proponente}" Header="Proponente" Width="2*"/>
+                    <DataGridTextColumn Binding="{Binding Path=Proponente.Organizacion.NombreOrganizacion}" Header="Organización" Width="3*"/>
+                    <DataGridTextColumn Binding="{Binding Path=AnoInicial}" Header="Año Inicial" Width="2*"/>
                     <DataGridTemplateColumn Header="Estado" Width="2*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -120,8 +107,7 @@
                 </DataGrid.Columns>
             </DataGrid>
             <Grid Grid.Row="2" Grid.ColumnSpan="2">
-                <Button Width="40" Margin="30,0" Height="40" Name="btnCrear"
-                        Click="btnCrear_Click"
+                <Button Width="40" Margin="30,0" Height="40" Name="btnCrear" Click="btnCrear_Click"
                         Style="{StaticResource circleButton}" ToolTip="Agregar un Nuevo Proyecto">
                     <iconPacks:PackIconModern Width="16" Height="16" Kind="Add" Foreground="Teal"/>
                 </Button>
@@ -129,19 +115,16 @@
                         Style="{StaticResource circleButton}" ToolTip="Editar el Proyecto Seleccionado">
                     <iconPacks:PackIconModern Width="16" Height="16" Kind="Edit" Foreground="Teal"/>
                 </Button>
-                <Button Width="40" Margin="110,0" Height="40" Name="btnGenerarReporte"
-                    Click="btnImprimir_Click"
-                    Style="{StaticResource circleButton}" ToolTip="Imprimir el Proyecto Seleccionado">
+                <Button Width="40" Margin="110,0" Height="40" Name="btnGenerarReporte" Click="btnImprimir_Click"
+                        Style="{StaticResource circleButton}" ToolTip="Imprimir el Proyecto Seleccionado">
                     <iconPacks:PackIconModern Width="16" Height="16" Kind="Printer" Foreground="Teal"/>
                 </Button>
-                <Button Width="40" Margin="150,0" Height="40" Name="btnArchivar"
-                    Click="btnArchivar_Click"
-                    Style="{StaticResource circleButton}" ToolTip="Archivar el Proyecto Seleccionado">
+                <Button Width="40" Margin="150,0" Height="40" Name="btnArchivar" Click="btnArchivar_Click"
+                        Style="{StaticResource circleButton}" ToolTip="Archivar el Proyecto Seleccionado">
                     <iconPacks:PackIconModern Width="16" Height="16" Kind="FolderLock" Foreground="Teal"/>
                 </Button>
-                <Button Width="40" Margin="190,0" Height="40" Name="btnReabrir"
-                    Click="btnReabrir_Click"
-                    Style="{StaticResource circleButton}" ToolTip="Reabrir el Proyecto Seleccionado">
+                <Button Width="40" Margin="190,0" Height="40" Name="btnReabrir" Click="btnReabrir_Click"
+                        Style="{StaticResource circleButton}" ToolTip="Reabrir el Proyecto Seleccionado">
                     <iconPacks:PackIconModern Width="16" Height="16" Kind="FolderOpen" Foreground="Teal"/>
                 </Button>
             </Grid>

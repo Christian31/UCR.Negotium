@@ -35,7 +35,7 @@
             </Grid>
             <Grid Style="{StaticResource gridFormStyle}">
                 <ComboBox ItemsSource="{Binding UnidadesMedida}" SelectedValuePath="CodUnidad"
-                                          SelectedValue="{Binding ProyeccionSelected.UnidadMedida.CodUnidad}" />
+                        SelectedValue="{Binding ProyeccionSelected.UnidadMedida.CodUnidad}" />
             </Grid>
         </StackPanel>
         <RichTextBox FontSize="12" BorderThickness="0" Grid.ColumnSpan="2" Grid.Row="1" Margin="27,85,27,10">
@@ -47,25 +47,17 @@
         </RichTextBox>
         <DataGrid Grid.ColumnSpan="2" CanUserSortColumns="False" SelectionUnit="Cell" Name="dgDetalleProyeccion"
                 ItemsSource="{Binding ProyeccionSelected.DetallesProyeccionVenta, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                BorderThickness="1"
-                BorderBrush="{DynamicResource AccentColorBrush}"
-                AllowDrop="False" 
-                CanUserAddRows="False" 
-                CanUserDeleteRows="False" 
-                AutoGenerateColumns="False"
+                BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}" AllowDrop="False" 
+                CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False"
                 Margin="27,110,27,10" Grid.Row="1">
-
             <DataGrid.Style>
                 <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
                     <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
                 </Style>
             </DataGrid.Style>
-
             <DataGrid.Columns>
-                <DataGridTextColumn IsReadOnly="True"
-                    Binding="{Binding Path=Mes}" Header="Mes" Width="4*"/>
-                <DataGridTextColumn 
-                    Binding="{Binding Path=Cantidad}" Header="Cantidad" Width="3*">
+                <DataGridTextColumn IsReadOnly="True" Binding="{Binding Path=Mes}" Header="Mes" Width="4*"/>
+                <DataGridTextColumn Binding="{Binding Path=Cantidad}" Header="Cantidad" Width="3*">
                     <DataGridTextColumn.EditingElementStyle>
                         <Style TargetType="{x:Type TextBox}">
                             <EventSetter Event="TextChanged" Handler="tbNumerosPositivos_TextChanged" />
@@ -82,10 +74,8 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-
         <Grid Grid.Column="3" Grid.RowSpan="2">
-            <RichTextBox IsReadOnly="True" FontSize="14"
-                     BorderThickness="0" Margin="27,20,27,400">
+            <RichTextBox IsReadOnly="True" FontSize="14" BorderThickness="0" Margin="27,20,27,400">
                 <FlowDocument>
                     <Paragraph>
                         <Run Text="Ingrese los porcentajes de Crecimiento anual de Oferta del Producto o Servicio"/>
@@ -94,25 +84,17 @@
             </RichTextBox>
             <DataGrid CanUserSortColumns="False" SelectionUnit="Cell" Name="dgDetalleCrecimiento"
                 ItemsSource="{Binding ProyeccionSelected.CrecimientoOferta, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                BorderThickness="1"
-                BorderBrush="{DynamicResource AccentColorBrush}"
-                AllowDrop="False" 
-                CanUserAddRows="False" 
-                CanUserDeleteRows="False" 
-                AutoGenerateColumns="False"
+                BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}" AllowDrop="False" 
+                CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False"
                 Margin="27,85,27,10">
-
                 <DataGrid.Style>
                     <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
                         <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
                     </Style>
                 </DataGrid.Style>
-
                 <DataGrid.Columns>
-                    <DataGridTextColumn IsReadOnly="True"
-                    Binding="{Binding Path=AnoCrecimiento}" Header="Año" Width="4*"/>
-                    <DataGridTextColumn 
-                    Binding="{Binding Path=PorcentajeCrecimiento}" Header="Porcentaje (%)" Width="6*">
+                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding Path=AnoCrecimiento}" Header="Año" Width="4*"/>
+                    <DataGridTextColumn Binding="{Binding Path=PorcentajeCrecimiento}" Header="Porcentaje (%)" Width="6*">
                         <DataGridTextColumn.EditingElementStyle>
                             <Style TargetType="{x:Type TextBox}">
                                 <EventSetter Event="TextChanged" Handler="tbNumeros_TextChanged" />
@@ -125,10 +107,8 @@
         <Grid Grid.ColumnSpan="3" Grid.Row="2">
             <Button  Name="btnGuardar" Content="Guardar" Click="btnGuardar_Click" Width="75"
                      HorizontalAlignment="Left" Margin="200,15,0,0" Grid.Row="2" VerticalAlignment="Top"/>
-
-            <Button Name="btnCancelar" Content="Cancelar" Width="75"
-                    HorizontalAlignment="Right" Margin="0,15,200,0" Grid.Row="2" VerticalAlignment="Top"
-                    Click="btnCancelar_Click"/>
+            <Button Name="btnCancelar" Content="Cancelar" Width="75" Click="btnCancelar_Click"
+                    HorizontalAlignment="Right" Margin="0,15,200,0" Grid.Row="2" VerticalAlignment="Top"/>
         </Grid>
     </Grid>
 </Controls:MetroWindow>

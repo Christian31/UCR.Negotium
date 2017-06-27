@@ -10,11 +10,11 @@
         WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Closing="MetroWindow_Closing"
         Title="Negotium v1.0" Height="300" Width="350">
     <Grid Margin="10">
-        <RichTextBox Margin="30,30,30,100" IsReadOnly="True" FontSize="14"
+        <RichTextBox Margin="30,30,30,100" IsReadOnly="True" FontSize="14" 
                      BorderThickness="0" Background="GhostWhite">
             <FlowDocument>
                 <Paragraph>
-                    <Run Text="Se recomienda aceptar su proyecto cuando la Tasa Interna de Retorno (TIR) es mayor a la Tasa de Costo de Capital y a su vez cuando se obtiene un VAN positivo."/>
+                    <Run Text="¿Recibe usted asesoría de alguna Entidad, representante o encargado con conocimientos técnicos para ingresar toda la información respectiva a este proyecto?"/>
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
@@ -22,6 +22,5 @@
                 VerticalAlignment="Top" Width="75" Click="btnSi_Click"/>
         <Button x:Name="btnNo" Content="No" HorizontalAlignment="Left" Margin="196,176,0,0" 
                 VerticalAlignment="Top" Width="75" Click="btnNo_Click"/>
-
     </Grid>
 </Controls:MetroWindow>

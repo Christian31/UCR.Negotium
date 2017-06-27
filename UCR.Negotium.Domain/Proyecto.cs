@@ -50,6 +50,7 @@ namespace UCR.Negotium.Domain
         public Proyecto()
         {
             Archivado = false;
+            ConIngresos = true;
             this.RequerimientosInversion = new List<RequerimientoInversion>();
             this.RequerimientosReinversion = new List<RequerimientoReinversion>();
             this.Encargado = new Encargado();

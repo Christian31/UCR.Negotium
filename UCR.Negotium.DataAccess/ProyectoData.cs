@@ -37,7 +37,7 @@ namespace UCR.Negotium.DataAccess
                 command.CommandText = insert;
                 command.Parameters.AddWithValue("nombre_proyecto", proyecto.NombreProyecto);
                 command.Parameters.AddWithValue("resumen_ejecutivo", proyecto.ResumenEjecutivo);
-                command.Parameters.AddWithValue("con_ingresos", proyecto.ConIngresos);
+                command.Parameters.AddWithValue("con_ingresos", proyecto.ConIngresos?1:0);
                 command.Parameters.AddWithValue("ano_inicial_proyecto", proyecto.AnoInicial);
                 command.Parameters.AddWithValue("horizonte_evaluacion_en_anos", proyecto.HorizonteEvaluacionEnAnos);
                 command.Parameters.AddWithValue("paga_impuesto", proyecto.PagaImpuesto);
@@ -68,116 +68,133 @@ namespace UCR.Negotium.DataAccess
 
         public bool ActualizarProyecto(Proyecto proyecto)
         {
-            string update = "UPDATE PROYECTO SET nombre_proyecto=?, resumen_ejecutivo=?, con_ingresos=?, "+
-                "ano_inicial_proyecto=?, horizonte_evaluacion_en_anos=?, paga_impuesto=?, "+ 
-                "porcentaje_impuesto=?, direccion_exacta=?, cod_provincia=?, cod_canton=?, cod_distrito=?," +
-                "con_financiamiento=?, objeto_interes=? WHERE cod_proyecto=?; ";
-
-            if (conexion.State != ConnectionState.Open)
-                conexion.Open();
-            SQLiteCommand command = conexion.CreateCommand();
-            command.CommandText = update;
-            command.Parameters.AddWithValue("nombre_proyecto", proyecto.NombreProyecto);
-            command.Parameters.AddWithValue("resumen_ejecutivo", proyecto.ResumenEjecutivo);
-            command.Parameters.AddWithValue("con_ingresos", proyecto.ConIngresos);
-            command.Parameters.AddWithValue("ano_inicial_proyecto", proyecto.AnoInicial);
-            command.Parameters.AddWithValue("horizonte_evaluacion_en_anos", proyecto.HorizonteEvaluacionEnAnos);
-            command.Parameters.AddWithValue("paga_impuesto", proyecto.PagaImpuesto);
-            command.Parameters.AddWithValue("porcentaje_impuesto", proyecto.PorcentajeImpuesto);
-            command.Parameters.AddWithValue("direccion_exacta", proyecto.DireccionExacta);
-            command.Parameters.AddWithValue("cod_provincia", proyecto.Provincia.CodProvincia);
-            command.Parameters.AddWithValue("cod_canton", proyecto.Canton.CodCanton);
-            command.Parameters.AddWithValue("cod_distrito", proyecto.Distrito.CodDistrito);
-            command.Parameters.AddWithValue("con_financiamiento", proyecto.ConFinanciamiento);
-            command.Parameters.AddWithValue("cod_proyecto", proyecto.CodProyecto);
-            command.Parameters.AddWithValue("objeto_interes", proyecto.ObjetoInteres);
-
-            // Ejecutamos la sentencia INSERT y cerramos la conexión
-            if (command.ExecuteNonQuery() != -1)
+            int result = -1;
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                conexion.Close();
-                return true;
-            }//if
-            else
-            {
-                conexion.Close();
-                return false;
-            }//else
+                conn.Open();
+                using (SQLiteCommand command = new SQLiteCommand(conn))
+                {
+                    command.CommandText = "UPDATE PROYECTO SET nombre_proyecto=?, resumen_ejecutivo=?, con_ingresos=?, " +
+                "ano_inicial_proyecto=?, horizonte_evaluacion_en_anos=?, paga_impuesto=?, " +
+                "porcentaje_impuesto=?, direccion_exacta=?, cod_provincia=?, cod_canton=?, cod_distrito=?, " +
+                "con_financiamiento=?, objeto_interes=? WHERE cod_proyecto=?;";
+                    command.Prepare();
+                    command.Parameters.AddWithValue("nombre_proyecto", proyecto.NombreProyecto);
+                    command.Parameters.AddWithValue("resumen_ejecutivo", proyecto.ResumenEjecutivo);
+                    command.Parameters.AddWithValue("con_ingresos", proyecto.ConIngresos?1:0);
+                    command.Parameters.AddWithValue("ano_inicial_proyecto", proyecto.AnoInicial);
+                    command.Parameters.AddWithValue("horizonte_evaluacion_en_anos", proyecto.HorizonteEvaluacionEnAnos);
+                    command.Parameters.AddWithValue("paga_impuesto", proyecto.PagaImpuesto?1:0);
+                    command.Parameters.AddWithValue("porcentaje_impuesto", proyecto.PorcentajeImpuesto);
+                    command.Parameters.AddWithValue("direccion_exacta", proyecto.DireccionExacta);
+                    command.Parameters.AddWithValue("cod_provincia", proyecto.Provincia.CodProvincia);
+                    command.Parameters.AddWithValue("cod_canton", proyecto.Canton.CodCanton);
+                    command.Parameters.AddWithValue("cod_distrito", proyecto.Distrito.CodDistrito);
+                    command.Parameters.AddWithValue("con_financiamiento", proyecto.ConFinanciamiento?1:0);
+                    command.Parameters.AddWithValue("objeto_interes", proyecto.ObjetoInteres);
+                    command.Parameters.AddWithValue("cod_proyecto", proyecto.CodProyecto);
+                    try
+                    {
+                        result = command.ExecuteNonQuery();
+                    }
+                    catch (SQLiteException)
+                    {
+                        return false;
+                    }
+                }
+                conn.Close();
+            }
+
+            return result != -1;
         }
 
         public bool ActualizarProyectoCaracterizacion(Proyecto proyecto)
         {
-            string update = "UPDATE PROYECTO SET descripcion_poblacion_beneficiaria=?, categorizacion_bien_servicio=?, " +
-                "descripcion_sostenibilidad_proyecto=?, justificacion_de_mercado=? WHERE cod_proyecto=?; ";
+            int result = -1;
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
+            {
+                conn.Open();
+                using (SQLiteCommand command = new SQLiteCommand(conn))
+                {
+                    command.CommandText = "UPDATE PROYECTO SET descripcion_poblacion_beneficiaria=?, categorizacion_bien_servicio=?, " +
+                "descripcion_sostenibilidad_proyecto=?, justificacion_de_mercado=? WHERE cod_proyecto=?";
+                    command.Prepare();
+                    command.Parameters.AddWithValue("descripcion_poblacion_beneficiaria", proyecto.DescripcionPoblacionBeneficiaria);
+                    command.Parameters.AddWithValue("categorizacion_bien_servicio", proyecto.CaraterizacionDelBienServicio);
+                    command.Parameters.AddWithValue("descripcion_sostenibilidad_proyecto", proyecto.DescripcionSostenibilidadDelProyecto);
+                    command.Parameters.AddWithValue("justificacion_de_mercado", proyecto.JustificacionDeMercado);
+                    command.Parameters.AddWithValue("cod_proyecto", proyecto.CodProyecto);
+                    try
+                    {
+                        result = command.ExecuteNonQuery();
+                    }
+                    catch (SQLiteException)
+                    {
+                        return false;
+                    }
+                }
+                conn.Close();
+            }
 
-            if (conexion.State != ConnectionState.Open)
-                conexion.Open();
-            SQLiteCommand command = conexion.CreateCommand();
-            command.CommandText = update;
-            command.Parameters.AddWithValue("descripcion_poblacion_beneficiaria", proyecto.DescripcionPoblacionBeneficiaria);
-            command.Parameters.AddWithValue("categorizacion_bien_servicio", proyecto.CaraterizacionDelBienServicio);
-            command.Parameters.AddWithValue("descripcion_sostenibilidad_proyecto", proyecto.DescripcionSostenibilidadDelProyecto);
-            command.Parameters.AddWithValue("justificacion_de_mercado", proyecto.JustificacionDeMercado);
-            command.Parameters.AddWithValue("cod_proyecto", proyecto.CodProyecto);
-            if (command.ExecuteNonQuery() != -1)
-            {
-                conexion.Close();
-                return true;
-            }
-            else
-            {
-                conexion.Close();
-                return false;
-            }
+            return result != -1;
         }
 
         public bool ActualizarProyectoFlujoCaja(Proyecto proyecto)
         {
-            String update = "UPDATE PROYECTO SET tasa_costo_capital=?, " +
+            int result = -1;
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
+            {
+                conn.Open();
+                using (SQLiteCommand command = new SQLiteCommand(conn))
+                {
+                    command.CommandText = "UPDATE PROYECTO SET tasa_costo_capital=?, " +
                 "personas_participantes=?, familias_involucradas=?, " +
-                "beneficiarios_indirectos=? WHERE cod_proyecto=?; ";
-            if (conexion.State != ConnectionState.Open)
-                conexion.Open();
-            SQLiteCommand command = conexion.CreateCommand();
-            command.CommandText = update;
-            command.Parameters.AddWithValue("tasa_costo_capital", proyecto.TasaCostoCapital);
-            command.Parameters.AddWithValue("personas_participantes", proyecto.PersonasParticipantes);
-            command.Parameters.AddWithValue("familias_involucradas", proyecto.FamiliasInvolucradas);
-            command.Parameters.AddWithValue("beneficiarios_indirectos", proyecto.PersonasBeneficiadas);
-            command.Parameters.AddWithValue("cod_proyecto", proyecto.CodProyecto);
-            // Ejecutamos la sentencia INSERT y cerramos la conexión
-            if (command.ExecuteNonQuery() != -1)
-            {
-                conexion.Close();
-                return true;
-            }//if
-            else
-            {
-                conexion.Close();
-                return false;
-            }//else
+                "beneficiarios_indirectos=? WHERE cod_proyecto=?";
+                    command.Prepare();
+                    command.Parameters.AddWithValue("tasa_costo_capital", proyecto.TasaCostoCapital);
+                    command.Parameters.AddWithValue("personas_participantes", proyecto.PersonasParticipantes);
+                    command.Parameters.AddWithValue("familias_involucradas", proyecto.FamiliasInvolucradas);
+                    command.Parameters.AddWithValue("beneficiarios_indirectos", proyecto.PersonasBeneficiadas);
+                    command.Parameters.AddWithValue("cod_proyecto", proyecto.CodProyecto);
+                    try
+                    {
+                        result = command.ExecuteNonQuery();
+                    }
+                    catch (SQLiteException)
+                    {
+                        return false;
+                    }
+                }
+                conn.Close();
+            }
+
+            return result != -1;
         }
 
         public bool ArchivarProyecto(int codProyecto, bool archivar)
         {
-            string update = "UPDATE PROYECTO SET archivado=? WHERE cod_proyecto=?; ";
-
-            if (conexion.State != ConnectionState.Open)
-                conexion.Open();
-            SQLiteCommand command = conexion.CreateCommand();
-            command.CommandText = update;
-            command.Parameters.AddWithValue("archivado", archivar);
-            command.Parameters.AddWithValue("cod_proyecto", codProyecto);
-            if (command.ExecuteNonQuery() != -1)
+            int result = -1;
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                conexion.Close();
-                return true;
+                conn.Open();
+                using (SQLiteCommand command = new SQLiteCommand(conn))
+                {
+                    command.CommandText = "UPDATE PROYECTO SET archivado=? WHERE cod_proyecto=?";
+                    command.Prepare();
+                    command.Parameters.AddWithValue("archivado", archivar?1:0);
+                    command.Parameters.AddWithValue("cod_proyecto", codProyecto);
+                    try
+                    {
+                        result = command.ExecuteNonQuery();
+                    }
+                    catch (SQLiteException)
+                    {
+                        return false;
+                    }
+                }
+                conn.Close();
             }
-            else
-            {
-                conexion.Close();
-                return false;
-            }
+            return result != -1;
         }
 
         public List<Proyecto> GetProyectos()
@@ -196,8 +213,8 @@ namespace UCR.Negotium.DataAccess
                 Proyecto proyecto = new Proyecto();
                 proyecto.CodProyecto = int.Parse(reader["cod_proyecto"].ToString()); ;
                 proyecto.AnoInicial = int.Parse(reader["ano_inicial_proyecto"].ToString());
-                proyecto.HorizonteEvaluacionEnAnos = Int32.Parse(reader["horizonte_evaluacion_en_anos"].ToString());
-                proyecto.Archivado = Convert.ToBoolean(reader["archivado"].ToString());
+                proyecto.HorizonteEvaluacionEnAnos = int.Parse(reader["horizonte_evaluacion_en_anos"].ToString());
+                proyecto.Archivado = (bool)reader["archivado"];
                 proyecto.NombreProyecto = reader["nombre_proyecto"].ToString();
 
                 proyecto.Proponente = proponenteData.GetProponente(proyecto.CodProyecto);
@@ -245,7 +262,7 @@ namespace UCR.Negotium.DataAccess
                 proyecto.PersonasBeneficiadas = Int32.Parse(reader["beneficiarios_indirectos"].ToString());
                 proyecto.PersonasParticipantes = Int32.Parse(reader["personas_participantes"].ToString());
                 proyecto.ObjetoInteres = reader["objeto_interes"].ToString();
-                proyecto.Archivado = Convert.ToBoolean(reader["archivado"].ToString());
+                proyecto.Archivado = (reader["archivado"] as int?).Equals(1);
 
                 return proyecto;
             }//if

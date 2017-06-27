@@ -38,13 +38,14 @@
                                          ToolTip="Ingrese en este campo el monto a financiar del Proyecto"/>
                 </StackPanel>
                 <StackPanel Style="{StaticResource verticalPanelFormStyle}" Grid.Column="1" Margin="10,20">
-                    <Label Content="Duración del Financiamiento (Años):"/>
-                    <ComboBox Margin="0,0,75,0" Width="180" ItemsSource="{Binding TiempoDisponible}"
-                                          SelectedValue="{Binding FinanciamientoSelected.TiempoFinanciamiento}" />
+                    <Label Content="Finalización del Financiamiento:"/>
+                    <ComboBox Margin="0,0,75,0" Width="180" ItemsSource="{Binding FinalizacionDisponible}"
+                              SelectedValue="{Binding FinanciamientoSelected.TiempoFinanciamiento}" 
+                              Name="cbxFinalizacionFinanciamiento" SelectionChanged="cbxFinalizacionFinanciamiento_SelectionChanged"/>
                 </StackPanel>
                 <StackPanel Style="{StaticResource verticalPanelFormStyle}" Grid.Column="2" Margin="10,20">
                     <Label Content="Año Inicial del Pago:"/>
-                    <ComboBox Margin="0,0,75,0" Width="180" ItemsSource="{Binding AnosDisponibles}"
+                    <ComboBox Margin="0,0,75,0" Width="180" ItemsSource="{Binding AnosDisponibles, UpdateSourceTrigger=PropertyChanged}"
                                           SelectedValue="{Binding FinanciamientoSelected.AnoInicialPago}" />
                 </StackPanel>
                 <StackPanel Style="{StaticResource verticalPanelFormStyle}" Margin="10,20" Grid.Column="3">

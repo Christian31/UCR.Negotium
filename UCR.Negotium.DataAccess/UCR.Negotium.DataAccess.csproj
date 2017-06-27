@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SQLite, Version=1.0.81.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
@@ -46,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnalisisAmbiental\FactorAmbientalData.cs" />
     <Compile Include="CantonData.cs" />
     <Compile Include="CostoData.cs" />
     <Compile Include="CostoMensualData.cs" />
@@ -53,6 +55,8 @@
     <Compile Include="DetalleProyeccionVentaData.cs" />
     <Compile Include="DistritoData.cs" />
     <Compile Include="EncargadoData.cs" />
+    <Compile Include="Enums\Enums.cs" />
+    <Compile Include="Enums\EnumsHelper.cs" />
     <Compile Include="FinanciamientoData.cs" />
     <Compile Include="InteresFinanciamientoData.cs" />
     <Compile Include="OrganizacionProponenteData.cs" />
@@ -73,6 +77,7 @@
       <Name>UCR.Negotium.Domain</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

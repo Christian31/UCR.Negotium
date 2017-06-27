@@ -9,7 +9,7 @@
         public string Telefono { get; set; }
         public string Email { get; set; }
         public string PuestoEnOrganizacion { get; set; }
-        public char Genero { get; set; }
+        public bool Genero { get; set; } //true=masculino false=femenino
         public bool EsRepresentanteIndividual { get; set; }
         private OrganizacionProponente organizacion;
 
@@ -21,18 +21,6 @@
         public override string ToString()
         {
             return Nombre + " " + Apellidos;
-        }
-
-        public bool GeneroBoolean
-        {
-            get
-            {
-                return Genero == 'm' ? true : false;
-            }
-            set
-            {
-                Genero = value.Equals(true) ? 'm' : 'f';
-            }
         }
 
         public OrganizacionProponente Organizacion
