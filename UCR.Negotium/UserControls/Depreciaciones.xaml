@@ -6,7 +6,6 @@
              xmlns:local="clr-namespace:UCR.Negotium.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="440" d:DesignWidth="1200">
-
     <Grid Background="AliceBlue">
         <Grid.RowDefinitions>
             <RowDefinition Height="7*"/>
@@ -21,18 +20,15 @@
                     <RowDefinition Height="7*"/>
                     <RowDefinition Height="3*"/>
                 </Grid.RowDefinitions>
-                <DataGrid ItemsSource="{Binding DTDepreciaciones}"
+                <DataGrid ItemsSource="{Binding DTDepreciaciones}" Loaded="datagridDepreciaciones_Loaded"
                           SelectionUnit="FullRow" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
-                          Margin="30,5,30,15" ColumnWidth="100" Name="datagridDepreciaciones"
-                          Loaded="datagridDepreciaciones_Loaded">
-
+                          Margin="30,5,30,15" ColumnWidth="100" Name="datagridDepreciaciones">
                 </DataGrid>
-
                 <Grid Grid.Row="2" Margin="30,5,30,15">
                     <TextBlock Text="Total Depreciaciones por Año:" FontSize="14"/>
                     <DataGrid Margin="0,25,0,0" ItemsSource="{Binding DTTotalesDepreciaciones, UpdateSourceTrigger=PropertyChanged}"
-                          SelectionUnit="FullRow" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
-                           ColumnWidth="100">
+                              SelectionUnit="FullRow" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
+                              ColumnWidth="100">
                     </DataGrid>
                 </Grid>
             </Grid>

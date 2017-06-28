@@ -9,7 +9,6 @@
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              mc:Ignorable="d" 
              d:DesignHeight="440" d:DesignWidth="1200">
-
     <Grid Background="AliceBlue">
         <Grid.RowDefinitions>
             <RowDefinition Height="7*"/>
@@ -28,14 +27,13 @@
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="7*"/>
                 </Grid.ColumnDefinitions>
-                
                 <GroupBox Header="Información Básica">
                     <StackPanel>
                         <StackPanel Style="{StaticResource verticalPanelFormStyle}">
                             <Label Content="Nombre del Proyecto:"/>
                             <TextBox Name="tbNombre" TextChanged="tbNombre_TextChanged" 
-                                         Text="{Binding ProyectoSelected.NombreProyecto}" Margin="0,0,27,0"
-                                         ToolTip="Ingrese en este campo el nombre del Proyecto"/>
+                                     Text="{Binding ProyectoSelected.NombreProyecto}" Margin="0,0,27,0"
+                                     ToolTip="Ingrese en este campo el nombre del Proyecto"/>
                         </StackPanel>
                         <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
                             <Label Content="Año Inicial del Proyecto:"/>
@@ -48,8 +46,8 @@
                         <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
                             <Label Content="Paga Impuestos:"/>
                             <CheckBox FlowDirection="LeftToRight" IsChecked="{Binding ProyectoSelected.PagaImpuesto}" 
-                                          Name="cbPagaImpuestos" Checked="cbPagaImpuestos_Checked" 
-                                          Loaded="cbPagaImpuestos_Loaded">
+                                      Name="cbPagaImpuestos" Checked="cbPagaImpuestos_Checked" 
+                                      Loaded="cbPagaImpuestos_Loaded">
                                 <TextBlock Text="Si"/>
                             </CheckBox>
                             <CheckBox FlowDirection="LeftToRight" Name="cbNoPagaImpuestos" Margin="10,0,0,0" Checked="cbNoPagaImpuestos_Checked">
@@ -63,12 +61,12 @@
                         <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
                             <Label Content="Posee Financiamiento:"/>
                             <CheckBox FlowDirection="LeftToRight" IsChecked="{Binding ProyectoSelected.ConFinanciamiento}" 
-                                          Name="cbConFinanciamiento" Checked="cbConFinanciamiento_Checked" 
-                                          Loaded="cbConFinanciamiento_Loaded">
+                                      Name="cbConFinanciamiento" Checked="cbConFinanciamiento_Checked" 
+                                      Loaded="cbConFinanciamiento_Loaded">
                                 <TextBlock Text="Si"/>
                             </CheckBox>
                             <CheckBox FlowDirection="LeftToRight" Name="cbSinFinanciamiento" Margin="10,0,0,0" 
-                                          Checked="cbSinFinanciamiento_Checked">
+                                      Checked="cbSinFinanciamiento_Checked">
                                 <TextBlock Text="No"/>
                             </CheckBox>
                         </StackPanel>
@@ -76,8 +74,8 @@
                             <Label Content="Tipo de Proyecto:"/>
                             <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
                                 <CheckBox FlowDirection="LeftToRight" Name="cbConIngresos" 
-                                              IsChecked="{Binding ProyectoSelected.ConIngresos}" 
-                                              Checked="cbConIngresos_Checked" Loaded="cbConIngresos_Loaded">
+                                          IsChecked="{Binding ProyectoSelected.ConIngresos}" 
+                                          Checked="cbConIngresos_Checked" Loaded="cbConIngresos_Loaded">
                                     <TextBlock Text="Con Ingresos"/>
                                 </CheckBox>
                                 <CheckBox FlowDirection="LeftToRight" Name="cbSinIngresos" Margin="10,0,0,0" Checked="cbSinIngresos_Checked">
@@ -88,12 +86,11 @@
                         <StackPanel Style="{StaticResource verticalPanelFormStyle}">
                             <Label Content="Bien o Servicio del Proyecto:"/>
                             <TextBox Name="tbBienServicio" TextChanged="tbBienServicio_TextChanged"
-                                         ToolTip="Ingrese en este campo el Bien o Servicio del Proyecto" 
-                                         Text="{Binding ProyectoSelected.ObjetoInteres}" Margin="0,0,27,0"/>
+                                     ToolTip="Ingrese en este campo el Bien o Servicio del Proyecto" 
+                                     Text="{Binding ProyectoSelected.ObjetoInteres}" Margin="0,0,27,0"/>
                         </StackPanel>
                     </StackPanel>
                 </GroupBox>
-
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40*"/>
@@ -105,24 +102,23 @@
                                 <ColumnDefinition Width="3*"/>
                                 <ColumnDefinition Width="7*"/>
                             </Grid.ColumnDefinitions>
-
                             <StackPanel>
                                 <Grid Style="{StaticResource gridFormStyle}">
                                     <Label Content="Provincia:"/>
                                     <ComboBox Margin="65,0,27,0" ItemsSource="{Binding Provincias}" SelectedValuePath="CodProvincia"
-                                          SelectedValue="{Binding ProyectoSelected.Provincia.CodProvincia}" Name="cbProvincias" 
-                                          SelectionChanged="cbProvincias_SelectionChanged" Loaded="cbProvincias_Loaded"/>
+                                              SelectedValue="{Binding ProyectoSelected.Provincia.CodProvincia}" Name="cbProvincias" 
+                                              SelectionChanged="cbProvincias_SelectionChanged" Loaded="cbProvincias_Loaded"/>
                                 </Grid>
                                 <Grid Style="{StaticResource gridFormStyle}">
                                     <Label Content="Canton:"/>
                                     <ComboBox Margin="65,0,27,0" ItemsSource="{Binding ProvinciaSelected.Cantones, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValuePath="CodCanton"
-                                          SelectedValue="{Binding ProyectoSelected.Canton.CodCanton}" Name="cbCanton" 
+                                              SelectedValue="{Binding ProyectoSelected.Canton.CodCanton}" Name="cbCanton" 
                                               SelectionChanged="cbCanton_SelectionChanged"/>
                                 </Grid>
                                 <Grid Style="{StaticResource gridFormStyle}">
                                     <Label Content="Distrito:"/>
                                     <ComboBox Margin="65,0,27,0" ItemsSource="{Binding CantonSelected.Distritos, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValuePath="CodDistrito"
-                                          SelectedValue="{Binding ProyectoSelected.Distrito.CodDistrito}" Name="cbDistrito"/>
+                                              SelectedValue="{Binding ProyectoSelected.Distrito.CodDistrito}" Name="cbDistrito"/>
                                 </Grid>
                             </StackPanel>
                             <Grid Grid.Column="1" Grid.RowSpan="2" Margin="3">
@@ -156,7 +152,6 @@
                         </RichTextBox>
                     </Grid>
                 </Grid>
-
                 <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="3">
                     <Button Style="{StaticResource saveButtonStyle}" Click="btnGuardarInfoGeneral">
                         <Button.ContentTemplate >

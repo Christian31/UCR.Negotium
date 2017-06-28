@@ -8,7 +8,6 @@
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              mc:Ignorable="d" 
              d:DesignHeight="440" d:DesignWidth="1200">
-
     <Grid Background="AliceBlue">
         <Grid.RowDefinitions>
             <RowDefinition Height="7*"/>
@@ -27,38 +26,37 @@
                     <ColumnDefinition Width="43*"/>
                     <ColumnDefinition Width="57*"/>
                 </Grid.ColumnDefinitions>
-
                 <GroupBox Header="Representante legal de la organización / Representante Individual">
                     <StackPanel>
                         <Grid Style="{StaticResource gridFormStyle}">
                             <Label Content="Nombre:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             <TextBox Text="{Binding ProponenteSelected.Nombre}" Margin="65,0,27,0" MinWidth="30"
-                                         Name="tbNombreProponente" TextChanged="tbNombreProponente_TextChanged"/>
+                                     Name="tbNombreProponente" TextChanged="tbNombreProponente_TextChanged"/>
                         </Grid>
                         <Grid Style="{StaticResource gridFormStyle}">
                             <Label Content="Apellidos:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             <TextBox Text="{Binding ProponenteSelected.Apellidos}" Margin="65,0,27,0"
-                                         Name="tbApellidosProponente" TextChanged="tbApellidosProponente_TextChanged"/>
+                                     Name="tbApellidosProponente" TextChanged="tbApellidosProponente_TextChanged"/>
                         </Grid>
                         <Grid Style="{StaticResource gridFormStyle}">
                             <Label Content="Cédula de Identidad:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             <TextBox Text="{Binding ProponenteSelected.NumIdentificacion}" Name="tbCedulaProponente"
-                                         Margin="130,0,27,0" TextChanged="tbCedulaProponente_TextChanged"/>
+                                     Margin="130,0,27,0" TextChanged="tbCedulaProponente_TextChanged"/>
                         </Grid>
                         <Grid Style="{StaticResource gridFormStyle}">
                             <Label Content="Teléfono:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             <TextBox Text="{Binding ProponenteSelected.Telefono}" Margin="65,0,27,0"
-                                         Name="tbTelefonoProponente" TextChanged="tbTelefonoProponente_TextChanged"/>
+                                     Name="tbTelefonoProponente" TextChanged="tbTelefonoProponente_TextChanged"/>
                         </Grid>
                         <Grid Style="{StaticResource gridFormStyle}">
                             <Label Content="Correo Electrónico:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             <TextBox Text="{Binding ProponenteSelected.Email}" Margin="120,0,27,0"
-                                         Name="tbCorreoProponente" TextChanged="tbCorreoProponente_TextChanged"/>
+                                     Name="tbCorreoProponente" TextChanged="tbCorreoProponente_TextChanged"/>
                         </Grid>
                         <Grid Style="{StaticResource gridFormStyle}">
                             <Label Content="Puesto en la Organización:"/>
                             <TextBox Text="{Binding ProponenteSelected.PuestoEnOrganizacion}" Margin="165,0,27,0"
-                                         Name="tbPuestoProponente"/>
+                                     Name="tbPuestoProponente"/>
                         </Grid>
                         <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
                             <Label Content="Género:"/>
@@ -66,26 +64,25 @@
                                 <TextBlock Text="Femenino"/>
                             </CheckBox>
                             <CheckBox FlowDirection="LeftToRight" Margin="10,0,0,0" Name="cbMasculino" 
-                                          IsChecked="{Binding ProponenteSelected.Genero}" 
-                                          Checked="cbMasculino_Checked" Loaded="cbMasculino_Loaded">
+                                      IsChecked="{Binding ProponenteSelected.Genero}" 
+                                      Checked="cbMasculino_Checked" Loaded="cbMasculino_Loaded">
                                 <TextBlock Text="Masculino"/>
                             </CheckBox>
                         </StackPanel>
                         <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
                             <Label Content="Soy Representante Individual:"/>
                             <CheckBox FlowDirection="LeftToRight" IsChecked="{Binding ProponenteSelected.EsRepresentanteIndividual}" 
-                                          Name="cbSoyRepresentanteIndividual" Checked="cbSoyRepresentanteIndividual_Checked" 
-                                          Loaded="cbSoyRepresentanteIndividual_Loaded">
+                                      Name="cbSoyRepresentanteIndividual" Checked="cbSoyRepresentanteIndividual_Checked" 
+                                      Loaded="cbSoyRepresentanteIndividual_Loaded">
                                 <TextBlock Text="Si"/>
                             </CheckBox>
                             <CheckBox FlowDirection="LeftToRight" Name="cbNoSoyRepresentanteIndividual" Margin="10,0,0,0" 
-                                          Checked="cbNoSoyRepresentanteIndividual_Checked">
+                                      Checked="cbNoSoyRepresentanteIndividual_Checked">
                                 <TextBlock Text="No"/>
                             </CheckBox>
                         </StackPanel>
                     </StackPanel>
                 </GroupBox>
-
                 <GroupBox Grid.Column="1" Header="Información de la Organización">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -100,7 +97,6 @@
                                           SelectedValue="{Binding ProponenteSelected.Organizacion.Tipo.CodTipo}" 
                                           Loaded="cbTipoOrganizaciones_Loaded"/>
                             </StackPanel>
-
                             <Grid Style="{StaticResource gridFormStyle}">
                                 <Label Content="Nombre de Organización:"/>
                                 <TextBox Text="{Binding ProponenteSelected.Organizacion.NombreOrganizacion}" 
@@ -144,7 +140,6 @@
                         </Grid>
                     </Grid>
                 </GroupBox>
-
                 <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="3">
                     <Button Style="{StaticResource saveButtonStyle}" Click="btnGuardarProponente">
                         <Button.ContentTemplate>

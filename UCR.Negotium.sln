@@ -11,6 +11,15 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "UCR.Negotium.Installer", "U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UCR.Negotium", "UCR.Negotium\UCR.Negotium.csproj", "{0E4A0C2E-8313-430E-AC03-20488A349FEA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UCR.Librerias", "UCR.Librerias", "{65042E02-BA37-4677-9540-7212B1746210}"
+	ProjectSection(SolutionItems) = preProject
+		UCR.Librerias\Commons.dll = UCR.Librerias\Commons.dll
+		UCR.Librerias\log4net.dll = UCR.Librerias\log4net.dll
+		UCR.Librerias\Negotium.Core.1.0.0.nupkg = UCR.Librerias\Negotium.Core.1.0.0.nupkg
+		UCR.Librerias\NVelocity.dll = UCR.Librerias\NVelocity.dll
+		UCR.Librerias\System.Data.SQLite.dll = UCR.Librerias\System.Data.SQLite.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -6,7 +6,6 @@
              xmlns:local="clr-namespace:UCR.Negotium.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="1200">
-
     <Grid Background="AliceBlue">
         <Grid.RowDefinitions>
             <RowDefinition Height="7*"/>
@@ -16,7 +15,6 @@
             <TextBlock Text="Datos del Proyecto" Style="{StaticResource textTitleStyle}"/>
         </Border>
         <Border Grid.Row="1" Style="{StaticResource borderStyle}">
-
         </Border>
     </Grid>
 </UserControl>

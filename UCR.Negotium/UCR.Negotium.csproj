@@ -184,7 +184,6 @@
     </Compile>
     <Compile Include="Utils\DatatableBuilder.cs" />
     <Compile Include="Utils\GenerarReporte.cs" />
-    <Compile Include="Utils\Installation.cs" />
     <Page Include="Dialogs\AnalisisAmbiental\RegistrarFactorAmbiental.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -324,7 +323,9 @@
     <Content Include="Data\NegotiumDataBase.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

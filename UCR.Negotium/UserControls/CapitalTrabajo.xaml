@@ -6,7 +6,6 @@
              xmlns:local="clr-namespace:UCR.Negotium.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="440" d:DesignWidth="1200">
-
     <Grid Background="AliceBlue">
         <Grid.RowDefinitions>
                 <RowDefinition Height="7*"/>
@@ -21,12 +20,10 @@
                     <RowDefinition Height="8*"/>
                     <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
-                
                 <DataGrid ItemsSource="{Binding DTCapitalTrabajo, UpdateSourceTrigger=PropertyChanged}"
                           SelectionUnit="FullRow" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
                           Margin="30,35,30,15" ColumnWidth="100" CanUserSortColumns="False"
                           Name="datagridCapitalTrabajo" Loaded="datagridCapitalTrabajo_Loaded">
-
                 </DataGrid>
                 <Grid Grid.Row="1">
                     <Label Content="Recuperación de Costo Total: " Margin="30,0,906,37" FontSize="16" FontWeight="Bold"/>

@@ -6,28 +6,21 @@
         xmlns:modulos="clr-namespace:UCR.Negotium.UserControls"              
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        mc:Ignorable="d"
-        GlowBrush="{DynamicResource AccentColorBrush}"
-        WindowStartupLocation="CenterScreen"
-                      Closing="MetroWindow_Closing"
+        mc:Ignorable="d" GlowBrush="{DynamicResource AccentColorBrush}"
+        WindowStartupLocation="CenterScreen" Closing="MetroWindow_Closing"
         Title="Registrar Proyecto | Negotium v1.0" Height="680" Width="1360">
-
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            <Button Width="20" Height="20" Name="btnArchivar"
-                    Click="btnArchivar_Click"
+            <Button Width="20" Height="20" Name="btnArchivar" Click="btnArchivar_Click"
                     Style="{StaticResource circleButton}" ToolTip="Archivar el Proyecto">
                 <iconPacks:PackIconModern Kind="FolderLock" Foreground="White"/>
             </Button>
-            <Button Width="20" Height="20" Name="btnGenerarReporte"
-                    Click="btnGenerarReporte_Click"
+            <Button Width="20" Height="20" Name="btnGenerarReporte" Click="btnGenerarReporte_Click"
                     Style="{StaticResource circleButton}" ToolTip="Imprimir el Proyecto">
                 <iconPacks:PackIconModern Kind="Printer" Foreground="White"/>
             </Button>
-            
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -36,7 +29,6 @@
             <RowDefinition Height="90*"/>
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
-
         <TabControl Grid.Column="0" Grid.Row="0" Name="tcRegistrarProyecto" ItemContainerStyle="{StaticResource menuTabItem}" 
                     Style="{StaticResource menuTabControl}" Margin="15" SelectionChanged="tcRegistrarProyecto_SelectionChanged">
             <TabItem Header="Información General">
@@ -88,26 +80,28 @@
                                 <RowDefinition Height="8*"/>
                                 <RowDefinition Height="2*"/>
                             </Grid.RowDefinitions>
-
                             <DataGrid ItemsSource="{Binding DTFlujoCaja, UpdateSourceTrigger=PropertyChanged}"
-                          SelectionUnit="FullRow" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
-                          Margin="30,15,30,15" ColumnWidth="100" CanUserSortColumns="False"
-                          Name="dgFlujoCaja" Loaded="dgFlujoCaja_Loaded">
-
+                                      SelectionUnit="FullRow" BorderThickness="1" Margin="30,15,30,15"
+                                      BorderBrush="{DynamicResource AccentColorBrush}" ColumnWidth="100"
+                                      CanUserSortColumns="False" Name="dgFlujoCaja" Loaded="dgFlujoCaja_Loaded">
                             </DataGrid>
                             <StackPanel Grid.Row="1" Style="{StaticResource horizontalPanelFormStyle}">
                                 <Label Content="Tasa de Costo de Capital: " Margin="30,0,0,37" FontSize="14" FontWeight="Bold"/>
-                                <TextBox Margin="0,0,0,57"
-                                         Text="{Binding ProyectoSelected.TasaCostoCapitalString, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" Width="130"/>
+                                <TextBox Margin="0,0,0,57" IsEnabled="False" Width="130"
+                                         Text="{Binding ProyectoSelected.TasaCostoCapitalString, UpdateSourceTrigger=PropertyChanged}"/>
                                 <Label Content="TIR: " Margin="50,0,0,37" FontSize="14" FontWeight="Bold"/>
-                                <TextBox Margin="0,0,0,57" Text="{Binding TIR, UpdateSourceTrigger=PropertyChanged}" Width="130" IsEnabled="False"/>
+                                <TextBox Margin="0,0,0,57" Width="130" IsEnabled="False"
+                                         Text="{Binding TIR, UpdateSourceTrigger=PropertyChanged}"/>
                                 <Label Content="VAN: " Margin="30,0,0,37" FontSize="14" FontWeight="Bold"/>
-                                <TextBox Text="{Binding VAN, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" Margin="0,0,0,57" Width="130"/>
+                                <TextBox IsEnabled="False" Margin="0,0,0,57" Width="130"
+                                         Text="{Binding VAN, UpdateSourceTrigger=PropertyChanged}"/>
                                 <Grid Margin="60,0,30,7">
                                     <iconPacks:PackIconModern Width="16" Height="16" Kind="Box" Foreground="Teal"
-                                                  Margin="0,7,140,0" HorizontalAlignment="Right"/>
+                                                              Margin="0,7,140,0" HorizontalAlignment="Right"/>
                                     <Label Margin="30,0,0,0" HorizontalAlignment="Right">
-                                        <Hyperlink Name="lbDetalleIndicadores" Click="lbDetalleIndicadores_Click">Detalle de Indicadores</Hyperlink>
+                                        <Hyperlink Name="lbDetalleIndicadores" Click="lbDetalleIndicadores_Click">
+                                            Detalle de Indicadores
+                                        </Hyperlink>
                                     </Label>
                                 </Grid>
                             </StackPanel>
@@ -115,7 +109,6 @@
                     </Border>
                 </Grid>
             </TabItem>
-
             <TabItem Header="Análisis Ambiental">
                 <modulos:AnalisisAmbiental x:Name="analisisAmbiental" Style="{StaticResource moduleStyle}"/>
             </TabItem>
