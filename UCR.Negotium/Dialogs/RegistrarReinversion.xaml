@@ -8,7 +8,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:UserControls="clr-namespace:UCR.Negotium.UserControls"
         mc:Ignorable="d"
-        BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
+        BorderThickness="2" BorderBrush="{DynamicResource AccentColorBrush}"
         WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
         Title="Reinversión | Negotium v1.0" Height="490" Width="450">
     <Grid Margin="10">

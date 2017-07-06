@@ -18,7 +18,7 @@ namespace UCR.Negotium.UserControls
         private List<FactorAmbiental> factorAmbientalList;
         private FactorAmbiental factorAmbientalSelected;
 
-        private FactorAmbientalData analisisAmbientalData;
+        private FactorAmbientalData factorAmbientalData;
 
         public AnalisisAmbiental()
         {
@@ -27,7 +27,7 @@ namespace UCR.Negotium.UserControls
 
             factorAmbientalList = new List<FactorAmbiental>();
             factorAmbientalSelected = new FactorAmbiental();
-            analisisAmbientalData = new FactorAmbientalData();
+            factorAmbientalData = new FactorAmbientalData();
 
             //
             //factorAmbientalList.Add(new FactorAmbiental() { CodCondicionAfectada = CondicionAfectada.Biotopos, NombreFactor = "Ejemplo", CodElementoAmbiental = 1, CodClasificacion = Clasificacion.Moderado});
@@ -78,7 +78,10 @@ namespace UCR.Negotium.UserControls
 
         private void Reload()
         {
-            //FactorAmbientalList = new List<FactorAmbiental>();
+            if (!CodProyecto.Equals(0))
+            {
+                FactorAmbientalList = factorAmbientalData.GetFactores(CodProyecto);
+            }
         }
 
         private void btnCrearFactorAmbiental_Click(object sender, RoutedEventArgs e)
@@ -86,21 +89,44 @@ namespace UCR.Negotium.UserControls
             RegistrarFactorAmbiental registrarFactor = new RegistrarFactorAmbiental(CodProyecto);
             registrarFactor.ShowDialog();
 
-            if (registrarFactor.IsActive == false && registrarFactor.Reload)
+            if (!registrarFactor.IsActive && registrarFactor.Reload)
             {
-                RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
-                mainWindow.ReloadUserControls(CodProyecto);
+                Reload();
             }
         }
 
         private void btnEditarFactorAmbiental_Click(object sender, RoutedEventArgs e)
         {
+            if (FactorAmbientalSelected != null)
+            {
+                RegistrarFactorAmbiental registrarFactor = new RegistrarFactorAmbiental(CodProyecto, FactorAmbientalSelected.CodFactorAmbiental);
+                registrarFactor.ShowDialog();
 
+                if (!registrarFactor.IsActive && registrarFactor.Reload)
+                {
+                    Reload();
+                }
+            }
         }
 
         private void btnEliminarFactorAmbiental_Click(object sender, RoutedEventArgs e)
         {
-
+            if (FactorAmbientalSelected != null)
+            {
+                if (MessageBox.Show("Esta seguro que desea eliminar este factor ambiental?", "Confirmar",
+                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    if (factorAmbientalData.EliminarFactorAmbiental(FactorAmbientalSelected.CodFactorAmbiental))
+                    {
+                        Reload();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ha ocurrido un error al eliminar el factor ambiental del proyecto",
+                            "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
         }
     }
 }

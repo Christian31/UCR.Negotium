@@ -8,7 +8,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:UserControls="clr-namespace:UCR.Negotium.UserControls"
         mc:Ignorable="d"
-        BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
+        BorderThickness="2" BorderBrush="{DynamicResource AccentColorBrush}"
         WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
         Title="Inversión | Negotium v1.0" Height="400" Width="520">
     <Grid Margin="10">
@@ -92,17 +92,13 @@
                 </FlowDocument>
             </RichTextBox>
             <DataGrid CanUserSortColumns="False" SelectionUnit="Cell" Name="dgAnosDisponibles"
-                ItemsSource="{Binding AnosDisponibles, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}" AllowDrop="False" 
-                CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False" Margin="17,90,7,10">
-                <DataGrid.Style>
-                    <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
-                        <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
-                    </Style>
-                </DataGrid.Style>
+                      ItemsSource="{Binding AnosDisponibles, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                      BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}" AllowDrop="False" 
+                      CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False" 
+                      Margin="17,90,7,10" AlternatingRowBackground="{DynamicResource GrayBrush10}">
                 <DataGrid.Columns>
-                    <DataGridCheckBoxColumn Binding="{Binding Path=AnoCrecimiento}" Width="3*"/>
-                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding Path=.}" Header="Año" Width="7*">
+                    <DataGridCheckBoxColumn x:Name="AnosChecked" Binding="{Binding Path=IsChecked}" Width="3*"/>
+                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding Path=Ano}" Header="Año" Width="7*">
                     </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>

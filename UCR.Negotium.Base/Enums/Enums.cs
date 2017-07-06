@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace UCR.Negotium.DataAccess.Enums
+namespace UCR.Negotium.Base.Enums
 {
     #region CondicionAfectada
     public enum CondicionAfectada

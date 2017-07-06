@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:UCR.Negotium.Dialogs"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
+        BorderThickness="2" BorderBrush="{DynamicResource AccentColorBrush}"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         Title="Variación Anual de Costos | Negotium v1.0" Height="450" Width="400">
     <Grid Margin="10">

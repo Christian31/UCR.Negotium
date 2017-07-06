@@ -4,20 +4,20 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 
-namespace UCR.Negotium.DataAccess.Enums
+namespace UCR.Negotium.Base.Enums
 {
     public static class EnumsHelper<T>
     {
         public static List<Tuple<int, string>> ToTupleList()
         {
-            List<Tuple<int, string>> elementosAmbientales = new List<Tuple<int, string>>();
+            List<Tuple<int, string>> tupleList = new List<Tuple<int, string>>();
             var values = Enum.GetValues(typeof(T)).Cast<T>();
             foreach (var value in values)
             {
                 string displayValue = GetDisplayValue(value);
-                elementosAmbientales.Add(Tuple.Create((int)(object)value, displayValue));
+                tupleList.Add(Tuple.Create((int)(object)value, displayValue));
             }
-            return elementosAmbientales;
+            return tupleList;
         }
 
         public static IList<T> GetValues(Enum value)

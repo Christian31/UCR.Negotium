@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media;
 using UCR.Negotium.DataAccess.AnalisisAmbiental;
 using UCR.Negotium.Domain;
 
@@ -14,6 +15,8 @@ namespace UCR.Negotium.Dialogs
     /// </summary>
     public partial class RegistrarFactorAmbiental : MetroWindow, INotifyPropertyChanged
     {
+        private const string CAMPOREQUERIDO = "Este campo es requerido";
+
         private FactorAmbiental factorAmbientalSelected;
         private List<Tuple<int, string, List<Tuple<int, string>>>> condicionesAfectadas;
         private List<Tuple<int, string>> elementosAmbientales;
@@ -28,16 +31,18 @@ namespace UCR.Negotium.Dialogs
         private List<Tuple<int, string>> efectos;
         private List<Tuple<int, string>> periodicidades;
         private List<Tuple<int, string>> recuperabilidades;
-
+        private int codProyecto;
 
         private FactorAmbientalData factorAmbientalData = new FactorAmbientalData();
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
-        public RegistrarFactorAmbiental(int codFactor=0)
+        public RegistrarFactorAmbiental(int codProyecto, int codFactor=0)
         {
             InitializeComponent();
             DataContext = this;
+            tbNombreFactor.ToolTip = "Ingrese en este campo el Nombre del Factor que desea registrar";
+            this.codProyecto = codProyecto;
 
             factorAmbientalSelected = new FactorAmbiental();
             condicionesAfectadas = new List<Tuple<int, string, List<Tuple<int, string>>>>();
@@ -272,12 +277,46 @@ namespace UCR.Negotium.Dialogs
 
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
+            if (!ValidateRequiredFields())
+            {
+                CalcularClasificacion();
 
+                if (FactorAmbientalSelected.CodFactorAmbiental.Equals(0))
+                {
+                    FactorAmbientalSelected.CodProyecto = codProyecto;
+                    FactorAmbiental factorTemp = factorAmbientalData.InsertarFactorAmbiental(FactorAmbientalSelected);
+                    if (!factorTemp.CodFactorAmbiental.Equals(-1))
+                    {
+                        //success
+                        Reload = true;
+                        Close();
+                    }
+                    else
+                    {
+                        //error
+                        MessageBox.Show("Ha ocurrido un error al insertar el factor ambiental del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                else
+                {
+                    if (factorAmbientalData.EditarFactorAmbiental(FactorAmbientalSelected))
+                    {
+                        //success
+                        Reload = true;
+                        Close();
+                    }
+                    else
+                    {
+                        //error
+                        MessageBox.Show("Ha ocurrido un error al actualizar el factor ambiental del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
         }
 
         private void btnCancelar_Click(object sender, RoutedEventArgs e)
         {
-
+            Close();
         }
 
         private void cbCondicionesAfectadas_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -287,6 +326,50 @@ namespace UCR.Negotium.Dialogs
                 ElementosAmbientales = CondicionesAfectadas.Find(cond => cond.Item1.Equals(FactorAmbientalSelected.CodCondicionAfectada)).Item3;
                 cbElementosAmbientales.SelectedIndex = 0;
             }
+        }
+
+        private void tbNombreFactor_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            if (tbNombreFactor.BorderBrush == Brushes.Red)
+            {
+                tbNombreFactor.BorderBrush = Brushes.Gray;
+                tbNombreFactor.ToolTip = "Ingrese en este campo el Nombre del Factor que desea registrar";
+            }
+        }
+
+        private bool ValidateRequiredFields()
+        {
+            if (string.IsNullOrWhiteSpace(tbNombreFactor.Text))
+            {
+                tbNombreFactor.ToolTip = CAMPOREQUERIDO;
+                tbNombreFactor.BorderBrush = Brushes.Red;
+                return true;
+            }
+
+            return false;
+        }
+
+        //Preguntar sobre signo y valor de importancia (+-)
+        private void CalcularClasificacion()
+        {
+            List<int> values = new List<int>() { FactorAmbientalSelected.CodAcumulacion,
+            FactorAmbientalSelected.CodEfecto, 2 * FactorAmbientalSelected.CodExtension,
+            3 * FactorAmbientalSelected.CodIntensidad, FactorAmbientalSelected.CodMomento,
+            FactorAmbientalSelected.CodPeriodicidad, FactorAmbientalSelected.CodPersistencia,
+            FactorAmbientalSelected.CodRecuperabilidad, FactorAmbientalSelected.CodReversibilidad,
+            FactorAmbientalSelected.CodSinergia };
+
+            if (FactorAmbientalSelected.MomentoCritico)
+            {
+                values.Add(4);
+            }
+            if (FactorAmbientalSelected.ExtensionCritico)
+            {
+                values.Add(4);
+            }
+
+            FactorAmbientalSelected.CodClasificacion = (values.Sum() / 25);
+
         }
     }
 }

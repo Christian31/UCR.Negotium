@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UCR.Negotium.Dialogs"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        mc:Ignorable="d" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
+        mc:Ignorable="d" BorderThickness="2" BorderBrush="{DynamicResource AccentColorBrush}"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         Title="Registrar Factor Ambiental" Height="540" Width="680">
     <Grid Margin="10">
@@ -18,14 +18,12 @@
                 <ColumnDefinition Width="5*"/>
                 <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.ColumnSpan="2">
-                <StackPanel Style="{StaticResource horizontalPanelFormStyle}" HorizontalAlignment="Center">
+            <StackPanel Grid.Column="0" Margin="7,5,0,0">
+                <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
                     <Label Content="Nombre del Factor:" HorizontalAlignment="Left" />
-                    <TextBox Text="{Binding ProponenteSelected.Nombre}" MinWidth="30"
-                             Name="tbNombreProponente" Width="276"/>
+                    <TextBox Text="{Binding FactorAmbientalSelected.NombreFactor}" Name="tbNombreFactor" 
+                             Width="195" TextChanged="tbNombreFactor_TextChanged"/>
                 </StackPanel>
-            </StackPanel>
-            <StackPanel Grid.Column="0" Margin="5,45,5,0">
                 <StackPanel Style="{StaticResource horizontalPanelFormStyle}" HorizontalAlignment="Right" Margin="0,5,0,15">
                     <Label Content="Condición Afectada:"/>
                     <ComboBox Width="195" Height="12" ItemsSource="{Binding CondicionesAfectadas}" 
@@ -47,7 +45,8 @@
                                       SelectedValuePath="Item1" DisplayMemberPath="Item2"
                                       SelectedValue="{Binding FactorAmbientalSelected.CodExtension}"/>
                         </StackPanel>
-                        <CheckBox Margin="0,5" FlowDirection="LeftToRight" HorizontalAlignment="Center">
+                        <CheckBox Margin="0,5" FlowDirection="LeftToRight" HorizontalAlignment="Center"
+                                  IsChecked="{Binding FactorAmbientalSelected.ExtensionCritico}">
                             <TextBlock Text="Es crítico"/>
                         </CheckBox>
                     </StackPanel>
@@ -75,7 +74,7 @@
                               SelectedValuePath="Item1" SelectedValue="{Binding FactorAmbientalSelected.CodRecuperabilidad}" />
                 </StackPanel>
             </StackPanel>
-            <StackPanel Grid.Column="1" Margin="5,45,5,0">
+            <StackPanel Grid.Column="1" Margin="5,35,5,0">
                 <StackPanel Style="{StaticResource horizontalPanelFormStyle}" HorizontalAlignment="Right" Margin="0,5,0,15">
                     <Label Content="Elemento Ambiental:"/>
                     <ComboBox Width="195" ItemsSource="{Binding ElementosAmbientales,UpdateSourceTrigger=PropertyChanged}" 
@@ -97,7 +96,8 @@
                                           DisplayMemberPath="Item2"
                                           SelectedValue="{Binding FactorAmbientalSelected.CodMomento}"/>
                         </StackPanel>
-                        <CheckBox Margin="0,5" FlowDirection="LeftToRight" HorizontalAlignment="Center">
+                        <CheckBox Margin="0,5" FlowDirection="LeftToRight" HorizontalAlignment="Center"
+                                  IsChecked="{Binding FactorAmbientalSelected.MomentoCritico}">
                             <TextBlock Text="Es crítico"/>
                         </CheckBox>
                     </StackPanel>

@@ -7,30 +7,20 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d" GlowBrush="{DynamicResource AccentColorBrush}"
+        BorderThickness="2" BorderBrush="{DynamicResource AccentColorBrush}"
         WindowStartupLocation="CenterScreen" Closing="MetroWindow_Closing"
         Title="Registrar Proyecto | Negotium v1.0" Height="680" Width="1360">
-    <Controls:MetroWindow.RightWindowCommands>
-        <Controls:WindowCommands>
-            <Button Width="20" Height="20" Name="btnArchivar" Click="btnArchivar_Click"
-                    Style="{StaticResource circleButton}" ToolTip="Archivar el Proyecto">
-                <iconPacks:PackIconModern Kind="FolderLock" Foreground="White"/>
-            </Button>
-            <Button Width="20" Height="20" Name="btnGenerarReporte" Click="btnGenerarReporte_Click"
-                    Style="{StaticResource circleButton}" ToolTip="Imprimir el Proyecto">
-                <iconPacks:PackIconModern Kind="Printer" Foreground="White"/>
-            </Button>
-        </Controls:WindowCommands>
-    </Controls:MetroWindow.RightWindowCommands>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="625*"/>
+            <ColumnDefinition Width="49*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="90*"/>
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
-        <TabControl Grid.Column="0" Grid.Row="0" Name="tcRegistrarProyecto" ItemContainerStyle="{StaticResource menuTabItem}" 
-                    Style="{StaticResource menuTabControl}" Margin="15" SelectionChanged="tcRegistrarProyecto_SelectionChanged">
+        <TabControl Name="tcRegistrarProyecto" ItemContainerStyle="{StaticResource menuTabItem}" 
+                    Style="{StaticResource menuTabControl}" SelectionChanged="tcRegistrarProyecto_SelectionChanged" Grid.ColumnSpan="2">
             <TabItem Header="Información General">
                 <modulos:InformacionGeneral x:Name="infoGeneral" Style="{StaticResource moduleStyle}"/>
             </TabItem>
@@ -113,7 +103,37 @@
                 <modulos:AnalisisAmbiental x:Name="analisisAmbiental" Style="{StaticResource moduleStyle}"/>
             </TabItem>
         </TabControl>
-        <modulos:ProgresoProyecto Grid.Column="0" Grid.Row="1" Margin="1,15,1,1" Background="#5D8AA3" 
-                                  x:Name="progreso"/>
+        <WrapPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+            <Controls:Tile Title="Ver Resumen" Click="btnVerResumen_Click" Style="{StaticResource tileStyle}">
+                <iconPacks:PackIconModern Kind="Notification" Style="{StaticResource iconLarge}"/>
+            </Controls:Tile>
+            <Controls:Tile Title="Ver Progreso" Click="btnVerProgreso_Click" Style="{StaticResource tileStyle}">
+                <iconPacks:PackIconModern Kind="Hourglass" Style="{StaticResource iconLarge}"/>
+            </Controls:Tile>
+            <Controls:Tile Title="Imprimir" Click="btnGenerarReporte_Click" Style="{StaticResource tileStyle}"
+                           ToolTip="Imprimir el Proyecto">
+                <iconPacks:PackIconModern Kind="Printer" Style="{StaticResource iconLarge}"/>
+            </Controls:Tile>
+            <Controls:Tile Title="Archivar" Click="btnArchivar_Click" Style="{StaticResource tileStyle}"
+                           ToolTip="Archivar el Proyecto">
+                <iconPacks:PackIconModern Kind="FolderLock" Style="{StaticResource iconLarge}"/>
+            </Controls:Tile>
+        </WrapPanel>
     </Grid>
+    <Controls:MetroWindow.Flyouts>
+        <Controls:FlyoutsControl>
+            <Controls:Flyout x:Name="VerResumen" Style="{StaticResource flyouts}" 
+                             Header="Resumen del Proyecto">
+                <Grid Width="350" Margin="10">
+                    <modulos:ResumenProyecto x:Name="resumen"/>
+                </Grid>
+            </Controls:Flyout>
+            <Controls:Flyout x:Name="VerProgreso" Style="{StaticResource flyouts}" 
+                             Header="Progreso Registrado">
+                <Grid Width="350" Margin="10">
+                    <modulos:ProgresoProyecto x:Name="progreso"/>
+                </Grid>
+            </Controls:Flyout>
+        </Controls:FlyoutsControl>
+    </Controls:MetroWindow.Flyouts>
 </Controls:MetroWindow>

@@ -141,7 +141,7 @@ namespace UCR.Negotium
                     inversiones.CodProyecto = reinversiones.CodProyecto =
                     capitalTrabajo.CodProyecto = depreciaciones.CodProyecto =
                     costos.CodProyecto = proyeccionVentas.CodProyecto =
-                    financiamientoUc.CodProyecto = codProyecto;
+                    financiamientoUc.CodProyecto = analisisAmbiental.CodProyecto = codProyecto;
 
             ReloadProyecto(codProyecto);
 
@@ -325,6 +325,27 @@ namespace UCR.Negotium
                     }
                 }
             }
+        }
+
+        private void btnVerResumen_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleFlyout(0);
+        }
+
+        private void btnVerProgreso_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleFlyout(1);
+        }
+
+        private void ToggleFlyout(int index)
+        {
+            var flyout = this.Flyouts.Items[index] as Flyout;
+            if (flyout == null)
+            {
+                return;
+            }
+
+            flyout.IsOpen = !flyout.IsOpen;
         }
     }
 }

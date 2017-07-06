@@ -2,16 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
 
@@ -27,6 +20,7 @@ namespace UCR.Negotium.Dialogs
         private const string CAMPOREQUERIDOPOSITIVO = "Este campo es requerido y debe tener un valor mayor a 0";
 
         private RequerimientoInversionData requerimientoInversionData;
+        RequerimientoReinversionData reinversionData;
         private ProyectoData proyectoData = new ProyectoData();
         private UnidadMedidaData unidadMedidaData;
         private RequerimientoInversion inversion;
@@ -47,6 +41,7 @@ namespace UCR.Negotium.Dialogs
             this.codProyecto = codProyecto;
 
             requerimientoInversionData = new RequerimientoInversionData();
+            reinversionData = new RequerimientoReinversionData();
             unidadMedidaData = new UnidadMedidaData();
 
             proyecto = new Proyecto();
@@ -65,16 +60,37 @@ namespace UCR.Negotium.Dialogs
         #region Properties
         public bool Reload { get; set; }
 
-        public List<int> AnosDisponibles
+        public List<AnoDisponible> AnosDisponibles
         {
             get
             {
-                List<int> anos = new List<int>();
-                for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+                List<AnoDisponible> anos = new List<AnoDisponible>();
+
+                if (Inversion.CodRequerimientoInversion.Equals(0))
                 {
-                    int anoActual = proyecto.AnoInicial + i;
-                    anos.Add(anoActual);
-                }//for
+                    for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+                    {
+                        int anoActual = proyecto.AnoInicial + i;
+
+                        anos.Add(new AnoDisponible() { Ano = anoActual, IsChecked = false });
+                    }//for
+                }
+                else
+                {
+                    List<RequerimientoReinversion> reinversiones = new List<RequerimientoReinversion>();
+                    reinversiones = reinversionData.GetRequerimientosReinversion(codProyecto).Where(reinv => 
+                        reinv.CodRequerimientoInversion.Equals(Inversion.CodRequerimientoInversion)).ToList();
+
+                    for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+                    {
+                        int anoActual = proyecto.AnoInicial + i;
+
+                        anos.Add(new AnoDisponible() {
+                            Ano = anoActual,
+                            IsChecked = !reinversiones.Where(reinv => reinv.AnoReinversion.Equals(anoActual)).Count().Equals(0)
+                        });
+                    }//for
+                }
 
                 return anos;
             }
@@ -123,6 +139,8 @@ namespace UCR.Negotium.Dialogs
                     if(!idInversion.Equals(-1))
                     {
                         //success
+                        //insertar multiples reinversiones
+                        InsertarMultiplesReinversiones(idInversion);
                         Reload = true;
                         Close();
                     }
@@ -137,6 +155,8 @@ namespace UCR.Negotium.Dialogs
                     if (requerimientoInversionData.EditarRequerimientosInvesion(Inversion))
                     {
                         //success
+                        //insertar multiples reinversiones
+                        InsertarMultiplesReinversiones(Inversion.CodRequerimientoInversion);
                         Reload = true;
                         Close();
                     }
@@ -199,6 +219,37 @@ namespace UCR.Negotium.Dialogs
         #endregion
 
         #region PrivateMethods
+        private void InsertarMultiplesReinversiones(int codInversion)
+        {
+            List<RequerimientoReinversion> reinversiones = new List<RequerimientoReinversion>();
+            reinversiones = reinversionData.GetRequerimientosReinversion(codProyecto).Where(reinv => reinv.CodRequerimientoInversion.Equals(codInversion)).ToList();
+
+            foreach (AnoDisponible anoDisponible in dgAnosDisponibles.ItemsSource)
+            {
+                if (anoDisponible.IsChecked && reinversiones.Where(reinv => reinv.AnoReinversion.Equals(anoDisponible.Ano)).Count().Equals(0))
+                {
+                    RequerimientoReinversion reinversion = new RequerimientoReinversion()
+                    {
+                        AnoReinversion = anoDisponible.Ano,
+                        Cantidad = Inversion.Cantidad,
+                        CodRequerimientoInversion = codInversion,
+                        CostoUnitario = Inversion.CostoUnitario,
+                        Depreciable = Inversion.Depreciable,
+                        DescripcionRequerimiento = Inversion.DescripcionRequerimiento,
+                        UnidadMedida = Inversion.UnidadMedida,
+                        VidaUtil = Inversion.VidaUtil
+                    };
+                    
+                    reinversionData.InsertarRequerimientosReinversion(reinversion, codProyecto);
+                }
+                else if (!anoDisponible.IsChecked && !reinversiones.Where(reinv => reinv.AnoReinversion.Equals(anoDisponible.Ano)).Count().Equals(0))
+                {
+                    reinversiones.Where(reinv => reinv.AnoReinversion.Equals(anoDisponible.Ano)).ToList()
+                        .ForEach(reinv => reinversionData.EliminarRequerimientoReinversion(reinv.CodRequerimientoReinversion));
+                }
+            }
+        }
+
         private bool ValidateRequiredFields()
         {
             bool validationResult = false;
@@ -218,5 +269,11 @@ namespace UCR.Negotium.Dialogs
             return validationResult;
         }
         #endregion
+    }
+
+    public class AnoDisponible
+    {
+        public int Ano { get; set; }
+        public bool IsChecked { get; set; }
     }
 }

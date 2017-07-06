@@ -161,6 +161,16 @@ namespace UCR.Negotium
             FiltrarProyectos();
         }
 
+        private void menuItemExport_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void menuItemImport_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
     }
 }

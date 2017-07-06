@@ -18,9 +18,9 @@ namespace UCR.Negotium.UserControls
     /// <summary>
     /// Interaction logic for Resumen.xaml
     /// </summary>
-    public partial class Resumen : UserControl
+    public partial class ResumenProyecto : UserControl
     {
-        public Resumen()
+        public ResumenProyecto()
         {
             InitializeComponent();
         }

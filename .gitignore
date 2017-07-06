@@ -244,3 +244,4 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /UCR.Negotium.Domain/Enums
+/Prueba

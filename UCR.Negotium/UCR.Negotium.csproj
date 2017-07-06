@@ -103,6 +103,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Utils\DatatableBuilder.cs" />
+    <Compile Include="Utils\GenerarReporte.cs" />
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -176,14 +178,12 @@
     <Compile Include="UserControls\Reinversiones.xaml.cs">
       <DependentUpon>Reinversiones.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Resumen.xaml.cs">
-      <DependentUpon>Resumen.xaml</DependentUpon>
+    <Compile Include="UserControls\ResumenProyecto.xaml.cs">
+      <DependentUpon>ResumenProyecto.xaml</DependentUpon>
     </Compile>
     <Compile Include="RegistrarProyectoWindow.xaml.cs">
       <DependentUpon>RegistrarProyectoWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Utils\DatatableBuilder.cs" />
-    <Compile Include="Utils\GenerarReporte.cs" />
     <Page Include="Dialogs\AnalisisAmbiental\RegistrarFactorAmbiental.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -288,7 +288,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\Resumen.xaml">
+    <Page Include="UserControls\ResumenProyecto.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -321,7 +321,7 @@
     </EmbeddedResource>
     <Resource Include="1480055241_tools.ico" />
     <Content Include="Data\NegotiumDataBase.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config">
       <SubType>Designer</SubType>
@@ -373,6 +373,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\UCR.Negotium.Base\UCR.Negotium.Base.csproj">
+      <Project>{3DD443A4-EBEC-4AFC-9870-C8DD79CD20D7}</Project>
+      <Name>UCR.Negotium.Base</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UCR.Negotium.DataAccess\UCR.Negotium.DataAccess.csproj">
       <Project>{858f9a52-dadf-4c16-9d2c-83932906ce55}</Project>
       <Name>UCR.Negotium.DataAccess</Name>

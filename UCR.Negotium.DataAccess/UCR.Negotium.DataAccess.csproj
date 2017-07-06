@@ -67,8 +67,6 @@
     <Compile Include="DetalleProyeccionVentaData.cs" />
     <Compile Include="DistritoData.cs" />
     <Compile Include="EncargadoData.cs" />
-    <Compile Include="Enums\Enums.cs" />
-    <Compile Include="Enums\EnumsHelper.cs" />
     <Compile Include="FinanciamientoData.cs" />
     <Compile Include="InteresFinanciamientoData.cs" />
     <Compile Include="OrganizacionProponenteData.cs" />
@@ -84,6 +82,10 @@
     <Compile Include="VariacionAnualCostoData.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\UCR.Negotium.Base\UCR.Negotium.Base.csproj">
+      <Project>{3dd443a4-ebec-4afc-9870-c8dd79cd20d7}</Project>
+      <Name>UCR.Negotium.Base</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UCR.Negotium.Domain\UCR.Negotium.Domain.csproj">
       <Project>{37573984-06ba-43f0-8aac-0d8caaa97867}</Project>
       <Name>UCR.Negotium.Domain</Name>
@@ -91,6 +93,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

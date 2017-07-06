@@ -6,21 +6,21 @@
         xmlns:local="clr-namespace:UCR.Negotium"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
+        BorderThickness="2" BorderBrush="{DynamicResource AccentColorBrush}"
         WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Closing="MetroWindow_Closing"
         Title="Negotium v1.0" Height="300" Width="350">
-    <Grid Margin="10">
-        <RichTextBox Margin="30,30,30,100" IsReadOnly="True" FontSize="14" 
-                     BorderThickness="0" Background="GhostWhite">
+    <Grid Margin="20">
+        <RichTextBox Margin="20,20,20,100" IsReadOnly="True" FontSize="14" 
+                     BorderThickness="1" Background="GhostWhite">
             <FlowDocument>
                 <Paragraph>
                     <Run Text="¿Recibe usted asesoría de alguna Entidad, representante o encargado con conocimientos técnicos para ingresar toda la información respectiva a este proyecto?"/>
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
-        <Button x:Name="btnSi" Content="Si" HorizontalAlignment="Left" Margin="60,176,0,0" 
-                VerticalAlignment="Top" Width="75" Click="btnSi_Click"/>
-        <Button x:Name="btnNo" Content="No" HorizontalAlignment="Left" Margin="196,176,0,0" 
+        <Button x:Name="btnSi" Content="Si" HorizontalAlignment="Left" Margin="55,176,0,0" 
+                    VerticalAlignment="Top" Width="75" Click="btnSi_Click"/>
+        <Button x:Name="btnNo" Content="No" HorizontalAlignment="Left" Margin="175,176,0,0" 
                 VerticalAlignment="Top" Width="75" Click="btnNo_Click"/>
     </Grid>
 </Controls:MetroWindow>

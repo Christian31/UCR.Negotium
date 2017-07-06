@@ -116,14 +116,13 @@ namespace UCR.Negotium.DataAccess
 
         public bool EliminarVariacionAnualCostos(int codProyecto)
         {
-            String select = "DELETE FROM VARIACION_ANUAL_COSTO WHERE cod_proyecto=" + codProyecto + ";";
+            string select = "DELETE FROM VARIACION_ANUAL_COSTO WHERE cod_proyecto=" + codProyecto + ";";
 
             try
             {
                 if (conexion.State != ConnectionState.Open)
                     conexion.Open();
                 SQLiteCommand command = conexion.CreateCommand();
-                //command = conexion.CreateCommand();
                 command.CommandText = select;
                 command.ExecuteNonQuery();
 
