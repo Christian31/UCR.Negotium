@@ -22,34 +22,34 @@
         <TabControl Name="tcRegistrarProyecto" ItemContainerStyle="{StaticResource menuTabItem}" 
                     Style="{StaticResource menuTabControl}" SelectionChanged="tcRegistrarProyecto_SelectionChanged" Grid.ColumnSpan="2">
             <TabItem Header="Información General">
-                <modulos:InformacionGeneral x:Name="infoGeneral" Style="{StaticResource moduleStyle}"/>
+                <modulos:ctrl_InformacionGeneral x:Name="infoGeneral" Style="{StaticResource moduleStyle}"/>
             </TabItem>
             <TabItem Header="Proponente">
-                <modulos:Proponente x:Name="proponente" Style="{StaticResource moduleStyle}"/>
+                <modulos:ctrl_Proponente x:Name="proponente" Style="{StaticResource moduleStyle}"/>
             </TabItem>
             <TabItem Header="Caracterización">
-                <modulos:Caracterizacion x:Name="caracterizacion" Style="{StaticResource moduleStyle}"/>
+                <modulos:ctrl_Caracterizacion x:Name="caracterizacion" Style="{StaticResource moduleStyle}"/>
             </TabItem>
             <TabItem Header="Inversiones">
-                <modulos:Inversiones x:Name="inversiones" Style="{StaticResource moduleStyle}"/>
+                <modulos:ctrl_Inversiones x:Name="inversiones" Style="{StaticResource moduleStyle}"/>
             </TabItem>
             <TabItem Header="Reinversiones">
-                <modulos:Reinversiones x:Name="reinversiones" Style="{StaticResource moduleStyle}"/>
+                <modulos:ctrl_Reinversiones x:Name="reinversiones" Style="{StaticResource moduleStyle}"/>
             </TabItem>
             <TabItem Header="Proyección de Ventas">
-                <modulos:ProyeccionVentas x:Name="proyeccionVentas" Style="{StaticResource moduleStyle}"/>
+                <modulos:ctrl_ProyeccionVentas x:Name="proyeccionVentas" Style="{StaticResource moduleStyle}"/>
             </TabItem>
             <TabItem Header="Costos del Proyecto">
-                <modulos:Costos x:Name="costos" Style="{StaticResource moduleStyle}"/>
+                <modulos:ctrl_Costos x:Name="costos" Style="{StaticResource moduleStyle}"/>
             </TabItem>
             <TabItem Header="Capital del Proyecto">
-                <modulos:CapitalTrabajo x:Name="capitalTrabajo" Style="{StaticResource moduleStyle}"/>
+                <modulos:ctrl_CapitalTrabajo x:Name="capitalTrabajo" Style="{StaticResource moduleStyle}"/>
             </TabItem>
             <TabItem Header="Depreciaciones">
-                <modulos:Depreciaciones x:Name="depreciaciones" Style="{StaticResource moduleStyle}"/>
+                <modulos:ctrl_Depreciaciones x:Name="depreciaciones" Style="{StaticResource moduleStyle}"/>
             </TabItem>
             <TabItem Header="Financiamiento">
-                <modulos:Financiamiento x:Name="financiamientoUc" Style="{StaticResource moduleStyle}"/>
+                <modulos:ctrl_Financiamiento x:Name="financiamientoUc" Style="{StaticResource moduleStyle}"/>
             </TabItem>
             <TabItem Header="Flujo de Caja">
                 <Grid Background="AliceBlue" Margin="5">
@@ -71,9 +71,8 @@
                                 <RowDefinition Height="2*"/>
                             </Grid.RowDefinitions>
                             <DataGrid ItemsSource="{Binding DTFlujoCaja, UpdateSourceTrigger=PropertyChanged}"
-                                      SelectionUnit="FullRow" BorderThickness="1" Margin="30,15,30,15"
-                                      BorderBrush="{DynamicResource AccentColorBrush}" ColumnWidth="100"
-                                      CanUserSortColumns="False" Name="dgFlujoCaja" Loaded="dgFlujoCaja_Loaded">
+                                      Margin="30,15,30,15" Name="dgFlujoCaja" Loaded="dgFlujoCaja_Loaded"
+                                      Style="{StaticResource gridGenerated}">
                             </DataGrid>
                             <StackPanel Grid.Row="1" Style="{StaticResource horizontalPanelFormStyle}">
                                 <Label Content="Tasa de Costo de Capital: " Margin="30,0,0,37" FontSize="14" FontWeight="Bold"/>
@@ -100,7 +99,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Análisis Ambiental">
-                <modulos:AnalisisAmbiental x:Name="analisisAmbiental" Style="{StaticResource moduleStyle}"/>
+                <modulos:ctrl_AnalisisAmbiental x:Name="analisisAmbiental" Style="{StaticResource moduleStyle}"/>
             </TabItem>
         </TabControl>
         <WrapPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
@@ -125,13 +124,13 @@
             <Controls:Flyout x:Name="VerResumen" Style="{StaticResource flyouts}" 
                              Header="Resumen del Proyecto">
                 <Grid Width="350" Margin="10">
-                    <modulos:ResumenProyecto x:Name="resumen"/>
+                    <modulos:ctrl_ResumenProyecto x:Name="resumen"/>
                 </Grid>
             </Controls:Flyout>
             <Controls:Flyout x:Name="VerProgreso" Style="{StaticResource flyouts}" 
                              Header="Progreso Registrado">
                 <Grid Width="350" Margin="10">
-                    <modulos:ProgresoProyecto x:Name="progreso"/>
+                    <modulos:ctrl_ProgresoProyecto x:Name="progreso"/>
                 </Grid>
             </Controls:Flyout>
         </Controls:FlyoutsControl>

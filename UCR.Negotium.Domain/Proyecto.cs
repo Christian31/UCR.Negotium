@@ -26,8 +26,8 @@ namespace UCR.Negotium.Domain
         public Distrito Distrito { get; set; }
         public Proponente Proponente { get; set; }
         public string ObjetoInteres { get; set; }
-        public List<RequerimientoInversion> RequerimientosInversion { get; set; }
-        public List<RequerimientoReinversion> RequerimientosReinversion { get; set; }
+        public List<Inversion> RequerimientosInversion { get; set; }
+        public List<Reinversion> RequerimientosReinversion { get; set; }
         public List<ProyeccionVentaArticulo> Proyecciones { get; set; }
         public List<Costo> Costos { get; set; }
         public List<VariacionAnualCosto> VariacionCostos { get; set; }
@@ -38,6 +38,7 @@ namespace UCR.Negotium.Domain
         public int FamiliasInvolucradas { get; set; }
         public int PersonasBeneficiadas { get; set; }
         public bool ConFinanciamiento { get; set; }
+        public TipoProyecto TipoProyecto { get; set; }
 
         //atributo calculado
         private List<double> ingresosGenerados;
@@ -51,8 +52,8 @@ namespace UCR.Negotium.Domain
         {
             Archivado = false;
             ConIngresos = true;
-            this.RequerimientosInversion = new List<RequerimientoInversion>();
-            this.RequerimientosReinversion = new List<RequerimientoReinversion>();
+            this.RequerimientosInversion = new List<Inversion>();
+            this.RequerimientosReinversion = new List<Reinversion>();
             this.Encargado = new Encargado();
             this.Provincia = new Provincia();
             this.Canton = new Canton();
@@ -65,6 +66,7 @@ namespace UCR.Negotium.Domain
             this.VariacionCostos = new List<VariacionAnualCosto>();
             this.InteresesFinanciamiento = new List<InteresFinanciamiento>();
             this.Financiamiento = new Financiamiento();
+            this.TipoProyecto = new TipoProyecto();
             this.depreciaciones = new List<Depreciacion>();
             this.totalDepreciaciones = new List<double>();
             this.utilidadOperativa = new List<double>();
@@ -138,11 +140,11 @@ namespace UCR.Negotium.Domain
 
         private List<Depreciacion> calcularDepreciaciones()
         {
-            List<RequerimientoInversion> inversiones = this.RequerimientosInversion;
-            List<RequerimientoReinversion> reinversiones = this.RequerimientosReinversion;
+            List<Inversion> inversiones = this.RequerimientosInversion;
+            List<Reinversion> reinversiones = this.RequerimientosReinversion;
             List<Depreciacion> depreciaciones = new List<Depreciacion>();
 
-            foreach (RequerimientoInversion inversion in inversiones)
+            foreach (Inversion inversion in inversiones)
             {
                 if (inversion.Depreciable)
                 {
@@ -166,7 +168,7 @@ namespace UCR.Negotium.Domain
                 }
             }
 
-            foreach (RequerimientoReinversion reinversion in reinversiones)
+            foreach (Reinversion reinversion in reinversiones)
             {
                 if (reinversion.Depreciable && reinversion.VidaUtil > 0)
                 {
@@ -379,10 +381,10 @@ namespace UCR.Negotium.Domain
 
         public double calcularValorResidual()
         {
-            List<RequerimientoInversion> inversiones = this.RequerimientosInversion;
-            List<RequerimientoReinversion> reinversiones = this.RequerimientosReinversion;
+            List<Inversion> inversiones = this.RequerimientosInversion;
+            List<Reinversion> reinversiones = this.RequerimientosReinversion;
             double valorRes = 0;
-            foreach (RequerimientoInversion inversion in inversiones)
+            foreach (Inversion inversion in inversiones)
             {
                 if (inversion.Depreciable) { 
                     if (inversion.VidaUtil > this.HorizonteEvaluacionEnAnos)
@@ -393,7 +395,7 @@ namespace UCR.Negotium.Domain
                 }
             }
 
-            foreach(RequerimientoReinversion reinversion in reinversiones)
+            foreach(Reinversion reinversion in reinversiones)
             {
                 if (reinversion.Depreciable)
                 {

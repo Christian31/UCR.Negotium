@@ -26,8 +26,8 @@ namespace UCR.Negotium.DataAccess
             string insert = "INSERT INTO PROYECTO(nombre_proyecto, resumen_ejecutivo, con_ingresos, "+
                 "ano_inicial_proyecto, horizonte_evaluacion_en_anos, paga_impuesto, porcentaje_impuesto, "+
                 "direccion_exacta, cod_provincia, cod_canton, cod_distrito, cod_evaluador, con_financiamiento, "+
-                "objeto_interes, archivado)" +
-                " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); "
+                "objeto_interes, archivado, cod_tipo_proyecto)" +
+                " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); "
                 + "SELECT last_insert_rowid();";
             try
             {
@@ -50,6 +50,7 @@ namespace UCR.Negotium.DataAccess
                 command.Parameters.AddWithValue("con_financiamiento", proyecto.ConFinanciamiento);
                 command.Parameters.AddWithValue("objeto_interes", proyecto.ObjetoInteres);
                 command.Parameters.AddWithValue("archivado", proyecto.Archivado);
+                command.Parameters.AddWithValue("cod_tipo_proyecto", proyecto.TipoProyecto.CodTipo);
 
                 if (conexion.State != ConnectionState.Open)
                     conexion.Open();
@@ -75,15 +76,12 @@ namespace UCR.Negotium.DataAccess
                 using (SQLiteCommand command = new SQLiteCommand(conn))
                 {
                     command.CommandText = "UPDATE PROYECTO SET nombre_proyecto=?, resumen_ejecutivo=?, con_ingresos=?, " +
-                "ano_inicial_proyecto=?, horizonte_evaluacion_en_anos=?, paga_impuesto=?, " +
-                "porcentaje_impuesto=?, direccion_exacta=?, cod_provincia=?, cod_canton=?, cod_distrito=?, " +
-                "con_financiamiento=?, objeto_interes=? WHERE cod_proyecto=?;";
+                "paga_impuesto=?, porcentaje_impuesto=?, direccion_exacta=?, cod_provincia=?, cod_canton=?, " +
+                "cod_distrito=?, con_financiamiento=?, objeto_interes=?, cod_tipo_proyecto=? WHERE cod_proyecto=?;";
                     command.Prepare();
                     command.Parameters.AddWithValue("nombre_proyecto", proyecto.NombreProyecto);
                     command.Parameters.AddWithValue("resumen_ejecutivo", proyecto.ResumenEjecutivo);
                     command.Parameters.AddWithValue("con_ingresos", proyecto.ConIngresos?1:0);
-                    command.Parameters.AddWithValue("ano_inicial_proyecto", proyecto.AnoInicial);
-                    command.Parameters.AddWithValue("horizonte_evaluacion_en_anos", proyecto.HorizonteEvaluacionEnAnos);
                     command.Parameters.AddWithValue("paga_impuesto", proyecto.PagaImpuesto?1:0);
                     command.Parameters.AddWithValue("porcentaje_impuesto", proyecto.PorcentajeImpuesto);
                     command.Parameters.AddWithValue("direccion_exacta", proyecto.DireccionExacta);
@@ -92,6 +90,7 @@ namespace UCR.Negotium.DataAccess
                     command.Parameters.AddWithValue("cod_distrito", proyecto.Distrito.CodDistrito);
                     command.Parameters.AddWithValue("con_financiamiento", proyecto.ConFinanciamiento?1:0);
                     command.Parameters.AddWithValue("objeto_interes", proyecto.ObjetoInteres);
+                    command.Parameters.AddWithValue("cod_tipo_proyecto", proyecto.TipoProyecto.CodTipo);
                     command.Parameters.AddWithValue("cod_proyecto", proyecto.CodProyecto);
                     try
                     {
@@ -200,6 +199,7 @@ namespace UCR.Negotium.DataAccess
         public List<Proyecto> GetProyectos()
         {
             ProponenteData proponenteData = new ProponenteData();
+            TipoProyectoData tipoProyectoData = new TipoProyectoData();
             List<Proyecto> proyectos = new List<Proyecto>();
             string select = "SELECT * FROM PROYECTO";
             if (conexion.State != ConnectionState.Open)
@@ -211,11 +211,12 @@ namespace UCR.Negotium.DataAccess
             while (reader.Read())
             {
                 Proyecto proyecto = new Proyecto();
-                proyecto.CodProyecto = int.Parse(reader["cod_proyecto"].ToString()); ;
+                proyecto.CodProyecto = int.Parse(reader["cod_proyecto"].ToString());
                 proyecto.AnoInicial = int.Parse(reader["ano_inicial_proyecto"].ToString());
                 proyecto.HorizonteEvaluacionEnAnos = int.Parse(reader["horizonte_evaluacion_en_anos"].ToString());
                 proyecto.Archivado = (bool)reader["archivado"];
                 proyecto.NombreProyecto = reader["nombre_proyecto"].ToString();
+                proyecto.TipoProyecto = tipoProyectoData.GetTipoProyectos().Find(tipoProy => tipoProy.CodTipo.Equals(int.Parse(reader["cod_tipo_proyecto"].ToString())));
 
                 proyecto.Proponente = proponenteData.GetProponente(proyecto.CodProyecto);
                 
@@ -240,7 +241,7 @@ namespace UCR.Negotium.DataAccess
             {
                 proyecto.CodProyecto = codProyecto;
                 proyecto.AnoInicial = Int32.Parse(reader["ano_inicial_proyecto"].ToString());
-                proyecto.Canton.CodCanton = Int32.Parse(reader["cod_canton"].ToString());
+                proyecto.Canton.CodCanton = int.Parse(reader["cod_canton"].ToString());
                 proyecto.Provincia.CodProvincia = Int32.Parse(reader["cod_provincia"].ToString());
                 proyecto.Distrito.CodDistrito = Int32.Parse(reader["cod_distrito"].ToString());
                 proyecto.CaraterizacionDelBienServicio = reader["categorizacion_bien_servicio"].ToString();
@@ -263,6 +264,7 @@ namespace UCR.Negotium.DataAccess
                 proyecto.PersonasParticipantes = Int32.Parse(reader["personas_participantes"].ToString());
                 proyecto.ObjetoInteres = reader["objeto_interes"].ToString();
                 proyecto.Archivado = (reader["archivado"] as int?).Equals(1);
+                proyecto.TipoProyecto.CodTipo = int.Parse(reader["cod_tipo_proyecto"].ToString());
 
                 return proyecto;
             }//if

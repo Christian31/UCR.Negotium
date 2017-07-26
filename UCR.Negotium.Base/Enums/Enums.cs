@@ -64,15 +64,6 @@ namespace UCR.Negotium.Base.Enums
     #endregion
 
     #region EvaluacionImpactos
-    public enum Signo
-    {
-        [Display(Name = "Impacto Beneficioso (+1)")]
-        ImpactoBeneficioso = 1,
-
-        [Display(Name = "Impacto Perjudicial (-1)")]
-        ImpactoPerjudicial = -1
-    }
-
     public enum Intensidad
     {
         [Display(Name = "Baja (1)")]

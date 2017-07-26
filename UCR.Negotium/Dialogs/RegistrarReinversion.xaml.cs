@@ -1,6 +1,7 @@
 ﻿using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,20 +14,24 @@ namespace UCR.Negotium.Dialogs
     /// <summary>
     /// Interaction logic for RegistrarReinversionDialog.xaml
     /// </summary>
-    public partial class RegistrarReinversion : MetroWindow
+    public partial class RegistrarReinversion : MetroWindow, INotifyPropertyChanged
     {
         #region PrivateProperties
         private const string CAMPOREQUERIDO = "Este campo es requerido";
         private const string CAMPOREQUERIDOPOSITIVO = "Este campo es requerido y debe tener un valor mayor a 0";
 
-        private RequerimientoReinversionData requerimientoReinversionData;
-        private RequerimientoInversionData requerimientoInversionData;
+        private ReinversionData requerimientoReinversionData;
+        private InversionData requerimientoInversionData;
         private ProyectoData proyectoData;
         private UnidadMedidaData unidadMedidaData;
-        private RequerimientoReinversion reinversion;
+        private Reinversion reinversion;
         private List<UnidadMedida> unidadMedidas;
         private Proyecto proyecto;
-        private List<RequerimientoInversion> inversiones;
+        private List<Inversion> inversiones;
+
+        private bool vincularInversion;
+
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
         #endregion
 
         #region Constructor
@@ -39,17 +44,17 @@ namespace UCR.Negotium.Dialogs
 
             proyecto = new Proyecto();
 
-            requerimientoReinversionData = new RequerimientoReinversionData();
-            requerimientoInversionData = new RequerimientoInversionData();
+            requerimientoReinversionData = new ReinversionData();
+            requerimientoInversionData = new InversionData();
             proyectoData = new ProyectoData();
             unidadMedidaData = new UnidadMedidaData();
 
-            reinversion = new RequerimientoReinversion();
+            reinversion = new Reinversion();
             unidadMedidas = new List<UnidadMedida>();
-            inversiones = new List<RequerimientoInversion>();
+            inversiones = new List<Inversion>();
 
             proyecto = proyectoData.GetProyecto(codProyecto);
-            unidadMedidas = unidadMedidaData.GetUnidadesMedidaAux();
+            unidadMedidas = unidadMedidaData.GetUnidadesMedidas();
             inversiones.AddRange(requerimientoInversionData.GetRequerimientosInversion(codProyecto).Where(inv => inv.Depreciable.Equals(true)).ToList());
             
             reinversion.UnidadMedida = unidadMedidas.FirstOrDefault();
@@ -59,17 +64,28 @@ namespace UCR.Negotium.Dialogs
             if (codReinversion != 0)
             {
                 reinversion = requerimientoReinversionData.GetRequerimientoReinversion(codReinversion);
-                VincularInversion = !reinversion.CodRequerimientoInversion.Equals(0);
+                vincularInversion = !reinversion.CodRequerimientoInversion.Equals(0);
             }
         }
         #endregion
 
         #region Properties
-        public bool VincularInversion { get; set; }
+        public bool VincularInversion
+        {
+            get
+            {
+                return vincularInversion;
+            }
+            set
+            {
+                vincularInversion = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("VincularInversion"));
+            }
+        }
 
         public bool Reload { get; set; }
 
-        public List<RequerimientoInversion> Inversiones
+        public List<Inversion> Inversiones
         {
             get
             {
@@ -112,7 +128,7 @@ namespace UCR.Negotium.Dialogs
             }
         } 
 
-        public RequerimientoReinversion Reinversion
+        public Reinversion Reinversion
         {
             get
             {
@@ -187,49 +203,6 @@ namespace UCR.Negotium.Dialogs
             Close();
         }
 
-        private void cbDepreciable_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (cbDepreciable.IsChecked.Value.Equals(false))
-            {
-                cbNoDepreciable.IsChecked = true;
-                nudVidaUtil.IsEnabled = false;
-            }
-        }
-
-        private void cbDepreciable_Checked(object sender, RoutedEventArgs e)
-        {
-            cbNoDepreciable.IsChecked = false;
-            nudVidaUtil.IsEnabled = true;
-        }
-
-        private void cbNoDepreciable_Checked(object sender, RoutedEventArgs e)
-        {
-            cbDepreciable.IsChecked = nudVidaUtil.IsEnabled = false;
-        }
-
-        private void cbInversion_Checked(object sender, RoutedEventArgs e)
-        {
-            cbNoInversion.IsChecked = tbDescReinversion.IsEnabled = false;
-            cbxInversiones.IsEnabled = true;
-            cbxInversiones.SelectedItem = Inversiones.FirstOrDefault();
-        }
-
-        private void cbInversion_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (cbInversion.IsChecked.Value.Equals(false))
-            {
-                cbNoInversion.IsChecked = tbDescReinversion.IsEnabled = true;
-                cbxInversiones.IsEnabled = false;
-            }
-        }
-
-        private void cbNoInversion_Checked(object sender, RoutedEventArgs e)
-        {
-            cbInversion.IsChecked = cbxInversiones.IsEnabled = false;
-            tbDescReinversion.IsEnabled = true;
-            tbDescReinversion.Text = "";
-        }
-
         private void tbDescReinversion_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (tbDescReinversion.BorderBrush == Brushes.Red)
@@ -263,9 +236,25 @@ namespace UCR.Negotium.Dialogs
 
         private void cbxInversiones_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            RequerimientoInversion inversion = (RequerimientoInversion)cbxInversiones.SelectedItem;
-            tbDescReinversion.Text = inversion.DescripcionRequerimiento;
-            Reinversion.CodRequerimientoInversion = inversion.CodRequerimientoInversion;
+            if(cbxInversiones.SelectedIndex >= 0)
+            {
+                Inversion inversion = (Inversion)cbxInversiones.SelectedItem;
+                tbDescReinversion.Text = inversion.DescripcionRequerimiento;
+                Reinversion.CodRequerimientoInversion = inversion.CodRequerimientoInversion;
+            }
+        }
+
+        private void cbInversion_Checked(object sender, RoutedEventArgs e)
+        {
+            cbxInversiones.SelectedIndex = 0;
+            PropertyChanged(this, new PropertyChangedEventArgs("Reinversion"));
+        }
+
+        private void cbNoInversion_Checked(object sender, RoutedEventArgs e)
+        {
+            Reinversion.CodRequerimientoInversion = 0;
+            Reinversion.DescripcionRequerimiento = "";
+            PropertyChanged(this, new PropertyChangedEventArgs("Reinversion"));
         }
     }
 }

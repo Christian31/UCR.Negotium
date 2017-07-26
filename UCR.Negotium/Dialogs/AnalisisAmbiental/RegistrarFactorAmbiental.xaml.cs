@@ -20,7 +20,6 @@ namespace UCR.Negotium.Dialogs
         private FactorAmbiental factorAmbientalSelected;
         private List<Tuple<int, string, List<Tuple<int, string>>>> condicionesAfectadas;
         private List<Tuple<int, string>> elementosAmbientales;
-        private List<Tuple<int, string>> signos;
         private List<Tuple<int, string>> intensidades;
         private List<Tuple<int, string>> extensiones;
         private List<Tuple<int, string>> momentos;
@@ -47,14 +46,13 @@ namespace UCR.Negotium.Dialogs
             factorAmbientalSelected = new FactorAmbiental();
             condicionesAfectadas = new List<Tuple<int, string, List<Tuple<int, string>>>>();
             recuperabilidades = periodicidades = efectos = acumulaciones = sinergias = reversibilidades 
-                = persistencias = momentos = extensiones = intensidades = signos = elementosAmbientales 
+                = persistencias = momentos = extensiones = intensidades = elementosAmbientales 
                 = new List<Tuple<int, string>>();
 
 
             factorAmbientalData = new FactorAmbientalData();
 
             CondicionesAfectadas = factorAmbientalData.GetCondicionesAfectadas();
-            Signos = factorAmbientalData.GetSignos();
             Intensidades = factorAmbientalData.GetIntensidades();
             Extensiones = factorAmbientalData.GetExtensiones();
             Momentos = factorAmbientalData.GetMomentos();
@@ -75,7 +73,6 @@ namespace UCR.Negotium.Dialogs
             else
             {
                 ElementosAmbientales = CondicionesAfectadas.FirstOrDefault().Item3;
-                FactorAmbientalSelected.CodSigno = Signos.FirstOrDefault().Item1;
                 FactorAmbientalSelected.CodIntensidad = Intensidades.FirstOrDefault().Item1;
                 FactorAmbientalSelected.CodExtension = Extensiones.FirstOrDefault().Item1;
                 FactorAmbientalSelected.CodMomento = Momentos.FirstOrDefault().Item1;
@@ -218,19 +215,6 @@ namespace UCR.Negotium.Dialogs
             {
                 intensidades = value;
                 PropertyChanged(this, new PropertyChangedEventArgs("Intensidades"));
-            }
-        }
-
-        public List<Tuple<int, string>> Signos
-        {
-            get
-            {
-                return signos;
-            }
-            set
-            {
-                signos = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("Signos"));
             }
         }
 

@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Collections.Generic;
-using UCR.Negotium.Utils;
+using UCR.Negotium.Extensions;
 using System;
 using Microsoft.VisualBasic;
 using UCR.Negotium.Dialogs;
@@ -48,6 +48,7 @@ namespace UCR.Negotium
             if (!codProyecto.Equals(0))
             {
                 ProyectoSelected = proyectoData.GetProyecto(codProyecto);
+                ProyectoSelected.Proponente = new ProponenteData().GetProponente(codProyecto);
                 ReloadUserControls(proyecto.CodProyecto);
             }
 
@@ -212,15 +213,15 @@ namespace UCR.Negotium
             {
                 int indice = tcRegistrarProyecto.SelectedIndex;
 
-                if (!indice.Equals(11))
+                if (proyecto.CodProyecto.Equals(0) && !indice.Equals(0))
                 {
-                    if (proyecto.CodProyecto.Equals(0) && !indice.Equals(0))
-                    {
-                        MessageBox.Show("Por favor ingrese todos los datos de Información General y guardelos para poder avanzar a la siguiente pestaña",
-                        "Datos vacios", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        tcRegistrarProyecto.SelectedIndex = 0;
-                    }
-                    else if (indice > 1 && proyecto.Proponente.IdProponente.Equals(0))
+                    MessageBox.Show("Por favor ingrese los datos de Información General y guardelos para poder avanzar a la siguiente pestaña",
+                    "Datos vacios", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    tcRegistrarProyecto.SelectedIndex = 0;
+                }
+                else if (indice != 11)
+                {
+                    if (indice > 1 && proyecto.Proponente.IdProponente.Equals(0))
                     {
                         MessageBox.Show("Por favor ingrese todos los datos del Proponente y guardelos para poder avanzar a la siguiente pestaña",
                         "Datos vacios", MessageBoxButton.OK, MessageBoxImage.Warning);

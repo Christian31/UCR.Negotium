@@ -19,11 +19,11 @@ namespace UCR.Negotium.Dialogs
         private const string CAMPOREQUERIDO = "Este campo es requerido";
         private const string CAMPOREQUERIDOPOSITIVO = "Este campo es requerido y debe tener un valor mayor a 0";
 
-        private RequerimientoInversionData requerimientoInversionData;
-        RequerimientoReinversionData reinversionData;
+        private InversionData requerimientoInversionData;
+        ReinversionData reinversionData;
         private ProyectoData proyectoData = new ProyectoData();
         private UnidadMedidaData unidadMedidaData;
-        private RequerimientoInversion inversion;
+        private Inversion inversion;
         private List<UnidadMedida> unidadMedidas;
         private int codProyecto;
         private Proyecto proyecto;
@@ -40,14 +40,14 @@ namespace UCR.Negotium.Dialogs
 
             this.codProyecto = codProyecto;
 
-            requerimientoInversionData = new RequerimientoInversionData();
-            reinversionData = new RequerimientoReinversionData();
+            requerimientoInversionData = new InversionData();
+            reinversionData = new ReinversionData();
             unidadMedidaData = new UnidadMedidaData();
 
             proyecto = new Proyecto();
-            inversion = new RequerimientoInversion();
+            inversion = new Inversion();
             unidadMedidas = new List<UnidadMedida>();
-            unidadMedidas = unidadMedidaData.GetUnidadesMedidaAux();
+            unidadMedidas = unidadMedidaData.GetUnidadesMedidas();
             inversion.UnidadMedida = unidadMedidas.FirstOrDefault();
 
             if (codInversion != 0)
@@ -77,7 +77,7 @@ namespace UCR.Negotium.Dialogs
                 }
                 else
                 {
-                    List<RequerimientoReinversion> reinversiones = new List<RequerimientoReinversion>();
+                    List<Reinversion> reinversiones = new List<Reinversion>();
                     reinversiones = reinversionData.GetRequerimientosReinversion(codProyecto).Where(reinv => 
                         reinv.CodRequerimientoInversion.Equals(Inversion.CodRequerimientoInversion)).ToList();
 
@@ -112,7 +112,7 @@ namespace UCR.Negotium.Dialogs
             }
         }
 
-        public RequerimientoInversion Inversion
+        public Inversion Inversion
         {
             get
             {
@@ -196,39 +196,19 @@ namespace UCR.Negotium.Dialogs
         {
             Close();
         }
-
-        private void cbDepreciable_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (cbDepreciable.IsChecked.Value.Equals(false))
-            {
-                cbNoDepreciable.IsChecked = true;
-                nudVidaUtil.IsEnabled = false;
-            }
-        }
-
-        private void cbDepreciable_Checked(object sender, RoutedEventArgs e)
-        {
-            cbNoDepreciable.IsChecked = false;
-            nudVidaUtil.IsEnabled = true;
-        }
-
-        private void cbNoDepreciable_Checked(object sender, RoutedEventArgs e)
-        {
-            cbDepreciable.IsChecked = nudVidaUtil.IsEnabled = false;
-        }
         #endregion
 
         #region PrivateMethods
         private void InsertarMultiplesReinversiones(int codInversion)
         {
-            List<RequerimientoReinversion> reinversiones = new List<RequerimientoReinversion>();
+            List<Reinversion> reinversiones = new List<Reinversion>();
             reinversiones = reinversionData.GetRequerimientosReinversion(codProyecto).Where(reinv => reinv.CodRequerimientoInversion.Equals(codInversion)).ToList();
 
             foreach (AnoDisponible anoDisponible in dgAnosDisponibles.ItemsSource)
             {
                 if (anoDisponible.IsChecked && reinversiones.Where(reinv => reinv.AnoReinversion.Equals(anoDisponible.Ano)).Count().Equals(0))
                 {
-                    RequerimientoReinversion reinversion = new RequerimientoReinversion()
+                    Reinversion reinversion = new Reinversion()
                     {
                         AnoReinversion = anoDisponible.Ano,
                         Cantidad = Inversion.Cantidad,

@@ -1,5 +1,4 @@
-﻿//@Copyright Yordan Campos Piedra
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
@@ -21,21 +20,7 @@ namespace UCR.Negotium.DataAccess
             conexion = new SQLiteConnection(cadenaConexion);
         }
 
-        public DataTable GetTiposDeOrganizacion()
-        {
-            string select = "SELECT * FROM TIPO_ORGANIZACION";
-            if (conexion.State != ConnectionState.Open)
-                conexion.Open();
-            SQLiteDataAdapter daTipoOrganizacion = new SQLiteDataAdapter();
-            daTipoOrganizacion.SelectCommand = new SQLiteCommand(select, conexion);
-            DataSet dsTipoOrganizacion = new DataSet();
-            daTipoOrganizacion.Fill(dsTipoOrganizacion, "TipoOrganizacion");
-            DataTable dtTipoOrganizacion = dsTipoOrganizacion.Tables["TipoOrganizacion"];
-            conexion.Close();
-            return dtTipoOrganizacion;
-        }
-
-        public List<TipoOrganizacion> GetTiposDeOrganizacionAux()
+        public List<TipoOrganizacion> GetTipoOrganizaciones()
         {
             List<TipoOrganizacion> tipoOrganizaciones = new List<TipoOrganizacion>();
             string select = "SELECT * FROM TIPO_ORGANIZACION";

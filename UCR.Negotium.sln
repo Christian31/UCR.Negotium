@@ -22,8 +22,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UCR.Librerias", "UCR.Librer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UCR.Negotium.Base", "UCR.Negotium.Base\UCR.Negotium.Base.csproj", "{3DD443A4-EBEC-4AFC-9870-C8DD79CD20D7}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Prueba", "Prueba\Prueba.vdproj", "{8EA606A0-3BEA-444B-8C36-448D11CE7952}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,8 +47,6 @@ Global
 		{3DD443A4-EBEC-4AFC-9870-C8DD79CD20D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DD443A4-EBEC-4AFC-9870-C8DD79CD20D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DD443A4-EBEC-4AFC-9870-C8DD79CD20D7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8EA606A0-3BEA-444B-8C36-448D11CE7952}.Debug|Any CPU.ActiveCfg = Debug
-		{8EA606A0-3BEA-444B-8C36-448D11CE7952}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

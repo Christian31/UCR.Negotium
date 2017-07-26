@@ -9,7 +9,7 @@ namespace UCR.Negotium.Domain
 
         private List<DetalleProyeccionVenta> detallesProyeccionVenta;
         private UnidadMedida unidadMedida;
-        private List<CrecimientoOfertaObjetoInteres> crecimientoOferta;
+        private List<CrecimientoOfertaArticulo> crecimientoOferta;
 
         public ProyeccionVentaArticulo()
         {
@@ -22,10 +22,10 @@ namespace UCR.Negotium.Domain
                 new DetalleProyeccionVenta { Mes= "Octubre"}, new DetalleProyeccionVenta { Mes= "Noviembre"},
                 new DetalleProyeccionVenta { Mes= "Diciembre"}};
 
-            crecimientoOferta = new List<CrecimientoOfertaObjetoInteres>();
+            crecimientoOferta = new List<CrecimientoOfertaArticulo>();
         }
 
-        public List<CrecimientoOfertaObjetoInteres> CrecimientoOferta
+        public List<CrecimientoOfertaArticulo> CrecimientoOferta
         {
             get
             {

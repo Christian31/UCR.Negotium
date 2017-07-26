@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="UCR.Negotium.UserControls.ctrl_ResumenProyecto"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UCR.Negotium.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="300">
+    <Grid Background="White">
+        <GroupBox Header="Información Básica">
+            <StackPanel Margin="10">
+                <StackPanel Style="{StaticResource verticalPanelFormStyle}">
+                    <Label Content="- Nombre del Proyecto:" Foreground="Black"/>
+                    <Label Content="{Binding ProyectoSelected.Nombre}" FontWeight="SemiBold" Foreground="Black"/>
+                </StackPanel>
+                <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
+                    <Label Content="- Horizonte de Evaluación:" Foreground="Black"/>
+                    <Label Content="{Binding ProyectoSelected.HorizonteEvaluacionEnAnos}" FontWeight="SemiBold" Foreground="Black"/>
+                </StackPanel>
+                <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
+                    <Label Content="- Año Inicial del Proyecto:" Foreground="Black"/>
+                    <Label Content="{Binding ProyectoSelected.AnoInicial}" FontWeight="SemiBold" Foreground="Black"/>
+                </StackPanel>
+                <StackPanel Style="{StaticResource verticalPanelFormStyle}">
+                    <Label Content="- Bien o Servicio del Proyecto:" Foreground="Black"/>
+                    <Label Content="{Binding ProyectoSelected.ObjetoInteres}" FontWeight="SemiBold" Foreground="Black"/>
+                </StackPanel>
+                <StackPanel Style="{StaticResource verticalPanelFormStyle}">
+                    <Label Content="- Proponente:" Foreground="Black"/>
+                    <Label Content="{Binding ProyectoSelected.Proponente}" FontWeight="SemiBold" Foreground="Black"/>
+                </StackPanel>
+                <StackPanel Style="{StaticResource verticalPanelFormStyle}">
+                    <Label Content="- Organización:" Foreground="Black"/>
+                    <Label Content="{Binding ProyectoSelected.Proponente.Organizacion.NombreOrganizacion}" FontWeight="SemiBold" Foreground="Black"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</UserControl>

@@ -21,21 +21,7 @@ namespace UCR.Negotium.DataAccess
             conexion = new SQLiteConnection(cadenaConexion);
         }
 
-        public DataTable GetUnidadesMedida()
-        {
-            String select = "SELECT * FROM UNIDAD_MEDIDA";
-            if (conexion.State != ConnectionState.Open)
-                conexion.Open();
-            SQLiteDataAdapter daUnidadMedida = new SQLiteDataAdapter();
-            daUnidadMedida.SelectCommand = new SQLiteCommand(select, conexion);
-            DataSet dsUndadMedida = new DataSet();
-            daUnidadMedida.Fill(dsUndadMedida, "UnidadMedida");
-            DataTable dtUnidadMedida = dsUndadMedida.Tables["UnidadMedida"];
-            conexion.Close();
-            return dtUnidadMedida;
-        }
-
-        public List<UnidadMedida> GetUnidadesMedidaAux()
+        public List<UnidadMedida> GetUnidadesMedidas()
         {
             List<UnidadMedida> unidadesMedida = new List<UnidadMedida>();
             string select = "SELECT * FROM UNIDAD_MEDIDA";

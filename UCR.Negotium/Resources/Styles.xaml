@@ -158,8 +158,17 @@
         <Setter Property="CanUserAddRows" Value="False"/>
         <Setter Property="CanUserDeleteRows" Value="False"/>
         <Setter Property="IsReadOnly" Value="True"/>
+        <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}"/>
+    </Style>
+
+    <Style x:Key="mainGrid" TargetType="DataGrid" BasedOn="{StaticResource gridReadOnly}">
         <Setter Property="AutoGenerateColumns" Value="False"/>
         <Setter Property="Margin" Value="30,5,30,15"/>
-        <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}"/>
+    </Style>
+    
+    <Style x:Key="gridGenerated" TargetType="DataGrid" BasedOn="{StaticResource gridReadOnly}">
+        <Setter Property="CanUserSortColumns" Value="False"/>
+        <Setter Property="ColumnWidth" Value="100"/>
+        <Setter Property="Margin" Value="0,25,0,0"/>
     </Style>
 </ResourceDictionary>

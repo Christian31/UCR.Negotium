@@ -103,8 +103,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Utils\DatatableBuilder.cs" />
-    <Compile Include="Utils\GenerarReporte.cs" />
+    <Compile Include="Extensions\DatatableBuilder.cs" />
+    <Compile Include="Extensions\GenerarReporte.cs" />
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -136,50 +136,51 @@
     <Compile Include="Dialogs\RegistrarTasaInteresFijo.xaml.cs">
       <DependentUpon>RegistrarTasaInteresFijo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\RegistrarTasaInteresFinanciamiento.xaml.cs">
-      <DependentUpon>RegistrarTasaInteresFinanciamiento.xaml</DependentUpon>
+    <Compile Include="Dialogs\RegistrarTasaInteresVariable.xaml.cs">
+      <DependentUpon>RegistrarTasaInteresVariable.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\RegistrarVariacionAnualCostos.xaml.cs">
       <DependentUpon>RegistrarVariacionAnualCostos.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\AnalisisAmbiental\AnalisisAmbiental.xaml.cs">
-      <DependentUpon>AnalisisAmbiental.xaml</DependentUpon>
+    <Compile Include="Extensions\InverseBoolConverter.cs" />
+    <Compile Include="UserControls\AnalisisAmbiental\ctrl_AnalisisAmbiental.xaml.cs">
+      <DependentUpon>ctrl_AnalisisAmbiental.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\ProgresoProyecto.xaml.cs">
-      <DependentUpon>ProgresoProyecto.xaml</DependentUpon>
+    <Compile Include="UserControls\ctrl_ProgresoProyecto.xaml.cs">
+      <DependentUpon>ctrl_ProgresoProyecto.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\CapitalTrabajo.xaml.cs">
-      <DependentUpon>CapitalTrabajo.xaml</DependentUpon>
+    <Compile Include="UserControls\ctrl_CapitalTrabajo.xaml.cs">
+      <DependentUpon>ctrl_CapitalTrabajo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Caracterizacion.xaml.cs">
-      <DependentUpon>Caracterizacion.xaml</DependentUpon>
+    <Compile Include="UserControls\ctrl_Caracterizacion.xaml.cs">
+      <DependentUpon>ctrl_Caracterizacion.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Costos.xaml.cs">
-      <DependentUpon>Costos.xaml</DependentUpon>
+    <Compile Include="UserControls\ctrl_Costos.xaml.cs">
+      <DependentUpon>ctrl_Costos.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Depreciaciones.xaml.cs">
-      <DependentUpon>Depreciaciones.xaml</DependentUpon>
+    <Compile Include="UserControls\ctrl_Depreciaciones.xaml.cs">
+      <DependentUpon>ctrl_Depreciaciones.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Financiamiento.xaml.cs">
-      <DependentUpon>Financiamiento.xaml</DependentUpon>
+    <Compile Include="UserControls\ctrl_Financiamiento.xaml.cs">
+      <DependentUpon>ctrl_Financiamiento.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\InformacionGeneral.xaml.cs">
-      <DependentUpon>InformacionGeneral.xaml</DependentUpon>
+    <Compile Include="UserControls\ctrl_InformacionGeneral.xaml.cs">
+      <DependentUpon>ctrl_InformacionGeneral.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Inversiones.xaml.cs">
-      <DependentUpon>Inversiones.xaml</DependentUpon>
+    <Compile Include="UserControls\ctrl_Inversiones.xaml.cs">
+      <DependentUpon>ctrl_Inversiones.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Proponente.xaml.cs">
-      <DependentUpon>Proponente.xaml</DependentUpon>
+    <Compile Include="UserControls\ctrl_Proponente.xaml.cs">
+      <DependentUpon>ctrl_Proponente.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\ProyeccionVentas.xaml.cs">
-      <DependentUpon>ProyeccionVentas.xaml</DependentUpon>
+    <Compile Include="UserControls\ctrl_ProyeccionVentas.xaml.cs">
+      <DependentUpon>ctrl_ProyeccionVentas.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Reinversiones.xaml.cs">
-      <DependentUpon>Reinversiones.xaml</DependentUpon>
+    <Compile Include="UserControls\ctrl_Reinversiones.xaml.cs">
+      <DependentUpon>ctrl_Reinversiones.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\ResumenProyecto.xaml.cs">
-      <DependentUpon>ResumenProyecto.xaml</DependentUpon>
+    <Compile Include="UserControls\ctrl_ResumenProyecto.xaml.cs">
+      <DependentUpon>ctrl_ResumenProyecto.xaml</DependentUpon>
     </Compile>
     <Compile Include="RegistrarProyectoWindow.xaml.cs">
       <DependentUpon>RegistrarProyectoWindow.xaml</DependentUpon>
@@ -220,7 +221,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\RegistrarTasaInteresFinanciamiento.xaml">
+    <Page Include="Dialogs\RegistrarTasaInteresVariable.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -240,55 +241,55 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="UserControls\AnalisisAmbiental\AnalisisAmbiental.xaml">
+    <Page Include="UserControls\AnalisisAmbiental\ctrl_AnalisisAmbiental.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\ProgresoProyecto.xaml">
+    <Page Include="UserControls\ctrl_ProgresoProyecto.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\CapitalTrabajo.xaml">
+    <Page Include="UserControls\ctrl_CapitalTrabajo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\Caracterizacion.xaml">
+    <Page Include="UserControls\ctrl_Caracterizacion.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\Costos.xaml">
+    <Page Include="UserControls\ctrl_Costos.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\Depreciaciones.xaml">
+    <Page Include="UserControls\ctrl_Depreciaciones.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\Financiamiento.xaml">
+    <Page Include="UserControls\ctrl_Financiamiento.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\InformacionGeneral.xaml">
+    <Page Include="UserControls\ctrl_InformacionGeneral.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\Inversiones.xaml">
+    <Page Include="UserControls\ctrl_Inversiones.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\Proponente.xaml">
+    <Page Include="UserControls\ctrl_Proponente.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\ProyeccionVentas.xaml">
+    <Page Include="UserControls\ctrl_ProyeccionVentas.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\Reinversiones.xaml">
+    <Page Include="UserControls\ctrl_Reinversiones.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\ResumenProyecto.xaml">
+    <Page Include="UserControls\ctrl_ResumenProyecto.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -321,7 +322,7 @@
     </EmbeddedResource>
     <Resource Include="1480055241_tools.ico" />
     <Content Include="Data\NegotiumDataBase.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config">
       <SubType>Designer</SubType>

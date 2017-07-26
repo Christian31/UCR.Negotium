@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="UCR.Negotium.UserControls.ctrl_AnalisisAmbiental"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UCR.Negotium.UserControls"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             mc:Ignorable="d" 
+             d:DesignHeight="440" d:DesignWidth="1200">
+    <Grid Background="AliceBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="90*"/>
+        </Grid.RowDefinitions>
+        <Border Style="{StaticResource borderStyle}" Background="LightBlue">
+            <TextBlock Text="Factores de Análisis de Impacto Ambiental" Style="{StaticResource textTitleStyle}"/>
+        </Border>
+        <Border Grid.Row="1" Style="{StaticResource borderStyle}">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="9*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="7*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.ColumnSpan="2" Style="{StaticResource tableTitleStyle}"
+                    Content="Registro de Factores Ambientales"/>
+                    <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding FactorAmbientalList, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                          SelectedItem="{Binding FactorAmbientalSelected, UpdateSourceTrigger=PropertyChanged}"
+                          Style="{StaticResource mainGrid}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Path=NombreFactor}" Header="Factor" Width="2.5*"/>
+                            <DataGridTextColumn Binding="{Binding Path=NombreCondicionAfectada}" Header="Condición Afectada" Width="2*"/>
+                            <DataGridTextColumn Binding="{Binding Path=NombreElementoAmbiental}" Header="Elemento Ambiental" Width="2*"/>
+                            <DataGridTextColumn Binding="{Binding Path=NombreSigno}" Header="Impacto" Width="2*"/>
+                            <DataGridTextColumn Binding="{Binding Path=NombreClasificacion}" Header="Clasificación" Width="2.5*">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="Foreground" Value="White"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=NombreClasificacion}" 
+                                         Value="Irrelevante">
+                                                <Setter Property="Background" Value="LightGreen"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Path=NombreClasificacion}" 
+                                         Value="Moderado">
+                                                <Setter Property="Background" Value="#FFF770"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Path=NombreClasificacion}" 
+                                         Value="Severo">
+                                                <Setter Property="Background" Value="#FFA936"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Path=NombreClasificacion}" 
+                                         Value="Crítico">
+                                                <Setter Property="Background" Value="LightSalmon"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid Grid.Row="3">
+                        <Button Width="40" Margin="30,0" Height="40" Name="btnCrearFactorAmbiental"
+                            Style="{StaticResource circleButton}" ToolTip="Agregar un Nuevo Factor Ambiental"
+                            Click="btnCrearFactorAmbiental_Click">
+                            <iconPacks:PackIconModern Width="16" Height="16" Kind="Add" Foreground="Teal"/>
+                        </Button>
+                        <Button Width="40" Margin="70,0" Height="40" Name="btnEditarFactorAmbiental"
+                            Style="{StaticResource circleButton}" ToolTip="Editar el Factor Ambiental Seleccionado"
+                            Click="btnEditarFactorAmbiental_Click">
+                            <iconPacks:PackIconModern Width="16" Height="16" Kind="Edit" Foreground="Teal"/>
+                        </Button>
+                        <Button Width="40" Margin="110,0" Height="40" Name="btnEliminarFactorAmbiental"
+                            Style="{StaticResource circleButton}" ToolTip="Eliminar el Factor Ambiental Seleccionado"
+                            Click="btnEliminarFactorAmbiental_Click">
+                            <iconPacks:PackIconModern Width="16" Height="16" Kind="Delete" Foreground="Teal"/>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

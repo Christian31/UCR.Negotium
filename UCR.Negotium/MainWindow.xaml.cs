@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Dialogs;
 using UCR.Negotium.Domain;
-using UCR.Negotium.Utils;
+using UCR.Negotium.Extensions;
 
 namespace UCR.Negotium
 {
@@ -19,6 +19,8 @@ namespace UCR.Negotium
         private List<Proyecto> proyectos, proyectosFiltrados;
         private Proyecto proyectoSelected;
         private ProyectoData proyectoData;
+        private TipoProyectoData tipoProyectoData;
+        private List<TipoProyecto> tipoProyectos;
 
         public MainWindow()
         {
@@ -26,9 +28,13 @@ namespace UCR.Negotium
             (this.Content as FrameworkElement).DataContext = this;
 
             proyectoData = new ProyectoData();
+            tipoProyectoData = new TipoProyectoData();
             proyectos = proyectosFiltrados = new List<Proyecto>();
             proyectoSelected = new Proyecto();
-            cbFiltro.SelectedValue = Estados.First();
+            tipoProyectos = new List<TipoProyecto>();
+
+            tipoProyectos.Add(new TipoProyecto() { Nombre = "Todos" });
+            tipoProyectos.AddRange(tipoProyectoData.GetTipoProyectos());
 
             Reload();
         }
@@ -37,6 +43,9 @@ namespace UCR.Negotium
         {
             Proyectos = proyectos = proyectoData.GetProyectos().OrderByDescending(proy => proy.CodProyecto).ToList();
             ProyectoSelected = Proyectos.FirstOrDefault();
+
+            cbTipoProyecto.SelectedValue = 0;
+            cbEstado.SelectedValue = Estados.First();
         }
 
         private void tbBusqueda_TextChanged(object sender, TextChangedEventArgs e)
@@ -48,15 +57,15 @@ namespace UCR.Negotium
         {
             List<Proyecto> newFilter = new List<Proyecto>();
 
-            if (cbFiltro.SelectedValue.Equals("Activos"))
-                newFilter = proyectos.Where(proy => proy.Archivado.Equals(false)).ToList();
-
-            else if (cbFiltro.SelectedValue.Equals("Archivados"))
-                newFilter = proyectos.Where(proy => proy.Archivado.Equals(true)).ToList();
-            else
-                newFilter = proyectos;
+            newFilter = cbEstado.SelectedValue.Equals("Todos") ? proyectos :
+                proyectos.Where(proy => proy.Archivado.Equals(cbEstado.SelectedValue.Equals("Archivados"))).ToList();
 
             string textoBusqueda = tbBusqueda.Text.ToLower();
+
+            if (!cbTipoProyecto.SelectedValue.Equals(0))
+            {
+                newFilter = newFilter.Where(proy => proy.TipoProyecto.CodTipo.Equals(cbTipoProyecto.SelectedValue)).ToList();
+            }
 
             if (!string.IsNullOrWhiteSpace(textoBusqueda))
                 Proyectos = newFilter.Where(proy => proy.NombreProyecto.ToLower().Contains(textoBusqueda)
@@ -95,6 +104,12 @@ namespace UCR.Negotium
             }
         }
 
+        public List<TipoProyecto> TiposProyectos
+        {
+            get { return tipoProyectos; }
+            set { tipoProyectos = value; }
+        }
+
         public List<string> Estados
         {
             get { return new List<string>() { "Todos", "Activos", "Archivados" }; }
@@ -113,7 +128,7 @@ namespace UCR.Negotium
             {
                 if (ProyectoSelected.Archivado)
                 {
-                    MessageBox.Show("Este proyecto no puede ser abierto, verifique que el proyecto sea Activo", "Advertencia",
+                    MessageBox.Show("Este proyecto no puede ser abierto, verifique que el proyecto esté Activo", "Advertencia",
                         MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
                 else
@@ -142,7 +157,10 @@ namespace UCR.Negotium
                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
                     if(proyectoData.ArchivarProyecto(ProyectoSelected.CodProyecto, true))
+                    {
                         Reload();
+                        FiltrarProyectos();
+                    } 
                 }
             }
         }
@@ -152,11 +170,19 @@ namespace UCR.Negotium
             if (ProyectoSelected != null && ProyectoSelected.Archivado)
             {
                 if (proyectoData.ArchivarProyecto(ProyectoSelected.CodProyecto, false))
+                {
                     Reload();
+                    FiltrarProyectos();
+                }
             }
         }
 
-        private void cbFiltro_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void cbEstado_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            FiltrarProyectos();
+        }
+
+        private void cbTipoProyecto_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             FiltrarProyectos();
         }

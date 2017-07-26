@@ -1,5 +1,4 @@
-﻿//@Copyright Yordan Campos Piedra
-using System;
+﻿using System;
 using System.Data;
 using System.Data.SQLite;
 using UCR.Negotium.Domain;
@@ -114,8 +113,8 @@ namespace UCR.Negotium.DataAccess
         {
             string query = "UPDATE PROPONENTE SET nombre=?, apellidos=?, " +
                 "telefono=?, email=?, puesto_en_organizacion=?, " +
-                "genero=?, representante_individual=? " +
-                "WHERE num_identificacion='" + proponente.NumIdentificacion + "';";
+                "genero=?, representante_individual=?, num_identificacion=? " +
+                "WHERE cod_proponente=?;";
 
             try
             {
@@ -130,6 +129,9 @@ namespace UCR.Negotium.DataAccess
                 command.Parameters.AddWithValue("genero", proponente.Genero?'m':'f');
                 command.Parameters.AddWithValue("puesto_en_organizacion", proponente.PuestoEnOrganizacion);
                 command.Parameters.AddWithValue("representante_individual", proponente.EsRepresentanteIndividual);
+                command.Parameters.AddWithValue("num_identificacion", proponente.NumIdentificacion);
+                command.Parameters.AddWithValue("cod_proponente", proponente.IdProponente);
+
                 // Ejecutamos la sentencia INSERT y cerramos la conexión
                 if (command.ExecuteNonQuery() != -1)
                 {

@@ -41,7 +41,7 @@ namespace UCR.Negotium.Dialogs
             costoData = new CostoData();
             unidadMedidaData = new UnidadMedidaData();
 
-            unidadMedidas = unidadMedidaData.GetUnidadesMedidaAux();
+            unidadMedidas = unidadMedidaData.GetUnidadesMedidas();
             proyecto = proyectoData.GetProyecto(idProyecto);
 
             //default values

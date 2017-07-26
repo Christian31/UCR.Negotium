@@ -1,7 +1,6 @@
 ﻿<Controls:MetroWindow x:Class="UCR.Negotium.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:switch="clr-namespace:UCR.Negotium.Utils"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UCR.Negotium"
@@ -49,24 +48,21 @@
                 <RowDefinition Height="50*"/>
                 <RowDefinition Height="25*"/>
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="100,47,20,5">
-                <Label Content="Filtrar por: "/>
+            <StackPanel Grid.ColumnSpan="3" Orientation="Horizontal" Margin="0,47,30,5" HorizontalAlignment="Right">
+                <Label Content="Tipo Análisis: "/>
+                <ComboBox ItemsSource="{Binding TiposProyectos}" Width="120" Margin="0,0,15,0" 
+                          Name="cbTipoProyecto" SelectionChanged="cbTipoProyecto_SelectionChanged"
+                          SelectedValuePath="CodTipo"/>
+                <Label Content="Estado: "/>
                 <ComboBox ItemsSource="{Binding Estados}" Width="120" Margin="0,0,15,0" 
-                          Name="cbFiltro" SelectionChanged="cbFiltro_SelectionChanged"/>
+                          Name="cbEstado" SelectionChanged="cbEstado_SelectionChanged"/>
                 <Label Target="{Binding ElementName=tbName}" Content="Buscar: "/>
                 <TextBox Controls:TextBoxHelper.Watermark="Búsqueda" Name="tbBusqueda" TextChanged="tbBusqueda_TextChanged" Width="250" />
             </StackPanel>
             <DataGrid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
                 ItemsSource="{Binding Proyectos, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
                 SelectedItem="{Binding ProyectoSelected, UpdateSourceTrigger=PropertyChanged}"
-                SelectionUnit="FullRow" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}"
-                AllowDrop="False" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" 
-                AutoGenerateColumns="False" Margin="30,32,30,8">
-                <DataGrid.Style>
-                    <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
-                        <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
-                    </Style>
-                </DataGrid.Style>
+                Style="{StaticResource mainGrid}" Margin="30,32,30,8">
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Editar" Click="btnEditar_Click">
@@ -96,6 +92,7 @@
                     <DataGridTextColumn Binding="{Binding Path=Proponente}" Header="Proponente" Width="2*"/>
                     <DataGridTextColumn Binding="{Binding Path=Proponente.Organizacion.NombreOrganizacion}" Header="Organización" Width="3*"/>
                     <DataGridTextColumn Binding="{Binding Path=AnoInicial}" Header="Año Inicial" Width="2*"/>
+                    <DataGridTextColumn Binding="{Binding Path=TipoProyecto}" Header="Tipo Análisis" Width="2*"/>
                     <DataGridTemplateColumn Header="Estado" Width="2*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

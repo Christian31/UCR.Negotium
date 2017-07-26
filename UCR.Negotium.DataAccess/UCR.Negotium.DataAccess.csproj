@@ -63,7 +63,7 @@
     <Compile Include="CantonData.cs" />
     <Compile Include="CostoData.cs" />
     <Compile Include="CostoMensualData.cs" />
-    <Compile Include="CrecimientoOfertaObjetoInteresData.cs" />
+    <Compile Include="CrecimientoOfertaArticuloData.cs" />
     <Compile Include="DetalleProyeccionVentaData.cs" />
     <Compile Include="DistritoData.cs" />
     <Compile Include="EncargadoData.cs" />
@@ -75,9 +75,10 @@
     <Compile Include="ProvinciaData.cs" />
     <Compile Include="ProyeccionVentaArticuloData.cs" />
     <Compile Include="ProyectoData.cs" />
-    <Compile Include="RequerimientoReinversionData.cs" />
-    <Compile Include="RequerimientoInversionData.cs" />
+    <Compile Include="ReinversionData.cs" />
+    <Compile Include="InversionData.cs" />
     <Compile Include="TipoOrganizacionData.cs" />
+    <Compile Include="TipoProyectoData.cs" />
     <Compile Include="UnidadMedidaData.cs" />
     <Compile Include="VariacionAnualCostoData.cs" />
   </ItemGroup>
@@ -93,9 +94,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

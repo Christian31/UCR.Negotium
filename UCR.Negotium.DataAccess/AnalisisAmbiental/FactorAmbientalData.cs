@@ -57,11 +57,6 @@ namespace UCR.Negotium.DataAccess.AnalisisAmbiental
             return EnumsHelper<Clasificacion>.ToTupleList();
         }
 
-        public List<Tuple<int, string>> GetSignos()
-        {
-            return EnumsHelper<Signo>.ToTupleList();
-        }
-
         public List<Tuple<int, string>> GetIntensidades()
         {
             return EnumsHelper<Intensidad>.ToTupleList();
@@ -135,7 +130,7 @@ namespace UCR.Negotium.DataAccess.AnalisisAmbiental
                                 factor.CodCondicionAfectada = reader.GetInt16(2);
                                 factor.CodElementoAmbiental = reader.GetInt16(3);
                                 factor.CodClasificacion = reader.GetInt16(4);
-                                factor.CodSigno = reader.GetInt16(5);
+                                factor.Signo = reader.GetBoolean(5);
 
                                 factores.Add(factor);
                             }
@@ -171,7 +166,7 @@ namespace UCR.Negotium.DataAccess.AnalisisAmbiental
                                 factor.CodCondicionAfectada = reader.GetInt16(3);
                                 factor.CodElementoAmbiental = reader.GetInt16(4);
                                 factor.CodClasificacion = reader.GetInt16(5);
-                                factor.CodSigno = reader.GetInt16(6);
+                                factor.Signo = reader.GetBoolean(6);
                                 factor.CodIntensidad = reader.GetInt16(7);
                                 factor.CodExtension = reader.GetInt16(8);
                                 factor.ExtensionCritico = reader.GetBoolean(9);
@@ -217,7 +212,7 @@ namespace UCR.Negotium.DataAccess.AnalisisAmbiental
                     cmd.Parameters.AddWithValue("condicion_afectada", factor.CodCondicionAfectada);
                     cmd.Parameters.AddWithValue("elemento_ambiental", factor.CodElementoAmbiental);
                     cmd.Parameters.AddWithValue("clasificacion", factor.CodClasificacion);
-                    cmd.Parameters.AddWithValue("signo", factor.CodSigno);
+                    cmd.Parameters.AddWithValue("signo", factor.Signo?1:0);
                     cmd.Parameters.AddWithValue("intensidad", factor.CodIntensidad);
                     cmd.Parameters.AddWithValue("extension", factor.CodProyecto);
                     cmd.Parameters.AddWithValue("extension_critico", factor.ExtensionCritico? 1:0);
@@ -267,7 +262,7 @@ namespace UCR.Negotium.DataAccess.AnalisisAmbiental
                     cmd.Parameters.AddWithValue("condicion_afectada", factor.CodCondicionAfectada);
                     cmd.Parameters.AddWithValue("elemento_ambiental", factor.CodElementoAmbiental);
                     cmd.Parameters.AddWithValue("clasificacion", factor.CodClasificacion);
-                    cmd.Parameters.AddWithValue("signo", factor.CodSigno);
+                    cmd.Parameters.AddWithValue("signo", factor.Signo?1:0);
                     cmd.Parameters.AddWithValue("intensidad", factor.CodIntensidad);
                     cmd.Parameters.AddWithValue("extension", factor.CodExtension);
                     cmd.Parameters.AddWithValue("extension_critico", factor.ExtensionCritico?1:0);

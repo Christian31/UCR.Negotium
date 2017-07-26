@@ -13,7 +13,7 @@ namespace UCR.Negotium.DataAccess
 
         private UnidadMedidaData unidadMedidaData;
         private DetalleProyeccionVentaData detalleProyeccionData;
-        private CrecimientoOfertaObjetoInteresData crecimientoOfertaData;
+        private CrecimientoOfertaArticuloData crecimientoOfertaData;
 
         public ProyeccionVentaArticuloData()
         {
@@ -24,7 +24,7 @@ namespace UCR.Negotium.DataAccess
 
             unidadMedidaData = new UnidadMedidaData();
             detalleProyeccionData = new DetalleProyeccionVentaData();
-            crecimientoOfertaData = new CrecimientoOfertaObjetoInteresData();
+            crecimientoOfertaData = new CrecimientoOfertaArticuloData();
         }
 
         public List<ProyeccionVentaArticulo> GetProyeccionesVentaArticulo(int codProyecto)

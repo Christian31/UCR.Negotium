@@ -10,7 +10,7 @@ namespace UCR.Negotium.Domain
         public int CodProyecto { get; set; }
         public int CodCondicionAfectada { get; set; }
         public int CodElementoAmbiental { get; set; }
-        public int CodSigno { get; set; }
+        public bool Signo { get; set; } //true= impacto beneficioso, false= impacto perjudicial
         public int CodIntensidad { get; set; }
         public int CodExtension { get; set; }
         public bool ExtensionCritico { get; set; }
@@ -35,7 +35,7 @@ namespace UCR.Negotium.Domain
         {
             get
             {
-                return CodSigno.Equals(-1) ? "Perjudicial" : "Beneficioso";
+                return Signo ? "Beneficioso" : "Perjudicial";
             }
         }
 
@@ -55,23 +55,23 @@ namespace UCR.Negotium.Domain
             {
                 switch (CodCondicionAfectada)
                 {
-                    case 1:
+                    case 0:
                         ElementoAmbientalCond1 elemAmbiental1 = ElementoAmbientalCond1.Agua;
                         Enum.TryParse(CodElementoAmbiental.ToString(), out elemAmbiental1);
                         return EnumsHelper<ElementoAmbientalCond1>.GetDisplayValue(elemAmbiental1);
-                    case 2:
+                    case 1:
                         ElementoAmbientalCond2 elemAmbiental2 = ElementoAmbientalCond2.CalidadVisual;
                         Enum.TryParse(CodElementoAmbiental.ToString(), out elemAmbiental2);
                         return EnumsHelper<ElementoAmbientalCond2>.GetDisplayValue(elemAmbiental2);
-                    case 3:
+                    case 2:
                         ElementoAmbientalCond3 elemAmbiental3 = ElementoAmbientalCond3.FloraFauna;
                         Enum.TryParse(CodElementoAmbiental.ToString(), out elemAmbiental3);
                         return EnumsHelper<ElementoAmbientalCond3>.GetDisplayValue(elemAmbiental3);
-                    case 4:
+                    case 3:
                         ElementoAmbientalCond4 elemAmbiental4 = ElementoAmbientalCond4.Economico;
                         Enum.TryParse(CodElementoAmbiental.ToString(), out elemAmbiental4);
                         return EnumsHelper<ElementoAmbientalCond4>.GetDisplayValue(elemAmbiental4);
-                    case 5:
+                    case 4:
                         ElementoAmbientalCond5 elemAmbiental5 = ElementoAmbientalCond5.Patrimonio;
                         Enum.TryParse(CodElementoAmbiental.ToString(), out elemAmbiental5);
                         return EnumsHelper<ElementoAmbientalCond5>.GetDisplayValue(elemAmbiental5);

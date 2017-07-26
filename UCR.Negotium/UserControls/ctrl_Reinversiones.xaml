@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="UCR.Negotium.UserControls.ctrl_Reinversiones"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UCR.Negotium.UserControls"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             mc:Ignorable="d" d:DesignHeight="440" d:DesignWidth="1200">
+    <Grid Background="AliceBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="90*"/>
+        </Grid.RowDefinitions>
+        <Border Style="{StaticResource borderStyle}" Background="LightBlue">
+            <TextBlock Text="Registro de Reinversiones" Style="{StaticResource textTitleStyle}"/>
+        </Border>
+        <Border Grid.Row="1" Style="{StaticResource borderStyle}">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+
+                <DataGrid Grid.ColumnSpan="3" Style="{StaticResource mainGrid}"
+                          ItemsSource="{Binding ReinversionesList, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                          SelectedItem="{Binding ReinversionSelected, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Path=DescripcionRequerimiento}" Header="Descripción" Width="4*"/>
+                        <DataGridTextColumn Binding="{Binding Path=AnoReinversion}" Header="Año de Reinversión" Width="2.5*"/>
+                        <DataGridTextColumn Binding="{Binding Path=Cantidad}" Header="Cantidad" Width="1.5*"/>
+                        <DataGridTextColumn Binding="{Binding Path=UnidadMedida}" Header="Unidad Medida" Width="2*"/>
+                        <DataGridTextColumn Binding="{Binding Path=CostoUnitarioFormat}" Header="Costo Unitario (₡)" Width="2.5*"/>
+                        <DataGridCheckBoxColumn Binding="{Binding Path=Depreciable}" Header="Depreciable" Width="1.8*"/>
+                        <DataGridTextColumn Binding="{Binding Path=VidaUtil}" Header="Vida Útil(Años)" Width="2*"/>
+                        <DataGridTextColumn Binding="{Binding Path=SubtotalFormat}" Header="Subtotal (₡)" Width="2*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Grid Grid.Row="1">
+                    <Button Width="40" Margin="30,0" Height="40" Name="btnAgregarReinversion"
+                            Click="btnAgregarReinversion_Click"
+                            Style="{StaticResource circleButton}" ToolTip="Agregar una Nueva Reinversión">
+                        <iconPacks:PackIconModern Width="16" Height="16" Kind="Add" Foreground="Teal"/>
+                    </Button>
+                    <Button Width="40" Margin="70,0" Height="40" Name="btnEditarReinversion"
+                            Click="btnEditarReinversion_Click"
+                            Style="{StaticResource circleButton}" ToolTip="Editar la Reinversión Seleccionada">
+                        <iconPacks:PackIconModern Width="16" Height="16" Kind="Edit" Foreground="Teal"/>
+                    </Button>
+                    <Button Width="40" Margin="110,0" Height="40" Name="btnEliminarReinversion" 
+                            Click="btnEliminarReinversion_Click"
+                            Style="{StaticResource circleButton}" ToolTip="Eliminar la Reinversión Seleccionada">
+                        <iconPacks:PackIconModern Width="16" Height="16" Kind="Delete" Foreground="Teal"/>
+                    </Button>
+                </Grid>
+                <Grid Grid.Row="2" Margin="30,5,30,15">
+                    <TextBlock Text="Total Reinvertido por Año:" FontSize="14"/>
+                    <DataGrid ItemsSource="{Binding DTTotalesReinversiones, UpdateSourceTrigger=PropertyChanged}"
+                              Style="{StaticResource gridGenerated}"/>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

@@ -24,7 +24,7 @@ namespace UCR.Negotium.Dialogs
         private ProyectoData proyectoData;
         private ProyeccionVentaArticuloData proyeccionArticuloData;
         private UnidadMedidaData unidadMedidaData;
-        private CrecimientoOfertaObjetoInteresData crecimientoOfertaData;
+        private CrecimientoOfertaArticuloData crecimientoOfertaData;
         #endregion
 
         #region Constructor
@@ -41,9 +41,9 @@ namespace UCR.Negotium.Dialogs
             proyectoData = new ProyectoData();
             proyeccionArticuloData = new ProyeccionVentaArticuloData();
             unidadMedidaData = new UnidadMedidaData();
-            crecimientoOfertaData = new CrecimientoOfertaObjetoInteresData();
+            crecimientoOfertaData = new CrecimientoOfertaArticuloData();
 
-            unidadMedidas = unidadMedidaData.GetUnidadesMedidaAux();
+            unidadMedidas = unidadMedidaData.GetUnidadesMedidas();
             proyecto = proyectoData.GetProyecto(idProyecto);
 
             //default values
@@ -126,7 +126,7 @@ namespace UCR.Negotium.Dialogs
                     if (!proyeccionTemp.CodArticulo.Equals(-1))
                     {
                         bool hasErrors = false;
-                        foreach(CrecimientoOfertaObjetoInteres crecimiento in proyeccionTemp.CrecimientoOferta)
+                        foreach(CrecimientoOfertaArticulo crecimiento in proyeccionTemp.CrecimientoOferta)
                         {
                             if (crecimientoOfertaData.InsertarCrecimientoOfertaObjetoIntereses(crecimiento, proyeccionTemp.CodArticulo).CodCrecimiento.Equals(0))
                             {
@@ -152,7 +152,7 @@ namespace UCR.Negotium.Dialogs
                     if (proyeccionArticuloData.EditarProyeccionVenta(ProyeccionSelected))
                     {
                         bool hasErrors = false;
-                        foreach (CrecimientoOfertaObjetoInteres crecimiento in ProyeccionSelected.CrecimientoOferta)
+                        foreach (CrecimientoOfertaArticulo crecimiento in ProyeccionSelected.CrecimientoOferta)
                         {
                             if (!crecimientoOfertaData.EditarCrecimientoOfertaObjetoIntereses(crecimiento))
                             {
@@ -238,7 +238,7 @@ namespace UCR.Negotium.Dialogs
             for (int i = 2; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
             {
                 int anoActual = proyecto.AnoInicial + i;
-                proyeccionSelected.CrecimientoOferta.Add(new CrecimientoOfertaObjetoInteres() { AnoCrecimiento = anoActual });
+                proyeccionSelected.CrecimientoOferta.Add(new CrecimientoOfertaArticulo() { AnoCrecimiento = anoActual });
             }//for
         }
         #endregion

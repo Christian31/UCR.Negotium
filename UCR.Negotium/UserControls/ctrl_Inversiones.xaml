@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="UCR.Negotium.UserControls.ctrl_Inversiones"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UCR.Negotium.UserControls"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             mc:Ignorable="d" 
+             d:DesignHeight="440" d:DesignWidth="1200">
+    <Grid Background="AliceBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="90*"/>
+        </Grid.RowDefinitions>
+        <Border Style="{StaticResource borderStyle}" Background="LightBlue">
+            <TextBlock Text="Registro de Inversiones" Style="{StaticResource textTitleStyle}"/>
+        </Border>
+        <Border Grid.Row="1" Style="{StaticResource borderStyle}">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="7*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Label Grid.ColumnSpan="2" Style="{StaticResource tableTitleStyle}"
+                    Content="Registro de Inversiones mayores a 1 Año (Menores a 1 Año registrarse como costos)"/>
+                <DataGrid Grid.Column="0" Grid.Row="1" Style="{StaticResource mainGrid}"
+                          ItemsSource="{Binding InversionesList, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                          SelectedItem="{Binding InversionSelected, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Path=DescripcionRequerimiento}" Header="Descripción" Width="4*"/>
+                        <DataGridTextColumn Binding="{Binding Path=Cantidad}" Header="Cantidad" Width="2*"/>
+                        <DataGridTextColumn Binding="{Binding Path=UnidadMedida}" Header="Unidad Medida" Width="2*"/>
+                        <DataGridTextColumn Binding="{Binding Path=CostoUnitarioFormat}" Header="Costo Unitario (₡)" Width="2.5*"/>
+                        <DataGridCheckBoxColumn Binding="{Binding Path=Depreciable}" Header="Depreciable" Width="2*"/>
+                        <DataGridTextColumn Binding="{Binding Path=VidaUtil}" Header="Vida Útil(Años)" Width="2.5*"/>
+                        <DataGridTextColumn Binding="{Binding Path=SubtotalFormat}" Header="Subtotal (₡)" Width="3*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Grid Grid.Row="3">
+                    <Button Width="40" Margin="30,0" Height="40" Name="btnCrearInversion"
+                            Style="{StaticResource circleButton}" ToolTip="Agregar una Nueva Inversión"
+                            Click="btnCrearInversion_Click">
+                        <iconPacks:PackIconModern Width="16" Height="16" Kind="Add" Foreground="Teal"/>
+                    </Button>
+                    <Button Width="40" Margin="70,0" Height="40" Name="btnEditarInversion"
+                            Style="{StaticResource circleButton}" ToolTip="Editar la Inversión Seleccionada"
+                            Click="btnEditarInversion_Click">
+                        <iconPacks:PackIconModern Width="16" Height="16" Kind="Edit" Foreground="Teal"/>
+                    </Button>
+                    <Button Width="40" Margin="110,0" Height="40" Name="btnEliminarInversion"
+                            Style="{StaticResource circleButton}" ToolTip="Eliminar la Inversión Seleccionada"
+                            Click="btnEliminarInversion_Click">
+                        <iconPacks:PackIconModern Width="16" Height="16" Kind="Delete" Foreground="Teal"/>
+                    </Button>
+                    <Label Content="Total: " Margin="220,0,906,37" FontSize="16" FontWeight="Bold"/>
+                    <Label Content="{Binding InversionesTotal, UpdateSourceTrigger=PropertyChanged}" Margin="275,0,700,37" FontSize="16"/>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
