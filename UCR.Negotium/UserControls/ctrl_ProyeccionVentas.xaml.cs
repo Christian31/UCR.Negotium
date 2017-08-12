@@ -21,6 +21,7 @@ namespace UCR.Negotium.UserControls
         private ProyeccionVentaArticulo proyeccionSelected;
         private List<ProyeccionVentaArticulo> proyeccionesList;
         private DataView proyeccionesTotales;
+        private string signoMoneda;
 
         private ProyeccionVentaArticuloData proyeccionArticuloData;
         private ProyectoData proyectoData;
@@ -45,14 +46,38 @@ namespace UCR.Negotium.UserControls
 
         public void Reload()
         {
+            SignoMoneda = MonedaActual.GetSignoMoneda(CodProyecto);
+
             DTProyeccionesTotales = new DataView();
             ProyeccionesList = proyeccionArticuloData.GetProyeccionesVentaArticulo(CodProyecto);
+
+            ProyeccionesList.All(proy => {
+            proy.DetallesProyeccionVenta.ForEach(det => 
+                    det.SubtotalFormat = SignoMoneda + " " + det.Subtotal.ToString("#,##0.##"));
+                return true;
+            });
+
             proyecto = proyectoData.GetProyecto(CodProyecto);
             proyecto.Proyecciones = ProyeccionesList;
 
             if (!proyecto.Proyecciones.Count.Equals(0))
             {
-                DTProyeccionesTotales = DatatableBuilder.GenerarDTIngresosGenerados(proyecto).AsDataView();
+                DTProyeccionesTotales = DatatableBuilder.GenerarIngresosGenerados(proyecto).AsDataView();
+            }
+
+            PropertyChanged(this, new PropertyChangedEventArgs("ProyeccionesList"));
+        }
+
+        public string SignoMoneda
+        {
+            get
+            {
+                return signoMoneda;
+            }
+            set
+            {
+                signoMoneda = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("SignoMoneda"));
             }
         }
 
@@ -92,7 +117,6 @@ namespace UCR.Negotium.UserControls
             {
                 proyeccionesList = value;
                 ProyeccionSelected = ProyeccionesList.FirstOrDefault();
-                PropertyChanged(this, new PropertyChangedEventArgs("ProyeccionesList"));
             }
         }
 
@@ -111,12 +135,19 @@ namespace UCR.Negotium.UserControls
 
         private void btnAgregarProyeccion_Click(object sender, RoutedEventArgs e)
         {
-            RegistrarProyeccionVenta registarProyeccion = new RegistrarProyeccionVenta(CodProyecto);
-            registarProyeccion.ShowDialog();
-
-            if (registarProyeccion.IsActive == false && registarProyeccion.Reload)
+            if (!proyecto.TipoProyecto.CodTipo.Equals(2))
             {
-                Reload();
+                RegistrarProyeccionVenta registarProyeccion = new RegistrarProyeccionVenta(CodProyecto);
+                registarProyeccion.ShowDialog();
+
+                if (registarProyeccion.IsActive == false && registarProyeccion.Reload)
+                {
+                    Reload();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Completo actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 

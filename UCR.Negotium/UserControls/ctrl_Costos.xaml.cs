@@ -45,14 +45,23 @@ namespace UCR.Negotium.UserControls
 
         public void Reload()
         {
+            string signoMoneda = MonedaActual.GetSignoMoneda(CodProyecto);
+
             DTCostosTotales = new DataView();
             CostosList = costoData.GetCostos(CodProyecto);
+
+            CostosList.All(costo => {
+                costo.CostosMensuales.ForEach(det =>
+                        det.SubtotalFormat = signoMoneda + " " + det.Subtotal.ToString("#,##0.##"));
+                return true;
+            });
+
             proyecto = proyectoData.GetProyecto(CodProyecto);
             proyecto.Costos = CostosList;
             proyecto.VariacionCostos = variacionCostoData.GetVariacionAnualCostos(CodProyecto);
             if (!proyecto.Costos.Count.Equals(0))
             {
-                DTCostosTotales = DatatableBuilder.GeneraDTCostosGenerados(proyecto).AsDataView();
+                DTCostosTotales = DatatableBuilder.GenerarCostosGenerados(proyecto).AsDataView();
             }
         }
 
@@ -111,13 +120,20 @@ namespace UCR.Negotium.UserControls
 
         private void btnCrearCosto_Click(object sender, RoutedEventArgs e)
         {
-            RegistrarCosto registarCosto = new RegistrarCosto(CodProyecto);
-            registarCosto.ShowDialog();
-
-            if (registarCosto.IsActive == false && registarCosto.Reload)
+            if (!proyecto.TipoProyecto.CodTipo.Equals(2))
             {
-                RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
-                mainWindow.ReloadUserControls(CodProyecto);
+                RegistrarCosto registarCosto = new RegistrarCosto(CodProyecto);
+                registarCosto.ShowDialog();
+
+                if (registarCosto.IsActive == false && registarCosto.Reload)
+                {
+                    RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
+                    mainWindow.ReloadUserControls(CodProyecto);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Completo actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -158,12 +174,19 @@ namespace UCR.Negotium.UserControls
 
         private void lblVariacionCostos_Click(object sender, RoutedEventArgs e)
         {
-            RegistrarVariacionAnualCostos registrarVariacionAnual = new RegistrarVariacionAnualCostos(CodProyecto);
-            registrarVariacionAnual.ShowDialog();
-
-            if (registrarVariacionAnual.IsActive == false && registrarVariacionAnual.Reload)
+            if (!proyecto.TipoProyecto.CodTipo.Equals(2))
             {
-                Reload();
+                RegistrarVariacionAnualCostos registrarVariacionAnual = new RegistrarVariacionAnualCostos(CodProyecto);
+                registrarVariacionAnual.ShowDialog();
+
+                if (registrarVariacionAnual.IsActive == false && registrarVariacionAnual.Reload)
+                {
+                    Reload();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Completo actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
     }

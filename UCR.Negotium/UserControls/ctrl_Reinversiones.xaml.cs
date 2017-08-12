@@ -22,6 +22,8 @@ namespace UCR.Negotium.UserControls
         private Proyecto proyecto;
         private DataView totalesReinversiones;
 
+        private string signoMoneda;
+
         private ReinversionData reinversionData;
         private ProyectoData proyectoData;
 
@@ -42,14 +44,35 @@ namespace UCR.Negotium.UserControls
         public void Reload()
         {
             DTTotalesReinversiones = new DataView();
+
+            SignoMoneda = MonedaActual.GetSignoMoneda(CodProyecto);
             ReinversionesList = reinversionData.GetRequerimientosReinversion(CodProyecto);
+
+            ReinversionesList.All(reinv => {
+                reinv.CostoUnitarioFormat = SignoMoneda +" "+ reinv.CostoUnitario.ToString("#,##0.##");
+                reinv.SubtotalFormat = SignoMoneda +" "+ reinv.Subtotal.ToString("#,##0.##");
+                return true;
+            });
+
+            dgtxcCostoUnidad.Header = string.Format("Costo Unitario ({0})", SignoMoneda);
+            dgtxcSubtotal.Header = string.Format("Subtotal ({0})", SignoMoneda);
+
+            ReinversionSelected = ReinversionesList.FirstOrDefault();
+            PropertyChanged(this, new PropertyChangedEventArgs("ReinversionesList"));
+
             proyecto = proyectoData.GetProyecto(CodProyecto);
             proyecto.RequerimientosReinversion = ReinversionesList;
 
             if (!proyecto.RequerimientosReinversion.Count.Equals(0))
             {
-                DTTotalesReinversiones = DatatableBuilder.GenerarDTTotalesReinversiones(proyecto).AsDataView();
+                DTTotalesReinversiones = DatatableBuilder.GenerarTotalesReinversiones(proyecto).AsDataView();
             }
+        }
+
+        public string SignoMoneda
+        {
+            get { return signoMoneda; }
+            set { signoMoneda = value; }
         }
 
         public int CodProyecto
@@ -87,8 +110,7 @@ namespace UCR.Negotium.UserControls
             set
             {
                 reinversiones = value;
-                ReinversionSelected = ReinversionesList.FirstOrDefault();
-                PropertyChanged(this, new PropertyChangedEventArgs("ReinversionesList"));
+                
             }
         }
 
@@ -109,13 +131,20 @@ namespace UCR.Negotium.UserControls
 
         private void btnAgregarReinversion_Click(object sender, RoutedEventArgs e)
         {
-            RegistrarReinversion registrarReinversion = new RegistrarReinversion(CodProyecto);
-            registrarReinversion.ShowDialog();
-
-            if (registrarReinversion.IsActive == false && registrarReinversion.Reload)
+            if (!proyecto.TipoProyecto.CodTipo.Equals(2))
             {
-                RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
-                mainWindow.ReloadUserControls(CodProyecto);
+                RegistrarReinversion registrarReinversion = new RegistrarReinversion(CodProyecto);
+                registrarReinversion.ShowDialog();
+
+                if (registrarReinversion.IsActive == false && registrarReinversion.Reload)
+                {
+                    RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
+                    mainWindow.ReloadUserControls(CodProyecto);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Completo actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 

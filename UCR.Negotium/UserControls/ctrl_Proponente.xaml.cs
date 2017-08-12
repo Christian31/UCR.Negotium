@@ -19,13 +19,15 @@ namespace UCR.Negotium.UserControls
         private Regex emailExpresion = new Regex(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
         private Regex numbers = new Regex(@"([^\d]*\d){8,}");
 
-        private Domain.Proponente proponenteSelected;
+        private Proponente proponenteSelected;
         private List<TipoOrganizacion> tipoOrganizaciones;
         private int codProyecto { get; set; }
+        private Proyecto proyecto;
 
         private ProponenteData proponenteData;
         private TipoOrganizacionData tipoOrganizacionData;
         private OrganizacionProponenteData organizacionProponenteData;
+        private ProyectoData proyectoData;
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
@@ -35,10 +37,13 @@ namespace UCR.Negotium.UserControls
             DataContext = this;
 
             proponenteData = new ProponenteData();
-            proponenteSelected = new Domain.Proponente();
+            proponenteSelected = new Proponente();
+            proyecto = new Proyecto();
 
             tipoOrganizacionData = new TipoOrganizacionData();
             organizacionProponenteData = new OrganizacionProponenteData();
+            proyectoData = new ProyectoData();
+
             tipoOrganizaciones = new List<TipoOrganizacion>();
 
             tipoOrganizaciones = tipoOrganizacionData.GetTipoOrganizaciones();
@@ -48,6 +53,7 @@ namespace UCR.Negotium.UserControls
         {
             ProponenteSelected = proponenteData.GetProponente(CodProyecto);
             MantenerCambios();
+            proyecto = proyectoData.GetProyecto(CodProyecto);
         }
 
         #region Properties
@@ -73,23 +79,31 @@ namespace UCR.Negotium.UserControls
         #region Events
         private void btnGuardarProponente(object sender, RoutedEventArgs e)
         {
-            if (!ValidateRequiredFields())
+            if (!proyecto.TipoProyecto.CodTipo.Equals(2))
             {
-                if (ProponenteSelected.IdProponente.Equals(0))
+                if (!ValidateRequiredFields())
                 {
-                    int codOrganizacion = organizacionProponenteData.InsertarOrganizacionProponente(ProponenteSelected.Organizacion);
-                    if (!codOrganizacion.Equals(-1))
+                    if (ProponenteSelected.IdProponente.Equals(0))
                     {
-                        ProponenteSelected.Organizacion.CodOrganizacion = codOrganizacion;
-                        int codProponente = proponenteData.InsertarProponente(ProponenteSelected, CodProyecto);
-                        if (!codProponente.Equals(-1))
+                        int codOrganizacion = organizacionProponenteData.InsertarOrganizacionProponente(ProponenteSelected.Organizacion);
+                        if (!codOrganizacion.Equals(-1))
                         {
-                            //success
-                            ProponenteSelected.IdProponente = codProponente;
-                            RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
-                            mainWindow.ReloadUserControls(CodProyecto);
+                            ProponenteSelected.Organizacion.CodOrganizacion = codOrganizacion;
+                            int codProponente = proponenteData.InsertarProponente(ProponenteSelected, CodProyecto);
+                            if (!codProponente.Equals(-1))
+                            {
+                                //success
+                                ProponenteSelected.IdProponente = codProponente;
+                                RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
+                                mainWindow.ReloadUserControls(CodProyecto);
 
-                            MessageBox.Show("El proponente del proyecto se ha insertado correctamente", "Proponente Insertado", MessageBoxButton.OK, MessageBoxImage.Information);
+                                MessageBox.Show("El proponente del proyecto se ha insertado correctamente", "Proponente Insertado", MessageBoxButton.OK, MessageBoxImage.Information);
+                            }
+                            else
+                            {
+                                //error
+                                MessageBox.Show("Ha ocurrido un error al insertar el proponente del proyecto, verifique que los datos ingresados sean correctos", "Proponente Insertado", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
                         }
                         else
                         {
@@ -99,24 +113,23 @@ namespace UCR.Negotium.UserControls
                     }
                     else
                     {
-                        //error
-                        MessageBox.Show("Ha ocurrido un error al insertar el proponente del proyecto, verifique que los datos ingresados sean correctos", "Proponente Insertado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        if (proponenteData.ActualizarProponente(ProponenteSelected) &&
+                            organizacionProponenteData.ActualizarOrganizacionProponente(ProponenteSelected.Organizacion))
+                        {
+                            //success
+                            MessageBox.Show("El proponente del proyecto se ha actualizado correctamente", "Proponente Actualizado", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                        else
+                        {
+                            //error
+                            MessageBox.Show("Ha ocurrido un error al actualizar el proponente del proyecto, verifique que los datos ingresados sean correctos", "Proponente Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                     }
                 }
-                else
-                {
-                    if (proponenteData.ActualizarProponente(ProponenteSelected) &&
-                        organizacionProponenteData.ActualizarOrganizacionProponente(ProponenteSelected.Organizacion))
-                    {
-                        //success
-                        MessageBox.Show("El proponente del proyecto se ha actualizado correctamente", "Proponente Actualizado", MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
-                    else
-                    {
-                        //error
-                        MessageBox.Show("Ha ocurrido un error al actualizar el proponente del proyecto, verifique que los datos ingresados sean correctos", "Proponente Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                }
+            }
+            else
+            {
+                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Completo actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 

@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Extensions;
 
 namespace UCR.Negotium.Dialogs
 {
@@ -32,6 +33,8 @@ namespace UCR.Negotium.Dialogs
             InitializeComponent();
             DataContext = this;
             tbNombreCosto.ToolTip = "Ingrese en este campo el Nombre del Costo que desea registrar";
+            string signo = MonedaActual.GetSignoMoneda(idProyecto);
+            dgtxcPrecio.Header = string.Format("Precio ({0})", signo);
 
             proyecto = new Proyecto();
             unidadMedidas = new List<UnidadMedida>();

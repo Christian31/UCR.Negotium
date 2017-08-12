@@ -8,8 +8,10 @@ namespace UCR.Negotium.Extensions
 {
     public static class DatatableBuilder
     {
-        public static void GenerarDTCapitalTrabajo(Proyecto proyecto, out DataView dtCapitalTrabajo, out double recCTResult)
+        public static void GenerarCapitalTrabajo(Proyecto proyecto, out DataView dtCapitalTrabajo, out double recCTResult)
         {
+            string signoMoneda = MonedaActual.GetSignoMoneda(proyecto.CodProyecto);
+
             DataSet ds = new DataSet();
             ds.Tables.Add("CapitalTrabajo");
             ds.Tables["CapitalTrabajo"].Columns.Add("Rubro", Type.GetType("System.String"));
@@ -20,7 +22,7 @@ namespace UCR.Negotium.Extensions
             foreach (double costoGenerado in proyecto.CostosGenerados)
             {
                 ds.Tables["CapitalTrabajo"].Columns.Add((proyecto.AnoInicial + a).ToString(), Type.GetType("System.String"));
-                row[(proyecto.AnoInicial + a).ToString()] = "₡ " + costoGenerado.ToString("#,##0.##");
+                row[(proyecto.AnoInicial + a).ToString()] = signoMoneda +" "+ costoGenerado.ToString("#,##0.##");
                 a++;
             }
             ds.Tables["CapitalTrabajo"].Rows.Add(row);
@@ -31,7 +33,7 @@ namespace UCR.Negotium.Extensions
             int a2 = 1;
             foreach (double costoGenerado in proyecto.CostosGenerados)
             {
-                row2[(proyecto.AnoInicial + a2).ToString()] = "₡ " + ((costoGenerado / 12) * 1.5).ToString("#,##0.##");
+                row2[(proyecto.AnoInicial + a2).ToString()] = signoMoneda +" "+ ((costoGenerado / 12) * 1.5).ToString("#,##0.##");
                 a2++;
             }
             ds.Tables["CapitalTrabajo"].Rows.Add(row2);
@@ -44,14 +46,14 @@ namespace UCR.Negotium.Extensions
             row3["Rubro"] = "Incremental";
 
             val = -((proyecto.CostosGenerados[0] / 12) * 1.5);
-            row3[proyecto.AnoInicial.ToString()] = "₡ " + (val).ToString("#,##0.##");
-            recCT += val;
+            row3[proyecto.AnoInicial.ToString()] = signoMoneda +" "+ (val).ToString("#,##0.##");
+            recCT = val;
 
             int a3 = 1;
             for (int i = 1; i < proyecto.CostosGenerados.Count; i++)
             {
                 val = ((proyecto.CostosGenerados[i] / 12) * 1.5) - ((proyecto.CostosGenerados[i - 1] / 12) * 1.5);
-                row3[(proyecto.AnoInicial + a3).ToString()] = "₡ " + (val).ToString("#,##0.##");
+                row3[(proyecto.AnoInicial + a3).ToString()] = signoMoneda +" "+ (val).ToString("#,##0.##");
                 recCT += val;
                 a3++;
             }
@@ -61,58 +63,10 @@ namespace UCR.Negotium.Extensions
             recCTResult = recCT;
         }
 
-        public static DataTable GenerarDTCostos(Proyecto proyecto)
+        public static DataTable GenerarCostosGenerados(Proyecto proyecto)
         {
-            DataSet ds = new DataSet();
-            ds.Tables.Add("Costos");
-            ds.Tables["Costos"].Columns.Add("Codigo", Type.GetType("System.String"));
-            ds.Tables["Costos"].Columns.Add("Articulo", Type.GetType("System.String"));
-            ds.Tables["Costos"].Columns.Add("Unidad", Type.GetType("System.String"));
-            ds.Tables["Costos"].Columns.Add("Categoria", Type.GetType("System.String"));
-            ds.Tables["Costos"].Columns.Add("AñoInicial", Type.GetType("System.String"));
-            ds.Tables["Costos"].Columns.Add("Enero", Type.GetType("System.String"));
-            ds.Tables["Costos"].Columns.Add("Febrero", Type.GetType("System.String"));
-            ds.Tables["Costos"].Columns.Add("Marzo", Type.GetType("System.String"));
-            ds.Tables["Costos"].Columns.Add("Abril", Type.GetType("System.String"));
-            ds.Tables["Costos"].Columns.Add("Mayo", Type.GetType("System.String"));
-            ds.Tables["Costos"].Columns.Add("Junio", Type.GetType("System.String"));
-            ds.Tables["Costos"].Columns.Add("Julio", Type.GetType("System.String"));
-            ds.Tables["Costos"].Columns.Add("Agosto", Type.GetType("System.String"));
-            ds.Tables["Costos"].Columns.Add("Setiembre", Type.GetType("System.String"));
-            ds.Tables["Costos"].Columns.Add("Octubre", Type.GetType("System.String"));
-            ds.Tables["Costos"].Columns.Add("Noviembre", Type.GetType("System.String"));
-            ds.Tables["Costos"].Columns.Add("Diciembre", Type.GetType("System.String"));
+            string signoMoneda = MonedaActual.GetSignoMoneda(proyecto.CodProyecto);
 
-            foreach (Costo costoTemp in proyecto.Costos)
-            {
-                DataRow row = ds.Tables["Costos"].NewRow();
-                row["Codigo"] = costoTemp.CodCosto;
-                row["Articulo"] = costoTemp.NombreCosto;
-                row["Unidad"] = costoTemp.UnidadMedida.NombreUnidad;
-                row["Categoria"] = costoTemp.CategoriaCosto;
-                row["AñoInicial"] = costoTemp.AnoCosto;
-                row["Enero"] = "₡ " + costoTemp.CostosMensuales[0].Subtotal.ToString("#,##0.##");
-                row["Febrero"] = "₡ " + costoTemp.CostosMensuales[1].Subtotal.ToString("#,##0.##");
-                row["Marzo"] = "₡ " + costoTemp.CostosMensuales[2].Subtotal.ToString("#,##0.##");
-                row["Abril"] = "₡ " + costoTemp.CostosMensuales[3].Subtotal.ToString("#,##0.##");
-                row["Mayo"] = "₡ " + costoTemp.CostosMensuales[4].Subtotal.ToString("#,##0.##");
-                row["Junio"] = "₡ " + costoTemp.CostosMensuales[5].Subtotal.ToString("#,##0.##");
-                row["Julio"] = "₡ " + costoTemp.CostosMensuales[6].Subtotal.ToString("#,##0.##");
-                row["Agosto"] = "₡ " + costoTemp.CostosMensuales[7].Subtotal.ToString("#,##0.##");
-                row["Setiembre"] = "₡ " + costoTemp.CostosMensuales[8].Subtotal.ToString("#,##0.##");
-                row["Octubre"] = "₡ " + costoTemp.CostosMensuales[9].Subtotal.ToString("#,##0.##");
-                row["Noviembre"] = "₡ " + costoTemp.CostosMensuales[10].Subtotal.ToString("#,##0.##");
-                row["Diciembre"] = "₡ " + costoTemp.CostosMensuales[11].Subtotal.ToString("#,##0.##");
-
-                ds.Tables["Costos"].Rows.Add(row);
-
-            }//foreach
-
-            return ds.Tables["Costos"];
-        }
-
-        public static DataTable GeneraDTCostosGenerados(Proyecto proyecto)
-        {
             DataSet ds = new DataSet();
             ds.Tables.Add("CostosGenerados");
             ds.Tables["CostosGenerados"].Columns.Add("titulo", Type.GetType("System.String"));
@@ -122,7 +76,7 @@ namespace UCR.Negotium.Extensions
             foreach (double costoGenerado in proyecto.CostosGenerados)
             {
                 ds.Tables["CostosGenerados"].Columns.Add((proyecto.AnoInicial + a).ToString(), Type.GetType("System.String"));
-                row[(proyecto.AnoInicial + a).ToString()] = "₡ " + costoGenerado.ToString("#,##0.##");
+                row[(proyecto.AnoInicial + a).ToString()] = signoMoneda +" "+ costoGenerado.ToString("#,##0.##");
                 a++;
             }
             ds.Tables["CostosGenerados"].Rows.Add(row);
@@ -130,8 +84,9 @@ namespace UCR.Negotium.Extensions
             return ds.Tables["CostosGenerados"];
         }
 
-        public static DataTable GenerarDTDepreciaciones(Proyecto proyecto)
+        public static DataTable GenerarDepreciaciones(Proyecto proyecto)
         {
+            string signoMoneda = MonedaActual.GetSignoMoneda(proyecto.CodProyecto);
             DataSet ds = new DataSet();
             ds.Tables.Add("Depreciaciones");
 
@@ -148,7 +103,8 @@ namespace UCR.Negotium.Extensions
 
                 for (int a = 1; a <= proyecto.HorizonteEvaluacionEnAnos; a++)
                 {
-                    row[(proyecto.AnoInicial + a).ToString()] = "₡ " + proyecto.Depreciaciones[i].MontoDepreciacion[a - 1].ToString("#,##0.##");
+                    row[(proyecto.AnoInicial + a).ToString()] = signoMoneda + " " + 
+                        proyecto.Depreciaciones[i].MontoDepreciacion[a - 1].ToString("#,##0.##");
                 }
 
                 ds.Tables["Depreciaciones"].Rows.Add(row);
@@ -158,8 +114,9 @@ namespace UCR.Negotium.Extensions
             return ds.Tables["Depreciaciones"];
         }
 
-        public static DataTable GenerarDTTotalesDepreciaciones(Proyecto proyecto)
+        public static DataTable GenerarTotalesDepreciaciones(Proyecto proyecto)
         {
+            string signoMoneda = MonedaActual.GetSignoMoneda(proyecto.CodProyecto);
             DataSet ds = new DataSet();
             ds.Tables.Add("DepreciacionesTotales");
             ds.Tables["DepreciacionesTotales"].Columns.Add("titulo", Type.GetType("System.String"));
@@ -171,88 +128,17 @@ namespace UCR.Negotium.Extensions
                 ds.Tables["DepreciacionesTotales"].Columns.Add((proyecto.AnoInicial + i).ToString(), Type.GetType("System.String"));
                 double sumaAnual = 0;
                 proyecto.Depreciaciones.ForEach(dep => sumaAnual += dep.MontoDepreciacion[i-1]);
-                row[(proyecto.AnoInicial + i).ToString()] = "₡ " + sumaAnual.ToString("#,##0.##");
+                row[(proyecto.AnoInicial + i).ToString()] = signoMoneda + " " + sumaAnual.ToString("#,##0.##");
             }
             ds.Tables["DepreciacionesTotales"].Rows.Add(row);
 
             return ds.Tables["DepreciacionesTotales"];
         }
 
-        public static void GenerarDTInversiones(Proyecto proyecto, out DataTable dtInversiones, out Double totalInversiones)
+        public static DataTable GenerarIngresosGenerados(Proyecto proyecto)
         {
-            DataSet ds = new DataSet();
-            ds.Tables.Add("RequerimientInversion");
-            ds.Tables["RequerimientInversion"].Columns.Add("codRequerimiento", Type.GetType("System.String"));
-            ds.Tables["RequerimientInversion"].Columns.Add("descripcionRequerimiento", Type.GetType("System.String"));
-            ds.Tables["RequerimientInversion"].Columns.Add("cantidad", Type.GetType("System.Int32"));
-            ds.Tables["RequerimientInversion"].Columns.Add("costoUnitario", Type.GetType("System.Int32"));
-            ds.Tables["RequerimientInversion"].Columns.Add("depreciable", Type.GetType("System.Boolean"));
-            ds.Tables["RequerimientInversion"].Columns.Add("vidaUtil", Type.GetType("System.Int32"));
-            ds.Tables["RequerimientInversion"].Columns.Add("Subtotal", Type.GetType("System.Int32"));
-            double totalInversionesTemp = 0;
-            foreach (Inversion requerimiento in proyecto.RequerimientosInversion)
-            {
-                DataRow row = ds.Tables["RequerimientInversion"].NewRow();
-                row["codRequerimiento"] = requerimiento.CodRequerimientoInversion;
-                row["descripcionRequerimiento"] = requerimiento.DescripcionRequerimiento;
-                row["cantidad"] = requerimiento.Cantidad;
-                row["costoUnitario"] = requerimiento.CostoUnitario;
-                row["depreciable"] = requerimiento.Depreciable;
-                row["VidaUtil"] = requerimiento.VidaUtil;
-                row["Subtotal"] = requerimiento.Subtotal;
-                ds.Tables["RequerimientInversion"].Rows.Add(row);
-                totalInversionesTemp += requerimiento.Subtotal;
-            }//foreach
-            totalInversiones = totalInversionesTemp;
-            dtInversiones = ds.Tables["RequerimientInversion"];
-        }
+            string signoMoneda = MonedaActual.GetSignoMoneda(proyecto.CodProyecto);
 
-        public static DataTable GenerarDTProyeccionesVentas(Proyecto proyecto)
-        {
-            DataSet ds = new DataSet();
-            ds.Tables.Add("Proyecciones");
-            ds.Tables["Proyecciones"].Columns.Add("Codigo", Type.GetType("System.String"));
-            ds.Tables["Proyecciones"].Columns.Add("Articulo", Type.GetType("System.String"));
-            ds.Tables["Proyecciones"].Columns.Add("Unidad", Type.GetType("System.String"));
-            ds.Tables["Proyecciones"].Columns.Add("Enero", Type.GetType("System.String"));
-            ds.Tables["Proyecciones"].Columns.Add("Febrero", Type.GetType("System.String"));
-            ds.Tables["Proyecciones"].Columns.Add("Marzo", Type.GetType("System.String"));
-            ds.Tables["Proyecciones"].Columns.Add("Abril", Type.GetType("System.String"));
-            ds.Tables["Proyecciones"].Columns.Add("Mayo", Type.GetType("System.String"));
-            ds.Tables["Proyecciones"].Columns.Add("Junio", Type.GetType("System.String"));
-            ds.Tables["Proyecciones"].Columns.Add("Julio", Type.GetType("System.String"));
-            ds.Tables["Proyecciones"].Columns.Add("Agosto", Type.GetType("System.String"));
-            ds.Tables["Proyecciones"].Columns.Add("Setiembre", Type.GetType("System.String"));
-            ds.Tables["Proyecciones"].Columns.Add("Octubre", Type.GetType("System.String"));
-            ds.Tables["Proyecciones"].Columns.Add("Noviembre", Type.GetType("System.String"));
-            ds.Tables["Proyecciones"].Columns.Add("Diciembre", Type.GetType("System.String"));
-            foreach (ProyeccionVentaArticulo proyTemp in proyecto.Proyecciones)
-            {
-                DataRow row = ds.Tables["Proyecciones"].NewRow();
-                row["Codigo"] = proyTemp.CodArticulo;
-                row["Articulo"] = proyTemp.NombreArticulo;
-                row["Unidad"] = proyTemp.UnidadMedida.NombreUnidad;
-                row["Enero"] = ("₡ " + proyTemp.DetallesProyeccionVenta[0].Subtotal.ToString("#,##0.##"));
-                row["Febrero"] = ("₡ " + proyTemp.DetallesProyeccionVenta[1].Subtotal.ToString("#,##0.##"));
-                row["Marzo"] = ("₡ " + proyTemp.DetallesProyeccionVenta[2].Subtotal.ToString("#,##0.##"));
-                row["Abril"] = ("₡ " + proyTemp.DetallesProyeccionVenta[3].Subtotal.ToString("#,##0.##"));
-                row["Mayo"] = ("₡ " + proyTemp.DetallesProyeccionVenta[4].Subtotal.ToString("#,##0.##"));
-                row["Junio"] = ("₡ " + proyTemp.DetallesProyeccionVenta[5].Subtotal.ToString("#,##0.##"));
-                row["Julio"] = ("₡ " + proyTemp.DetallesProyeccionVenta[6].Subtotal.ToString("#,##0.##"));
-                row["Agosto"] = ("₡ " + proyTemp.DetallesProyeccionVenta[7].Subtotal.ToString("#,##0.##"));
-                row["Setiembre"] = ("₡ " + proyTemp.DetallesProyeccionVenta[8].Subtotal.ToString("#,##0.##"));
-                row["Octubre"] = ("₡ " + proyTemp.DetallesProyeccionVenta[9].Subtotal.ToString("#,##0.##"));
-                row["Noviembre"] = ("₡ " + proyTemp.DetallesProyeccionVenta[10].Subtotal.ToString("#,##0.##"));
-                row["Diciembre"] = ("₡ " + proyTemp.DetallesProyeccionVenta[11].Subtotal.ToString("#,##0.##"));
-
-                ds.Tables["Proyecciones"].Rows.Add(row);
-            }//foreach
-
-            return ds.Tables["Proyecciones"];
-        }
-
-        public static DataTable GenerarDTIngresosGenerados(Proyecto proyecto)
-        {
             DataSet ds = new DataSet();
             ds.Tables.Add("IngresosGenerados");
             ds.Tables["IngresosGenerados"].Columns.Add("titulo", Type.GetType("System.String"));
@@ -263,7 +149,7 @@ namespace UCR.Negotium.Extensions
             foreach (double IngreGenerado in proyecto.IngresosGenerados)
             {
                 ds.Tables["IngresosGenerados"].Columns.Add((proyecto.AnoInicial + a).ToString(), Type.GetType("System.String"));
-                row[(proyecto.AnoInicial + a).ToString()] = "₡ " + IngreGenerado.ToString("#,##0.##");
+                row[(proyecto.AnoInicial + a).ToString()] = signoMoneda + " " + IngreGenerado.ToString("#,##0.##");
                 a++;
             }
             ds.Tables["IngresosGenerados"].Rows.Add(row);
@@ -271,8 +157,10 @@ namespace UCR.Negotium.Extensions
             return ds.Tables["IngresosGenerados"];
         }
 
-        public static DataTable GenerarDTTotalesReinversiones(Proyecto proyecto)
+        public static DataTable GenerarTotalesReinversiones(Proyecto proyecto)
         {
+            string signoMoneda = MonedaActual.GetSignoMoneda(proyecto.CodProyecto);
+
             DataSet ds = new DataSet();
             ds.Tables.Add("TotalesReinversiones");
             ds.Tables["TotalesReinversiones"].Columns.Add("titulo", Type.GetType("System.String"));
@@ -299,7 +187,7 @@ namespace UCR.Negotium.Extensions
                 {
                     int anoActual = proyecto.AnoInicial + i;
                     ds.Tables["TotalesReinversiones"].Columns.Add(anoActual.ToString(), Type.GetType("System.String"));
-                    row[anoActual.ToString()] = "₡ " + listVals[i - 1].ToString("#,##0.##");
+                    row[anoActual.ToString()] = signoMoneda + " " + listVals[i - 1].ToString("#,##0.##");
                 }//for
 
                 ds.Tables["TotalesReinversiones"].Rows.Add(row);
@@ -308,10 +196,14 @@ namespace UCR.Negotium.Extensions
             return ds.Tables["TotalesReinversiones"];
         }
 
-        public static DataTable GenerarDTFinanciamientoIF(int anoInicial, double monto, double tiempo, InteresFinanciamiento interesIF)
+        public static DataTable GenerarFinanciamientoIF(Financiamiento financiamiento, int codProyecto)
         {
-            tiempo -= anoInicial;
-            double interesIFtemp = interesIF.PorcentajeInteres / 100;
+            string signoMoneda = MonedaActual.GetSignoMoneda(codProyecto);
+
+            int tiempo = financiamiento.TiempoFinanciamiento;
+            double monto = financiamiento.MontoFinanciamiento;
+            int anoInicial = financiamiento.AnoInicialPago;
+            double interesIFtemp = financiamiento.TasaIntereses[0].PorcentajeInteres / 100;
             double cuota = Math.Round((monto * interesIFtemp) / (1 - (Math.Pow((1 + interesIFtemp), (-tiempo)))), 2);
 
             DataSet ds = new DataSet();
@@ -322,20 +214,20 @@ namespace UCR.Negotium.Extensions
             ds.Tables["AmortizacionPrestamo"].Columns.Add("titulo4");
             ds.Tables["AmortizacionPrestamo"].Columns.Add("titulo5");
 
-            for (int i = 1; i <= tiempo; i++)
+            for (int i = 0; i <= tiempo; i++)
             {
                 DataRow row1 = ds.Tables["AmortizacionPrestamo"].NewRow();
                 row1["titulo1"] = anoInicial + i;
 
-                row1["titulo2"] = "₡ " + monto.ToString("#,##0.##");
+                row1["titulo2"] = signoMoneda + " " + monto.ToString("#,##0.##");
 
-                row1["titulo3"] = "₡ " + cuota.ToString("#,##0.##");
+                row1["titulo3"] = signoMoneda + " " + cuota.ToString("#,##0.##");
 
                 double interes = Math.Round((monto * interesIFtemp), 2);
-                row1["titulo4"] = "₡ " + interes.ToString("#,##0.##");
+                row1["titulo4"] = signoMoneda + " " + interes.ToString("#,##0.##");
 
                 double amortizacion = Math.Round(cuota - interes, 2);
-                row1["titulo5"] = "₡ " + amortizacion.ToString("#,##0.##");
+                row1["titulo5"] = signoMoneda + " " + amortizacion.ToString("#,##0.##");
 
                 ds.Tables["AmortizacionPrestamo"].Rows.Add(row1);
 
@@ -348,11 +240,14 @@ namespace UCR.Negotium.Extensions
             return ds.Tables["AmortizacionPrestamo"];
         }
 
-        public static DataTable GenerarDTFinanciamientoIV(Proyecto proyecto)
+        public static DataTable GenerarFinanciamientoIV(Financiamiento financiamiento, int codProyecto)
         {
-            double monto = proyecto.Financiamiento.MontoFinanciamiento;
-            int tiempo = proyecto.Financiamiento.TiempoFinanciamiento-proyecto.AnoInicial;
-            List<InteresFinanciamiento> intereses = proyecto.InteresesFinanciamiento;
+            string signoMoneda = MonedaActual.GetSignoMoneda(codProyecto);
+
+            double monto = financiamiento.MontoFinanciamiento;
+            int tiempo = financiamiento.TiempoFinanciamiento;
+            int anoInicial = financiamiento.AnoInicialPago;
+            List<InteresFinanciamiento> intereses = financiamiento.TasaIntereses;
 
             DataSet ds = new DataSet();
             ds.Tables.Add("AmortizacionPrestamo");
@@ -363,34 +258,49 @@ namespace UCR.Negotium.Extensions
             ds.Tables["AmortizacionPrestamo"].Columns.Add("titulo5", Type.GetType("System.String"));
             int tiempoTemp = tiempo;
 
-            for (int i = 1; i <= tiempo; i++)
+            for (int i = 0; i <= tiempo; i++)
             {
-                Double interesTemp = intereses[i - 1].PorcentajeInteres / 100;
+                double interesTemp = 0;
+                if (!i.Equals(tiempo))
+                {
+                    interesTemp = intereses[i].PorcentajeInteres / 100;
+                }
 
                 DataRow row1 = ds.Tables["AmortizacionPrestamo"].NewRow();
-                row1["titulo1"] = proyecto.AnoInicial + i;
+                row1["titulo1"] = anoInicial + i;
 
-                row1["titulo2"] = "₡ " + monto.ToString("#,##0.##");
+                row1["titulo2"] = signoMoneda + " " + monto.ToString("#,##0.##");
 
-                double cuota = Math.Round((monto * interesTemp) / (1 - (Math.Pow((1 + interesTemp), (-tiempoTemp)))), 2);
-                row1["titulo3"] = "₡ " + cuota.ToString("#,##0.##");
+                double cuota = 0;
+                if (!i.Equals(tiempo))
+                {
+                    cuota = Math.Round((monto * interesTemp) / (1 - (Math.Pow((1 + interesTemp), (-tiempoTemp)))), 2);
+                }
+                row1["titulo3"] = signoMoneda + " " + cuota.ToString("#,##0.##");
 
                 double interes = Math.Round((monto * interesTemp), 2);
-                row1["titulo4"] = "₡ " + interes.ToString("#,##0.##");
+                row1["titulo4"] = signoMoneda + " " + interes.ToString("#,##0.##");
 
                 double amortizacion = Math.Round(cuota - interes, 2);
-                row1["titulo5"] = "₡ " + amortizacion.ToString("#,##0.##");
+                row1["titulo5"] = signoMoneda + " " + amortizacion.ToString("#,##0.##");
 
                 ds.Tables["AmortizacionPrestamo"].Rows.Add(row1);
 
                 monto = Math.Round((monto - amortizacion), 2);
+
+                if (monto < 1)
+                {
+                    monto = 0;
+                }
                 tiempoTemp--;
             }
             return ds.Tables["AmortizacionPrestamo"];
         }
 
-        public static DataTable GenerarDTFlujoCaja(Proyecto proyecto, DataView dgvCapitalTrabajo, DataView dgvFinanciamiento, DataView dgvTotalesReinversiones, string totalInversiones, string recuperacionCT)
+        public static DataTable GenerarFlujoCaja(Proyecto proyecto, DataView dgvCapitalTrabajo, DataView dgvFinanciamiento, DataView dgvTotalesReinversiones, string totalInversiones, string recuperacionCT)
         {
+            string signoMoneda = MonedaActual.GetSignoMoneda(proyecto.CodProyecto);
+
             string dsNombre = "FlujoCaja";
             DataSet ds = new DataSet();
             ds.Tables.Add(dsNombre);
@@ -407,7 +317,7 @@ namespace UCR.Negotium.Extensions
             int a = 1;
             foreach (double IngreGenerado in proyecto.IngresosGenerados)
             {
-                row[(proyecto.AnoInicial + a).ToString()] = "₡ " + IngreGenerado.ToString("#,##0.##");
+                row[(proyecto.AnoInicial + a).ToString()] = signoMoneda +" "+ IngreGenerado.ToString("#,##0.##");
                 a++;
             }
 
@@ -421,7 +331,7 @@ namespace UCR.Negotium.Extensions
             int a2 = 1;
             foreach (double costoGenerado in proyecto.CostosGenerados)
             {
-                row2[(proyecto.AnoInicial + a2).ToString()] = "₡ " + (-costoGenerado).ToString("#,##0.##");
+                row2[(proyecto.AnoInicial + a2).ToString()] = signoMoneda +" "+ (-costoGenerado).ToString("#,##0.##");
                 a2++;
             }
             ds.Tables[dsNombre].Rows.Add(row2);
@@ -433,7 +343,7 @@ namespace UCR.Negotium.Extensions
             int a3 = 1;
             foreach (double depreciacionAnual in proyecto.TotalDepreciaciones)
             {
-                row3[(proyecto.AnoInicial + a3).ToString()] = "₡ -" + depreciacionAnual.ToString("#,##0.##");
+                row3[(proyecto.AnoInicial + a3).ToString()] = signoMoneda +" "+ (-depreciacionAnual).ToString("#,##0.##");
                 a3++;
             }
             ds.Tables[dsNombre].Rows.Add(row3);
@@ -445,7 +355,7 @@ namespace UCR.Negotium.Extensions
             int a4 = 1;
             foreach (double utilidad in proyecto.UtilidadOperativa)
             {
-                row4[(proyecto.AnoInicial + a4).ToString()] = "₡ " + utilidad.ToString("#,##0.##");
+                row4[(proyecto.AnoInicial + a4).ToString()] = signoMoneda +" "+ utilidad.ToString("#,##0.##");
                 a4++;
             }
 
@@ -461,11 +371,11 @@ namespace UCR.Negotium.Extensions
             {
                 if (dgvFinanciamiento.Table != null && i < dgvFinanciamiento.Table.Rows.Count)
                 {
-                    row5[(proyecto.AnoInicial + a5).ToString()] = "₡ -" + dgvFinanciamiento.Table.Rows[i][2].ToString().Replace("₡ ", string.Empty);
+                    row5[(proyecto.AnoInicial + a5).ToString()] = signoMoneda + " -" + dgvFinanciamiento.Table.Rows[i][2].ToString().Replace(signoMoneda + " ", string.Empty);
                 }
                 else
                 {
-                    row5[(proyecto.AnoInicial + a5).ToString()] = "₡ 0";
+                    row5[(proyecto.AnoInicial + a5).ToString()] = signoMoneda + " 0";
                 }
                 a5++;
             }
@@ -479,8 +389,8 @@ namespace UCR.Negotium.Extensions
 
             for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
             {
-                string val = ds.Tables[dsNombre].Rows[4].ItemArray[i + 2].ToString().Replace("₡ ", string.Empty);
-                row6[(proyecto.AnoInicial + a6).ToString()] = "₡ " + Math.Round(proyecto.UtilidadOperativa[i] + Convert.ToDouble(ds.Tables[dsNombre].Rows[4].ItemArray[i + 2].ToString().Replace("₡ ", string.Empty)), 2).ToString("#,##0.##");
+                string val = ds.Tables[dsNombre].Rows[4].ItemArray[i + 2].ToString().Replace(signoMoneda + " ", string.Empty);
+                row6[(proyecto.AnoInicial + a6).ToString()] = signoMoneda +" "+ Math.Round(proyecto.UtilidadOperativa[i] + Convert.ToDouble(val), 2).ToString("#,##0.##");
                 a6++;
             }
             ds.Tables[dsNombre].Rows.Add(row6);
@@ -491,26 +401,26 @@ namespace UCR.Negotium.Extensions
             row7["Rubro"] = "Impuesto";
             int a7 = 1;
 
-            for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
+            if (proyecto.PagaImpuesto)
             {
-                double val = Convert.ToDouble(ds.Tables[dsNombre].Rows[5].ItemArray[i + 2].ToString().Replace("₡ ", string.Empty));
-                double valImp = 0;
-                if (proyecto.PagaImpuesto)
+                for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
                 {
-                    valImp = proyecto.PorcentajeImpuesto;
-                }
+                    double val = Convert.ToDouble(ds.Tables[dsNombre].Rows[5].ItemArray[i + 2].ToString().Replace(signoMoneda + " ", string.Empty));
+                    double valImp = proyecto.PorcentajeImpuesto;
 
-                if (proyecto.PagaImpuesto)
-                {
-                    row7[(proyecto.AnoInicial + a7).ToString()] = "₡ " + Math.Round(((valImp * val) / 100), 2).ToString("#,##0.##");
+                    row7[(proyecto.AnoInicial + a7).ToString()] = signoMoneda +" "+ Math.Round(((valImp * val) / 100), 2).ToString("#,##0.##");
+                    a7++;
                 }
-                else
-                {
-                    row7[(proyecto.AnoInicial + a7).ToString()] = "₡ 0";
-                }
-
-                a7++;
             }
+            else
+            {
+                for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
+                {
+                    row7[(proyecto.AnoInicial + a7).ToString()] = signoMoneda + " 0";
+                    a7++;
+                }
+            }
+
             ds.Tables[dsNombre].Rows.Add(row7);
             #endregion
 
@@ -521,7 +431,8 @@ namespace UCR.Negotium.Extensions
 
             for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
             {
-                row8[(proyecto.AnoInicial + a8).ToString()] = "₡ " + Math.Round(Convert.ToDouble(ds.Tables[dsNombre].Rows[5].ItemArray[i + 2].ToString().Replace("₡ ", string.Empty)) - Convert.ToDouble(ds.Tables[dsNombre].Rows[6].ItemArray[i + 2].ToString().Replace("₡ ", string.Empty)), 2).ToString("#,##0.##");
+                row8[(proyecto.AnoInicial + a8).ToString()] = signoMoneda +" "+ Math.Round(Convert.ToDouble(ds.Tables[dsNombre].Rows[5].ItemArray[i + 2].ToString().Replace(signoMoneda + " ", string.Empty)) -
+                    Convert.ToDouble(ds.Tables[dsNombre].Rows[6].ItemArray[i + 2].ToString().Replace(signoMoneda + " ", string.Empty)), 2).ToString("#,##0.##");
                 a8++;
             }
             ds.Tables[dsNombre].Rows.Add(row8);
@@ -533,7 +444,7 @@ namespace UCR.Negotium.Extensions
             int a9 = 1;
             foreach (double depreciacionAnual in proyecto.TotalDepreciaciones)
             {
-                row9[(proyecto.AnoInicial + a9).ToString()] = "₡ " + depreciacionAnual.ToString("#,##0.##");
+                row9[(proyecto.AnoInicial + a9).ToString()] = signoMoneda +" "+ depreciacionAnual.ToString("#,##0.##");
                 a9++;
             }
             ds.Tables[dsNombre].Rows.Add(row9);
@@ -546,7 +457,8 @@ namespace UCR.Negotium.Extensions
 
             for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
             {
-                row10[(proyecto.AnoInicial + a10).ToString()] = "₡ " + Math.Round(Convert.ToDouble(ds.Tables[dsNombre].Rows[7].ItemArray[i + 2].ToString().Replace("₡ ", string.Empty)) + Convert.ToDouble(ds.Tables[dsNombre].Rows[8].ItemArray[i + 2].ToString().Replace("₡ ", string.Empty)), 2).ToString("#,##0.##");
+                row10[(proyecto.AnoInicial + a10).ToString()] = signoMoneda +" "+ Math.Round(Convert.ToDouble(ds.Tables[dsNombre].Rows[7].ItemArray[i + 2].ToString().Replace(signoMoneda + " ", string.Empty)) +
+                    Convert.ToDouble(ds.Tables[dsNombre].Rows[8].ItemArray[i + 2].ToString().Replace(signoMoneda + " ", string.Empty)), 2).ToString("#,##0.##");
                 a10++;
             }
             ds.Tables[dsNombre].Rows.Add(row10);
@@ -556,19 +468,24 @@ namespace UCR.Negotium.Extensions
             DataRow row11 = ds.Tables[dsNombre].NewRow();
             row11["Rubro"] = "Inversiones";
             int a11 = 0;
-            row11[(proyecto.AnoInicial + a11).ToString()] = "₡ -" + totalInversiones.ToString().Replace("₡ ", string.Empty);
+            row11[(proyecto.AnoInicial + a11).ToString()] = signoMoneda + " -" + totalInversiones.ToString().Replace(signoMoneda + " ", string.Empty);
             a11++;
-            for (int i = 1; i < proyecto.HorizonteEvaluacionEnAnos; i++)
+
+            if (dgvTotalesReinversiones.Table != null)
             {
-                if(dgvTotalesReinversiones.Table != null)
+                for (int i = 1; i < proyecto.HorizonteEvaluacionEnAnos; i++)
                 {
-                    row11[(proyecto.AnoInicial + a11).ToString()] = "₡ -" + dgvTotalesReinversiones.Table.Rows[0][i].ToString().Replace("₡ ", string.Empty);
+                    row11[(proyecto.AnoInicial + a11).ToString()] = signoMoneda + " -" + dgvTotalesReinversiones.Table.Rows[0][i].ToString().Replace(signoMoneda + " ", string.Empty);
+                    a11++;
                 }
-                else
+            }
+            else
+            {
+                for (int i = 1; i < proyecto.HorizonteEvaluacionEnAnos; i++)
                 {
-                    row11[(proyecto.AnoInicial + a11).ToString()] = "₡ -0";
+                    row11[(proyecto.AnoInicial + a11).ToString()] = signoMoneda + " -0";
+                    a11++;
                 }
-                a11++;
             }
             ds.Tables[dsNombre].Rows.Add(row11);
             #endregion
@@ -576,22 +493,23 @@ namespace UCR.Negotium.Extensions
             #region prestamo
             DataRow row12 = ds.Tables[dsNombre].NewRow();
             row12["Rubro"] = "Préstamo";
-            row12[(proyecto.AnoInicial).ToString()] = "₡ " + proyecto.Financiamiento.MontoFinanciamiento;
+            row12[(proyecto.AnoInicial).ToString()] = signoMoneda +" "+ proyecto.Financiamiento.MontoFinanciamiento.ToString("#,##0.##");
             ds.Tables[dsNombre].Rows.Add(row12);
             #endregion
 
             #region amortizacion prestamo
             DataRow row13 = ds.Tables[dsNombre].NewRow();
             row13["Rubro"] = "Amortizacion del préstamo";
-            for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
+
+            for (int i = 0; i <= proyecto.Financiamiento.TiempoFinanciamiento; i++)
             {
                 if (dgvFinanciamiento.Table != null && i < dgvFinanciamiento.Table.Rows.Count)
                 {
-                    row13[(proyecto.AnoInicial + i + 1).ToString()] = "₡ -" + dgvFinanciamiento.Table.Rows[i][3].ToString().Replace("₡ ", string.Empty);
+                    row13[(proyecto.Financiamiento.AnoInicialPago + i).ToString()] = signoMoneda + " -" + dgvFinanciamiento.Table.Rows[i][3].ToString().Replace(signoMoneda + " ", string.Empty);
                 }
                 else
                 {
-                    row13[(proyecto.AnoInicial + i + 1).ToString()] = "₡ 0";
+                    row13[(proyecto.Financiamiento.AnoInicialPago + i).ToString()] = signoMoneda + " 0";
                 }
             }
             ds.Tables[dsNombre].Rows.Add(row13);
@@ -601,19 +519,25 @@ namespace UCR.Negotium.Extensions
             DataRow row14 = ds.Tables[dsNombre].NewRow();
             row14["Rubro"] = "Inv. Capital Trabajo";
             int a14 = 0;
-            for (int i = 1; i < proyecto.HorizonteEvaluacionEnAnos + 1; i++)
+
+            if (dgvCapitalTrabajo.Table != null)
             {
-                if(dgvCapitalTrabajo.Table != null)
+                for (int i = 1; i < proyecto.HorizonteEvaluacionEnAnos + 1; i++)
                 {
                     row14[(proyecto.AnoInicial + a14).ToString()] = dgvCapitalTrabajo.Table.Rows[2][i].ToString();
+                    a14++;
                 }
-                else
-                {
-                    row14[(proyecto.AnoInicial + a14).ToString()] = "₡ 0";
-                }
-                a14++;
             }
-            row14[(proyecto.AnoInicial + a14).ToString()] = "₡ 0";
+            else
+            {
+                for (int i = 1; i < proyecto.HorizonteEvaluacionEnAnos + 1; i++)
+                {
+                    row14[(proyecto.AnoInicial + a14).ToString()] = signoMoneda + " 0";
+                    a14++;
+                }
+            }
+
+            row14[(proyecto.AnoInicial + a14).ToString()] = signoMoneda + " 0";
             ds.Tables[dsNombre].Rows.Add(row14);
             #endregion
 
@@ -627,7 +551,7 @@ namespace UCR.Negotium.Extensions
             #region valorResidual
             DataRow row16 = ds.Tables[dsNombre].NewRow();
             row16["Rubro"] = "Valor Residual";
-            row16[(proyecto.AnoInicial + proyecto.HorizonteEvaluacionEnAnos).ToString()] = "₡ " + proyecto.ValorResidual.ToString("#,##0.##");
+            row16[(proyecto.AnoInicial + proyecto.HorizonteEvaluacionEnAnos).ToString()] = signoMoneda + " " + proyecto.ValorResidual.ToString("#,##0.##");
             ds.Tables[dsNombre].Rows.Add(row16);
             #endregion
 
@@ -637,14 +561,14 @@ namespace UCR.Negotium.Extensions
 
             for (int i = 0; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
             {
-                row17[(proyecto.AnoInicial + i).ToString()] = "₡ " + Math.Round(
-                    Convert.ToDouble(ds.Tables[dsNombre].Rows[9].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[9].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).ToString())) +
-                    Convert.ToDouble(ds.Tables[dsNombre].Rows[10].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[10].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).ToString())) +
-                    Convert.ToDouble(ds.Tables[dsNombre].Rows[11].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[11].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).ToString())) +
-                    Convert.ToDouble(ds.Tables[dsNombre].Rows[12].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[12].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).ToString())) +
-                    Convert.ToDouble(ds.Tables[dsNombre].Rows[13].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[13].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).ToString())) +
-                    Convert.ToDouble(ds.Tables[dsNombre].Rows[14].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[14].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).ToString())) +
-                    Convert.ToDouble(ds.Tables[dsNombre].Rows[15].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[15].ItemArray[i + 1].ToString().Replace("₡ ", string.Empty).ToString()))
+                row17[(proyecto.AnoInicial + i).ToString()] = signoMoneda + " " + Math.Round(
+                    Convert.ToDouble(ds.Tables[dsNombre].Rows[9].ItemArray[i + 1].ToString().Replace(signoMoneda + " ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[9].ItemArray[i + 1].ToString().Replace(signoMoneda + " ", string.Empty).ToString())) +
+                    Convert.ToDouble(ds.Tables[dsNombre].Rows[10].ItemArray[i + 1].ToString().Replace(signoMoneda + " ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[10].ItemArray[i + 1].ToString().Replace(signoMoneda + " ", string.Empty).ToString())) +
+                    Convert.ToDouble(ds.Tables[dsNombre].Rows[11].ItemArray[i + 1].ToString().Replace(signoMoneda + " ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[11].ItemArray[i + 1].ToString().Replace(signoMoneda + " ", string.Empty).ToString())) +
+                    Convert.ToDouble(ds.Tables[dsNombre].Rows[12].ItemArray[i + 1].ToString().Replace(signoMoneda + " ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[12].ItemArray[i + 1].ToString().Replace(signoMoneda + " ", string.Empty).ToString())) +
+                    Convert.ToDouble(ds.Tables[dsNombre].Rows[13].ItemArray[i + 1].ToString().Replace(signoMoneda + " ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[13].ItemArray[i + 1].ToString().Replace(signoMoneda + " ", string.Empty).ToString())) +
+                    Convert.ToDouble(ds.Tables[dsNombre].Rows[14].ItemArray[i + 1].ToString().Replace(signoMoneda + " ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[14].ItemArray[i + 1].ToString().Replace(signoMoneda + " ", string.Empty).ToString())) +
+                    Convert.ToDouble(ds.Tables[dsNombre].Rows[15].ItemArray[i + 1].ToString().Replace(signoMoneda + " ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[15].ItemArray[i + 1].ToString().Replace(signoMoneda + " ", string.Empty).ToString()))
                     , 2).ToString("#,##0.##");
             }
             ds.Tables[dsNombre].Rows.Add(row17);

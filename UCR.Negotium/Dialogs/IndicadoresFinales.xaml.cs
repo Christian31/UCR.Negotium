@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Extensions;
 
 namespace UCR.Negotium.Dialogs
 {
@@ -19,6 +20,7 @@ namespace UCR.Negotium.Dialogs
         private Proyecto proyecto;
         private double montoInicial;
         private double[] flujoCaja;
+        private string signoMoneda;
 
         private ProyectoData proyectoData;
 
@@ -36,6 +38,7 @@ namespace UCR.Negotium.Dialogs
 
             proyectoData = new ProyectoData();
             proyecto = proyectoData.GetProyecto(codProyecto);
+            signoMoneda = MonedaActual.GetSignoMoneda(codProyecto);
         }
 
         public bool Reload { get; set; }
@@ -48,7 +51,7 @@ namespace UCR.Negotium.Dialogs
 
         public string VAN
         {
-            get { return string.Concat("₡ ", van.ToString("#,##0.##")); }
+            get { return signoMoneda +" "+ van.ToString("#,##0.##"); }
             set { }
         }
 
@@ -56,8 +59,8 @@ namespace UCR.Negotium.Dialogs
         {
             get
             {
-                return string.Concat("₡ ", (Math.Round(
-                    van / ProyectoSelected.PersonasParticipantes, 2)).ToString("#,##0.##"));
+                return signoMoneda +" "+ Math.Round(
+                    van / ProyectoSelected.PersonasParticipantes, 2).ToString("#,##0.##");
             }
             set { }
         }
@@ -66,8 +69,8 @@ namespace UCR.Negotium.Dialogs
         {
             get
             {
-                return string.Concat("₡ ", (Math.Round(
-                    van / ProyectoSelected.FamiliasInvolucradas, 2)).ToString("#,##0.##"));
+                return signoMoneda + " " + Math.Round(
+                    van / ProyectoSelected.FamiliasInvolucradas, 2).ToString("#,##0.##");
             }
             set { }
         }
@@ -76,8 +79,8 @@ namespace UCR.Negotium.Dialogs
         {
             get
             {
-                return string.Concat("₡ ", (Math.Round(
-                    van / ProyectoSelected.PersonasBeneficiadas, 2)).ToString("#,##0.##"));
+                return signoMoneda + " " + Math.Round(
+                    van / ProyectoSelected.PersonasBeneficiadas, 2).ToString("#,##0.##");
             }
             set { }
         }

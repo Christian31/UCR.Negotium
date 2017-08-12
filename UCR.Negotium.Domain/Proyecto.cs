@@ -31,7 +31,6 @@ namespace UCR.Negotium.Domain
         public List<ProyeccionVentaArticulo> Proyecciones { get; set; }
         public List<Costo> Costos { get; set; }
         public List<VariacionAnualCosto> VariacionCostos { get; set; }
-        public List<InteresFinanciamiento> InteresesFinanciamiento { get; set; }
         public Financiamiento Financiamiento { get; set; }
         public double TasaCostoCapital { get; set; }
         public int PersonasParticipantes { get; set; }
@@ -39,6 +38,7 @@ namespace UCR.Negotium.Domain
         public int PersonasBeneficiadas { get; set; }
         public bool ConFinanciamiento { get; set; }
         public TipoProyecto TipoProyecto { get; set; }
+        public TipoMoneda TipoMoneda { get; set; }
 
         //atributo calculado
         private List<double> ingresosGenerados;
@@ -64,9 +64,9 @@ namespace UCR.Negotium.Domain
             this.IngresosGenerados = new List<double>();
             this.Costos = new List<Costo>();
             this.VariacionCostos = new List<VariacionAnualCosto>();
-            this.InteresesFinanciamiento = new List<InteresFinanciamiento>();
             this.Financiamiento = new Financiamiento();
             this.TipoProyecto = new TipoProyecto();
+            this.TipoMoneda = new TipoMoneda() { CodMoneda = 1 };
             this.depreciaciones = new List<Depreciacion>();
             this.totalDepreciaciones = new List<double>();
             this.utilidadOperativa = new List<double>();
@@ -251,7 +251,6 @@ namespace UCR.Negotium.Domain
 
         private List<double> calcularIngresosGenerados()
         {
-            double valIni = 0;
             List<double> listIngresos = new List<double>();
 
             if (this.Proyecciones.Count.Equals(0))
@@ -265,6 +264,7 @@ namespace UCR.Negotium.Domain
             {
                 foreach (ProyeccionVentaArticulo articulo in this.Proyecciones)
                 {
+                    double valIni = 0;
                     List<double> listIngresosArticulo = new List<double>();
                     articulo.DetallesProyeccionVenta.ForEach(detArticulo => valIni += detArticulo.Subtotal);
 
@@ -278,7 +278,6 @@ namespace UCR.Negotium.Domain
                     listIngresos = SumListDoubles(listIngresos, listIngresosArticulo);
                 }
             }
-            
 
             return listIngresos;
         }

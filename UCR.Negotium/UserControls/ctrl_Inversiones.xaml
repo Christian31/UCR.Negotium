@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:conv="clr-namespace:UCR.Negotium.Extensions"
              xmlns:local="clr-namespace:UCR.Negotium.UserControls"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
@@ -25,17 +26,17 @@
                 </Grid.RowDefinitions>
                 <Label Grid.ColumnSpan="2" Style="{StaticResource tableTitleStyle}"
                     Content="Registro de Inversiones mayores a 1 Año (Menores a 1 Año registrarse como costos)"/>
-                <DataGrid Grid.Column="0" Grid.Row="1" Style="{StaticResource mainGrid}"
+                <DataGrid Grid.Column="0" Grid.Row="1" Style="{StaticResource mainGrid}" x:Name="dgInversiones"
                           ItemsSource="{Binding InversionesList, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
                           SelectedItem="{Binding InversionSelected, UpdateSourceTrigger=PropertyChanged}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Path=DescripcionRequerimiento}" Header="Descripción" Width="4*"/>
                         <DataGridTextColumn Binding="{Binding Path=Cantidad}" Header="Cantidad" Width="2*"/>
                         <DataGridTextColumn Binding="{Binding Path=UnidadMedida}" Header="Unidad Medida" Width="2*"/>
-                        <DataGridTextColumn Binding="{Binding Path=CostoUnitarioFormat}" Header="Costo Unitario (₡)" Width="2.5*"/>
+                        <DataGridTextColumn Binding="{Binding Path=CostoUnitarioFormat}" Width="2.5*" x:Name="dgtxcCostoUnidad"/>
                         <DataGridCheckBoxColumn Binding="{Binding Path=Depreciable}" Header="Depreciable" Width="2*"/>
                         <DataGridTextColumn Binding="{Binding Path=VidaUtil}" Header="Vida Útil(Años)" Width="2.5*"/>
-                        <DataGridTextColumn Binding="{Binding Path=SubtotalFormat}" Header="Subtotal (₡)" Width="3*"/>
+                        <DataGridTextColumn Binding="{Binding Path=SubtotalFormat}" Width="3*" x:Name="dgtxcSubtotal"/>
                     </DataGrid.Columns>
                 </DataGrid>
                 <Grid Grid.Row="3">

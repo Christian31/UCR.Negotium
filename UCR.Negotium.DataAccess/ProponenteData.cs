@@ -27,7 +27,6 @@ namespace UCR.Negotium.DataAccess
                 "email, puesto_en_organizacion, genero, cod_organizacion, cod_proyecto, representante_individual) " +
                 "VALUES(?,?,?,?,?,?,?,?,?,?); SELECT last_insert_rowid();";
 
-            // Ejecutamos la sentencia INSERT y cerramos la conexión
             try
             {
                 if (conexion.State != ConnectionState.Open)
@@ -100,7 +99,6 @@ namespace UCR.Negotium.DataAccess
                 }//if
                 conexion.Close();
                 return proponente;
-
             }
             catch
             {

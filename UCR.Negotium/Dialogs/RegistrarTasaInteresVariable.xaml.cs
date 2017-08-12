@@ -35,7 +35,7 @@ namespace UCR.Negotium.Dialogs
 
             this.codProyecto = codProyecto;
             this.financiamiento = financiamiento;
-            interesesFinanciamiento = interesData.GetInteresesFinanciamiento(codProyecto);
+            interesesFinanciamiento = financiamiento.TasaIntereses;
             if (interesesFinanciamiento == null || interesesFinanciamiento.Count.Equals(0))
             {
                 LoadDefaultValues();
@@ -61,46 +61,10 @@ namespace UCR.Negotium.Dialogs
         #region Events
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
-            if (!ValidateRequiredFields())
-            {
-                foreach (InteresFinanciamiento interesVariable in InteresVariable)
-                {
-                    if (interesVariable.CodInteresFinanciamiento.Equals(0))
-                    {
-                        if (interesData.InsertarInteresFinanciamiento(interesVariable, codProyecto))
-                        {
-                            //success
-                            Reload = true;
-                        }
-                        else
-                        {
-                            //error
-                            Reload = false;
-                            MessageBox.Show("Ha ocurrido un error al insertar la tasa de interés del financiamiento del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        if (interesData.ActualizarInteresFinanciamiento(interesVariable))
-                        {
-                            //success
-                            Reload = true;
-                        }
-                        else
-                        {
-                            //error
-                            Reload = false;
-                            MessageBox.Show("Ha ocurrido un error al actualizar la tasa de interés del financiamiento del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
-                            break;
-                        }
-                    }
-                }
+            Reload = !ValidateRequiredFields();
 
-
-                if (Reload)
-                    Close();
-            }
+            if (Reload)
+                Close();
         }
 
         private void btnCancelar_Click(object sender, RoutedEventArgs e)

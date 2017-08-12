@@ -54,13 +54,14 @@ namespace UCR.Negotium.UserControls
 
             proyectoSelected.AnoInicial = 2000;
             proyectoSelected.HorizonteEvaluacionEnAnos = 2;
-            proyectoSelected.TipoProyecto = TipoProyectos.FirstOrDefault();
         }
 
         public void Reload()
         {
-            nudAnoInicial.IsEnabled = nudHorizonteEvaluacion.IsEnabled = codProyecto.Equals(0);
+            
             ProyectoSelected = proyectoData.GetProyecto(CodProyecto);
+            nudAnoInicial.IsEnabled = nudHorizonteEvaluacion.IsEnabled = 
+                (codProyecto.Equals(0) || ProyectoSelected.TipoProyecto.CodTipo.Equals(2));
         }
 
         #region Properties
@@ -139,7 +140,6 @@ namespace UCR.Negotium.UserControls
 
                     if (idProyecto != -1)
                     {
-                        ProyectoSelected.CodProyecto = idProyecto;
                         RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
                         mainWindow.ReloadUserControls(idProyecto);
 
@@ -258,5 +258,15 @@ namespace UCR.Negotium.UserControls
             return validationResult;
         }
         #endregion
+
+        private void cbTipoAnalisis_Loaded(object sender, RoutedEventArgs e)
+        {
+            TipoProyecto tipoProyectoSelected = (TipoProyecto)cbTipoAnalisis.SelectedItem;
+            if (tipoProyectoSelected == null || tipoProyectoSelected.CodTipo.Equals(0))
+            {
+                cbTipoAnalisis.SelectedIndex = 0;
+                //ProyectoSelected.TipoProyecto = TipoProyectos.FirstOrDefault();
+            }
+        }
     }
 }

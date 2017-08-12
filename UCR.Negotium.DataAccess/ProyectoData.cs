@@ -11,12 +11,16 @@ namespace UCR.Negotium.DataAccess
         private string cadenaConexion;
         private SQLiteConnection conexion;
 
+        private TipoProyectoData tipoProyectoData;
+
         public ProyectoData()
         {
             cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].
                 ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
 
             conexion = new SQLiteConnection(cadenaConexion);
+
+            tipoProyectoData = new TipoProyectoData();
         }
 
         public int InsertarProyecto(Proyecto proyecto)
@@ -26,8 +30,8 @@ namespace UCR.Negotium.DataAccess
             string insert = "INSERT INTO PROYECTO(nombre_proyecto, resumen_ejecutivo, con_ingresos, "+
                 "ano_inicial_proyecto, horizonte_evaluacion_en_anos, paga_impuesto, porcentaje_impuesto, "+
                 "direccion_exacta, cod_provincia, cod_canton, cod_distrito, cod_evaluador, con_financiamiento, "+
-                "objeto_interes, archivado, cod_tipo_proyecto)" +
-                " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); "
+                "objeto_interes, archivado, cod_tipo_proyecto, cod_tipo_moneda)" +
+                " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); "
                 + "SELECT last_insert_rowid();";
             try
             {
@@ -51,6 +55,7 @@ namespace UCR.Negotium.DataAccess
                 command.Parameters.AddWithValue("objeto_interes", proyecto.ObjetoInteres);
                 command.Parameters.AddWithValue("archivado", proyecto.Archivado);
                 command.Parameters.AddWithValue("cod_tipo_proyecto", proyecto.TipoProyecto.CodTipo);
+                command.Parameters.AddWithValue("cod_tipo_moneda", proyecto.TipoMoneda.CodMoneda);
 
                 if (conexion.State != ConnectionState.Open)
                     conexion.Open();
@@ -196,6 +201,32 @@ namespace UCR.Negotium.DataAccess
             return result != -1;
         }
 
+        public bool ActualizarMoneda(int codProyecto, int codMoneda)
+        {
+            int result = -1;
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
+            {
+                conn.Open();
+                using (SQLiteCommand command = new SQLiteCommand(conn))
+                {
+                    command.CommandText = "UPDATE PROYECTO SET cod_tipo_moneda=? WHERE cod_proyecto=?";
+                    command.Prepare();
+                    command.Parameters.AddWithValue("cod_tipo_moneda", codMoneda);
+                    command.Parameters.AddWithValue("cod_proyecto", codProyecto);
+                    try
+                    {
+                        result = command.ExecuteNonQuery();
+                    }
+                    catch (SQLiteException)
+                    {
+                        return false;
+                    }
+                }
+                conn.Close();
+            }
+            return result != -1;
+        }
+
         public List<Proyecto> GetProyectos()
         {
             ProponenteData proponenteData = new ProponenteData();
@@ -216,8 +247,8 @@ namespace UCR.Negotium.DataAccess
                 proyecto.HorizonteEvaluacionEnAnos = int.Parse(reader["horizonte_evaluacion_en_anos"].ToString());
                 proyecto.Archivado = (bool)reader["archivado"];
                 proyecto.NombreProyecto = reader["nombre_proyecto"].ToString();
-                proyecto.TipoProyecto = tipoProyectoData.GetTipoProyectos().Find(tipoProy => tipoProy.CodTipo.Equals(int.Parse(reader["cod_tipo_proyecto"].ToString())));
 
+                proyecto.TipoProyecto = tipoProyectoData.GetTipoProyecto(int.Parse(reader["cod_tipo_proyecto"].ToString()));
                 proyecto.Proponente = proponenteData.GetProponente(proyecto.CodProyecto);
                 
                 proyectos.Add(proyecto);
@@ -264,12 +295,51 @@ namespace UCR.Negotium.DataAccess
                 proyecto.PersonasParticipantes = Int32.Parse(reader["personas_participantes"].ToString());
                 proyecto.ObjetoInteres = reader["objeto_interes"].ToString();
                 proyecto.Archivado = (reader["archivado"] as int?).Equals(1);
-                proyecto.TipoProyecto.CodTipo = int.Parse(reader["cod_tipo_proyecto"].ToString());
-
-                return proyecto;
+                proyecto.TipoProyecto = tipoProyectoData.GetTipoProyecto(int.Parse(reader["cod_tipo_proyecto"].ToString()));
             }//if
             conexion.Close();
             return proyecto;
+        }
+
+        public TipoMoneda GetMonedaProyecto(int codProyecto)
+        {
+            TipoMoneda tipoMoneda = new TipoMoneda();
+
+            string select = "SELECT TIPO_MONEDA.* FROM TIPO_MONEDA, PROYECTO " +
+                "WHERE PROYECTO.cod_proyecto=" + codProyecto + " AND TIPO_MONEDA.cod_tipo_moneda=PROYECTO.cod_tipo_moneda";
+            if (conexion.State != ConnectionState.Open)
+                conexion.Open();
+            SQLiteCommand command = conexion.CreateCommand();
+            command = conexion.CreateCommand();
+            command.CommandText = select;
+            SQLiteDataReader reader = command.ExecuteReader();
+            if (reader.Read())
+            {
+                tipoMoneda.CodMoneda = int.Parse(reader["cod_tipo_moneda"].ToString());
+                tipoMoneda.NombreMoneda = reader["nombre_moneda"].ToString();
+                tipoMoneda.SignoMoneda = reader["signo_moneda"].ToString();
+            }//if
+            conexion.Close();
+            return tipoMoneda;
+        }
+
+        public string GetSignoMonedaProyecto(int codProyecto)
+        {
+            string signo = "";
+            String select = "SELECT TIPO_MONEDA.signo_moneda FROM TIPO_MONEDA, PROYECTO "+
+                "WHERE PROYECTO.cod_proyecto=" + codProyecto + " AND TIPO_MONEDA.cod_tipo_moneda=PROYECTO.cod_tipo_moneda";
+            if (conexion.State != ConnectionState.Open)
+                conexion.Open();
+            SQLiteCommand command = conexion.CreateCommand();
+            command = conexion.CreateCommand();
+            command.CommandText = select;
+            SQLiteDataReader reader = command.ExecuteReader();
+            if (reader.Read())
+            {
+                signo = reader["signo_moneda"].ToString();
+            }//if
+            conexion.Close();
+            return signo;
         }
     }//ProyectoData
 }

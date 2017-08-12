@@ -67,20 +67,27 @@ namespace UCR.Negotium.UserControls
         #region Events
         private void btnGuardarCaracterizacion(object sender, RoutedEventArgs e)
         {
-            if (!ValidateRequiredFields())
+            if (!ProyectoSelected.TipoProyecto.CodTipo.Equals(2))
             {
-                if (proyectoData.ActualizarProyectoCaracterizacion(ProyectoSelected))
+                if (!ValidateRequiredFields())
                 {
-                    //success
-                    RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
-                    mainWindow.ReloadUserControls(ProyectoSelected.CodProyecto);
-                    MessageBox.Show("El proyecto se ha actualizado correctamente", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Information);
+                    if (proyectoData.ActualizarProyectoCaracterizacion(ProyectoSelected))
+                    {
+                        //success
+                        RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
+                        mainWindow.ReloadUserControls(ProyectoSelected.CodProyecto);
+                        MessageBox.Show("El proyecto se ha actualizado correctamente", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        //error
+                        MessageBox.Show("Ha ocurrido un error al actualizar el proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
-                else
-                {
-                    //error
-                    MessageBox.Show("Ha ocurrido un error al actualizar el proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+            }
+            else
+            {
+                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Completo actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 

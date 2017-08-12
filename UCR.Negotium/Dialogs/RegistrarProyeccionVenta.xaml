@@ -65,7 +65,7 @@
                     </DataGridTextColumn.EditingElementStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn
-                    Binding="{Binding Path=Precio}" Header="Precio (₡)" Width="3*">
+                    Binding="{Binding Path=Precio}" Width="3*" x:Name="dgtxcPrecio">
                     <DataGridTextColumn.EditingElementStyle>
                         <Style TargetType="{x:Type TextBox}">
                             <EventSetter Event="TextChanged" Handler="tbNumerosPositivos_TextChanged" />

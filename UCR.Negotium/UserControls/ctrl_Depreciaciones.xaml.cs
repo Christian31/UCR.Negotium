@@ -51,8 +51,8 @@ namespace UCR.Negotium.UserControls
             if (!ProyectoSelected.RequerimientosInversion.Where(inv => inv.Depreciable).Count().Equals(0) ||
                 !ProyectoSelected.RequerimientosReinversion.Where(reinv => reinv.Depreciable).Count().Equals(0))
             {
-                DTDepreciaciones = DatatableBuilder.GenerarDTDepreciaciones(ProyectoSelected).AsDataView();
-                DTTotalesDepreciaciones = DatatableBuilder.GenerarDTTotalesDepreciaciones(ProyectoSelected).AsDataView();
+                DTDepreciaciones = DatatableBuilder.GenerarDepreciaciones(ProyectoSelected).AsDataView();
+                DTTotalesDepreciaciones = DatatableBuilder.GenerarTotalesDepreciaciones(ProyectoSelected).AsDataView();
             }
         }
 

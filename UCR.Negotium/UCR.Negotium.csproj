@@ -103,6 +103,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dialogs\RegistrarTipoMoneda.xaml.cs">
+      <DependentUpon>RegistrarTipoMoneda.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\DatatableBuilder.cs" />
     <Compile Include="Extensions\GenerarReporte.cs" />
     <Page Include="App.xaml">
@@ -143,6 +146,10 @@
       <DependentUpon>RegistrarVariacionAnualCostos.xaml</DependentUpon>
     </Compile>
     <Compile Include="Extensions\InverseBoolConverter.cs" />
+    <Compile Include="Extensions\MonedaActual.cs" />
+    <Compile Include="StartWindow.xaml.cs">
+      <DependentUpon>StartWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\AnalisisAmbiental\ctrl_AnalisisAmbiental.xaml.cs">
       <DependentUpon>ctrl_AnalisisAmbiental.xaml</DependentUpon>
     </Compile>
@@ -225,6 +232,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dialogs\RegistrarTipoMoneda.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\RegistrarVariacionAnualCostos.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -241,6 +252,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="StartWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\AnalisisAmbiental\ctrl_AnalisisAmbiental.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -316,6 +331,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Resources\logo.jpeg" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

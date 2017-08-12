@@ -6,13 +6,13 @@ using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class TipoProyectoData
+    public class TipoMonedaData
     {
         private string cadenaConexion;
         private SQLiteConnection conexion;
         private SQLiteCommand command;
 
-        public TipoProyectoData()
+        public TipoMonedaData()
         {
             cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].
                 ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
@@ -20,10 +20,10 @@ namespace UCR.Negotium.DataAccess
             conexion = new SQLiteConnection(cadenaConexion);
         }
 
-        public List<TipoProyecto> GetTipoProyectos()
+        public List<TipoMoneda> GetTiposMonedas()
         {
-            List<TipoProyecto> tipoProyectos = new List<TipoProyecto>();
-            string select = "SELECT * FROM TIPO_PROYECTO";
+            List<TipoMoneda> tiposMonedas = new List<TipoMoneda>();
+            string select = "SELECT * FROM TIPO_MONEDA";
             if (conexion.State != ConnectionState.Open)
                 conexion.Open();
             command = conexion.CreateCommand();
@@ -31,33 +31,35 @@ namespace UCR.Negotium.DataAccess
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                TipoProyecto tipoProyecto = new TipoProyecto();
-                tipoProyecto.CodTipo = reader.GetInt32(0);
-                tipoProyecto.Nombre = reader.GetString(1);
-                tipoProyectos.Add(tipoProyecto);
+                TipoMoneda tipoMoneda = new TipoMoneda();
+                tipoMoneda.CodMoneda = reader.GetInt32(0);
+                tipoMoneda.NombreMoneda = reader.GetString(1);
+                tipoMoneda.SignoMoneda = reader.GetString(2);
+                tiposMonedas.Add(tipoMoneda);
             }
             conexion.Close();
 
-            return tipoProyectos;
+            return tiposMonedas;
         }
 
-        public TipoProyecto GetTipoProyecto(int codTipoProyecto)
+        public TipoMoneda GetTipoMoneda(int codTipoMoneda)
         {
-            string select = "SELECT * FROM TIPO_PROYECTO WHERE cod_tipo_proyecto=" + codTipoProyecto;
+            string select = "SELECT * FROM TIPO_MONEDA WHERE cod_tipo_moneda=" + codTipoMoneda;
             if (conexion.State != ConnectionState.Open)
                 conexion.Open();
             command = conexion.CreateCommand();
             command.CommandText = select;
             SQLiteDataReader reader = command.ExecuteReader();
-            TipoProyecto tipoProyecto = null;
+            TipoMoneda tipoMoneda = null;
             if (reader.Read())
             {
-                tipoProyecto = new TipoProyecto();
-                tipoProyecto.CodTipo = reader.GetInt32(0);
-                tipoProyecto.Nombre = reader.GetString(1);
+                tipoMoneda = new TipoMoneda();
+                tipoMoneda.CodMoneda = reader.GetInt32(0);
+                tipoMoneda.NombreMoneda = reader.GetString(1);
+                tipoMoneda.SignoMoneda = reader.GetString(2);
             }//if
             conexion.Close();
-            return tipoProyecto;
+            return tipoMoneda;
         }
     }
 }

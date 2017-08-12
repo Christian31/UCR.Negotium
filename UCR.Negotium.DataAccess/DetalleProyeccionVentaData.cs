@@ -38,7 +38,7 @@ namespace UCR.Negotium.DataAccess
                     DetalleProyeccionVenta detalleProyeccion = new DetalleProyeccionVenta();
                     detalleProyeccion.CodDetalle = reader.GetInt32(0);
                     detalleProyeccion.Mes = reader.GetString(1);
-                    detalleProyeccion.Cantidad = reader.GetInt32(2);
+                    detalleProyeccion.Cantidad = reader.GetDouble(2);
                     detalleProyeccion.Precio = reader.GetDouble(3);
                     listaDetalles.Add(detalleProyeccion);
                 }//while

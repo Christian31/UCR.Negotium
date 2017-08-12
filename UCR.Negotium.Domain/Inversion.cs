@@ -6,7 +6,7 @@ namespace UCR.Negotium.Domain
     {
         public int CodRequerimientoInversion { get; set; }
         public string DescripcionRequerimiento { get; set; }
-        public int Cantidad { get; set; }
+        public double Cantidad { get; set; }
         public double CostoUnitario { get; set; }
         public bool Depreciable { get; set; }
         public int VidaUtil { get; set; }
@@ -27,13 +27,7 @@ namespace UCR.Negotium.Domain
             return DescripcionRequerimiento;
         }
 
-        public string CostoUnitarioFormat
-        {
-            get
-            {
-                return "₡ " + CostoUnitario.ToString("#,##0.##");
-            }
-        }
+        public string CostoUnitarioFormat { get; set; }
 
         public double Subtotal
         {
@@ -43,13 +37,7 @@ namespace UCR.Negotium.Domain
             }
         }
 
-        public string SubtotalFormat
-        {
-            get
-            {
-                return "₡ " + Subtotal.ToString("#,##0.##");
-            }
-        }
+        public string SubtotalFormat { get; set; }
 
         public double Depreciacion
         {

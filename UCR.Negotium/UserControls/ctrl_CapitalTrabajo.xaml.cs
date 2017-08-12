@@ -18,6 +18,7 @@ namespace UCR.Negotium.UserControls
         private int codProyecto;
         private DataView capitalTrabajo;
         private double recuperacionCT;
+        private string signoMoneda;
 
         private ProyectoData proyectoData;
         private CostoData costoData;
@@ -41,13 +42,14 @@ namespace UCR.Negotium.UserControls
         {
             DTCapitalTrabajo = new DataView();
             recuperacionCT = 0;
+            signoMoneda = MonedaActual.GetSignoMoneda(CodProyecto);
 
             ProyectoSelected = proyectoData.GetProyecto(CodProyecto);
             ProyectoSelected.Costos = costoData.GetCostos(CodProyecto);
 
             if (!ProyectoSelected.Costos.Count.Equals(0))
             {
-                DatatableBuilder.GenerarDTCapitalTrabajo(ProyectoSelected, out capitalTrabajo, out recuperacionCT);
+                DatatableBuilder.GenerarCapitalTrabajo(ProyectoSelected, out capitalTrabajo, out recuperacionCT);
             }
 
             PropertyChanged(this, new PropertyChangedEventArgs("RecuperacionCT"));
@@ -60,7 +62,7 @@ namespace UCR.Negotium.UserControls
         {
             get
             {
-                return "₡ " + recuperacionCT.ToString("#,##0.##");
+                return signoMoneda +" "+ recuperacionCT.ToString("#,##0.##");
             }
             set
             {

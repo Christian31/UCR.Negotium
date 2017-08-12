@@ -1,5 +1,4 @@
-﻿//@Copyright Yordan Campos Piedra
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
@@ -75,7 +74,7 @@ namespace UCR.Negotium.DataAccess
                     Inversion requerimiento = new Inversion();
                     requerimiento.CodRequerimientoInversion = reader.GetInt32(0);
                     requerimiento.DescripcionRequerimiento = reader.GetString(1);
-                    requerimiento.Cantidad = reader.GetInt32(2);
+                    requerimiento.Cantidad = reader.GetDouble(2);
                     requerimiento.CostoUnitario = reader.GetDouble(3);
                     requerimiento.UnidadMedida.CodUnidad = reader.GetInt32(4);
                     requerimiento.Depreciable = reader.GetBoolean(5);
@@ -116,7 +115,7 @@ namespace UCR.Negotium.DataAccess
                     
                     requerimiento.CodRequerimientoInversion = reader.GetInt32(0);
                     requerimiento.DescripcionRequerimiento = reader.GetString(1);
-                    requerimiento.Cantidad = reader.GetInt32(2);
+                    requerimiento.Cantidad = reader.GetDouble(2);
                     requerimiento.CostoUnitario = reader.GetDouble(3);
                     requerimiento.UnidadMedida.CodUnidad = reader.GetInt32(4);
                     requerimiento.Depreciable = reader.GetBoolean(5);

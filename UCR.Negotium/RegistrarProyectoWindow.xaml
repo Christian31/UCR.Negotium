@@ -103,6 +103,9 @@
             </TabItem>
         </TabControl>
         <WrapPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+            <Controls:Tile Title="Moneda" Click="btnMoneda_Click" Style="{StaticResource tileStyle}">
+                <iconPacks:PackIconModern Kind="Money" Style="{StaticResource iconLarge}"/>
+            </Controls:Tile>
             <Controls:Tile Title="Ver Resumen" Click="btnVerResumen_Click" Style="{StaticResource tileStyle}">
                 <iconPacks:PackIconModern Kind="Notification" Style="{StaticResource iconLarge}"/>
             </Controls:Tile>

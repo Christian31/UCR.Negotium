@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using UCR.Negotium.Domain;
 using UCR.Negotium.DataAccess;
+using UCR.Negotium.Extensions;
 
 namespace UCR.Negotium.UserControls
 {
@@ -18,6 +19,7 @@ namespace UCR.Negotium.UserControls
         private List<Inversion> inversiones;
         private Proyecto proyectoSelected;
         private int codProyecto;
+        private string signoMoneda;
 
         private InversionData inversionData;
 
@@ -34,11 +36,36 @@ namespace UCR.Negotium.UserControls
 
         public void Reload()
         {
+            SignoMoneda = MonedaActual.GetSignoMoneda(codProyecto);
             InversionesList = inversionData.GetRequerimientosInversion(CodProyecto);
+
+            InversionesList.All(inv => {
+                inv.CostoUnitarioFormat = SignoMoneda +" "+ inv.CostoUnitario.ToString("#,##0.##");
+                inv.SubtotalFormat = SignoMoneda +" "+ inv.Subtotal.ToString("#,##0.##");
+                return true;
+            });
+
+            dgtxcCostoUnidad.Header = string.Format("Costo Unitario ({0})", SignoMoneda);
+            dgtxcSubtotal.Header = string.Format("Subtotal ({0})", SignoMoneda);
+
+            InversionSelected = InversionesList.FirstOrDefault();
+            PropertyChanged(this, new PropertyChangedEventArgs("InversionesList"));
             PropertyChanged(this, new PropertyChangedEventArgs("InversionesTotal"));
         }
 
-        #region Fields
+        #region Properties
+        public string SignoMoneda
+        {
+            get
+            {
+                return signoMoneda;
+            }
+            set
+            {
+                signoMoneda = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("SignoMoneda"));
+            }
+        }
         public int CodProyecto
         {
             get
@@ -67,16 +94,8 @@ namespace UCR.Negotium.UserControls
 
         public List<Inversion> InversionesList
         {
-            get
-            {
-                return inversiones;
-            }
-            set
-            {
-                inversiones = value;
-                InversionSelected = InversionesList.FirstOrDefault();
-                PropertyChanged(this, new PropertyChangedEventArgs("InversionesList"));
-            }
+            get { return inversiones; }
+            set { inversiones = value; }
         }
 
         public string InversionesTotal
@@ -85,7 +104,7 @@ namespace UCR.Negotium.UserControls
             {
                 double valor = 0;
                 InversionesList.ForEach(reqInver => valor += reqInver.Subtotal);
-                return "₡ " + valor.ToString("#,##0.##");
+                return signoMoneda +" "+ valor.ToString("#,##0.##");
             }
             set
             {
@@ -99,13 +118,20 @@ namespace UCR.Negotium.UserControls
 
         private void btnCrearInversion_Click(object sender, RoutedEventArgs e)
         {
-            RegistrarInversion registrarInversion = new RegistrarInversion(CodProyecto);
-            registrarInversion.ShowDialog();
-
-            if (registrarInversion.IsActive == false && registrarInversion.Reload)
+            if (!proyectoSelected.TipoProyecto.CodTipo.Equals(2))
             {
-                RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
-                mainWindow.ReloadUserControls(CodProyecto);
+                RegistrarInversion registrarInversion = new RegistrarInversion(CodProyecto);
+                registrarInversion.ShowDialog();
+
+                if (registrarInversion.IsActive == false && registrarInversion.Reload)
+                {
+                    RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
+                    mainWindow.ReloadUserControls(CodProyecto);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Completo actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 

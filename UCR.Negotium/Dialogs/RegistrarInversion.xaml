@@ -62,11 +62,11 @@
                           SelectedValue="{Binding Inversion.UnidadMedida.CodUnidad}" />
             </Grid>
             <Grid Style="{StaticResource gridFormStyle}">
-                <Controls:NumericUpDown Minimum="1" TextAlignment="Left"
-                    Value="{Binding Inversion.Cantidad}" Margin="0,0,60,0"/>
+                <Controls:NumericUpDown Minimum="1" TextAlignment="Left" HasDecimals="True" StringFormat="0.0"
+                    Value="{Binding Inversion.Cantidad}" Margin="0,0,40,0"/>
             </Grid>
             <Grid Style="{StaticResource gridFormStyle}">
-                <TextBox Text="{Binding Inversion.CostoUnitario}" Margin="0,0,60,0" Name="tbCostoUnitario" 
+                <TextBox Text="{Binding Inversion.CostoUnitario}" Margin="0,0,40,0" Name="tbCostoUnitario" 
                          TextChanged="tbCostoUnitario_TextChanged"/>
             </Grid>
             <StackPanel Style="{StaticResource horizontalPanelFormStyle}" Margin="0,10,0,10">
@@ -76,7 +76,7 @@
                           IsChecked="{Binding Inversion.Depreciable, Converter={conv:InverseBoolConverter}}"/>
             </StackPanel>
             <Grid Style="{StaticResource gridFormStyle}">
-                <Controls:NumericUpDown Minimum="2" TextAlignment="Left" Margin="0,0,60,0"
+                <Controls:NumericUpDown Minimum="2" TextAlignment="Left" Margin="0,0,40,0"
                           Value="{Binding Inversion.VidaUtil}" Name="nudVidaUtil"/>
             </Grid>
         </StackPanel>

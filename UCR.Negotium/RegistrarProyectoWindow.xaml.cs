@@ -22,9 +22,12 @@ namespace UCR.Negotium
         private DataView dtFlujoCaja;
         private string tir;
         private string van;
+        private string signoMoneda;
 
         private double montoInicial;
         private double[] flujoCaja;
+
+        private bool pendingSaveMoneda;
 
         private ProyectoData proyectoData;
         private EncargadoData encargadoData;
@@ -138,6 +141,10 @@ namespace UCR.Negotium
 
         public void ReloadUserControls(int codProyecto)
         {
+            if(pendingSaveMoneda)
+            {
+                MonedaActual.SetMoneda(codProyecto, ProyectoSelected.TipoMoneda.CodMoneda);
+            }
             proponente.CodProyecto = infoGeneral.CodProyecto = caracterizacion.CodProyecto =
                     inversiones.CodProyecto = reinversiones.CodProyecto =
                     capitalTrabajo.CodProyecto = depreciaciones.CodProyecto =
@@ -167,6 +174,7 @@ namespace UCR.Negotium
             proyecto.Costos = costos.CostosList;
             proyecto.RequerimientosInversion = inversiones.InversionesList;
             proyecto.RequerimientosReinversion = reinversiones.ReinversionesList;
+            signoMoneda = MonedaActual.GetSignoMoneda(codProyecto);
         }
 
         public void ReloadProgress()
@@ -219,7 +227,7 @@ namespace UCR.Negotium
                     "Datos vacios", MessageBoxButton.OK, MessageBoxImage.Warning);
                     tcRegistrarProyecto.SelectedIndex = 0;
                 }
-                else if (indice != 11)
+                else if (proyecto.TipoProyecto.CodTipo.Equals(1))
                 {
                     if (indice > 1 && proyecto.Proponente.IdProponente.Equals(0))
                     {
@@ -246,18 +254,19 @@ namespace UCR.Negotium
         {
             ReloadProyecto(proyecto.CodProyecto);
 
-            DTFlujoCaja = DatatableBuilder.GenerarDTFlujoCaja(proyecto, capitalTrabajo.DTCapitalTrabajo, financiamientoUc.DTFinanciamiento, reinversiones.DTTotalesReinversiones,
+            DTFlujoCaja = DatatableBuilder.GenerarFlujoCaja(proyecto, capitalTrabajo.DTCapitalTrabajo, financiamientoUc.DTFinanciamiento, reinversiones.DTTotalesReinversiones,
                 inversiones.InversionesTotal, capitalTrabajo.RecuperacionCT).AsDataView();
 
             LlenaCalculosFinales();
         }
+
         private void LlenaCalculosFinales()
         {
             double[] num = new double[ProyectoSelected.HorizonteEvaluacionEnAnos + 1];
             double[] numArray = new double[ProyectoSelected.HorizonteEvaluacionEnAnos];
             for (int i = 0; i <= ProyectoSelected.HorizonteEvaluacionEnAnos; i++)
             {
-                num[i] = Convert.ToDouble(DTFlujoCaja.Table.Rows[16][i + 1].ToString().Replace("₡", string.Empty));
+                num[i] = Convert.ToDouble(DTFlujoCaja.Table.Rows[16][i + 1].ToString().Replace(signoMoneda, string.Empty));
             }
 
             for (int k = 0; k < ProyectoSelected.HorizonteEvaluacionEnAnos; k++)
@@ -271,9 +280,9 @@ namespace UCR.Negotium
             try
             {
                 double num2 = num[0] + Financial.NPV(ProyectoSelected.TasaCostoCapital, ref numArray);
-                VAN = string.Concat("₡ ", num2.ToString("#,##0.##"));
+                VAN = signoMoneda + " " + num2.ToString("#,##0.##");
             }
-            catch { VAN = string.Concat("₡ ", 0.ToString("#,##0.##")); }
+            catch { VAN = signoMoneda + " " + 0.ToString("#,##0.##"); }
 
             try
             {
@@ -294,16 +303,23 @@ namespace UCR.Negotium
 
         private void lbDetalleIndicadores_Click(object sender, RoutedEventArgs e)
         {
-            double tir = Convert.ToDouble(TIR.Replace("%", string.Empty));
-            double van = Convert.ToDouble(VAN.Replace("₡", string.Empty));
-            IndicadoresFinales indicadores = new IndicadoresFinales(ProyectoSelected.CodProyecto, tir, van, montoInicial, flujoCaja);
-            indicadores.ShowDialog();
-
-            if (indicadores.IsActive == false && indicadores.Reload)
+            if (!ProyectoSelected.TipoProyecto.CodTipo.Equals(2))
             {
-                ProyectoSelected.TasaCostoCapital = proyectoData.GetProyecto(ProyectoSelected.CodProyecto).TasaCostoCapital;
-                PropertyChanged(this, new PropertyChangedEventArgs("ProyectoSelected"));
-                LlenaCalculosFinales();
+                double tir = Convert.ToDouble(TIR.Replace("%", string.Empty));
+                double van = Convert.ToDouble(VAN.Replace(signoMoneda, string.Empty));
+                IndicadoresFinales indicadores = new IndicadoresFinales(ProyectoSelected.CodProyecto, tir, van, montoInicial, flujoCaja);
+                indicadores.ShowDialog();
+
+                if (indicadores.IsActive == false && indicadores.Reload)
+                {
+                    ProyectoSelected.TasaCostoCapital = proyectoData.GetProyecto(ProyectoSelected.CodProyecto).TasaCostoCapital;
+                    PropertyChanged(this, new PropertyChangedEventArgs("ProyectoSelected"));
+                    LlenaCalculosFinales();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Completo actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -347,6 +363,25 @@ namespace UCR.Negotium
             }
 
             flyout.IsOpen = !flyout.IsOpen;
+        }
+
+        private void btnMoneda_Click(object sender, RoutedEventArgs e)
+        {
+            RegistrarTipoMoneda registrarMoneda = new RegistrarTipoMoneda(ProyectoSelected.CodProyecto);
+            registrarMoneda.ShowDialog();
+
+            if (!registrarMoneda.IsActive)
+            {
+                if (registrarMoneda.Reload)
+                {
+                    ReloadUserControls(ProyectoSelected.CodProyecto);
+                }
+                else if (registrarMoneda.PendingSave)
+                {
+                    ProyectoSelected.TipoMoneda = registrarMoneda.TipoMonedaSelected;
+                    pendingSaveMoneda = true;
+                }
+            }
         }
     }
 }

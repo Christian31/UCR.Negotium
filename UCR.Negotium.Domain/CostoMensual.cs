@@ -18,12 +18,6 @@
             }
         }
 
-        public string SubtotalFormat
-        {
-            get
-            {
-                return "₡ " + Subtotal.ToString("#,##0.##");
-            }
-        }
+        public string SubtotalFormat { get; set; }
     }
 }

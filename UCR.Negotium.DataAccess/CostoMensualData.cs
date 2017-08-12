@@ -38,7 +38,7 @@ namespace UCR.Negotium.DataAccess
                     CostoMensual detallecosto = new CostoMensual();
                     detallecosto.CodCostoMensual = reader.GetInt32(0);
                     detallecosto.Mes = reader.GetString(1);
-                    detallecosto.CostoUnitario = reader.GetInt32(2);
+                    detallecosto.CostoUnitario = reader.GetDouble(2);
                     detallecosto.Cantidad = reader.GetDouble(3);
                     listaCostos.Add(detallecosto);
                 }//while

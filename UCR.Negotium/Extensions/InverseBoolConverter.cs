@@ -9,10 +9,7 @@ namespace UCR.Negotium.Extensions
     {
         private static InverseBoolConverter converter;
 
-        public InverseBoolConverter()
-        {
-
-        }
+        public InverseBoolConverter() { }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

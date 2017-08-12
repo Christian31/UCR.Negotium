@@ -22,7 +22,7 @@ namespace UCR.Negotium.DataAccess
         public Financiamiento InsertarFinanciamiento(Financiamiento financiamiento, int codProyecto)
         {
             string insert = "INSERT INTO FINANCIAMIENTO(cod_proyecto, monto_financiamiento, interes_fijo, " +
-                "tiempo_financiamiento, ano_inicial_pago) " +
+                "ano_final_pago, ano_inicial_pago) " +
                 "VALUES(?,?,?,?,?); "
                 + "SELECT last_insert_rowid();";
 
@@ -33,75 +33,93 @@ namespace UCR.Negotium.DataAccess
                 command.Parameters.AddWithValue("cod_proyecto", codProyecto);
                 command.Parameters.AddWithValue("monto_financiamiento", financiamiento.MontoFinanciamiento);
                 command.Parameters.AddWithValue("interes_fijo", financiamiento.InteresFijo?1:0);
-                command.Parameters.AddWithValue("tiempo_financiamiento", financiamiento.TiempoFinanciamiento);
+                command.Parameters.AddWithValue("ano_final_pago", financiamiento.AnoFinalPago);
                 command.Parameters.AddWithValue("ano_inicial_pago", financiamiento.AnoInicialPago);
 
                 if (conexion.State != ConnectionState.Open)
                     conexion.Open();
 
-                // Ejecutamos la sentencia INSERT y cerramos la conexión
                 financiamiento.CodFinanciamiento = int.Parse(command.ExecuteScalar().ToString());
-                conexion.Close();
 
                 return financiamiento;
             }
             catch
             {
-                conexion.Close();
                 return new Financiamiento();
             }
+            finally
+            {
+                conexion.Close();
+            }
             
-        }//InsertarFinanciamiento
+        }
 
         public Financiamiento GetFinanciamiento(int codProyecto)
         {
             string select = "SELECT p.cod_financiamiento, p.monto_financiamiento, p.interes_fijo, " +
-                "p.tiempo_financiamiento, p.ano_inicial_pago " +
+                "p.ano_final_pago, p.ano_inicial_pago " +
                 "FROM FINANCIAMIENTO p WHERE p.cod_proyecto=" + codProyecto;
-            if (conexion.State != ConnectionState.Open)
-                conexion.Open();
-            command = conexion.CreateCommand();
-            command.CommandText = select;
-            SQLiteDataReader reader = command.ExecuteReader();
             Financiamiento financiamiento = new Financiamiento();
-            if (reader.Read())
+
+            try
             {
-                financiamiento = new Financiamiento();
-                financiamiento.CodFinanciamiento = reader.GetInt32(0);
-                financiamiento.MontoFinanciamiento = reader.GetDouble(1);
-                financiamiento.InteresFijo = reader.GetBoolean(2);
-                financiamiento.TiempoFinanciamiento = reader.GetInt32(3);
-                financiamiento.AnoInicialPago = reader.GetInt32(4);
-            }//if
-            conexion.Close();
-            return financiamiento;
-        }//GetFinanciamiento
+                if (conexion.State != ConnectionState.Open)
+                    conexion.Open();
+                command = conexion.CreateCommand();
+                command.CommandText = select;
+                SQLiteDataReader reader = command.ExecuteReader();
+                
+                if (reader.Read())
+                {
+                    financiamiento = new Financiamiento();
+                    financiamiento.CodFinanciamiento = reader.GetInt32(0);
+                    financiamiento.MontoFinanciamiento = reader.GetDouble(1);
+                    financiamiento.InteresFijo = reader.GetBoolean(2);
+                    financiamiento.AnoFinalPago = reader.GetInt32(3);
+                    financiamiento.AnoInicialPago = reader.GetInt32(4);
+                }//if
+                conexion.Close();
+                return financiamiento;
+            }
+            catch
+            {
+                return financiamiento;
+            }
+            finally
+            {
+                conexion.Close();
+            }
+            
+        }
 
         public bool ActualizarFinanciamiento(Financiamiento financiamiento)
         {
-            String update = "UPDATE FINANCIAMIENTO SET monto_financiamiento=?, tiempo_financiamiento=?, " +
+            string update = "UPDATE FINANCIAMIENTO SET monto_financiamiento=?, ano_final_pago=?, " +
                 "ano_inicial_pago=?, interes_fijo=? " +
                 "WHERE cod_financiamiento=" + financiamiento.CodFinanciamiento;
-            if (conexion.State != ConnectionState.Open)
-                conexion.Open();
-            SQLiteCommand command = conexion.CreateCommand();
-            command.CommandText = update;
-            command.Parameters.AddWithValue("monto_financiamiento", financiamiento.MontoFinanciamiento);
-            command.Parameters.AddWithValue("tiempo_financiamiento", financiamiento.TiempoFinanciamiento);
-            command.Parameters.AddWithValue("ano_inicial_pago", financiamiento.AnoInicialPago);
-            command.Parameters.AddWithValue("interes_fijo", financiamiento.InteresFijo?1:0);
 
-            // Ejecutamos la sentencia INSERT y cerramos la conexión
-            if (command.ExecuteNonQuery() != -1)
+            try
             {
-                conexion.Close();
-                return true;
-            }//if
-            else
+                if (conexion.State != ConnectionState.Open)
+                    conexion.Open();
+                SQLiteCommand command = conexion.CreateCommand();
+                command.CommandText = update;
+                command.Parameters.AddWithValue("monto_financiamiento", financiamiento.MontoFinanciamiento);
+                command.Parameters.AddWithValue("ano_final_pago", financiamiento.AnoFinalPago);
+                command.Parameters.AddWithValue("ano_inicial_pago", financiamiento.AnoInicialPago);
+                command.Parameters.AddWithValue("interes_fijo", financiamiento.InteresFijo ? 1 : 0);
+
+                return command.ExecuteNonQuery() != -1;
+            }
+            catch
             {
-                conexion.Close();
                 return false;
-            }//else
-        }//ActualizarFinanciamiento
+            }
+            finally
+            {
+                conexion.Close();
+            }
+            
+        }
     }
 }

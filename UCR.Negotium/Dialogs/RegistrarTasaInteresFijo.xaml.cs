@@ -54,37 +54,10 @@ namespace UCR.Negotium.Dialogs
         #region Events
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
-            if (!ValidateRequiredFields())
-            {
-                if (InteresFijo.CodInteresFinanciamiento.Equals(0))
-                {
-                    if (interesData.InsertarInteresFinanciamiento(InteresFijo, codProyecto))
-                    {
-                        //success
-                        Reload = true;
-                        Close();
-                    }
-                    else
-                    {
-                        //error
-                        MessageBox.Show("Ha ocurrido un error al insertar la tasa de interés del financiamiento del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                }
-                else
-                {
-                    if (interesData.ActualizarInteresFinanciamiento(InteresFijo))
-                    {
-                        //success
-                        Reload = true;
-                        Close();
-                    }
-                    else
-                    {
-                        //error
-                        MessageBox.Show("Ha ocurrido un error al actualizar la variacion anual de costos del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                }
-            }
+            Reload = !ValidateRequiredFields();
+
+            if (Reload)
+                Close();
         }
 
         private void tbTasaInteresFijo_TextChanged(object sender, TextChangedEventArgs e)

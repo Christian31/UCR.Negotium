@@ -140,7 +140,7 @@
                     </Grid>
                 </GroupBox>
                 <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="3">
-                    <Button Style="{StaticResource saveButtonStyle}" Click="btnGuardarProponente">
+                    <Button Style="{StaticResource saveButtonStyle}" Click="btnGuardarProponente" Margin="0,2,0,0" VerticalAlignment="Top">
                         <Button.ContentTemplate>
                             <DataTemplate DataType="MetroButton">
                                 <StackPanel Orientation="Horizontal">

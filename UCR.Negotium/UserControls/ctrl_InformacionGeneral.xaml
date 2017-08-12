@@ -33,7 +33,7 @@
                             <Label Content="Tipo de Análisis:"/>
                             <ComboBox ItemsSource="{Binding TipoProyectos}" SelectedValuePath="CodTipo"
                                       SelectedValue="{Binding ProyectoSelected.TipoProyecto.CodTipo}"
-                                      Width="235"/>
+                                      Width="235" x:Name="cbTipoAnalisis" Loaded="cbTipoAnalisis_Loaded"/>
                         </StackPanel>
                         <StackPanel Style="{StaticResource verticalPanelFormStyle}">
                             <Label Content="Nombre del Proyecto:"/>
@@ -62,7 +62,7 @@
                         </StackPanel>
                         <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
                             <Label Content="Porcentaje de Impuestos:"/>
-                            <Controls:NumericUpDown Minimum="0" TextAlignment="Left" Value="{Binding ProyectoSelected.PorcentajeImpuesto}" HasDecimals="True"/>
+                            <Controls:NumericUpDown Minimum="0" TextAlignment="Left" Value="{Binding ProyectoSelected.PorcentajeImpuesto}" HasDecimals="True" StringFormat="0.0"/>
                         </StackPanel>
                         <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
                             <Label Content="Posee Financiamiento:"/>
