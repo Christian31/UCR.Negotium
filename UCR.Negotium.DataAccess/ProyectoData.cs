@@ -231,6 +231,9 @@ namespace UCR.Negotium.DataAccess
         {
             ProponenteData proponenteData = new ProponenteData();
             TipoProyectoData tipoProyectoData = new TipoProyectoData();
+            List<TipoProyecto> tiposProyectos = new List<TipoProyecto>();
+            tiposProyectos = tipoProyectoData.GetTipoProyectos();
+
             List<Proyecto> proyectos = new List<Proyecto>();
             string select = "SELECT * FROM PROYECTO";
             if (conexion.State != ConnectionState.Open)
@@ -248,7 +251,9 @@ namespace UCR.Negotium.DataAccess
                 proyecto.Archivado = (bool)reader["archivado"];
                 proyecto.NombreProyecto = reader["nombre_proyecto"].ToString();
 
-                proyecto.TipoProyecto = tipoProyectoData.GetTipoProyecto(int.Parse(reader["cod_tipo_proyecto"].ToString()));
+                proyecto.TipoProyecto = tiposProyectos.Find(
+                    tipoproy => tipoproy.CodTipo.Equals(int.Parse(reader["cod_tipo_proyecto"].ToString())));
+
                 proyecto.Proponente = proponenteData.GetProponente(proyecto.CodProyecto);
                 
                 proyectos.Add(proyecto);
@@ -296,6 +301,7 @@ namespace UCR.Negotium.DataAccess
                 proyecto.ObjetoInteres = reader["objeto_interes"].ToString();
                 proyecto.Archivado = (reader["archivado"] as int?).Equals(1);
                 proyecto.TipoProyecto = tipoProyectoData.GetTipoProyecto(int.Parse(reader["cod_tipo_proyecto"].ToString()));
+
             }//if
             conexion.Close();
             return proyecto;

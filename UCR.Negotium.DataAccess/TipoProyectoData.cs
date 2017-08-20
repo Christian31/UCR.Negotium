@@ -24,6 +24,7 @@ namespace UCR.Negotium.DataAccess
         {
             List<TipoProyecto> tipoProyectos = new List<TipoProyecto>();
             string select = "SELECT * FROM TIPO_PROYECTO";
+
             if (conexion.State != ConnectionState.Open)
                 conexion.Open();
             command = conexion.CreateCommand();

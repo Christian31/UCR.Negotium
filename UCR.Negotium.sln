@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UCR.Negotium.DataAccess", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UCR.Negotium.Domain", "UCR.Negotium.Domain\UCR.Negotium.Domain.csproj", "{37573984-06BA-43F0-8AAC-0D8CAAA97867}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "UCR.Negotium.Installer", "UCR.Negotium.Installer\UCR.Negotium.Installer.vdproj", "{3AC95FF2-5242-4C6E-ACAB-CD5F0A4316C7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UCR.Negotium", "UCR.Negotium\UCR.Negotium.csproj", "{0E4A0C2E-8313-430E-AC03-20488A349FEA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UCR.Librerias", "UCR.Librerias", "{65042E02-BA37-4677-9540-7212B1746210}"
@@ -22,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UCR.Librerias", "UCR.Librer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UCR.Negotium.Base", "UCR.Negotium.Base\UCR.Negotium.Base.csproj", "{3DD443A4-EBEC-4AFC-9870-C8DD79CD20D7}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Negotium.Installer", "Negotium.Installer\Negotium.Installer.vdproj", "{E971A01D-8822-4BD9-BE15-96201AC29AB8}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Negotium 1.0", "Negotium 1.0\Negotium 1.0.vdproj", "{D6A5D67D-0C88-40BF-8D55-F482C88DD03D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,9 +36,6 @@ Global
 		{37573984-06BA-43F0-8AAC-0D8CAAA97867}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37573984-06BA-43F0-8AAC-0D8CAAA97867}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37573984-06BA-43F0-8AAC-0D8CAAA97867}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3AC95FF2-5242-4C6E-ACAB-CD5F0A4316C7}.Debug|Any CPU.ActiveCfg = Debug
-		{3AC95FF2-5242-4C6E-ACAB-CD5F0A4316C7}.Release|Any CPU.ActiveCfg = Release
-		{3AC95FF2-5242-4C6E-ACAB-CD5F0A4316C7}.Release|Any CPU.Deploy.0 = Release
 		{0E4A0C2E-8313-430E-AC03-20488A349FEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0E4A0C2E-8313-430E-AC03-20488A349FEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E4A0C2E-8313-430E-AC03-20488A349FEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -49,8 +44,8 @@ Global
 		{3DD443A4-EBEC-4AFC-9870-C8DD79CD20D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DD443A4-EBEC-4AFC-9870-C8DD79CD20D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DD443A4-EBEC-4AFC-9870-C8DD79CD20D7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E971A01D-8822-4BD9-BE15-96201AC29AB8}.Debug|Any CPU.ActiveCfg = Debug
-		{E971A01D-8822-4BD9-BE15-96201AC29AB8}.Release|Any CPU.ActiveCfg = Release
+		{D6A5D67D-0C88-40BF-8D55-F482C88DD03D}.Debug|Any CPU.ActiveCfg = Debug
+		{D6A5D67D-0C88-40BF-8D55-F482C88DD03D}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

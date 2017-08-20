@@ -1,6 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace UCR.Negotium
 {
@@ -9,6 +9,8 @@ namespace UCR.Negotium
     /// </summary>
     public partial class StartWindow : Window
     {
+        DispatcherTimer timer = null;
+
         public StartWindow()
         {
             InitializeComponent();
@@ -16,24 +18,19 @@ namespace UCR.Negotium
 
         private void Window_ContentRendered(object sender, System.EventArgs e)
         {
-            var backgroundWorker = new BackgroundWorker();
-            backgroundWorker.DoWork += (_, __) =>
-            {
-                //time to keep this window showed (6 seconds)
-                System.Threading.Thread.Sleep(6000);
-                OpenMainWindow();
-            };
-            backgroundWorker.RunWorkerAsync();
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(6);
+            timer.Tick += new EventHandler(TimerElapsed);
+            timer.Start();
         }
 
-        private void OpenMainWindow()
+        private void TimerElapsed(object sender, EventArgs e)
         {
-            Application.Current.Dispatcher.Invoke((Action)delegate
-            {
-                MainWindow mainWindow = new MainWindow();
-                mainWindow.Show();
-                Close();
-            });
+            timer.Stop();
+
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            Close();
         }
     }
 }

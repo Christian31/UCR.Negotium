@@ -325,7 +325,24 @@ namespace UCR.Negotium
 
         private void btnGenerarReporte_Click(object sender, RoutedEventArgs e)
         {
+            if (ProyectoSelected != null)
+            {
+                //cargar el objeto con toda la informacion para generar el reporte
+                Proyecto proyecto = new Proyecto();
+                proyecto = proyectoData.GetProyecto(ProyectoSelected.CodProyecto);
+                proyecto.Proponente = proponente.ProponenteSelected;
+                proyecto.RequerimientosInversion = inversiones.InversionesList;
+                string totalInversiones = inversiones.InversionesTotal;
+                proyecto.RequerimientosReinversion = reinversiones.ReinversionesList;
+                DataView totalReinversiones = reinversiones.DTTotalesReinversiones;
+                proyecto.Proyecciones = proyeccionVentas.ProyeccionesList;
+                DataView proyeccionesTotal = proyeccionVentas.DTProyeccionesTotales;
+                proyecto.Costos = costos.CostosList;
+                DataView costosTotal = costos.DTCostosTotales;
 
+                GenerarReporte reporte = new GenerarReporte(proyecto, totalInversiones, totalReinversiones, proyeccionesTotal, costosTotal);
+                reporte.CrearReporte();
+            }
         }
 
         private void btnArchivar_Click(object sender, RoutedEventArgs e)

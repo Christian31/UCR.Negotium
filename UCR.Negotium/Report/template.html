@@ -24,7 +24,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            {{NOMBREPROYECTO}} <small>Reporte del proyecto</small>
+                            $proyecto.NombreProyecto <small>Reporte del proyecto</small>
                         </h1>
                     </div>
                 </div>
@@ -38,14 +38,14 @@
                             <div class="panel-body">
                                 <div class="col-lg-4">
                                     <div class="panel panel-default panel-body">
-                                        <div class="form-group"> Año Inicial del proyecto: <b>{{ANOINICIAL}}</b></div>
-                                        <div class="form-group"> Horizonte de evaluación (años): <b>{{HORIZONTEEVALUACION}}</b></div>
-                                        <div class="form-group"> Paga Impuestos: <b>{{PAGAIMPUESTOS}}</b></div>
-                                        <div class="form-group"> Porcentaje de Impuesto: <b>{{PORCENTAJEIMPUESTO}}</b></div>
-                                    </div>
-                                    <div class="panel panel-default panel-body">
-                                        <div class="form-group"> Tipo de proyecto: <b>{{TIPOPROYECTO}}</b></div>
-                                        <div class="form-group"> Bien o Servicio: <b>{{BIENOSERVICIO}}</b></div>
+                                        <div class="form-group"> Año Inicial del proyecto: <b>$proyecto.AnoInicial</b></div>
+                                        <div class="form-group"> Horizonte de evaluación (años): <b>$proyecto.HorizonteEvaluacionEnAnos Años</b></div>
+                                        <div class="form-group"> Paga Impuestos: 
+                                        <b>#if ($proyecto.PagaImpuesto) Si #else No #end</b></div>
+                                        <div class="form-group"> Porcentaje de Impuesto: <b>$proyecto.PorcentajeImpuesto %</b></div>
+                                        <div class="form-group"> Posee Financiamiento:
+                                            <b>#if ($proyecto.ConFinanciamiento) Si #else No #end</b> </div>
+                                        <div class="form-group"> Bien o Servicio: <b>$proyecto.ObjetoInteres</b></div>
                                     </div>
                                 </div>
 
@@ -54,17 +54,17 @@
                                         <h4>Ubicación</h4>
                                         <hr>
                                         <div class="col-lg-4">
-                                            <div class="form-group"> Provincia: <b>{{PROVINCIA}}</b></div>
-                                            <div class="form-group"> Cantón: <b>{{CANTON}}</b></div>
-                                            <div class="form-group"> Distrito: <b>{{DISTRITO}}</b></div>
+                                            <div class="form-group"> Provincia: <b>$proyecto.Provincia</b></div>
+                                            <div class="form-group"> Cantón: <b>$proyecto.Canton</b></div>
+                                            <div class="form-group"> Distrito: <b>$proyecto.Distrito</b></div>
                                         </div>
 
-                                        <div class="col-lg-8 form-group"> Dirección exacta: <b>{{DIRECCIONEXACTA}}</b></div>
+                                        <div class="col-lg-8 form-group"> Dirección exacta: <b>$proyecto.DireccionExacta</b></div>
                                     </div>
                                     <div class="panel panel-default panel-body">
                                         <h4>Resumen Ejecutivo</h4>
                                         <hr>
-                                        {{RESUMENEJECUTIVO}}<br>
+                                        $proyecto.ResumenEjecutivo<br>
                                     </div>
                                 </div>
 
@@ -80,30 +80,33 @@
                                 <h3 class="panel-title">Información de la Organización</h3>
                             </div>
                             <div class="panel-body">
-                                <div class="col-lg-6">
-                                    <div class="panel panel-default panel-body">
-                                        <h4>Organización</h4>
-                                        <hr>
-                                        <div class="form-group"> Tipo: <b>{{TIPOORGANIZACION}}</b></div>
-                                        <div class="form-group"> Nombre de la Organización: <b>{{NOMBREORGANIZACION}}</b></div>
-                                        <div class="form-group"> Cédula Jurídica: <b>{{CEDULAORGANIZACION}}</b></div>
-                                        <div class="form-group"> Teléfono: <b>{{TELEFONOORGANIZACION}}</b></div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6">
+                                <div class="col-lg-5">
                                     <div class="panel panel-default panel-body">
                                         <h4>Representante legal de la Organización</h4>
                                         <hr>
-                                        <div class="form-group"> Nombre: <b>{{NOMBREREPRESENTANTE}}</b></div>
-                                        <div class="form-group"> Cédula: <b>{{CEDULAREPRESENTANTE}}</b></div>
-                                        <div class="form-group"> Teléfono: <b>{{TELEFONOREPRESENTANTE}}</b></div>
-                                        <div class="form-group"> Puesto en la Organización: <b>{{PUESTOREPRESENTANTE}}</b></div>
-                                        <div class="form-group"> Género: <b>{{GENEROREPRESENTANTE}}</b></div>
-                                        <div class="form-group"> Es Representante Individual: <b>{{INDIVIDUALREPRESENTANTE}}</b></div>
+                                        <div class="form-group"> Nombre: <b>$proyecto.Proponente</b></div>
+                                        <div class="form-group"> Cédula: <b>$proyecto.Proponente.NumIdentificacion</b></div>
+                                        <div class="form-group"> Teléfono: <b>$proyecto.Proponente.Telefono</b></div>
+                                        <div class="form-group"> Correo Electrónico: <b>$proyecto.Proponente.Email</b></div>
+                                        <div class="form-group"> Puesto en la Organización: <b>$proyecto.Proponente.PuestoEnOrganizacion</b></div>
+                                        <div class="form-group"> Género: 
+                                        <b> #if ($proyecto.Proponente.Genero) Femenino #else Masculino #end</b></div>
+                                        <div class="form-group"> Es Representante Individual:
+                                        <b>#if ($proyecto.EsRepresentanteIndividual) Si #else No #end</b></div>
                                     </div>
                                 </div>
-
+                                <div class="col-lg-7">
+                                    <div class="panel panel-default panel-body">
+                                        <h4>Organización</h4>
+                                        <hr>
+                                        <div class="form-group"> Tipo: <b>$proyecto.Proponente.Organizacion.Tipo</b></div>
+                                        <div class="form-group"> Nombre de la Organización: <b>$proyecto.Proponente.Organizacion.NombreOrganizacion</b></div>
+                                        <div class="form-group"> Cédula Jurídica: <b>$proyecto.Proponente.Organizacion.CedulaJuridica</b></div>
+                                        <div class="form-group"> Teléfono: <b>$proyecto.Proponente.Organizacion.Telefono</b></div>
+                                        <div class="form-group"> Correo Electrónico: <b>$proyecto.Proponente.Organizacion.CorreoElectronico</b></div>
+                                        <div class="form-group"> Descripción: <b>$proyecto.Proponente.Organizacion.Descripcion</b></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -116,10 +119,10 @@
                                 <h3 class="panel-title">Caracterización</h3>
                             </div>
                             <div class="panel-body">
-                                <div class="col-lg-6 form-group"> Descripción población beneficiaria: <b>{{POBLACIONCARACTERIZACION}}</b></div>
-                                <div class="col-lg-6 form-group"> Justificación del mercado: <b>{{JUSTIFICATIONCARACTERIZACION}}</b></div>
-                                <div class="col-lg-12 form-group"> Caracterización del bien/servicio: <b>{{SERVICIOCARACTERIZACION}}</b></div>
-                                <div class="col-lg-12 form-group"> Descripción de la sostenibilidad del proyecto: <b>{{DESCRIPCIONCARACTERIZACION}}</b></div>
+                                <div class="col-lg-6 form-group"> Descripción población beneficiaria: <b>$proyecto.DescripcionPoblacionBeneficiaria</b></div>
+                                <div class="col-lg-6 form-group"> Justificación del mercado: <b>$proyecto.JustificacionDeMercado</b></div>
+                                <div class="col-lg-12 form-group"> Caracterización del bien/servicio: <b>$proyecto.CaraterizacionDelBienServicio</b></div>
+                                <div class="col-lg-12 form-group"> Descripción de la sostenibilidad del proyecto: <b>$proyecto.DescripcionSostenibilidadDelProyecto</b></div>
                             </div>
                         </div>
                     </div>
@@ -147,19 +150,21 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>{{DESCRIPCIONINVERSION}}</td>
-                                                <td>{{CANTIDADINVERSION}}</td>
-                                                <td>{{COSTOINVERSION}}</td>
-                                                <td>{{UNIDADINVERSION}}</td>
-                                                <td>{{DEPRECIABLEINVERSION}}</td>
-                                                <td>{{VIDAUTILINVERSION}}</td>
-                                                <td>{{SUBTOTALINVERSION}}</td>
+                                                #foreach( $inversion in $proyecto.RequerimientosInversion )
+                                                <td>$inversion</td>
+                                                <td>$inversion.Cantidad</td>
+                                                <td>$inversion.UnidadMedida</td>
+                                                <td>$inversion.CostoUnitarioFormat</td>
+                                                <td>#if ($inversion.Depreciable) Si #else No #end
+                                                <td>$inversion.VidaUtil Años</td>
+                                                <td>$inversion.SubtotalFormat</td>
+                                                #end
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <br />
-                                Total Inversiones: <b>{{TOTALINVERSIONES}}</b>
+                                Total Inversiones: <b>$inversionesTotal</b>
                             </div>
                         </div>
                     </div>
@@ -188,30 +193,37 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>{{DESCRIPCIONREINVERSION}}</td>
-                                                <td>{{CANTIDADREINVERSION}}</td>
-                                                <td>{{COSTOREINVERSION}}</td>
-                                                <td>{{UNIDADREINVERSION}}</td>
-                                                <td>{{DEPRECIABLEREINVERSION}}</td>
-                                                <td>{{VIDAUTILREINVERSION}}</td>
-                                                <td>{{ANOREINVERSION}}</td>
-                                                <td>{{SUBTOTALREINVERSION}}</td>
+                                                #foreach( $reinversion in $proyecto.RequerimientosReinversion )
+                                                <td>$reinversion.DescripcionRequerimiento</td>
+                                                <td>$reinversion.Cantidad</td>
+                                                <td>$reinversion.CostoUnitarioFormat</td>
+                                                <td>$reinversion.UnidadMedida</td>
+                                                <td>#if ($reinversion.Depreciable) Si #else No #end
+                                                <td>$reinversion.VidaUtil Años</td>
+                                                <td>$reinversion.AnoReinversion</td>
+                                                <td>$reinversion.SubtotalFormat</td>
+                                                #end
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <br />
-                                <div class="table-responsive">
+                                <div class="table-responsive col-lg-6">
                                     <table class="table table-bordered table-hover table-striped">
                                         <caption>Total reinvertido por año:</caption>
                                         <thead>
                                             <tr>
-                                                <th>{{ANOHORIZONTE}}</th>
+                                                <th>Año</th>
+                                                <th>Monto</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>{{MONTOANUAL}}</td>
+                                                #foreach( $anoReinversion in $reinversionesTotal )
+                                                <td>$anoReinversion.Key</td>
+                                                <td>$anoReinversion.Value</td>
+                                                </tr><tr>
+                                                #end 
                                             </tr>
                                         </tbody>
                                     </table>
@@ -221,8 +233,6 @@
                     </div>
                 </div>
                 <!-- /.row -->
-
-
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">

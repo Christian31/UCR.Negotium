@@ -140,109 +140,89 @@ namespace UCR.Negotium.Domain
 
         private List<Depreciacion> calcularDepreciaciones()
         {
-            List<Inversion> inversiones = this.RequerimientosInversion;
-            List<Reinversion> reinversiones = this.RequerimientosReinversion;
+            List<Inversion> inversiones = this.RequerimientosInversion.Where(inv => inv.Depreciable).ToList();
+            List<Reinversion> reinversiones = this.RequerimientosReinversion.Where(reinv => reinv.Depreciable).ToList();
             List<Depreciacion> depreciaciones = new List<Depreciacion>();
 
             foreach (Inversion inversion in inversiones)
             {
-                if (inversion.Depreciable)
+                Depreciacion depreciacion = new Depreciacion();
+                depreciacion.NombreDepreciacion = inversion.DescripcionRequerimiento;
+                depreciacion.CodDepresiacion = inversion.CodRequerimientoInversion;
+                int count = 0;
+                while (count < this.HorizonteEvaluacionEnAnos)
                 {
-                    Depreciacion depreciacion = new Depreciacion();
-                    depreciacion.NombreDepreciacion = inversion.DescripcionRequerimiento;
-                    depreciacion.CodDepresiacion = inversion.CodRequerimientoInversion;
-                    int count = 0;
-                    while (count < this.HorizonteEvaluacionEnAnos)
+                    if (count < inversion.VidaUtil)
                     {
-                        if (count < inversion.VidaUtil)
-                        {
-                            depreciacion.MontoDepreciacion.Add(inversion.Depreciacion);
-                        }
-                        else
-                        {
-                            depreciacion.MontoDepreciacion.Add(0);
-                        }
-                        count++;
+                        depreciacion.MontoDepreciacion.Add(inversion.Depreciacion);
                     }
-                    depreciaciones.Add(depreciacion);
+                    else
+                    {
+                        depreciacion.MontoDepreciacion.Add(0);
+                    }
+                    count++;
                 }
+                depreciaciones.Add(depreciacion);
             }
 
             foreach (Reinversion reinversion in reinversiones)
             {
-                if (reinversion.Depreciable && reinversion.VidaUtil > 0)
+                if (reinversion.CodRequerimientoInversion != 0)
                 {
-                    if (reinversion.CodRequerimientoInversion != 0)
+                    var inversion = inversiones.Find(inv => inv.CodRequerimientoInversion.Equals(reinversion.CodRequerimientoInversion));
+
+                    if (inversion != null)
                     {
-                        for (int i = 0; i < inversiones.Count; i++)
+                        Depreciacion dep = depreciaciones.Find(s => s.CodDepresiacion.Equals(inversion.CodRequerimientoInversion));
+                        if (dep != null)
                         {
-                            if (reinversion.CodRequerimientoInversion.Equals(inversiones[i].CodRequerimientoInversion) && inversiones[i].Depreciable && inversiones[i].VidaUtil > 0)
+                            List<double> montosTemp = new List<double>();
+                            int count2 = reinversion.AnoReinversion - this.AnoInicial;
+                            int countF = reinversion.VidaUtil;
+                            int count = 0;
+                            while (count < this.HorizonteEvaluacionEnAnos - 1)
                             {
-                                Depreciacion dep = depreciaciones.Where(s => s.CodDepresiacion.Equals(inversiones[i].CodRequerimientoInversion)).First();
-                                if (!dep.Equals(null))
+                                if (count < count2 || countF == 0)
+                                    montosTemp.Add(0);
+                                else
                                 {
-                                    List<double> montosTemp = new List<double>();
-                                    int count2 = reinversion.AnoReinversion - this.AnoInicial;
-                                    int count = count2;
-                                    while (count > 0)
-                                    {
-                                        montosTemp.Add(0);
-                                        count--;
-                                    }
-
-                                    int countF = count2 + reinversion.VidaUtil;
-                                    while (count2 < this.HorizonteEvaluacionEnAnos - 1)
-                                    {
-                                        if (count2 < countF)
-                                        {
-                                            montosTemp.Add(reinversion.Depreciacion);
-                                        }
-                                        else
-                                        {
-                                            montosTemp.Add(0);
-                                        }
-                                        count2++;
-                                    }
-                                    //montosTemp.Add(reinversion.Depreciacion);
-
-                                    List<double> m = montosTemp;
-                                    for (int ite = 0; ite < montosTemp.Count; ite++)
-                                    {
-                                        dep.MontoDepreciacion[ite] = dep.MontoDepreciacion[ite] + montosTemp[ite];
-                                    }
-
-                                    depreciaciones.Where(s => s.CodDepresiacion.Equals(inversiones[i].CodRequerimientoInversion)).First().MontoDepreciacion = dep.MontoDepreciacion;
+                                    montosTemp.Add(reinversion.Depreciacion);
+                                    countF--;
                                 }
+
+                                count++;
                             }
+
+                            List<double> m = montosTemp;
+                            for (int ite = 0; ite < montosTemp.Count; ite++)
+                            {
+                                dep.MontoDepreciacion[ite] = dep.MontoDepreciacion[ite] + montosTemp[ite];
+                            }
+
+                            depreciaciones.Where(s => s.CodDepresiacion.Equals(inversion.CodRequerimientoInversion)).First().MontoDepreciacion = dep.MontoDepreciacion;
                         }
                     }
-                    else
+                }
+                else
+                {
+                    Depreciacion depreciacion = new Depreciacion();
+                    depreciacion.NombreDepreciacion = reinversion.DescripcionRequerimiento;
+                    int count2 = reinversion.AnoReinversion - this.AnoInicial;
+                    int countF = reinversion.VidaUtil;
+                    int count = 0;
+                    while (count < this.HorizonteEvaluacionEnAnos - 1)
                     {
-                        Depreciacion depreciacion = new Depreciacion();
-                        depreciacion.NombreDepreciacion = reinversion.DescripcionRequerimiento;
-                        int count2 = reinversion.AnoReinversion - this.AnoInicial;
-                        int count = count2;
-                        while (count > 0)
-                        {
+                        if (count < count2 || countF == 0)
                             depreciacion.MontoDepreciacion.Add(0);
-                            count--;
+                        else
+                        {
+                            depreciacion.MontoDepreciacion.Add(reinversion.Depreciacion);
+                            countF--;
                         }
 
-                        int countF = count2 + reinversion.VidaUtil;
-                        while (count2 < this.HorizonteEvaluacionEnAnos)
-                        {
-                            if (count2 < countF)
-                            {
-                                depreciacion.MontoDepreciacion.Add(reinversion.Depreciacion);
-                            }
-                            else
-                            {
-                                depreciacion.MontoDepreciacion.Add(0);
-                            }
-                            count2++;
-                        }
-                        depreciaciones.Add(depreciacion);
+                        count++;
                     }
+                    depreciaciones.Add(depreciacion);
                 }
             }
 

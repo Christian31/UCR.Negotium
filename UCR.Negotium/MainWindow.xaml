@@ -70,11 +70,6 @@
                                 <iconPacks:PackIconModern Kind="Edit" Width="16" Height="16" Margin="4,0,0,0" Foreground="Teal"/>
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="Imprimir" Click="btnImprimir_Click">
-                            <MenuItem.Icon>
-                                <iconPacks:PackIconModern Kind="Printer" Width="16" Height="16" Margin="4,0,0,0" Foreground="Teal"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
                         <MenuItem Header="Archivar" Click="btnArchivar_Click">
                             <MenuItem.Icon>
                                 <iconPacks:PackIconModern Kind="FolderLock" Width="16" Height="16" Margin="4,0,0,0" Foreground="Teal"/>
@@ -122,15 +117,11 @@
                         Style="{StaticResource circleButton}" ToolTip="Editar el Proyecto Seleccionado">
                     <iconPacks:PackIconModern Width="16" Height="16" Kind="Edit" Foreground="Teal"/>
                 </Button>
-                <Button Width="40" Margin="110,0" Height="40" Name="btnGenerarReporte" Click="btnImprimir_Click"
-                        Style="{StaticResource circleButton}" ToolTip="Imprimir el Proyecto Seleccionado">
-                    <iconPacks:PackIconModern Width="16" Height="16" Kind="Printer" Foreground="Teal"/>
-                </Button>
-                <Button Width="40" Margin="150,0" Height="40" Name="btnArchivar" Click="btnArchivar_Click"
+                <Button Width="40" Margin="110,0" Height="40" Name="btnArchivar" Click="btnArchivar_Click"
                         Style="{StaticResource circleButton}" ToolTip="Archivar el Proyecto Seleccionado">
                     <iconPacks:PackIconModern Width="16" Height="16" Kind="FolderLock" Foreground="Teal"/>
                 </Button>
-                <Button Width="40" Margin="190,0" Height="40" Name="btnReabrir" Click="btnReabrir_Click"
+                <Button Width="40" Margin="150,0" Height="40" Name="btnReabrir" Click="btnReabrir_Click"
                         Style="{StaticResource circleButton}" ToolTip="Reabrir el Proyecto Seleccionado">
                     <iconPacks:PackIconModern Width="16" Height="16" Kind="FolderOpen" Foreground="Teal"/>
                 </Button>

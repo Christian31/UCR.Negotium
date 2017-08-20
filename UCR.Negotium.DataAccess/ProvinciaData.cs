@@ -1,5 +1,4 @@
-﻿//@Copyright Yordan Campos Piedra
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
@@ -36,7 +35,7 @@ namespace UCR.Negotium.DataAccess
                 Provincia provincia = new Provincia();
                 provincia.CodProvincia = reader.GetInt32(0);
                 provincia.NombreProvincia = reader.GetString(1);
-                provincia.Cantones = cantonData.GetCantonesPorProvinciaAux(provincia.CodProvincia);
+                provincia.Cantones = cantonData.GetCantonesPorProvincia(provincia.CodProvincia);
                 provincias.Add(provincia);
             }
             conexion.Close();

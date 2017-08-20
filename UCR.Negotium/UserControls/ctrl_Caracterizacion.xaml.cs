@@ -37,7 +37,7 @@ namespace UCR.Negotium.UserControls
             proyectoSelected = proyectoData.GetProyecto(CodProyecto);
         }
 
-        #region Fields
+        #region Properties
         public int CodProyecto
         {
             get

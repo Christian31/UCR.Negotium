@@ -67,6 +67,14 @@
     <ApplicationIcon>1480055241_tools.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Commons, Version=0.4.2.8580, Culture=neutral, PublicKeyToken=44382d1b57473eda, processorArchitecture=MSIL">
+      <HintPath>..\packages\Negotium.Core.1.0.0\lib\net452\Commons.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.0.30714, Culture=neutral, PublicKeyToken=b32731d11ce58905">
+      <HintPath>..\packages\Negotium.Core.1.0.0\lib\net452\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.4.3.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.4.3\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
@@ -76,6 +84,14 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="NReco.PdfGenerator, Version=1.1.15.0, Culture=neutral, PublicKeyToken=231663d50a41b451, processorArchitecture=MSIL">
+      <HintPath>..\packages\NReco.PdfGenerator.1.1.15\lib\net20\NReco.PdfGenerator.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NVelocity, Version=0.4.2.8580, Culture=neutral, PublicKeyToken=44382d1b57473eda, processorArchitecture=MSIL">
+      <HintPath>..\packages\Negotium.Core.1.0.0\lib\net452\NVelocity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Select.HtmlToPdf, Version=17.1.0.0, Culture=neutral, PublicKeyToken=e0ae9f6e27a97018, processorArchitecture=MSIL">
       <HintPath>..\packages\Select.HtmlToPdf.17.1.0\lib\net40\Select.HtmlToPdf.dll</HintPath>
       <Private>True</Private>
@@ -83,6 +99,10 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.81.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
+      <HintPath>..\packages\Negotium.Core.1.0.0\lib\net452\System.Data.SQLite.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -145,6 +165,7 @@
     <Compile Include="Dialogs\RegistrarVariacionAnualCostos.xaml.cs">
       <DependentUpon>RegistrarVariacionAnualCostos.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\GestorDatos.cs" />
     <Compile Include="Extensions\InverseBoolConverter.cs" />
     <Compile Include="Extensions\MonedaActual.cs" />
     <Compile Include="StartWindow.xaml.cs">
@@ -337,7 +358,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Resource Include="1480055241_tools.ico" />
-    <Content Include="Data\NegotiumDataBase.db">
+    <Content Include="Data\NegotiumDatabase.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config">
@@ -405,11 +426,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="negotium.ico" />
-    <Content Include="Report\css\bootstrap.css" />
-    <Content Include="Report\css\bootstrap.min.css" />
-    <Content Include="Report\css\sb-admin.css" />
-    <Content Include="Report\font-awesome\css\font-awesome.css" />
-    <Content Include="Report\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Report\css\bootstrap.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Report\css\bootstrap.min.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Report\css\sb-admin.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Report\font-awesome\css\font-awesome.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Report\font-awesome\css\font-awesome.min.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Report\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="Report\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Report\js\bootstrap.js" />
@@ -421,7 +452,9 @@
     <Content Include="Report\js\plugins\flot\jquery.flot.pie.js" />
     <Content Include="Report\js\plugins\flot\jquery.flot.resize.js" />
     <Content Include="Report\js\plugins\flot\jquery.flot.tooltip.min.js" />
-    <Content Include="Report\template.html" />
+    <Content Include="Report\template.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">

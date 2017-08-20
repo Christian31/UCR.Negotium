@@ -58,7 +58,6 @@ namespace UCR.Negotium.UserControls
 
         public void Reload()
         {
-            
             ProyectoSelected = proyectoData.GetProyecto(CodProyecto);
             nudAnoInicial.IsEnabled = nudHorizonteEvaluacion.IsEnabled = 
                 (codProyecto.Equals(0) || ProyectoSelected.TipoProyecto.CodTipo.Equals(2));
@@ -214,6 +213,15 @@ namespace UCR.Negotium.UserControls
                 tbBienServicio.ToolTip = "Ingrese en este campo el Bien o Servicio del Proyecto";
             }
         }
+
+        private void cbTipoAnalisis_Loaded(object sender, RoutedEventArgs e)
+        {
+            TipoProyecto tipoProyectoSelected = (TipoProyecto)cbTipoAnalisis.SelectedItem;
+            if (tipoProyectoSelected == null || tipoProyectoSelected.CodTipo.Equals(0))
+            {
+                cbTipoAnalisis.SelectedIndex = 0;
+            }
+        }
         #endregion
 
         #region InternalMethods
@@ -258,15 +266,5 @@ namespace UCR.Negotium.UserControls
             return validationResult;
         }
         #endregion
-
-        private void cbTipoAnalisis_Loaded(object sender, RoutedEventArgs e)
-        {
-            TipoProyecto tipoProyectoSelected = (TipoProyecto)cbTipoAnalisis.SelectedItem;
-            if (tipoProyectoSelected == null || tipoProyectoSelected.CodTipo.Equals(0))
-            {
-                cbTipoAnalisis.SelectedIndex = 0;
-                //ProyectoSelected.TipoProyecto = TipoProyectos.FirstOrDefault();
-            }
-        }
     }
 }

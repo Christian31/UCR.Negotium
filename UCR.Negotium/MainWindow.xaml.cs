@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using Microsoft.Win32;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -39,45 +40,7 @@ namespace UCR.Negotium
             Reload();
         }
 
-        private void Reload()
-        {
-            Proyectos = proyectos = proyectoData.GetProyectos().OrderByDescending(proy => proy.CodProyecto).ToList();
-            ProyectoSelected = Proyectos.FirstOrDefault();
-
-            cbTipoProyecto.SelectedValue = 0;
-            cbEstado.SelectedValue = Estados.First();
-        }
-
-        private void tbBusqueda_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            FiltrarProyectos();
-        }
-
-        private void FiltrarProyectos()
-        {
-            List<Proyecto> newFilter = new List<Proyecto>();
-
-            newFilter = cbEstado.SelectedValue.Equals("Todos") ? proyectos :
-                proyectos.Where(proy => proy.Archivado.Equals(cbEstado.SelectedValue.Equals("Archivados"))).ToList();
-
-            string textoBusqueda = tbBusqueda.Text.ToLower();
-
-            if (!cbTipoProyecto.SelectedValue.Equals(0))
-            {
-                newFilter = newFilter.Where(proy => proy.TipoProyecto.CodTipo.Equals(cbTipoProyecto.SelectedValue)).ToList();
-            }
-
-            if (!string.IsNullOrWhiteSpace(textoBusqueda))
-                Proyectos = newFilter.Where(proy => proy.NombreProyecto.ToLower().Contains(textoBusqueda)
-                    || proy.Proponente.Nombre != null && proy.Proponente.ToString().ToLower().Contains(textoBusqueda)
-                    || proy.Proponente.Nombre != null && proy.Proponente.Organizacion.NombreOrganizacion.ToLower().Contains(textoBusqueda)
-                    ).ToList();
-            else
-                Proyectos = newFilter;
-
-            ProyectoSelected = Proyectos.FirstOrDefault();
-        }
-
+        #region Properties
         public Proyecto ProyectoSelected
         {
             get
@@ -114,6 +77,13 @@ namespace UCR.Negotium
         {
             get { return new List<string>() { "Todos", "Activos", "Archivados" }; }
         }
+        #endregion
+
+        #region Events
+        private void tbBusqueda_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            FiltrarProyectos();
+        }
 
         private void btnCrear_Click(object sender, RoutedEventArgs e)
         {
@@ -140,27 +110,18 @@ namespace UCR.Negotium
             }
         }
 
-        private void btnImprimir_Click(object sender, RoutedEventArgs e)
-        {
-            if(ProyectoSelected != null)
-            {
-                //GenerarReporte reporte = new GenerarReporte(ProyectoSelected);
-                //reporte.CrearReporte();
-            }
-        }
-
         private void btnArchivar_Click(object sender, RoutedEventArgs e)
         {
-            if(ProyectoSelected != null && !ProyectoSelected.Archivado)
+            if (ProyectoSelected != null && !ProyectoSelected.Archivado)
             {
                 if (MessageBox.Show("Esta seguro que desea archivar este Proyecto?", "Confirmar",
                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
-                    if(proyectoData.ArchivarProyecto(ProyectoSelected.CodProyecto, true))
+                    if (proyectoData.ArchivarProyecto(ProyectoSelected.CodProyecto, true))
                     {
                         Reload();
                         FiltrarProyectos();
-                    } 
+                    }
                 }
             }
         }
@@ -187,15 +148,83 @@ namespace UCR.Negotium
             FiltrarProyectos();
         }
 
-        private void menuItemExport_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void menuItemImport_Click(object sender, RoutedEventArgs e)
         {
-
+            string fileName = GestorDatos.ImportarDatos();
+            MessageBox.Show(string.Format("El respaldo de los datos ha sido guardado en su escritorio con el siguiente nombre: {0} \n " +
+                "Por favor guarde el archivo en un lugar seguro para mantener el respaldo a salvo", fileName),
+                "Respaldo Creado", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+
+        private void menuItemExport_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog exportDialog = new OpenFileDialog();
+            exportDialog.Filter = "BAK Files (.bak)|*.bak";
+            exportDialog.Multiselect = false;
+            bool? userClickedOK = exportDialog.ShowDialog();
+            if (userClickedOK == true)
+            {
+                string backupContent;
+                System.IO.Stream fileStream = exportDialog.OpenFile();
+
+                using (System.IO.StreamReader reader = new System.IO.StreamReader(fileStream))
+                {
+                    backupContent = reader.ReadLine();
+                }
+                fileStream.Close();
+
+                if (!backupContent.Equals("") && GestorDatos.ValidateBackup(backupContent))
+                {
+                    if (GestorDatos.ExportarDatos(backupContent))
+                    {
+                        this.Reload();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("El respaldo de que está intentando de utilizar es incompatible con la version actual del Negotium \n " +
+                "Por favor asegurese de utilizar un respaldo creado en una versión anterior o igual al Negotium instalado",
+                "Respaldo Exportado", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+        #endregion
+
+        #region InternalMethods
+        private void Reload()
+        {
+            Proyectos = proyectos = proyectoData.GetProyectos().OrderByDescending(proy => proy.CodProyecto).ToList();
+            ProyectoSelected = Proyectos.FirstOrDefault();
+
+            cbTipoProyecto.SelectedValue = 0;
+            cbEstado.SelectedValue = Estados.First();
+        }
+
+        private void FiltrarProyectos()
+        {
+            List<Proyecto> newFilter = new List<Proyecto>();
+
+            newFilter = cbEstado.SelectedValue.Equals("Todos") ? proyectos :
+                proyectos.Where(proy => proy.Archivado.Equals(cbEstado.SelectedValue.Equals("Archivados"))).ToList();
+
+            string textoBusqueda = tbBusqueda.Text.ToLower();
+
+            if (!cbTipoProyecto.SelectedValue.Equals(0))
+            {
+                newFilter = newFilter.Where(proy => proy.TipoProyecto.CodTipo.Equals(cbTipoProyecto.SelectedValue)).ToList();
+            }
+
+            if (!string.IsNullOrWhiteSpace(textoBusqueda))
+                Proyectos = newFilter.Where(proy => proy.NombreProyecto.ToLower().Contains(textoBusqueda)
+                    || proy.Proponente.Nombre != null && proy.Proponente.ToString().ToLower().Contains(textoBusqueda)
+                    || proy.Proponente.Nombre != null && proy.Proponente.Organizacion.NombreOrganizacion.ToLower().Contains(textoBusqueda)
+                    ).ToList();
+            else
+                Proyectos = newFilter;
+
+            ProyectoSelected = Proyectos.FirstOrDefault();
+        }
+        #endregion
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
     }
