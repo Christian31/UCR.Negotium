@@ -11,7 +11,7 @@
             <StackPanel Margin="10">
                 <StackPanel Style="{StaticResource verticalPanelFormStyle}">
                     <Label Content="- Nombre del Proyecto:" Foreground="Black"/>
-                    <Label Content="{Binding ProyectoSelected.Nombre}" FontWeight="SemiBold" Foreground="Black"/>
+                    <Label Content="{Binding ProyectoSelected.NombreProyecto}" FontWeight="SemiBold" Foreground="Black"/>
                 </StackPanel>
                 <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
                     <Label Content="- Horizonte de Evaluación:" Foreground="Black"/>

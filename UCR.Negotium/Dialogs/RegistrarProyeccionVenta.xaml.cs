@@ -34,7 +34,7 @@ namespace UCR.Negotium.Dialogs
             InitializeComponent();
             DataContext = this;
             tbNombreArticulo.ToolTip = "Ingrese en este campo el Nombre de la Proyección del Producto que desea registrar";
-            string signo = MonedaActual.GetSignoMoneda(idProyecto);
+            string signo = LocalContext.GetSignoMoneda(idProyecto);
             dgtxcPrecio.Header = string.Format("Precio ({0})", signo);
 
             proyecto = new Proyecto();

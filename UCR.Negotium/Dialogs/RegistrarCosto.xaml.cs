@@ -33,7 +33,7 @@ namespace UCR.Negotium.Dialogs
             InitializeComponent();
             DataContext = this;
             tbNombreCosto.ToolTip = "Ingrese en este campo el Nombre del Costo que desea registrar";
-            string signo = MonedaActual.GetSignoMoneda(idProyecto);
+            string signo = LocalContext.GetSignoMoneda(idProyecto);
             dgtxcPrecio.Header = string.Format("Precio ({0})", signo);
 
             proyecto = new Proyecto();

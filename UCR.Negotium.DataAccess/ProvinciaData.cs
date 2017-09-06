@@ -1,46 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Data.SQLite;
 using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class ProvinciaData
+    public class ProvinciaData:BaseData
     {
-        private string cadenaConexion;
-        private SQLiteConnection conexion;
-        private SQLiteCommand command;
+        private CantonData cantonData;
 
         public ProvinciaData()
         {
-            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].
-                ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
-
-            conexion = new SQLiteConnection(cadenaConexion);
+            cantonData = new CantonData();
         }
 
         public List<Provincia> GetProvincias()
         {
-            CantonData cantonData = new CantonData();
             List<Provincia> provincias = new List<Provincia>();
             string select = "SELECT * FROM PROVINCIA";
-            if (conexion.State != ConnectionState.Open)
-                conexion.Open();
-            command = conexion.CreateCommand();
-            command.CommandText = select;
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read())
+
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                Provincia provincia = new Provincia();
-                provincia.CodProvincia = reader.GetInt32(0);
-                provincia.NombreProvincia = reader.GetString(1);
-                provincia.Cantones = cantonData.GetCantonesPorProvincia(provincia.CodProvincia);
-                provincias.Add(provincia);
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(select, conn);
+
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Provincia provincia = new Provincia();
+                            provincia.CodProvincia = reader.GetInt32(0);
+                            provincia.NombreProvincia = reader.GetString(1);
+                            provincia.Cantones = cantonData.GetCantonesPorProvincia(provincia.CodProvincia);
+                            provincias.Add(provincia);
+                        }
+                    }
+                }
+                catch
+                {
+                    provincias = new List<Provincia>();
+                }
             }
-            conexion.Close();
 
             return provincias;
         }
-    }//ProvinciaData
+    }
 }

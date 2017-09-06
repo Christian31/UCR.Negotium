@@ -41,6 +41,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -64,7 +65,7 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>1480055241_tools.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Icon\icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Commons, Version=0.4.2.8580, Culture=neutral, PublicKeyToken=44382d1b57473eda, processorArchitecture=MSIL">
@@ -123,6 +124,12 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dialogs\AcercaNegotium.xaml.cs">
+      <DependentUpon>AcercaNegotium.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ReferenciasNegotium.xaml.cs">
+      <DependentUpon>ReferenciasNegotium.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\RegistrarTipoMoneda.xaml.cs">
       <DependentUpon>RegistrarTipoMoneda.xaml</DependentUpon>
     </Compile>
@@ -167,7 +174,8 @@
     </Compile>
     <Compile Include="Extensions\GestorDatos.cs" />
     <Compile Include="Extensions\InverseBoolConverter.cs" />
-    <Compile Include="Extensions\MonedaActual.cs" />
+    <Compile Include="Extensions\LocalContext.cs" />
+    <Compile Include="Extensions\MonedaFormatConverter.cs" />
     <Compile Include="StartWindow.xaml.cs">
       <DependentUpon>StartWindow.xaml</DependentUpon>
     </Compile>
@@ -213,6 +221,10 @@
     <Compile Include="RegistrarProyectoWindow.xaml.cs">
       <DependentUpon>RegistrarProyectoWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Dialogs\AcercaNegotium.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\AnalisisAmbiental\RegistrarFactorAmbiental.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -222,6 +234,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\PoseeEncargadoConfirm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\ReferenciasNegotium.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -352,12 +368,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Resource Include="Resources\logo.jpeg" />
+    <Resource Include="Resources\Images\EEAA.png" />
+    <Resource Include="Resources\Images\RP-CIE.png" />
+    <Resource Include="Resources\Images\SA.png" />
+    <Resource Include="Resources\Images\UCR.png" />
+    <Resource Include="Resources\Images\logo.jpeg" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Resource Include="1480055241_tools.ico" />
+    <Resource Include="Resources\Icon\icon.ico" />
     <Content Include="Data\NegotiumDatabase.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -369,37 +389,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Report\font-awesome\fonts\fontawesome-webfont.eot" />
     <None Include="UCR.Negotium_TemporaryKey.pfx" />
-    <Resource Include="Report\font-awesome\fonts\fontawesome-webfont.ttf" />
-    <None Include="Report\font-awesome\fonts\fontawesome-webfont.woff" />
-    <Resource Include="Report\font-awesome\fonts\FontAwesome.otf" />
-    <None Include="Report\font-awesome\less\bordered-pulled.less" />
-    <None Include="Report\font-awesome\less\core.less" />
-    <None Include="Report\font-awesome\less\fixed-width.less" />
-    <None Include="Report\font-awesome\less\font-awesome.less" />
-    <None Include="Report\font-awesome\less\icons.less" />
-    <None Include="Report\font-awesome\less\larger.less" />
-    <None Include="Report\font-awesome\less\list.less" />
-    <None Include="Report\font-awesome\less\mixins.less" />
-    <None Include="Report\font-awesome\less\path.less" />
-    <None Include="Report\font-awesome\less\rotated-flipped.less" />
-    <None Include="Report\font-awesome\less\spinning.less" />
-    <None Include="Report\font-awesome\less\stacked.less" />
-    <None Include="Report\font-awesome\less\variables.less" />
-    <None Include="Report\font-awesome\scss\font-awesome.scss" />
-    <None Include="Report\font-awesome\scss\_bordered-pulled.scss" />
-    <None Include="Report\font-awesome\scss\_core.scss" />
-    <None Include="Report\font-awesome\scss\_fixed-width.scss" />
-    <None Include="Report\font-awesome\scss\_icons.scss" />
-    <None Include="Report\font-awesome\scss\_larger.scss" />
-    <None Include="Report\font-awesome\scss\_list.scss" />
-    <None Include="Report\font-awesome\scss\_mixins.scss" />
-    <None Include="Report\font-awesome\scss\_path.scss" />
-    <None Include="Report\font-awesome\scss\_rotated-flipped.scss" />
-    <None Include="Report\font-awesome\scss\_spinning.scss" />
-    <None Include="Report\font-awesome\scss\_stacked.scss" />
-    <None Include="Report\font-awesome\scss\_variables.scss" />
     <None Include="Report\fonts\glyphicons-halflings-regular.eot" />
     <Resource Include="Report\fonts\glyphicons-halflings-regular.ttf" />
     <None Include="Report\fonts\glyphicons-halflings-regular.woff" />
@@ -435,13 +425,6 @@
     <Content Include="Report\css\sb-admin.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Report\font-awesome\css\font-awesome.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Report\font-awesome\css\font-awesome.min.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Report\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="Report\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Report\js\bootstrap.js" />
     <Content Include="Report\js\bootstrap.min.js" />
@@ -468,6 +451,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

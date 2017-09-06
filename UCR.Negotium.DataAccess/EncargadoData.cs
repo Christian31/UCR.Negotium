@@ -1,23 +1,11 @@
-﻿using System;
-using System.Data;
-using System.Data.SQLite;
+﻿using System.Data.SQLite;
 using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class EncargadoData
+    public class EncargadoData: BaseData
     {
-        private string cadenaConexion;
-        private SQLiteConnection conexion;
-        private SQLiteCommand command;
-        
-        public EncargadoData()
-        {
-            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].
-                ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
-
-            conexion = new SQLiteConnection(cadenaConexion);
-        }
+        public EncargadoData() { }
 
         public int InsertarEncargado(Encargado encargado)
         {
@@ -25,97 +13,91 @@ namespace UCR.Negotium.DataAccess
             object newProdID;
             string insert = "INSERT INTO ENCARGADO(nombre, apellidos, telefono, email, organizacion) " +
                 "VALUES(?,?,?,?,?); SELECT last_insert_rowid();";
-            try
-            {
-                command = conexion.CreateCommand();
-                command.CommandText = insert;
-                command.Parameters.AddWithValue("nombre", encargado.Nombre);
-                command.Parameters.AddWithValue("apellidos", encargado.Apellidos);
-                command.Parameters.AddWithValue("telefono", encargado.Telefono);
-                command.Parameters.AddWithValue("email", encargado.Email);
-                command.Parameters.AddWithValue("organizacion", encargado.Organizacion);
 
-                if (conexion.State != ConnectionState.Open)
-                    conexion.Open();
-                newProdID = command.ExecuteScalar();
-                idEncargado = Int32.Parse(newProdID.ToString());
-                conexion.Close();
-                return idEncargado;
-            }
-            catch (Exception ex)
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                Console.WriteLine(ex.Message);
-                conexion.Close();
-                return idEncargado;
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(insert, conn);
+                    cmd.Parameters.AddWithValue("nombre", encargado.Nombre);
+                    cmd.Parameters.AddWithValue("apellidos", encargado.Apellidos);
+                    cmd.Parameters.AddWithValue("telefono", encargado.Telefono);
+                    cmd.Parameters.AddWithValue("email", encargado.Email);
+                    cmd.Parameters.AddWithValue("organizacion", encargado.Organizacion);
+
+                    newProdID = cmd.ExecuteScalar();
+                    idEncargado = int.Parse(newProdID.ToString());
+                }
+                catch
+                {
+                    idEncargado = -1;
+                }
             }
+
+            return idEncargado;
         }
 
         public bool EditarEncargado(Encargado encargado)
         {
+            int result = -1;
+            string update = "UPDATE ENCARGADO SET nombre=?, apellidos=?, telefono=?, email=?, organizacion=? "
+                        + "WHERE cod_encargado=?";
+
             using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                conn.Open();
-                using (SQLiteCommand cmd = new SQLiteCommand(conn))
+                try
                 {
-                    cmd.CommandText = "UPDATE ENCARGADO "
-                        + "SET nombre =?, apellidos =?, telefono =?, email =?, organizacion =?"
-                        + "WHERE cod_encargado =?";
-                    cmd.Prepare();
-                    command.Parameters.AddWithValue("nombre", encargado.Nombre);
-                    command.Parameters.AddWithValue("apellidos", encargado.Apellidos);
-                    command.Parameters.AddWithValue("telefono", encargado.Telefono);
-                    command.Parameters.AddWithValue("email", encargado.Email);
-                    command.Parameters.AddWithValue("organizacion", encargado.Organizacion);
-                    command.Parameters.AddWithValue("cod_encargado", encargado.IdEncargado);
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(update, conn);
+                    cmd.Parameters.AddWithValue("nombre", encargado.Nombre);
+                    cmd.Parameters.AddWithValue("apellidos", encargado.Apellidos);
+                    cmd.Parameters.AddWithValue("telefono", encargado.Telefono);
+                    cmd.Parameters.AddWithValue("email", encargado.Email);
+                    cmd.Parameters.AddWithValue("organizacion", encargado.Organizacion);
+                    cmd.Parameters.AddWithValue("cod_encargado", encargado.IdEncargado);
 
-                    try
-                    {
-                        if (cmd.ExecuteNonQuery() != -1)
-                        {
-                            return true;
-                        } 
-                    }
-                    catch (SQLiteException)
-                    {
-                        return false;
-                    }
+                    result = cmd.ExecuteNonQuery();
                 }
-                conn.Close();
+                catch
+                {
+                    result = -1;
+                }
             }
-            return false;
+
+            return result != -1;
         }
 
         public Encargado GetEncargado(int codEncargado)
         {
             Encargado encargado = new Encargado();
-            try
+            string sqlQuery = "SELECT * FROM ENCARGADO WHERE cod_encargado=?";
+
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
+                try
                 {
                     conn.Open();
-                    string sqlQuery = "SELECT * FROM ENCARGADO WHERE cod_encargado =" + codEncargado;
+                    SQLiteCommand cmd = new SQLiteCommand(sqlQuery, conn);
+                    cmd.Parameters.AddWithValue("cod_encargado", codEncargado);
 
-                    using (SQLiteCommand cmd = new SQLiteCommand(sqlQuery, conn))
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
                     {
-                        using (SQLiteDataReader reader = cmd.ExecuteReader())
+                        if (reader.Read())
                         {
-                            if (reader.Read())
-                            {
-                                encargado.Nombre = reader.GetString(0);
-                                encargado.Apellidos = reader.GetString(1);
-                                encargado.Telefono = reader.GetString(2);
-                                encargado.Email = reader.GetString(3);
-                                encargado.IdEncargado = reader.GetInt32(4);
-                                encargado.Organizacion = reader.GetString(5);
-                            }
+                            encargado.Nombre = reader.GetString(0);
+                            encargado.Apellidos = reader.GetString(1);
+                            encargado.Telefono = reader.GetString(2);
+                            encargado.Email = reader.GetString(3);
+                            encargado.IdEncargado = reader.GetInt32(4);
+                            encargado.Organizacion = reader.GetString(5);
                         }
                     }
-                    conn.Close();
                 }
-            }
-            catch
-            {
-                return null;
+                catch
+                {
+                    encargado = new Encargado();
+                }
             }
 
             return encargado;
@@ -123,29 +105,26 @@ namespace UCR.Negotium.DataAccess
 
         public bool EliminarEncargado(int codEncargado)
         {
+            int result = -1;
+            string delete = "DELETE FROM Encargado WHERE cod_encargado=?";
+
             using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                conn.Open();
-                using (SQLiteCommand cmd = new SQLiteCommand(conn))
+                try
                 {
-                    cmd.CommandText = "DELETE FROM Encargado WHERE cod_encargado =?";
-                    cmd.Prepare();
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(delete, conn);
                     cmd.Parameters.AddWithValue("cod_encargado", codEncargado);
-                    try
-                    {
-                        if(cmd.ExecuteNonQuery() != -1)
-                        {
-                            return true;
-                        }
-                    }
-                    catch (SQLiteException e)
-                    {
-                        return false;
-                    }
+
+                    result = cmd.ExecuteNonQuery();
                 }
-                conn.Close();
+                catch
+                {
+                    result = -1;
+                }
             }
-            return false;
+
+            return result != -1;
         }
     }
 }

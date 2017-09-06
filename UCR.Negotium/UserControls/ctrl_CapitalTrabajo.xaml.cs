@@ -42,7 +42,7 @@ namespace UCR.Negotium.UserControls
         {
             DTCapitalTrabajo = new DataView();
             recuperacionCT = 0;
-            signoMoneda = MonedaActual.GetSignoMoneda(CodProyecto);
+            signoMoneda = LocalContext.GetSignoMoneda(CodProyecto);
 
             ProyectoSelected = proyectoData.GetProyecto(CodProyecto);
             ProyectoSelected.Costos = costoData.GetCostos(CodProyecto);

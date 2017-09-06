@@ -8,9 +8,7 @@
         xmlns:local="clr-namespace:UCR.Negotium.Dialogs"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:UserControls="clr-namespace:UCR.Negotium.UserControls"
-        mc:Ignorable="d"
-        BorderThickness="2" BorderBrush="{DynamicResource AccentColorBrush}"
-        WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen" Style="{StaticResource dialogsStyle}"
         Title="Inversión | Negotium v1.0" Height="400" Width="520">
     <Grid Margin="10">
         <Grid.RowDefinitions>

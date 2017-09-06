@@ -278,7 +278,7 @@ namespace UCR.Negotium.UserControls
                     }
                     else
                     {
-                        if (financiamientoData.ActualizarFinanciamiento(FinanciamientoSelected) && GuardarIntereses())
+                        if (financiamientoData.EditarFinanciamiento(FinanciamientoSelected) && GuardarIntereses())
                         {
                             //success
                             ActualizarDTFinanciamiento();
@@ -335,7 +335,7 @@ namespace UCR.Negotium.UserControls
                 }
                 else
                 {
-                    if (!interesData.ActualizarInteresFinanciamiento(interesVariable))
+                    if (!interesData.EditarInteresFinanciamiento(interesVariable))
                     {
                         //error
                         MessageBox.Show("Ha ocurrido un error al actualizar la tasa de interés del financiamiento del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);

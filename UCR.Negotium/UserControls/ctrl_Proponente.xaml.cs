@@ -113,8 +113,8 @@ namespace UCR.Negotium.UserControls
                     }
                     else
                     {
-                        if (proponenteData.ActualizarProponente(ProponenteSelected) &&
-                            organizacionProponenteData.ActualizarOrganizacionProponente(ProponenteSelected.Organizacion))
+                        if (proponenteData.EditarProponente(ProponenteSelected) &&
+                            organizacionProponenteData.EditarOrganizacionProponente(ProponenteSelected.Organizacion))
                         {
                             //success
                             MessageBox.Show("El proponente del proyecto se ha actualizado correctamente", "Proponente Actualizado", MessageBoxButton.OK, MessageBoxImage.Information);

@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
-using UCR.Negotium.DataAccess.AnalisisAmbiental;
+using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.Dialogs

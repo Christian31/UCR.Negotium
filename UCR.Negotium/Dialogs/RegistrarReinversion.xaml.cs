@@ -55,7 +55,7 @@ namespace UCR.Negotium.Dialogs
 
             proyecto = proyectoData.GetProyecto(codProyecto);
             unidadMedidas = unidadMedidaData.GetUnidadesMedidas();
-            inversiones.AddRange(requerimientoInversionData.GetRequerimientosInversion(codProyecto).Where(inv => inv.Depreciable.Equals(true)).ToList());
+            inversiones.AddRange(requerimientoInversionData.GetInversiones(codProyecto).Where(inv => inv.Depreciable.Equals(true)).ToList());
             
             reinversion.UnidadMedida = unidadMedidas.FirstOrDefault();
             reinversion.AnoReinversion = AnosDisponibles.FirstOrDefault();
@@ -63,7 +63,7 @@ namespace UCR.Negotium.Dialogs
 
             if (codReinversion != 0)
             {
-                reinversion = requerimientoReinversionData.GetRequerimientoReinversion(codReinversion);
+                reinversion = requerimientoReinversionData.GetReinversion(codReinversion);
                 vincularInversion = !reinversion.CodRequerimientoInversion.Equals(0);
             }
         }
@@ -154,7 +154,7 @@ namespace UCR.Negotium.Dialogs
 
                 if (Reinversion.CodRequerimientoReinversion.Equals(0))
                 {
-                    int idInversion = requerimientoReinversionData.InsertarRequerimientosReinversion(Reinversion, proyecto.CodProyecto);
+                    int idInversion = requerimientoReinversionData.InsertarReinversion(Reinversion, proyecto.CodProyecto);
                     if (!idInversion.Equals(-1))
                     {
                         //success
@@ -169,7 +169,7 @@ namespace UCR.Negotium.Dialogs
                 }
                 else
                 {
-                    if (requerimientoReinversionData.EditarRequerimientoReinversion(Reinversion))
+                    if (requerimientoReinversionData.EditarReinversion(Reinversion))
                     {
                         //success
                         Reload = true;

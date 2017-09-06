@@ -1,63 +1,74 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Data.SQLite;
 using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class TipoProyectoData
+    public class TipoProyectoData:BaseData
     {
-        private string cadenaConexion;
-        private SQLiteConnection conexion;
-        private SQLiteCommand command;
-
-        public TipoProyectoData()
-        {
-            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].
-                ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
-
-            conexion = new SQLiteConnection(cadenaConexion);
-        }
+        public TipoProyectoData() { }
 
         public List<TipoProyecto> GetTipoProyectos()
         {
             List<TipoProyecto> tipoProyectos = new List<TipoProyecto>();
             string select = "SELECT * FROM TIPO_PROYECTO";
 
-            if (conexion.State != ConnectionState.Open)
-                conexion.Open();
-            command = conexion.CreateCommand();
-            command.CommandText = select;
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read())
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                TipoProyecto tipoProyecto = new TipoProyecto();
-                tipoProyecto.CodTipo = reader.GetInt32(0);
-                tipoProyecto.Nombre = reader.GetString(1);
-                tipoProyectos.Add(tipoProyecto);
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(select, conn);
+
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            TipoProyecto tipoProyecto = new TipoProyecto();
+                            tipoProyecto.CodTipo = reader.GetInt32(0);
+                            tipoProyecto.Nombre = reader.GetString(1);
+                            tipoProyectos.Add(tipoProyecto);
+                        }
+                    }
+                }
+                catch
+                {
+                    tipoProyectos = new List<TipoProyecto>();
+                }
             }
-            conexion.Close();
 
             return tipoProyectos;
         }
 
         public TipoProyecto GetTipoProyecto(int codTipoProyecto)
         {
-            string select = "SELECT * FROM TIPO_PROYECTO WHERE cod_tipo_proyecto=" + codTipoProyecto;
-            if (conexion.State != ConnectionState.Open)
-                conexion.Open();
-            command = conexion.CreateCommand();
-            command.CommandText = select;
-            SQLiteDataReader reader = command.ExecuteReader();
-            TipoProyecto tipoProyecto = null;
-            if (reader.Read())
+            TipoProyecto tipoProyecto = new TipoProyecto();
+            string select = "SELECT * FROM TIPO_PROYECTO WHERE cod_tipo_proyecto=?";
+
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                tipoProyecto = new TipoProyecto();
-                tipoProyecto.CodTipo = reader.GetInt32(0);
-                tipoProyecto.Nombre = reader.GetString(1);
-            }//if
-            conexion.Close();
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(select, conn);
+                    cmd.Parameters.AddWithValue("cod_tipo_proyecto", codTipoProyecto);
+
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            tipoProyecto = new TipoProyecto();
+                            tipoProyecto.CodTipo = reader.GetInt32(0);
+                            tipoProyecto.Nombre = reader.GetString(1);
+                        }
+                    }
+                }
+                catch
+                {
+                    tipoProyecto = new TipoProyecto();
+                }
+            }
+
             return tipoProyecto;
         }
     }

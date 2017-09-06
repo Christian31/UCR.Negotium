@@ -3,6 +3,13 @@
                     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks">
 
+    <!-- Dialogs -->
+    <Style x:Key="dialogsStyle" TargetType="{x:Type Controls:MetroWindow}">
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush}"/>
+        <Setter Property="ResizeMode" Value="NoResize"/>
+    </Style>
+    
     <!-- Menu Item-->
     <Style x:Key="menuItemStyle" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}">
         <Style.Triggers>

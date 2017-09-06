@@ -171,7 +171,6 @@ namespace UCR.Negotium
                 {
                     backupContent = reader.ReadLine();
                 }
-                fileStream.Close();
 
                 if (!backupContent.Equals("") && GestorDatos.ValidateBackup(backupContent))
                 {
@@ -187,6 +186,12 @@ namespace UCR.Negotium
                 "Respaldo Exportado", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+        }
+
+        private void menuItemAcerca_Click(object sender, RoutedEventArgs e)
+        {
+            AcercaNegotium acercaDe = new AcercaNegotium();
+            acercaDe.ShowDialog();
         }
         #endregion
 
@@ -225,6 +230,13 @@ namespace UCR.Negotium
             ProyectoSelected = Proyectos.FirstOrDefault();
         }
         #endregion
+
+        private void menuItemDocumentacion_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
     }

@@ -45,8 +45,8 @@ namespace UCR.Negotium.UserControls
         {
             DTTotalesReinversiones = new DataView();
 
-            SignoMoneda = MonedaActual.GetSignoMoneda(CodProyecto);
-            ReinversionesList = reinversionData.GetRequerimientosReinversion(CodProyecto);
+            SignoMoneda = LocalContext.GetSignoMoneda(CodProyecto);
+            ReinversionesList = reinversionData.GetReinversiones(CodProyecto);
 
             ReinversionesList.All(reinv => {
                 reinv.CostoUnitarioFormat = SignoMoneda +" "+ reinv.CostoUnitario.ToString("#,##0.##");
@@ -170,7 +170,7 @@ namespace UCR.Negotium.UserControls
                 if (MessageBox.Show("Esta seguro que desea eliminar esta reinversión?", "Confirmar",
                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
-                    if (reinversionData.EliminarRequerimientoReinversion(ReinversionSelected.CodRequerimientoReinversion))
+                    if (reinversionData.EliminarReinversion(ReinversionSelected.CodRequerimientoReinversion))
                     {
                         RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
                         mainWindow.ReloadUserControls(CodProyecto);

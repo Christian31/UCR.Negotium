@@ -4,18 +4,33 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UCR.Negotium"
-        mc:Ignorable="d" Height="280" Width="450" ContentRendered="Window_ContentRendered"
+        mc:Ignorable="d" Height="450" Width="750" ContentRendered="Window_ContentRendered"
         WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize" 
         ShowInTaskbar="False" AllowsTransparency="True" Background="Transparent"
         Cursor="AppStarting">
     <Border BorderBrush="{DynamicResource AccentColorBrush}"
             BorderThickness="1" Background="White">
         <Grid HorizontalAlignment="Center" Margin="15">
-            <Image x:Name="image" Width="420" Height="200" Source="Resources/logo.jpeg" 
-                   VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20"/>
-            <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center">
-                <TextBlock Text="Copyright 2017 Universidad de Costa Rica" TextAlignment="Center"/>
-                <TextBlock Text="Todos los derechos reservados" TextAlignment="Center"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="6*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="0.5*"/>
+            </Grid.RowDefinitions>
+            <Image Source="Resources/Images/logo.jpeg" HorizontalAlignment="Center"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2.4*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1.2*"/>
+                    <ColumnDefinition Width="2.6*"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="Resources/Images/UCR.png" Margin="5,0"/>
+                <Image Source="Resources/Images/EEAA.png" Grid.Column="1" Margin="5,0,5,2"/>
+                <Image Source="Resources/Images/SA.png" Grid.Column="2" Margin="5,0"/>
+                <Image Source="Resources/Images/RP-CIE.png" Grid.Column="3" Margin="5,0,5,12"/>
+            </Grid>
+            <StackPanel Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                <TextBlock Text="Copyright 2017 Universidad de Costa Rica. Todos los derechos reservados" TextAlignment="Center"/>
             </StackPanel>
         </Grid>
     </Border>

@@ -1,23 +1,11 @@
-﻿using System;
-using System.Data;
-using System.Data.SQLite;
+﻿using System.Data.SQLite;
 using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class ProponenteData 
+    public class ProponenteData:BaseData
     {
-        private string cadenaConexion;
-        private SQLiteConnection conexion;
-        private SQLiteCommand command;
-
-        public ProponenteData()
-        {
-            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].
-                ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
-
-            conexion = new SQLiteConnection(cadenaConexion);
-        }
+        public ProponenteData() { }
 
         public int InsertarProponente(Proponente proponente, int codProyecto)
         {
@@ -27,127 +15,117 @@ namespace UCR.Negotium.DataAccess
                 "email, puesto_en_organizacion, genero, cod_organizacion, cod_proyecto, representante_individual) " +
                 "VALUES(?,?,?,?,?,?,?,?,?,?); SELECT last_insert_rowid();";
 
-            try
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                if (conexion.State != ConnectionState.Open)
-                    conexion.Open();
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand command = new SQLiteCommand(insert, conn);
+                    command.Parameters.AddWithValue("nombre", proponente.Nombre);
+                    command.Parameters.AddWithValue("apellidos", proponente.Apellidos);
+                    command.Parameters.AddWithValue("num_identificacion", proponente.NumIdentificacion);
+                    command.Parameters.AddWithValue("telefono", proponente.Telefono);
+                    command.Parameters.AddWithValue("email", proponente.Email);
+                    command.Parameters.AddWithValue("puesto_en_organizacion", proponente.PuestoEnOrganizacion);
+                    command.Parameters.AddWithValue("genero", proponente.Genero ? 'm' : 'f');
+                    command.Parameters.AddWithValue("cod_organizacion", proponente.Organizacion.CodOrganizacion);
+                    command.Parameters.AddWithValue("cod_proyecto", codProyecto);
+                    command.Parameters.AddWithValue("representante_individual", proponente.EsRepresentanteIndividual);
 
-                SQLiteCommand command = conexion.CreateCommand();
-                command.CommandText = insert;
-                command.Parameters.AddWithValue("nombre", proponente.Nombre);
-                command.Parameters.AddWithValue("apellidos", proponente.Apellidos);
-                command.Parameters.AddWithValue("num_identificacion", proponente.NumIdentificacion);
-                command.Parameters.AddWithValue("telefono", proponente.Telefono);
-                command.Parameters.AddWithValue("email", proponente.Email);
-                command.Parameters.AddWithValue("puesto_en_organizacion", proponente.PuestoEnOrganizacion);
-                command.Parameters.AddWithValue("genero", proponente.Genero ? 'm': 'f');
-                command.Parameters.AddWithValue("cod_organizacion", proponente.Organizacion.CodOrganizacion);
-                command.Parameters.AddWithValue("cod_proyecto", codProyecto);
-                command.Parameters.AddWithValue("representante_individual", proponente.EsRepresentanteIndividual);
+                    newProdID = command.ExecuteScalar();
+                    idProponente = int.Parse(newProdID.ToString());
+                }
+                catch
+                {
+                    idProponente = -1;
+                }
+            }
 
-                newProdID = command.ExecuteScalar();
-                idProponente = Int32.Parse(newProdID.ToString());
-                conexion.Close();
-                return idProponente;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                conexion.Close();
-                return idProponente;
-            }
-        }//InsertarProponente
+            return idProponente;
+        }
 
         public Proponente GetProponente(int codProyecto)
         {
+            Proponente proponente = new Proponente();
             string select = "SELECT p.nombre, p.apellidos, p.num_identificacion, "+
                 "p.telefono, p.email, p.puesto_en_organizacion, p.genero, "+
                 "p.cod_proponente, o.nombre_organizacion, o.cedula_juridica, "+
                 "o.telefono, o.descripcion, o.cod_tipo, o.cod_organizacion, p.representante_individual, o.email " +
-                "FROM PROPONENTE p, ORGANIZACION_PROPONENTE o WHERE p.cod_organizacion=o.cod_organizacion and "+
-                "p.cod_proyecto=" + codProyecto;
+                "FROM PROPONENTE p, ORGANIZACION_PROPONENTE o WHERE p.cod_organizacion=o.cod_organizacion "+
+                "AND p.cod_proyecto=?";
 
-            Proponente proponente = new Proponente();
-
-            try
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-
-                if (conexion.State != ConnectionState.Open)
-                    conexion.Open();
-                command = conexion.CreateCommand();
-                command.CommandText = select;
-                SQLiteDataReader reader = command.ExecuteReader();
-                
-                if (reader.Read())
+                try
                 {
-                    proponente.Nombre = reader.GetString(0);
-                    proponente.Apellidos = reader.GetString(1);
-                    proponente.NumIdentificacion = reader.GetString(2);
-                    proponente.Telefono = reader.GetString(3);
-                    proponente.Email = reader.GetString(4);
-                    proponente.PuestoEnOrganizacion = reader.GetString(5);
-                    proponente.Genero = reader.GetChar(6).Equals('m')? true: false;
-                    proponente.IdProponente = reader.GetInt32(7);
-                    proponente.Organizacion.NombreOrganizacion = reader.GetString(8);
-                    proponente.Organizacion.CedulaJuridica = reader.GetString(9);
-                    proponente.Organizacion.Telefono = reader.GetString(10);
-                    proponente.Organizacion.Descripcion = reader.GetString(11);
-                    proponente.Organizacion.Tipo.CodTipo = reader.GetInt32(12);
-                    proponente.Organizacion.CodOrganizacion = reader.GetInt32(13);
-                    proponente.EsRepresentanteIndividual = reader.GetBoolean(14);
-                    proponente.Organizacion.CorreoElectronico = reader.GetString(15);
-                }//if
-                conexion.Close();
-                return proponente;
-            }
-            catch
-            {
-                conexion.Close();
-                return proponente;
-            }
-        }//GetObjetoInteres
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(select, conn);
+                    cmd.Parameters.AddWithValue("cod_proyecto", codProyecto);
 
-        public bool ActualizarProponente(Proponente proponente)
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            proponente.Nombre = reader.GetString(0);
+                            proponente.Apellidos = reader.GetString(1);
+                            proponente.NumIdentificacion = reader.GetString(2);
+                            proponente.Telefono = reader.GetString(3);
+                            proponente.Email = reader.GetString(4);
+                            proponente.PuestoEnOrganizacion = reader.GetString(5);
+                            proponente.Genero = reader.GetChar(6).Equals('m') ? true : false;
+                            proponente.IdProponente = reader.GetInt32(7);
+                            proponente.Organizacion.NombreOrganizacion = reader.GetString(8);
+                            proponente.Organizacion.CedulaJuridica = reader.GetString(9);
+                            proponente.Organizacion.Telefono = reader.GetString(10);
+                            proponente.Organizacion.Descripcion = reader.GetString(11);
+                            proponente.Organizacion.Tipo.CodTipo = reader.GetInt32(12);
+                            proponente.Organizacion.CodOrganizacion = reader.GetInt32(13);
+                            proponente.EsRepresentanteIndividual = reader.GetBoolean(14);
+                            proponente.Organizacion.CorreoElectronico = reader.GetString(15);
+                        }//if
+                    }
+                }
+                catch
+                {
+                    proponente = new Proponente();
+                }
+            }
+
+            return proponente;
+        }
+
+        public bool EditarProponente(Proponente proponente)
         {
-            string query = "UPDATE PROPONENTE SET nombre=?, apellidos=?, " +
-                "telefono=?, email=?, puesto_en_organizacion=?, " +
-                "genero=?, representante_individual=?, num_identificacion=? " +
-                "WHERE cod_proponente=?;";
+            int result = -1;
+            string update = "UPDATE PROPONENTE SET nombre=?, apellidos=?, telefono=?, " +
+                "email=?, puesto_en_organizacion=?, genero=?, representante_individual=?, " +
+                "num_identificacion=? WHERE cod_proponente=?";
 
-            try
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                if (conexion.State != ConnectionState.Open)
-                    conexion.Open();
-                command = conexion.CreateCommand();
-                command.CommandText = query;
-                command.Parameters.AddWithValue("nombre", proponente.Nombre);
-                command.Parameters.AddWithValue("apellidos", proponente.Apellidos);
-                command.Parameters.AddWithValue("telefono", proponente.Telefono);
-                command.Parameters.AddWithValue("email", proponente.Email);
-                command.Parameters.AddWithValue("genero", proponente.Genero?'m':'f');
-                command.Parameters.AddWithValue("puesto_en_organizacion", proponente.PuestoEnOrganizacion);
-                command.Parameters.AddWithValue("representante_individual", proponente.EsRepresentanteIndividual);
-                command.Parameters.AddWithValue("num_identificacion", proponente.NumIdentificacion);
-                command.Parameters.AddWithValue("cod_proponente", proponente.IdProponente);
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand command = new SQLiteCommand(update, conn);
+                    command.Parameters.AddWithValue("nombre", proponente.Nombre);
+                    command.Parameters.AddWithValue("apellidos", proponente.Apellidos);
+                    command.Parameters.AddWithValue("telefono", proponente.Telefono);
+                    command.Parameters.AddWithValue("email", proponente.Email);
+                    command.Parameters.AddWithValue("genero", proponente.Genero ? 'm' : 'f');
+                    command.Parameters.AddWithValue("puesto_en_organizacion", proponente.PuestoEnOrganizacion);
+                    command.Parameters.AddWithValue("representante_individual", proponente.EsRepresentanteIndividual);
+                    command.Parameters.AddWithValue("num_identificacion", proponente.NumIdentificacion);
+                    command.Parameters.AddWithValue("cod_proponente", proponente.IdProponente);
 
-                // Ejecutamos la sentencia INSERT y cerramos la conexión
-                if (command.ExecuteNonQuery() != -1)
+                    result = command.ExecuteNonQuery();
+                }
+                catch
                 {
-                    conexion.Close();
-                    return true;
-                }//if
-                else
-                {
-                    conexion.Close();
-                    return false;
-                }//else
+                    result = -1;
+                }
             }
-            catch
-            {
-                conexion.Close();
-                return false;
-            }
-            
-        }//ActualizarProponente
-    }//ProponenteData
+
+            return result != -1;
+        }
+    }
 }

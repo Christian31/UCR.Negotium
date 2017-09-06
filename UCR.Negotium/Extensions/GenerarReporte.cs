@@ -1,11 +1,9 @@
 ﻿using NVelocity;
 using NVelocity.App;
-using SelectPdf;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Linq;
 using System.Text;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
@@ -15,28 +13,41 @@ namespace UCR.Negotium.Extensions
     public class GenerarReporte
     {
         private Proyecto proyecto;
-        private string totalInversiones;
+        private string invTotales;
         Dictionary<string, string> reinvTotales;
+        Dictionary<string, string> proyeccionesTotales;
+        Dictionary<string, string> costosTotales;
 
         private string signoMoneda;
 
         public GenerarReporte(Proyecto proyecto, string totalInversiones, DataView totalReinversiones, DataView proyeccionesTotal, DataView costosTotal)
         {
             this.proyecto = proyecto;
-            this.totalInversiones = totalInversiones;
+            this.invTotales = totalInversiones;
 
-            signoMoneda = MonedaActual.GetSignoMoneda(proyecto.CodProyecto);
+            signoMoneda = LocalContext.GetSignoMoneda(proyecto.CodProyecto);
             ObtieneProvincia();
             ObtieneCanton();
             ObtieneDistrito();
 
-            reinvTotales = new Dictionary<string, string>();
+            reinvTotales = SetToDictionary(totalReinversiones);
+            proyeccionesTotales = SetToDictionary(proyeccionesTotal);
+            costosTotales = SetToDictionary(costosTotal);
+        }
 
-            for (int i = 1; i < totalReinversiones.Table.Columns.Count; i++)
+        private Dictionary<string, string> SetToDictionary(DataView dataView)
+        {
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            if(dataView.Table != null)
             {
-                reinvTotales.Add(totalReinversiones.Table.Columns[i].ColumnName,
-                    totalReinversiones.Table.Rows[0].ItemArray[i].ToString());
+                for (int i = 1; i < dataView.Table.Columns.Count; i++)
+                {
+                    dictionary.Add(dataView.Table.Columns[i].ColumnName,
+                        dataView.Table.Rows[0].ItemArray[i].ToString());
+                }
             }
+
+            return dictionary;
         }
 
         private void ObtieneProvincia()
@@ -97,8 +108,10 @@ namespace UCR.Negotium.Extensions
             var context = new VelocityContext();
 
             context.Put("proyecto", proyecto);
-            context.Put("inversionesTotal", totalInversiones);
+            context.Put("inversionesTotal", invTotales);
             context.Put("reinversionesTotal", reinvTotales);
+            context.Put("proyeccionesTotal", proyeccionesTotales);
+            context.Put("costosTotal", costosTotales);
 
             var sb = new StringBuilder();
             using (var writer = new StringWriter(sb))

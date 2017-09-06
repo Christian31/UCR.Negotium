@@ -143,9 +143,9 @@ namespace UCR.Negotium
         {
             if(pendingSaveMoneda)
             {
-                MonedaActual.SetMoneda(codProyecto, ProyectoSelected.TipoMoneda.CodMoneda);
+                LocalContext.SetMoneda(codProyecto, ProyectoSelected.TipoMoneda.CodMoneda);
             }
-            proponente.CodProyecto = infoGeneral.CodProyecto = caracterizacion.CodProyecto =
+            resumen.CodProyecto = proponente.CodProyecto = infoGeneral.CodProyecto = caracterizacion.CodProyecto =
                     inversiones.CodProyecto = reinversiones.CodProyecto =
                     capitalTrabajo.CodProyecto = depreciaciones.CodProyecto =
                     costos.CodProyecto = proyeccionVentas.CodProyecto =
@@ -174,7 +174,7 @@ namespace UCR.Negotium
             proyecto.Costos = costos.CostosList;
             proyecto.RequerimientosInversion = inversiones.InversionesList;
             proyecto.RequerimientosReinversion = reinversiones.ReinversionesList;
-            signoMoneda = MonedaActual.GetSignoMoneda(codProyecto);
+            signoMoneda = LocalContext.GetSignoMoneda(codProyecto);
         }
 
         public void ReloadProgress()

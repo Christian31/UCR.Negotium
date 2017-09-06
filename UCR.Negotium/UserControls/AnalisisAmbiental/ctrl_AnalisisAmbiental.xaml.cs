@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using UCR.Negotium.DataAccess.AnalisisAmbiental;
+using UCR.Negotium.DataAccess;
 using UCR.Negotium.Dialogs;
 using UCR.Negotium.Domain;
 

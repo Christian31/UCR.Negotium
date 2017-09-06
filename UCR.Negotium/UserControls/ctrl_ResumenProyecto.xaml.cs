@@ -27,6 +27,7 @@ namespace UCR.Negotium.UserControls
         private Proyecto proyecto;
 
         private ProyectoData proyectoData;
+        private ProponenteData proponenteData;
 
         public ctrl_ResumenProyecto()
         {
@@ -35,6 +36,7 @@ namespace UCR.Negotium.UserControls
 
             proyecto = new Proyecto();
             proyectoData = new ProyectoData();
+            proponenteData = new ProponenteData();
         }
 
         public int CodProyecto
@@ -54,7 +56,7 @@ namespace UCR.Negotium.UserControls
         private void Reload()
         {
             ProyectoSelected = proyectoData.GetProyecto(CodProyecto);
-
+            ProyectoSelected.Proponente = proponenteData.GetProponente(CodProyecto);
             PropertyChanged(this, new PropertyChangedEventArgs("ProyectoSelected"));
         }
     }

@@ -25,7 +25,7 @@ namespace UCR.Negotium.Domain
 
         public int TiempoFinanciamiento
         {
-            get { return AnoFinalPago - AnoInicialPago; }
+            get { return AnoFinalPago - AnoInicialPago + 1; }
         }
     }
 }

@@ -31,6 +31,12 @@ namespace UCR.Negotium.Dialogs
             this.codProyecto = codProyecto;
             TiposMonedas = tipoMonedaData.GetTiposMonedas();
             TipoMonedaSelected = proyectoData.GetMonedaProyecto(codProyecto);
+
+            if (TipoMonedaSelected.CodMoneda.Equals(0))
+            {
+                TipoMonedaSelected.CodMoneda = 1;
+            }
+            PropertyChanged(this, new PropertyChangedEventArgs("TipoMonedaSelected"));
         }
 
         public bool Reload { get; set; }
@@ -52,15 +58,8 @@ namespace UCR.Negotium.Dialogs
 
         public TipoMoneda TipoMonedaSelected
         {
-            get
-            {
-                return tipoMoneda;
-            }
-            set
-            {
-                tipoMoneda = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("TipoMonedaSelected"));
-            }
+            get { return tipoMoneda; }
+            set { tipoMoneda = value; }
         }
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
@@ -73,7 +72,7 @@ namespace UCR.Negotium.Dialogs
             }
             else 
             {
-                if (MonedaActual.SetMoneda(codProyecto, TipoMonedaSelected.CodMoneda))
+                if (LocalContext.SetMoneda(codProyecto, TipoMonedaSelected.CodMoneda))
                 {
                     Reload = true;
                 }

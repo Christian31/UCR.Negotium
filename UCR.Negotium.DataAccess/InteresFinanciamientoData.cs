@@ -1,125 +1,122 @@
-﻿using System;
-using System.Data;
-using System.Data.SQLite;
+﻿using System.Data.SQLite;
 using System.Collections.Generic;
 using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class InteresFinanciamientoData
+    public class InteresFinanciamientoData:BaseData
     {
-        private string cadenaConexion;
-        private SQLiteConnection conexion;
-        private SQLiteCommand command;
-
-        public InteresFinanciamientoData()
-        {
-            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].
-                ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
-
-            conexion = new SQLiteConnection(cadenaConexion);
-        }
+        public InteresFinanciamientoData() { }
 
         public bool InsertarInteresFinanciamiento(InteresFinanciamiento intFinanciamiento, int codProyecto)
         {
-            String insert = "INSERT INTO INTERES_FINANCIAMIENTO(cod_proyecto, porcentaje_interes, ano_interes)" +
+            int result = -1;
+            string insert = "INSERT INTO INTERES_FINANCIAMIENTO(cod_proyecto, porcentaje_interes, ano_interes) " +
                 "VALUES(?,?,?)";
-            if (conexion.State != ConnectionState.Open)
-                conexion.Open();
-            SQLiteCommand command = conexion.CreateCommand();
-            command.CommandText = insert;
-            command.Parameters.AddWithValue("cod_proyecto", codProyecto);
-            command.Parameters.AddWithValue("porcentaje_interes", intFinanciamiento.PorcentajeInteres);
-            command.Parameters.AddWithValue("ano_intereses", intFinanciamiento.AnoInteres);
-            // Ejecutamos la sentencia INSERT y cerramos la conexión
-            if (command.ExecuteNonQuery() != -1)
+
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                conexion.Close();
-                return true;
-            }//if
-            else
-            {
-                conexion.Close();
-                return false;
-            }//else
-        }//InsertarInteresFinanciamiento
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(insert, conn);
+                    cmd.Parameters.AddWithValue("cod_proyecto", codProyecto);
+                    cmd.Parameters.AddWithValue("porcentaje_interes", intFinanciamiento.PorcentajeInteres);
+                    cmd.Parameters.AddWithValue("ano_intereses", intFinanciamiento.AnoInteres);
+
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+                    result = -1;
+                }
+            }
+
+            return result != -1;
+        }
 
         public List<InteresFinanciamiento> GetInteresesFinanciamiento(int codProyecto)
         {
-            command = conexion.CreateCommand();
             List<InteresFinanciamiento> listaInteresesFinanciamiento = new List<InteresFinanciamiento>();
-            try
+            string select = "SELECT * FROM INTERES_FINANCIAMIENTO WHERE cod_proyecto=?";
+
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                String select = "SELECT * FROM INTERES_FINANCIAMIENTO"+
-                    " WHERE cod_proyecto=" + codProyecto + ";";
-
-                if (conexion.State != ConnectionState.Open)
-                    conexion.Open();
-
-                command.CommandText = select;
-                SQLiteDataReader reader = command.ExecuteReader();
-                InteresFinanciamiento interes = null;
-                while (reader.Read())
+                try
                 {
-                    interes = new InteresFinanciamiento();
-                    interes.CodInteresFinanciamiento = reader.GetInt32(0);
-                    interes.PorcentajeInteres = reader.GetDouble(2);
-                    interes.AnoInteres = reader.GetInt32(3);
-                    listaInteresesFinanciamiento.Add(interes);
-                }//if
-                conexion.Close();
-                return listaInteresesFinanciamiento;
-            }//try
-            catch
-            {
-                conexion.Close();
-                return null;
-            }//catch
-        }//GetInteresesFinanciamiento
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(select, conn);
+                    cmd.Parameters.AddWithValue("cod_proyecto", codProyecto);
 
-        public bool ActualizarInteresFinanciamiento(InteresFinanciamiento intFinanciamiento)
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            InteresFinanciamiento interes = new InteresFinanciamiento();
+                            interes.CodInteresFinanciamiento = reader.GetInt32(0);
+                            interes.PorcentajeInteres = reader.GetDouble(2);
+                            interes.AnoInteres = reader.GetInt32(3);
+                            listaInteresesFinanciamiento.Add(interes);
+                        }
+                    }
+                }
+                catch
+                {
+                    listaInteresesFinanciamiento = new List<InteresFinanciamiento>();
+                }
+            }
+
+            return listaInteresesFinanciamiento;
+        }
+
+        public bool EditarInteresFinanciamiento(InteresFinanciamiento intFinanciamiento)
         {
-            String update = "UPDATE INTERES_FINANCIAMIENTO SET porcentaje_interes=? " +
-                "WHERE cod_interes_financiamiento=" + intFinanciamiento.CodInteresFinanciamiento;
-            if (conexion.State != ConnectionState.Open)
-                conexion.Open();
-            SQLiteCommand command = conexion.CreateCommand();
-            command.CommandText = update;
-            command.Parameters.AddWithValue("porcentaje_interes_financiamiento", intFinanciamiento.PorcentajeInteres);
-            // Ejecutamos la sentencia INSERT y cerramos la conexión
-            if (command.ExecuteNonQuery() != -1)
+            int result = -1;
+            string update = "UPDATE INTERES_FINANCIAMIENTO SET porcentaje_interes=? " +
+                "WHERE cod_interes_financiamiento=?";
+
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                conexion.Close();
-                return true;
-            }//if
-            else
-            {
-                conexion.Close();
-                return false;
-            }//else
-        }//ActualizarInteresFinanciamiento
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(update, conn);
+                    cmd.Parameters.AddWithValue("cod_interes_financiamiento", intFinanciamiento.CodInteresFinanciamiento);
+                    cmd.Parameters.AddWithValue("porcentaje_interes_financiamiento", intFinanciamiento.PorcentajeInteres);
+
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+                    result = -1;
+                }
+            }
+
+            return result != -1;
+        }
 
         public bool EliminarInteresFinanciamiento(int codProyecto)
         {
-            try
+            int result = -1;
+            string delete = "DELETE FROM INTERES_FINANCIAMIENTO WHERE cod_proyecto=?";
+            
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                string sqlQuery = "DELETE FROM INTERES_FINANCIAMIENTO WHERE cod_proyecto =" + codProyecto + ";";
-                if (conexion.State != ConnectionState.Open)
-                    conexion.Open();
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(delete, conn);
+                    cmd.Parameters.AddWithValue("cod_proyecto", codProyecto);
 
-                SQLiteCommand command = conexion.CreateCommand();
-                command.CommandText = sqlQuery;
-                command.ExecuteNonQuery();
-                conexion.Close();
-
-                return true;
-            }
-            catch
-            {
-                conexion.Close();
-                return false;
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+                    result = -1;
+                }
             }
 
+            return result != -1;
         }
     }
 }

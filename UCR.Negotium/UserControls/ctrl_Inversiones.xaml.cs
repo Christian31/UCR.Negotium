@@ -36,8 +36,8 @@ namespace UCR.Negotium.UserControls
 
         public void Reload()
         {
-            SignoMoneda = MonedaActual.GetSignoMoneda(codProyecto);
-            InversionesList = inversionData.GetRequerimientosInversion(CodProyecto);
+            SignoMoneda = LocalContext.GetSignoMoneda(codProyecto);
+            InversionesList = inversionData.GetInversiones(CodProyecto);
 
             InversionesList.All(inv => {
                 inv.CostoUnitarioFormat = SignoMoneda +" "+ inv.CostoUnitario.ToString("#,##0.##");
@@ -157,7 +157,7 @@ namespace UCR.Negotium.UserControls
                 if (MessageBox.Show("Esta seguro que desea eliminar esta inversión?", "Confirmar",
                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
-                    if (inversionData.EliminarRequerimientoInversion(InversionSelected.CodRequerimientoInversion))
+                    if (inversionData.EliminarInversion(InversionSelected.CodRequerimientoInversion))
                     {
                         RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
                         mainWindow.ReloadUserControls(CodProyecto);

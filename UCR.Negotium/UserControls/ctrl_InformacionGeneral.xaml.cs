@@ -151,7 +151,7 @@ namespace UCR.Negotium.UserControls
                 }
                 else
                 {
-                    if (proyectoData.ActualizarProyecto(ProyectoSelected))
+                    if (proyectoData.EditarProyecto(ProyectoSelected))
                     {
                         RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
                         mainWindow.ReloadUserControls(CodProyecto);

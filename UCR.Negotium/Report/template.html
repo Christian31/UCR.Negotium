@@ -3,18 +3,11 @@
 
 <head>
     <meta charset="utf-8">
-
     <title>SB Admin - Bootstrap Admin Template</title>
-
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
     <!-- Custom CSS -->
     <link href="css/sb-admin.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
 </head>
 <body>
     <div id="wrapper">
@@ -218,12 +211,138 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            #foreach( $anoReinversion in $reinversionesTotal )
                                             <tr>
-                                                #foreach( $anoReinversion in $reinversionesTotal )
                                                 <td>$anoReinversion.Key</td>
                                                 <td>$anoReinversion.Value</td>
-                                                </tr><tr>
-                                                #end 
+                                            </tr>
+                                            #end
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Proyección de Ventas</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Articulo</th>
+                                                <th>Cantidad</th>
+                                                <th>Costo Unitario</th>
+                                                <th>Unidad de Medida</th>
+                                                <th>Depreciable</th>
+                                                <th>Vida Útil</th>
+                                                <th>Año Reinversión</th>
+                                                <th>Subtotal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                #foreach( $reinversion in $proyecto.RequerimientosReinversion )
+                                                <td>$reinversion.DescripcionRequerimiento</td>
+                                                <td>$reinversion.Cantidad</td>
+                                                <td>$reinversion.CostoUnitarioFormat</td>
+                                                <td>$reinversion.UnidadMedida</td>
+                                                <td>#if ($reinversion.Depreciable) Si #else No #end
+                                                <td>$reinversion.VidaUtil Años</td>
+                                                <td>$reinversion.AnoReinversion</td>
+                                                <td>$reinversion.SubtotalFormat</td>
+                                                #end
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br />
+                                <div class="table-responsive col-lg-6">
+                                    <table class="table table-bordered table-hover table-striped">
+                                        <caption>Ingresos Generados por año:</caption>
+                                        <thead>
+                                            <tr>
+                                                <th>Año</th>
+                                                <th>Monto</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                #foreach( $anoProyeccion in $proyeccionesTotal )
+                                                <td>$anoProyeccion.Key</td>
+                                                <td>$anoProyeccion.Value</td>
+                                            </tr>
+                                            <tr>
+                                                #end
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Costos del Proyecto</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Articulo</th>
+                                                <th>Cantidad</th>
+                                                <th>Costo Unitario</th>
+                                                <th>Unidad de Medida</th>
+                                                <th>Depreciable</th>
+                                                <th>Vida Útil</th>
+                                                <th>Año Reinversión</th>
+                                                <th>Subtotal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                #foreach( $reinversion in $proyecto.RequerimientosReinversion )
+                                                <td>$reinversion.DescripcionRequerimiento</td>
+                                                <td>$reinversion.Cantidad</td>
+                                                <td>$reinversion.CostoUnitarioFormat</td>
+                                                <td>$reinversion.UnidadMedida</td>
+                                                <td>#if ($reinversion.Depreciable) Si #else No #end
+                                                <td>$reinversion.VidaUtil Años</td>
+                                                <td>$reinversion.AnoReinversion</td>
+                                                <td>$reinversion.SubtotalFormat</td>
+                                                #end
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br />
+                                <div class="table-responsive col-lg-6">
+                                    <table class="table table-bordered table-hover table-striped">
+                                        <caption>Costos Generados por año:</caption>
+                                        <thead>
+                                            <tr>
+                                                <th>Año</th>
+                                                <th>Monto</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                #foreach( $anoCosto in $costosTotal )
+                                                <td>$anoCosto.Key</td>
+                                                <td>$anoCosto.Value</td>
+                                            </tr>
+                                            <tr>
+                                                #end
                                             </tr>
                                         </tbody>
                                     </table>
@@ -448,12 +567,12 @@
 
                                 <h5><b>Detalle de Indicadores</b></h5>
                                 <hr>
-                                <div class="col-lg-4 form-group"> Tasa de Costo Capital: <b>{{MONTOIF}}</b></div>
+                                <div class="col-lg-4 form-group"> Tasa de Costo Capital: <b>$proyecto.TasaCostoCapital</b></div>
                                 <div class="col-lg-4 form-group"> TIR: <b>{{TIEMPOIF}}</b></div>
                                 <div class="col-lg-4 form-group"> VAN: <b>{{TASAINTERESIF}}</b></div>
-                                <div class="col-lg-4 form-group"> Personas participantes: <b>{{ANOINICIALPAGOIF}}</b><br /></div>
-                                <div class="col-lg-4 form-group"> Personas involucradas: <b>{{MONTOIF}}</b></div>
-                                <div class="col-lg-4 form-group"> Beneficiarios indirectos: <b>{{TIEMPOIF}}</b></div>
+                                <div class="col-lg-4 form-group"> Personas participantes: <b>$proyecto.PersonasParticipantes</b><br /></div>
+                                <div class="col-lg-4 form-group"> Familias involucradas: <b>$proyecto.FamiliasInvolucradas</b></div>
+                                <div class="col-lg-4 form-group"> Beneficiarios indirectos: <b>$proyecto.PersonasBeneficiadas</b></div>
                                 <div class="col-lg-4 form-group"> VAN/Personas participantes: <b>{{TASAINTERESIF}}</b></div>
                                 <div class="col-lg-4 form-group"> VAN/Personas involucradas: <b>{{ANOINICIALPAGOIF}}</b><br /></div>
                                 <div class="col-lg-4 form-group"> VAN/Beneficiarios indirectos: <b>{{ANOINICIALPAGOIF}}</b><br /></div>

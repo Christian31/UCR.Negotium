@@ -38,7 +38,7 @@ namespace UCR.Negotium.Dialogs
 
             proyectoData = new ProyectoData();
             proyecto = proyectoData.GetProyecto(codProyecto);
-            signoMoneda = MonedaActual.GetSignoMoneda(codProyecto);
+            signoMoneda = LocalContext.GetSignoMoneda(codProyecto);
         }
 
         public bool Reload { get; set; }
@@ -93,7 +93,7 @@ namespace UCR.Negotium.Dialogs
 
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
-            if (proyectoData.ActualizarProyectoFlujoCaja(ProyectoSelected))
+            if (proyectoData.EditarProyectoFlujoCaja(ProyectoSelected))
             {
                 Reload = true;
                 Close();

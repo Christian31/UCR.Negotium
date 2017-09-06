@@ -46,7 +46,7 @@ namespace UCR.Negotium.UserControls
 
         public void Reload()
         {
-            SignoMoneda = MonedaActual.GetSignoMoneda(CodProyecto);
+            SignoMoneda = LocalContext.GetSignoMoneda(CodProyecto);
 
             DTProyeccionesTotales = new DataView();
             ProyeccionesList = proyeccionArticuloData.GetProyeccionesVentaArticulo(CodProyecto);

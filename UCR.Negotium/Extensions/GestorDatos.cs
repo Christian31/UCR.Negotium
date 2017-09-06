@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
+using UCR.Negotium.DataAccess;
 
 namespace UCR.Negotium.Extensions
 {
@@ -48,23 +50,34 @@ namespace UCR.Negotium.Extensions
                 int result = CompareVersion(backupVersion);
                 byte[] bytes = Convert.FromBase64String(xdocBackup.FirstChild.InnerText);
 
-                string databasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Data\NegotiumDatabase.db");
+                string dataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Data");
                 string tempPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Data\_temp");
-                string databaseTempPath = Path.Combine(tempPath, "NegotiumDatabase.db");
+                string backupPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Data\_backup");
+                string dbName = "NegotiumDatabase.db";
 
                 if (result.Equals(0))
                 {
+                    if (!Directory.Exists(backupPath))
+                        Directory.CreateDirectory(backupPath);
+
+                    //creacion de backup de la base de datos actual
+                    File.Copy(Path.Combine(dataPath, dbName), Path.Combine(backupPath, dbName), true);
+
+                    //creacion de la base de datos temporal sacada del export
                     if (!Directory.Exists(tempPath))
                         Directory.CreateDirectory(tempPath);
 
-                    File.Copy(databasePath, databaseTempPath, true);
+                    if (File.Exists(Path.Combine(tempPath, dbName)))
+                        File.Delete(Path.Combine(tempPath, dbName));
 
-                    using (FileStream output = new FileStream(databasePath, 
-                        FileMode.Open, FileAccess.Write, FileShare.ReadWrite))
+                    using (FileStream fs = File.Create(Path.Combine(tempPath, dbName)))
                     {
-                        output.Write(bytes, 0, bytes.Length);
-                        output.Flush();
-                        output.Close();
+                        fs.Write(bytes, 0, bytes.Length);
+                    }
+
+                    if (MergeProyectos(Path.Combine(dataPath, dbName), Path.Combine(tempPath, dbName)))
+                    {
+
                     }
 
                     return true;
@@ -72,7 +85,7 @@ namespace UCR.Negotium.Extensions
 
                 return false;
             }
-            catch (Exception ex) { return false; }
+            catch { return false; }
         }
 
         private static string GetCurrentVersion()
@@ -102,6 +115,43 @@ namespace UCR.Negotium.Extensions
             return backup.CompareTo(current);
         }
 
+        private static bool MergeProyectos(string dbName, string tempdbName)
+        {
+            ExportarData exportarData = new ExportarData();
+            Dictionary<Guid, int> indicesdb = exportarData.GetIndicesProyecto(dbName);
+            Dictionary<Guid, int> indicesdbTemp = exportarData.GetIndicesProyecto(tempdbName);
+            Dictionary<Guid, int> indicesNuevos = new Dictionary<Guid, int>();
+            Dictionary<Guid, int> indicesEditar = new Dictionary<Guid, int>();
 
+            foreach (var dicEntry in indicesdbTemp)
+            {
+                if (indicesdb.ContainsKey(dicEntry.Key))
+                    indicesEditar.Add(dicEntry.Key, dicEntry.Value);
+                else
+                    indicesNuevos.Add(dicEntry.Key, dicEntry.Value);
+            }
+
+            return AddProyectos(indicesNuevos) && EditProyectos(indicesEditar);
+        }
+
+        private static bool AddProyectos(Dictionary<Guid, int> indicesNuevos)
+        {
+            foreach (var dicEntry in indicesNuevos)
+            {
+
+            }
+
+            return true;
+        }
+
+        private static bool EditProyectos(Dictionary<Guid, int> indicesEditar)
+        {
+            foreach (var dicEntry in indicesEditar)
+            {
+
+            }
+
+            return true;
+        }
     }
 }

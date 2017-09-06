@@ -5,9 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UCR.Negotium.Dialogs"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        mc:Ignorable="d"
-        BorderThickness="2" BorderBrush="{DynamicResource AccentColorBrush}"
-        WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        mc:Ignorable="d" Style="{StaticResource dialogsStyle}" WindowStartupLocation="CenterScreen"
         Title="Tipo de Moneda | Negotium v1.0" Width="330" Height="250">
     <Grid Margin="10">
         <Grid Height="80" VerticalAlignment="Top" Margin="27,40,27,40">

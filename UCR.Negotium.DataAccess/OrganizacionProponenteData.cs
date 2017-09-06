@@ -1,85 +1,75 @@
-﻿//@Copyright Yordan Campos Piedra
-using System;
-using System.Data;
-using System.Data.SQLite;
+﻿using System.Data.SQLite;
 using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class OrganizacionProponenteData
+    public class OrganizacionProponenteData:BaseData
     {
-        private string cadenaConexion;
-        private SQLiteConnection conexion;
-
-        public OrganizacionProponenteData()
-        {
-            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].
-                ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
-
-            conexion = new SQLiteConnection(cadenaConexion);
-        }
+        public OrganizacionProponenteData() { }
 
         public int InsertarOrganizacionProponente(OrganizacionProponente organizacionProponente)
         {
             int codOrganizacion = -1;
-            Object codOrganizacionObject;
-            String insert = "INSERT INTO ORGANIZACION_PROPONENTE(nombre_organizacion, cedula_juridica, "+
+            object codOrganizacionObject;
+            string insert = "INSERT INTO ORGANIZACION_PROPONENTE(nombre_organizacion, cedula_juridica, "+
                 "telefono, descripcion, cod_tipo, email) VALUES(?,?,?,?,?,?);"
                 + "SELECT last_insert_rowid();";
-            if (conexion.State != ConnectionState.Open)
-                conexion.Open();
-            SQLiteCommand command = conexion.CreateCommand();
-            command.CommandText = insert;
-            command.Parameters.AddWithValue("nombre_organizacion", organizacionProponente.NombreOrganizacion);
-            command.Parameters.AddWithValue("cedula_juridica", organizacionProponente.CedulaJuridica);
-            command.Parameters.AddWithValue("telefono", organizacionProponente.Telefono);
-            command.Parameters.AddWithValue("descripcion", organizacionProponente.Descripcion);
-            command.Parameters.AddWithValue("cod_tipo", organizacionProponente.Tipo.CodTipo);
-            command.Parameters.AddWithValue("email", organizacionProponente.CorreoElectronico);
-            // Ejecutamos la sentencia INSERT y cerramos la conexión
-            try
-            {
-                if (conexion.State != ConnectionState.Open)
-                    conexion.Open();
-                codOrganizacionObject = command.ExecuteScalar();
-                codOrganizacion = Int32.Parse(codOrganizacionObject.ToString());
-                conexion.Close();
-                return codOrganizacion;
-            }//try
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                conexion.Close();
-                return codOrganizacion;
-            }//catch
-        }//InsertarOrganizacion
 
-        public bool ActualizarOrganizacionProponente(OrganizacionProponente organizacion)
-        {
-            String update = "UPDATE ORGANIZACION_PROPONENTE SET nombre_organizacion=?, " +
-                "cedula_juridica=?, telefono=?, descripcion=?, cod_tipo=?, email=? WHERE cod_organizacion=" 
-                + organizacion.CodOrganizacion;
-            if (conexion.State != ConnectionState.Open)
-                conexion.Open();
-            SQLiteCommand command = conexion.CreateCommand();
-            command.CommandText = update;
-            command.Parameters.AddWithValue("nombre_organizacion", organizacion.NombreOrganizacion);
-            command.Parameters.AddWithValue("cedula_juridica", organizacion.CedulaJuridica);
-            command.Parameters.AddWithValue("telefono", organizacion.Telefono);
-            command.Parameters.AddWithValue("descripcion", organizacion.Descripcion);
-            command.Parameters.AddWithValue("cod_tipo", organizacion.Tipo.CodTipo);
-            command.Parameters.AddWithValue("email", organizacion.CorreoElectronico);
-            // Ejecutamos la sentencia INSERT y cerramos la conexión
-            if (command.ExecuteNonQuery() != -1)
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                conexion.Close();
-                return true;
-            }//if
-            else
-            {
-                conexion.Close();
-                return false;
-            }//else
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(insert, conn);
+                    cmd.Parameters.AddWithValue("nombre_organizacion", organizacionProponente.NombreOrganizacion);
+                    cmd.Parameters.AddWithValue("cedula_juridica", organizacionProponente.CedulaJuridica);
+                    cmd.Parameters.AddWithValue("telefono", organizacionProponente.Telefono);
+                    cmd.Parameters.AddWithValue("descripcion", organizacionProponente.Descripcion);
+                    cmd.Parameters.AddWithValue("cod_tipo", organizacionProponente.Tipo.CodTipo);
+                    cmd.Parameters.AddWithValue("email", organizacionProponente.CorreoElectronico);
+
+                    codOrganizacionObject = cmd.ExecuteScalar();
+                    codOrganizacion = int.Parse(codOrganizacionObject.ToString());
+                }
+                catch
+                {
+                    codOrganizacion = -1;
+                }
+            }
+
+            return codOrganizacion;
         }
-    }//OrganizacionProponenteData
+
+        public bool EditarOrganizacionProponente(OrganizacionProponente organizacion)
+        {
+            int result = -1;
+            string update = "UPDATE ORGANIZACION_PROPONENTE SET nombre_organizacion=?, " +
+                "cedula_juridica=?, telefono=?, descripcion=?, cod_tipo=?, email=? "+
+                "WHERE cod_organizacion=?";
+
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
+            {
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(update, conn);
+                    cmd.Parameters.AddWithValue("nombre_organizacion", organizacion.NombreOrganizacion);
+                    cmd.Parameters.AddWithValue("cedula_juridica", organizacion.CedulaJuridica);
+                    cmd.Parameters.AddWithValue("telefono", organizacion.Telefono);
+                    cmd.Parameters.AddWithValue("descripcion", organizacion.Descripcion);
+                    cmd.Parameters.AddWithValue("cod_tipo", organizacion.Tipo.CodTipo);
+                    cmd.Parameters.AddWithValue("email", organizacion.CorreoElectronico);
+                    cmd.Parameters.AddWithValue("cod_organizacion", organizacion.CodOrganizacion);
+
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+                    result = -1;
+                }
+            }
+
+            return result != -1;
+        }
+    }
 }

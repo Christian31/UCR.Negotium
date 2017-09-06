@@ -71,7 +71,7 @@ namespace UCR.Negotium.UserControls
             {
                 if (!ValidateRequiredFields())
                 {
-                    if (proyectoData.ActualizarProyectoCaracterizacion(ProyectoSelected))
+                    if (proyectoData.EditarProyectoCaracterizacion(ProyectoSelected))
                     {
                         //success
                         RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];

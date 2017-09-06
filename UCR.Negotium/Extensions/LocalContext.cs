@@ -3,7 +3,7 @@ using UCR.Negotium.DataAccess;
 
 namespace UCR.Negotium.Extensions
 {
-    public static class MonedaActual
+    public static class LocalContext
     {
         private static ProyectoData proyectoData = new ProyectoData();
 
@@ -44,7 +44,7 @@ namespace UCR.Negotium.Extensions
 
         public static bool SetMoneda(int codProyecto, int codMoneda)
         {
-            if(proyectoData.ActualizarMoneda(codProyecto, codMoneda))
+            if(proyectoData.EditarMoneda(codProyecto, codMoneda))
             {
                 RefreshSignoMoneda(codProyecto);
                 return true;

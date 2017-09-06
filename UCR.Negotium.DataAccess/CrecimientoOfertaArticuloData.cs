@@ -1,135 +1,126 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Data.SQLite;
 using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class CrecimientoOfertaArticuloData
+    public class CrecimientoOfertaArticuloData:BaseData
     {
-        private string cadenaConexion;
-        private SQLiteConnection conexion;
-        private SQLiteCommand command;
-
-        public CrecimientoOfertaArticuloData()
-        {
-            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].
-                ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
-
-            conexion = new SQLiteConnection(cadenaConexion);
-        }
+        public CrecimientoOfertaArticuloData() { }
 
         public List<CrecimientoOfertaArticulo> GetCrecimientoOfertaObjetoIntereses(int codProyeccion)
         {
             List<CrecimientoOfertaArticulo> crecimientosOferta = new List<CrecimientoOfertaArticulo>();
-            string select = "SELECT cod_crecimiento,ano_crecimiento,porcentaje_crecimiento " +
-                "FROM CRECIMIENTO_OFERTA_OBJETO_INTERES WHERE cod_proyeccion_venta=" + codProyeccion + ";";
-            try
-            {
-                if (conexion.State != ConnectionState.Open)
-                    conexion.Open();
+            string select = "SELECT cod_crecimiento, ano_crecimiento, porcentaje_crecimiento " +
+                "FROM CRECIMIENTO_OFERTA_OBJETO_INTERES WHERE cod_proyeccion_venta=?";
 
-                SQLiteCommand command = conexion.CreateCommand();
-                command.CommandText = select;
-                SQLiteDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
+            {
+                try
                 {
-                    CrecimientoOfertaArticulo crecimientoOferta = new CrecimientoOfertaArticulo();
-                    crecimientoOferta.CodCrecimiento = reader.GetInt32(0);
-                    crecimientoOferta.AnoCrecimiento = reader.GetInt32(1);
-                    crecimientoOferta.PorcentajeCrecimiento = reader.GetDouble(2);
-                    crecimientosOferta.Add(crecimientoOferta);
-                }
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(select, conn);
+                    cmd.Parameters.AddWithValue("cod_proyeccion_venta", codProyeccion);
 
-                conexion.Close();
-                return crecimientosOferta;
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            CrecimientoOfertaArticulo crecimientoOferta = new CrecimientoOfertaArticulo();
+                            crecimientoOferta.CodCrecimiento = reader.GetInt32(0);
+                            crecimientoOferta.AnoCrecimiento = reader.GetInt32(1);
+                            crecimientoOferta.PorcentajeCrecimiento = reader.GetDouble(2);
+                            crecimientosOferta.Add(crecimientoOferta);
+                        }
+                    }
+                }
+                catch
+                {
+                    crecimientosOferta = new List<CrecimientoOfertaArticulo>();
+                }
             }
-            catch
-            {
-                conexion.Close();
-                return crecimientosOferta;
-            }
-        }//GetCrecimientoOfertaObjetoIntereses 
+
+            return crecimientosOferta;
+        } 
 
         public CrecimientoOfertaArticulo InsertarCrecimientoOfertaObjetoIntereses(CrecimientoOfertaArticulo crecimiento, int codProyeccion)
         {
             object newProdID;
-            string insert = "INSERT INTO CRECIMIENTO_OFERTA_OBJETO_INTERES(ano_crecimiento," +
-                " porcentaje_crecimiento, cod_proyeccion_venta) VALUES(?,?,?); " +
-            "SELECT last_insert_rowid();";
-            if (conexion.State != ConnectionState.Open)
-                conexion.Open();
-            command = conexion.CreateCommand();
-            command.CommandText = insert;
-            command.Parameters.AddWithValue("ano_crecimiento", crecimiento.AnoCrecimiento);
-            command.Parameters.AddWithValue("porcentaje_crecimiento", crecimiento.PorcentajeCrecimiento);
-            command.Parameters.AddWithValue("cod_proyeccion_venta", codProyeccion);
-            try
+            string insert = "INSERT INTO CRECIMIENTO_OFERTA_OBJETO_INTERES(ano_crecimiento, " +
+                "porcentaje_crecimiento, cod_proyeccion_venta) VALUES(?,?,?); " +
+                "SELECT last_insert_rowid();";
+
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                if (conexion.State != ConnectionState.Open)
-                    conexion.Open();
-                newProdID = command.ExecuteScalar();
-                crecimiento.CodCrecimiento = Int32.Parse(newProdID.ToString());
-                conexion.Close();
-                return crecimiento;
-            }//try
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                conexion.Close();
-                return crecimiento;
-            }//catch
-        }//InsertarCrecimientoOfertaObjetoIntereses
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(insert, conn);
+                    cmd.Parameters.AddWithValue("ano_crecimiento", crecimiento.AnoCrecimiento);
+                    cmd.Parameters.AddWithValue("porcentaje_crecimiento", crecimiento.PorcentajeCrecimiento);
+                    cmd.Parameters.AddWithValue("cod_proyeccion_venta", codProyeccion);
+
+                    newProdID = cmd.ExecuteScalar();
+                    crecimiento.CodCrecimiento = int.Parse(newProdID.ToString());
+                }
+                catch
+                {
+                    crecimiento = new CrecimientoOfertaArticulo();
+                }
+            }
+
+            return crecimiento;
+        }
 
         public bool EditarCrecimientoOfertaObjetoIntereses(CrecimientoOfertaArticulo crecimiento)
         {
-            string insert = "UPDATE CRECIMIENTO_OFERTA_OBJETO_INTERES SET porcentaje_crecimiento = ? WHERE cod_crecimiento = ?;";
-            if (conexion.State != ConnectionState.Open)
-                conexion.Open();
-            SQLiteCommand command = conexion.CreateCommand();
-            command.CommandText = insert;
-            command.Parameters.AddWithValue("porcentaje_crecimiento", crecimiento.PorcentajeCrecimiento);
-            command.Parameters.AddWithValue("cod_crecimiento", crecimiento.CodCrecimiento);
-            try
+            int result = -1;
+            string insert = "UPDATE CRECIMIENTO_OFERTA_OBJETO_INTERES SET porcentaje_crecimiento = ? " +
+                "WHERE cod_crecimiento=?";
+
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                if (conexion.State != ConnectionState.Open)
-                    conexion.Open();
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(insert, conn);
+                    cmd.Parameters.AddWithValue("porcentaje_crecimiento", crecimiento.PorcentajeCrecimiento);
+                    cmd.Parameters.AddWithValue("cod_crecimiento", crecimiento.CodCrecimiento);
 
-                command.ExecuteNonQuery();
-
-                conexion.Close();
-                return true;
-            }//try
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                conexion.Close();
-                return false;
-            }//catch
-        }//EditarCrecimientoOfertaObjetoIntereses
-
-        public bool EliminarCrecimientoObjetoInteres(int codProyecto) {
-            string select = "DELETE FROM CRECIMIENTO_OFERTA_OBJETO_INTERES WHERE cod_proyeccion_venta=" + codProyecto + ";";
-
-            try
-            {
-                if (conexion.State != ConnectionState.Open)
-                    conexion.Open();
-                SQLiteCommand command = conexion.CreateCommand();
-                //command = conexion.CreateCommand();
-                command.CommandText = select;
-                command.ExecuteNonQuery();
-
-                conexion.Close();
-                return true;
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+                    result = -1;
+                }
             }
-            catch (SQLiteException ex)
+
+            return result != -1;
+        }
+
+        public bool EliminarCrecimientoObjetoInteres(int codProyeccion)
+        {
+            int result = -1;
+            string delete = "DELETE FROM CRECIMIENTO_OFERTA_OBJETO_INTERES " +
+                "WHERE cod_proyeccion_venta=?";
+
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                Console.WriteLine(ex.Message);
-                conexion.Close();
-                return false;
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(delete, conn);
+                    cmd.Parameters.AddWithValue("cod_proyeccion_venta", codProyeccion);
+
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+                    result = -1;
+                }
             }
+
+            return result != -1;
         }
     }
 }

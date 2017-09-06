@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        BorderThickness="2" BorderBrush="{DynamicResource AccentColorBrush}"
-        WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen" Style="{StaticResource dialogsStyle}"
         Title="Indicadores | Negotium v1.0" Height="500" Width="400">
     <Grid Margin="10">
             <Grid.RowDefinitions>

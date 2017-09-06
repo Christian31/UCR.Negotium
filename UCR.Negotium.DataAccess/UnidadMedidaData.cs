@@ -1,63 +1,73 @@
-﻿//@Copyright Yordan Campos Piedra
-using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Data.SQLite;
 using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class UnidadMedidaData
+    public class UnidadMedidaData:BaseData
     {
-        private string cadenaConexion;
-        private SQLiteConnection conexion;
-        private SQLiteCommand command;
-
-        public UnidadMedidaData()
-        {
-            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].
-                ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
-
-            conexion = new SQLiteConnection(cadenaConexion);
-        }
+        public UnidadMedidaData() { }
 
         public List<UnidadMedida> GetUnidadesMedidas()
         {
             List<UnidadMedida> unidadesMedida = new List<UnidadMedida>();
             string select = "SELECT * FROM UNIDAD_MEDIDA";
-            if (conexion.State != ConnectionState.Open)
-                conexion.Open();
-            command = conexion.CreateCommand();
-            command.CommandText = select;
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read())
+
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                UnidadMedida unidadMedida = new UnidadMedida();
-                unidadMedida.CodUnidad = reader.GetInt32(0);
-                unidadMedida.NombreUnidad = reader.GetString(1);
-                unidadesMedida.Add(unidadMedida);
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(select, conn);
+
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            UnidadMedida unidadMedida = new UnidadMedida();
+                            unidadMedida.CodUnidad = reader.GetInt32(0);
+                            unidadMedida.NombreUnidad = reader.GetString(1);
+                            unidadesMedida.Add(unidadMedida);
+                        }
+                    }
+                }
+                catch
+                {
+                    unidadesMedida = new List<UnidadMedida>();
+                }
             }
-            conexion.Close();
 
             return unidadesMedida;
         }
 
         public UnidadMedida GetUnidadMedida(int codUnidadMedida)
         {
-            String select = "SELECT * FROM UNIDAD_MEDIDA WHERE cod_unidad=" + codUnidadMedida;
-            if (conexion.State != ConnectionState.Open)
-                conexion.Open();
-            command = conexion.CreateCommand();
-            command.CommandText = select;
-            SQLiteDataReader reader = command.ExecuteReader();
-            UnidadMedida unidadMedida = null;
-            if (reader.Read())
+            UnidadMedida unidadMedida = new UnidadMedida();
+            string select = "SELECT * FROM UNIDAD_MEDIDA WHERE cod_unidad=?";
+
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                unidadMedida = new UnidadMedida();
-                unidadMedida.CodUnidad = reader.GetInt32(0);
-                unidadMedida.NombreUnidad = reader.GetString(1);
-            }//if
-            conexion.Close();
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(select, conn);
+                    cmd.Parameters.AddWithValue("cod_unidad", codUnidadMedida);
+
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            unidadMedida.CodUnidad = reader.GetInt32(0);
+                            unidadMedida.NombreUnidad = reader.GetString(1);
+                        }
+                    }
+                }
+                catch
+                {
+                    unidadMedida = new UnidadMedida();
+                }
+            }
+
             return unidadMedida;
         }
     }

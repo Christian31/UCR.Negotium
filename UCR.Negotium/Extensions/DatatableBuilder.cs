@@ -10,7 +10,7 @@ namespace UCR.Negotium.Extensions
     {
         public static void GenerarCapitalTrabajo(Proyecto proyecto, out DataView dtCapitalTrabajo, out double recCTResult)
         {
-            string signoMoneda = MonedaActual.GetSignoMoneda(proyecto.CodProyecto);
+            string signoMoneda = LocalContext.GetSignoMoneda(proyecto.CodProyecto);
 
             DataSet ds = new DataSet();
             ds.Tables.Add("CapitalTrabajo");
@@ -65,7 +65,7 @@ namespace UCR.Negotium.Extensions
 
         public static DataTable GenerarCostosGenerados(Proyecto proyecto)
         {
-            string signoMoneda = MonedaActual.GetSignoMoneda(proyecto.CodProyecto);
+            string signoMoneda = LocalContext.GetSignoMoneda(proyecto.CodProyecto);
 
             DataSet ds = new DataSet();
             ds.Tables.Add("CostosGenerados");
@@ -86,7 +86,7 @@ namespace UCR.Negotium.Extensions
 
         public static DataTable GenerarDepreciaciones(Proyecto proyecto)
         {
-            string signoMoneda = MonedaActual.GetSignoMoneda(proyecto.CodProyecto);
+            string signoMoneda = LocalContext.GetSignoMoneda(proyecto.CodProyecto);
             DataSet ds = new DataSet();
             ds.Tables.Add("Depreciaciones");
 
@@ -116,7 +116,7 @@ namespace UCR.Negotium.Extensions
 
         public static DataTable GenerarTotalesDepreciaciones(Proyecto proyecto)
         {
-            string signoMoneda = MonedaActual.GetSignoMoneda(proyecto.CodProyecto);
+            string signoMoneda = LocalContext.GetSignoMoneda(proyecto.CodProyecto);
             DataSet ds = new DataSet();
             ds.Tables.Add("DepreciacionesTotales");
             ds.Tables["DepreciacionesTotales"].Columns.Add("titulo", Type.GetType("System.String"));
@@ -137,7 +137,7 @@ namespace UCR.Negotium.Extensions
 
         public static DataTable GenerarIngresosGenerados(Proyecto proyecto)
         {
-            string signoMoneda = MonedaActual.GetSignoMoneda(proyecto.CodProyecto);
+            string signoMoneda = LocalContext.GetSignoMoneda(proyecto.CodProyecto);
 
             DataSet ds = new DataSet();
             ds.Tables.Add("IngresosGenerados");
@@ -159,7 +159,7 @@ namespace UCR.Negotium.Extensions
 
         public static DataTable GenerarTotalesReinversiones(Proyecto proyecto)
         {
-            string signoMoneda = MonedaActual.GetSignoMoneda(proyecto.CodProyecto);
+            string signoMoneda = LocalContext.GetSignoMoneda(proyecto.CodProyecto);
 
             DataSet ds = new DataSet();
             ds.Tables.Add("TotalesReinversiones");
@@ -198,7 +198,7 @@ namespace UCR.Negotium.Extensions
 
         public static DataTable GenerarFinanciamientoIF(Financiamiento financiamiento, int codProyecto)
         {
-            string signoMoneda = MonedaActual.GetSignoMoneda(codProyecto);
+            string signoMoneda = LocalContext.GetSignoMoneda(codProyecto);
 
             int tiempo = financiamiento.TiempoFinanciamiento;
             double monto = financiamiento.MontoFinanciamiento;
@@ -214,11 +214,10 @@ namespace UCR.Negotium.Extensions
             ds.Tables["AmortizacionPrestamo"].Columns.Add("titulo4");
             ds.Tables["AmortizacionPrestamo"].Columns.Add("titulo5");
 
-            for (int i = 0; i <= tiempo; i++)
+            for (int i = 0; i < tiempo; i++)
             {
                 DataRow row1 = ds.Tables["AmortizacionPrestamo"].NewRow();
                 row1["titulo1"] = anoInicial + i;
-
                 row1["titulo2"] = signoMoneda + " " + monto.ToString("#,##0.##");
 
                 row1["titulo3"] = signoMoneda + " " + cuota.ToString("#,##0.##");
@@ -232,17 +231,13 @@ namespace UCR.Negotium.Extensions
                 ds.Tables["AmortizacionPrestamo"].Rows.Add(row1);
 
                 monto = Math.Round((monto - amortizacion), 2);
-                if (monto < 1)
-                {
-                    monto = 0;
-                }
             }
             return ds.Tables["AmortizacionPrestamo"];
         }
 
         public static DataTable GenerarFinanciamientoIV(Financiamiento financiamiento, int codProyecto)
         {
-            string signoMoneda = MonedaActual.GetSignoMoneda(codProyecto);
+            string signoMoneda = LocalContext.GetSignoMoneda(codProyecto);
 
             double monto = financiamiento.MontoFinanciamiento;
             int tiempo = financiamiento.TiempoFinanciamiento;
@@ -258,24 +253,15 @@ namespace UCR.Negotium.Extensions
             ds.Tables["AmortizacionPrestamo"].Columns.Add("titulo5", Type.GetType("System.String"));
             int tiempoTemp = tiempo;
 
-            for (int i = 0; i <= tiempo; i++)
+            for (int i = 0; i < tiempo; i++)
             {
-                double interesTemp = 0;
-                if (!i.Equals(tiempo))
-                {
-                    interesTemp = intereses[i].PorcentajeInteres / 100;
-                }
+                double interesTemp = intereses[i].PorcentajeInteres / 100;
 
                 DataRow row1 = ds.Tables["AmortizacionPrestamo"].NewRow();
                 row1["titulo1"] = anoInicial + i;
-
                 row1["titulo2"] = signoMoneda + " " + monto.ToString("#,##0.##");
 
-                double cuota = 0;
-                if (!i.Equals(tiempo))
-                {
-                    cuota = Math.Round((monto * interesTemp) / (1 - (Math.Pow((1 + interesTemp), (-tiempoTemp)))), 2);
-                }
+                double cuota = Math.Round((monto * interesTemp) / (1 - (Math.Pow((1 + interesTemp), (-tiempoTemp)))), 2);
                 row1["titulo3"] = signoMoneda + " " + cuota.ToString("#,##0.##");
 
                 double interes = Math.Round((monto * interesTemp), 2);
@@ -287,11 +273,6 @@ namespace UCR.Negotium.Extensions
                 ds.Tables["AmortizacionPrestamo"].Rows.Add(row1);
 
                 monto = Math.Round((monto - amortizacion), 2);
-
-                if (monto < 1)
-                {
-                    monto = 0;
-                }
                 tiempoTemp--;
             }
             return ds.Tables["AmortizacionPrestamo"];
@@ -299,7 +280,7 @@ namespace UCR.Negotium.Extensions
 
         public static DataTable GenerarFlujoCaja(Proyecto proyecto, DataView dgvCapitalTrabajo, DataView dgvFinanciamiento, DataView dgvTotalesReinversiones, string totalInversiones, string recuperacionCT)
         {
-            string signoMoneda = MonedaActual.GetSignoMoneda(proyecto.CodProyecto);
+            string signoMoneda = LocalContext.GetSignoMoneda(proyecto.CodProyecto);
 
             string dsNombre = "FlujoCaja";
             DataSet ds = new DataSet();
@@ -501,7 +482,7 @@ namespace UCR.Negotium.Extensions
             DataRow row13 = ds.Tables[dsNombre].NewRow();
             row13["Rubro"] = "Amortizacion del préstamo";
 
-            for (int i = 0; i <= proyecto.Financiamiento.TiempoFinanciamiento; i++)
+            for (int i = 0; i < proyecto.Financiamiento.TiempoFinanciamiento; i++)
             {
                 if (dgvFinanciamiento.Table != null && i < dgvFinanciamiento.Table.Rows.Count)
                 {

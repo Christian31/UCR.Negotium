@@ -6,8 +6,7 @@
         xmlns:local="clr-namespace:UCR.Negotium.Dialogs"
         xmlns:conv="clr-namespace:UCR.Negotium.Extensions"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        mc:Ignorable="d" BorderThickness="2" BorderBrush="{DynamicResource AccentColorBrush}"
-        WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen" Style="{StaticResource dialogsStyle}"
         Title="Registrar Factor Ambiental" Height="500" Width="680">
     <Grid Margin="10">
         <Grid.RowDefinitions>

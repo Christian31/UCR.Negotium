@@ -6,17 +6,11 @@ using System.Linq;
 using UCR.Negotium.Base.Enums;
 using UCR.Negotium.Domain;
 
-namespace UCR.Negotium.DataAccess.AnalisisAmbiental
+namespace UCR.Negotium.DataAccess
 {
-    public class FactorAmbientalData
+    public class FactorAmbientalData:BaseData
     {
-        private string cadenaConexion;
-
-        public FactorAmbientalData()
-        {
-            cadenaConexion = System.Configuration.ConfigurationManager.ConnectionStrings["db"].
-                ConnectionString.Replace("{AppDir}", AppDomain.CurrentDomain.BaseDirectory);
-        }
+        public FactorAmbientalData() { }
 
         #region GetEnumValues
         public List<Tuple<int, string, List<Tuple<int, string>>>> GetCondicionesAfectadas()
@@ -111,113 +105,117 @@ namespace UCR.Negotium.DataAccess.AnalisisAmbiental
         public List<FactorAmbiental> GetFactores(int codProyecto)
         {
             List<FactorAmbiental> factores = new List<FactorAmbiental>();
-            try
+            string select = "SELECT cod_factor, nombre_factor, condicion_afectada, elemento_ambiental, " +
+                        "clasificacion, signo FROM FACTOR_AMBIENTAL WHERE cod_proyecto=?";
+
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
+                try
                 {
                     conn.Open();
-                    string sql = "SELECT cod_factor, nombre_factor, condicion_afectada, elemento_ambiental, "+
-                        "clasificacion, signo FROM FACTOR_AMBIENTAL WHERE cod_proyecto = " + codProyecto +";";
-                    using (SQLiteCommand cmd = new SQLiteCommand(sql, conn))
-                    {
-                        using (SQLiteDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                FactorAmbiental factor = new FactorAmbiental();
-                                factor.CodFactorAmbiental = reader.GetInt32(0);
-                                factor.NombreFactor = reader.GetString(1);
-                                factor.CodCondicionAfectada = reader.GetInt16(2);
-                                factor.CodElementoAmbiental = reader.GetInt16(3);
-                                factor.CodClasificacion = reader.GetInt16(4);
-                                factor.Signo = reader.GetBoolean(5);
+                    SQLiteCommand cmd = new SQLiteCommand(select, conn);
+                    cmd.Parameters.AddWithValue("cod_proyecto", codProyecto);
 
-                                factores.Add(factor);
-                            }
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            FactorAmbiental factor = new FactorAmbiental();
+                            factor.CodFactorAmbiental = reader.GetInt32(0);
+                            factor.NombreFactor = reader.GetString(1);
+                            factor.CodCondicionAfectada = reader.GetInt16(2);
+                            factor.CodElementoAmbiental = reader.GetInt16(3);
+                            factor.CodClasificacion = reader.GetInt16(4);
+                            factor.Signo = reader.GetBoolean(5);
+
+                            factores.Add(factor);
                         }
                     }
-                    conn.Close();
+                }
+                catch
+                {
+                    factores = new List<FactorAmbiental>();
                 }
             }
-            catch (SQLiteException e)
-            {
-                return factores;
-            }
+
             return factores;
         }
 
         public FactorAmbiental GetFactor(int codFactor)
         {
             FactorAmbiental factor = new FactorAmbiental();
-            try
+            string select = "SELECT * FROM FACTOR_AMBIENTAL WHERE cod_factor=?";
+
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
+                try
                 {
                     conn.Open();
-                    string sql = "SELECT * FROM FACTOR_AMBIENTAL WHERE cod_factor = " + codFactor + ";";
-                    using (SQLiteCommand cmd = new SQLiteCommand(sql, conn))
+
+                    SQLiteCommand cmd = new SQLiteCommand(select, conn);
+                    cmd.Parameters.AddWithValue("cod_factor", codFactor);
+
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
                     {
-                        using (SQLiteDataReader reader = cmd.ExecuteReader())
+                        if (reader.Read())
                         {
-                            if (reader.Read())
-                            {
-                                factor.CodFactorAmbiental = codFactor;
-                                factor.NombreFactor = reader.GetString(2);
-                                factor.CodCondicionAfectada = reader.GetInt16(3);
-                                factor.CodElementoAmbiental = reader.GetInt16(4);
-                                factor.CodClasificacion = reader.GetInt16(5);
-                                factor.Signo = reader.GetBoolean(6);
-                                factor.CodIntensidad = reader.GetInt16(7);
-                                factor.CodExtension = reader.GetInt16(8);
-                                factor.ExtensionCritico = reader.GetBoolean(9);
-                                factor.CodMomento = reader.GetInt16(10);
-                                factor.MomentoCritico = reader.GetBoolean(11);
-                                factor.CodPersistencia = reader.GetInt16(12);
-                                factor.CodReversibilidad = reader.GetInt16(13);
-                                factor.CodSinergia = reader.GetInt16(14);
-                                factor.CodAcumulacion = reader.GetInt16(15);
-                                factor.CodEfecto = reader.GetInt16(16);
-                                factor.CodPeriodicidad = reader.GetInt16(17);
-                                factor.CodRecuperabilidad = reader.GetInt16(18);
-                            }
+                            factor.CodFactorAmbiental = codFactor;
+                            factor.NombreFactor = reader.GetString(2);
+                            factor.CodCondicionAfectada = reader.GetInt16(3);
+                            factor.CodElementoAmbiental = reader.GetInt16(4);
+                            factor.CodClasificacion = reader.GetInt16(5);
+                            factor.Signo = reader.GetBoolean(6);
+                            factor.CodIntensidad = reader.GetInt16(7);
+                            factor.CodExtension = reader.GetInt16(8);
+                            factor.ExtensionCritico = reader.GetBoolean(9);
+                            factor.CodMomento = reader.GetInt16(10);
+                            factor.MomentoCritico = reader.GetBoolean(11);
+                            factor.CodPersistencia = reader.GetInt16(12);
+                            factor.CodReversibilidad = reader.GetInt16(13);
+                            factor.CodSinergia = reader.GetInt16(14);
+                            factor.CodAcumulacion = reader.GetInt16(15);
+                            factor.CodEfecto = reader.GetInt16(16);
+                            factor.CodPeriodicidad = reader.GetInt16(17);
+                            factor.CodRecuperabilidad = reader.GetInt16(18);
                         }
                     }
-                    conn.Close();
+                }
+                catch
+                {
+                    return factor;
                 }
             }
-            catch (SQLiteException e)
-            {
-                return factor;
-            }
+
             return factor;
         }
 
         public FactorAmbiental InsertarFactorAmbiental(FactorAmbiental factor)
         {
             object codFactorObject;
-            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
-            {
-                conn.Open();
-                using (SQLiteCommand cmd = new SQLiteCommand(conn))
-                {
-                    cmd.CommandText = "INSERT INTO FACTOR_AMBIENTAL(cod_proyecto, nombre_factor, condicion_afectada, " +
+            string insert = "INSERT INTO FACTOR_AMBIENTAL(cod_proyecto, nombre_factor, condicion_afectada, " +
                         "elemento_ambiental, clasificacion, signo, intensidad, extension, extension_critico, " +
-                        "momento, momento_critico, persistencia, reversibilidad, sinergia, acumulacion, efecto, "+
-                        "periodicidad, recuperabilidad) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); "+
+                        "momento, momento_critico, persistencia, reversibilidad, sinergia, acumulacion, efecto, " +
+                        "periodicidad, recuperabilidad) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); " +
                         "SELECT last_insert_rowid();";
 
-                    cmd.Prepare();
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
+            {
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(insert, conn);
+
                     cmd.Parameters.AddWithValue("cod_proyecto", factor.CodProyecto);
                     cmd.Parameters.AddWithValue("nombre_factor", factor.NombreFactor);
                     cmd.Parameters.AddWithValue("condicion_afectada", factor.CodCondicionAfectada);
                     cmd.Parameters.AddWithValue("elemento_ambiental", factor.CodElementoAmbiental);
                     cmd.Parameters.AddWithValue("clasificacion", factor.CodClasificacion);
-                    cmd.Parameters.AddWithValue("signo", factor.Signo?1:0);
+                    cmd.Parameters.AddWithValue("signo", factor.Signo ? 1 : 0);
                     cmd.Parameters.AddWithValue("intensidad", factor.CodIntensidad);
                     cmd.Parameters.AddWithValue("extension", factor.CodProyecto);
-                    cmd.Parameters.AddWithValue("extension_critico", factor.ExtensionCritico? 1:0);
+                    cmd.Parameters.AddWithValue("extension_critico", factor.ExtensionCritico ? 1 : 0);
                     cmd.Parameters.AddWithValue("momento", factor.CodMomento);
-                    cmd.Parameters.AddWithValue("momento_critico", factor.MomentoCritico? 1:0);
+                    cmd.Parameters.AddWithValue("momento_critico", factor.MomentoCritico ? 1 : 0);
                     cmd.Parameters.AddWithValue("persistencia", factor.CodPersistencia);
                     cmd.Parameters.AddWithValue("reversibilidad", factor.CodReversibilidad);
                     cmd.Parameters.AddWithValue("sinergia", factor.CodSinergia);
@@ -226,48 +224,43 @@ namespace UCR.Negotium.DataAccess.AnalisisAmbiental
                     cmd.Parameters.AddWithValue("periodicidad", factor.CodPeriodicidad);
                     cmd.Parameters.AddWithValue("recuperalidad", factor.CodRecuperabilidad);
 
-                    try
-                    {
-                        codFactorObject = cmd.ExecuteScalar();
-                        factor.CodFactorAmbiental = int.Parse(codFactorObject.ToString());
-
-                        return factor;
-                    }//try
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                        return factor;
-                    }//catch
-
-                    finally { conn.Close(); }
+                    codFactorObject = cmd.ExecuteScalar();
+                    factor.CodFactorAmbiental = int.Parse(codFactorObject.ToString());
+                }
+                catch
+                {
+                    factor = new FactorAmbiental();
                 }
             }
+
+            return factor;
         }
 
         public bool EditarFactorAmbiental(FactorAmbiental factor)
         {
             int result = -1;
-            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
-            {
-                conn.Open();
-                using (SQLiteCommand cmd = new SQLiteCommand(conn))
-                {
-                    cmd.CommandText = "UPDATE FACTOR_AMBIENTAL SET nombre_factor=?, condicion_afectada=?, "+
-                        "elemento_ambiental=?, clasificacion=?, signo=?, intensidad=?, extension=?, "+
-                        "extension_critico=?, momento=?, momento_critico=?, persistencia=?, reversibilidad=?, "+
+            string update = "UPDATE FACTOR_AMBIENTAL SET nombre_factor=?, condicion_afectada=?, " +
+                        "elemento_ambiental=?, clasificacion=?, signo=?, intensidad=?, extension=?, " +
+                        "extension_critico=?, momento=?, momento_critico=?, persistencia=?, reversibilidad=?, " +
                         "sinergia=?, acumulacion=?, efecto=?, periodicidad=?, recuperabilidad=? "
                         + "WHERE cod_factor=?";
-                    cmd.Prepare();
+
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
+            {
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(update, conn);
                     cmd.Parameters.AddWithValue("nombre_factor", factor.NombreFactor);
                     cmd.Parameters.AddWithValue("condicion_afectada", factor.CodCondicionAfectada);
                     cmd.Parameters.AddWithValue("elemento_ambiental", factor.CodElementoAmbiental);
                     cmd.Parameters.AddWithValue("clasificacion", factor.CodClasificacion);
-                    cmd.Parameters.AddWithValue("signo", factor.Signo?1:0);
+                    cmd.Parameters.AddWithValue("signo", factor.Signo ? 1 : 0);
                     cmd.Parameters.AddWithValue("intensidad", factor.CodIntensidad);
                     cmd.Parameters.AddWithValue("extension", factor.CodExtension);
-                    cmd.Parameters.AddWithValue("extension_critico", factor.ExtensionCritico?1:0);
+                    cmd.Parameters.AddWithValue("extension_critico", factor.ExtensionCritico ? 1 : 0);
                     cmd.Parameters.AddWithValue("momento", factor.CodMomento);
-                    cmd.Parameters.AddWithValue("momento_critico", factor.MomentoCritico?1:0);
+                    cmd.Parameters.AddWithValue("momento_critico", factor.MomentoCritico ? 1 : 0);
                     cmd.Parameters.AddWithValue("persistencia", factor.CodPersistencia);
                     cmd.Parameters.AddWithValue("reversibilidad", factor.CodReversibilidad);
                     cmd.Parameters.AddWithValue("sinergia", factor.CodSinergia);
@@ -277,16 +270,13 @@ namespace UCR.Negotium.DataAccess.AnalisisAmbiental
                     cmd.Parameters.AddWithValue("recuperabilidad", factor.CodRecuperabilidad);
                     cmd.Parameters.AddWithValue("cod_factor", factor.CodFactorAmbiental);
 
-                    try
-                    {
-                        result = cmd.ExecuteNonQuery();
-                    }
-                    catch (SQLiteException)
-                    {
-                        return false;
-                    }
+                    result = cmd.ExecuteNonQuery();
                 }
-                conn.Close();
+                catch (SQLiteException)
+                {
+                    result = -1;
+                }
+
             }
 
             return result != -1;
@@ -294,23 +284,26 @@ namespace UCR.Negotium.DataAccess.AnalisisAmbiental
 
         public bool EliminarFactorAmbiental(int codFactor)
         {
-            string sqlQuery = "DELETE FROM FACTOR_AMBIENTAL WHERE cod_factor =" + codFactor + ";";
+            int result = -1;
+            string sqlQuery = "DELETE FROM FACTOR_AMBIENTAL WHERE cod_factor=?";
+
             using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
                 try
                 {
                     conn.Open();
-                    SQLiteCommand command = conn.CreateCommand();
-                    command.CommandText = sqlQuery;
+                    SQLiteCommand cmd = new SQLiteCommand(sqlQuery, conn);
+                    cmd.Parameters.AddWithValue("cod_factor", codFactor);
 
-                    return command.ExecuteNonQuery() != 0;
+                    result = cmd.ExecuteNonQuery();
                 }
                 catch
                 {
-                    return false;
+                    result = -1;
                 }
-                finally { conn.Close(); }
             }
+
+            return result != -1;
         }
     }
 }
