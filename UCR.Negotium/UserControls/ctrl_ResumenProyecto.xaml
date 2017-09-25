@@ -27,11 +27,11 @@
                 </StackPanel>
                 <StackPanel Style="{StaticResource verticalPanelFormStyle}">
                     <Label Content="- Proponente:" Foreground="Black"/>
-                    <Label Content="{Binding ProyectoSelected.Proponente}" FontWeight="SemiBold" Foreground="Black"/>
+                    <Label Content="{Binding ProyectoSelected.OrganizacionProponente.Proponente}" FontWeight="SemiBold" Foreground="Black"/>
                 </StackPanel>
                 <StackPanel Style="{StaticResource verticalPanelFormStyle}">
                     <Label Content="- Organización:" Foreground="Black"/>
-                    <Label Content="{Binding ProyectoSelected.Proponente.Organizacion.NombreOrganizacion}" FontWeight="SemiBold" Foreground="Black"/>
+                    <Label Content="{Binding ProyectoSelected.OrganizacionProponente.NombreOrganizacion}" FontWeight="SemiBold" Foreground="Black"/>
                 </StackPanel>
             </StackPanel>
         </GroupBox>

@@ -1,5 +1,7 @@
-﻿using System.Data.SQLite;
+﻿using System;
+using System.Data.SQLite;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Domain.Tracing;
 
 namespace UCR.Negotium.DataAccess
 {
@@ -29,8 +31,9 @@ namespace UCR.Negotium.DataAccess
                     newProdID = cmd.ExecuteScalar();
                     financiamiento.CodFinanciamiento = int.Parse(newProdID.ToString());
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     financiamiento = new Financiamiento();
                 }
             }
@@ -64,8 +67,9 @@ namespace UCR.Negotium.DataAccess
                         }
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     financiamiento = new Financiamiento();
                 }
             }
@@ -85,16 +89,17 @@ namespace UCR.Negotium.DataAccess
                 {
                     conn.Open();
                     SQLiteCommand cmd = new SQLiteCommand(update, conn);
-                    cmd.Parameters.AddWithValue("cod_financiamiento", financiamiento.CodFinanciamiento);
                     cmd.Parameters.AddWithValue("monto_financiamiento", financiamiento.MontoFinanciamiento);
                     cmd.Parameters.AddWithValue("ano_final_pago", financiamiento.AnoFinalPago);
                     cmd.Parameters.AddWithValue("ano_inicial_pago", financiamiento.AnoInicialPago);
                     cmd.Parameters.AddWithValue("interes_fijo", financiamiento.InteresFijo ? 1 : 0);
+                    cmd.Parameters.AddWithValue("cod_financiamiento", financiamiento.CodFinanciamiento);
 
                     result = cmd.ExecuteNonQuery();
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     result = -1;
                 }
             }

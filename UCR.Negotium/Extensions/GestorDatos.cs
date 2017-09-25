@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Data;
 using System.IO;
+using System.Threading;
 using System.Xml;
 using UCR.Negotium.DataAccess;
+using UCR.Negotium.Domain.Tracing;
 
 namespace UCR.Negotium.Extensions
 {
@@ -54,38 +58,71 @@ namespace UCR.Negotium.Extensions
                 string tempPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Data\_temp");
                 string backupPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Data\_backup");
                 string dbName = "NegotiumDatabase.db";
+                string tempdbPath = @"Data\_temp\" + dbName;
+                string dbPath = @"Data\" + dbName;
 
-                if (result.Equals(0))
+                if (result > -1)
                 {
+                    #region AddToTask
+
+                    const int numberOfRetries = 3;
+                    const int delayOnRetry = 5000;
+
+                    #region backupDB
                     if (!Directory.Exists(backupPath))
                         Directory.CreateDirectory(backupPath);
-
-                    //creacion de backup de la base de datos actual
+                    
                     File.Copy(Path.Combine(dataPath, dbName), Path.Combine(backupPath, dbName), true);
+                    #endregion
 
-                    //creacion de la base de datos temporal sacada del export
+                    #region temporalDB
                     if (!Directory.Exists(tempPath))
                         Directory.CreateDirectory(tempPath);
-
-                    if (File.Exists(Path.Combine(tempPath, dbName)))
+                    else if (File.Exists(Path.Combine(tempPath, dbName)))
                         File.Delete(Path.Combine(tempPath, dbName));
 
                     using (FileStream fs = File.Create(Path.Combine(tempPath, dbName)))
                     {
                         fs.Write(bytes, 0, bytes.Length);
                     }
+                    #endregion
 
-                    if (MergeProyectos(Path.Combine(dataPath, dbName), Path.Combine(tempPath, dbName)))
+                    try
                     {
-
+                        MergeProyectos(dbPath, tempdbPath);
                     }
+                    catch (Exception ex)
+                    {
+                        //rollback backupDB
+                        for (int i = 1; i <= numberOfRetries; ++i)
+                        {
+                            try
+                            {
+                                File.Copy(Path.Combine(backupPath, dbName), Path.Combine(dataPath, dbName), true);
+                                break;
+                            }
+                            catch (IOException e)
+                            {
+                                if (i == numberOfRetries)
+                                    throw new AggregateException(ex, e);
+
+                                Thread.Sleep(delayOnRetry);
+                            }
+                        }
+                        throw ex;
+                    }
+                    #endregion
 
                     return true;
                 }
 
                 return false;
             }
-            catch { return false; }
+            catch (Exception ex)
+            {
+                ex.TraceExceptionAsync();
+                return false;
+            }
         }
 
         private static string GetCurrentVersion()
@@ -115,43 +152,21 @@ namespace UCR.Negotium.Extensions
             return backup.CompareTo(current);
         }
 
-        private static bool MergeProyectos(string dbName, string tempdbName)
+        private static void MergeProyectos(string dbName, string tempdbName)
         {
             ExportarData exportarData = new ExportarData();
             Dictionary<Guid, int> indicesdb = exportarData.GetIndicesProyecto(dbName);
             Dictionary<Guid, int> indicesdbTemp = exportarData.GetIndicesProyecto(tempdbName);
-            Dictionary<Guid, int> indicesNuevos = new Dictionary<Guid, int>();
-            Dictionary<Guid, int> indicesEditar = new Dictionary<Guid, int>();
 
             foreach (var dicEntry in indicesdbTemp)
             {
+                OrderedDictionary tablesData = exportarData.GetProyecto(tempdbName, dicEntry.Value);
+
                 if (indicesdb.ContainsKey(dicEntry.Key))
-                    indicesEditar.Add(dicEntry.Key, dicEntry.Value);
+                    exportarData.EditarProyecto(dbName, dicEntry.Value, tablesData);
                 else
-                    indicesNuevos.Add(dicEntry.Key, dicEntry.Value);
+                    exportarData.InsertarProyecto(dbName, tablesData, dicEntry.Key);
             }
-
-            return AddProyectos(indicesNuevos) && EditProyectos(indicesEditar);
-        }
-
-        private static bool AddProyectos(Dictionary<Guid, int> indicesNuevos)
-        {
-            foreach (var dicEntry in indicesNuevos)
-            {
-
-            }
-
-            return true;
-        }
-
-        private static bool EditProyectos(Dictionary<Guid, int> indicesEditar)
-        {
-            foreach (var dicEntry in indicesEditar)
-            {
-
-            }
-
-            return true;
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SQLite;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Domain.Tracing;
 
 namespace UCR.Negotium.DataAccess
 {
@@ -34,8 +36,9 @@ namespace UCR.Negotium.DataAccess
                         }
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     variacionAnualCostos = new List<VariacionAnualCosto>();
                 }
             }
@@ -62,8 +65,9 @@ namespace UCR.Negotium.DataAccess
                     newProdID = cmd.ExecuteScalar();
                     variacion.CodVariacionCosto = int.Parse(newProdID.ToString());
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     variacion = new VariacionAnualCosto();
                 }
             }
@@ -89,8 +93,9 @@ namespace UCR.Negotium.DataAccess
 
                     result = cmd.ExecuteNonQuery();
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     result = -1;
                 }
             }
@@ -113,8 +118,9 @@ namespace UCR.Negotium.DataAccess
 
                     result = cmd.ExecuteNonQuery();
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     result = -1;
                 }
             }

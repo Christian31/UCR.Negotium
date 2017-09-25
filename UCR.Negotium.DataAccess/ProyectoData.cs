@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Domain.Tracing;
 
 namespace UCR.Negotium.DataAccess
 {
@@ -64,8 +65,9 @@ namespace UCR.Negotium.DataAccess
                     command2.ExecuteScalar();
                     transaction.Commit();
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     idProyecto = -1;
                     transaction.Rollback();
                 }
@@ -103,8 +105,9 @@ namespace UCR.Negotium.DataAccess
 
                     result = command.ExecuteNonQuery();
                 }
-                catch (SQLiteException)
+                catch (Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     result = -1;
                 }
             }
@@ -132,8 +135,9 @@ namespace UCR.Negotium.DataAccess
 
                     result = command.ExecuteNonQuery();
                 }
-                catch (SQLiteException)
+                catch (Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     result = -1;
                 }
             }
@@ -161,8 +165,9 @@ namespace UCR.Negotium.DataAccess
 
                     result = command.ExecuteNonQuery();
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     result = -1;
                 }
             }
@@ -186,8 +191,9 @@ namespace UCR.Negotium.DataAccess
 
                     result = command.ExecuteNonQuery();
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     result = -1;
                 }
             }
@@ -209,8 +215,9 @@ namespace UCR.Negotium.DataAccess
                     command.Parameters.AddWithValue("cod_proyecto", codProyecto);
                     result = command.ExecuteNonQuery();
                 }
-                catch (SQLiteException)
+                catch (Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     return false;
                 }
             }
@@ -220,7 +227,7 @@ namespace UCR.Negotium.DataAccess
 
         public List<Proyecto> GetProyectos()
         {
-            ProponenteData proponenteData = new ProponenteData();
+            OrganizacionProponenteData orgProponenteData = new OrganizacionProponenteData();
             List<TipoProyecto> tiposProyectos = tipoProyectoData.GetTipoProyectos();
             List<Proyecto> proyectos = new List<Proyecto>();
 
@@ -248,14 +255,15 @@ namespace UCR.Negotium.DataAccess
                             proyecto.TipoProyecto = tiposProyectos.Find(
                                 tipoproy => tipoproy.CodTipo.Equals(int.Parse(reader[5].ToString())));
 
-                            proyecto.Proponente = proponenteData.GetProponente(proyecto.CodProyecto);
+                            proyecto.OrganizacionProponente = orgProponenteData.GetOrganizacionProponente(proyecto.CodProyecto);
 
                             proyectos.Add(proyecto);
                         }
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     proyectos = new List<Proyecto>();
                 }
             }
@@ -309,8 +317,9 @@ namespace UCR.Negotium.DataAccess
                         }
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     proyecto = new Proyecto();
                 }
             }
@@ -342,8 +351,9 @@ namespace UCR.Negotium.DataAccess
                         }
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     tipoMoneda = new TipoMoneda();
                 }
             }
@@ -373,8 +383,9 @@ namespace UCR.Negotium.DataAccess
                         }
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     signo = "";
                 }
             }

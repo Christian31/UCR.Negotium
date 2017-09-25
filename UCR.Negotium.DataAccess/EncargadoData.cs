@@ -1,5 +1,7 @@
-﻿using System.Data.SQLite;
+﻿using System;
+using System.Data.SQLite;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Domain.Tracing;
 
 namespace UCR.Negotium.DataAccess
 {
@@ -29,8 +31,9 @@ namespace UCR.Negotium.DataAccess
                     newProdID = cmd.ExecuteScalar();
                     idEncargado = int.Parse(newProdID.ToString());
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     idEncargado = -1;
                 }
             }
@@ -59,8 +62,9 @@ namespace UCR.Negotium.DataAccess
 
                     result = cmd.ExecuteNonQuery();
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     result = -1;
                 }
             }
@@ -94,8 +98,9 @@ namespace UCR.Negotium.DataAccess
                         }
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     encargado = new Encargado();
                 }
             }
@@ -118,8 +123,9 @@ namespace UCR.Negotium.DataAccess
 
                     result = cmd.ExecuteNonQuery();
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     result = -1;
                 }
             }

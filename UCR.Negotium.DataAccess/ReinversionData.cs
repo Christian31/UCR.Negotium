@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SQLite;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Domain.Tracing;
 
 namespace UCR.Negotium.DataAccess
 {
@@ -36,8 +38,9 @@ namespace UCR.Negotium.DataAccess
                     newProdID = command.ExecuteScalar();
                     idReinversion = int.Parse(newProdID.ToString());
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     idReinversion = -1;
                 }
             }
@@ -71,8 +74,9 @@ namespace UCR.Negotium.DataAccess
 
                     result = command.ExecuteNonQuery();
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     result = -1;
                 }
             }
@@ -116,8 +120,9 @@ namespace UCR.Negotium.DataAccess
                         }
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     listaReinversiones = new List<Reinversion>();
                 }
             }
@@ -159,8 +164,9 @@ namespace UCR.Negotium.DataAccess
                         }
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     reinversion = new Reinversion();
                 }
             }
@@ -183,8 +189,9 @@ namespace UCR.Negotium.DataAccess
 
                     result = cmd.ExecuteNonQuery();
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     result = -1;
                 }
             }

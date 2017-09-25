@@ -24,7 +24,7 @@ namespace UCR.Negotium.Domain
         public Provincia Provincia { get; set; }
         public Canton Canton { get; set; }
         public Distrito Distrito { get; set; }
-        public Proponente Proponente { get; set; }
+        public OrganizacionProponente OrganizacionProponente { get; set; }
         public string ObjetoInteres { get; set; }
         public List<Inversion> RequerimientosInversion { get; set; }
         public List<Reinversion> RequerimientosReinversion { get; set; }
@@ -58,8 +58,7 @@ namespace UCR.Negotium.Domain
             this.Provincia = new Provincia();
             this.Canton = new Canton();
             this.Distrito = new Distrito();
-            this.Proponente = new Proponente();
-            this.Proponente.NumIdentificacion = "-1";
+            this.OrganizacionProponente = new OrganizacionProponente();
             this.Proyecciones = new List<ProyeccionVentaArticulo>();
             this.IngresosGenerados = new List<double>();
             this.Costos = new List<Costo>();
@@ -180,7 +179,7 @@ namespace UCR.Negotium.Domain
                             int count2 = reinversion.AnoReinversion - this.AnoInicial;
                             int countF = reinversion.VidaUtil;
                             int count = 0;
-                            while (count < this.HorizonteEvaluacionEnAnos - 1)
+                            while (count < this.HorizonteEvaluacionEnAnos)
                             {
                                 if (count < count2 || countF == 0)
                                     montosTemp.Add(0);
@@ -210,7 +209,7 @@ namespace UCR.Negotium.Domain
                     int count2 = reinversion.AnoReinversion - this.AnoInicial;
                     int countF = reinversion.VidaUtil;
                     int count = 0;
-                    while (count < this.HorizonteEvaluacionEnAnos - 1)
+                    while (count < this.HorizonteEvaluacionEnAnos)
                     {
                         if (count < count2 || countF == 0)
                             depreciacion.MontoDepreciacion.Add(0);

@@ -1,7 +1,9 @@
 ﻿using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -176,10 +178,11 @@ namespace UCR.Negotium.Dialogs
                 tbCostoUnitario.BorderBrush = Brushes.Gray;
                 tbCostoUnitario.ToolTip = "Ingrese en este campo el Costo Unitario de la Inversión que desea registrar";
             }
-            int costoUnitario = 0;
-            if(!int.TryParse(tbCostoUnitario.Text, out costoUnitario))
+            
+            double costoUnitario = 0;
+            if (!double.TryParse(tbCostoUnitario.Text, out costoUnitario))
             {
-                tbCostoUnitario.Text = string.Empty;
+                tbCostoUnitario.Text = Regex.Replace(tbCostoUnitario.Text, "[^0-9,.+-]", "");
             }
         }
 
@@ -239,7 +242,7 @@ namespace UCR.Negotium.Dialogs
                 tbDescInversion.BorderBrush = Brushes.Red;
                 validationResult = true;
             }
-            if (Convert.ToInt64(tbCostoUnitario.Text.ToString()) <= 0)
+            if (Convert.ToDouble(tbCostoUnitario.Text.ToString()) <= 0)
             {
                 tbCostoUnitario.ToolTip = CAMPOREQUERIDOPOSITIVO;
                 tbCostoUnitario.BorderBrush = Brushes.Red;

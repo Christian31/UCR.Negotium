@@ -150,10 +150,18 @@ namespace UCR.Negotium
 
         private void menuItemImport_Click(object sender, RoutedEventArgs e)
         {
-            string fileName = GestorDatos.ImportarDatos();
-            MessageBox.Show(string.Format("El respaldo de los datos ha sido guardado en su escritorio con el siguiente nombre: {0} \n " +
-                "Por favor guarde el archivo en un lugar seguro para mantener el respaldo a salvo", fileName),
-                "Respaldo Creado", MessageBoxButton.OK, MessageBoxImage.Information);
+            if (proyectos.Count.Equals(0))
+            {
+                MessageBox.Show("No existen proyectos registrados para ser importados",
+                    "Respaldo Creado", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                string fileName = GestorDatos.ImportarDatos();
+                MessageBox.Show(string.Format("El respaldo de los datos ha sido guardado en su escritorio con el siguiente nombre: {0} \n " +
+                    "Por favor guarde el archivo en un lugar seguro para mantener el respaldo a salvo", fileName),
+                    "Respaldo Creado", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void menuItemExport_Click(object sender, RoutedEventArgs e)
@@ -177,13 +185,21 @@ namespace UCR.Negotium
                     if (GestorDatos.ExportarDatos(backupContent))
                     {
                         this.Reload();
+                        MessageBox.Show("El respaldo se ha cargado correctamente",
+                            "Respaldo Exportado", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Se ha producido un error cargando el respaldo seleccionado \n " +
+                            "Por favor intentelo nuevamente, si el error persiste envie el respaldo para revisión",
+                            "Respaldo Exportado", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
                 {
                     MessageBox.Show("El respaldo de que está intentando de utilizar es incompatible con la version actual del Negotium \n " +
-                "Por favor asegurese de utilizar un respaldo creado en una versión anterior o igual al Negotium instalado",
-                "Respaldo Exportado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        "Por favor asegurese de utilizar un respaldo creado en una versión anterior o igual al Negotium instalado",
+                        "Respaldo Exportado", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -192,6 +208,12 @@ namespace UCR.Negotium
         {
             AcercaNegotium acercaDe = new AcercaNegotium();
             acercaDe.ShowDialog();
+        }
+
+        private void menuItemReferencias_Click(object sender, RoutedEventArgs e)
+        {
+            ReferenciasNegotium refNegotium = new ReferenciasNegotium();
+            refNegotium.ShowDialog();
         }
         #endregion
 
@@ -221,8 +243,8 @@ namespace UCR.Negotium
 
             if (!string.IsNullOrWhiteSpace(textoBusqueda))
                 Proyectos = newFilter.Where(proy => proy.NombreProyecto.ToLower().Contains(textoBusqueda)
-                    || proy.Proponente.Nombre != null && proy.Proponente.ToString().ToLower().Contains(textoBusqueda)
-                    || proy.Proponente.Nombre != null && proy.Proponente.Organizacion.NombreOrganizacion.ToLower().Contains(textoBusqueda)
+                    || proy.OrganizacionProponente.Proponente.Nombre != null && proy.OrganizacionProponente.Proponente.ToString().ToLower().Contains(textoBusqueda)
+                    || proy.OrganizacionProponente.Proponente.Nombre != null && proy.OrganizacionProponente.NombreOrganizacion.ToLower().Contains(textoBusqueda)
                     ).ToList();
             else
                 Proyectos = newFilter;
@@ -235,8 +257,6 @@ namespace UCR.Negotium
         {
 
         }
-
-        
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
     }

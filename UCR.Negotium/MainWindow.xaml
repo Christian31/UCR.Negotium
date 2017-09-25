@@ -47,6 +47,11 @@
                         <iconPacks:PackIconModern Kind="InformationCircle" Width="12" Height="12" Margin="4,0,0,0"/>
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem Header="Referencias" Click="menuItemReferencias_Click" Style="{StaticResource menuItemStyle}">
+                    <MenuItem.Icon>
+                        <iconPacks:PackIconModern Kind="BookPerspectiveHelp" Width="12" Height="12" Margin="4,0,0,0"/>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
         <Grid Grid.Row="1">
@@ -96,8 +101,8 @@
                 </DataGrid.ContextMenu>
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Path=NombreProyecto}" Header="Nombre del Proyecto" Width="3*"/>
-                    <DataGridTextColumn Binding="{Binding Path=Proponente}" Header="Proponente" Width="2*"/>
-                    <DataGridTextColumn Binding="{Binding Path=Proponente.Organizacion.NombreOrganizacion}" Header="Organización" Width="3*"/>
+                    <DataGridTextColumn Binding="{Binding Path=OrganizacionProponente.Proponente}" Header="Proponente" Width="2*"/>
+                    <DataGridTextColumn Binding="{Binding Path=OrganizacionProponente.NombreOrganizacion}" Header="Organización" Width="3*"/>
                     <DataGridTextColumn Binding="{Binding Path=AnoInicial}" Header="Año Inicial" Width="2*"/>
                     <DataGridTextColumn Binding="{Binding Path=TipoProyecto}" Header="Tipo Análisis" Width="2*"/>
                     <DataGridTemplateColumn Header="Estado" Width="2*">

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SQLite;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Domain.Tracing;
 
 namespace UCR.Negotium.DataAccess
 {
@@ -33,8 +35,9 @@ namespace UCR.Negotium.DataAccess
                     newProdID = command.ExecuteScalar();
                     idInversion = int.Parse(newProdID.ToString());
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     idInversion = -1;
                 }
             }
@@ -76,8 +79,9 @@ namespace UCR.Negotium.DataAccess
                         }
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     listaRequerimientos = new List<Inversion>();
                 }
             }
@@ -117,8 +121,9 @@ namespace UCR.Negotium.DataAccess
                         }
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     inversion = new Inversion();
                 }
             }
@@ -149,8 +154,9 @@ namespace UCR.Negotium.DataAccess
 
                     result = command.ExecuteNonQuery();
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     result = -1;
                 }
             }
@@ -173,8 +179,9 @@ namespace UCR.Negotium.DataAccess
 
                     result = cmd.ExecuteNonQuery();
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     result = -1;
                 }
             }

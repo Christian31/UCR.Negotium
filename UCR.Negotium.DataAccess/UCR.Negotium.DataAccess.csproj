@@ -11,6 +11,8 @@
     <AssemblyName>UCR.Negotium.DataAccess</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,26 +32,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Commons, Version=0.4.2.8580, Culture=neutral, PublicKeyToken=44382d1b57473eda, processorArchitecture=MSIL">
-      <HintPath>..\packages\Negotium.Core.1.0.0\lib\net452\Commons.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="log4net, Version=1.2.0.30714, Culture=neutral, PublicKeyToken=b32731d11ce58905">
-      <HintPath>..\packages\Negotium.Core.1.0.0\lib\net452\log4net.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NVelocity, Version=0.4.2.8580, Culture=neutral, PublicKeyToken=44382d1b57473eda, processorArchitecture=MSIL">
-      <HintPath>..\packages\Negotium.Core.1.0.0\lib\net452\NVelocity.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SQLite, Version=1.0.81.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
-      <HintPath>..\packages\Negotium.Core.1.0.0\lib\net452\System.Data.SQLite.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="System.Data.SQLite, Version=1.0.105.2, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\UCR.Librerias\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -69,6 +60,7 @@
     <Compile Include="DistritoData.cs" />
     <Compile Include="EncargadoData.cs" />
     <Compile Include="ExportarDatos\ExportarData.cs" />
+    <Compile Include="ExportarDatos\ExportarProyectoData.cs" />
     <Compile Include="FinanciamientoData.cs" />
     <Compile Include="InteresFinanciamientoData.cs" />
     <Compile Include="OrganizacionProponenteData.cs" />
@@ -86,17 +78,10 @@
     <Compile Include="VariacionAnualCostoData.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\UCR.Negotium.Base\UCR.Negotium.Base.csproj">
-      <Project>{3dd443a4-ebec-4afc-9870-c8dd79cd20d7}</Project>
-      <Name>UCR.Negotium.Base</Name>
-    </ProjectReference>
     <ProjectReference Include="..\UCR.Negotium.Domain\UCR.Negotium.Domain.csproj">
       <Project>{37573984-06ba-43f0-8aac-0d8caaa97867}</Project>
       <Name>UCR.Negotium.Domain</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

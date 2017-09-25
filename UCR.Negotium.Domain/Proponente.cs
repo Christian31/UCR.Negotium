@@ -11,29 +11,12 @@
         public string PuestoEnOrganizacion { get; set; }
         public bool Genero { get; set; } //true=masculino false=femenino
         public bool EsRepresentanteIndividual { get; set; }
-        private OrganizacionProponente organizacion;
 
-        public Proponente()
-        {
-            organizacion = new OrganizacionProponente();
-        }
+        public Proponente() { }
 
         public override string ToString()
         {
             return Nombre + " " + Apellidos;
-        }
-
-        public OrganizacionProponente Organizacion
-        {
-            get
-            {
-                return organizacion;
-            }
-
-            set
-            {
-                organizacion = value;
-            }
         }
     }
 }

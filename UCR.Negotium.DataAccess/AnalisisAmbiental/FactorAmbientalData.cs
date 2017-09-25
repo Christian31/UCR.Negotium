@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using System.Linq;
-using UCR.Negotium.Base.Enums;
+using UCR.Negotium.Domain.Enums;
 using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.DataAccess

@@ -25,7 +25,7 @@
                 <modulos:ctrl_InformacionGeneral x:Name="infoGeneral" Style="{StaticResource moduleStyle}"/>
             </TabItem>
             <TabItem Header="Proponente">
-                <modulos:ctrl_Proponente x:Name="proponente" Style="{StaticResource moduleStyle}"/>
+                <modulos:ctrl_OrgProponente x:Name="orgProponente" Style="{StaticResource moduleStyle}"/>
             </TabItem>
             <TabItem Header="Caracterización">
                 <modulos:ctrl_Caracterizacion x:Name="caracterizacion" Style="{StaticResource moduleStyle}"/>

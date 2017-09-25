@@ -1,6 +1,8 @@
 ﻿using System.Data.SQLite;
 using System.Collections.Generic;
 using UCR.Negotium.Domain;
+using System;
+using UCR.Negotium.Domain.Tracing;
 
 namespace UCR.Negotium.DataAccess
 {
@@ -26,8 +28,9 @@ namespace UCR.Negotium.DataAccess
 
                     result = cmd.ExecuteNonQuery();
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     result = -1;
                 }
             }
@@ -60,8 +63,9 @@ namespace UCR.Negotium.DataAccess
                         }
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     listaInteresesFinanciamiento = new List<InteresFinanciamiento>();
                 }
             }
@@ -86,8 +90,9 @@ namespace UCR.Negotium.DataAccess
 
                     result = cmd.ExecuteNonQuery();
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     result = -1;
                 }
             }
@@ -110,8 +115,9 @@ namespace UCR.Negotium.DataAccess
 
                     result = cmd.ExecuteNonQuery();
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     result = -1;
                 }
             }

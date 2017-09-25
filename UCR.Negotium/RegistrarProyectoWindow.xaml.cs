@@ -51,7 +51,7 @@ namespace UCR.Negotium
             if (!codProyecto.Equals(0))
             {
                 ProyectoSelected = proyectoData.GetProyecto(codProyecto);
-                ProyectoSelected.Proponente = new ProponenteData().GetProponente(codProyecto);
+                ProyectoSelected.OrganizacionProponente = new OrganizacionProponenteData().GetOrganizacionProponente(codProyecto);
                 ReloadUserControls(proyecto.CodProyecto);
             }
 
@@ -145,7 +145,7 @@ namespace UCR.Negotium
             {
                 LocalContext.SetMoneda(codProyecto, ProyectoSelected.TipoMoneda.CodMoneda);
             }
-            resumen.CodProyecto = proponente.CodProyecto = infoGeneral.CodProyecto = caracterizacion.CodProyecto =
+            resumen.CodProyecto = orgProponente.CodProyecto = infoGeneral.CodProyecto = caracterizacion.CodProyecto =
                     inversiones.CodProyecto = reinversiones.CodProyecto =
                     capitalTrabajo.CodProyecto = depreciaciones.CodProyecto =
                     costos.CodProyecto = proyeccionVentas.CodProyecto =
@@ -168,7 +168,7 @@ namespace UCR.Negotium
         private void ReloadProyecto(int codProyecto)
         {
             proyecto = proyectoData.GetProyecto(codProyecto);
-            proyecto.Proponente = proponente.ProponenteSelected;
+            proyecto.OrganizacionProponente = orgProponente.OrgProponente;
             proyecto.Proyecciones = proyeccionVentas.ProyeccionesList;
             proyecto.Financiamiento = financiamientoUc.FinanciamientoSelected;
             proyecto.Costos = costos.CostosList;
@@ -182,7 +182,7 @@ namespace UCR.Negotium
             List<bool> stepsProgress = new List<bool>(11);
 
             stepsProgress.Add(!proyecto.CodProyecto.Equals(0));
-            stepsProgress.Add(!proponente.ProponenteSelected.IdProponente.Equals(0));
+            stepsProgress.Add(!orgProponente.OrgProponente.CodOrganizacion.Equals(0));
             stepsProgress.Add(!string.IsNullOrWhiteSpace(proyecto.CaraterizacionDelBienServicio));
             stepsProgress.Add(!inversiones.InversionesList.Count.Equals(0));
             stepsProgress.Add(!reinversiones.ReinversionesList.Count.Equals(0));
@@ -229,7 +229,7 @@ namespace UCR.Negotium
                 }
                 else if (proyecto.TipoProyecto.CodTipo.Equals(1))
                 {
-                    if (indice > 1 && proyecto.Proponente.IdProponente.Equals(0))
+                    if (indice > 1 && proyecto.OrganizacionProponente.CodOrganizacion.Equals(0))
                     {
                         MessageBox.Show("Por favor ingrese todos los datos del Proponente y guardelos para poder avanzar a la siguiente pestaña",
                         "Datos vacios", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -330,7 +330,7 @@ namespace UCR.Negotium
                 //cargar el objeto con toda la informacion para generar el reporte
                 Proyecto proyecto = new Proyecto();
                 proyecto = proyectoData.GetProyecto(ProyectoSelected.CodProyecto);
-                proyecto.Proponente = proponente.ProponenteSelected;
+                proyecto.OrganizacionProponente = orgProponente.OrgProponente;
                 proyecto.RequerimientosInversion = inversiones.InversionesList;
                 string totalInversiones = inversiones.InversionesTotal;
                 proyecto.RequerimientosReinversion = reinversiones.ReinversionesList;

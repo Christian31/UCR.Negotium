@@ -13,14 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UCR.Librerias", "UCR.Librer
 	ProjectSection(SolutionItems) = preProject
 		UCR.Librerias\Commons.dll = UCR.Librerias\Commons.dll
 		UCR.Librerias\log4net.dll = UCR.Librerias\log4net.dll
-		UCR.Librerias\Negotium.Core.1.0.0.nupkg = UCR.Librerias\Negotium.Core.1.0.0.nupkg
 		UCR.Librerias\NVelocity.dll = UCR.Librerias\NVelocity.dll
 		UCR.Librerias\System.Data.SQLite.dll = UCR.Librerias\System.Data.SQLite.dll
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UCR.Negotium.Base", "UCR.Negotium.Base\UCR.Negotium.Base.csproj", "{3DD443A4-EBEC-4AFC-9870-C8DD79CD20D7}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Negotium 1.0", "Negotium 1.0\Negotium 1.0.vdproj", "{D6A5D67D-0C88-40BF-8D55-F482C88DD03D}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Negotium 1.0", "Negotium 1.0\Negotium 1.0.vdproj", "{517C7993-EAAC-427A-8721-E63F2B26958D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,12 +37,8 @@ Global
 		{0E4A0C2E-8313-430E-AC03-20488A349FEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E4A0C2E-8313-430E-AC03-20488A349FEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E4A0C2E-8313-430E-AC03-20488A349FEA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3DD443A4-EBEC-4AFC-9870-C8DD79CD20D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3DD443A4-EBEC-4AFC-9870-C8DD79CD20D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3DD443A4-EBEC-4AFC-9870-C8DD79CD20D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3DD443A4-EBEC-4AFC-9870-C8DD79CD20D7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D6A5D67D-0C88-40BF-8D55-F482C88DD03D}.Debug|Any CPU.ActiveCfg = Debug
-		{D6A5D67D-0C88-40BF-8D55-F482C88DD03D}.Release|Any CPU.ActiveCfg = Release
+		{517C7993-EAAC-427A-8721-E63F2B26958D}.Debug|Any CPU.ActiveCfg = Debug
+		{517C7993-EAAC-427A-8721-E63F2B26958D}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

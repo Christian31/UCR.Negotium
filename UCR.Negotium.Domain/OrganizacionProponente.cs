@@ -10,10 +10,25 @@
         public string CorreoElectronico { get; set; }
 
         private TipoOrganizacion tipo;
+        private Proponente proponente;
 
         public OrganizacionProponente()
         {
             tipo = new TipoOrganizacion();
+            proponente = new Proponente();
+        }
+
+        public Proponente Proponente
+        {
+            get
+            {
+                return proponente;
+            }
+
+            set
+            {
+                proponente = value;
+            }
         }
 
         public TipoOrganizacion Tipo

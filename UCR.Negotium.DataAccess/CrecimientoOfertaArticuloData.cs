@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SQLite;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Domain.Tracing;
 
 namespace UCR.Negotium.DataAccess
 {
@@ -12,7 +14,7 @@ namespace UCR.Negotium.DataAccess
         {
             List<CrecimientoOfertaArticulo> crecimientosOferta = new List<CrecimientoOfertaArticulo>();
             string select = "SELECT cod_crecimiento, ano_crecimiento, porcentaje_crecimiento " +
-                "FROM CRECIMIENTO_OFERTA_OBJETO_INTERES WHERE cod_proyeccion_venta=?";
+                "FROM CRECIMIENTO_OFERTA_OBJETO_INTERES WHERE cod_proyeccion=?";
 
             using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
@@ -20,7 +22,7 @@ namespace UCR.Negotium.DataAccess
                 {
                     conn.Open();
                     SQLiteCommand cmd = new SQLiteCommand(select, conn);
-                    cmd.Parameters.AddWithValue("cod_proyeccion_venta", codProyeccion);
+                    cmd.Parameters.AddWithValue("cod_proyeccion", codProyeccion);
 
                     using (SQLiteDataReader reader = cmd.ExecuteReader())
                     {
@@ -34,8 +36,9 @@ namespace UCR.Negotium.DataAccess
                         }
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     crecimientosOferta = new List<CrecimientoOfertaArticulo>();
                 }
             }
@@ -47,7 +50,7 @@ namespace UCR.Negotium.DataAccess
         {
             object newProdID;
             string insert = "INSERT INTO CRECIMIENTO_OFERTA_OBJETO_INTERES(ano_crecimiento, " +
-                "porcentaje_crecimiento, cod_proyeccion_venta) VALUES(?,?,?); " +
+                "porcentaje_crecimiento, cod_proyeccion) VALUES(?,?,?); " +
                 "SELECT last_insert_rowid();";
 
             using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
@@ -58,13 +61,14 @@ namespace UCR.Negotium.DataAccess
                     SQLiteCommand cmd = new SQLiteCommand(insert, conn);
                     cmd.Parameters.AddWithValue("ano_crecimiento", crecimiento.AnoCrecimiento);
                     cmd.Parameters.AddWithValue("porcentaje_crecimiento", crecimiento.PorcentajeCrecimiento);
-                    cmd.Parameters.AddWithValue("cod_proyeccion_venta", codProyeccion);
+                    cmd.Parameters.AddWithValue("cod_proyeccion", codProyeccion);
 
                     newProdID = cmd.ExecuteScalar();
                     crecimiento.CodCrecimiento = int.Parse(newProdID.ToString());
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     crecimiento = new CrecimientoOfertaArticulo();
                 }
             }
@@ -89,8 +93,9 @@ namespace UCR.Negotium.DataAccess
 
                     result = cmd.ExecuteNonQuery();
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     result = -1;
                 }
             }
@@ -101,8 +106,7 @@ namespace UCR.Negotium.DataAccess
         public bool EliminarCrecimientoObjetoInteres(int codProyeccion)
         {
             int result = -1;
-            string delete = "DELETE FROM CRECIMIENTO_OFERTA_OBJETO_INTERES " +
-                "WHERE cod_proyeccion_venta=?";
+            string delete = "DELETE FROM CRECIMIENTO_OFERTA_OBJETO_INTERES WHERE cod_proyeccion=?";
 
             using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
@@ -110,12 +114,13 @@ namespace UCR.Negotium.DataAccess
                 {
                     conn.Open();
                     SQLiteCommand cmd = new SQLiteCommand(delete, conn);
-                    cmd.Parameters.AddWithValue("cod_proyeccion_venta", codProyeccion);
+                    cmd.Parameters.AddWithValue("cod_proyeccion", codProyeccion);
 
                     result = cmd.ExecuteNonQuery();
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     result = -1;
                 }
             }

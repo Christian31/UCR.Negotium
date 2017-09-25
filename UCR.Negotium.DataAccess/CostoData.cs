@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SQLite;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Domain.Tracing;
 
 namespace UCR.Negotium.DataAccess
 {
@@ -20,7 +22,7 @@ namespace UCR.Negotium.DataAccess
             List<Costo> listaCostos = new List<Costo>();
             string sqlQuery = "SELECT * FROM COSTO WHERE cod_proyecto=?";
 
-            using (SQLiteConnection conn = new SQLiteConnection())
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
                 try
                 {
@@ -44,8 +46,9 @@ namespace UCR.Negotium.DataAccess
                         }
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     listaCostos = new List<Costo>();
                 }
             }
@@ -79,8 +82,9 @@ namespace UCR.Negotium.DataAccess
                         }
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     costo = new Costo();
                 }
             }
@@ -132,10 +136,12 @@ namespace UCR.Negotium.DataAccess
 
                     transaction.Commit();
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     costoNuevo = new Costo();
                     transaction.Rollback();
+
                 }
             }
             
@@ -184,8 +190,9 @@ namespace UCR.Negotium.DataAccess
                         transaction.Commit();
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     result = -1;
                     transaction.Rollback();
                 }
@@ -222,8 +229,9 @@ namespace UCR.Negotium.DataAccess
                         transaction.Commit();
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
+                    ex.TraceExceptionAsync();
                     result = -1;
                     transaction.Rollback();
                 }

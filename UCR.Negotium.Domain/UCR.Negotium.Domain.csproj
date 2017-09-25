@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -50,6 +54,8 @@
     <Compile Include="DetalleProyeccionVenta.cs" />
     <Compile Include="Distrito.cs" />
     <Compile Include="Encargado.cs" />
+    <Compile Include="Enums\Enums.cs" />
+    <Compile Include="Enums\EnumsHelper.cs" />
     <Compile Include="Financiamiento.cs" />
     <Compile Include="InteresFinanciamiento.cs" />
     <Compile Include="OrganizacionProponente.cs" />
@@ -63,14 +69,12 @@
     <Compile Include="TipoMoneda.cs" />
     <Compile Include="TipoOrganizacion.cs" />
     <Compile Include="TipoProyecto.cs" />
+    <Compile Include="Trace\TraceException.cs" />
     <Compile Include="UnidadMedida.cs" />
     <Compile Include="VariacionAnualCosto.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\UCR.Negotium.Base\UCR.Negotium.Base.csproj">
-      <Project>{3dd443a4-ebec-4afc-9870-c8dd79cd20d7}</Project>
-      <Name>UCR.Negotium.Base</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

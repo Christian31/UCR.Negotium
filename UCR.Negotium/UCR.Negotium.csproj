@@ -68,12 +68,8 @@
     <ApplicationIcon>Resources\Icon\icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Commons, Version=0.4.2.8580, Culture=neutral, PublicKeyToken=44382d1b57473eda, processorArchitecture=MSIL">
-      <HintPath>..\packages\Negotium.Core.1.0.0\lib\net452\Commons.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="log4net, Version=1.2.0.30714, Culture=neutral, PublicKeyToken=b32731d11ce58905">
-      <HintPath>..\packages\Negotium.Core.1.0.0\lib\net452\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.4.3.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
@@ -89,8 +85,8 @@
       <HintPath>..\packages\NReco.PdfGenerator.1.1.15\lib\net20\NReco.PdfGenerator.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NVelocity, Version=0.4.2.8580, Culture=neutral, PublicKeyToken=44382d1b57473eda, processorArchitecture=MSIL">
-      <HintPath>..\packages\Negotium.Core.1.0.0\lib\net452\NVelocity.dll</HintPath>
+    <Reference Include="NVelocity, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\NVelocity.1.0.3\lib\NVelocity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Select.HtmlToPdf, Version=17.1.0.0, Culture=neutral, PublicKeyToken=e0ae9f6e27a97018, processorArchitecture=MSIL">
@@ -100,10 +96,6 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite, Version=1.0.81.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
-      <HintPath>..\packages\Negotium.Core.1.0.0\lib\net452\System.Data.SQLite.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -206,8 +198,8 @@
     <Compile Include="UserControls\ctrl_Inversiones.xaml.cs">
       <DependentUpon>ctrl_Inversiones.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\ctrl_Proponente.xaml.cs">
-      <DependentUpon>ctrl_Proponente.xaml</DependentUpon>
+    <Compile Include="UserControls\ctrl_OrgProponente.xaml.cs">
+      <DependentUpon>ctrl_OrgProponente.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ctrl_ProyeccionVentas.xaml.cs">
       <DependentUpon>ctrl_ProyeccionVentas.xaml</DependentUpon>
@@ -329,7 +321,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\ctrl_Proponente.xaml">
+    <Page Include="UserControls\ctrl_OrgProponente.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -401,10 +393,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\UCR.Negotium.Base\UCR.Negotium.Base.csproj">
-      <Project>{3DD443A4-EBEC-4AFC-9870-C8DD79CD20D7}</Project>
-      <Name>UCR.Negotium.Base</Name>
-    </ProjectReference>
     <ProjectReference Include="..\UCR.Negotium.DataAccess\UCR.Negotium.DataAccess.csproj">
       <Project>{858f9a52-dadf-4c16-9d2c-83932906ce55}</Project>
       <Name>UCR.Negotium.DataAccess</Name>
