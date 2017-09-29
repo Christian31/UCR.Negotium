@@ -55,8 +55,8 @@
             </StackPanel>
             <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,27,0">
                 <Grid Style="{StaticResource gridFormStyle}">
-                    <TextBox Text="{Binding ProyectoSelected.TasaCostoCapital}" Name="tbTasaCostoCapital" 
-                         TextChanged="tbTasaCostoCapital_TextChanged"/>
+                <TextBox Text="{Binding Path=ProyectoSelected.TasaCostoCapital, Mode=TwoWay, StringFormat={}{0:N}}" Name="tbTasaCostoCapital" 
+                         TextChanged="tbTasaCostoCapital_TextChanged" GotFocus="tbNumeros_GotFocus" LostFocus="tbNumeros_LostFocus"/>
                 </Grid>
                 <Grid Style="{StaticResource gridFormStyle}">
                     <TextBox Text="{Binding TIR}" IsEnabled="False"/>
@@ -65,13 +65,13 @@
                     <TextBox Text="{Binding VAN, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
                 </Grid>
                 <Grid Style="{StaticResource gridFormStyle}">
-                    <TextBox Text="{Binding ProyectoSelected.PersonasParticipantes}" TextChanged="TextBox_TextChanged"/>
+                <TextBox Text="{Binding Path=ProyectoSelected.PersonasParticipantes}" x:Name="tbPersonasParticipantes" TextChanged="tbPersonasParticipantes_TextChanged"/>
                 </Grid>
                 <Grid Style="{StaticResource gridFormStyle}">
-                    <TextBox Text="{Binding ProyectoSelected.FamiliasInvolucradas}" TextChanged="TextBox_TextChanged"/>
+                    <TextBox Text="{Binding Path=ProyectoSelected.FamiliasInvolucradas}" x:Name="tbFamiliasInvolucradas" TextChanged="tbFamiliasInvolucradas_TextChanged"/>
                 </Grid>
                 <Grid Style="{StaticResource gridFormStyle}">
-                    <TextBox Text="{Binding ProyectoSelected.PersonasBeneficiadas}" TextChanged="TextBox_TextChanged"/>
+                    <TextBox Text="{Binding Path=ProyectoSelected.PersonasBeneficiadas}" x:Name="tbPersonasBeneficiadas" TextChanged="tbPersonasBeneficiadas_TextChanged"/>
                 </Grid>
                 <Grid Style="{StaticResource gridFormStyle}">
                     <TextBox Text="{Binding VANPersonas, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>

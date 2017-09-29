@@ -117,17 +117,43 @@ namespace UCR.Negotium.Dialogs
         #endregion
 
         #region Events
-        private void tbDatosPositivos_TextChanged(object sender, TextChangedEventArgs e)
+        bool tbNumeroChngEvent = true;
+        private void tbNumerosPositivos_GotFocus(object sender, RoutedEventArgs e)
         {
             TextBox val = (TextBox)sender;
-            if (!val.Text.Equals(string.Empty) && !ValidaNumeros(val.Text))
+            if (val.Text.Equals("0") || val.Text.Equals("0.00"))
             {
-                val.Text = 0.ToString();
+                tbNumeroChngEvent = false;
+                val.Text = "";
             }
-            else if (dgCostosMensual.BorderBrush == Brushes.Red)
+        }
+
+        private void tbNumerosPositivos_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox val = (TextBox)sender;
+            if (val.Text.Equals(""))
+            {
+                tbNumeroChngEvent = false;
+                val.Text = "0.00";
+            }
+        }
+
+        private void tbDatosPositivos_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (dgCostosMensual.BorderBrush == Brushes.Red)
             {
                 dgCostosMensual.BorderBrush = Brushes.Gray;
                 dgCostosMensual.ToolTip = string.Empty;
+            }
+
+            if (tbNumeroChngEvent)
+            {
+                TextBox val = (TextBox)sender;
+                val.Text = val.Text.CheckStringFormat();
+            }
+            else
+            {
+                tbNumeroChngEvent = true;
             }
         }
 
@@ -211,18 +237,6 @@ namespace UCR.Negotium.Dialogs
             }
             
             return validationResult;
-        }
-
-        private bool ValidaNumeros(string valor)
-        {
-            double n;
-            if (double.TryParse(valor, out n))
-            {
-                if(n >= 0)
-                    return true;
-            }
-
-            return false;
         }
         #endregion
     }

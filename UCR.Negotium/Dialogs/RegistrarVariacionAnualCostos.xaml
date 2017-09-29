@@ -25,10 +25,12 @@
             </DataGrid.Style>
             <DataGrid.Columns>
                 <DataGridTextColumn IsReadOnly="True" Binding="{Binding Path=Ano}" Header="Año" Width="4*"/>
-                <DataGridTextColumn Binding="{Binding Path=PorcentajeIncremento}" Header="Porcentaje (%)" Width="6*">
+                <DataGridTextColumn Binding="{Binding Path=PorcentajeIncremento, Mode=TwoWay, StringFormat={}{0:N}}" Header="Porcentaje (%)" Width="6*">
                     <DataGridTextColumn.EditingElementStyle>
                         <Style TargetType="{x:Type TextBox}">
-                            <EventSetter Event="TextChanged" Handler="tbDatosPositivos_TextChanged" />
+                            <EventSetter Event="TextChanged" Handler="tbDatosPositivos_TextChanged"/>
+                            <EventSetter Event="GotFocus" Handler="tbNumerosPositivos_GotFocus"/>
+                            <EventSetter Event="LostFocus" Handler="tbNumerosPositivos_LostFocus"/>
                         </Style>
                     </DataGridTextColumn.EditingElementStyle>
                 </DataGridTextColumn>

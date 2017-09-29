@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Extensions;
 
 namespace UCR.Negotium.Dialogs
 {
@@ -72,28 +73,48 @@ namespace UCR.Negotium.Dialogs
             Close();
         }
 
-        private void tbDatosPositivos_TextChanged(object sender, TextChangedEventArgs e)
+        bool tbNumeroChngEvent = true;
+        private void tbNumerosPositivos_GotFocus(object sender, RoutedEventArgs e)
         {
             TextBox val = (TextBox)sender;
-            if (!val.Text.Equals(string.Empty) && !ValidaNumeros(val.Text))
+            if (val.Text.Equals("0") || val.Text.Equals("0.00"))
             {
-                val.Text = 0.ToString();
+                tbNumeroChngEvent = false;
+                val.Text = "";
             }
-            else if (dgTasaVariable.BorderBrush == Brushes.Red)
+        }
+
+        private void tbNumerosPositivos_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox val = (TextBox)sender;
+            if (val.Text.Equals(""))
+            {
+                tbNumeroChngEvent = false;
+                val.Text = "0.00";
+            }
+        }
+
+        private void tbDatosPositivos_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (dgTasaVariable.BorderBrush == Brushes.Red)
             {
                 dgTasaVariable.BorderBrush = Brushes.Gray;
                 dgTasaVariable.ToolTip = string.Empty;
+            }
+
+            if (tbNumeroChngEvent)
+            {
+                TextBox val = (TextBox)sender;
+                val.Text = val.Text.CheckStringFormat();
+            }
+            else
+            {
+                tbNumeroChngEvent = true;
             }
         }
         #endregion
 
         #region PrivateMethods
-        private bool ValidaNumeros(string valor)
-        {
-            double n;
-            return double.TryParse(valor, out n);
-        }
-
         private bool ValidateRequiredFields()
         {
             bool validationResult = false;

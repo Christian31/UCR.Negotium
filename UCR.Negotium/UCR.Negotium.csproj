@@ -167,7 +167,7 @@
     <Compile Include="Extensions\GestorDatos.cs" />
     <Compile Include="Extensions\InverseBoolConverter.cs" />
     <Compile Include="Extensions\LocalContext.cs" />
-    <Compile Include="Extensions\MonedaFormatConverter.cs" />
+    <Compile Include="Extensions\CheckMonedaFormat.cs" />
     <Compile Include="StartWindow.xaml.cs">
       <DependentUpon>StartWindow.xaml</DependentUpon>
     </Compile>

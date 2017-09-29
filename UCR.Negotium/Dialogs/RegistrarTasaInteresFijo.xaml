@@ -10,8 +10,9 @@
     <Grid Margin="10">
         <Grid x:Name="gridTasaFija" Height="65" VerticalAlignment="Top" Margin="27,20,27,80">
             <Label Content="Porcentaje de Interés Fijo:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Text="{Binding InteresFijo.PorcentajeInteres}" Margin="150,0,27,35" 
-                     Name="tbTasaInteresFijo" TextChanged="tbTasaInteresFijo_TextChanged"/>
+            <TextBox Text="{Binding Path=InteresFijo.PorcentajeInteres, Mode=TwoWay, StringFormat={}{0:N}}" Margin="150,0,27,39" 
+                     Name="tbTasaInteresFijo" TextChanged="tbTasaInteresFijo_TextChanged"
+                     GotFocus="tbTasaInteresFijo_GotFocus" LostFocus="tbTasaInteresFijo_LostFocus"/>
         </Grid>
         <Grid Height="70" VerticalAlignment="Bottom">
             <Button  Name="btnGuardar" Content="Guardar" Click="btnGuardar_Click" Width="75"

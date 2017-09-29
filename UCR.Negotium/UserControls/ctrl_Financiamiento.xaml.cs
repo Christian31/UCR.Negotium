@@ -184,15 +184,8 @@ namespace UCR.Negotium.UserControls
                 tbMonto.BorderBrush = Brushes.Gray;
                 tbMonto.ToolTip = "Ingrese en este campo el monto del Financiamiento que desea registrar";
             }
-            int monto = 0;
-            if (!int.TryParse(tbMonto.Text, out monto))
-            {
-                tbMonto.Text = string.Empty;
-            }
-            else
-            {
-                ActualizarDTFinanciamiento();
-            }
+
+            tbMonto.Text = tbMonto.Text.CheckStringFormat();
         }
 
         private void lblTasaInteres_Click(object sender, RoutedEventArgs e)

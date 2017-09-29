@@ -55,18 +55,21 @@
             </DataGrid.Style>
             <DataGrid.Columns>
                 <DataGridTextColumn IsReadOnly="True" Binding="{Binding Path=Mes}" Header="Mes" Width="4*"/>
-                <DataGridTextColumn Binding="{Binding Path=Cantidad}" Header="Cantidad" Width="3*">
+                <DataGridTextColumn Binding="{Binding Path=Cantidad, Mode=TwoWay, StringFormat={}{0:N}}" Header="Cantidad" Width="3*">
                     <DataGridTextColumn.EditingElementStyle>
                         <Style TargetType="{x:Type TextBox}">
                             <EventSetter Event="TextChanged" Handler="tbNumerosPositivos_TextChanged" />
+                            <EventSetter Event="GotFocus" Handler="tbNumerosPositivos_GotFocus"/>
+                            <EventSetter Event="LostFocus" Handler="tbNumerosPositivos_LostFocus"/>
                         </Style>
                     </DataGridTextColumn.EditingElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn
-                    Binding="{Binding Path=Precio}" Width="3*" x:Name="dgtxcPrecio">
+                <DataGridTextColumn Binding="{Binding Path=Precio, Mode=TwoWay, StringFormat={}{0:N}}" Width="3*" x:Name="dgtxcPrecio">
                     <DataGridTextColumn.EditingElementStyle>
                         <Style TargetType="{x:Type TextBox}">
                             <EventSetter Event="TextChanged" Handler="tbNumerosPositivos_TextChanged" />
+                            <EventSetter Event="GotFocus" Handler="tbNumerosPositivos_GotFocus"/>
+                            <EventSetter Event="LostFocus" Handler="tbNumerosPositivos_LostFocus"/>
                         </Style>
                     </DataGridTextColumn.EditingElementStyle>
                 </DataGridTextColumn>
@@ -92,10 +95,12 @@
                 </DataGrid.Style>
                 <DataGrid.Columns>
                     <DataGridTextColumn IsReadOnly="True" Binding="{Binding Path=AnoCrecimiento}" Header="Año" Width="4*"/>
-                    <DataGridTextColumn Binding="{Binding Path=PorcentajeCrecimiento}" Header="Porcentaje (%)" Width="6*">
+                    <DataGridTextColumn Binding="{Binding Path=PorcentajeCrecimiento, Mode=TwoWay, StringFormat={}{0:N}}" Header="Porcentaje (%)" Width="6*">
                         <DataGridTextColumn.EditingElementStyle>
                             <Style TargetType="{x:Type TextBox}">
                                 <EventSetter Event="TextChanged" Handler="tbNumeros_TextChanged" />
+                                <EventSetter Event="GotFocus" Handler="tbNumerosPositivos_GotFocus"/>
+                                <EventSetter Event="LostFocus" Handler="tbNumerosPositivos_LostFocus"/>
                             </Style>
                         </DataGridTextColumn.EditingElementStyle>
                     </DataGridTextColumn>

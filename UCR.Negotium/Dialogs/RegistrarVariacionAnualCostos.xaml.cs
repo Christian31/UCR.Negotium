@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Extensions;
 
 namespace UCR.Negotium.Dialogs
 {
@@ -109,17 +110,37 @@ namespace UCR.Negotium.Dialogs
             Close();
         }
 
-        private void tbDatosPositivos_TextChanged(object sender, TextChangedEventArgs e)
+        bool tbNumeroChngEvent = true;
+        private void tbNumerosPositivos_GotFocus(object sender, RoutedEventArgs e)
         {
             TextBox val = (TextBox)sender;
-            if (!val.Text.Equals(string.Empty) && !ValidaNumeros(val.Text))
+            if (val.Text.Equals("0") || val.Text.Equals("0.00"))
             {
-                val.Text = 0.ToString();
+                tbNumeroChngEvent = false;
+                val.Text = "";
             }
-            else if (dgVariacionAnual.BorderBrush == Brushes.Red)
+        }
+
+        private void tbNumerosPositivos_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox val = (TextBox)sender;
+            if (val.Text.Equals(""))
             {
-                dgVariacionAnual.BorderBrush = Brushes.Gray;
-                dgVariacionAnual.ToolTip = string.Empty;
+                tbNumeroChngEvent = false;
+                val.Text = "0.00";
+            }
+        }
+
+        private void tbDatosPositivos_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (tbNumeroChngEvent)
+            {
+                TextBox val = (TextBox)sender;
+                val.Text = val.Text.CheckStringFormat();
+            }
+            else
+            {
+                tbNumeroChngEvent = true;
             }
         }
         #endregion
@@ -150,18 +171,6 @@ namespace UCR.Negotium.Dialogs
             }
 
             return validationResult;
-        }
-
-        private bool ValidaNumeros(string valor)
-        {
-            double n;
-            if (double.TryParse(valor, out n))
-            {
-                if (n >= 0)
-                    return true;
-            }
-
-            return false;
         }
         #endregion
     }

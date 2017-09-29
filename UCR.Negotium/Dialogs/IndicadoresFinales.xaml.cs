@@ -41,6 +41,7 @@ namespace UCR.Negotium.Dialogs
             signoMoneda = LocalContext.GetSignoMoneda(codProyecto);
         }
 
+        #region Properties
         public bool Reload { get; set; }
 
         public string TIR
@@ -90,6 +91,7 @@ namespace UCR.Negotium.Dialogs
             get { return proyecto; }
             set { proyecto = value; }
         }
+        #endregion
 
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
@@ -109,49 +111,68 @@ namespace UCR.Negotium.Dialogs
             Close();
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            TextBox val = (TextBox)sender;
-            if (!val.Text.Equals(string.Empty) && !ValidaNumeros(val.Text, true))
-            {
-                val.Text = 0.ToString();
-            }
-            PropertyChanged(this, new PropertyChangedEventArgs("VANPersonas"));
-            PropertyChanged(this, new PropertyChangedEventArgs("VANFamilias"));
-            PropertyChanged(this, new PropertyChangedEventArgs("VANBeneficiarios"));
-
-        }
-
-        private bool ValidaNumeros(string valor, bool positivos = false)
-        {
-            double n;
-            if (double.TryParse(valor, out n))
-            {
-                return positivos ? (n >= 0) : true;
-            }
-
-            return false;
-        }
-
         private void tbTasaCostoCapital_TextChanged(object sender, TextChangedEventArgs e)
         {
-            TextBox val = (TextBox)sender;
-            if (!val.Text.Equals(string.Empty) && !ValidaNumeros(val.Text, true))
+            if (tbNumeroTextChange)
             {
-                val.Text = 0.ToString();
-            }
+                tbTasaCostoCapital.Text = tbTasaCostoCapital.Text.CheckStringFormat();
 
-            try
+                try
+                {
+                    van = montoInicial + Financial.NPV(Convert.ToDouble(tbTasaCostoCapital.Text), ref flujoCaja);
+                }
+                catch { van = 0; }
+                finally
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("VAN"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("VANPersonas"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("VANFamilias"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("VANBeneficiarios"));
+                }
+            }
+            else
             {
-                van = montoInicial + Financial.NPV(Convert.ToDouble(val.Text), ref flujoCaja);
+                tbNumeroTextChange = true;
             }
-            catch { van = 0; }
-            finally {
-                PropertyChanged(this, new PropertyChangedEventArgs("VAN"));
-                PropertyChanged(this, new PropertyChangedEventArgs("VANPersonas"));
-                PropertyChanged(this, new PropertyChangedEventArgs("VANFamilias"));
-                PropertyChanged(this, new PropertyChangedEventArgs("VANBeneficiarios"));
+        }
+
+        bool tbNumeroTextChange = true;
+        private void tbNumeros_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbTasaCostoCapital.Text.Equals("0") || tbTasaCostoCapital.Text.Equals("0.00"))
+            {
+                tbNumeroTextChange = false;
+                tbTasaCostoCapital.Text = "";
             }
+        }
+
+        private void tbNumeros_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbTasaCostoCapital.Text.Equals(""))
+            {
+                tbNumeroTextChange = false;
+                tbTasaCostoCapital.Text = "0.00";
+            }
+        }
+
+        private void tbPersonasParticipantes_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            tbPersonasParticipantes.Text = tbPersonasParticipantes.Text.CheckStringFormat();
+            PropertyChanged(this, new PropertyChangedEventArgs("VANPersonas"));
+        }
+
+        private void tbFamiliasInvolucradas_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            tbFamiliasInvolucradas.Text = tbFamiliasInvolucradas.Text.CheckStringFormat();
+
+            PropertyChanged(this, new PropertyChangedEventArgs("VANFamilias"));
+        }
+
+        private void tbPersonasBeneficiadas_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            tbPersonasBeneficiadas.Text = tbPersonasBeneficiadas.Text.CheckStringFormat();
+
+            PropertyChanged(this, new PropertyChangedEventArgs("VANBeneficiarios"));
         }
     }
 }

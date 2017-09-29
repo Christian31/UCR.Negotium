@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Extensions;
 
 namespace UCR.Negotium.Dialogs
 {
@@ -62,10 +63,19 @@ namespace UCR.Negotium.Dialogs
 
         private void tbTasaInteresFijo_TextChanged(object sender, TextChangedEventArgs e)
         {
-            TextBox val = (TextBox)sender;
-            if (!val.Text.Equals(string.Empty) && !ValidaNumeros(val.Text))
+            if (tbTasaInteresFijo.BorderBrush == Brushes.Red)
             {
-                val.Text = 0.ToString();
+                tbTasaInteresFijo.BorderBrush = Brushes.Gray;
+                tbTasaInteresFijo.ToolTip = string.Empty;
+            }
+
+            if (tbNumeroChngEvent)
+            {
+                tbTasaInteresFijo.Text = tbTasaInteresFijo.Text.CheckStringFormat();
+            }
+            else
+            {
+                tbNumeroChngEvent = true;
             }
         }        
 
@@ -96,7 +106,6 @@ namespace UCR.Negotium.Dialogs
         {
             bool validationResult = false;
 
-
             if (InteresFijo.PorcentajeInteres <= 0)
             {
                 tbTasaInteresFijo.BorderBrush = Brushes.Red;
@@ -104,9 +113,27 @@ namespace UCR.Negotium.Dialogs
                 validationResult = true;
             }
 
-
             return validationResult;
         }
         #endregion
+
+        bool tbNumeroChngEvent = true;
+        private void tbTasaInteresFijo_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbTasaInteresFijo.Text.Equals("0") || tbTasaInteresFijo.Text.Equals("0.00"))
+            {
+                tbNumeroChngEvent = false;
+                tbTasaInteresFijo.Text = "";
+            }
+        }
+
+        private void tbTasaInteresFijo_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbTasaInteresFijo.Text.Equals(""))
+            {
+                tbNumeroChngEvent = false;
+                tbTasaInteresFijo.Text = "0.00";
+            }
+        }
     }
 }

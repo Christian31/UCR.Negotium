@@ -3,11 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Extensions;
 
 namespace UCR.Negotium.Dialogs
 {
@@ -59,7 +61,6 @@ namespace UCR.Negotium.Dialogs
             
             reinversion.UnidadMedida = unidadMedidas.FirstOrDefault();
             reinversion.AnoReinversion = AnosDisponibles.FirstOrDefault();
-            reinversion.Cantidad = 1;
 
             if (codReinversion != 0)
             {
@@ -186,15 +187,19 @@ namespace UCR.Negotium.Dialogs
 
         private void tbCostoUnitario_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (tbCostoUnitario.BorderBrush == Brushes.Red)
+            if (tbCostoUnitariotxtChngEvent)
             {
-                tbCostoUnitario.BorderBrush = Brushes.Gray;
-                tbCostoUnitario.ToolTip = "Ingrese en este campo el Costo Unitario de la Reinversión que desea registrar";
+                if (tbCostoUnitario.BorderBrush == Brushes.Red)
+                {
+                    tbCostoUnitario.BorderBrush = Brushes.Gray;
+                    tbCostoUnitario.ToolTip = "Ingrese en este campo el Costo Unitario de la Reinversión que desea registrar";
+                }
+
+                tbCostoUnitario.Text = tbCostoUnitario.Text.CheckStringFormat();
             }
-            int costoUnitario = 0;
-            if (!int.TryParse(tbCostoUnitario.Text, out costoUnitario))
+            else
             {
-                tbCostoUnitario.Text = string.Empty;
+                tbCostoUnitariotxtChngEvent = true;
             }
         }
         
@@ -223,10 +228,16 @@ namespace UCR.Negotium.Dialogs
                 tbDescReinversion.BorderBrush = Brushes.Red;
                 validationResult = true;
             }
-            if (Convert.ToInt64(tbCostoUnitario.Text.ToString()) <= 0)
+            if (Convert.ToDouble(tbCostoUnitario.Text.ToString()) <= 0)
             {
                 tbCostoUnitario.ToolTip = CAMPOREQUERIDOPOSITIVO;
                 tbCostoUnitario.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+            if (Convert.ToDouble(tbCantidad.Text.ToString()) <= 0)
+            {
+                tbCantidad.ToolTip = CAMPOREQUERIDOPOSITIVO;
+                tbCantidad.BorderBrush = Brushes.Red;
                 validationResult = true;
             }
 
@@ -255,6 +266,62 @@ namespace UCR.Negotium.Dialogs
             Reinversion.CodRequerimientoInversion = 0;
             Reinversion.DescripcionRequerimiento = "";
             PropertyChanged(this, new PropertyChangedEventArgs("Reinversion"));
+        }
+
+        bool tbCostoUnitariotxtChngEvent = true;
+        private void tbCostoUnitario_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbCostoUnitario.Text.Equals("0") || tbCostoUnitario.Text.Equals("0.00"))
+            {
+                tbCostoUnitariotxtChngEvent = false;
+                tbCostoUnitario.Text = "";
+            }
+        }
+
+        private void tbCostoUnitario_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbCostoUnitario.Text.Equals(""))
+            {
+                tbCostoUnitariotxtChngEvent = false;
+                tbCostoUnitario.Text = "0.00";
+            }
+        }
+
+        bool tbCantidadtxtChngEvent = true;
+        private void tbCantidad_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbCantidad.Text.Equals("0") || tbCantidad.Text.Equals("0.00"))
+            {
+                tbCantidadtxtChngEvent = false;
+                tbCantidad.Text = "";
+            }
+        }
+
+        private void tbCantidad_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbCantidad.Text.Equals(""))
+            {
+                tbCantidadtxtChngEvent = false;
+                tbCantidad.Text = "0.00";
+            }
+        }
+
+        private void tbCantidad_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (tbCantidadtxtChngEvent)
+            {
+                if (tbCantidad.BorderBrush == Brushes.Red)
+                {
+                    tbCantidad.BorderBrush = Brushes.Gray;
+                    tbCantidad.ToolTip = "Ingrese en este campo Cantidad de la Inversión que desea registrar";
+                }
+
+                tbCantidad.Text = tbCantidad.Text.CheckStringFormat();
+            }
+            else
+            {
+                tbCantidadtxtChngEvent = true;
+            }
         }
     }
 }

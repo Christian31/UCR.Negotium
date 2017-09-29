@@ -1,7 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -9,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Extensions;
 
 namespace UCR.Negotium.Dialogs
 {
@@ -22,7 +22,7 @@ namespace UCR.Negotium.Dialogs
         private const string CAMPOREQUERIDOPOSITIVO = "Este campo es requerido y debe tener un valor mayor a 0";
 
         private InversionData requerimientoInversionData;
-        ReinversionData reinversionData;
+        private ReinversionData reinversionData;
         private ProyectoData proyectoData = new ProyectoData();
         private UnidadMedidaData unidadMedidaData;
         private Inversion inversion;
@@ -171,18 +171,40 @@ namespace UCR.Negotium.Dialogs
             }
         }
 
+        bool tbCostoUnitariotxtChngEvent = true;
+        private void tbCostoUnitario_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbCostoUnitario.Text.Equals("0") || tbCostoUnitario.Text.Equals("0.00"))
+            {
+                tbCostoUnitariotxtChngEvent = false;
+                tbCostoUnitario.Text = "";
+            }
+        }
+
+        private void tbCostoUnitario_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbCostoUnitario.Text.Equals(""))
+            {
+                tbCostoUnitariotxtChngEvent = false;
+                tbCostoUnitario.Text = "0.00";
+            }
+        }
+
         private void tbCostoUnitario_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (tbCostoUnitario.BorderBrush == Brushes.Red)
+            if (tbCostoUnitariotxtChngEvent)
             {
-                tbCostoUnitario.BorderBrush = Brushes.Gray;
-                tbCostoUnitario.ToolTip = "Ingrese en este campo el Costo Unitario de la Inversión que desea registrar";
+                if (tbCostoUnitario.BorderBrush == Brushes.Red)
+                {
+                    tbCostoUnitario.BorderBrush = Brushes.Gray;
+                    tbCostoUnitario.ToolTip = "Ingrese en este campo el Costo Unitario de la Inversión que desea registrar";
+                }
+
+                tbCostoUnitario.Text = tbCostoUnitario.Text.CheckStringFormat();
             }
-            
-            double costoUnitario = 0;
-            if (!double.TryParse(tbCostoUnitario.Text, out costoUnitario))
+            else
             {
-                tbCostoUnitario.Text = Regex.Replace(tbCostoUnitario.Text, "[^0-9,.+-]", "");
+                tbCostoUnitariotxtChngEvent = true;
             }
         }
 
@@ -198,6 +220,43 @@ namespace UCR.Negotium.Dialogs
         private void btnCancelar_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        bool tbCantidadtxtChngEvent = true;
+        private void tbCantidad_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbCantidad.Text.Equals("0") || tbCantidad.Text.Equals("0.00"))
+            {
+                tbCantidadtxtChngEvent = false;
+                tbCantidad.Text = "";
+            }
+        }
+
+        private void tbCantidad_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbCantidad.Text.Equals(""))
+            {
+                tbCantidadtxtChngEvent = false;
+                tbCantidad.Text = "0.00";
+            }
+        }
+
+        private void tbCantidad_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (tbCantidadtxtChngEvent)
+            {
+                if (tbCantidad.BorderBrush == Brushes.Red)
+                {
+                    tbCantidad.BorderBrush = Brushes.Gray;
+                    tbCantidad.ToolTip = "Ingrese en este campo Cantidad de la Inversión que desea registrar";
+                }
+
+                tbCantidad.Text = tbCantidad.Text.CheckStringFormat();
+            }
+            else
+            {
+                tbCantidadtxtChngEvent = true;
+            }
         }
         #endregion
 
@@ -248,9 +307,16 @@ namespace UCR.Negotium.Dialogs
                 tbCostoUnitario.BorderBrush = Brushes.Red;
                 validationResult = true;
             }
+            if (Convert.ToDouble(tbCantidad.Text.ToString()) <= 0)
+            {
+                tbCantidad.ToolTip = CAMPOREQUERIDOPOSITIVO;
+                tbCantidad.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
 
             return validationResult;
         }
+
         #endregion
     }
 

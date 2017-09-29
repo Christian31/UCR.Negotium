@@ -79,7 +79,8 @@ namespace UCR.Negotium.DataAccess
         public bool EditarProyecto(Proyecto proyecto)
         {
             int result = -1;
-            string update = "UPDATE PROYECTO SET nombre_proyecto=?, resumen_ejecutivo=?, con_ingresos=?, " +
+            string update = "UPDATE PROYECTO SET nombre_proyecto=?, ano_inicial_proyecto=?, " +
+                "horizonte_evaluacion_en_anos=?, resumen_ejecutivo=?, con_ingresos=?, " +
                 "paga_impuesto=?, porcentaje_impuesto=?, direccion_exacta=?, cod_provincia=?, cod_canton=?, " +
                 "cod_distrito=?, con_financiamiento=?, objeto_interes=?, cod_tipo_proyecto=? WHERE cod_proyecto=?";
 
@@ -90,6 +91,8 @@ namespace UCR.Negotium.DataAccess
                     conn.Open();
                     SQLiteCommand command = new SQLiteCommand(update, conn);
                     command.Parameters.AddWithValue("nombre_proyecto", proyecto.NombreProyecto);
+                    command.Parameters.AddWithValue("ano_inicial_proyecto", proyecto.AnoInicial);
+                    command.Parameters.AddWithValue("horizonte_evaluacion_en_anos", proyecto.HorizonteEvaluacionEnAnos);
                     command.Parameters.AddWithValue("resumen_ejecutivo", proyecto.ResumenEjecutivo);
                     command.Parameters.AddWithValue("con_ingresos", proyecto.ConIngresos ? 1 : 0);
                     command.Parameters.AddWithValue("paga_impuesto", proyecto.PagaImpuesto ? 1 : 0);

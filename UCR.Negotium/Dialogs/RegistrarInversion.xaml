@@ -60,12 +60,12 @@
                           SelectedValue="{Binding Inversion.UnidadMedida.CodUnidad}" />
             </Grid>
             <Grid Style="{StaticResource gridFormStyle}">
-                <Controls:NumericUpDown Minimum="1" TextAlignment="Left" HasDecimals="True" StringFormat="0.00"
-                    Value="{Binding Inversion.Cantidad}" Margin="0,0,40,0"/>
+                <TextBox Text="{Binding Path=Inversion.Cantidad, Mode=TwoWay, StringFormat={}{0:N}}" Margin="0,0,40,0" Name="tbCantidad" 
+                         TextChanged="tbCantidad_TextChanged" GotFocus="tbCantidad_GotFocus" LostFocus="tbCantidad_LostFocus"/>
             </Grid>
             <Grid Style="{StaticResource gridFormStyle}">
                 <TextBox Text="{Binding Path=Inversion.CostoUnitario, Mode=TwoWay, StringFormat={}{0:N}}" Margin="0,0,40,0" Name="tbCostoUnitario" 
-                         TextChanged="tbCostoUnitario_TextChanged"/>
+                         TextChanged="tbCostoUnitario_TextChanged" GotFocus="tbCostoUnitario_GotFocus" LostFocus="tbCostoUnitario_LostFocus"/>
             </Grid>
             <StackPanel Style="{StaticResource horizontalPanelFormStyle}" Margin="0,10,0,10">
                 <CheckBox FlowDirection="LeftToRight" Content="Si"

@@ -95,27 +95,58 @@ namespace UCR.Negotium.Dialogs
         #endregion
 
         #region Events
+
+        bool tbCostoUnitarioChngEvent = true;
+        private void tbNumerosPositivos_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox val = (TextBox)sender;
+            if (val.Text.Equals("0") || val.Text.Equals("0.00"))
+            {
+                tbCostoUnitarioChngEvent = false;
+                val.Text = "";
+            }
+        }
+
+        private void tbNumerosPositivos_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox val = (TextBox)sender;
+            if (val.Text.Equals(""))
+            {
+                tbCostoUnitarioChngEvent = false;
+                val.Text = "0.00";
+            }
+        }
+
         //check validation
         private void tbNumerosPositivos_TextChanged(object sender, TextChangedEventArgs e)
         {
-            TextBox val = (TextBox)sender;
-            if (!val.Text.Equals(string.Empty) && !ValidaNumeros(val.Text, true))
-            {
-                val.Text = 0.ToString();
+            if (tbCostoUnitarioChngEvent)
+            { 
+                if (dgDetalleProyeccion.BorderBrush == Brushes.Red)
+                {
+                    dgDetalleProyeccion.BorderBrush = Brushes.Gray;
+                    dgDetalleProyeccion.ToolTip = string.Empty;
+                }
+
+                TextBox val = (TextBox)sender;
+                val.Text = val.Text.CheckStringFormat();
             }
-            else if (dgDetalleProyeccion.BorderBrush == Brushes.Red)
+            else
             {
-                dgDetalleProyeccion.BorderBrush = Brushes.Gray;
-                dgDetalleProyeccion.ToolTip = string.Empty;
+                tbCostoUnitarioChngEvent = true;
             }
         }
 
         private void tbNumeros_TextChanged(object sender, TextChangedEventArgs e)
         {
-            TextBox val = (TextBox)sender;
-            if (!val.Text.Equals(string.Empty) && !ValidaNumeros(val.Text))
+            if (tbCostoUnitarioChngEvent)
             {
-                val.Text = 0.ToString();
+                TextBox val = (TextBox)sender;
+                val.Text = val.Text.CheckStringFormat();
+            }
+            else
+            {
+                tbCostoUnitarioChngEvent = true;
             }
         }
 
@@ -223,17 +254,6 @@ namespace UCR.Negotium.Dialogs
             }
 
             return validationResult;
-        }
-
-        private bool ValidaNumeros(string valor, bool positivos = false)
-        {
-            double n;
-            if (double.TryParse(valor, out n))
-            {
-                return positivos ? (n >= 0) : true;
-            }
-
-            return false;
         }
 
         private void LoadDefaultValues()

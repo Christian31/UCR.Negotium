@@ -153,7 +153,7 @@ namespace UCR.Negotium
 
             ReloadProyecto(codProyecto);
 
-            if (!proyecto.ConFinanciamiento)
+            if (proyecto.TipoProyecto.CodTipo.Equals(0) && !proyecto.ConFinanciamiento)
             {
                 ((TabItem)tcRegistrarProyecto.Items[9]).IsEnabled = false;
             }

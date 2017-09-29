@@ -17,8 +17,6 @@ namespace UCR.Negotium.Domain
         {
             //datos por defecto
             unidadMedida = new UnidadMedida();
-            Cantidad = 1;
-            CostoUnitario = 1;
             VidaUtil = 2;
         }
 
