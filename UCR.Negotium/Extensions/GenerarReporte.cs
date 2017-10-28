@@ -13,14 +13,19 @@ namespace UCR.Negotium.Extensions
     public class GenerarReporte
     {
         private Proyecto proyecto;
-        private string invTotales;
         Dictionary<string, string> reinvTotales;
         Dictionary<string, string> proyeccionesTotales;
-        Dictionary<string, string> costosTotales;
+        Dictionary<string, Tuple<string, string>> costosTotales;
+        Dictionary<string, Tuple<string, string, string>> capitalTrabajo;
+        List<DataView> depreciacionesPaging;
+        Dictionary<string, string> depTotales;
+        DataView amortizacionFinanciamiento;
+        string invTotales, recuperacionCT, TIR, VAN, VANParticipantes, VANInvolucrados, VANIndirectos;
+        List<DataView> flujoCajaPaging;
 
         private string signoMoneda;
 
-        public GenerarReporte(Proyecto proyecto, string totalInversiones, DataView totalReinversiones, DataView proyeccionesTotal, DataView costosTotal)
+        public GenerarReporte(Proyecto proyecto, string totalInversiones, DataView totalReinversiones, DataView proyeccionesTotal, DataView costosTotal, DataView capital, string recuperacionCT, DataView depTotales, DataView amortizacionFinanciamiento, DataView flujoCaja, string tir, string van)
         {
             this.proyecto = proyecto;
             this.invTotales = totalInversiones;
@@ -29,10 +34,25 @@ namespace UCR.Negotium.Extensions
             ObtieneProvincia();
             ObtieneCanton();
             ObtieneDistrito();
+            ObtieneTipoOrganizacion();
 
             reinvTotales = SetToDictionary(totalReinversiones);
             proyeccionesTotales = SetToDictionary(proyeccionesTotal);
-            costosTotales = SetToDictionary(costosTotal);
+            costosTotales = SetToCostosTotales(costosTotal);
+            capitalTrabajo = SetToCapitalTrabajo(capital);
+            this.recuperacionCT = recuperacionCT;
+            depreciacionesPaging = DatatableBuilder.GenerarDepreciacionesPaging(proyecto, 5);
+            this.depTotales = SetToDictionary(depTotales);
+            this.amortizacionFinanciamiento = amortizacionFinanciamiento;
+            flujoCajaPaging = DatatableBuilder.FlujoCajaToPaging(flujoCaja, 5);
+            TIR = tir;
+            VAN = van;
+
+            double vanDouble = Convert.ToDouble(VAN.Replace(signoMoneda, string.Empty));
+
+            VANParticipantes = signoMoneda + " " + Math.Round(vanDouble / proyecto.PersonasParticipantes, 2).ToString("#,##0.##");
+            VANInvolucrados = signoMoneda + " " + Math.Round(vanDouble / proyecto.FamiliasInvolucradas, 2).ToString("#,##0.##");
+            VANIndirectos = signoMoneda + " " + Math.Round(vanDouble / proyecto.PersonasBeneficiadas, 2).ToString("#,##0.##");
         }
 
         private Dictionary<string, string> SetToDictionary(DataView dataView)
@@ -44,6 +64,51 @@ namespace UCR.Negotium.Extensions
                 {
                     dictionary.Add(dataView.Table.Columns[i].ColumnName,
                         dataView.Table.Rows[0].ItemArray[i].ToString());
+                }
+            }
+
+            return dictionary;
+        }
+
+        private Dictionary<string, Tuple<string, string>> SetToCostosTotales(DataView dataView)
+        {
+            var dictionaryRoot = SetToDictionary(dataView);
+
+            List<VariacionAnualCosto> listToAppend = proyecto.VariacionCostos;
+            Dictionary<string, Tuple<string, string>> dictionary = new Dictionary<string, Tuple<string, string>>();
+
+            if (listToAppend.Count.Equals(0))
+            {
+                foreach (var entry in dictionaryRoot)
+                {
+                    dictionary.Add(entry.Key, Tuple.Create("0", entry.Value));
+                }
+            }
+            else
+            {
+                foreach (var entry in dictionaryRoot)
+                {
+                    dictionary.Add(entry.Key, Tuple.Create(
+                        listToAppend.Find(variacion => variacion.Ano.Equals(entry.Key)).PorcentajeIncremento.ToString(),
+                        entry.Value));
+                }
+            }
+
+
+            return dictionary;
+        }
+
+        private Dictionary<string, Tuple<string, string, string>> SetToCapitalTrabajo(DataView dataView)
+        {
+            Dictionary<string, Tuple<string, string, string>> dictionary = new Dictionary<string, Tuple<string, string, string>>();
+
+            if(dataView.Table != null)
+            {
+                for (int i = 1; i < dataView.Table.Columns.Count; i++)
+                {
+                    dictionary.Add(dataView.Table.Columns[i].ColumnName, Tuple.Create(
+                        dataView.Table.Rows[0].ItemArray[i].ToString(), dataView.Table.Rows[1].ItemArray[i].ToString(), 
+                        dataView.Table.Rows[2].ItemArray[i].ToString()));
                 }
             }
 
@@ -71,12 +136,19 @@ namespace UCR.Negotium.Extensions
                 .Find(dist => dist.CodDistrito.Equals(proyecto.Distrito.CodDistrito));
         }
 
+        private void ObtieneTipoOrganizacion()
+        {
+            TipoOrganizacionData tipoOrgData = new TipoOrganizacionData();
+            proyecto.OrganizacionProponente.Tipo = tipoOrgData.GetTipoOrganizaciones().Find(
+                tipo => tipo.CodTipo.Equals(proyecto.OrganizacionProponente.Tipo.CodTipo));
+        }
+
         public bool CrearReporte()
         {
             string htmlString = LlenarPlantillaProyecto();
             string destinoReporte = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Report");
 
-            string reportPdfPath = destinoReporte + "Sample.pdf";
+            string reportPdfPath = string.Format("{0}Sample_{1}.pdf", destinoReporte, DateTime.Now.ToString("yyyyMMddHHmmss"));
             if (File.Exists(reportPdfPath))
                 File.Delete(reportPdfPath);
 
@@ -112,6 +184,17 @@ namespace UCR.Negotium.Extensions
             context.Put("reinversionesTotal", reinvTotales);
             context.Put("proyeccionesTotal", proyeccionesTotales);
             context.Put("costosTotal", costosTotales);
+            context.Put("capitalTrabajo", capitalTrabajo);
+            context.Put("recuperacionCT", recuperacionCT);
+            context.Put("depreciaciones", depreciacionesPaging);
+            context.Put("depreciacionesTotal", depTotales);
+            context.Put("financiamiento", amortizacionFinanciamiento);
+            context.Put("flujoCaja", flujoCajaPaging);
+            context.Put("TIR", TIR);
+            context.Put("VAN", VAN);
+            context.Put("VANParticipantes", VANParticipantes);
+            context.Put("VANInvolucrados", VANInvolucrados);
+            context.Put("VANIndirectos", VANIndirectos);
 
             var sb = new StringBuilder();
             using (var writer = new StringWriter(sb))

@@ -17,24 +17,27 @@ namespace UCR.Negotium.Dialogs
         private Regex numbers = new Regex(@"([^\d]*\d){8,}");
 
         private bool successValue = false;
+        private bool redirectToMain = false;
 
         private EncargadoData encargadoData;
         private Encargado encargado;
 
-        public RegistrarEncargado(int codEncargado=0)
+        public RegistrarEncargado(int codEncargado=-1)
         {
             InitializeComponent();
             DataContext = this;
 
+            redirectToMain = codEncargado == -1;
             encargadoData = new EncargadoData();
             encargado = new Encargado();
 
-            if (codEncargado != 0)
+            if (codEncargado > 0)
             {
                 encargado = encargadoData.GetEncargado(codEncargado);
             }
         }
 
+        #region Properties
         public Encargado EncargadoSelected
         {
             get
@@ -46,7 +49,9 @@ namespace UCR.Negotium.Dialogs
                 encargado = value;
             }
         }
+        #endregion
 
+        #region Events
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
             if (!ValidateFields())
@@ -59,9 +64,17 @@ namespace UCR.Negotium.Dialogs
                         //success
                         successValue = true;
                         EncargadoSelected.IdEncargado = idEncargado;
-                        RegistrarProyectoWindow registrarProyecto = new RegistrarProyectoWindow(codEncargado: EncargadoSelected.IdEncargado);
-                        this.Close();
-                        registrarProyecto.Show();
+
+                        if (redirectToMain)
+                        {
+                            RegistrarProyectoWindow registrarProyecto = new RegistrarProyectoWindow(codEncargado: EncargadoSelected.IdEncargado);
+                            this.Close();
+                            registrarProyecto.Show();
+                        }
+                        else
+                        {
+                            this.Close();
+                        }
                     }
                     else
                     {
@@ -75,9 +88,17 @@ namespace UCR.Negotium.Dialogs
                     {
                         //success
                         successValue = true;
-                        RegistrarProyectoWindow registrarProyecto = new RegistrarProyectoWindow(codEncargado: EncargadoSelected.IdEncargado);
-                        this.Close();
-                        registrarProyecto.Show();
+
+                        if (redirectToMain)
+                        {
+                            RegistrarProyectoWindow registrarProyecto = new RegistrarProyectoWindow(codEncargado: EncargadoSelected.IdEncargado);
+                            this.Close();
+                            registrarProyecto.Show();
+                        }
+                        else
+                        {
+                            this.Close();
+                        }
                     }
                     else
                     {
@@ -95,7 +116,7 @@ namespace UCR.Negotium.Dialogs
 
         private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (!successValue)
+            if (!successValue && redirectToMain)
             {
                 successValue = false;
                 MainWindow main = new MainWindow();
@@ -147,7 +168,9 @@ namespace UCR.Negotium.Dialogs
                 tbEmail.ToolTip = "";
             }
         }
+        #endregion
 
+        #region InternalMethods
         private bool ValidateFields()
         {
             bool validationResult = false;
@@ -184,5 +207,6 @@ namespace UCR.Negotium.Dialogs
 
             return validationResult;
         }
+        #endregion
     }
 }

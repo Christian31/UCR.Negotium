@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Windows.Forms;
 using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.Extensions
@@ -33,7 +32,7 @@ namespace UCR.Negotium.Extensions
             int a2 = 1;
             foreach (double costoGenerado in proyecto.CostosGenerados)
             {
-                row2[(proyecto.AnoInicial + a2).ToString()] = signoMoneda +" "+ ((costoGenerado / 12) * 1.5).ToString("#,##0.##");
+                row2[(proyecto.AnoInicial + a2).ToString()] = signoMoneda + " " + costoGenerado.ToString("#,##0.##");
                 a2++;
             }
             ds.Tables["CapitalTrabajo"].Rows.Add(row2);
@@ -63,7 +62,7 @@ namespace UCR.Negotium.Extensions
             recCTResult = recCT;
         }
 
-        public static DataTable GenerarCostosGenerados(Proyecto proyecto)
+        public static DataTable GenerarCostosTotales(Proyecto proyecto)
         {
             string signoMoneda = LocalContext.GetSignoMoneda(proyecto.CodProyecto);
 
@@ -109,12 +108,59 @@ namespace UCR.Negotium.Extensions
 
                 ds.Tables["Depreciaciones"].Rows.Add(row);
 
-            }//foreach
+            }
 
             return ds.Tables["Depreciaciones"];
         }
 
-        public static DataTable GenerarTotalesDepreciaciones(Proyecto proyecto)
+        public static List<DataView> GenerarDepreciacionesPaging(Proyecto proyecto, int limit)
+        {
+            List<DataView> viewPaging = new List<DataView>();
+            string signoMoneda = LocalContext.GetSignoMoneda(proyecto.CodProyecto);
+
+            int count = 1;
+            while (count <= proyecto.HorizonteEvaluacionEnAnos)
+            {
+                int newCount = count;
+                DataSet ds = new DataSet();
+                ds.Tables.Add("Depreciaciones");
+
+                ds.Tables["Depreciaciones"].Columns.Add("Descripcion", Type.GetType("System.String"));
+                for (int i = count; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+                {
+                    ds.Tables["Depreciaciones"].Columns.Add((proyecto.AnoInicial + i).ToString(), Type.GetType("System.String"));
+                    newCount = i;
+
+                    if (i%limit == 0)
+                        break;
+                }
+
+                for (int i = 0; i < proyecto.Depreciaciones.Count; i++)
+                {
+                    DataRow row = ds.Tables["Depreciaciones"].NewRow();
+                    row["Descripcion"] = proyecto.Depreciaciones[i].NombreDepreciacion;
+
+                    for (int a = count; a <= proyecto.HorizonteEvaluacionEnAnos; a++)
+                    {
+                        row[(proyecto.AnoInicial + a).ToString()] = signoMoneda + " " +
+                            proyecto.Depreciaciones[i].MontoDepreciacion[a - 1].ToString("#,##0.##");
+
+                        if (a%limit == 0)
+                            break;
+                    }
+
+                    ds.Tables["Depreciaciones"].Rows.Add(row);
+
+                }
+
+                count = (newCount + 1);
+                viewPaging.Add(ds.Tables["Depreciaciones"].AsDataView());
+            }
+
+            return viewPaging;
+        }
+
+        public static DataTable GenerarDepreciacionesTotales(Proyecto proyecto)
         {
             string signoMoneda = LocalContext.GetSignoMoneda(proyecto.CodProyecto);
             DataSet ds = new DataSet();
@@ -135,7 +181,7 @@ namespace UCR.Negotium.Extensions
             return ds.Tables["DepreciacionesTotales"];
         }
 
-        public static DataTable GenerarIngresosGenerados(Proyecto proyecto)
+        public static DataTable GenerarIngresosTotales(Proyecto proyecto)
         {
             string signoMoneda = LocalContext.GetSignoMoneda(proyecto.CodProyecto);
 
@@ -157,7 +203,7 @@ namespace UCR.Negotium.Extensions
             return ds.Tables["IngresosGenerados"];
         }
 
-        public static DataTable GenerarTotalesReinversiones(Proyecto proyecto)
+        public static DataTable GenerarReinversionesTotales(Proyecto proyecto)
         {
             string signoMoneda = LocalContext.GetSignoMoneda(proyecto.CodProyecto);
 
@@ -352,7 +398,7 @@ namespace UCR.Negotium.Extensions
             {
                 if (dgvFinanciamiento.Table != null && i < dgvFinanciamiento.Table.Rows.Count)
                 {
-                    row5[(proyecto.AnoInicial + a5).ToString()] = signoMoneda + " -" + dgvFinanciamiento.Table.Rows[i][2].ToString().Replace(signoMoneda + " ", string.Empty);
+                    row5[(proyecto.AnoInicial + a5).ToString()] = signoMoneda + " -" + dgvFinanciamiento.Table.Rows[i][3].ToString().Replace(signoMoneda + " ", string.Empty);
                 }
                 else
                 {
@@ -486,7 +532,7 @@ namespace UCR.Negotium.Extensions
             {
                 if (dgvFinanciamiento.Table != null && i < dgvFinanciamiento.Table.Rows.Count)
                 {
-                    row13[(proyecto.Financiamiento.AnoInicialPago + i).ToString()] = signoMoneda + " -" + dgvFinanciamiento.Table.Rows[i][3].ToString().Replace(signoMoneda + " ", string.Empty);
+                    row13[(proyecto.Financiamiento.AnoInicialPago + i).ToString()] = signoMoneda + " -" + dgvFinanciamiento.Table.Rows[i][4].ToString().Replace(signoMoneda + " ", string.Empty);
                 }
                 else
                 {
@@ -556,6 +602,51 @@ namespace UCR.Negotium.Extensions
             #endregion
 
             return ds.Tables[dsNombre];
+        }
+
+        public static List<DataView> FlujoCajaToPaging(DataView flujoCaja, int limit)
+        {
+            List<DataView> flujoCajaPaging = new List<DataView>();
+            limit = limit + 1;
+            int count = 1;
+            while (count < flujoCaja.Table.Columns.Count)
+            {
+                int newCount = count;
+                DataSet ds = new DataSet();
+                ds.Tables.Add("FlujoCajaPag");
+                ds.Tables["FlujoCajaPag"].Columns.Add("Rubro", Type.GetType("System.String"));
+
+                for (int i = count; i < flujoCaja.Table.Columns.Count; i++)
+                {
+                    ds.Tables["FlujoCajaPag"].Columns.Add(flujoCaja.Table.Columns[i].ColumnName, Type.GetType("System.String"));
+                    newCount = i;
+
+                    if (i % limit == 0)
+                        break;
+                }
+
+                for (int i = 0; i < flujoCaja.Table.Rows.Count; i++)
+                {
+                    DataRow row = ds.Tables["FlujoCajaPag"].NewRow();
+                    row["Rubro"] = flujoCaja.Table.Rows[i][0].ToString();
+
+                    for (int a = count; a < flujoCaja.Table.Columns.Count; a++)
+                    {
+                        row[flujoCaja.Table.Columns[a].ColumnName] = flujoCaja.Table.Rows[i][a].ToString();
+
+                        if (a % limit == 0)
+                            break;
+                    }
+
+                    ds.Tables["FlujoCajaPag"].Rows.Add(row);
+
+                }
+
+                count = (newCount + 1);
+                flujoCajaPaging.Add(ds.Tables["FlujoCajaPag"].AsDataView());
+            }
+
+            return flujoCajaPaging;
         }
     }
 }

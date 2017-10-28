@@ -80,8 +80,8 @@
                 <GroupBox Grid.Column="1" Header="Información de la Organización">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="4*"/>
-                            <RowDefinition Height="6*"/>
+                            <RowDefinition Height="42*"/>
+                            <RowDefinition Height="58*"/>
                         </Grid.RowDefinitions>
                         <StackPanel Grid.Row="0">
                             <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
@@ -123,7 +123,7 @@
                                 </Grid>
                             </Grid>
                         </StackPanel>
-                        <Grid Grid.Row="1" Margin="3">
+                        <Grid Grid.Row="1" Margin="3,0,3,3">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="2*"/>
                                 <RowDefinition Height="8*"/>

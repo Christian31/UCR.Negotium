@@ -44,6 +44,7 @@ namespace UCR.Negotium.UserControls
             crecimientoOfertaData = new CrecimientoOfertaArticuloData();
         }
 
+        #region InternalMethods
         public void Reload()
         {
             SignoMoneda = LocalContext.GetSignoMoneda(CodProyecto);
@@ -51,9 +52,13 @@ namespace UCR.Negotium.UserControls
             DTProyeccionesTotales = new DataView();
             ProyeccionesList = proyeccionArticuloData.GetProyeccionesVentaArticulo(CodProyecto);
 
-            ProyeccionesList.All(proy => {
-            proy.DetallesProyeccionVenta.ForEach(det => 
-                    det.SubtotalFormat = SignoMoneda + " " + det.Subtotal.ToString("#,##0.##"));
+            ProyeccionesList.All(proy =>
+            {
+                proy.DetallesProyeccionVenta.ForEach(det =>
+                {
+                    det.PrecioFormat = SignoMoneda + " " + det.Precio.ToString("#,##0.##");
+                    det.SubtotalFormat = SignoMoneda + " " + det.Subtotal.ToString("#,##0.##");
+                });
                 return true;
             });
 
@@ -62,12 +67,14 @@ namespace UCR.Negotium.UserControls
 
             if (!proyecto.Proyecciones.Count.Equals(0))
             {
-                DTProyeccionesTotales = DatatableBuilder.GenerarIngresosGenerados(proyecto).AsDataView();
+                DTProyeccionesTotales = DatatableBuilder.GenerarIngresosTotales(proyecto).AsDataView();
             }
 
             PropertyChanged(this, new PropertyChangedEventArgs("ProyeccionesList"));
         }
+        #endregion
 
+        #region Properties
         public string SignoMoneda
         {
             get
@@ -132,7 +139,9 @@ namespace UCR.Negotium.UserControls
                 Reload();
             }
         }
+        #endregion
 
+        #region Events
         private void btnAgregarProyeccion_Click(object sender, RoutedEventArgs e)
         {
             if (!proyecto.TipoProyecto.CodTipo.Equals(2))
@@ -185,5 +194,6 @@ namespace UCR.Negotium.UserControls
                 }
             }
         }
+        #endregion
     }
 }

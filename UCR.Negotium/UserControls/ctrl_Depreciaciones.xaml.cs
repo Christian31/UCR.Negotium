@@ -41,6 +41,7 @@ namespace UCR.Negotium.UserControls
             Reload();
         }
 
+        #region InternalMethods
         public void Reload()
         {
             DTDepreciaciones = new DataView();
@@ -52,10 +53,12 @@ namespace UCR.Negotium.UserControls
                 !ProyectoSelected.RequerimientosReinversion.Where(reinv => reinv.Depreciable).Count().Equals(0))
             {
                 DTDepreciaciones = DatatableBuilder.GenerarDepreciaciones(ProyectoSelected).AsDataView();
-                DTTotalesDepreciaciones = DatatableBuilder.GenerarTotalesDepreciaciones(ProyectoSelected).AsDataView();
+                DTTotalesDepreciaciones = DatatableBuilder.GenerarDepreciacionesTotales(ProyectoSelected).AsDataView();
             }
         }
+        #endregion
 
+        #region Properties
         public DataView DTDepreciaciones
         {
             get
@@ -106,7 +109,9 @@ namespace UCR.Negotium.UserControls
                 proyectoSelected = value;
             }
         }
+        #endregion
 
+        #region Events
         private void datagridDepreciaciones_Loaded(object sender, RoutedEventArgs e)
         {
             if (datagridDepreciaciones.Columns.Count > 0)
@@ -114,5 +119,7 @@ namespace UCR.Negotium.UserControls
                 datagridDepreciaciones.Columns[0].Width = 130;
             }
         }
+        #endregion
+
     }
 }

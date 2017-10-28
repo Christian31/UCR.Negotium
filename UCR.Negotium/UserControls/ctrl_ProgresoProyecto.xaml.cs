@@ -18,14 +18,16 @@ namespace UCR.Negotium.UserControls
 
             DataContext = this;
         }
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
+        #region InternalMethods
         public void Reload(List<bool> statusSteps)
         {
             StatusSteps = statusSteps;
         }
+        #endregion
 
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
-
+        #region Properties
         public List<bool> StatusSteps
         {
             get
@@ -38,5 +40,6 @@ namespace UCR.Negotium.UserControls
                 PropertyChanged(this, new PropertyChangedEventArgs("StatusSteps"));
             }
         }
+        #endregion
     }
 }

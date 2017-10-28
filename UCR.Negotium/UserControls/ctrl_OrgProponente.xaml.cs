@@ -49,13 +49,6 @@ namespace UCR.Negotium.UserControls
             tipoOrganizaciones = tipoOrganizacionData.GetTipoOrganizaciones();
         }
 
-        public void Reload()
-        {
-            OrgProponente = orgProponenteData.GetOrganizacionProponente(CodProyecto);
-            MantenerCambios();
-            proyecto = proyectoData.GetProyecto(CodProyecto);
-        }
-
         #region Properties
         public int CodProyecto
         {
@@ -142,122 +135,16 @@ namespace UCR.Negotium.UserControls
                 cbTipoOrganizaciones.SelectedItem = tipoSelected;
             }
         }
-        #endregion
-
-        #region InternalMethods
-        public bool ValidateRequiredFields()
-        {
-            bool validationResult = false;
-            if (string.IsNullOrWhiteSpace(tbNombreProponente.Text))
-            {
-                tbNombreProponente.ToolTip = CAMPOREQUERIDO;
-                tbNombreProponente.BorderBrush = Brushes.Red;
-                validationResult = true;
-            }
-            if (string.IsNullOrWhiteSpace(tbApellidosProponente.Text))
-            {
-                tbApellidosProponente.ToolTip = CAMPOREQUERIDO;
-                tbApellidosProponente.BorderBrush = Brushes.Red;
-                validationResult = true;
-            }
-            if (string.IsNullOrWhiteSpace(tbCedulaProponente.Text))
-            {
-                tbCedulaProponente.ToolTip = CAMPOREQUERIDO;
-                tbCedulaProponente.BorderBrush = Brushes.Red;
-                validationResult = true;
-            }
-            if (!numbers.IsMatch(tbTelefonoProponente.Text))
-            {
-                tbTelefonoProponente.ToolTip = CAMPOREQUERIDO;
-                tbTelefonoProponente.BorderBrush = Brushes.Red;
-                validationResult = true;
-            }
-            if (!emailExpresion.IsMatch(tbCorreoProponente.Text))
-            {
-                tbCorreoProponente.ToolTip = CAMPOREQUERIDO;
-                tbCorreoProponente.BorderBrush = Brushes.Red;
-                validationResult = true;
-            }
-
-            if (!OrgProponente.Proponente.EsRepresentanteIndividual)
-            {
-                if (string.IsNullOrWhiteSpace(tbNombreOrganizacion.Text))
-                {
-                    tbNombreOrganizacion.ToolTip = CAMPOREQUERIDO;
-                    tbNombreOrganizacion.BorderBrush = Brushes.Red;
-                    validationResult = true;
-                }
-                if (string.IsNullOrWhiteSpace(tbCedulaOrganizacion.Text))
-                {
-                    tbCedulaOrganizacion.ToolTip = CAMPOREQUERIDO;
-                    tbCedulaOrganizacion.BorderBrush = Brushes.Red;
-                    validationResult = true;
-                }
-                if (!numbers.IsMatch(tbTelefonoOrganizacion.Text))
-                {
-                    tbTelefonoOrganizacion.ToolTip = CAMPOREQUERIDO;
-                    tbTelefonoOrganizacion.BorderBrush = Brushes.Red;
-                    validationResult = true;
-                }
-
-                if (!emailExpresion.IsMatch(tbCorreoOrganizacion.Text))
-                {
-                    tbCorreoOrganizacion.ToolTip = CAMPOREQUERIDO;
-                    tbCorreoOrganizacion.BorderBrush = Brushes.Red;
-                    validationResult = true;
-                }
-            }
-
-            return validationResult;
-        }
-
-        #endregion
-
-        int tipoOrg;
-        string nombreOrg;
-        string cedulaOrg;
-        string telefonoOrg;
-        string correoOrg;
 
         private void cbSoyRepresentanteIndividual_Checked(object sender, RoutedEventArgs e)
         {
-            MantenerCambios(limpiarCambios:true);
+            MantenerCambios(limpiarCambios: true);
             cbTipoOrganizaciones.SelectedItem = TipoOrganizaciones.LastOrDefault();
         }
 
         private void cbNoSoyRepresentanteIndividual_Checked(object sender, RoutedEventArgs e)
         {
-            MantenerCambios(recuperarCambios:true);
-        }
-
-        private void MantenerCambios(bool recuperarCambios = false, bool limpiarCambios = false)
-        {
-            if (recuperarCambios)
-            {
-                OrgProponente.NombreOrganizacion = nombreOrg;
-                OrgProponente.CedulaJuridica = cedulaOrg;
-                OrgProponente.Telefono = telefonoOrg;
-                OrgProponente.CorreoElectronico = correoOrg;
-                OrgProponente.Tipo.CodTipo = tipoOrg;
-            }
-            else
-            {
-                tipoOrg = OrgProponente.Tipo.CodTipo;
-                nombreOrg = OrgProponente.NombreOrganizacion;
-                cedulaOrg = OrgProponente.CedulaJuridica;
-                telefonoOrg = OrgProponente.Telefono;
-                correoOrg = OrgProponente.CorreoElectronico;
-
-                if (limpiarCambios)
-                {
-                    OrgProponente.NombreOrganizacion =
-                    OrgProponente.CedulaJuridica =
-                    OrgProponente.Telefono =
-                    OrgProponente.CorreoElectronico = string.Empty;
-                }
-            }
-
-            PropertyChanged(this, new PropertyChangedEventArgs("OrgProponente"));
+            MantenerCambios(recuperarCambios: true);
         }
 
         private void tbNombreProponente_TextChanged(object sender, TextChangedEventArgs e)
@@ -340,5 +227,116 @@ namespace UCR.Negotium.UserControls
                 tbCorreoOrganizacion.ToolTip = "";
             }
         }
+        #endregion
+
+        #region InternalMethods
+        public void Reload()
+        {
+            OrgProponente = orgProponenteData.GetOrganizacionProponente(CodProyecto);
+            MantenerCambios();
+            proyecto = proyectoData.GetProyecto(CodProyecto);
+        }
+
+        public bool ValidateRequiredFields()
+        {
+            bool validationResult = false;
+            if (string.IsNullOrWhiteSpace(tbNombreProponente.Text))
+            {
+                tbNombreProponente.ToolTip = CAMPOREQUERIDO;
+                tbNombreProponente.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+            if (string.IsNullOrWhiteSpace(tbApellidosProponente.Text))
+            {
+                tbApellidosProponente.ToolTip = CAMPOREQUERIDO;
+                tbApellidosProponente.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+            if (string.IsNullOrWhiteSpace(tbCedulaProponente.Text))
+            {
+                tbCedulaProponente.ToolTip = CAMPOREQUERIDO;
+                tbCedulaProponente.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+            if (!numbers.IsMatch(tbTelefonoProponente.Text))
+            {
+                tbTelefonoProponente.ToolTip = CAMPOREQUERIDO;
+                tbTelefonoProponente.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+            if (!emailExpresion.IsMatch(tbCorreoProponente.Text))
+            {
+                tbCorreoProponente.ToolTip = CAMPOREQUERIDO;
+                tbCorreoProponente.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+
+            if (!OrgProponente.Proponente.EsRepresentanteIndividual)
+            {
+                if (string.IsNullOrWhiteSpace(tbNombreOrganizacion.Text))
+                {
+                    tbNombreOrganizacion.ToolTip = CAMPOREQUERIDO;
+                    tbNombreOrganizacion.BorderBrush = Brushes.Red;
+                    validationResult = true;
+                }
+                if (string.IsNullOrWhiteSpace(tbCedulaOrganizacion.Text))
+                {
+                    tbCedulaOrganizacion.ToolTip = CAMPOREQUERIDO;
+                    tbCedulaOrganizacion.BorderBrush = Brushes.Red;
+                    validationResult = true;
+                }
+                if (!numbers.IsMatch(tbTelefonoOrganizacion.Text))
+                {
+                    tbTelefonoOrganizacion.ToolTip = CAMPOREQUERIDO;
+                    tbTelefonoOrganizacion.BorderBrush = Brushes.Red;
+                    validationResult = true;
+                }
+
+                if (!emailExpresion.IsMatch(tbCorreoOrganizacion.Text))
+                {
+                    tbCorreoOrganizacion.ToolTip = CAMPOREQUERIDO;
+                    tbCorreoOrganizacion.BorderBrush = Brushes.Red;
+                    validationResult = true;
+                }
+            }
+
+            return validationResult;
+        }
+
+        int tipoOrg;
+        string nombreOrg;
+        string cedulaOrg;
+        string telefonoOrg;
+        string correoOrg;
+        private void MantenerCambios(bool recuperarCambios = false, bool limpiarCambios = false)
+        {
+            if (recuperarCambios)
+            {
+                OrgProponente.NombreOrganizacion = nombreOrg;
+                OrgProponente.CedulaJuridica = cedulaOrg;
+                OrgProponente.Telefono = telefonoOrg;
+                OrgProponente.CorreoElectronico = correoOrg;
+                OrgProponente.Tipo.CodTipo = tipoOrg;
+            }
+            else
+            {
+                tipoOrg = OrgProponente.Tipo.CodTipo;
+                nombreOrg = OrgProponente.NombreOrganizacion;
+                cedulaOrg = OrgProponente.CedulaJuridica;
+                telefonoOrg = OrgProponente.Telefono;
+                correoOrg = OrgProponente.CorreoElectronico;
+
+                if (limpiarCambios)
+                {
+                    OrgProponente.NombreOrganizacion =
+                    OrgProponente.CedulaJuridica =
+                    OrgProponente.Telefono =
+                    OrgProponente.CorreoElectronico = string.Empty;
+                }
+            }
+
+            PropertyChanged(this, new PropertyChangedEventArgs("OrgProponente"));
+        }
+        #endregion
     }
 }

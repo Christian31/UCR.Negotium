@@ -34,6 +34,7 @@ namespace UCR.Negotium.UserControls
             inversionData = new InversionData();
         }
 
+        #region InternalMethods
         public void Reload()
         {
             SignoMoneda = LocalContext.GetSignoMoneda(codProyecto);
@@ -52,6 +53,7 @@ namespace UCR.Negotium.UserControls
             PropertyChanged(this, new PropertyChangedEventArgs("InversionesList"));
             PropertyChanged(this, new PropertyChangedEventArgs("InversionesTotal"));
         }
+        #endregion
 
         #region Properties
         public string SignoMoneda

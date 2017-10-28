@@ -8,88 +8,91 @@
         WindowStartupLocation="CenterScreen" Style="{StaticResource dialogsStyle}"
         Title="Indicadores | Negotium v1.0" Height="500" Width="400">
     <Grid Margin="10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1.5*"/>
-                <RowDefinition Height="7.5*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="180"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <RichTextBox FontSize="14" BorderThickness="0" Grid.ColumnSpan="2">
-                <FlowDocument>
-                    <Paragraph>
-                        <Run Text="Se recomienda aceptar su proyecto cuando la Tasa Interna de Retorno (TIR) es mayor a la Tasa de Costo de Capital y a su vez cuando se obtiene un VAN positivo."/>
-                    </Paragraph>
-                </FlowDocument>
-            </RichTextBox>
-            <StackPanel Grid.Row="1">
-                <Grid Style="{StaticResource gridFormStyle}">
-                    <Label Content="Tasa de Costo de Capital:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                </Grid>
-                <Grid Style="{StaticResource gridFormStyle}">
-                    <Label Content="TIR:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                </Grid>
-                <Grid Style="{StaticResource gridFormStyle}">
-                    <Label Content="VAN:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                </Grid>
-                <Grid Style="{StaticResource gridFormStyle}">
-                    <Label Content="Personas Participantes:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                </Grid>
-                <Grid Style="{StaticResource gridFormStyle}">
-                    <Label Content="Familias Involucradas:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                </Grid>
-                <Grid Style="{StaticResource gridFormStyle}">
-                    <Label Content="Beneficiarios Indirectos:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                </Grid>
-                <Grid Style="{StaticResource gridFormStyle}">
-                    <Label Content="VAN/Personas Participantes:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                </Grid>
-                <Grid Style="{StaticResource gridFormStyle}">
-                    <Label Content="VAN/Familias Involucradas:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                </Grid>
-                <Grid Style="{StaticResource gridFormStyle}">
-                    <Label Content="VAN/Beneficiarios Indirectos:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                </Grid>
-            </StackPanel>
-            <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,27,0">
-                <Grid Style="{StaticResource gridFormStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="7.5*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <RichTextBox FontSize="14" BorderThickness="0" Grid.ColumnSpan="2">
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text="Se recomienda aceptar su proyecto cuando la Tasa Interna de Retorno (TIR) es mayor a la Tasa de Costo de Capital y a su vez cuando se obtiene un VAN positivo."/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+        <StackPanel Grid.Row="1">
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Label Content="Tasa de Costo de Capital:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Label Content="TIR:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Label Content="VAN:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Label Content="Personas Participantes:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Label Content="Familias Involucradas:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Label Content="Beneficiarios Indirectos:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Label Content="VAN/Personas Participantes:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Label Content="VAN/Familias Involucradas:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Label Content="VAN/Beneficiarios Indirectos:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,27,0">
+            <Grid Style="{StaticResource gridFormStyle}">
                 <TextBox Text="{Binding Path=ProyectoSelected.TasaCostoCapital, Mode=TwoWay, StringFormat={}{0:N}}" Name="tbTasaCostoCapital" 
                          TextChanged="tbTasaCostoCapital_TextChanged" GotFocus="tbNumeros_GotFocus" LostFocus="tbNumeros_LostFocus"/>
-                </Grid>
-                <Grid Style="{StaticResource gridFormStyle}">
-                    <TextBox Text="{Binding TIR}" IsEnabled="False"/>
-                </Grid>
-                <Grid Style="{StaticResource gridFormStyle}">
-                    <TextBox Text="{Binding VAN, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
-                </Grid>
-                <Grid Style="{StaticResource gridFormStyle}">
-                <TextBox Text="{Binding Path=ProyectoSelected.PersonasParticipantes}" x:Name="tbPersonasParticipantes" TextChanged="tbPersonasParticipantes_TextChanged"/>
-                </Grid>
-                <Grid Style="{StaticResource gridFormStyle}">
-                    <TextBox Text="{Binding Path=ProyectoSelected.FamiliasInvolucradas}" x:Name="tbFamiliasInvolucradas" TextChanged="tbFamiliasInvolucradas_TextChanged"/>
-                </Grid>
-                <Grid Style="{StaticResource gridFormStyle}">
-                    <TextBox Text="{Binding Path=ProyectoSelected.PersonasBeneficiadas}" x:Name="tbPersonasBeneficiadas" TextChanged="tbPersonasBeneficiadas_TextChanged"/>
-                </Grid>
-                <Grid Style="{StaticResource gridFormStyle}">
-                    <TextBox Text="{Binding VANPersonas, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
-                </Grid>
-                <Grid Style="{StaticResource gridFormStyle}">
-                    <TextBox Text="{Binding VANFamilias, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
-                </Grid>
-                <Grid Style="{StaticResource gridFormStyle}">
-                    <TextBox Text="{Binding VANBeneficiarios, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
-                </Grid>
-            </StackPanel>
-            <Grid Grid.Row="2" Grid.ColumnSpan="2">
-                <Button  Name="btnGuardar" Content="Guardar" Click="btnGuardar_Click" Width="75"
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <TextBox Text="{Binding TIR}" IsEnabled="False"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <TextBox Text="{Binding VAN, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <TextBox Text="{Binding Path=ProyectoSelected.PersonasParticipantes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                         x:Name="tbPersonasParticipantes" TextChanged="tbPersonasParticipantes_TextChanged"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <TextBox Text="{Binding Path=ProyectoSelected.FamiliasInvolucradas, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                         x:Name="tbFamiliasInvolucradas" TextChanged="tbFamiliasInvolucradas_TextChanged"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <TextBox Text="{Binding Path=ProyectoSelected.PersonasBeneficiadas, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                         x:Name="tbPersonasBeneficiadas" TextChanged="tbPersonasBeneficiadas_TextChanged"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <TextBox Text="{Binding VANPersonas, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <TextBox Text="{Binding VANFamilias, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <TextBox Text="{Binding VANBeneficiarios, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+            </Grid>
+        </StackPanel>
+        <Grid Grid.Row="2" Grid.ColumnSpan="2">
+            <Button  Name="btnGuardar" Content="Guardar" Click="btnGuardar_Click" Width="75"
                      HorizontalAlignment="Left" Margin="70,0,0,0" Grid.Row="2" VerticalAlignment="Top"/>
 
-                <Button Name="btnCancelar" Content="Cancelar" Width="75"
+            <Button Name="btnCancelar" Content="Cancelar" Width="75"
                     HorizontalAlignment="Right" Margin="0,0,70,0" Grid.Row="2" VerticalAlignment="Top"
                     Click="btnCancelar_Click"/>
-            </Grid>
         </Grid>
+    </Grid>
 </Controls:MetroWindow>

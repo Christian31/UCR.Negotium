@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Globalization;
+using System.Threading;
 using System.Windows;
+using System.Windows.Markup;
 
 namespace UCR.Negotium
 {
@@ -14,6 +17,17 @@ namespace UCR.Negotium
             var application = new App();
             application.InitializeComponent();
             application.Run();
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
+
+            FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement),
+              new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+
+            base.OnStartup(e);
         }
     }
 }

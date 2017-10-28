@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UCR.Librerias", "UCR.Librer
 		UCR.Librerias\System.Data.SQLite.dll = UCR.Librerias\System.Data.SQLite.dll
 	EndProjectSection
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Negotium 1.0", "Negotium 1.0\Negotium 1.0.vdproj", "{517C7993-EAAC-427A-8721-E63F2B26958D}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Negotium 1.0.0.20171018", "Negotium 1.0.0.20171018\Negotium 1.0.0.20171018.vdproj", "{40731F73-E334-4D6B-9EE2-F88E33601F5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,8 +37,8 @@ Global
 		{0E4A0C2E-8313-430E-AC03-20488A349FEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E4A0C2E-8313-430E-AC03-20488A349FEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E4A0C2E-8313-430E-AC03-20488A349FEA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{517C7993-EAAC-427A-8721-E63F2B26958D}.Debug|Any CPU.ActiveCfg = Debug
-		{517C7993-EAAC-427A-8721-E63F2B26958D}.Release|Any CPU.ActiveCfg = Release
+		{40731F73-E334-4D6B-9EE2-F88E33601F5F}.Debug|Any CPU.ActiveCfg = Debug
+		{40731F73-E334-4D6B-9EE2-F88E33601F5F}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

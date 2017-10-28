@@ -55,6 +55,10 @@ namespace UCR.Negotium.UserControls
         {
             proyecto = proyectoData.GetProyecto(CodProyecto);
             FinanciamientoSelected = financiamientoData.GetFinanciamiento(CodProyecto);
+
+            FinanciamientoSelected.MontoFinanciamientoFormat = LocalContext.GetSignoMoneda(codProyecto) 
+                + " " + FinanciamientoSelected.MontoFinanciamiento.ToString("#,##0.##");
+
             FinanciamientoSelected.TasaIntereses = interesData.GetInteresesFinanciamiento(CodProyecto);
 
             if (FinanciamientoSelected.CodFinanciamiento.Equals(0))
@@ -179,13 +183,20 @@ namespace UCR.Negotium.UserControls
 
         private void tbMonto_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (tbMonto.BorderBrush == Brushes.Red)
+            if (tbMontotxtChngEvent)
             {
-                tbMonto.BorderBrush = Brushes.Gray;
-                tbMonto.ToolTip = "Ingrese en este campo el monto del Financiamiento que desea registrar";
-            }
+                if (tbMonto.BorderBrush == Brushes.Red)
+                {
+                    tbMonto.BorderBrush = Brushes.Gray;
+                    tbMonto.ToolTip = "Ingrese en este campo el monto del Financiamiento que desea registrar";
+                }
 
-            tbMonto.Text = tbMonto.Text.CheckStringFormat();
+                tbMonto.Text = tbMonto.Text.CheckStringFormat();
+            }
+            else
+            {
+                tbMontotxtChngEvent = true;
+            }            
         }
 
         private void lblTasaInteres_Click(object sender, RoutedEventArgs e)
@@ -377,6 +388,25 @@ namespace UCR.Negotium.UserControls
             else
             {
                 DTFinanciamiento = new DataView();
+            }
+        }
+
+        bool tbMontotxtChngEvent = true;
+        private void tbMonto_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbMonto.Text.Equals("0") || tbMonto.Text.Equals("0.00"))
+            {
+                tbMontotxtChngEvent = false;
+                tbMonto.Text = "";
+            }
+        }
+
+        private void tbMonto_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbMonto.Text.Equals(""))
+            {
+                tbMontotxtChngEvent = false;
+                tbMonto.Text = "0.00";
             }
         }
 

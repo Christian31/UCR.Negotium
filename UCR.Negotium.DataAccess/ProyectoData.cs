@@ -296,6 +296,7 @@ namespace UCR.Negotium.DataAccess
                             proyecto.Canton.CodCanton = int.Parse(reader["cod_canton"].ToString());
                             proyecto.Provincia.CodProvincia = int.Parse(reader["cod_provincia"].ToString());
                             proyecto.Distrito.CodDistrito = int.Parse(reader["cod_distrito"].ToString());
+                            proyecto.Encargado.IdEncargado = int.Parse(reader["cod_evaluador"].ToString());
                             proyecto.CaraterizacionDelBienServicio = reader["categorizacion_bien_servicio"].ToString();
                             proyecto.CodProyecto = int.Parse(reader["cod_proyecto"].ToString());
                             proyecto.ConIngresos = bool.Parse(reader["con_ingresos"].ToString());

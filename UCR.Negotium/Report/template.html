@@ -21,7 +21,7 @@
                         </h1>
                     </div>
                 </div>
-                <!-- /.row -->
+                <!-- /.Informacion General -->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
@@ -30,11 +30,12 @@
                             </div>
                             <div class="panel-body">
                                 <div class="col-lg-4">
-                                    <div class="panel panel-default panel-body">
+                                    <div class="panel panel-body">
                                         <div class="form-group"> Año Inicial del proyecto: <b>$proyecto.AnoInicial</b></div>
                                         <div class="form-group"> Horizonte de evaluación (años): <b>$proyecto.HorizonteEvaluacionEnAnos Años</b></div>
                                         <div class="form-group"> Paga Impuestos: 
-                                        <b>#if ($proyecto.PagaImpuesto) Si #else No #end</b></div>
+                                            <b>#if ($proyecto.PagaImpuesto) Si #else No #end</b>
+                                        </div>
                                         <div class="form-group"> Porcentaje de Impuesto: <b>$proyecto.PorcentajeImpuesto %</b></div>
                                         <div class="form-group"> Posee Financiamiento:
                                             <b>#if ($proyecto.ConFinanciamiento) Si #else No #end</b> 
@@ -56,7 +57,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.row -->
+                <!-- /.Organizacion Proponente -->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
@@ -95,7 +96,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.row -->
+                <!-- /.Caracterizacion -->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
@@ -111,7 +112,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.row -->
+                <!-- /.Inversiones -->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
@@ -133,17 +134,17 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            #foreach( $inversion in $proyecto.RequerimientosInversion )
                                             <tr>
-                                                #foreach( $inversion in $proyecto.RequerimientosInversion )
                                                 <td>$inversion</td>
                                                 <td>$inversion.Cantidad</td>
-                                                <td>$inversion.UnidadMedida</td>
                                                 <td>$inversion.CostoUnitarioFormat</td>
+                                                <td>$inversion.UnidadMedida</td>
                                                 <td>#if ($inversion.Depreciable) Si #else No #end
                                                 <td>$inversion.VidaUtil Años</td>
                                                 <td>$inversion.SubtotalFormat</td>
-                                                #end
                                             </tr>
+                                            #end
                                         </tbody>
                                     </table>
                                 </div>
@@ -153,7 +154,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.row -->
+                <!-- /.Reinversiones -->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
@@ -176,8 +177,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            #foreach( $reinversion in $proyecto.RequerimientosReinversion )
                                             <tr>
-                                                #foreach( $reinversion in $proyecto.RequerimientosReinversion )
                                                 <td>$reinversion.DescripcionRequerimiento</td>
                                                 <td>$reinversion.Cantidad</td>
                                                 <td>$reinversion.CostoUnitarioFormat</td>
@@ -186,8 +187,8 @@
                                                 <td>$reinversion.VidaUtil Años</td>
                                                 <td>$reinversion.AnoReinversion</td>
                                                 <td>$reinversion.SubtotalFormat</td>
-                                                #end
                                             </tr>
+                                            #end
                                         </tbody>
                                     </table>
                                 </div>
@@ -215,44 +216,64 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.row -->
+                <!-- /.Proyecciones -->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Proyección de Ventas</h3>
+                                <h3 class="panel-title">Proyecciones de Ventas</h3>
                             </div>
                             <div class="panel-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Articulo</th>
-                                                <th>Cantidad</th>
-                                                <th>Costo Unitario</th>
-                                                <th>Unidad de Medida</th>
-                                                <th>Depreciable</th>
-                                                <th>Vida Útil</th>
-                                                <th>Año Reinversión</th>
-                                                <th>Subtotal</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                #foreach( $reinversion in $proyecto.RequerimientosReinversion )
-                                                <td>$reinversion.DescripcionRequerimiento</td>
-                                                <td>$reinversion.Cantidad</td>
-                                                <td>$reinversion.CostoUnitarioFormat</td>
-                                                <td>$reinversion.UnidadMedida</td>
-                                                <td>#if ($reinversion.Depreciable) Si #else No #end
-                                                <td>$reinversion.VidaUtil Años</td>
-                                                <td>$reinversion.AnoReinversion</td>
-                                                <td>$reinversion.SubtotalFormat</td>
-                                                #end
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                #foreach( $proyeccion in $proyecto.Proyecciones )
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <div class="form-group"> Nombre de Producto o Servicio: <b>$proyeccion.NombreArticulo</b></div>
+                                        <div class="form-group"> Unidad de Medida: <b>$proyeccion.UnidadMedida</b></div>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover table-striped">
+                                                <caption>Año Inicial</caption>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Mes</th>
+                                                        <th>Cantidad</th>
+                                                        <th>Precio</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    #foreach( $detalle in $proyeccion.DetallesProyeccionVenta )
+                                                    <tr>
+                                                        <td>$detalle.Mes</td>
+                                                        <td>$detalle.Cantidad</td>
+                                                        <td>$detalle.PrecioFormat</td>
+                                                    </tr>
+                                                    #end
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <br />
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover table-striped">
+                                                <caption>Crecimiento Anual de Oferta</caption>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Año</th>
+                                                        <th>Porcentaje de Crecimiento (%)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    #foreach( $crecimiento in $proyeccion.CrecimientoOferta )
+                                                    <tr>
+                                                        <td>$crecimiento.AnoCrecimiento</td>
+                                                        <td>$crecimiento.PorcentajeCrecimiento %</td>
+                                                    </tr>
+                                                    #end
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <br/>
+                                    </div>
                                 </div>
+                                #end
                                 <br />
                                 <div class="table-responsive col-lg-6">
                                     <table class="table table-bordered table-hover table-striped">
@@ -279,7 +300,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.row -->
+                <!-- /.Costos -->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
@@ -287,48 +308,45 @@
                                 <h3 class="panel-title">Costos del Proyecto</h3>
                             </div>
                             <div class="panel-body">
-                                <div class="table-responsive">
-                                     <table class="table table-bordered table-hover table-striped">
-                                         <caption> Variación Anual de Costos </caption>
-                                     </table>
+                                #foreach( $costo in $proyecto.Costos )
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <div class="form-group"> Nombre de Costo: <b>$costo.NombreCosto</b></div>
+                                        <div class="form-group"> Año inicial del Costo: <b>$costo.AnoCosto</b></div>
+                                        <div class="form-group"> Unidad de Medida: <b>$costo.UnidadMedida</b></div>
+                                        <div class="form-group"> Categoría: <b>$costo.CategoriaCosto</b></div>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Mes</th>
+                                                        <th>Cantidad</th>
+                                                        <th>Precio</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    #foreach( $costoMensual in $costo.CostosMensuales )
+                                                    <tr>
+                                                        <td>$costoMensual.Mes</td>
+                                                        <td>$costoMensual.Cantidad</td>
+                                                        <td>$costoMensual.CostoUnitarioFormat</td>
+                                                    </tr>
+                                                    #end
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <br />
+                                    </div>
                                 </div>
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Articulo</th>
-                                                <th>Cantidad</th>
-                                                <th>Costo Unitario</th>
-                                                <th>Unidad de Medida</th>
-                                                <th>Depreciable</th>
-                                                <th>Vida Útil</th>
-                                                <th>Año Reinversión</th>
-                                                <th>Subtotal</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                #foreach( $reinversion in $proyecto.RequerimientosReinversion )
-                                                <td>$reinversion.DescripcionRequerimiento</td>
-                                                <td>$reinversion.Cantidad</td>
-                                                <td>$reinversion.CostoUnitarioFormat</td>
-                                                <td>$reinversion.UnidadMedida</td>
-                                                <td>#if ($reinversion.Depreciable) Si #else No #end
-                                                <td>$reinversion.VidaUtil Años</td>
-                                                <td>$reinversion.AnoReinversion</td>
-                                                <td>$reinversion.SubtotalFormat</td>
-                                                #end
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <br />
+                                #end
+                                <br/>
                                 <div class="table-responsive col-lg-6">
                                     <table class="table table-bordered table-hover table-striped">
                                         <caption>Costos Generados por año:</caption>
                                         <thead>
                                             <tr>
                                                 <th>Año</th>
+                                                <th>Variación Anual de Costos(%)</th>
                                                 <th>Monto</th>
                                             </tr>
                                         </thead>
@@ -336,7 +354,8 @@
                                             <tr>
                                                 #foreach( $anoCosto in $costosTotal )
                                                 <td>$anoCosto.Key</td>
-                                                <td>$anoCosto.Value</td>
+                                                <td>$anoCosto.Value.Item1 %</td>
+                                                <td>$anoCosto.Value.Item2</td>
                                             </tr>
                                             <tr>
                                                 #end
@@ -348,7 +367,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.row -->
+                <!-- /.Capital Trabajo -->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
@@ -360,33 +379,31 @@
                                     <table class="table table-bordered table-hover table-striped">
                                         <thead>
                                             <tr>
-                                                <th>Rubro</th>
-                                                <th>{{ANOCAPITAL}}</th>
+                                                <th>Año</th>
+                                                <th>Costos variables</th>
+                                                <th>Capital de trabajo</th>
+                                                <th>Incremental</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            #foreach( $row in $capitalTrabajo )
                                             <tr>
-                                                <td>Costos variables</td>
-                                                <td>{{MONTOCAPITAL}}</td>
+                                                <td>$row.Key</td>
+                                                <td>$row.Value.Item1</td>
+                                                <td>$row.Value.Item2</td>
+                                                <td>$row.Value.Item3</td>
                                             </tr>
-                                            <tr>
-                                                <td>Capital de trabajo</td>
-                                                <td>{{MONTOCAPITAL}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Incremental</td>
-                                                <td>{{MONTOCAPITAL}}</td>
-                                            </tr>
+                                            #end
                                         </tbody>
                                     </table>
                                 </div>
                                 <br />
-                                Recuperación Costo Total: <b>{{RECUPERACIONCAPITAL}}</b>
+                                Recuperación Costo Total: <b>$recuperacionCT</b>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- /.row -->
+                <!-- /.Depreciaciones -->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
@@ -394,18 +411,46 @@
                                 <h3 class="panel-title">Depreciaciones</h3>
                             </div>
                             <div class="panel-body">
+                                #foreach ($page in $depreciaciones)
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover table-striped">
                                         <thead>
                                             <tr>
-                                                <th>Descripción</th>
-                                                <th>{{ANOHORIZONTE}}</th>
+                                                #foreach ($column in $page.Table.Columns)
+                                                <th>$column</th>
+                                                #end
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            #foreach( $dep in $page )
+                                            <tr>
+                                                #foreach( $valor in $dep.Row.ItemArray)
+                                                <td>$valor</td>
+                                                #end
+                                            </tr>
+                                            #end
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br />
+                                #end
+                                <div class="table-responsive col-lg-6">
+                                    <table class="table table-bordered table-hover table-striped">
+                                        <caption>Depreciaciones Totales:</caption>
+                                        <thead>
+                                            <tr>
+                                                <th>Año</th>
+                                                <th>Monto</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>{{DESCRIPCIONDEPRECIACION}}</td>
-                                                <td>{{MONTODEPRECIACION}}</td>
+                                                #foreach( $depTotal in $depreciacionesTotal )
+                                                <td>$depTotal.Key</td>
+                                                <td>$depTotal.Value</td>
+                                            </tr>
+                                            <tr>
+                                                #end
                                             </tr>
                                         </tbody>
                                     </table>
@@ -414,7 +459,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.row -->
+                <!-- /.Financiamiento -->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
@@ -422,30 +467,43 @@
                                 <h3 class="panel-title">Financiamiento</h3>
                             </div>
                             <div class="panel-body">
-                                <div class="col-lg-6 form-group"> Monto: <b>{{MONTOIV}}</b></div>
-                                <div class="col-lg-6 form-group"> Tiempo en Años: <b>{{TIEMPOIV}}</b></div>
-                                <div class="col-lg-6 form-group"> Año inicial del préstamo: <b>{{ANOINICIALPAGOIV}}</b><br /></div>
+                                <div class="col-lg-6 form-group"> Monto: <b>$proyecto.Financiamiento.MontoFinanciamientoFormat</b></div>
+                                <div class="col-lg-6 form-group"> Año inicial del préstamo: <b>$proyecto.Financiamiento.AnoInicialPago</b><br /></div>
+                                <div class="col-lg-6 form-group"> Año final del préstamo: <b>$proyecto.Financiamiento.AnoFinalPago</b><br /></div>
+                                #if ($proyecto.Financiamiento.InteresFijo)
+                                <div class="col-lg-6 form-group">
+                                    Tasa de Interés:
+                                    <b>
+                                        #foreach( $interes in $proyecto.Financiamiento.TasaIntereses )
+                                        $interes.PorcentajeInteres %
+                                        #end
+                                    </b>
+                                </div>
+                                #else
                                 <div class="col-lg-12 table-responsive">
                                     <table class="table table-bordered table-hover table-striped">
                                         <caption>Tasa de Interés</caption>
                                         <thead>
                                             <tr>
-                                                <th></th>
-                                                <th>{{ANOHORIZONTE}}</th>
+                                                <th>Año</th>
+                                                <th>Porcentaje interés (%)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            #foreach( $interes in $proyecto.Financiamiento.TasaIntereses )
                                             <tr>
-                                                <td>Porcentaje interés (%)</td>
-                                                <td>{{PORCENTAJEINTERES}}</td>
+                                                <td>$interes.AnoInteres</td>
+                                                <td>$interes.PorcentajeInteres %</td>
                                             </tr>
+                                            #end
                                         </tbody>
                                     </table>
                                     <br /><br />
                                 </div>
-
+                                #end
                                 <div class="col-lg-12 table-responsive">
                                     <table class="table table-bordered table-hover table-striped">
+                                        <caption>Amortización del Préstamo</caption>
                                         <thead>
                                             <tr>
                                                 <th>Año de Pago</th>
@@ -456,13 +514,13 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            #foreach( $amortizacion in $financiamiento )
                                             <tr>
-                                                <td>{{ANOPAGOIV}}</td>
-                                                <td>{{SALDOPAGOIV}}</td>
-                                                <td>{{CUOTAPAGOIV}}</td>
-                                                <td>{{INTERESPAGOIV}}</td>
-                                                <td>{{AMORTIZACIONPAGOIV}}</td>
+                                                #foreach( $valor in $amortizacion.Row.ItemArray)
+                                                <td>$valor</td>
+                                                #end
                                             </tr>
+                                            #end
                                         </tbody>
                                     </table>
                                 </div>
@@ -470,7 +528,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.row -->
+                <!-- /.Flujo de Caja -->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
@@ -478,103 +536,45 @@
                                 <h3 class="panel-title">Flujo de Caja</h3>
                             </div>
                             <div class="panel-body">
-                                <div class="col-lg-12 table-responsive">
+                                #foreach ($page in $flujoCaja)
+                                <div class="table-responsive">
                                     <table class="table table-bordered table-hover table-striped">
                                         <thead>
                                             <tr>
-                                                <th>Rubro</th>
-                                                <th>{{ANOHORIZONTE}}</th>
+                                                #foreach ($column in $page.Table.Columns)
+                                                <th>$column</th>
+                                                #end
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            #foreach( $row in $page )
                                             <tr>
-                                                <td>Ventas</td>
-                                                <td>{{SALDOPAGOIF}}</td>
+                                                #foreach( $row in $row.Row.ItemArray)
+                                                <td>$row</td>
+                                                #end
                                             </tr>
-                                            <tr>
-                                                <td>Costos Totales</td>
-                                                <td>{{SALDOPAGOIF}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Depreciaciones</td>
-                                                <td>{{SALDOPAGOIF}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Utilidad Operativa</td>
-                                                <td>{{SALDOPAGOIF}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Intereses</td>
-                                                <td>{{SALDOPAGOIF}}</td>
-                                            <tr>
-                                                <td>Utilidad Antes de Impuesto</td>
-                                                <td>{{SALDOPAGOIF}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Impuesto</td>
-                                                <td>{{SALDOPAGOIF}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Utilidad Neta</td>
-                                                <td>{{SALDOPAGOIF}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Depreciaciones</td>
-                                                <td>{{SALDOPAGOIF}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Flujo Operativo</td>
-                                                <td>{{SALDOPAGOIF}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Inversiones</td>
-                                                <td>{{SALDOPAGOIF}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Préstamo</td>
-                                                <td>{{SALDOPAGOIF}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Amortzación del Préstamo</td>
-                                                <td>{{SALDOPAGOIF}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Inv. Capital Trabajo</td>
-                                                <td>{{SALDOPAGOIF}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Recuperación CT</td>
-                                                <td>{{SALDOPAGOIF}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Valor Residual</td>
-                                                <td>{{SALDOPAGOIF}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Flujo Efectivo</td>
-                                                <td>{{SALDOPAGOIF}}</td>
-                                            </tr>
+                                            #end
                                         </tbody>
                                     </table>
-                                    <br />
                                 </div>
-
+                                <br />
+                                #end
                                 <h5><b>Detalle de Indicadores</b></h5>
                                 <hr>
-                                <div class="col-lg-4 form-group"> Tasa de Costo Capital: <b>$proyecto.TasaCostoCapital</b></div>
-                                <div class="col-lg-4 form-group"> TIR: <b>{{TIEMPOIF}}</b></div>
-                                <div class="col-lg-4 form-group"> VAN: <b>{{TASAINTERESIF}}</b></div>
+                                <div class="col-lg-4 form-group"> Tasa de Costo Capital: <b>$proyecto.TasaCostoCapitalString</b></div>
+                                <div class="col-lg-4 form-group"> TIR: <b>$TIR</b></div>
+                                <div class="col-lg-4 form-group"> VAN: <b>$VAN</b></div>
                                 <div class="col-lg-4 form-group"> Personas participantes: <b>$proyecto.PersonasParticipantes</b><br /></div>
                                 <div class="col-lg-4 form-group"> Familias involucradas: <b>$proyecto.FamiliasInvolucradas</b></div>
                                 <div class="col-lg-4 form-group"> Beneficiarios indirectos: <b>$proyecto.PersonasBeneficiadas</b></div>
-                                <div class="col-lg-4 form-group"> VAN/Personas participantes: <b>{{TASAINTERESIF}}</b></div>
-                                <div class="col-lg-4 form-group"> VAN/Personas involucradas: <b>{{ANOINICIALPAGOIF}}</b><br /></div>
-                                <div class="col-lg-4 form-group"> VAN/Beneficiarios indirectos: <b>{{ANOINICIALPAGOIF}}</b><br /></div>
+                                <div class="col-lg-4 form-group"> VAN/Personas participantes: <b>$VANParticipantes</b></div>
+                                <div class="col-lg-4 form-group"> VAN/Personas involucradas: <b>$VANInvolucrados</b><br /></div>
+                                <div class="col-lg-4 form-group"> VAN/Beneficiarios indirectos: <b>$VANIndirectos</b><br /></div>
+                                <div class="col-lg-12 form-group"><b> Se recomienda aceptar su proyecto cuando la Tasa Interna de Retorno (TIR) es mayor a la Tasa de Costo de Capital y a su vez cuando se obtiene un VAN positivo. </b></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- /.row -->
             </div>
             <!-- /.container-fluid -->
         </div>

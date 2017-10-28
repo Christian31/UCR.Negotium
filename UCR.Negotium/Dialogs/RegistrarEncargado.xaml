@@ -31,7 +31,7 @@
                          TextChanged="tbApellidos_TextChanged" Width="225"/>
                 </StackPanel>
                 <StackPanel Style="{StaticResource horizontalPanelFormStyle}">
-                    <Label Content="Nommbre de la Organización:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <Label Content="Nombre de la Organización:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                     <TextBox Text="{Binding EncargadoSelected.Organizacion}" Name="tbNombreOrganizacion" 
                          TextChanged="tbNombreOrganizacion_TextChanged" Width="175"/>
                 </StackPanel>

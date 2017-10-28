@@ -8,16 +8,16 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d" Style="{StaticResource dialogsStyle}"
         WindowStartupLocation="CenterScreen" Title="Referencias | Negotium v1.0" 
-        Height="470" Width="750">
+        Height="520" Width="760">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="110"/>
+            <RowDefinition Height="90"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Vertical">
             <TextBlock Text="Referencias" FontSize="16" Margin="0,30,0,0" HorizontalAlignment="Center" FontWeight="DemiBold"/>
             <RichTextBox FontSize="14" BorderThickness="0" 
-                     IsReadOnly="True" Margin="20,10" x:Name="descripcionReferencias">
+                     IsReadOnly="True" Margin="20,0" x:Name="descripcionReferencias">
             </RichTextBox>
         </StackPanel>
         <Border Grid.Row="1" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}" 
@@ -29,7 +29,7 @@
                             <BulletDecorator.Bullet>
                                 <iconPacks:PackIconModern Width="16" Height="16" Kind="BookHardcoverOpenWriting" Foreground="Teal"/>
                             </BulletDecorator.Bullet>
-                            <RichTextBox FontSize="14" Margin="5,2" IsReadOnly="True" BorderThickness="0">
+                            <RichTextBox FontSize="12" Margin="5,2" IsReadOnly="True" BorderThickness="0">
                                 <FlowDocument>
                                     <Paragraph>
                                         <Run Text="{Binding Path=., Mode=TwoWay}"/>

@@ -8,7 +8,7 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         BorderThickness="2" BorderBrush="{DynamicResource AccentColorBrush}"
         WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
-        Title="Principal | Negotium v1.0" Height="600" Width="1000">
+        Title="Principal | Negotium v1.0" Height="650" Width="1100">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100*"/>
@@ -35,6 +35,8 @@
                         <iconPacks:PackIconModern Kind="CabinetIn" Width="12" Height="12" Margin="4,0,0,0"/>
                     </MenuItem.Icon>
                 </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Créditos" Style="{StaticResource menuItemStyle}" Click="menuItemCreditos_Click">
             </MenuItem>
             <MenuItem Header="Ayuda" Style="{StaticResource menuItemStyle}">
                 <MenuItem Header="Documentación" Click="menuItemDocumentacion_Click" Style="{StaticResource menuItemStyle}">
@@ -63,9 +65,10 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="15*"/>
                 <RowDefinition Height="50*"/>
-                <RowDefinition Height="25*"/>
+                <RowDefinition Height="20*"/>
+                <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
-            <StackPanel Grid.ColumnSpan="3" Orientation="Horizontal" Margin="0,55,30,5" HorizontalAlignment="Right">
+            <StackPanel Grid.ColumnSpan="3" Orientation="Horizontal" Margin="0,0,30,5" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                 <Label Content="Tipo Análisis: "/>
                 <ComboBox ItemsSource="{Binding TiposProyectos}" Width="120" Margin="0,0,15,0" 
                           Name="cbTipoProyecto" SelectionChanged="cbTipoProyecto_SelectionChanged"
@@ -101,9 +104,9 @@
                 </DataGrid.ContextMenu>
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Path=NombreProyecto}" Header="Nombre del Proyecto" Width="3*"/>
-                    <DataGridTextColumn Binding="{Binding Path=OrganizacionProponente.Proponente}" Header="Proponente" Width="2*"/>
+                    <DataGridTextColumn Binding="{Binding Path=OrganizacionProponente.Proponente}" Header="Proponente" Width="2.3*"/>
                     <DataGridTextColumn Binding="{Binding Path=OrganizacionProponente.NombreOrganizacion}" Header="Organización" Width="3*"/>
-                    <DataGridTextColumn Binding="{Binding Path=AnoInicial}" Header="Año Inicial" Width="2*"/>
+                    <DataGridTextColumn Binding="{Binding Path=AnoInicial}" Header="Año Inicial" Width="1.7*"/>
                     <DataGridTextColumn Binding="{Binding Path=TipoProyecto}" Header="Tipo Análisis" Width="2*"/>
                     <DataGridTemplateColumn Header="Estado" Width="2*">
                         <DataGridTemplateColumn.CellTemplate>
@@ -143,6 +146,11 @@
                     <iconPacks:PackIconModern Width="16" Height="16" Kind="FolderOpen" Foreground="Teal"/>
                 </Button>
             </Grid>
+            <StatusBar Grid.Row="3" Grid.ColumnSpan="3">
+                <StatusBarItem Margin="20,0,0,0"> Negotium 1.0 </StatusBarItem>
+                <Separator Style="{StaticResource MetroStatusBarSeparator}" />
+                <StatusBarItem> Propiedad de Universidad de Costa Rica </StatusBarItem>
+            </StatusBar>
         </Grid>
     </Grid>
 </Controls:MetroWindow>

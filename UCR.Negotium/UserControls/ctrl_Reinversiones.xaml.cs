@@ -41,6 +41,9 @@ namespace UCR.Negotium.UserControls
             totalesReinversiones = new DataView();
         }
 
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+        #region InternalMethods
         public void Reload()
         {
             DTTotalesReinversiones = new DataView();
@@ -48,9 +51,10 @@ namespace UCR.Negotium.UserControls
             SignoMoneda = LocalContext.GetSignoMoneda(CodProyecto);
             ReinversionesList = reinversionData.GetReinversiones(CodProyecto);
 
-            ReinversionesList.All(reinv => {
-                reinv.CostoUnitarioFormat = SignoMoneda +" "+ reinv.CostoUnitario.ToString("#,##0.##");
-                reinv.SubtotalFormat = SignoMoneda +" "+ reinv.Subtotal.ToString("#,##0.##");
+            ReinversionesList.All(reinv =>
+            {
+                reinv.CostoUnitarioFormat = SignoMoneda + " " + reinv.CostoUnitario.ToString("#,##0.##");
+                reinv.SubtotalFormat = SignoMoneda + " " + reinv.Subtotal.ToString("#,##0.##");
                 return true;
             });
 
@@ -65,10 +69,12 @@ namespace UCR.Negotium.UserControls
 
             if (!proyecto.RequerimientosReinversion.Count.Equals(0))
             {
-                DTTotalesReinversiones = DatatableBuilder.GenerarTotalesReinversiones(proyecto).AsDataView();
+                DTTotalesReinversiones = DatatableBuilder.GenerarReinversionesTotales(proyecto).AsDataView();
             }
         }
+        #endregion
 
+        #region Properties
         public string SignoMoneda
         {
             get { return signoMoneda; }
@@ -126,9 +132,9 @@ namespace UCR.Negotium.UserControls
                 PropertyChanged(this, new PropertyChangedEventArgs("DTTotalesReinversiones"));
             }
         }
+        #endregion
 
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
-
+        #region Events
         private void btnAgregarReinversion_Click(object sender, RoutedEventArgs e)
         {
             if (!proyecto.TipoProyecto.CodTipo.Equals(2))
@@ -184,5 +190,6 @@ namespace UCR.Negotium.UserControls
                 }
             }
         }
+        #endregion
     }
 }

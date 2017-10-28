@@ -19,5 +19,6 @@
         }
 
         public string SubtotalFormat { get; set; }
+        public string CostoUnitarioFormat { get; set; }
     }
 }

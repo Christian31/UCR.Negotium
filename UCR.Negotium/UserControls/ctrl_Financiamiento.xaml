@@ -32,8 +32,8 @@
                 </Grid.RowDefinitions>
                 <StackPanel Style="{StaticResource verticalPanelFormStyle}" Margin="30,20">
                     <Label Content="Monto a Financiar:"/>
-                    <TextBox Name="tbMonto" TextChanged="tbMonto_TextChanged"
-                             Text="{Binding Path=FinanciamientoSelected.MontoFinanciamiento, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat={}{0:N}}" 
+                    <TextBox Name="tbMonto" TextChanged="tbMonto_TextChanged" GotFocus="tbMonto_GotFocus" LostFocus="tbMonto_LostFocus"
+                             Text="{Binding Path=FinanciamientoSelected.MontoFinanciamiento, Mode=TwoWay, StringFormat={}{0:N}}" 
                              Margin="0,0,27,0" ToolTip="Ingrese en este campo el monto a financiar del Proyecto"/>
                 </StackPanel>
                 <StackPanel Style="{StaticResource verticalPanelFormStyle}" Grid.Column="1" Margin="10,20">

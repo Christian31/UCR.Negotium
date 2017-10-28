@@ -1,18 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.ComponentModel;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
 
@@ -39,6 +26,9 @@ namespace UCR.Negotium.UserControls
             orgProponenteData = new OrganizacionProponenteData();
         }
 
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+        #region Properties
         public int CodProyecto
         {
             get { return codProyecto; }
@@ -50,14 +40,15 @@ namespace UCR.Negotium.UserControls
             get { return proyecto; }
             set { proyecto = value; }
         }
+        #endregion
 
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
-
+        #region InternalMethods
         private void Reload()
         {
             ProyectoSelected = proyectoData.GetProyecto(CodProyecto);
             ProyectoSelected.OrganizacionProponente = orgProponenteData.GetOrganizacionProponente(CodProyecto);
             PropertyChanged(this, new PropertyChangedEventArgs("ProyectoSelected"));
         }
+        #endregion
     }
 }

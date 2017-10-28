@@ -27,5 +27,7 @@ namespace UCR.Negotium.Domain
         {
             get { return AnoFinalPago - AnoInicialPago + 1; }
         }
+
+        public string MontoFinanciamientoFormat { get; set; }
     }
 }

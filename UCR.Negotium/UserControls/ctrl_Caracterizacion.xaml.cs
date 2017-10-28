@@ -32,10 +32,12 @@ namespace UCR.Negotium.UserControls
             proyectoSelected = new Proyecto();
         }
 
+        #region InternalMethods
         public void Reload()
         {
             proyectoSelected = proyectoData.GetProyecto(CodProyecto);
         }
+        #endregion
 
         #region Properties
         public int CodProyecto

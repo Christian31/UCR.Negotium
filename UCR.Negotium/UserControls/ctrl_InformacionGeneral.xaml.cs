@@ -14,7 +14,6 @@ namespace UCR.Negotium.UserControls
     /// </summary>
     public partial class ctrl_InformacionGeneral : UserControl, INotifyPropertyChanged
     {
-
         private const string CAMPOREQUERIDO = "Este campo es requerido";
 
         private Proyecto proyectoSelected;
@@ -54,13 +53,6 @@ namespace UCR.Negotium.UserControls
 
             proyectoSelected.AnoInicial = 2000;
             proyectoSelected.HorizonteEvaluacionEnAnos = 2;
-        }
-
-        public void Reload()
-        {
-            ProyectoSelected = proyectoData.GetProyecto(CodProyecto);
-            nudAnoInicial.IsEnabled = nudHorizonteEvaluacion.IsEnabled = 
-                (codProyecto.Equals(0) || ProyectoSelected.TipoProyecto.CodTipo.Equals(2));
         }
 
         #region Properties
@@ -225,6 +217,18 @@ namespace UCR.Negotium.UserControls
         #endregion
 
         #region InternalMethods
+        public void AddEvaluador(int codEvaluador)
+        {
+            ProyectoSelected.Encargado.IdEncargado = codEvaluador;
+        }
+
+        public void Reload()
+        {
+            ProyectoSelected = proyectoData.GetProyecto(CodProyecto);
+            nudAnoInicial.IsEnabled = nudHorizonteEvaluacion.IsEnabled =
+                (codProyecto.Equals(0) || ProyectoSelected.TipoProyecto.CodTipo.Equals(2));
+        }
+
         private void LoadCantones()
         {
             Canton cantonSelected = (Canton)cbCanton.SelectedItem;

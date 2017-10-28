@@ -18,5 +18,6 @@
         }
 
         public string SubtotalFormat { get; set; }
+        public string PrecioFormat { get; set; }
     }
 }

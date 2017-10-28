@@ -119,7 +119,7 @@ namespace UCR.Negotium.Dialogs
 
                 try
                 {
-                    van = montoInicial + Financial.NPV(Convert.ToDouble(tbTasaCostoCapital.Text), ref flujoCaja);
+                    van = Financial.NPV(Convert.ToDouble(tbTasaCostoCapital.Text), ref flujoCaja);
                 }
                 catch { van = 0; }
                 finally
@@ -164,7 +164,6 @@ namespace UCR.Negotium.Dialogs
         private void tbFamiliasInvolucradas_TextChanged(object sender, TextChangedEventArgs e)
         {
             tbFamiliasInvolucradas.Text = tbFamiliasInvolucradas.Text.CheckStringFormat();
-
             PropertyChanged(this, new PropertyChangedEventArgs("VANFamilias"));
         }
 

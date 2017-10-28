@@ -39,11 +39,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="TabItem">
                     <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="Gainsboro" CornerRadius="4,4,0,0" Margin="2,0">
-                        <ContentPresenter x:Name="ContentSite"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Center"
-                                        ContentSource="Header"
-                                        Margin="4,2"/>
+                        <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="4,2"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
@@ -149,7 +145,7 @@
         <Setter Property="VerticalAlignment" Value="Bottom"/>
         <Setter Property="Controls:ControlsHelper.MouseOverBorderBrush" Value="{DynamicResource BlackBrush}"/>
         <Setter Property="Width" Value="120"/>
-        <Setter Property="Height" Value="60"/>
+        <Setter Property="Height" Value="55"/>
     </Style>
 
     <Style x:Key="iconLarge" TargetType="iconPacks:PackIconModern">

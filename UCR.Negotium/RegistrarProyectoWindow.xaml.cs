@@ -10,6 +10,7 @@ using UCR.Negotium.Extensions;
 using System;
 using Microsoft.VisualBasic;
 using UCR.Negotium.Dialogs;
+using UCR.Negotium.Domain.Tracing;
 
 namespace UCR.Negotium
 {
@@ -58,6 +59,11 @@ namespace UCR.Negotium
             if (!codEncargado.Equals(0))
             {
                 ProyectoSelected.Encargado = encargadoData.GetEncargado(codEncargado);
+
+                if (codProyecto.Equals(0))
+                {
+                    infoGeneral.AddEvaluador(codEncargado);
+                }
             }
 
             InitializeComponent();
@@ -279,7 +285,7 @@ namespace UCR.Negotium
 
             try
             {
-                double num2 = num[0] + Financial.NPV(ProyectoSelected.TasaCostoCapital, ref numArray);
+                double num2 = Financial.NPV(ProyectoSelected.TasaCostoCapital, ref numArray);
                 VAN = signoMoneda + " " + num2.ToString("#,##0.##");
             }
             catch { VAN = signoMoneda + " " + 0.ToString("#,##0.##"); }
@@ -332,16 +338,29 @@ namespace UCR.Negotium
                 proyecto = proyectoData.GetProyecto(ProyectoSelected.CodProyecto);
                 proyecto.OrganizacionProponente = orgProponente.OrgProponente;
                 proyecto.RequerimientosInversion = inversiones.InversionesList;
-                string totalInversiones = inversiones.InversionesTotal;
                 proyecto.RequerimientosReinversion = reinversiones.ReinversionesList;
-                DataView totalReinversiones = reinversiones.DTTotalesReinversiones;
                 proyecto.Proyecciones = proyeccionVentas.ProyeccionesList;
-                DataView proyeccionesTotal = proyeccionVentas.DTProyeccionesTotales;
                 proyecto.Costos = costos.CostosList;
-                DataView costosTotal = costos.DTCostosTotales;
+                proyecto.Financiamiento = financiamientoUc.FinanciamientoSelected;
 
-                GenerarReporte reporte = new GenerarReporte(proyecto, totalInversiones, totalReinversiones, proyeccionesTotal, costosTotal);
-                reporte.CrearReporte();
+                LlenaFlujoCaja();
+
+                try
+                {
+                    GenerarReporte reporte = new GenerarReporte(proyecto, inversiones.InversionesTotal,
+                    reinversiones.DTTotalesReinversiones, proyeccionVentas.DTProyeccionesTotales,
+                    costos.DTCostosTotales, capitalTrabajo.DTCapitalTrabajo,
+                    capitalTrabajo.RecuperacionCT, depreciaciones.DTTotalesDepreciaciones,
+                    financiamientoUc.DTFinanciamiento, DTFlujoCaja, TIR, VAN);
+
+                    reporte.CrearReporte();
+                }
+                catch (Exception ex)
+                {
+                    ex.TraceExceptionAsync();
+                    MessageBox.Show("Se ha producido un error generando el Reporte, favor asegurese que ha ingresado todos los datos del proyecto. \n Si el error persiste comunicarse con el Administrador", "Generando Reporte", 
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -398,6 +417,20 @@ namespace UCR.Negotium
                     ProyectoSelected.TipoMoneda = registrarMoneda.TipoMonedaSelected;
                     pendingSaveMoneda = true;
                 }
+            }
+        }
+
+        private void btnEncargado_Click(object sender, RoutedEventArgs e)
+        {
+            if (!ProyectoSelected.Encargado.IdEncargado.Equals(0))
+            {
+                RegistrarEncargado registrarEncargado = new RegistrarEncargado(ProyectoSelected.Encargado.IdEncargado);
+                registrarEncargado.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Este proyecto no posee un Evaluador asociado para editar, esta opción solo permite editar un Evaluador asociado con el Proyecto", 
+                    "Encargado", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
     }

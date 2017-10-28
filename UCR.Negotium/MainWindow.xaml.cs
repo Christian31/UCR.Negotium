@@ -215,6 +215,12 @@ namespace UCR.Negotium
             ReferenciasNegotium refNegotium = new ReferenciasNegotium();
             refNegotium.ShowDialog();
         }
+
+        private void menuItemCreditos_Click(object sender, RoutedEventArgs e)
+        {
+            CreditosNegotium creditos = new CreditosNegotium();
+            creditos.ShowDialog();
+        }
         #endregion
 
         #region InternalMethods

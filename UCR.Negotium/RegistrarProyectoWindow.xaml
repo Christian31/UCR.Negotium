@@ -18,6 +18,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="90*"/>
             <RowDefinition Height="10*"/>
+            <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
         <TabControl Name="tcRegistrarProyecto" ItemContainerStyle="{StaticResource menuTabItem}" 
                     Style="{StaticResource menuTabControl}" SelectionChanged="tcRegistrarProyecto_SelectionChanged" Grid.ColumnSpan="2">
@@ -74,17 +75,17 @@
                                       Margin="30,15,30,15" Name="dgFlujoCaja" Loaded="dgFlujoCaja_Loaded"
                                       Style="{StaticResource gridGenerated}">
                             </DataGrid>
-                            <StackPanel Grid.Row="1" Style="{StaticResource horizontalPanelFormStyle}">
-                                <Label Content="Tasa de Costo de Capital: " Margin="30,0,0,37" FontSize="14" FontWeight="Bold"/>
-                                <TextBox Margin="0,0,0,57" IsEnabled="False" Width="130"
+                            <StackPanel Grid.Row="1" Style="{StaticResource horizontalPanelFormStyle}" VerticalAlignment="Top">
+                                <Label Content="Tasa de Costo de Capital: " Margin="30,0,0,0" FontSize="14" FontWeight="Bold" VerticalAlignment="Top"/>
+                                <TextBox IsEnabled="False" Width="130" Height="20" VerticalAlignment="Top"
                                          Text="{Binding ProyectoSelected.TasaCostoCapitalString, UpdateSourceTrigger=PropertyChanged}"/>
-                                <Label Content="TIR: " Margin="50,0,0,37" FontSize="14" FontWeight="Bold"/>
-                                <TextBox Margin="0,0,0,57" Width="130" IsEnabled="False"
+                                <Label Content="TIR: " Margin="50,0,0,0" FontSize="14" FontWeight="Bold" VerticalAlignment="Top"/>
+                                <TextBox Width="130" IsEnabled="False" Height="20" VerticalAlignment="Top"
                                          Text="{Binding TIR, UpdateSourceTrigger=PropertyChanged}"/>
-                                <Label Content="VAN: " Margin="30,0,0,37" FontSize="14" FontWeight="Bold"/>
-                                <TextBox IsEnabled="False" Margin="0,0,0,57" Width="130"
+                                <Label Content="VAN: " Margin="30,0,0,0" FontSize="14" FontWeight="Bold" VerticalAlignment="Top"/>
+                                <TextBox IsEnabled="False" Margin="0,0,0,50" Width="130" Height="20" VerticalAlignment="Top"
                                          Text="{Binding VAN, UpdateSourceTrigger=PropertyChanged}"/>
-                                <Grid Margin="60,0,30,7">
+                                <Grid Margin="60,0,0,0" VerticalAlignment="Top">
                                     <iconPacks:PackIconModern Width="16" Height="16" Kind="Box" Foreground="Teal"
                                                               Margin="0,7,140,0" HorizontalAlignment="Right"/>
                                     <Label Margin="30,0,0,0" HorizontalAlignment="Right">
@@ -103,6 +104,9 @@
             </TabItem>
         </TabControl>
         <WrapPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+            <Controls:Tile Title="Encargado" Click="btnEncargado_Click" Style="{StaticResource tileStyle}">
+                <iconPacks:PackIconModern Kind="User" Style="{StaticResource iconLarge}"/>
+            </Controls:Tile>
             <Controls:Tile Title="Moneda" Click="btnMoneda_Click" Style="{StaticResource tileStyle}">
                 <iconPacks:PackIconModern Kind="Money" Style="{StaticResource iconLarge}"/>
             </Controls:Tile>
@@ -121,6 +125,11 @@
                 <iconPacks:PackIconModern Kind="FolderLock" Style="{StaticResource iconLarge}"/>
             </Controls:Tile>
         </WrapPanel>
+        <StatusBar Grid.Row="3" Grid.ColumnSpan="2">
+            <StatusBarItem Margin="20,0,0,0">Negotium 1.0</StatusBarItem>
+            <Separator Style="{StaticResource MetroStatusBarSeparator}" />
+            <StatusBarItem>Propiedad de Universidad de Costa Rica</StatusBarItem>
+        </StatusBar>
     </Grid>
     <Controls:MetroWindow.Flyouts>
         <Controls:FlyoutsControl>
