@@ -1,10 +1,33 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using UCR.Negotium.DataAccess;
+using UCR.Negotium.Domain;
 
 namespace UCR.Negotium.Extensions
 {
     public static class LocalContext
     {
+
+        #region Flujo Caja
+        private static DataView FlujoCaja = null;
+
+        public static DataView GetFlujoCaja(Proyecto proyecto, DataView dgvCapitalTrabajo, DataView dgvFinanciamiento, DataView dgvTotalesReinversiones, string totalInversiones, string recuperacionCT)
+        {
+            if (FlujoCaja == null)
+            {
+                SetFlujoCaja(DatatableBuilder.GenerarFlujoCaja(proyecto, dgvCapitalTrabajo, dgvFinanciamiento, dgvTotalesReinversiones,
+                    totalInversiones, recuperacionCT).AsDataView());
+            }
+            return FlujoCaja;
+        }
+
+        public static void SetFlujoCaja(DataView flujoCaja)
+        {
+            FlujoCaja = flujoCaja;
+        }
+        #endregion
+
+        #region Moneda
         private static ProyectoData proyectoData = new ProyectoData();
 
         public static string GetSignoMoneda(int codProyecto)
@@ -54,6 +77,8 @@ namespace UCR.Negotium.Extensions
         }
 
         private static List<CacheSignoMoneda> CacheSignoMonedas = new List<CacheSignoMoneda>();
+        #endregion
+
     }
 
     public class CacheSignoMoneda

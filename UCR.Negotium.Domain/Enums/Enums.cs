@@ -207,4 +207,20 @@ namespace UCR.Negotium.Domain.Enums
         Critico
     }
     #endregion
+
+    public enum ProgresoStep
+    {
+        InformacionGeneral,
+        Proponente,
+        Caracterizacion,
+        Inversiones,
+        Reinversiones,
+        ProyeccionVentas,
+        Costos,
+        CapitalTrabajo,
+        Depreciaciones,
+        Financiamiento,
+        FlujoCaja,
+        AnalisisAmbiental
+    }
 }

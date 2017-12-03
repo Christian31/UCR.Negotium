@@ -14,7 +14,7 @@ namespace UCR.Negotium.DataAccess
         {
             List<VariacionAnualCosto> variacionAnualCostos = new List<VariacionAnualCosto>();
             string select = "SELECT cod_variacion_anual, ano, porcentaje " +
-                "FROM VARIACION_ANUAL_COSTO WHERE cod_proyecto=?";
+                "FROM VARIACION_ANUAL_COSTO WHERE cod_proyecto=? ORDER BY ano";
 
             using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {

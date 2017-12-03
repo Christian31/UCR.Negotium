@@ -133,16 +133,28 @@ namespace UCR.Negotium.Extensions
         private static string GetBase64StringDb()
         {
             string databasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Data\NegotiumDatabase.db");
-            var streamFile = File.Open(databasePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-
             byte[] bytes;
-            using (MemoryStream ms = new MemoryStream())
+
+            using (BinaryReader binReader = new BinaryReader(File.Open(databasePath, FileMode.Open)))
             {
-                streamFile.CopyTo(ms);
-                bytes = ms.ToArray();
+                bytes = binReader.GetAllBytes();
             }
 
             return Convert.ToBase64String(bytes);
+        }
+
+        private static byte[] GetAllBytes(this BinaryReader reader)
+        {
+            int bufferSize = 4096;
+            using (var ms = new MemoryStream())
+            {
+                byte[] buffer = new byte[bufferSize];
+                int count;
+                while ((count = reader.Read(buffer, 0, buffer.Length)) != 0)
+                    ms.Write(buffer, 0, count);
+
+                return ms.ToArray();
+            }
         }
 
         private static int CompareVersion(string backupVersion)

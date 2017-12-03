@@ -1,589 +1,606 @@
-﻿<!DOCTYPE html>
-<html lang="es">
-
+﻿<html>
 <head>
-    <meta charset="utf-8">
-    <title>SB Admin - Bootstrap Admin Template</title>
-    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="css/sb-admin.css" rel="stylesheet">
 </head>
 <body>
-    <div id="wrapper">
-        <div id="page-wrapper">
-            <div class="container-fluid">
-                <!-- Page Heading -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">
-                            $proyecto.NombreProyecto <small>Reporte del proyecto</small>
-                        </h1>
-                    </div>
-                </div>
-                <!-- /.Informacion General -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Información General</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="col-lg-4">
-                                    <div class="panel panel-body">
-                                        <div class="form-group"> Año Inicial del proyecto: <b>$proyecto.AnoInicial</b></div>
-                                        <div class="form-group"> Horizonte de evaluación (años): <b>$proyecto.HorizonteEvaluacionEnAnos Años</b></div>
-                                        <div class="form-group"> Paga Impuestos: 
-                                            <b>#if ($proyecto.PagaImpuesto) Si #else No #end</b>
-                                        </div>
-                                        <div class="form-group"> Porcentaje de Impuesto: <b>$proyecto.PorcentajeImpuesto %</b></div>
-                                        <div class="form-group"> Posee Financiamiento:
-                                            <b>#if ($proyecto.ConFinanciamiento) Si #else No #end</b> 
-                                        </div>
-                                        <div class="form-group"> Bien o Servicio: <b>$proyecto.ObjetoInteres</b></div>
-                                        <div class="form-group"> Ubicación: 
-                                            <b>$proyecto.Provincia, $proyecto.Canton, $proyecto.Distrito, $proyecto.DireccionExacta</b>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="panel panel-default panel-body">
-                                        <h4>Resumen Ejecutivo</h4>
-                                        <hr>
-                                        $proyecto.ResumenEjecutivo<br>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.Organizacion Proponente -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Información de la Organización</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="col-lg-5">
-                                    <div class="panel panel-default panel-body">
-                                        <h4>Representante legal de la Organización</h4>
-                                        <hr>
-                                        <div class="form-group"> Nombre: <b>$proyecto.OrganizacionProponente.Proponente</b></div>
-                                        <div class="form-group"> Cédula: <b>$proyecto.OrganizacionProponente.Proponente.NumIdentificacion</b></div>
-                                        <div class="form-group"> Teléfono: <b>$proyecto.OrganizacionProponente.Proponente.Telefono</b></div>
-                                        <div class="form-group"> Correo Electrónico: <b>$proyecto.OrganizacionProponente.Proponente.Email</b></div>
-                                        <div class="form-group"> Puesto en la Organización: <b>$proyecto.OrganizacionProponente.Proponente.PuestoEnOrganizacion</b></div>
-                                        <div class="form-group"> Género: 
-                                        <b> #if ($proyecto.OrganizacionProponente.Proponente.Genero) Femenino #else Masculino #end</b></div>
-                                        <div class="form-group"> Es Representante Individual:
-                                        <b>#if ($proyecto.EsRepresentanteIndividual) Si #else No #end</b></div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-7">
-                                    <div class="panel panel-default panel-body">
-                                        <h4>Organización</h4>
-                                        <hr>
-                                        <div class="form-group"> Tipo: <b>$proyecto.OrganizacionProponente.Tipo</b></div>
-                                        <div class="form-group"> Nombre de la Organización: <b>$proyecto.OrganizacionProponente.NombreOrganizacion</b></div>
-                                        <div class="form-group"> Cédula Jurídica: <b>$proyecto.OrganizacionProponente.CedulaJuridica</b></div>
-                                        <div class="form-group"> Teléfono: <b>$proyecto.OrganizacionProponente.Telefono</b></div>
-                                        <div class="form-group"> Correo Electrónico: <b>$proyecto.OrganizacionProponente.CorreoElectronico</b></div>
-                                        <div class="form-group"> Descripción: <b>$proyecto.OrganizacionProponente.Descripcion</b></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.Caracterizacion -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Caracterización</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="col-lg-6 form-group"> Descripción población beneficiaria: <b>$proyecto.DescripcionPoblacionBeneficiaria</b></div>
-                                <div class="col-lg-6 form-group"> Justificación del mercado: <b>$proyecto.JustificacionDeMercado</b></div>
-                                <div class="col-lg-12 form-group"> Caracterización del bien/servicio: <b>$proyecto.CaraterizacionDelBienServicio</b></div>
-                                <div class="col-lg-12 form-group"> Descripción de la sostenibilidad del proyecto: <b>$proyecto.DescripcionSostenibilidadDelProyecto</b></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.Inversiones -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Inversiones</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Descripción</th>
-                                                <th>Cantidad</th>
-                                                <th>Costo Unitario</th>
-                                                <th>Unidad de Medida</th>
-                                                <th>Depreciable</th>
-                                                <th>Vida Útil</th>
-                                                <th>Subtotal</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            #foreach( $inversion in $proyecto.RequerimientosInversion )
-                                            <tr>
-                                                <td>$inversion</td>
-                                                <td>$inversion.Cantidad</td>
-                                                <td>$inversion.CostoUnitarioFormat</td>
-                                                <td>$inversion.UnidadMedida</td>
-                                                <td>#if ($inversion.Depreciable) Si #else No #end
-                                                <td>$inversion.VidaUtil Años</td>
-                                                <td>$inversion.SubtotalFormat</td>
-                                            </tr>
-                                            #end
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <br />
-                                Total Inversiones: <b>$inversionesTotal</b>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.Reinversiones -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Reinversiones</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Descripción</th>
-                                                <th>Cantidad</th>
-                                                <th>Costo Unitario</th>
-                                                <th>Unidad de Medida</th>
-                                                <th>Depreciable</th>
-                                                <th>Vida Útil</th>
-                                                <th>Año Reinversión</th>
-                                                <th>Subtotal</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            #foreach( $reinversion in $proyecto.RequerimientosReinversion )
-                                            <tr>
-                                                <td>$reinversion.DescripcionRequerimiento</td>
-                                                <td>$reinversion.Cantidad</td>
-                                                <td>$reinversion.CostoUnitarioFormat</td>
-                                                <td>$reinversion.UnidadMedida</td>
-                                                <td>#if ($reinversion.Depreciable) Si #else No #end
-                                                <td>$reinversion.VidaUtil Años</td>
-                                                <td>$reinversion.AnoReinversion</td>
-                                                <td>$reinversion.SubtotalFormat</td>
-                                            </tr>
-                                            #end
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <br />
-                                <div class="table-responsive col-lg-6">
-                                    <table class="table table-bordered table-hover table-striped">
-                                        <caption>Total reinvertido por año:</caption>
-                                        <thead>
-                                            <tr>
-                                                <th>Año</th>
-                                                <th>Monto</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            #foreach( $anoReinversion in $reinversionesTotal )
-                                            <tr>
-                                                <td>$anoReinversion.Key</td>
-                                                <td>$anoReinversion.Value</td>
-                                            </tr>
-                                            #end
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.Proyecciones -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Proyecciones de Ventas</h3>
-                            </div>
-                            <div class="panel-body">
-                                #foreach( $proyeccion in $proyecto.Proyecciones )
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <div class="form-group"> Nombre de Producto o Servicio: <b>$proyeccion.NombreArticulo</b></div>
-                                        <div class="form-group"> Unidad de Medida: <b>$proyeccion.UnidadMedida</b></div>
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered table-hover table-striped">
-                                                <caption>Año Inicial</caption>
-                                                <thead>
-                                                    <tr>
-                                                        <th>Mes</th>
-                                                        <th>Cantidad</th>
-                                                        <th>Precio</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    #foreach( $detalle in $proyeccion.DetallesProyeccionVenta )
-                                                    <tr>
-                                                        <td>$detalle.Mes</td>
-                                                        <td>$detalle.Cantidad</td>
-                                                        <td>$detalle.PrecioFormat</td>
-                                                    </tr>
-                                                    #end
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <br />
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered table-hover table-striped">
-                                                <caption>Crecimiento Anual de Oferta</caption>
-                                                <thead>
-                                                    <tr>
-                                                        <th>Año</th>
-                                                        <th>Porcentaje de Crecimiento (%)</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    #foreach( $crecimiento in $proyeccion.CrecimientoOferta )
-                                                    <tr>
-                                                        <td>$crecimiento.AnoCrecimiento</td>
-                                                        <td>$crecimiento.PorcentajeCrecimiento %</td>
-                                                    </tr>
-                                                    #end
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <br/>
-                                    </div>
-                                </div>
-                                #end
-                                <br />
-                                <div class="table-responsive col-lg-6">
-                                    <table class="table table-bordered table-hover table-striped">
-                                        <caption>Ingresos Generados por año:</caption>
-                                        <thead>
-                                            <tr>
-                                                <th>Año</th>
-                                                <th>Monto</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                #foreach( $anoProyeccion in $proyeccionesTotal )
-                                                <td>$anoProyeccion.Key</td>
-                                                <td>$anoProyeccion.Value</td>
-                                            </tr>
-                                            <tr>
-                                                #end
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.Costos -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Costos del Proyecto</h3>
-                            </div>
-                            <div class="panel-body">
-                                #foreach( $costo in $proyecto.Costos )
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <div class="form-group"> Nombre de Costo: <b>$costo.NombreCosto</b></div>
-                                        <div class="form-group"> Año inicial del Costo: <b>$costo.AnoCosto</b></div>
-                                        <div class="form-group"> Unidad de Medida: <b>$costo.UnidadMedida</b></div>
-                                        <div class="form-group"> Categoría: <b>$costo.CategoriaCosto</b></div>
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered table-hover table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Mes</th>
-                                                        <th>Cantidad</th>
-                                                        <th>Precio</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    #foreach( $costoMensual in $costo.CostosMensuales )
-                                                    <tr>
-                                                        <td>$costoMensual.Mes</td>
-                                                        <td>$costoMensual.Cantidad</td>
-                                                        <td>$costoMensual.CostoUnitarioFormat</td>
-                                                    </tr>
-                                                    #end
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <br />
-                                    </div>
-                                </div>
-                                #end
-                                <br/>
-                                <div class="table-responsive col-lg-6">
-                                    <table class="table table-bordered table-hover table-striped">
-                                        <caption>Costos Generados por año:</caption>
-                                        <thead>
-                                            <tr>
-                                                <th>Año</th>
-                                                <th>Variación Anual de Costos(%)</th>
-                                                <th>Monto</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                #foreach( $anoCosto in $costosTotal )
-                                                <td>$anoCosto.Key</td>
-                                                <td>$anoCosto.Value.Item1 %</td>
-                                                <td>$anoCosto.Value.Item2</td>
-                                            </tr>
-                                            <tr>
-                                                #end
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.Capital Trabajo -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Capital del Proyecto</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Año</th>
-                                                <th>Costos variables</th>
-                                                <th>Capital de trabajo</th>
-                                                <th>Incremental</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            #foreach( $row in $capitalTrabajo )
-                                            <tr>
-                                                <td>$row.Key</td>
-                                                <td>$row.Value.Item1</td>
-                                                <td>$row.Value.Item2</td>
-                                                <td>$row.Value.Item3</td>
-                                            </tr>
-                                            #end
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <br />
-                                Recuperación Costo Total: <b>$recuperacionCT</b>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.Depreciaciones -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Depreciaciones</h3>
-                            </div>
-                            <div class="panel-body">
-                                #foreach ($page in $depreciaciones)
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover table-striped">
-                                        <thead>
-                                            <tr>
-                                                #foreach ($column in $page.Table.Columns)
-                                                <th>$column</th>
-                                                #end
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            #foreach( $dep in $page )
-                                            <tr>
-                                                #foreach( $valor in $dep.Row.ItemArray)
-                                                <td>$valor</td>
-                                                #end
-                                            </tr>
-                                            #end
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <br />
-                                #end
-                                <div class="table-responsive col-lg-6">
-                                    <table class="table table-bordered table-hover table-striped">
-                                        <caption>Depreciaciones Totales:</caption>
-                                        <thead>
-                                            <tr>
-                                                <th>Año</th>
-                                                <th>Monto</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                #foreach( $depTotal in $depreciacionesTotal )
-                                                <td>$depTotal.Key</td>
-                                                <td>$depTotal.Value</td>
-                                            </tr>
-                                            <tr>
-                                                #end
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.Financiamiento -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Financiamiento</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="col-lg-6 form-group"> Monto: <b>$proyecto.Financiamiento.MontoFinanciamientoFormat</b></div>
-                                <div class="col-lg-6 form-group"> Año inicial del préstamo: <b>$proyecto.Financiamiento.AnoInicialPago</b><br /></div>
-                                <div class="col-lg-6 form-group"> Año final del préstamo: <b>$proyecto.Financiamiento.AnoFinalPago</b><br /></div>
-                                #if ($proyecto.Financiamiento.InteresFijo)
-                                <div class="col-lg-6 form-group">
-                                    Tasa de Interés:
-                                    <b>
-                                        #foreach( $interes in $proyecto.Financiamiento.TasaIntereses )
-                                        $interes.PorcentajeInteres %
-                                        #end
-                                    </b>
-                                </div>
-                                #else
-                                <div class="col-lg-12 table-responsive">
-                                    <table class="table table-bordered table-hover table-striped">
-                                        <caption>Tasa de Interés</caption>
-                                        <thead>
-                                            <tr>
-                                                <th>Año</th>
-                                                <th>Porcentaje interés (%)</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            #foreach( $interes in $proyecto.Financiamiento.TasaIntereses )
-                                            <tr>
-                                                <td>$interes.AnoInteres</td>
-                                                <td>$interes.PorcentajeInteres %</td>
-                                            </tr>
-                                            #end
-                                        </tbody>
-                                    </table>
-                                    <br /><br />
-                                </div>
-                                #end
-                                <div class="col-lg-12 table-responsive">
-                                    <table class="table table-bordered table-hover table-striped">
-                                        <caption>Amortización del Préstamo</caption>
-                                        <thead>
-                                            <tr>
-                                                <th>Año de Pago</th>
-                                                <th>Saldo</th>
-                                                <th>Cuota</th>
-                                                <th>Interés</th>
-                                                <th>Amortización</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            #foreach( $amortizacion in $financiamiento )
-                                            <tr>
-                                                #foreach( $valor in $amortizacion.Row.ItemArray)
-                                                <td>$valor</td>
-                                                #end
-                                            </tr>
-                                            #end
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.Flujo de Caja -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Flujo de Caja</h3>
-                            </div>
-                            <div class="panel-body">
-                                #foreach ($page in $flujoCaja)
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover table-striped">
-                                        <thead>
-                                            <tr>
-                                                #foreach ($column in $page.Table.Columns)
-                                                <th>$column</th>
-                                                #end
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            #foreach( $row in $page )
-                                            <tr>
-                                                #foreach( $row in $row.Row.ItemArray)
-                                                <td>$row</td>
-                                                #end
-                                            </tr>
-                                            #end
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <br />
-                                #end
-                                <h5><b>Detalle de Indicadores</b></h5>
-                                <hr>
-                                <div class="col-lg-4 form-group"> Tasa de Costo Capital: <b>$proyecto.TasaCostoCapitalString</b></div>
-                                <div class="col-lg-4 form-group"> TIR: <b>$TIR</b></div>
-                                <div class="col-lg-4 form-group"> VAN: <b>$VAN</b></div>
-                                <div class="col-lg-4 form-group"> Personas participantes: <b>$proyecto.PersonasParticipantes</b><br /></div>
-                                <div class="col-lg-4 form-group"> Familias involucradas: <b>$proyecto.FamiliasInvolucradas</b></div>
-                                <div class="col-lg-4 form-group"> Beneficiarios indirectos: <b>$proyecto.PersonasBeneficiadas</b></div>
-                                <div class="col-lg-4 form-group"> VAN/Personas participantes: <b>$VANParticipantes</b></div>
-                                <div class="col-lg-4 form-group"> VAN/Personas involucradas: <b>$VANInvolucrados</b><br /></div>
-                                <div class="col-lg-4 form-group"> VAN/Beneficiarios indirectos: <b>$VANIndirectos</b><br /></div>
-                                <div class="col-lg-12 form-group"><b> Se recomienda aceptar su proyecto cuando la Tasa Interna de Retorno (TIR) es mayor a la Tasa de Costo de Capital y a su vez cuando se obtiene un VAN positivo. </b></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    $proyecto.NombreProyecto <small>Reporte del proyecto</small>
+                </h1>
             </div>
-            <!-- /.container-fluid -->
         </div>
-        <!-- /#page-wrapper -->
+        <!-- /.Informacion General -->
+        <div class="row">
+            <table class="table table-content">
+                <thead><tr><th>Información General</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="form-group"> Año Inicial del proyecto: <b>$proyecto.AnoInicial</b></div>
+                            <div class="form-group"> Horizonte de evaluación (años): <b>$proyecto.HorizonteEvaluacionEnAnos Años</b></div>
+                            <div class="form-group">
+                                Paga Impuestos:
+                                <b>#if ($proyecto.PagaImpuesto) Si #else No #end</b>
+                            </div>
+                            <div class="form-group"> Porcentaje de Impuesto: <b>$proyecto.PorcentajeImpuesto %</b></div>
+                            <div class="form-group">
+                                Posee Financiamiento:
+                                <b>#if ($proyecto.ConFinanciamiento) Si #else No #end</b>
+                            </div>
+                            <div class="form-group"> Bien o Servicio: <b>$proyecto.ObjetoInteres</b></div>
+                            <div class="form-group">
+                                Ubicación:
+                                <b>$proyecto.Provincia, $proyecto.Canton, $proyecto.Distrito, $proyecto.DireccionExacta</b>
+                            </div>
+
+                            <table class="table table-data">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <h4>Resumen Ejecutivo</h4>
+                                            <hr />
+                                            $proyecto.ResumenEjecutivo<br />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- /.Organizacion Proponente -->
+        <div class="row">
+            <table class="table table-content">
+                <thead><tr><th>Información de la Organización</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <table class="table table-data">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <h4>Representante legal de la Organización</h4>
+                                            <hr />
+                                            <div class="form-group"> Nombre: <b>$proyecto.OrganizacionProponente.Proponente</b></div>
+                                            <div class="form-group"> Cédula: <b>$proyecto.OrganizacionProponente.Proponente.NumIdentificacion</b></div>
+                                            <div class="form-group"> Teléfono: <b>$proyecto.OrganizacionProponente.Proponente.Telefono</b></div>
+                                            <div class="form-group"> Correo Electrónico: <b>$proyecto.OrganizacionProponente.Proponente.Email</b></div>
+                                            <div class="form-group"> Puesto en la Organización: <b>$proyecto.OrganizacionProponente.Proponente.PuestoEnOrganizacion</b></div>
+                                            <div class="form-group">
+                                                Género:
+                                                <b> #if ($proyecto.OrganizacionProponente.Proponente.Genero) Femenino #else Masculino #end</b>
+                                            </div>
+                                            <div class="form-group">
+                                                Es Representante Individual:
+                                                <b>#if ($proyecto.EsRepresentanteIndividual) Si #else No #end</b>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-data">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <h4>Organización</h4>
+                                            <hr />
+                                            <div class="form-group"> Tipo: <b>$proyecto.OrganizacionProponente.Tipo</b></div>
+                                            <div class="form-group"> Nombre de la Organización: <b>$proyecto.OrganizacionProponente.NombreOrganizacion</b></div>
+                                            <div class="form-group"> Cédula Jurídica: <b>$proyecto.OrganizacionProponente.CedulaJuridica</b></div>
+                                            <div class="form-group"> Teléfono: <b>$proyecto.OrganizacionProponente.Telefono</b></div>
+                                            <div class="form-group"> Correo Electrónico: <b>$proyecto.OrganizacionProponente.CorreoElectronico</b></div>
+                                            <div class="form-group"> Descripción: <b>$proyecto.OrganizacionProponente.Descripcion</b></div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- /.Caracterizacion -->
+        <div class="row">
+            <table class="table table-content">
+                <thead><tr><th>Caracterización</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="form-group"> Descripción población beneficiaria: <b>$proyecto.DescripcionPoblacionBeneficiaria</b></div>
+                            <div class="form-group"> Justificación del mercado: <b>$proyecto.JustificacionDeMercado</b></div>
+                            <div class="form-group"> Caracterización del bien/servicio: <b>$proyecto.CaraterizacionDelBienServicio</b></div>
+                            <div class="form-group"> Descripción de la sostenibilidad del proyecto: <b>$proyecto.DescripcionSostenibilidadDelProyecto</b></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- /.Inversiones -->
+        <div class="row">
+            <table class="table table-content">
+                <thead><tr><th>Inversiones</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="table-responsive">
+                                <table class="table table-data">
+                                    <thead>
+                                        <tr>
+                                            <th>Descripción</th>
+                                            <th>Cantidad</th>
+                                            <th>Costo Unitario</th>
+                                            <th>Unidad de Medida</th>
+                                            <th>Depreciable</th>
+                                            <th>Vida Útil</th>
+                                            <th>Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        #foreach( $inversion in $proyecto.RequerimientosInversion )
+                                        <tr>
+                                            <td>$inversion</td>
+                                            <td>$inversion.Cantidad</td>
+                                            <td>$inversion.CostoUnitarioFormat</td>
+                                            <td>$inversion.UnidadMedida</td>
+                                            <td>#if ($inversion.Depreciable) Si #else No #end </td>
+                                            <td>$inversion.VidaUtil Años</td>
+                                            <td>$inversion.SubtotalFormat</td>
+                                        </tr>
+                                        #end
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td class="remove-margin">
+                            Total Inversiones: $inversionesTotal
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <!-- /.Reinversiones -->
+        <div class="row">
+            <table class="table table-content">
+                <thead><tr><th>Reinversiones</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="table-responsive">
+                                <table class="table table-data">
+                                    <thead>
+                                        <tr>
+                                            <th>Descripción</th>
+                                            <th>Cantidad</th>
+                                            <th>Costo Unitario</th>
+                                            <th>Unidad de Medida</th>
+                                            <th>Depreciable</th>
+                                            <th>Vida Útil</th>
+                                            <th>Año Reinversión</th>
+                                            <th>Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        #foreach( $reinversion in $proyecto.RequerimientosReinversion )
+                                        <tr>
+                                            <td>$reinversion.DescripcionRequerimiento</td>
+                                            <td>$reinversion.Cantidad</td>
+                                            <td>$reinversion.CostoUnitarioFormat</td>
+                                            <td>$reinversion.UnidadMedida</td>
+                                            <td>#if ($reinversion.Depreciable) Si #else No #end </td>
+                                            <td>$reinversion.VidaUtil Años</td>
+                                            <td>$reinversion.AnoReinversion</td>
+                                            <td>$reinversion.SubtotalFormat</td>
+                                        </tr>
+                                        #end
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="table-responsive">
+                                <table class="table table-data">
+                                    <caption>Total reinvertido por año:</caption>
+                                    <thead>
+                                        <tr>
+                                            <th>Año</th>
+                                            <th>Monto</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        #foreach( $anoReinversion in $reinversionesTotal )
+                                        <tr>
+                                            <td>$anoReinversion.Key</td>
+                                            <td>$anoReinversion.Value</td>
+                                        </tr>
+                                        #end
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- /.Proyecciones -->
+        <div class="row">
+            <table class="table table-content">
+                <thead><tr><th>Proyecciones de Ventas</th></tr></thead>
+                <tbody>
+                    #foreach( $proyeccion in $proyecto.Proyecciones )
+                    <tr>
+                        <td>
+                            <div class="form-group"> Nombre de Producto o Servicio: <b>$proyeccion.NombreArticulo</b></div>
+                            <div class="form-group"> Unidad de Medida: <b>$proyeccion.UnidadMedida</b></div>
+                            <div class="table-responsive">
+                                <table class="table table-data">
+                                    <caption>Año Inicial</caption>
+                                    <thead>
+                                        <tr>
+                                            <th>Mes</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        #foreach( $detalle in $proyeccion.DetallesProyeccionVenta )
+                                        <tr>
+                                            <td>$detalle.Mes</td>
+                                            <td>$detalle.Cantidad</td>
+                                            <td>$detalle.PrecioFormat</td>
+                                        </tr>
+                                        #end
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br />
+                            <div class="table-responsive">
+                                <table class="table table-data">
+                                    <caption>Crecimiento Anual de Oferta</caption>
+                                    <thead>
+                                        <tr>
+                                            <th>Año</th>
+                                            <th>Porcentaje de Crecimiento (%)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        #foreach( $crecimiento in $proyeccion.CrecimientoOferta )
+                                        <tr>
+                                            <td>$crecimiento.AnoCrecimiento</td>
+                                            <td>$crecimiento.PorcentajeCrecimiento %</td>
+                                        </tr>
+                                        #end
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    #end
+                    <tr>
+                        <td>
+                            <div class="table-responsive">
+                                <table class="table table-data">
+                                    <caption>Ingresos Generados por año:</caption>
+                                    <thead>
+                                        <tr>
+                                            <th>Año</th>
+                                            <th>Monto</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            #foreach( $anoProyeccion in $proyeccionesTotal )
+                                            <td>$anoProyeccion.Key</td>
+                                            <td>$anoProyeccion.Value</td>
+                                        </tr>
+                                        <tr>
+                                            #end
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- /.Costos -->
+        <div class="row">
+            <table class="table table-content">
+                <thead><tr><th>Costos del Proyecto</th></tr></thead>
+                <tbody>
+                    #foreach( $costo in $proyecto.Costos )
+                    <tr>
+                        <td>
+                            <div class="form-group"> Nombre de Costo: <b>$costo.NombreCosto</b></div>
+                            <div class="form-group"> Año inicial del Costo: <b>$costo.AnoCosto</b></div>
+                            <div class="form-group"> Unidad de Medida: <b>$costo.UnidadMedida</b></div>
+                            <div class="form-group"> Categoría: <b>$costo.CategoriaCosto</b></div>
+                            <div class="table-responsive">
+                                <table class="table table-data">
+                                    <thead>
+                                        <tr>
+                                            <th>Mes</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        #foreach( $costoMensual in $costo.CostosMensuales )
+                                        <tr>
+                                            <td>$costoMensual.Mes</td>
+                                            <td>$costoMensual.Cantidad</td>
+                                            <td>$costoMensual.CostoUnitarioFormat</td>
+                                        </tr>
+                                        #end
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    #end
+                    <tr>
+                        <td>
+                            <div class="table-responsive">
+                                <table class="table table-data">
+                                    <caption>Costos Generados por año:</caption>
+                                    <thead>
+                                        <tr>
+                                            <th>Año</th>
+                                            <th>Variación Anual de Costos(%)</th>
+                                            <th>Monto</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            #foreach( $anoCosto in $costosTotal )
+                                            <td>$anoCosto.Key</td>
+                                            <td>$anoCosto.Value.Item1 %</td>
+                                            <td>$anoCosto.Value.Item2</td>
+                                        </tr>
+                                        <tr>
+                                            #end
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- /.Capital Trabajo -->
+        <div class="row">
+            <table class="table table-content">
+                <thead><tr><th>Capital del Proyecto</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="table-responsive">
+                                <table class="table table-data">
+                                    <thead>
+                                        <tr>
+                                            <th>Año</th>
+                                            <th>Costos variables</th>
+                                            <th>Capital de trabajo</th>
+                                            <th>Incremental</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        #foreach( $row in $capitalTrabajo )
+                                        <tr>
+                                            <td>$row.Key</td>
+                                            <td>$row.Value.Item1</td>
+                                            <td>$row.Value.Item2</td>
+                                            <td>$row.Value.Item3</td>
+                                        </tr>
+                                        #end
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td class="remove-margin">
+                            Recuperación Costo Total: $recuperacionCT
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <!-- /.Depreciaciones -->
+        <div class="row">
+            <table class="table table-content">
+                <thead><tr><th>Depreciaciones</th></tr></thead>
+                <tbody>
+                    #foreach ($page in $depreciaciones)
+                    <tr>
+                        <td> 
+                            <div class="table-responsive">
+                                <table class="table table-data">
+                                    <thead>
+                                        <tr>
+                                            #foreach ($column in $page.Table.Columns)
+                                            <th>$column</th>
+                                            #end
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        #foreach( $dep in $page )
+                                        <tr>
+                                            #foreach( $valor in $dep.Row.ItemArray)
+                                            <td>$valor</td>
+                                            #end
+                                        </tr>
+                                        #end
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    #end
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <div class="table-responsive">
+                                <table class="table table-data">
+                                    <caption>Depreciaciones Totales:</caption>
+                                    <thead>
+                                        <tr>
+                                            <th>Año</th>
+                                            <th>Monto</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            #foreach( $depTotal in $depreciacionesTotal )
+                                            <td>$depTotal.Key</td>
+                                            <td>$depTotal.Value</td>
+                                        </tr>
+                                        <tr>
+                                            #end
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <!-- /.Financiamiento -->
+        <div class="row">
+            <table class="table table-content">
+                <thead><tr><th>Financiamiento</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="form-group"> Monto: <b>$proyecto.Financiamiento.MontoFinanciamientoFormat</b></div>
+                            <div class="form-group"> Año inicial del préstamo: <b>$proyecto.Financiamiento.AnoInicialPago</b><br /></div>
+                            <div class="form-group"> Año final del préstamo: <b>$proyecto.Financiamiento.AnoFinalPago</b><br /></div>
+                            #if ($proyecto.Financiamiento.InteresFijo)
+                            <div class="form-group">
+                                Tasa de Interés:
+                                <b>
+                                    #foreach( $interes in $proyecto.Financiamiento.TasaIntereses )
+                                    $interes.PorcentajeInteres %
+                                    #end
+                                </b>
+                            </div>
+                            #else
+                            <div class="table-responsive">
+                                <table class="table table-data">
+                                    <caption>Tasa de Interés</caption>
+                                    <thead>
+                                        <tr>
+                                            <th>Año</th>
+                                            <th>Porcentaje interés (%)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        #foreach( $interes in $proyecto.Financiamiento.TasaIntereses )
+                                        <tr>
+                                            <td>$interes.AnoInteres</td>
+                                            <td>$interes.PorcentajeInteres %</td>
+                                        </tr>
+                                        #end
+                                    </tbody>
+                                </table>
+                                <br /><br />
+                            </div>
+                            #end
+                            <div class="table-responsive">
+                                <table class="table table-data">
+                                    <caption>Amortización del Préstamo</caption>
+                                    <thead>
+                                        <tr>
+                                            <th>Año de Pago</th>
+                                            <th>Saldo</th>
+                                            <th>Cuota</th>
+                                            <th>Interés</th>
+                                            <th>Amortización</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        #foreach( $amortizacion in $financiamiento )
+                                        <tr>
+                                            #foreach( $valor in $amortizacion.Row.ItemArray)
+                                            <td>$valor</td>
+                                            #end
+                                        </tr>
+                                        #end
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- /.Flujo de Caja -->
+        <div class="row">
+            <table class="table table-content">
+                <thead><tr><th>Flujo de Caja</th></tr></thead>
+                <tbody>
+                    #foreach ($page in $flujoCaja)
+                    <tr>
+                        <td>
+                            <div class="table-responsive">
+                                <table class="table table-data">
+                                    <thead>
+                                        <tr>
+                                            #foreach ($column in $page.Table.Columns)
+                                            <th>$column</th>
+                                            #end
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        #foreach( $row in $page )
+                                        <tr>
+                                            #foreach( $row in $row.Row.ItemArray)
+                                            <td>$row</td>
+                                            #end
+                                        </tr>
+                                        #end
+                                    </tbody>
+                                </table>
+                            </div>
+                            </td>
+                        </tr>
+                    #end
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <h4><b>Detalle de Indicadores</b></h4>
+                            <hr />
+                            <div class="form-group"> Tasa de Costo Capital: <b>$proyecto.TasaCostoCapitalString</b></div>
+                            <div class="form-group"> TIR: <b>$TIR</b></div>
+                            <div class="form-group"> VAN: <b>$VAN</b></div>
+                            <div class="form-group"> Personas participantes: <b>$proyecto.PersonasParticipantes</b><br /></div>
+                            <div class="form-group"> Familias involucradas: <b>$proyecto.FamiliasInvolucradas</b></div>
+                            <div class="form-group"> Beneficiarios indirectos: <b>$proyecto.PersonasBeneficiadas</b></div>
+                            <div class="form-group"> VAN/Personas participantes: <b>$VANParticipantes</b></div>
+                            <div class="form-group"> VAN/Personas involucradas: <b>$VANInvolucrados</b><br /></div>
+                            <div class="form-group"> VAN/Beneficiarios indirectos: <b>$VANIndirectos</b><br /></div>
+                            <div class="form-group"><b> Se recomienda aceptar su proyecto cuando la Tasa Interna de Retorno (TIR) es mayor a la Tasa de Costo de Capital y a su vez cuando se obtiene un VAN positivo. </b></div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
     </div>
-    <!-- /#wrapper -->
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <!-- /.container-fluid -->
 </body>
 </html>

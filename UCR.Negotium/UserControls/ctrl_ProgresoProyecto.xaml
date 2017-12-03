@@ -194,7 +194,7 @@
                     <Style TargetType="{x:Type FrameworkElement}">
                         <Setter Property="iconPacks:PackIconModern.Kind" Value="Hourglass"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding StatusSteps[10], UpdateSourceTrigger=PropertyChanged}" Value="True" >
+                            <DataTrigger Binding="{Binding StatusSteps[11], UpdateSourceTrigger=PropertyChanged}" Value="True" >
                                 <Setter Property="iconPacks:PackIconModern.Kind" Value="Check"/>
                             </DataTrigger>
                         </Style.Triggers>

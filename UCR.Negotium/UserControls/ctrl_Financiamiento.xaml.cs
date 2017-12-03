@@ -99,6 +99,9 @@ namespace UCR.Negotium.UserControls
                     this.dgFinanciamiento.Columns[3].Width = 150;
                     this.dgFinanciamiento.Columns[4].Width = 160;
                 }
+
+                RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
+                mainWindow.ReloadUserControls(CodProyecto);
             }
         }
 

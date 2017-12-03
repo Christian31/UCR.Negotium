@@ -14,6 +14,8 @@ namespace UCR.Negotium.Extensions
             DataSet ds = new DataSet();
             ds.Tables.Add("CapitalTrabajo");
             ds.Tables["CapitalTrabajo"].Columns.Add("Rubro", Type.GetType("System.String"));
+
+            //llena costos variables
             DataRow row = ds.Tables["CapitalTrabajo"].NewRow();
             row["Rubro"] = "Costos variables";
             int a = 1;
@@ -32,13 +34,12 @@ namespace UCR.Negotium.Extensions
             int a2 = 1;
             foreach (double costoGenerado in proyecto.CostosGenerados)
             {
-                row2[(proyecto.AnoInicial + a2).ToString()] = signoMoneda + " " + costoGenerado.ToString("#,##0.##");
+                row2[(proyecto.AnoInicial + a2).ToString()] = signoMoneda + " " + ((costoGenerado / 12) * 1.5).ToString("#,##0.##");
                 a2++;
             }
             ds.Tables["CapitalTrabajo"].Rows.Add(row2);
 
             //llena incremental
-
             double recCT = 0;
             double val = 0;
             DataRow row3 = ds.Tables["CapitalTrabajo"].NewRow();
@@ -51,7 +52,7 @@ namespace UCR.Negotium.Extensions
             int a3 = 1;
             for (int i = 1; i < proyecto.CostosGenerados.Count; i++)
             {
-                val = ((proyecto.CostosGenerados[i] / 12) * 1.5) - ((proyecto.CostosGenerados[i - 1] / 12) * 1.5);
+                val = -(((proyecto.CostosGenerados[i] / 12) * 1.5) - ((proyecto.CostosGenerados[i - 1] / 12) * 1.5));
                 row3[(proyecto.AnoInicial + a3).ToString()] = signoMoneda +" "+ (val).ToString("#,##0.##");
                 recCT += val;
                 a3++;
@@ -59,7 +60,7 @@ namespace UCR.Negotium.Extensions
             ds.Tables["CapitalTrabajo"].Rows.Add(row3);
 
             dtCapitalTrabajo = ds.Tables["CapitalTrabajo"].AsDataView();
-            recCTResult = recCT;
+            recCTResult = +-recCT;
         }
 
         public static DataTable GenerarCostosTotales(Proyecto proyecto)
@@ -435,7 +436,14 @@ namespace UCR.Negotium.Extensions
                     double val = Convert.ToDouble(ds.Tables[dsNombre].Rows[5].ItemArray[i + 2].ToString().Replace(signoMoneda + " ", string.Empty));
                     double valImp = proyecto.PorcentajeImpuesto;
 
-                    row7[(proyecto.AnoInicial + a7).ToString()] = signoMoneda +" "+ Math.Round(((valImp * val) / 100), 2).ToString("#,##0.##");
+                    if(val > 0)
+                    {
+                        row7[(proyecto.AnoInicial + a7).ToString()] = signoMoneda + " " + Math.Round(((valImp * val) / 100), 2).ToString("#,##0.##");
+                    }
+                    else
+                    {
+                        row7[(proyecto.AnoInicial + a7).ToString()] = signoMoneda + " 0";
+                    }
                     a7++;
                 }
             }

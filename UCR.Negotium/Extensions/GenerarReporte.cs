@@ -1,4 +1,6 @@
-﻿using NVelocity;
+﻿using iTextSharp.text;
+using iTextSharp.text.pdf;
+using NVelocity;
 using NVelocity.App;
 using System;
 using System.Collections.Generic;
@@ -7,6 +9,9 @@ using System.IO;
 using System.Text;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
+using iTextSharp.tool.xml;
+using iTextSharp.text.html.simpleparser;
+using iTextSharp.text.html;
 
 namespace UCR.Negotium.Extensions
 {
@@ -146,20 +151,29 @@ namespace UCR.Negotium.Extensions
         public bool CrearReporte()
         {
             string htmlString = LlenarPlantillaProyecto();
-            string destinoReporte = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Report");
 
-            string reportPdfPath = string.Format("{0}Sample_{1}.pdf", destinoReporte, DateTime.Now.ToString("yyyyMMddHHmmss"));
-            if (File.Exists(reportPdfPath))
-                File.Delete(reportPdfPath);
+            string reportFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Report");
+            string reportPdfPath = string.Format("{0}Sample_{1}.pdf", reportFolder, DateTime.Now.ToString("yyyyMMddHHmmss"));
+            string cssTemplatePath = Path.Combine(reportFolder, "css", "style.css");
+            var cssText = File.ReadAllText(cssTemplatePath);
 
-            var htmlToPdf = new NReco.PdfGenerator.HtmlToPdfConverter();
-            htmlToPdf.PageWidth = 250;
-            htmlToPdf.PageHeight = 300;
-            htmlToPdf.Margins.Left = htmlToPdf.Margins.Right = 0.8F;
-            //htmlToPdf.PageFooterHtml = "Este reporte fue generado automáticamente por Negotium - Universidad de Costa Rica";
-            htmlToPdf.GeneratePdfFromFile(htmlString, null, reportPdfPath);
+            using (Document document = new Document(PageSize.A3, 10f, 10f, 50f, 0f))
+            {
+                PdfWriter writer = PdfWriter.GetInstance(document, new FileStream(reportPdfPath, FileMode.Create));
+                document.Open();
+
+                using (var cssMemoryStream = new MemoryStream(Encoding.UTF8.GetBytes(cssText)))
+                {
+                    using (var htmlMemoryStream = new MemoryStream(Encoding.UTF8.GetBytes(htmlString)))
+                    {
+                        XMLWorkerHelper.GetInstance().ParseXHtml(writer, document, htmlMemoryStream, cssMemoryStream, Encoding.UTF8);
+                    }
+                }
+                document.Close();
+            }
 
             System.Diagnostics.Process.Start(reportPdfPath);
+
             return true;
         }
 
@@ -179,6 +193,7 @@ namespace UCR.Negotium.Extensions
             Velocity.Init();
             var context = new VelocityContext();
 
+            context.Put("reportPath", reportFolder);
             context.Put("proyecto", proyecto);
             context.Put("inversionesTotal", invTotales);
             context.Put("reinversionesTotal", reinvTotales);
@@ -203,11 +218,7 @@ namespace UCR.Negotium.Extensions
                 Velocity.Evaluate(context, writer, null, reader);
             }
 
-            StreamWriter objWriter = new StreamWriter(reportPath);
-            objWriter.Write(sb.ToString());
-            objWriter.Close();
-
-            return reportPath;
+            return sb.ToString();
         }
     }
 }

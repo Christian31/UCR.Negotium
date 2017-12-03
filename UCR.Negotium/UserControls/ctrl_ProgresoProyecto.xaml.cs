@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls;
+using UCR.Negotium.Domain.Enums;
 
 namespace UCR.Negotium.UserControls
 {
@@ -9,26 +10,41 @@ namespace UCR.Negotium.UserControls
     /// </summary>
     public partial class ctrl_ProgresoProyecto : UserControl, INotifyPropertyChanged
     {
-        private List<bool> statusSteps;
+        private Dictionary<ProgresoStep, bool> statusSteps;
 
         public ctrl_ProgresoProyecto()
         {
             InitializeComponent();
-            statusSteps = new List<bool>(11);
+            statusSteps = new Dictionary<ProgresoStep, bool>(12)
+            {
+                { ProgresoStep.InformacionGeneral, false },
+                { ProgresoStep.Proponente, false },
+                { ProgresoStep.Caracterizacion, false },
+                { ProgresoStep.Inversiones, false },
+                { ProgresoStep.Reinversiones, false },
+                { ProgresoStep.ProyeccionVentas, false },
+                { ProgresoStep.Costos, false },
+                { ProgresoStep.CapitalTrabajo, false },
+                { ProgresoStep.Depreciaciones, false },
+                { ProgresoStep.Financiamiento, false },
+                { ProgresoStep.FlujoCaja, false },
+                { ProgresoStep.AnalisisAmbiental, false },
+            };
 
             DataContext = this;
         }
+
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
         #region InternalMethods
-        public void Reload(List<bool> statusSteps)
+        public void Reload(Dictionary<ProgresoStep, bool> statusSteps)
         {
             StatusSteps = statusSteps;
         }
         #endregion
 
         #region Properties
-        public List<bool> StatusSteps
+        public Dictionary<ProgresoStep, bool> StatusSteps
         {
             get
             {

@@ -11,6 +11,8 @@ using System;
 using Microsoft.VisualBasic;
 using UCR.Negotium.Dialogs;
 using UCR.Negotium.Domain.Tracing;
+using UCR.Negotium.Domain.Enums;
+using System.Linq;
 
 namespace UCR.Negotium
 {
@@ -21,10 +23,7 @@ namespace UCR.Negotium
     {
         private Proyecto proyecto;
         private DataView dtFlujoCaja;
-        private string tir;
-        private string van;
-        private string signoMoneda;
-
+        private string tir, van, signoMoneda;
         private double montoInicial;
         private double[] flujoCaja;
 
@@ -35,11 +34,10 @@ namespace UCR.Negotium
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
+        #region Contructor
         public RegistrarProyectoWindow(int codProyecto = 0, int codEncargado = 0)
         {
             InitializeComponent();
-
-            if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) return;
 
             DataContext = this;
 
@@ -68,7 +66,9 @@ namespace UCR.Negotium
 
             InitializeComponent();
         }
+        #endregion
 
+        #region Properties
         public Proyecto ProyectoSelected
         {
             get
@@ -116,9 +116,144 @@ namespace UCR.Negotium
         }
 
         public int CodProyecto { get; set; }
+        #endregion
 
-        private bool displayWarningClosing = true;
+        #region Public Methods
+        public void ReloadUserControls(int codProyecto)
+        {
+            if(pendingSaveMoneda)
+            {
+                LocalContext.SetMoneda(codProyecto, ProyectoSelected.TipoMoneda.CodMoneda);
+            }
+            resumen.CodProyecto = orgProponente.CodProyecto = infoGeneral.CodProyecto = caracterizacion.CodProyecto =
+                    inversiones.CodProyecto = reinversiones.CodProyecto =
+                    capitalTrabajo.CodProyecto = depreciaciones.CodProyecto =
+                    costos.CodProyecto = proyeccionVentas.CodProyecto =
+                    financiamientoUc.CodProyecto = analisisAmbiental.CodProyecto = codProyecto;
 
+            ReloadProyecto(codProyecto);
+
+            ((TabItem)tcRegistrarProyecto.Items[9]).IsEnabled = !(proyecto.TipoProyecto.CodTipo.Equals(0) && !proyecto.ConFinanciamiento);
+        }
+        #endregion
+
+        #region Private Methods
+        private void ReloadProyecto(int codProyecto)
+        {
+            proyecto = proyectoData.GetProyecto(codProyecto);
+            proyecto.OrganizacionProponente = orgProponente.OrgProponente;
+            proyecto.Proyecciones = proyeccionVentas.ProyeccionesList;
+            proyecto.Financiamiento = financiamientoUc.FinanciamientoSelected;
+            proyecto.Costos = costos.CostosList;
+            proyecto.RequerimientosInversion = inversiones.InversionesList;
+            proyecto.RequerimientosReinversion = reinversiones.ReinversionesList;
+            signoMoneda = LocalContext.GetSignoMoneda(codProyecto);
+
+            LocalContext.SetFlujoCaja(null);
+            ReloadProgress();
+        }
+
+        private void ReloadProgress()
+        {
+            Dictionary<ProgresoStep, bool> stepsProgress = new Dictionary<ProgresoStep, bool>(12);
+
+            stepsProgress.Add(ProgresoStep.InformacionGeneral, !proyecto.CodProyecto.Equals(0));
+            stepsProgress.Add(ProgresoStep.Proponente, !orgProponente.OrgProponente.CodOrganizacion.Equals(0));
+            stepsProgress.Add(ProgresoStep.Caracterizacion, !string.IsNullOrWhiteSpace(proyecto.CaraterizacionDelBienServicio));
+            stepsProgress.Add(ProgresoStep.Inversiones, !inversiones.InversionesList.Count.Equals(0));
+            stepsProgress.Add(ProgresoStep.Reinversiones, !reinversiones.ReinversionesList.Count.Equals(0));
+            stepsProgress.Add(ProgresoStep.ProyeccionVentas, !proyeccionVentas.ProyeccionesList.Count.Equals(0));
+
+            if (!costos.CostosList.Count.Equals(0))
+            {
+                stepsProgress.Add(ProgresoStep.Costos, true);
+                stepsProgress.Add(ProgresoStep.CapitalTrabajo,true);
+            }
+            else
+            {
+                stepsProgress.Add(ProgresoStep.Costos, false);
+                stepsProgress.Add(ProgresoStep.CapitalTrabajo, false);
+            }
+
+            if (!inversiones.InversionesList.Where(inv => inv.Depreciable).Count().Equals(0) || 
+                !reinversiones.ReinversionesList.Where(reinv => reinv.Depreciable).Count().Equals(0))
+            {
+                stepsProgress.Add(ProgresoStep.Depreciaciones, true);
+            }
+            else
+            {
+                stepsProgress.Add(ProgresoStep.Depreciaciones, false);
+            }
+
+            stepsProgress.Add(ProgresoStep.Financiamiento, !financiamientoUc.FinanciamientoSelected.CodFinanciamiento.Equals(0));
+
+            if (!inversiones.InversionesList.Count.Equals(0) || !reinversiones.ReinversionesList.Count.Equals(0) ||
+                !proyeccionVentas.ProyeccionesList.Count.Equals(0) || !costos.CostosList.Count.Equals(0) ||
+                !financiamientoUc.FinanciamientoSelected.CodFinanciamiento.Equals(0))
+            {
+                stepsProgress.Add(ProgresoStep.FlujoCaja, true);
+            }
+            else
+            {
+                stepsProgress.Add(ProgresoStep.FlujoCaja, false);
+            }
+            stepsProgress.Add(ProgresoStep.AnalisisAmbiental, !analisisAmbiental.FactorAmbientalList.Count.Equals(0));
+
+            progreso.Reload(stepsProgress);
+        }
+        
+        private void LlenaFlujoCaja()
+        {
+            DTFlujoCaja = LocalContext.GetFlujoCaja(proyecto, capitalTrabajo.DTCapitalTrabajo, financiamientoUc.DTFinanciamiento, reinversiones.DTTotalesReinversiones,
+                inversiones.InversionesTotal, capitalTrabajo.RecuperacionCT);
+
+            LlenaCalculosFinales();
+        }
+
+        private void LlenaCalculosFinales()
+        {
+            double[] num = new double[ProyectoSelected.HorizonteEvaluacionEnAnos + 1];
+            double[] numArray = new double[ProyectoSelected.HorizonteEvaluacionEnAnos];
+            for (int i = 0; i <= ProyectoSelected.HorizonteEvaluacionEnAnos; i++)
+            {
+                num[i] = Convert.ToDouble(DTFlujoCaja.Table.Rows[16][i + 1].ToString().Replace(signoMoneda, string.Empty));
+            }
+
+            for (int k = 0; k < ProyectoSelected.HorizonteEvaluacionEnAnos; k++)
+            {
+                numArray[k] = num[k + 1];
+            }
+
+            montoInicial = num[0];
+            flujoCaja = numArray;
+
+            try
+            {
+                double num2 = Financial.NPV(ProyectoSelected.TasaCostoCapital, ref numArray);
+                VAN = signoMoneda + " " + num2.ToString("#,##0.##");
+            }
+            catch { VAN = signoMoneda + " " + 0.ToString("#,##0.##"); }
+
+            try
+            {
+                double num1 = Financial.IRR(ref num) * 100;
+
+                TIR = string.Concat(num1.ToString("#,##0.##"), " %");
+            }
+            catch { TIR = string.Concat(0.ToString("#,##0.##"), " %"); }
+        }
+        #endregion
+
+        #region Events
+        private void dgFlujoCaja_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (dgFlujoCaja.Columns.Count > 0)
+            {
+                this.dgFlujoCaja.Columns[0].Width = 180;
+            }
+        }
+
+        bool displayWarningClosing = true;
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
             if (displayWarningClosing)
@@ -143,82 +278,6 @@ namespace UCR.Negotium
                 MainWindow mainWindow = new MainWindow();
                 mainWindow.Show();
             }
-        }
-
-        public void ReloadUserControls(int codProyecto)
-        {
-            if(pendingSaveMoneda)
-            {
-                LocalContext.SetMoneda(codProyecto, ProyectoSelected.TipoMoneda.CodMoneda);
-            }
-            resumen.CodProyecto = orgProponente.CodProyecto = infoGeneral.CodProyecto = caracterizacion.CodProyecto =
-                    inversiones.CodProyecto = reinversiones.CodProyecto =
-                    capitalTrabajo.CodProyecto = depreciaciones.CodProyecto =
-                    costos.CodProyecto = proyeccionVentas.CodProyecto =
-                    financiamientoUc.CodProyecto = analisisAmbiental.CodProyecto = codProyecto;
-
-            ReloadProyecto(codProyecto);
-
-            if (proyecto.TipoProyecto.CodTipo.Equals(0) && !proyecto.ConFinanciamiento)
-            {
-                ((TabItem)tcRegistrarProyecto.Items[9]).IsEnabled = false;
-            }
-            else
-            {
-                ((TabItem)tcRegistrarProyecto.Items[9]).IsEnabled = true;
-            }
-
-            ReloadProgress();
-        }
-
-        private void ReloadProyecto(int codProyecto)
-        {
-            proyecto = proyectoData.GetProyecto(codProyecto);
-            proyecto.OrganizacionProponente = orgProponente.OrgProponente;
-            proyecto.Proyecciones = proyeccionVentas.ProyeccionesList;
-            proyecto.Financiamiento = financiamientoUc.FinanciamientoSelected;
-            proyecto.Costos = costos.CostosList;
-            proyecto.RequerimientosInversion = inversiones.InversionesList;
-            proyecto.RequerimientosReinversion = reinversiones.ReinversionesList;
-            signoMoneda = LocalContext.GetSignoMoneda(codProyecto);
-        }
-
-        public void ReloadProgress()
-        {
-            List<bool> stepsProgress = new List<bool>(11);
-
-            stepsProgress.Add(!proyecto.CodProyecto.Equals(0));
-            stepsProgress.Add(!orgProponente.OrgProponente.CodOrganizacion.Equals(0));
-            stepsProgress.Add(!string.IsNullOrWhiteSpace(proyecto.CaraterizacionDelBienServicio));
-            stepsProgress.Add(!inversiones.InversionesList.Count.Equals(0));
-            stepsProgress.Add(!reinversiones.ReinversionesList.Count.Equals(0));
-            stepsProgress.Add(!proyeccionVentas.ProyeccionesList.Count.Equals(0));
-            stepsProgress.Add(!costos.CostosList.Count.Equals(0));
-            stepsProgress.Add(!costos.CostosList.Count.Equals(0));
-
-            if (!inversiones.InversionesList.Count.Equals(0) || !reinversiones.ReinversionesList.Count.Equals(0))
-            {
-                stepsProgress.Add(true);
-            }
-            else
-            {
-                stepsProgress.Add(false);
-            }
-
-            stepsProgress.Add(!financiamientoUc.FinanciamientoSelected.CodFinanciamiento.Equals(0));
-
-            if (!inversiones.InversionesList.Count.Equals(0) || !reinversiones.ReinversionesList.Count.Equals(0) ||
-                !proyeccionVentas.ProyeccionesList.Count.Equals(0) || !costos.CostosList.Count.Equals(0) ||
-                !financiamientoUc.FinanciamientoSelected.CodFinanciamiento.Equals(0))
-            {
-                stepsProgress.Add(true);
-            }
-            else
-            {
-                stepsProgress.Add(false);
-            }
-
-            progreso.Reload(stepsProgress);
         }
 
         private void tcRegistrarProyecto_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -253,57 +312,6 @@ namespace UCR.Negotium
                         LlenaFlujoCaja();
                     }
                 }
-            }
-        }
-
-        private void LlenaFlujoCaja()
-        {
-            ReloadProyecto(proyecto.CodProyecto);
-
-            DTFlujoCaja = DatatableBuilder.GenerarFlujoCaja(proyecto, capitalTrabajo.DTCapitalTrabajo, financiamientoUc.DTFinanciamiento, reinversiones.DTTotalesReinversiones,
-                inversiones.InversionesTotal, capitalTrabajo.RecuperacionCT).AsDataView();
-
-            LlenaCalculosFinales();
-        }
-
-        private void LlenaCalculosFinales()
-        {
-            double[] num = new double[ProyectoSelected.HorizonteEvaluacionEnAnos + 1];
-            double[] numArray = new double[ProyectoSelected.HorizonteEvaluacionEnAnos];
-            for (int i = 0; i <= ProyectoSelected.HorizonteEvaluacionEnAnos; i++)
-            {
-                num[i] = Convert.ToDouble(DTFlujoCaja.Table.Rows[16][i + 1].ToString().Replace(signoMoneda, string.Empty));
-            }
-
-            for (int k = 0; k < ProyectoSelected.HorizonteEvaluacionEnAnos; k++)
-            {
-                numArray[k] = num[k + 1];
-            }
-
-            montoInicial = num[0];
-            flujoCaja = numArray;
-
-            try
-            {
-                double num2 = Financial.NPV(ProyectoSelected.TasaCostoCapital, ref numArray);
-                VAN = signoMoneda + " " + num2.ToString("#,##0.##");
-            }
-            catch { VAN = signoMoneda + " " + 0.ToString("#,##0.##"); }
-
-            try
-            {
-                double num1 = Financial.IRR(ref num, 0.3) * 100;
-
-                TIR = string.Concat(num1.ToString("#,##0.##"), " %");
-            }
-            catch { TIR = string.Concat(0.ToString("#,##0.##"), " %"); }
-        }
-
-        private void dgFlujoCaja_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (dgFlujoCaja.Columns.Count > 0)
-            {
-                this.dgFlujoCaja.Columns[0].Width = 180;
             }
         }
 
@@ -358,8 +366,9 @@ namespace UCR.Negotium
                 catch (Exception ex)
                 {
                     ex.TraceExceptionAsync();
-                    MessageBox.Show("Se ha producido un error generando el Reporte, favor asegurese que ha ingresado todos los datos del proyecto. \n Si el error persiste comunicarse con el Administrador", "Generando Reporte", 
-                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(ex.Message);
+                    //MessageBox.Show("Se ha producido un error generando el Reporte, favor asegurese que ha ingresado todos los datos del proyecto. \n Si el error persiste comunicarse con el Administrador", "Generando Reporte", 
+                        //MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -433,5 +442,6 @@ namespace UCR.Negotium
                     "Encargado", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+        #endregion
     }
 }

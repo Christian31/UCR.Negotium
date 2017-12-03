@@ -69,6 +69,14 @@
     <ApplicationIcon>Resources\Icon\icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp, Version=5.5.12.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.12\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker, Version=5.5.12.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itextsharp.xmlworker.5.5.12\lib\itextsharp.xmlworker.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
@@ -386,10 +394,6 @@
     </None>
     <AppDesigner Include="Properties\" />
     <None Include="UCR.Negotium_TemporaryKey.pfx" />
-    <None Include="Report\fonts\glyphicons-halflings-regular.eot" />
-    <Resource Include="Report\fonts\glyphicons-halflings-regular.ttf" />
-    <None Include="Report\fonts\glyphicons-halflings-regular.woff" />
-    <None Include="Report\fonts\glyphicons-halflings-regular.woff2" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -408,25 +412,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="negotium.ico" />
-    <Content Include="Report\css\bootstrap.css">
+    <Content Include="Report\css\style.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Report\css\bootstrap.min.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Report\css\sb-admin.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Report\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Report\js\bootstrap.js" />
-    <Content Include="Report\js\bootstrap.min.js" />
-    <Content Include="Report\js\jquery.js" />
-    <Content Include="Report\js\plugins\flot\excanvas.min.js" />
-    <Content Include="Report\js\plugins\flot\flot-data.js" />
-    <Content Include="Report\js\plugins\flot\jquery.flot.js" />
-    <Content Include="Report\js\plugins\flot\jquery.flot.pie.js" />
-    <Content Include="Report\js\plugins\flot\jquery.flot.resize.js" />
-    <Content Include="Report\js\plugins\flot\jquery.flot.tooltip.min.js" />
     <Content Include="Report\template.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
