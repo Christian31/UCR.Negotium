@@ -40,7 +40,7 @@ namespace UCR.Negotium.UserControls
         }
 
         #region InternalMethods
-        public void Reload()
+        private void Reload()
         {
             DTCapitalTrabajo = new DataView();
             recuperacionCT = 0;

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Windows;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Domain.Enums;
 
 namespace UCR.Negotium.Extensions
 {
@@ -77,6 +79,61 @@ namespace UCR.Negotium.Extensions
         }
 
         private static List<CacheSignoMoneda> CacheSignoMonedas = new List<CacheSignoMoneda>();
+        #endregion
+
+        #region Reload Modulos
+        public static void ReloadUserControls(int codProyecto, Modulo srcModule)
+        {
+            RegistrarProyectoWindow mainWindow = null;
+            foreach(var window in Application.Current.Windows)
+            {
+                if (window.GetType() == typeof(RegistrarProyectoWindow))
+                {
+                    mainWindow = (RegistrarProyectoWindow)window;
+                    break;
+                }  
+            }
+
+            if(mainWindow != null)
+            {
+                switch (srcModule)
+                {
+                    case Modulo.Caracterizacion:
+                    case Modulo.Financiamiento:
+                        break;
+                    case Modulo.Proponente:
+                        mainWindow.resumen.CodProyecto = codProyecto;
+                        break;
+                    case Modulo.Inversiones:
+                        mainWindow.inversiones.CodProyecto =
+                            mainWindow.reinversiones.CodProyecto =
+                            mainWindow.depreciaciones.CodProyecto = codProyecto;
+                        break;
+                    case Modulo.Reinversiones:
+                        mainWindow.reinversiones.CodProyecto =
+                            mainWindow.depreciaciones.CodProyecto = codProyecto;
+                        break;
+                    case Modulo.ProyeccionVentas:
+                        mainWindow.proyeccionVentas.CodProyecto = codProyecto;
+                        break;
+                    case Modulo.Costos:
+                        mainWindow.costos.CodProyecto =
+                            mainWindow.capitalTrabajo.CodProyecto = codProyecto;
+                        break;
+                    default:
+                        mainWindow.resumen.CodProyecto = mainWindow.orgProponente.CodProyecto =
+                            mainWindow.infoGeneral.CodProyecto = mainWindow.caracterizacion.CodProyecto =
+                            mainWindow.inversiones.CodProyecto = mainWindow.reinversiones.CodProyecto =
+                            mainWindow.capitalTrabajo.CodProyecto = mainWindow.depreciaciones.CodProyecto =
+                            mainWindow.costos.CodProyecto = mainWindow.proyeccionVentas.CodProyecto =
+                            mainWindow.financiamientoUc.CodProyecto = mainWindow.analisisAmbiental.CodProyecto = codProyecto;
+
+                        break;
+                }
+
+                mainWindow.ReloadBase(codProyecto);
+            }
+        }
         #endregion
 
     }

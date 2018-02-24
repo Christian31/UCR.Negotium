@@ -10,25 +10,25 @@ namespace UCR.Negotium.UserControls
     /// </summary>
     public partial class ctrl_ProgresoProyecto : UserControl, INotifyPropertyChanged
     {
-        private Dictionary<ProgresoStep, bool> statusSteps;
+        private Dictionary<Modulo, bool> statusSteps;
 
         public ctrl_ProgresoProyecto()
         {
             InitializeComponent();
-            statusSteps = new Dictionary<ProgresoStep, bool>(12)
+            statusSteps = new Dictionary<Modulo, bool>(12)
             {
-                { ProgresoStep.InformacionGeneral, false },
-                { ProgresoStep.Proponente, false },
-                { ProgresoStep.Caracterizacion, false },
-                { ProgresoStep.Inversiones, false },
-                { ProgresoStep.Reinversiones, false },
-                { ProgresoStep.ProyeccionVentas, false },
-                { ProgresoStep.Costos, false },
-                { ProgresoStep.CapitalTrabajo, false },
-                { ProgresoStep.Depreciaciones, false },
-                { ProgresoStep.Financiamiento, false },
-                { ProgresoStep.FlujoCaja, false },
-                { ProgresoStep.AnalisisAmbiental, false },
+                { Modulo.InformacionGeneral, false },
+                { Modulo.Proponente, false },
+                { Modulo.Caracterizacion, false },
+                { Modulo.Inversiones, false },
+                { Modulo.Reinversiones, false },
+                { Modulo.ProyeccionVentas, false },
+                { Modulo.Costos, false },
+                { Modulo.CapitalTrabajo, false },
+                { Modulo.Depreciaciones, false },
+                { Modulo.Financiamiento, false },
+                { Modulo.FlujoCaja, false },
+                { Modulo.AnalisisAmbiental, false },
             };
 
             DataContext = this;
@@ -37,14 +37,14 @@ namespace UCR.Negotium.UserControls
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
         #region InternalMethods
-        public void Reload(Dictionary<ProgresoStep, bool> statusSteps)
+        public void Reload(Dictionary<Modulo, bool> statusSteps)
         {
             StatusSteps = statusSteps;
         }
         #endregion
 
         #region Properties
-        public Dictionary<ProgresoStep, bool> StatusSteps
+        public Dictionary<Modulo, bool> StatusSteps
         {
             get
             {

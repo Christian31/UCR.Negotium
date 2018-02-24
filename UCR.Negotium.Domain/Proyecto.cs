@@ -231,7 +231,6 @@ namespace UCR.Negotium.Domain
         private List<double> calcularIngresosGenerados()
         {
             List<double> listIngresos = new List<double>();
-
             if (this.Proyecciones.Count.Equals(0))
             {
                 for (int i=0; i < this.HorizonteEvaluacionEnAnos; i++)
@@ -306,12 +305,10 @@ namespace UCR.Negotium.Domain
             int count = 0;
             while (inicio <= (this.AnoInicial + this.HorizonteEvaluacionEnAnos))
             {
-                foreach (Costo articulo in this.Costos)
+                foreach (Costo articulo in this.Costos.Where(costo => costo.AnoCosto.Equals(inicio)))
                 {
-                    if (articulo.AnoCosto == inicio)
-                    {
-                        articulo.CostosMensuales.ForEach(detalle => valIni += detalle.Subtotal);
-                    }
+                    var valTemp = articulo.CostosMensuales.Select(costoM => costoM.Subtotal).Sum();
+                    valIni += Math.Round(valTemp, 2);
                 }
 
                 if (count > 0)

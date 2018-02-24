@@ -128,14 +128,8 @@
                                 <RowDefinition Height="2*"/>
                                 <RowDefinition Height="8*"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Text="Descripción:" Name="tbDescripcionOrganizacion" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
-                            <RichTextBox Grid.Row="1">
-                                <FlowDocument>
-                                    <Paragraph>
-                                        <Run Text="{Binding OrgProponente.Descripcion}"/>
-                                    </Paragraph>
-                                </FlowDocument>
-                            </RichTextBox>
+                            <Label Content="Descripción:" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                            <TextBox Grid.Row="1" Style="{StaticResource multilineTextBox}" Text="{Binding OrgProponente.Descripcion}"/>
                         </Grid>
                     </Grid>
                 </GroupBox>

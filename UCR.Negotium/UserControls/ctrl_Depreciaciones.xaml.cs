@@ -42,7 +42,7 @@ namespace UCR.Negotium.UserControls
         }
 
         #region InternalMethods
-        public void Reload()
+        private void Reload()
         {
             DTDepreciaciones = new DataView();
             ProyectoSelected = proyectoData.GetProyecto(CodProyecto);

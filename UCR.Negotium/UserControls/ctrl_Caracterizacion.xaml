@@ -37,13 +37,9 @@
                             <RowDefinition Height="76*"/>
                         </Grid.RowDefinitions>
                         <Label Content="Descripción población beneficiaria:" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
-                        <RichTextBox Grid.Row="1" Name="rtbDescripcionPoblacion" TextChanged="rtbDescripcionPoblacion_TextChanged">
-                            <FlowDocument>
-                                <Paragraph>
-                                    <Run Name="tbDescripcionPoblacion" Text="{Binding ProyectoSelected.DescripcionPoblacionBeneficiaria}"/>
-                                </Paragraph>
-                            </FlowDocument>
-                        </RichTextBox>
+                        <TextBox Grid.Row="1" Style="{StaticResource multilineTextBox}"
+                                 Name="rtbDescripcionPoblacion" TextChanged="rtbDescripcionPoblacion_TextChanged"
+                                 Text="{Binding ProyectoSelected.DescripcionPoblacionBeneficiaria, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                     </Grid>
                     <Grid Grid.Column="1" Margin="3">
                         <Grid.RowDefinitions>
@@ -51,13 +47,9 @@
                             <RowDefinition Height="76*"/>
                         </Grid.RowDefinitions>
                         <Label Content="Justificación del mercado:" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
-                        <RichTextBox Grid.Row="1" Name="rtbDescripcionMercado" TextChanged="rtbDescripcionMercado_TextChanged">
-                            <FlowDocument>
-                                <Paragraph>
-                                    <Run Name="tbDescripcionMercado" Text="{Binding ProyectoSelected.JustificacionDeMercado}"/>
-                                </Paragraph>
-                            </FlowDocument>
-                        </RichTextBox>
+                        <TextBox Grid.Row="1" Style="{StaticResource multilineTextBox}"
+                                 Name="rtbDescripcionMercado" TextChanged="rtbDescripcionMercado_TextChanged"
+                                 Text="{Binding ProyectoSelected.JustificacionDeMercado, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                     </Grid>
                     <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="3">
                         <Grid.RowDefinitions>
@@ -65,13 +57,9 @@
                             <RowDefinition Height="76*"/>
                         </Grid.RowDefinitions>
                         <Label Content="Caracterización del bien o servicio:" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
-                        <RichTextBox Grid.Row="1" Name="rtbCaraterizacionBienServicio" TextChanged="rtbCaraterizacionBienServicio_TextChanged">
-                            <FlowDocument>
-                                <Paragraph>
-                                    <Run Name="tbCaracterizacionBienServicio" Text="{Binding ProyectoSelected.CaraterizacionDelBienServicio}"/>
-                                </Paragraph>
-                            </FlowDocument>
-                        </RichTextBox>
+                        <TextBox Grid.Row="1" Style="{StaticResource multilineTextBox}"
+                                 Name="rtbCaraterizacionBienServicio" TextChanged="rtbCaraterizacionBienServicio_TextChanged"
+                                 Text="{Binding ProyectoSelected.CaraterizacionDelBienServicio, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                     </Grid>
                     <Grid Grid.Row="3" Grid.ColumnSpan="2" Margin="3">
                         <Grid.RowDefinitions>
@@ -79,13 +67,9 @@
                             <RowDefinition Height="76*"/>
                         </Grid.RowDefinitions>
                         <Label Content="Descripción de la sostenibilidad del proyecto:" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
-                        <RichTextBox Grid.Row="1" Name="rtbDescripcionSostenibilidad" TextChanged="rtbDescripcionSostenibilidad_TextChanged">
-                            <FlowDocument>
-                                <Paragraph>
-                                    <Run Name="tbDescripcionSostenibilidad" Text="{Binding ProyectoSelected.DescripcionSostenibilidadDelProyecto}"/>
-                                </Paragraph>
-                            </FlowDocument>
-                        </RichTextBox>
+                        <TextBox Grid.Row="1" Style="{StaticResource multilineTextBox}"
+                                 Name="rtbDescripcionSostenibilidad" TextChanged="rtbDescripcionSostenibilidad_TextChanged"
+                                 Text="{Binding ProyectoSelected.DescripcionSostenibilidadDelProyecto, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                     </Grid>
                 </Grid>
                 <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="3">

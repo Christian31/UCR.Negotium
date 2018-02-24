@@ -208,7 +208,7 @@ namespace UCR.Negotium.Domain.Enums
     }
     #endregion
 
-    public enum ProgresoStep
+    public enum Modulo
     {
         InformacionGeneral,
         Proponente,

@@ -8,6 +8,7 @@ using System.Data;
 using UCR.Negotium.DataAccess;
 using System.ComponentModel;
 using UCR.Negotium.Extensions;
+using UCR.Negotium.Domain.Enums;
 
 namespace UCR.Negotium.UserControls
 {
@@ -108,8 +109,7 @@ namespace UCR.Negotium.UserControls
 
                 if (registarCosto.IsActive == false && registarCosto.Reload)
                 {
-                    RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
-                    mainWindow.ReloadUserControls(CodProyecto);
+                    LocalContext.ReloadUserControls(CodProyecto, Modulo.Costos);
                 }
             }
             else
@@ -127,8 +127,7 @@ namespace UCR.Negotium.UserControls
 
                 if (registarCosto.IsActive == false && registarCosto.Reload)
                 {
-                    RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
-                    mainWindow.ReloadUserControls(CodProyecto);
+                    LocalContext.ReloadUserControls(CodProyecto, Modulo.Costos);
                 }
             }
         }
@@ -142,8 +141,7 @@ namespace UCR.Negotium.UserControls
                 {
                     if (costoData.EliminarCosto(CostoSelected.CodCosto))
                     {
-                        RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
-                        mainWindow.ReloadUserControls(CodProyecto);
+                        LocalContext.ReloadUserControls(CodProyecto, Modulo.Costos);
                     }
                     else
                     {
@@ -163,8 +161,7 @@ namespace UCR.Negotium.UserControls
 
                 if (registrarVariacionAnual.IsActive == false && registrarVariacionAnual.Reload)
                 {
-                    RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
-                    mainWindow.ReloadUserControls(CodProyecto);
+                    LocalContext.ReloadUserControls(CodProyecto, Modulo.Costos);
                 }
             }
             else
@@ -175,7 +172,7 @@ namespace UCR.Negotium.UserControls
         #endregion
 
         #region InternalMethods
-        public void Reload()
+        private void Reload()
         {
             string signoMoneda = LocalContext.GetSignoMoneda(CodProyecto);
 

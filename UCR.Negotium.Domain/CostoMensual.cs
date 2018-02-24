@@ -1,4 +1,6 @@
-﻿namespace UCR.Negotium.Domain
+﻿using System;
+
+namespace UCR.Negotium.Domain
 {
     public class CostoMensual
     {
@@ -14,7 +16,7 @@
         {
             get
             {
-                return this.Cantidad * this.CostoUnitario;
+                return Math.Round(this.Cantidad * this.CostoUnitario, 2);
             }
         }
 

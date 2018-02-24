@@ -152,9 +152,10 @@ namespace UCR.Negotium.Extensions
         {
             string htmlString = LlenarPlantillaProyecto();
 
-            string reportFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Report");
-            string reportPdfPath = string.Format("{0}Sample_{1}.pdf", reportFolder, DateTime.Now.ToString("yyyyMMddHHmmss"));
-            string cssTemplatePath = Path.Combine(reportFolder, "css", "style.css");
+            string desktopFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string reportPdfName = string.Format("Reporte_{0}_{1}.pdf", proyecto.NombreProyecto, DateTime.Now.ToString("yyyyMMddHHmmss"));
+            string reportPdfPath = Path.Combine(desktopFolder, reportPdfName);
+            string cssTemplatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Report", "css", "style.css");
             var cssText = File.ReadAllText(cssTemplatePath);
 
             using (Document document = new Document(PageSize.A3, 10f, 10f, 50f, 0f))

@@ -20,6 +20,7 @@ namespace UCR.Negotium.Domain
         public Reinversion()
         {
             this.UnidadMedida = new UnidadMedida();
+            this.VidaUtil = 2;
         }
 
         public double Subtotal

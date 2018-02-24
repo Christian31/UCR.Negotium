@@ -116,10 +116,12 @@ namespace UCR.Negotium.Dialogs
             if (tbNumeroTextChange)
             {
                 tbTasaCostoCapital.Text = tbTasaCostoCapital.Text.CheckStringFormat();
+                double tasaTemp = Convert.ToDouble(tbTasaCostoCapital.Text) / 100;
 
                 try
                 {
-                    van = Financial.NPV(Convert.ToDouble(tbTasaCostoCapital.Text), ref flujoCaja);
+                    van = Financial.NPV(tasaTemp, ref flujoCaja);
+                    van = van + montoInicial;
                 }
                 catch { van = 0; }
                 finally

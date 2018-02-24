@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
 using UCR.Negotium.Extensions;
@@ -41,7 +40,12 @@ namespace UCR.Negotium.Dialogs
 
             if (variacionCostos.Count.Equals(0))
             {
-                LoadDefaultValues();
+                //load default values
+                for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+                {
+                    int anoActual = proyecto.AnoInicial + i;
+                    variacionCostos.Add(new VariacionAnualCosto() { Ano = anoActual });
+                }
             }
         }
         #endregion
@@ -65,44 +69,41 @@ namespace UCR.Negotium.Dialogs
         #region Events
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
-            if (!ValidateRequiredFields())
+            foreach (VariacionAnualCosto variacionAnual in VariacionCostos)
             {
-                foreach(VariacionAnualCosto variacionAnual in VariacionCostos)
+                if (variacionAnual.CodVariacionCosto.Equals(0))
                 {
-                    if (variacionAnual.CodVariacionCosto.Equals(0))
+                    VariacionAnualCosto variacionTemp = variacionCostoData.InsertarVariacionAnualCosto(variacionAnual, proyecto.CodProyecto);
+                    if (!variacionTemp.CodVariacionCosto.Equals(0))
                     {
-                        VariacionAnualCosto variacionTemp = variacionCostoData.InsertarVariacionAnualCosto(variacionAnual, proyecto.CodProyecto);
-                        if (!variacionTemp.CodVariacionCosto.Equals(0))
-                        {
-                            //success
-                            Reload = true;
-                        }
-                        else
-                        {
-                            //error
-                            MessageBox.Show("Ha ocurrido un error al insertar la variacion anual de costos del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
-                            break;
-                        }
+                        //success
+                        Reload = true;
                     }
                     else
                     {
-                        if (variacionCostoData.EditarVariacionAnualCosto(variacionAnual))
-                        {
-                            //success
-                            Reload = true;
-                        }
-                        else
-                        {
-                            //error
-                            MessageBox.Show("Ha ocurrido un error al actualizar la variacion anual de costos del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
-                            break;
-                        }
+                        //error
+                        MessageBox.Show("Ha ocurrido un error al insertar la variacion anual de costos del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
                     }
                 }
-
-                if (Reload)
-                    Close();
+                else
+                {
+                    if (variacionCostoData.EditarVariacionAnualCosto(variacionAnual))
+                    {
+                        //success
+                        Reload = true;
+                    }
+                    else
+                    {
+                        //error
+                        MessageBox.Show("Ha ocurrido un error al actualizar la variacion anual de costos del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                    }
+                }
             }
+
+            if (Reload)
+                Close();
         }
 
         private void btnCancelar_Click(object sender, RoutedEventArgs e)
@@ -142,35 +143,6 @@ namespace UCR.Negotium.Dialogs
             {
                 tbNumeroChngEvent = true;
             }
-        }
-        #endregion
-
-        #region PrivateMethods
-        private void LoadDefaultValues()
-        {
-            for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
-            {
-                int anoActual = proyecto.AnoInicial + i;
-                variacionCostos.Add(new VariacionAnualCosto() { Ano = anoActual });
-            }//for
-        }
-
-        private bool ValidateRequiredFields()
-        {
-            bool validationResult = false;
-
-            foreach (VariacionAnualCosto variacionAnual in VariacionCostos)
-            {
-                if (variacionAnual.PorcentajeIncremento <= 0)
-                {
-                    dgVariacionAnual.BorderBrush = Brushes.Red;
-                    dgVariacionAnual.ToolTip = CAMPOREQUERIDO;
-                    validationResult = true;
-                    break;
-                }
-            }
-
-            return validationResult;
         }
         #endregion
     }

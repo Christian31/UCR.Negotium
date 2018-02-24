@@ -8,6 +8,7 @@ using System.Windows.Media;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Dialogs;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Domain.Enums;
 using UCR.Negotium.Extensions;
 
 namespace UCR.Negotium.UserControls
@@ -51,7 +52,7 @@ namespace UCR.Negotium.UserControls
         int anoFinalizacion = 0;
         int anoInicial = 0;
         bool interesFijo;
-        public void Reload()
+        private void Reload()
         {
             proyecto = proyectoData.GetProyecto(CodProyecto);
             FinanciamientoSelected = financiamientoData.GetFinanciamiento(CodProyecto);
@@ -100,8 +101,7 @@ namespace UCR.Negotium.UserControls
                     this.dgFinanciamiento.Columns[4].Width = 160;
                 }
 
-                RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
-                mainWindow.ReloadUserControls(CodProyecto);
+                LocalContext.ReloadUserControls(CodProyecto, Modulo.Financiamiento);
             }
         }
 

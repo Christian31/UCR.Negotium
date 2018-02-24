@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Dialogs;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Domain.Enums;
 using UCR.Negotium.Extensions;
 
 namespace UCR.Negotium.UserControls
@@ -45,7 +46,7 @@ namespace UCR.Negotium.UserControls
         }
 
         #region InternalMethods
-        public void Reload()
+        private void Reload()
         {
             SignoMoneda = LocalContext.GetSignoMoneda(CodProyecto);
 
@@ -151,7 +152,7 @@ namespace UCR.Negotium.UserControls
 
                 if (registarProyeccion.IsActive == false && registarProyeccion.Reload)
                 {
-                    Reload();
+                    LocalContext.ReloadUserControls(CodProyecto, Modulo.ProyeccionVentas);
                 }
             }
             else
@@ -169,7 +170,7 @@ namespace UCR.Negotium.UserControls
 
                 if (registarProyeccion.IsActive == false && registarProyeccion.Reload)
                 {
-                    Reload();
+                    LocalContext.ReloadUserControls(CodProyecto, Modulo.ProyeccionVentas);
                 }
             }
         }
@@ -184,7 +185,7 @@ namespace UCR.Negotium.UserControls
                     if (crecimientoOfertaData.EliminarCrecimientoObjetoInteres(ProyeccionSelected.CodArticulo) && 
                         proyeccionArticuloData.EliminarProyeccionVenta(ProyeccionSelected.CodArticulo))
                     {
-                        Reload();
+                        LocalContext.ReloadUserControls(CodProyecto, Modulo.ProyeccionVentas);
                     }
                     else
                     {

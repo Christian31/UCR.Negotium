@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -32,6 +31,7 @@ namespace UCR.Negotium.Dialogs
         private List<Inversion> inversiones;
 
         private bool vincularInversion;
+        private string descReinv;
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         #endregion
@@ -57,7 +57,7 @@ namespace UCR.Negotium.Dialogs
 
             proyecto = proyectoData.GetProyecto(codProyecto);
             unidadMedidas = unidadMedidaData.GetUnidadesMedidas();
-            inversiones.AddRange(requerimientoInversionData.GetInversiones(codProyecto).Where(inv => inv.Depreciable.Equals(true)).ToList());
+            inversiones = requerimientoInversionData.GetInversiones(codProyecto).Where(inv => inv.Depreciable).ToList();
             
             reinversion.UnidadMedida = unidadMedidas.FirstOrDefault();
             reinversion.AnoReinversion = AnosDisponibles.FirstOrDefault();
@@ -65,6 +65,7 @@ namespace UCR.Negotium.Dialogs
             if (codReinversion != 0)
             {
                 reinversion = requerimientoReinversionData.GetReinversion(codReinversion);
+                descReinv = reinversion.DescripcionRequerimiento;
                 vincularInversion = !reinversion.CodRequerimientoInversion.Equals(0);
             }
         }
@@ -138,6 +139,7 @@ namespace UCR.Negotium.Dialogs
             set
             {
                 reinversion = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("Reinversion"));
             }
         }
         #endregion
@@ -216,38 +218,10 @@ namespace UCR.Negotium.Dialogs
                 tbDescReinversion.ToolTip = "Ingrese en este campo el Nombre de la Reinversión que desea registrar";
             }
         }
-        #endregion
-
-        #region PrivateMethods
-        private bool ValidateRequiredFields()
-        {
-            bool validationResult = false;
-            if (string.IsNullOrWhiteSpace(tbDescReinversion.Text))
-            {
-                tbDescReinversion.ToolTip = CAMPOREQUERIDO;
-                tbDescReinversion.BorderBrush = Brushes.Red;
-                validationResult = true;
-            }
-            if (Convert.ToDouble(tbCostoUnitario.Text.ToString()) <= 0)
-            {
-                tbCostoUnitario.ToolTip = CAMPOREQUERIDOPOSITIVO;
-                tbCostoUnitario.BorderBrush = Brushes.Red;
-                validationResult = true;
-            }
-            if (Convert.ToDouble(tbCantidad.Text.ToString()) <= 0)
-            {
-                tbCantidad.ToolTip = CAMPOREQUERIDOPOSITIVO;
-                tbCantidad.BorderBrush = Brushes.Red;
-                validationResult = true;
-            }
-
-            return validationResult;
-        }
-        #endregion
 
         private void cbxInversiones_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(cbxInversiones.SelectedIndex >= 0)
+            if (cbxInversiones.SelectedIndex >= 0 && Reinversion.CodRequerimientoInversion == 0)
             {
                 Inversion inversion = (Inversion)cbxInversiones.SelectedItem;
                 tbDescReinversion.Text = inversion.DescripcionRequerimiento;
@@ -264,7 +238,7 @@ namespace UCR.Negotium.Dialogs
         private void cbNoInversion_Checked(object sender, RoutedEventArgs e)
         {
             Reinversion.CodRequerimientoInversion = 0;
-            Reinversion.DescripcionRequerimiento = "";
+            Reinversion.DescripcionRequerimiento = descReinv;
             PropertyChanged(this, new PropertyChangedEventArgs("Reinversion"));
         }
 
@@ -323,5 +297,34 @@ namespace UCR.Negotium.Dialogs
                 tbCantidadtxtChngEvent = true;
             }
         }
+
+        #endregion
+
+        #region PrivateMethods
+        private bool ValidateRequiredFields()
+        {
+            bool validationResult = false;
+            if (string.IsNullOrWhiteSpace(tbDescReinversion.Text))
+            {
+                tbDescReinversion.ToolTip = CAMPOREQUERIDO;
+                tbDescReinversion.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+            if (Convert.ToDouble(tbCostoUnitario.Text.ToString()) <= 0)
+            {
+                tbCostoUnitario.ToolTip = CAMPOREQUERIDOPOSITIVO;
+                tbCostoUnitario.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+            if (Convert.ToDouble(tbCantidad.Text.ToString()) <= 0)
+            {
+                tbCantidad.ToolTip = CAMPOREQUERIDOPOSITIVO;
+                tbCantidad.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+
+            return validationResult;
+        }
+        #endregion
     }
 }

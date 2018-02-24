@@ -71,15 +71,6 @@
                             <CheckBox FlowDirection="LeftToRight" Content="No" Margin="10,0,0,0"
                                       IsChecked="{Binding ProyectoSelected.ConFinanciamiento, Converter={conv:InverseBoolConverter}}"/>
                         </StackPanel>
-                        <!--<StackPanel Style="{StaticResource verticalPanelFormStyle}">
-                            <Label Content="Tipo de Proyecto:"/>
-                            <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
-                                <CheckBox FlowDirection="LeftToRight" Content="Con Ingresos"
-                                      IsChecked="{Binding ProyectoSelected.ConIngresos}"/>
-                                <CheckBox FlowDirection="LeftToRight" Content="Sin Ingresos" Margin="10,0,0,0"
-                                      IsChecked="{Binding ProyectoSelected.ConIngresos, Converter={conv:InverseBoolConverter}}"/>
-                            </StackPanel>
-                        </StackPanel>-->
                         <StackPanel Style="{StaticResource verticalPanelFormStyle}">
                             <Label Content="Bien o Servicio del Proyecto:"/>
                             <TextBox Name="tbBienServicio" TextChanged="tbBienServicio_TextChanged"
@@ -124,13 +115,7 @@
                                     <RowDefinition Height="7.5*"/>
                                 </Grid.RowDefinitions>
                                 <Label Content="Dirección Exacta:" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
-                                <RichTextBox Grid.Row="1">
-                                    <FlowDocument>
-                                        <Paragraph>
-                                            <Run Text="{Binding ProyectoSelected.DireccionExacta}"/>
-                                        </Paragraph>
-                                    </FlowDocument>
-                                </RichTextBox>
+                                <TextBox Grid.Row="1" Style="{StaticResource multilineTextBox}" Text="{Binding ProyectoSelected.DireccionExacta}"/>
                             </Grid>
                         </Grid>
                     </GroupBox>
@@ -140,13 +125,7 @@
                             <RowDefinition Height="89*"/>
                         </Grid.RowDefinitions>
                         <Label Content="Resumen Ejecutivo:" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
-                        <RichTextBox Grid.Row="1">
-                            <FlowDocument>
-                                <Paragraph>
-                                    <Run Text="{Binding ProyectoSelected.ResumenEjecutivo}"/>
-                                </Paragraph>
-                            </FlowDocument>
-                        </RichTextBox>
+                        <TextBox Grid.Row="1" Style="{StaticResource multilineTextBox}" Text="{Binding ProyectoSelected.ResumenEjecutivo}"/>
                     </Grid>
                 </Grid>
                 <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="3">

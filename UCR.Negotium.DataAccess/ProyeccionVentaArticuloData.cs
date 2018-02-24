@@ -198,7 +198,7 @@ namespace UCR.Negotium.DataAccess
         public bool EliminarProyeccionVenta(int codProyeccion)
         {
             int result = -1;
-            string sqlQuery2 = "DELETE FROM PROYECCION_VENTA WHERE cod_articulo=?";
+            string sqlQuery2 = "DELETE FROM PROYECCION_VENTA WHERE cod_proyeccion=?";
             string sqlQuery1 = "DELETE FROM DETALLE_PROYECCION_VENTA WHERE cod_proyeccion=?";
 
             using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))

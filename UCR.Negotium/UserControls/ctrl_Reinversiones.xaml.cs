@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Dialogs;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Domain.Enums;
 using UCR.Negotium.Extensions;
 
 namespace UCR.Negotium.UserControls
@@ -44,7 +45,7 @@ namespace UCR.Negotium.UserControls
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
         #region InternalMethods
-        public void Reload()
+        private void Reload()
         {
             DTTotalesReinversiones = new DataView();
 
@@ -144,8 +145,7 @@ namespace UCR.Negotium.UserControls
 
                 if (registrarReinversion.IsActive == false && registrarReinversion.Reload)
                 {
-                    RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
-                    mainWindow.ReloadUserControls(CodProyecto);
+                    LocalContext.ReloadUserControls(CodProyecto, Modulo.Reinversiones);
                 }
             }
             else
@@ -163,8 +163,7 @@ namespace UCR.Negotium.UserControls
 
                 if (registrarReinversion.IsActive == false && registrarReinversion.Reload)
                 {
-                    RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
-                    mainWindow.ReloadUserControls(CodProyecto);
+                    LocalContext.ReloadUserControls(CodProyecto, Modulo.Reinversiones);
                 }
             }
         }
@@ -178,8 +177,7 @@ namespace UCR.Negotium.UserControls
                 {
                     if (reinversionData.EliminarReinversion(ReinversionSelected.CodRequerimientoReinversion))
                     {
-                        RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
-                        mainWindow.ReloadUserControls(CodProyecto);
+                        LocalContext.ReloadUserControls(CodProyecto, Modulo.Reinversiones);
                     }
                     else
                     {

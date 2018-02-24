@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using UCR.Negotium.Domain;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Extensions;
+using UCR.Negotium.Domain.Enums;
 
 namespace UCR.Negotium.UserControls
 {
@@ -35,7 +36,7 @@ namespace UCR.Negotium.UserControls
         }
 
         #region InternalMethods
-        public void Reload()
+        private void Reload()
         {
             SignoMoneda = LocalContext.GetSignoMoneda(codProyecto);
             InversionesList = inversionData.GetInversiones(CodProyecto);
@@ -127,8 +128,7 @@ namespace UCR.Negotium.UserControls
 
                 if (registrarInversion.IsActive == false && registrarInversion.Reload)
                 {
-                    RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
-                    mainWindow.ReloadUserControls(CodProyecto);
+                    LocalContext.ReloadUserControls(CodProyecto, Modulo.Inversiones);
                 }
             }
             else
@@ -146,8 +146,7 @@ namespace UCR.Negotium.UserControls
 
                 if (registrarInversion.IsActive == false && registrarInversion.Reload)
                 {
-                    RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
-                    mainWindow.ReloadUserControls(CodProyecto);
+                    LocalContext.ReloadUserControls(CodProyecto, Modulo.Inversiones);
                 }
             }
         }
@@ -161,8 +160,7 @@ namespace UCR.Negotium.UserControls
                 {
                     if (inversionData.EliminarInversion(InversionSelected.CodRequerimientoInversion))
                     {
-                        RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
-                        mainWindow.ReloadUserControls(CodProyecto);
+                        LocalContext.ReloadUserControls(CodProyecto, Modulo.Inversiones);
                     }
                     else
                     {

@@ -6,6 +6,8 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Domain.Enums;
+using UCR.Negotium.Extensions;
 
 namespace UCR.Negotium.UserControls
 {
@@ -131,8 +133,7 @@ namespace UCR.Negotium.UserControls
 
                     if (idProyecto != -1)
                     {
-                        RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
-                        mainWindow.ReloadUserControls(idProyecto);
+                        LocalContext.ReloadUserControls(idProyecto, Modulo.InformacionGeneral);
 
                         MessageBox.Show("El proyecto se ha insertado correctamente", "Proyecto Insertado", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
@@ -145,8 +146,7 @@ namespace UCR.Negotium.UserControls
                 {
                     if (proyectoData.EditarProyecto(ProyectoSelected))
                     {
-                        RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
-                        mainWindow.ReloadUserControls(CodProyecto);
+                        LocalContext.ReloadUserControls(CodProyecto, Modulo.InformacionGeneral);
                         MessageBox.Show("El proyecto se ha actualizado correctamente", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     else
@@ -222,7 +222,7 @@ namespace UCR.Negotium.UserControls
             ProyectoSelected.Encargado.IdEncargado = codEvaluador;
         }
 
-        public void Reload()
+        private void Reload()
         {
             ProyectoSelected = proyectoData.GetProyecto(CodProyecto);
             nudAnoInicial.IsEnabled = nudHorizonteEvaluacion.IsEnabled =

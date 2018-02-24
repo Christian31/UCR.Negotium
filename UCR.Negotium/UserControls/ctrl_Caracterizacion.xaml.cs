@@ -1,15 +1,18 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Domain.Enums;
+using UCR.Negotium.Extensions;
 
 namespace UCR.Negotium.UserControls
 {
     /// <summary>
     /// Interaction logic for ctrl_Caracterizacion.xaml
     /// </summary>
-    public partial class ctrl_Caracterizacion : UserControl
+    public partial class ctrl_Caracterizacion : UserControl, INotifyPropertyChanged
     {
         private const string CAMPOREQUERIDO = "Este campo es requerido";
 
@@ -33,9 +36,43 @@ namespace UCR.Negotium.UserControls
         }
 
         #region InternalMethods
-        public void Reload()
+        private void Reload()
         {
             proyectoSelected = proyectoData.GetProyecto(CodProyecto);
+        }
+
+        private bool ValidateRequiredFields()
+        {
+            bool validationResult = false;
+            if (string.IsNullOrWhiteSpace(rtbDescripcionPoblacion.Text))
+            {
+                rtbDescripcionPoblacion.ToolTip = CAMPOREQUERIDO;
+                rtbDescripcionPoblacion.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+
+            if (string.IsNullOrWhiteSpace(rtbDescripcionMercado.Text))
+            {
+                rtbDescripcionMercado.ToolTip = CAMPOREQUERIDO;
+                rtbDescripcionMercado.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+
+            if (string.IsNullOrWhiteSpace(rtbCaraterizacionBienServicio.Text))
+            {
+                rtbCaraterizacionBienServicio.ToolTip = CAMPOREQUERIDO;
+                rtbCaraterizacionBienServicio.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+
+            if (string.IsNullOrWhiteSpace(rtbDescripcionSostenibilidad.Text))
+            {
+                rtbDescripcionSostenibilidad.ToolTip = CAMPOREQUERIDO;
+                rtbDescripcionSostenibilidad.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+
+            return validationResult;
         }
         #endregion
 
@@ -62,6 +99,7 @@ namespace UCR.Negotium.UserControls
             set
             {
                 proyectoSelected = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("ProyectoSelected"));
             }
         }
         #endregion
@@ -76,8 +114,7 @@ namespace UCR.Negotium.UserControls
                     if (proyectoData.EditarProyectoCaracterizacion(ProyectoSelected))
                     {
                         //success
-                        RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
-                        mainWindow.ReloadUserControls(ProyectoSelected.CodProyecto);
+                        LocalContext.ReloadUserControls(CodProyecto, Modulo.Caracterizacion);
                         MessageBox.Show("El proyecto se ha actualizado correctamente", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     else
@@ -93,39 +130,7 @@ namespace UCR.Negotium.UserControls
             }
         }
 
-        private bool ValidateRequiredFields()
-        {
-            bool validationResult = false;
-            if (string.IsNullOrWhiteSpace(tbDescripcionPoblacion.Text))
-            {
-                rtbDescripcionPoblacion.ToolTip = CAMPOREQUERIDO;
-                rtbDescripcionPoblacion.BorderBrush = Brushes.Red;
-                validationResult = true;
-            }
-
-            if (string.IsNullOrWhiteSpace(tbDescripcionMercado.Text))
-            {
-                rtbDescripcionMercado.ToolTip = CAMPOREQUERIDO;
-                rtbDescripcionMercado.BorderBrush = Brushes.Red;
-                validationResult = true;
-            }
-
-            if (string.IsNullOrWhiteSpace(tbCaracterizacionBienServicio.Text))
-            {
-                rtbCaraterizacionBienServicio.ToolTip = CAMPOREQUERIDO;
-                rtbCaraterizacionBienServicio.BorderBrush = Brushes.Red;
-                validationResult = true;
-            }
-
-            if (string.IsNullOrWhiteSpace(tbDescripcionSostenibilidad.Text))
-            {
-                rtbDescripcionSostenibilidad.ToolTip = CAMPOREQUERIDO;
-                rtbDescripcionSostenibilidad.BorderBrush = Brushes.Red;
-                validationResult = true;
-            }
-
-            return validationResult;
-        }
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
         private void rtbDescripcionPoblacion_TextChanged(object sender, TextChangedEventArgs e)
         {

@@ -7,6 +7,8 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Domain.Enums;
+using UCR.Negotium.Extensions;
 
 namespace UCR.Negotium.UserControls
 {
@@ -87,8 +89,7 @@ namespace UCR.Negotium.UserControls
                             {
                                 //success
                                 OrgProponente.Proponente.IdProponente = codProponente;
-                                RegistrarProyectoWindow mainWindow = (RegistrarProyectoWindow)Application.Current.Windows[0];
-                                mainWindow.ReloadUserControls(CodProyecto);
+                                LocalContext.ReloadUserControls(CodProyecto, Modulo.Proponente);
 
                                 MessageBox.Show("El proponente del proyecto se ha insertado correctamente", "Proponente Insertado", MessageBoxButton.OK, MessageBoxImage.Information);
                             }
@@ -230,7 +231,7 @@ namespace UCR.Negotium.UserControls
         #endregion
 
         #region InternalMethods
-        public void Reload()
+        private void Reload()
         {
             OrgProponente = orgProponenteData.GetOrganizacionProponente(CodProyecto);
             MantenerCambios();
