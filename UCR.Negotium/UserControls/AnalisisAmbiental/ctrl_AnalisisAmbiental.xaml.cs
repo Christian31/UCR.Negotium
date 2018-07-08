@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Dialogs;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Extensions;
 
 namespace UCR.Negotium.UserControls
 {
@@ -108,8 +109,7 @@ namespace UCR.Negotium.UserControls
         {
             if (FactorAmbientalSelected != null)
             {
-                if (MessageBox.Show("Esta seguro que desea eliminar este factor ambiental?", "Confirmar",
-                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if (CustomMessageBox.Show("Esta seguro que desea eliminar este factor ambiental?"))
                 {
                     if (factorAmbientalData.EliminarFactorAmbiental(FactorAmbientalSelected.CodFactorAmbiental))
                     {

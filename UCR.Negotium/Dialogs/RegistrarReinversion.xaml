@@ -60,13 +60,13 @@
                           Checked="cbNoInversion_Checked"/>
             </StackPanel>
             <Grid Style="{StaticResource gridFormStyle}">
-                <TextBox Text="{Binding Reinversion.DescripcionRequerimiento, UpdateSourceTrigger=PropertyChanged}" Name="tbDescReinversion"
+                <TextBox Text="{Binding Reinversion.Descripcion, UpdateSourceTrigger=PropertyChanged}" Name="tbDescReinversion"
                          TextChanged="tbDescReinversion_TextChanged"
                          IsEnabled="{Binding VincularInversion, Converter={conv:InverseBoolConverter}, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
             <Grid Style="{StaticResource gridFormStyle}">
-                <ComboBox ItemsSource="{Binding Inversiones}" SelectedValuePath="CodRequerimientoInversion"
-                          SelectedValue="{Binding Reinversion.CodRequerimientoInversion}" 
+                <ComboBox ItemsSource="{Binding Inversiones}" SelectedValuePath="CodInversion"
+                          SelectedValue="{Binding Reinversion.CodInversion}" 
                           Name="cbxInversiones" SelectionChanged="cbxInversiones_SelectionChanged"
                           IsEnabled="{Binding VincularInversion, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>

@@ -225,8 +225,22 @@ namespace UCR.Negotium.UserControls
         private void Reload()
         {
             ProyectoSelected = proyectoData.GetProyecto(CodProyecto);
-            nudAnoInicial.IsEnabled = nudHorizonteEvaluacion.IsEnabled =
-                (codProyecto.Equals(0) || ProyectoSelected.TipoProyecto.CodTipo.Equals(2));
+
+            if (codProyecto != 0)
+            {
+                nudAnoInicial.IsEnabled = nudHorizonteEvaluacion.IsEnabled = 
+                    cbTipoAnalisis.IsEnabled = false;
+            }
+
+            if (ProyectoSelected.TipoProyecto.CodTipo != 1)
+            {
+                cbNoPaga.IsEnabled = cbSiPaga.IsEnabled = nudPorcentaje.IsEnabled = false;
+            }
+
+            if (ProyectoSelected.TipoProyecto.CodTipo == 2)
+            {
+                cbNoPoseeFinan.IsEnabled = cbSiPoseeFinan.IsEnabled = false;
+            }
         }
 
         private void LoadCantones()
@@ -270,5 +284,33 @@ namespace UCR.Negotium.UserControls
             return validationResult;
         }
         #endregion
+
+        private void cbTipoAnalisis_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cbTipoAnalisis.SelectedValue != null)
+            {
+                switch ((int)cbTipoAnalisis.SelectedValue)
+                {
+                    case 1:
+                        nudAnoInicial.IsEnabled = nudHorizonteEvaluacion.IsEnabled =
+                            cbNoPaga.IsEnabled = cbSiPaga.IsEnabled =
+                            nudPorcentaje.IsEnabled = cbNoPoseeFinan.IsEnabled =
+                            cbSiPoseeFinan.IsEnabled = true;
+                        break;
+                    case 2:
+                        nudAnoInicial.IsEnabled = nudHorizonteEvaluacion.IsEnabled =
+                            cbNoPaga.IsEnabled = cbSiPaga.IsEnabled =
+                            nudPorcentaje.IsEnabled = cbNoPoseeFinan.IsEnabled =
+                            cbSiPoseeFinan.IsEnabled = false;
+                        break;
+                    case 3:
+                        nudAnoInicial.IsEnabled = nudHorizonteEvaluacion.IsEnabled =
+                            cbSiPoseeFinan.IsEnabled = cbNoPoseeFinan.IsEnabled = true;
+
+                        cbNoPaga.IsEnabled = cbSiPaga.IsEnabled = nudPorcentaje.IsEnabled = false;
+                        break;
+                }
+            }
+        }
     }
 }

@@ -165,7 +165,7 @@ namespace UCR.Negotium.Domain.Enums
 
     public enum Periodicidad
     {
-        [Display(Name = "Irregular, Esporádico y Dicontinuo (1)")]
+        [Display(Name = "Irregular, Esporádico y Discontinuo (1)")]
         Irregular = 1,
 
         [Display(Name = "Periódico (2)")]

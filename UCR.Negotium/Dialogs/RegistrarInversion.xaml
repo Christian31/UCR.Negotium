@@ -52,7 +52,7 @@
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="1" >
             <Grid Style="{StaticResource gridFormStyle}">
-                <TextBox Text="{Binding Inversion.DescripcionRequerimiento}" Name="tbDescInversion"
+                <TextBox Text="{Binding Inversion.Descripcion}" Name="tbDescInversion"
                          TextChanged="tbDescInversion_TextChanged"/>
             </Grid>
             <Grid Style="{StaticResource gridFormStyle}">

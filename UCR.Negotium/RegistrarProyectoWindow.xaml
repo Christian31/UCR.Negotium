@@ -72,24 +72,47 @@
                                 <RowDefinition Height="2*"/>
                             </Grid.RowDefinitions>
                             <DataGrid ItemsSource="{Binding DTFlujoCaja, UpdateSourceTrigger=PropertyChanged}"
-                                      Margin="30,15,30,15" Name="dgFlujoCaja" Loaded="dgFlujoCaja_Loaded"
+                                      Margin="30,15,30,15" Name="dgFlujoCajaFinanciero" Loaded="dgFlujoCaja_Loaded"
                                       Style="{StaticResource gridGenerated}">
                             </DataGrid>
-                            <StackPanel Grid.Row="1" Style="{StaticResource horizontalPanelFormStyle}" VerticalAlignment="Top">
+                            <StackPanel Grid.Row="1" Style="{StaticResource horizontalPanelFormStyle}" VerticalAlignment="Top" Name="spIndicadoresFinancieros" Visibility="Hidden">
                                 <Label Content="Tasa de Costo de Capital: " Margin="30,0,0,0" FontSize="14" FontWeight="Bold" VerticalAlignment="Top"/>
-                                <TextBox IsEnabled="False" Width="130" Height="20" VerticalAlignment="Top"
+                                <TextBox IsEnabled="False" Width="100" Height="20" VerticalAlignment="Top"
                                          Text="{Binding ProyectoSelected.TasaCostoCapitalString, UpdateSourceTrigger=PropertyChanged}"/>
-                                <Label Content="TIR: " Margin="50,0,0,0" FontSize="14" FontWeight="Bold" VerticalAlignment="Top"/>
-                                <TextBox Width="130" IsEnabled="False" Height="20" VerticalAlignment="Top"
+                                <Label Content="TIR: " Margin="40,0,0,0" FontSize="14" FontWeight="Bold" VerticalAlignment="Top"/>
+                                <TextBox Width="100" IsEnabled="False" Height="20" VerticalAlignment="Top"
                                          Text="{Binding TIR, UpdateSourceTrigger=PropertyChanged}"/>
-                                <Label Content="VAN: " Margin="30,0,0,0" FontSize="14" FontWeight="Bold" VerticalAlignment="Top"/>
-                                <TextBox IsEnabled="False" Margin="0,0,0,50" Width="130" Height="20" VerticalAlignment="Top"
+                                <Label Content="PRI (En Años): " Margin="40,0,0,0" FontSize="14" FontWeight="Bold" VerticalAlignment="Top"/>
+                                <TextBox IsEnabled="False" Margin="0,0,0,50" Width="100" Height="20" VerticalAlignment="Top"
+                                         Text="{Binding PRI, UpdateSourceTrigger=PropertyChanged}"/>
+                                <Label Content="Relación B/C: " Margin="40,0,0,0" FontSize="14" FontWeight="Bold" VerticalAlignment="Top"/>
+                                <TextBox IsEnabled="False" Margin="0,0,0,50" Width="100" Height="20" VerticalAlignment="Top"
+                                         Text="{Binding RelacionBC, UpdateSourceTrigger=PropertyChanged}"/>
+                                <Label Content="VAN: " Margin="40,0,0,0" FontSize="14" FontWeight="Bold" VerticalAlignment="Top"/>
+                                <TextBox IsEnabled="False" Margin="0,0,0,50" Width="100" Height="20" VerticalAlignment="Top"
                                          Text="{Binding VAN, UpdateSourceTrigger=PropertyChanged}"/>
-                                <Grid Margin="60,0,0,0" VerticalAlignment="Top">
+                                <Grid Margin="-1130,0,0,5" VerticalAlignment="Bottom">
                                     <iconPacks:PackIconModern Width="16" Height="16" Kind="Box" Foreground="Teal"
-                                                              Margin="0,7,140,0" HorizontalAlignment="Right"/>
-                                    <Label Margin="30,0,0,0" HorizontalAlignment="Right">
+                                                              Margin="8,7,120,0" HorizontalAlignment="Left"/>
+                                    <Label Margin="28,0,0,0" HorizontalAlignment="Left">
                                         <Hyperlink Name="lbDetalleIndicadores" Click="lbDetalleIndicadores_Click">
+                                            Detalle de Indicadores
+                                        </Hyperlink>
+                                    </Label>
+                                </Grid>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Style="{StaticResource horizontalPanelFormStyle}" VerticalAlignment="Top" Name="spIndicadoresSocial">
+                                <Label Content="Tasa de Costo de Capital: " Margin="30,0,0,0" FontSize="14" FontWeight="Bold" VerticalAlignment="Top"/>
+                                <TextBox IsEnabled="False" Width="100" Height="20" VerticalAlignment="Top"
+                                         Text="{Binding ProyectoSelected.TasaCostoCapitalString, UpdateSourceTrigger=PropertyChanged}"/>
+                                <Label Content="VAC: " Margin="40,0,0,0" FontSize="14" FontWeight="Bold" VerticalAlignment="Top"/>
+                                <TextBox Width="100" IsEnabled="False" Height="20" VerticalAlignment="Top"
+                                         Text="{Binding VAC, UpdateSourceTrigger=PropertyChanged}"/>
+                                <Grid Margin="50,0,0,5" VerticalAlignment="Top">
+                                    <iconPacks:PackIconModern Width="16" Height="16" Kind="Box" Foreground="Teal"
+                                                              Margin="8,7,120,0" HorizontalAlignment="Left"/>
+                                    <Label Margin="28,0,0,0" HorizontalAlignment="Left">
+                                        <Hyperlink Name="lbDetalleIndicadoresSocial" Click="lbDetalleIndicadores_Click">
                                             Detalle de Indicadores
                                         </Hyperlink>
                                     </Label>

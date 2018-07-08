@@ -145,7 +145,7 @@ namespace UCR.Negotium.UserControls
         #region Events
         private void btnAgregarProyeccion_Click(object sender, RoutedEventArgs e)
         {
-            if (!proyecto.TipoProyecto.CodTipo.Equals(2))
+            if (proyecto.TipoProyecto.CodTipo.Equals(1))
             {
                 RegistrarProyeccionVenta registarProyeccion = new RegistrarProyeccionVenta(CodProyecto);
                 registarProyeccion.ShowDialog();
@@ -157,7 +157,7 @@ namespace UCR.Negotium.UserControls
             }
             else
             {
-                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Completo actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Este Tipo de Análisis no permite agregar Proyecciones de Ventas, si desea hacer un análisis con Proyecciones de Ventas incluídas realice un proyecto de Tipo Financiero", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -179,8 +179,7 @@ namespace UCR.Negotium.UserControls
         {
             if (ProyeccionSelected != null)
             {
-                if (MessageBox.Show("Esta seguro que desea eliminar esta proyección?", "Confirmar",
-                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if (CustomMessageBox.Show("Esta seguro que desea eliminar esta proyección?"))
                 {
                     if (crecimientoOfertaData.EliminarCrecimientoObjetoInteres(ProyeccionSelected.CodArticulo) && 
                         proyeccionArticuloData.EliminarProyeccionVenta(ProyeccionSelected.CodArticulo))

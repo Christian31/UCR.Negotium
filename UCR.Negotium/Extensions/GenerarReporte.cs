@@ -10,8 +10,6 @@ using System.Text;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
 using iTextSharp.tool.xml;
-using iTextSharp.text.html.simpleparser;
-using iTextSharp.text.html;
 
 namespace UCR.Negotium.Extensions
 {
@@ -25,12 +23,17 @@ namespace UCR.Negotium.Extensions
         List<DataView> depreciacionesPaging;
         Dictionary<string, string> depTotales;
         DataView amortizacionFinanciamiento;
-        string invTotales, recuperacionCT, TIR, VAN, VANParticipantes, VANInvolucrados, VANIndirectos;
+        string invTotales, recuperacionCT, TIR, PRI, RelacionBC, VAN, VANParticipantes, VANInvolucrados, VANIndirectos;
+        string VAC, VACParticipantes, VACInvolucrados, VACIndirectos;
         List<DataView> flujoCajaPaging;
 
         private string signoMoneda;
 
-        public GenerarReporte(Proyecto proyecto, string totalInversiones, DataView totalReinversiones, DataView proyeccionesTotal, DataView costosTotal, DataView capital, string recuperacionCT, DataView depTotales, DataView amortizacionFinanciamiento, DataView flujoCaja, string tir, string van)
+        public GenerarReporte(Proyecto proyecto, string totalInversiones, 
+            DataView totalReinversiones, DataView proyeccionesTotal, DataView costosTotal, 
+            DataView capital, string recuperacionCT, DataView depTotales, 
+            DataView amortizacionFinanciamiento, DataView flujoCaja, string tir,  
+            double pri, double relacionBC, string van)
         {
             this.proyecto = proyecto;
             this.invTotales = totalInversiones;
@@ -46,11 +49,20 @@ namespace UCR.Negotium.Extensions
             costosTotales = SetToCostosTotales(costosTotal);
             capitalTrabajo = SetToCapitalTrabajo(capital);
             this.recuperacionCT = recuperacionCT;
-            depreciacionesPaging = DatatableBuilder.GenerarDepreciacionesPaging(proyecto, 5);
-            this.depTotales = SetToDictionary(depTotales);
+
+            depreciacionesPaging = new List<DataView>();
+            this.depTotales = new Dictionary<string, string>();
+            if(proyecto.Depreciaciones.Count > 0)
+            {
+                depreciacionesPaging = DatatableBuilder.GenerarDepreciacionesPaging(proyecto, 5);
+                this.depTotales = SetToDictionary(depTotales);
+            }
+                
             this.amortizacionFinanciamiento = amortizacionFinanciamiento;
             flujoCajaPaging = DatatableBuilder.FlujoCajaToPaging(flujoCaja, 5);
             TIR = tir;
+            PRI = pri.ToString();
+            RelacionBC = relacionBC.ToString();
             VAN = van;
 
             double vanDouble = Convert.ToDouble(VAN.Replace(signoMoneda, string.Empty));
@@ -58,6 +70,44 @@ namespace UCR.Negotium.Extensions
             VANParticipantes = signoMoneda + " " + Math.Round(vanDouble / proyecto.PersonasParticipantes, 2).ToString("#,##0.##");
             VANInvolucrados = signoMoneda + " " + Math.Round(vanDouble / proyecto.FamiliasInvolucradas, 2).ToString("#,##0.##");
             VANIndirectos = signoMoneda + " " + Math.Round(vanDouble / proyecto.PersonasBeneficiadas, 2).ToString("#,##0.##");
+        }
+
+        public GenerarReporte(Proyecto proyecto, string totalInversiones,
+            DataView totalReinversiones, DataView costosTotal,
+            DataView capital, string recuperacionCT, DataView depTotales,
+            DataView amortizacionFinanciamiento, DataView flujoCaja, string vac)
+        {
+            this.proyecto = proyecto;
+            this.invTotales = totalInversiones;
+
+            signoMoneda = LocalContext.GetSignoMoneda(proyecto.CodProyecto);
+            ObtieneProvincia();
+            ObtieneCanton();
+            ObtieneDistrito();
+            ObtieneTipoOrganizacion();
+
+            reinvTotales = SetToDictionary(totalReinversiones);
+            costosTotales = SetToCostosTotales(costosTotal);
+            capitalTrabajo = SetToCapitalTrabajo(capital);
+            this.recuperacionCT = recuperacionCT;
+
+            depreciacionesPaging = new List<DataView>();
+            this.depTotales = new Dictionary<string, string>();
+            if (proyecto.Depreciaciones.Count > 0)
+            {
+                depreciacionesPaging = DatatableBuilder.GenerarDepreciacionesPaging(proyecto, 5);
+                this.depTotales = SetToDictionary(depTotales);
+            }
+
+            this.amortizacionFinanciamiento = amortizacionFinanciamiento;
+            flujoCajaPaging = DatatableBuilder.FlujoCajaToPaging(flujoCaja, 5);
+            VAC = vac;
+
+            double vacDouble = Convert.ToDouble(VAC.Replace(signoMoneda, string.Empty));
+
+            VACParticipantes = signoMoneda + " " + Math.Round(vacDouble / proyecto.PersonasParticipantes, 2).ToString("#,##0.##");
+            VACInvolucrados = signoMoneda + " " + Math.Round(vacDouble / proyecto.FamiliasInvolucradas, 2).ToString("#,##0.##");
+            VACIndirectos = signoMoneda + " " + Math.Round(vacDouble / proyecto.PersonasBeneficiadas, 2).ToString("#,##0.##");
         }
 
         private Dictionary<string, string> SetToDictionary(DataView dataView)
@@ -207,10 +257,17 @@ namespace UCR.Negotium.Extensions
             context.Put("financiamiento", amortizacionFinanciamiento);
             context.Put("flujoCaja", flujoCajaPaging);
             context.Put("TIR", TIR);
+            context.Put("PRI", PRI);
+            context.Put("RelacionBC", RelacionBC);
             context.Put("VAN", VAN);
             context.Put("VANParticipantes", VANParticipantes);
             context.Put("VANInvolucrados", VANInvolucrados);
             context.Put("VANIndirectos", VANIndirectos);
+
+            context.Put("VAC", VAC);
+            context.Put("VACParticipantes", VACParticipantes);
+            context.Put("VACInvolucrados", VACInvolucrados);
+            context.Put("VACIndirectos", VACIndirectos);
 
             var sb = new StringBuilder();
             using (var writer = new StringWriter(sb))

@@ -20,7 +20,7 @@ namespace UCR.Negotium.UserControls
         private Reinversion reinversionSelected;
         private List<Reinversion> reinversiones;
         private int codProyecto;
-        private Proyecto proyecto;
+        private ProyectoLite proyecto;
         private DataView totalesReinversiones;
 
         private string signoMoneda;
@@ -36,7 +36,7 @@ namespace UCR.Negotium.UserControls
             reinversionData = new ReinversionData();
             proyectoData = new ProyectoData();
 
-            proyecto = new Proyecto();
+            proyecto = new ProyectoLite();
             reinversionSelected = new Reinversion();
             reinversiones = new List<Reinversion>();
             totalesReinversiones = new DataView();
@@ -65,12 +65,11 @@ namespace UCR.Negotium.UserControls
             ReinversionSelected = ReinversionesList.FirstOrDefault();
             PropertyChanged(this, new PropertyChangedEventArgs("ReinversionesList"));
 
-            proyecto = proyectoData.GetProyecto(CodProyecto);
-            proyecto.RequerimientosReinversion = ReinversionesList;
+            proyecto = proyectoData.GetProyectoLite(CodProyecto);
 
-            if (!proyecto.RequerimientosReinversion.Count.Equals(0))
+            if (!ReinversionesList.Count.Equals(0))
             {
-                DTTotalesReinversiones = DatatableBuilder.GenerarReinversionesTotales(proyecto).AsDataView();
+                DTTotalesReinversiones = DatatableBuilder.GenerarReinversionesTotales(proyecto, ReinversionesList).AsDataView();
             }
         }
         #endregion
@@ -138,9 +137,9 @@ namespace UCR.Negotium.UserControls
         #region Events
         private void btnAgregarReinversion_Click(object sender, RoutedEventArgs e)
         {
-            if (!proyecto.TipoProyecto.CodTipo.Equals(2))
+            if (!proyecto.CodTipoProyecto.Equals(2))
             {
-                RegistrarReinversion registrarReinversion = new RegistrarReinversion(CodProyecto);
+                RegistrarReinversion registrarReinversion = new RegistrarReinversion(proyecto);
                 registrarReinversion.ShowDialog();
 
                 if (registrarReinversion.IsActive == false && registrarReinversion.Reload)
@@ -150,7 +149,7 @@ namespace UCR.Negotium.UserControls
             }
             else
             {
-                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Completo actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Financiero o Social actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -158,7 +157,7 @@ namespace UCR.Negotium.UserControls
         {
             if(ReinversionSelected != null)
             {
-                RegistrarReinversion registrarReinversion = new RegistrarReinversion(CodProyecto, ReinversionSelected.CodRequerimientoReinversion);
+                RegistrarReinversion registrarReinversion = new RegistrarReinversion(proyecto, ReinversionSelected.CodReinversion);
                 registrarReinversion.ShowDialog();
 
                 if (registrarReinversion.IsActive == false && registrarReinversion.Reload)
@@ -172,10 +171,9 @@ namespace UCR.Negotium.UserControls
         {
             if(ReinversionSelected != null)
             {
-                if (MessageBox.Show("Esta seguro que desea eliminar esta reinversión?", "Confirmar",
-                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if (CustomMessageBox.Show("Esta seguro que desea eliminar esta reinversión?"))
                 {
-                    if (reinversionData.EliminarReinversion(ReinversionSelected.CodRequerimientoReinversion))
+                    if (reinversionData.EliminarReinversion(ReinversionSelected.CodReinversion))
                     {
                         LocalContext.ReloadUserControls(CodProyecto, Modulo.Reinversiones);
                     }

@@ -17,8 +17,18 @@ namespace UCR.Negotium.Extensions
         {
             if (FlujoCaja == null)
             {
-                SetFlujoCaja(DatatableBuilder.GenerarFlujoCaja(proyecto, dgvCapitalTrabajo, dgvFinanciamiento, dgvTotalesReinversiones,
-                    totalInversiones, recuperacionCT).AsDataView());
+                if(proyecto.TipoProyecto.CodTipo == 1)
+                {
+                    SetFlujoCaja(DatatableBuilder.GenerarFlujoCaja(proyecto, dgvCapitalTrabajo, 
+                        dgvFinanciamiento, dgvTotalesReinversiones, totalInversiones, 
+                        recuperacionCT).AsDataView());
+                }
+                else
+                {
+                    SetFlujoCaja(DatatableBuilder.GenerarFlujoCajaSocial(proyecto, 
+                        dgvCapitalTrabajo, dgvFinanciamiento, dgvTotalesReinversiones, 
+                        totalInversiones, recuperacionCT).AsDataView());
+                }
             }
             return FlujoCaja;
         }
@@ -54,7 +64,7 @@ namespace UCR.Negotium.Extensions
                 CacheSignoMonedas.Add(new CacheSignoMoneda()
                 {
                     CodProyecto = codProyecto,
-                    SignoMoneda = proyectoData.GetSignoMonedaProyecto(codProyecto)
+                    SignoMoneda = proyectoData.GetSignoMonedaProyecto(codProyecto)??string.Empty
                 });
             }
             return CacheSignoMonedas.Find(signo => signo.CodProyecto.Equals(codProyecto)).SignoMoneda;

@@ -17,7 +17,7 @@ namespace UCR.Negotium.Dialogs
         private const string CAMPOREQUERIDO = "Este campo es requerido";
 
         private List<VariacionAnualCosto> variacionCostos;
-        private Proyecto proyecto;
+        private ProyectoLite proyecto;
 
         private VariacionAnualCostoData variacionCostoData;
         private ProyectoData proyectoData;
@@ -30,13 +30,13 @@ namespace UCR.Negotium.Dialogs
             DataContext = this;
 
             variacionCostos = new List<VariacionAnualCosto>();
-            proyecto = new Proyecto();
+            proyecto = new ProyectoLite();
 
             variacionCostoData = new VariacionAnualCostoData();
             proyectoData = new ProyectoData();
 
             variacionCostos = variacionCostoData.GetVariacionAnualCostos(codProyecto);
-            proyecto = proyectoData.GetProyecto(codProyecto);
+            proyecto = proyectoData.GetProyectoLite(codProyecto);
 
             if (variacionCostos.Count.Equals(0))
             {

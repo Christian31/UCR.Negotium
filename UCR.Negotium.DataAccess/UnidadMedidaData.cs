@@ -13,7 +13,7 @@ namespace UCR.Negotium.DataAccess
         public List<UnidadMedida> GetUnidadesMedidas()
         {
             List<UnidadMedida> unidadesMedida = new List<UnidadMedida>();
-            string select = "SELECT * FROM UNIDAD_MEDIDA";
+            string select = "SELECT * FROM UNIDAD_MEDIDA WHERE alcance_unidad='*'";
 
             using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
@@ -43,6 +43,38 @@ namespace UCR.Negotium.DataAccess
             return unidadesMedida;
         }
 
+        public List<UnidadMedida> GetUnidadesMedidasParaCostos()
+        {
+            List<UnidadMedida> unidadesMedida = new List<UnidadMedida>();
+            string select = "SELECT * FROM UNIDAD_MEDIDA WHERE alcance_unidad='*' OR alcance_unidad='CT'";
+
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
+            {
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(select, conn);
+
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            UnidadMedida unidadMedida = new UnidadMedida();
+                            unidadMedida.CodUnidad = reader.GetInt32(0);
+                            unidadMedida.NombreUnidad = reader.GetString(1);
+                            unidadesMedida.Add(unidadMedida);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.TraceExceptionAsync();
+                    unidadesMedida = new List<UnidadMedida>();
+                }
+            }
+
+            return unidadesMedida;
+        }
         public UnidadMedida GetUnidadMedida(int codUnidadMedida)
         {
             UnidadMedida unidadMedida = new UnidadMedida();

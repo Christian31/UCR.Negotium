@@ -18,7 +18,7 @@ namespace UCR.Negotium.UserControls
     /// </summary>
     public partial class ctrl_Financiamiento : UserControl, INotifyPropertyChanged
     {
-        private Proyecto proyecto;
+        private ProyectoLite proyecto;
         private Financiamiento financiamiento;
         private int codProyecto;
         private DataView dtFinanciamiento;
@@ -42,7 +42,7 @@ namespace UCR.Negotium.UserControls
             interesData = new InteresFinanciamientoData();
 
             finalizacionDisponibles = anosDisponibles = new List<int>();
-            proyecto = new Proyecto();
+            proyecto = new ProyectoLite();
             financiamiento = new Financiamiento();
             dtFinanciamiento = new DataView();
 
@@ -54,10 +54,10 @@ namespace UCR.Negotium.UserControls
         bool interesFijo;
         private void Reload()
         {
-            proyecto = proyectoData.GetProyecto(CodProyecto);
+            proyecto = proyectoData.GetProyectoLite(CodProyecto);
             FinanciamientoSelected = financiamientoData.GetFinanciamiento(CodProyecto);
 
-            FinanciamientoSelected.MontoFinanciamientoFormat = LocalContext.GetSignoMoneda(codProyecto) 
+            FinanciamientoSelected.MontoFinanciamientoFormat = LocalContext.GetSignoMoneda(CodProyecto) 
                 + " " + FinanciamientoSelected.MontoFinanciamiento.ToString("#,##0.##");
 
             FinanciamientoSelected.TasaIntereses = interesData.GetInteresesFinanciamiento(CodProyecto);
@@ -204,7 +204,7 @@ namespace UCR.Negotium.UserControls
 
         private void lblTasaInteres_Click(object sender, RoutedEventArgs e)
         {
-            if (!proyecto.TipoProyecto.CodTipo.Equals(2))
+            if (!proyecto.CodTipoProyecto.Equals(2))
             {
                 if (FinanciamientoSelected.InteresFijo)
                 {
@@ -240,7 +240,7 @@ namespace UCR.Negotium.UserControls
             }
             else
             {
-                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Completo actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Financiero o Social actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -263,7 +263,7 @@ namespace UCR.Negotium.UserControls
 
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
-            if (!proyecto.TipoProyecto.CodTipo.Equals(2))
+            if (!proyecto.CodTipoProyecto.Equals(2))
             {
                 if (!ValidateRequiredFields())
                 {
@@ -301,7 +301,7 @@ namespace UCR.Negotium.UserControls
             }
             else
             {
-                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Completo actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Financiero o Social actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -333,7 +333,7 @@ namespace UCR.Negotium.UserControls
             {
                 if (interesVariable.CodInteresFinanciamiento.Equals(0))
                 {
-                    if (!interesData.InsertarInteresFinanciamiento(interesVariable, codProyecto))
+                    if (!interesData.InsertarInteresFinanciamiento(interesVariable, CodProyecto))
                     {
                         //error
                         MessageBox.Show("Ha ocurrido un error al insertar la tasa de interés del financiamiento del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);

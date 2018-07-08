@@ -29,5 +29,12 @@ namespace UCR.Negotium
 
             base.OnStartup(e);
         }
+
+        private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show("Ha ocurrido un error inesperado, favor inicie la Aplicación de nuevo. Mensaje: " + e.Exception.Message, "Negotium", MessageBoxButton.OK, MessageBoxImage.Error);
+            e.Handled = true;
+            Current.Shutdown();
+        }
     }
 }

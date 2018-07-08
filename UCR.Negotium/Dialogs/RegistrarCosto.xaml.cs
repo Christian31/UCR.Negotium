@@ -18,7 +18,7 @@ namespace UCR.Negotium.Dialogs
         #region PrivateProperties
         private const string CAMPOREQUERIDO = "Este campo es requerido";
 
-        private Proyecto proyecto;
+        private ProyectoLite proyecto;
         List<UnidadMedida> unidadMedidas;
         private Costo costoSelected;
 
@@ -28,15 +28,15 @@ namespace UCR.Negotium.Dialogs
         #endregion
 
         #region Constructor
-        public RegistrarCosto(int idProyecto, int idCosto = 0)
+        public RegistrarCosto(int codProyecto, int codCosto = 0)
         {
             InitializeComponent();
             DataContext = this;
             tbNombreCosto.ToolTip = "Ingrese en este campo el Nombre del Costo que desea registrar";
-            string signo = LocalContext.GetSignoMoneda(idProyecto);
+            string signo = LocalContext.GetSignoMoneda(codProyecto);
             dgtxcPrecio.Header = string.Format("Precio ({0})", signo);
 
-            proyecto = new Proyecto();
+            proyecto = new ProyectoLite();
             unidadMedidas = new List<UnidadMedida>();
             costoSelected = new Costo();
 
@@ -44,17 +44,17 @@ namespace UCR.Negotium.Dialogs
             costoData = new CostoData();
             unidadMedidaData = new UnidadMedidaData();
 
-            unidadMedidas = unidadMedidaData.GetUnidadesMedidas();
-            proyecto = proyectoData.GetProyecto(idProyecto);
+            unidadMedidas = unidadMedidaData.GetUnidadesMedidasParaCostos();
+            proyecto = proyectoData.GetProyectoLite(codProyecto);
 
             //default values
             costoSelected.AnoCosto = AnosDisponibles.FirstOrDefault();
             costoSelected.CategoriaCosto = Categorias.FirstOrDefault();
             costoSelected.UnidadMedida = UnidadesMedida.FirstOrDefault();
 
-            if (!idCosto.Equals(0))
+            if (!codCosto.Equals(0))
             {
-                costoSelected = costoData.GetCosto(idCosto);
+                costoSelected = costoData.GetCosto(codCosto);
             }
         }
         #endregion

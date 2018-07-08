@@ -114,8 +114,9 @@ namespace UCR.Negotium
         {
             if (ProyectoSelected != null && !ProyectoSelected.Archivado)
             {
-                if (MessageBox.Show("Esta seguro que desea archivar este Proyecto?", "Confirmar",
-                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+
+                if (CustomMessageBox.Show("Esta seguro que desea archivar este Proyecto? " +
+                    "Si archiva el Proyecto, este quedará en modo lectura."))
                 {
                     if (proyectoData.ArchivarProyecto(ProyectoSelected.CodProyecto, true))
                     {
@@ -197,8 +198,8 @@ namespace UCR.Negotium
                 }
                 else
                 {
-                    MessageBox.Show("El respaldo de que está intentando de utilizar es incompatible con la version actual del Negotium \n " +
-                        "Por favor asegurese de utilizar un respaldo creado en una versión anterior o igual al Negotium instalado",
+                    MessageBox.Show("El respaldo de que está intentando de utilizar es incompatible con la version actual del Negotium. \n " +
+                        "Por favor asegurese de utilizar un respaldo creado en una versión actual del Negotium instalado.",
                         "Respaldo Exportado", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }

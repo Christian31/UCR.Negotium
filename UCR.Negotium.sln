@@ -12,12 +12,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UCR.Librerias", "UCR.Librerias", "{65042E02-BA37-4677-9540-7212B1746210}"
 	ProjectSection(SolutionItems) = preProject
 		UCR.Librerias\Commons.dll = UCR.Librerias\Commons.dll
-		UCR.Librerias\log4net.dll = UCR.Librerias\log4net.dll
 		UCR.Librerias\NVelocity.dll = UCR.Librerias\NVelocity.dll
 		UCR.Librerias\System.Data.SQLite.dll = UCR.Librerias\System.Data.SQLite.dll
 	EndProjectSection
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Negotium 1.0.0.20180224", "Negotium 1.0.0.20180224\Negotium 1.0.0.20180224.vdproj", "{39AE3466-D29E-4152-8B79-9AEB57FB24E1}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "UCR.Negotium.Installer", "UCR.Negotium.Installer\UCR.Negotium.Installer.vdproj", "{7F9FD763-CD6A-442F-A831-F2ED6D0B6D06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,8 +36,8 @@ Global
 		{0E4A0C2E-8313-430E-AC03-20488A349FEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E4A0C2E-8313-430E-AC03-20488A349FEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E4A0C2E-8313-430E-AC03-20488A349FEA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{39AE3466-D29E-4152-8B79-9AEB57FB24E1}.Debug|Any CPU.ActiveCfg = Debug
-		{39AE3466-D29E-4152-8B79-9AEB57FB24E1}.Release|Any CPU.ActiveCfg = Release
+		{7F9FD763-CD6A-442F-A831-F2ED6D0B6D06}.Debug|Any CPU.ActiveCfg = Debug
+		{7F9FD763-CD6A-442F-A831-F2ED6D0B6D06}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

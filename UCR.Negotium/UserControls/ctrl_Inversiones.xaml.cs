@@ -18,27 +18,29 @@ namespace UCR.Negotium.UserControls
     {
         private Inversion inversionSelected;
         private List<Inversion> inversiones;
-        private Proyecto proyectoSelected;
+        private ProyectoLite proyecto;
         private int codProyecto;
         private string signoMoneda;
 
         private InversionData inversionData;
+        private ProyectoData proyectoData;
 
         public ctrl_Inversiones()
         {
             InitializeComponent();
             DataContext = this;
 
-            proyectoSelected = new Proyecto();
+            proyecto = new ProyectoLite();
             inversionSelected = new Inversion();
             inversiones = new List<Inversion>();
             inversionData = new InversionData();
+            proyectoData = new ProyectoData();
         }
 
         #region InternalMethods
         private void Reload()
         {
-            SignoMoneda = LocalContext.GetSignoMoneda(codProyecto);
+            SignoMoneda = LocalContext.GetSignoMoneda(CodProyecto);
             InversionesList = inversionData.GetInversiones(CodProyecto);
 
             InversionesList.All(inv => {
@@ -53,6 +55,8 @@ namespace UCR.Negotium.UserControls
             InversionSelected = InversionesList.FirstOrDefault();
             PropertyChanged(this, new PropertyChangedEventArgs("InversionesList"));
             PropertyChanged(this, new PropertyChangedEventArgs("InversionesTotal"));
+
+            proyecto = proyectoData.GetProyectoLite(CodProyecto);
         }
         #endregion
 
@@ -121,9 +125,9 @@ namespace UCR.Negotium.UserControls
 
         private void btnCrearInversion_Click(object sender, RoutedEventArgs e)
         {
-            if (!proyectoSelected.TipoProyecto.CodTipo.Equals(2))
+            if (!proyecto.CodTipoProyecto.Equals(2))
             {
-                RegistrarInversion registrarInversion = new RegistrarInversion(CodProyecto);
+                RegistrarInversion registrarInversion = new RegistrarInversion(proyecto);
                 registrarInversion.ShowDialog();
 
                 if (registrarInversion.IsActive == false && registrarInversion.Reload)
@@ -133,7 +137,7 @@ namespace UCR.Negotium.UserControls
             }
             else
             {
-                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Completo actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Financiero o Social actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -141,7 +145,7 @@ namespace UCR.Negotium.UserControls
         {
             if (InversionSelected != null)
             {
-                RegistrarInversion registrarInversion = new RegistrarInversion(CodProyecto, InversionSelected.CodRequerimientoInversion);
+                RegistrarInversion registrarInversion = new RegistrarInversion(proyecto, InversionSelected.CodInversion);
                 registrarInversion.ShowDialog();
 
                 if (registrarInversion.IsActive == false && registrarInversion.Reload)
@@ -155,10 +159,9 @@ namespace UCR.Negotium.UserControls
         {
             if (InversionSelected != null)
             {
-                if (MessageBox.Show("Esta seguro que desea eliminar esta inversión?", "Confirmar",
-                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if (CustomMessageBox.Show("Esta seguro que desea eliminar esta inversión?"))
                 {
-                    if (inversionData.EliminarInversion(InversionSelected.CodRequerimientoInversion))
+                    if (inversionData.EliminarInversion(InversionSelected.CodInversion))
                     {
                         LocalContext.ReloadUserControls(CodProyecto, Modulo.Inversiones);
                     }

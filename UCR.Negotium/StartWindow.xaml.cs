@@ -1,6 +1,8 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Windows;
 using System.Windows.Threading;
+using UCR.Negotium.Domain.Tracing;
 
 namespace UCR.Negotium
 {
@@ -23,11 +25,10 @@ namespace UCR.Negotium
             timer.Tick += new EventHandler(TimerElapsed);
             timer.Start();
         }
-
+        
         private void TimerElapsed(object sender, EventArgs e)
         {
             timer.Stop();
-
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
             Close();

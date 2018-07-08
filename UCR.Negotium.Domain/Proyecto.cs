@@ -10,7 +10,6 @@ namespace UCR.Negotium.Domain
         public bool Archivado { get; set; }
         public string NombreProyecto { get; set; }
         public string ResumenEjecutivo { get; set; }
-        public bool ConIngresos { get; set; } //Verdadero si es con ingresos falso si es sin ingresos
         public string DescripcionPoblacionBeneficiaria { get; set; }
         public string CaraterizacionDelBienServicio { get; set; }
         public string DescripcionSostenibilidadDelProyecto { get; set; }
@@ -26,8 +25,8 @@ namespace UCR.Negotium.Domain
         public Distrito Distrito { get; set; }
         public OrganizacionProponente OrganizacionProponente { get; set; }
         public string ObjetoInteres { get; set; }
-        public List<Inversion> RequerimientosInversion { get; set; }
-        public List<Reinversion> RequerimientosReinversion { get; set; }
+        public List<Inversion> Inversiones { get; set; }
+        public List<Reinversion> Reinversiones { get; set; }
         public List<ProyeccionVentaArticulo> Proyecciones { get; set; }
         public List<Costo> Costos { get; set; }
         public List<VariacionAnualCosto> VariacionCostos { get; set; }
@@ -51,9 +50,8 @@ namespace UCR.Negotium.Domain
         public Proyecto()
         {
             Archivado = false;
-            ConIngresos = true;
-            this.RequerimientosInversion = new List<Inversion>();
-            this.RequerimientosReinversion = new List<Reinversion>();
+            this.Inversiones = new List<Inversion>();
+            this.Reinversiones = new List<Reinversion>();
             this.Encargado = new Encargado();
             this.Provincia = new Provincia();
             this.Canton = new Canton();
@@ -139,15 +137,15 @@ namespace UCR.Negotium.Domain
 
         private List<Depreciacion> calcularDepreciaciones()
         {
-            List<Inversion> inversiones = this.RequerimientosInversion.Where(inv => inv.Depreciable).ToList();
-            List<Reinversion> reinversiones = this.RequerimientosReinversion.Where(reinv => reinv.Depreciable).ToList();
+            List<Inversion> inversiones = this.Inversiones.Where(inv => inv.Depreciable).ToList();
+            List<Reinversion> reinversiones = this.Reinversiones.Where(reinv => reinv.Depreciable).ToList();
             List<Depreciacion> depreciaciones = new List<Depreciacion>();
 
             foreach (Inversion inversion in inversiones)
             {
                 Depreciacion depreciacion = new Depreciacion();
-                depreciacion.NombreDepreciacion = inversion.DescripcionRequerimiento;
-                depreciacion.CodDepresiacion = inversion.CodRequerimientoInversion;
+                depreciacion.NombreDepreciacion = inversion.Descripcion;
+                depreciacion.CodDepresiacion = inversion.CodInversion;
                 int count = 0;
                 while (count < this.HorizonteEvaluacionEnAnos)
                 {
@@ -166,13 +164,13 @@ namespace UCR.Negotium.Domain
 
             foreach (Reinversion reinversion in reinversiones)
             {
-                if (reinversion.CodRequerimientoInversion != 0)
+                if (reinversion.CodInversion != 0)
                 {
-                    var inversion = inversiones.Find(inv => inv.CodRequerimientoInversion.Equals(reinversion.CodRequerimientoInversion));
+                    var inversion = inversiones.Find(inv => inv.CodInversion.Equals(reinversion.CodInversion));
 
                     if (inversion != null)
                     {
-                        Depreciacion dep = depreciaciones.Find(s => s.CodDepresiacion.Equals(inversion.CodRequerimientoInversion));
+                        Depreciacion dep = depreciaciones.Find(s => s.CodDepresiacion.Equals(inversion.CodInversion));
                         if (dep != null)
                         {
                             List<double> montosTemp = new List<double>();
@@ -198,14 +196,14 @@ namespace UCR.Negotium.Domain
                                 dep.MontoDepreciacion[ite] = dep.MontoDepreciacion[ite] + montosTemp[ite];
                             }
 
-                            depreciaciones.Where(s => s.CodDepresiacion.Equals(inversion.CodRequerimientoInversion)).First().MontoDepreciacion = dep.MontoDepreciacion;
+                            depreciaciones.Where(s => s.CodDepresiacion.Equals(inversion.CodInversion)).First().MontoDepreciacion = dep.MontoDepreciacion;
                         }
                     }
                 }
                 else
                 {
                     Depreciacion depreciacion = new Depreciacion();
-                    depreciacion.NombreDepreciacion = reinversion.DescripcionRequerimiento;
+                    depreciacion.NombreDepreciacion = reinversion.Descripcion;
                     int count2 = reinversion.AnoReinversion - this.AnoInicial;
                     int countF = reinversion.VidaUtil;
                     int count = 0;
@@ -356,8 +354,8 @@ namespace UCR.Negotium.Domain
 
         public double calcularValorResidual()
         {
-            List<Inversion> inversiones = this.RequerimientosInversion;
-            List<Reinversion> reinversiones = this.RequerimientosReinversion;
+            List<Inversion> inversiones = this.Inversiones;
+            List<Reinversion> reinversiones = this.Reinversiones;
             double valorRes = 0;
             foreach (Inversion inversion in inversiones)
             {
@@ -384,5 +382,13 @@ namespace UCR.Negotium.Domain
 
             return valorRes;
         }
+    }
+
+    public class ProyectoLite
+    {
+        public int CodProyecto { get; set; }
+        public int AnoInicial { get; set; }
+        public int HorizonteEvaluacionEnAnos { get; set; }
+        public int CodTipoProyecto { get; set; }
     }
 }

@@ -59,6 +59,11 @@ namespace UCR.Negotium.UserControls
             }
         }
 
+        public List<VariacionAnualCosto> VariacionAnualCostos
+        {
+            get { return proyecto.VariacionCostos; }
+        }
+
         public int CodProyecto
         {
             get
@@ -114,7 +119,7 @@ namespace UCR.Negotium.UserControls
             }
             else
             {
-                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Completo actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Financiero o Social actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -136,8 +141,7 @@ namespace UCR.Negotium.UserControls
         {
             if (CostoSelected != null)
             {
-                if (MessageBox.Show("Esta seguro que desea eliminar este costo?", "Confirmar",
-                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if (CustomMessageBox.Show("Esta seguro que desea eliminar este costo?"))
                 {
                     if (costoData.EliminarCosto(CostoSelected.CodCosto))
                     {
@@ -166,7 +170,7 @@ namespace UCR.Negotium.UserControls
             }
             else
             {
-                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Completo actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Financiero o Social actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
         #endregion

@@ -46,11 +46,11 @@ namespace UCR.Negotium.UserControls
         {
             DTDepreciaciones = new DataView();
             ProyectoSelected = proyectoData.GetProyecto(CodProyecto);
-            ProyectoSelected.RequerimientosInversion = requerimientoInversionData.GetInversiones(CodProyecto);
-            ProyectoSelected.RequerimientosReinversion = requerimientoReinversionData.GetReinversiones(CodProyecto);
+            ProyectoSelected.Inversiones = requerimientoInversionData.GetInversiones(CodProyecto);
+            ProyectoSelected.Reinversiones = requerimientoReinversionData.GetReinversiones(CodProyecto);
 
-            if (!ProyectoSelected.RequerimientosInversion.Where(inv => inv.Depreciable).Count().Equals(0) ||
-                !ProyectoSelected.RequerimientosReinversion.Where(reinv => reinv.Depreciable).Count().Equals(0))
+            if (!ProyectoSelected.Inversiones.Where(inv => inv.Depreciable).Count().Equals(0) ||
+                !ProyectoSelected.Reinversiones.Where(reinv => reinv.Depreciable).Count().Equals(0))
             {
                 DTDepreciaciones = DatatableBuilder.GenerarDepreciaciones(ProyectoSelected).AsDataView();
                 DTTotalesDepreciaciones = DatatableBuilder.GenerarDepreciacionesTotales(ProyectoSelected).AsDataView();

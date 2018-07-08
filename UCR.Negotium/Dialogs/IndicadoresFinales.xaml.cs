@@ -1,5 +1,4 @@
 ﻿using MahApps.Metro.Controls;
-using Microsoft.VisualBasic;
 using System;
 using System.ComponentModel;
 using System.Windows;
@@ -15,26 +14,38 @@ namespace UCR.Negotium.Dialogs
     /// </summary>
     public partial class IndicadoresFinales : MetroWindow, INotifyPropertyChanged
     {
-        private double tir;
-        private double van;
+        private string tir, signoMoneda;
+        private double van, relacionBC, pri;
         private Proyecto proyecto;
-        private double montoInicial;
-        private double[] flujoCaja;
-        private string signoMoneda;
+        private IndicadoresFinancieros indicFinancieros;
+        private IndicadoresSociales indicSociales;
+        private bool esSocial;
+        private double vac;
 
         private ProyectoData proyectoData;
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
-        public IndicadoresFinales(int codProyecto, double TIR, double VAN, double montoInicial, double[] flujoCaja)
+        public IndicadoresFinales(int codProyecto, object indicadores)
         {
             InitializeComponent();
             DataContext = this;
 
-            tir = TIR;
-            van = VAN;
-            this.montoInicial = montoInicial;
-            this.flujoCaja = flujoCaja;
+            if (indicadores.GetType() == typeof(IndicadoresFinancieros)){
+                this.indicFinancieros = (IndicadoresFinancieros)indicadores;
+                tir = indicFinancieros.TIR;
+                pri = indicFinancieros.PRI;
+                van = indicFinancieros.VANDouble;
+                relacionBC = indicFinancieros.RelacionBC;
+            }
+            else
+            {
+                this.indicSociales = (IndicadoresSociales)indicadores;
+                esSocial = true;
+                vac = indicSociales.VACDouble;
+                indicadoresFinancieros.Visibility = Visibility.Hidden;
+                indicadoresSociales.Visibility = Visibility.Visible;
+            }
 
             proyectoData = new ProyectoData();
             proyecto = proyectoData.GetProyecto(codProyecto);
@@ -46,7 +57,19 @@ namespace UCR.Negotium.Dialogs
 
         public string TIR
         {
-            get { return string.Concat(tir.ToString("#,##0.##"), " %"); }
+            get { return tir; }
+            set { }
+        }
+
+        public double PRI
+        {
+            get { return pri; }
+            set { }
+        }
+
+        public double RelacionBC
+        {
+            get { return relacionBC; }
             set { }
         }
 
@@ -86,6 +109,42 @@ namespace UCR.Negotium.Dialogs
             set { }
         }
 
+        public string VAC
+        {
+            get { return signoMoneda + " " + vac.ToString("#,##0.##"); }
+            set { }
+        }
+
+        public string VACPersonas
+        {
+            get
+            {
+                return signoMoneda + " " + Math.Round(
+                    vac / ProyectoSelected.PersonasParticipantes, 2).ToString("#,##0.##");
+            }
+            set { }
+        }
+
+        public string VACFamilias
+        {
+            get
+            {
+                return signoMoneda + " " + Math.Round(
+                    vac / ProyectoSelected.FamiliasInvolucradas, 2).ToString("#,##0.##");
+            }
+            set { }
+        }
+
+        public string VACBeneficiarios
+        {
+            get
+            {
+                return signoMoneda + " " + Math.Round(
+                    vac / ProyectoSelected.PersonasBeneficiadas, 2).ToString("#,##0.##");
+            }
+            set { }
+        }
+
         public Proyecto ProyectoSelected
         {
             get { return proyecto; }
@@ -93,6 +152,7 @@ namespace UCR.Negotium.Dialogs
         }
         #endregion
 
+        #region Events
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
             if (proyectoData.EditarProyectoFlujoCaja(ProyectoSelected))
@@ -116,16 +176,23 @@ namespace UCR.Negotium.Dialogs
             if (tbNumeroTextChange)
             {
                 tbTasaCostoCapital.Text = tbTasaCostoCapital.Text.CheckStringFormat();
-                double tasaTemp = Convert.ToDouble(tbTasaCostoCapital.Text) / 100;
 
-                try
+                double tasaTemp = Convert.ToDouble(tbTasaCostoCapital.Text);
+
+                if (esSocial)
                 {
-                    van = Financial.NPV(tasaTemp, ref flujoCaja);
-                    van = van + montoInicial;
+                    vac = indicSociales.CalculateVAC(tasaTemp);
+                    PropertyChanged(this, new PropertyChangedEventArgs("VAC"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("VACPersonas"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("VACFamilias"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("VACBeneficiarios"));
                 }
-                catch { van = 0; }
-                finally
+                else
                 {
+                    van = indicFinancieros.CalculateVAN(tasaTemp);
+                    relacionBC = indicFinancieros.CalculateRelacionBC(tasaTemp);
+
+                    PropertyChanged(this, new PropertyChangedEventArgs("RelacionBC"));
                     PropertyChanged(this, new PropertyChangedEventArgs("VAN"));
                     PropertyChanged(this, new PropertyChangedEventArgs("VANPersonas"));
                     PropertyChanged(this, new PropertyChangedEventArgs("VANFamilias"));
@@ -161,19 +228,22 @@ namespace UCR.Negotium.Dialogs
         {
             tbPersonasParticipantes.Text = tbPersonasParticipantes.Text.CheckStringFormat();
             PropertyChanged(this, new PropertyChangedEventArgs("VANPersonas"));
+            PropertyChanged(this, new PropertyChangedEventArgs("VACPersonas"));
         }
 
         private void tbFamiliasInvolucradas_TextChanged(object sender, TextChangedEventArgs e)
         {
             tbFamiliasInvolucradas.Text = tbFamiliasInvolucradas.Text.CheckStringFormat();
             PropertyChanged(this, new PropertyChangedEventArgs("VANFamilias"));
+            PropertyChanged(this, new PropertyChangedEventArgs("VACFamilias"));
         }
 
         private void tbPersonasBeneficiadas_TextChanged(object sender, TextChangedEventArgs e)
         {
             tbPersonasBeneficiadas.Text = tbPersonasBeneficiadas.Text.CheckStringFormat();
-
             PropertyChanged(this, new PropertyChangedEventArgs("VANBeneficiarios"));
+            PropertyChanged(this, new PropertyChangedEventArgs("VACBeneficiarios"));
         }
+        #endregion
     }
 }

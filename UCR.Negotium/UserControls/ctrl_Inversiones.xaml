@@ -30,7 +30,7 @@
                           ItemsSource="{Binding InversionesList, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
                           SelectedItem="{Binding InversionSelected, UpdateSourceTrigger=PropertyChanged}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding Path=DescripcionRequerimiento}" Header="Descripción" Width="4*"/>
+                        <DataGridTextColumn Binding="{Binding Path=Descripcion}" Header="Descripción" Width="4*"/>
                         <DataGridTextColumn Binding="{Binding Path=Cantidad}" Header="Cantidad" Width="2*"/>
                         <DataGridTextColumn Binding="{Binding Path=UnidadMedida}" Header="Unidad Medida" Width="2*"/>
                         <DataGridTextColumn Binding="{Binding Path=CostoUnitarioFormat}" Width="2.5*" x:Name="dgtxcCostoUnidad"/>

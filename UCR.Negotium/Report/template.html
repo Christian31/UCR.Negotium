@@ -3,7 +3,6 @@
 </head>
 <body>
     <div class="container-fluid">
-        <!-- Page Heading -->
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
@@ -21,27 +20,24 @@
                             <div class="form-group"> Año Inicial del proyecto: <b>$proyecto.AnoInicial</b></div>
                             <div class="form-group"> Horizonte de evaluación (años): <b>$proyecto.HorizonteEvaluacionEnAnos Años</b></div>
                             <div class="form-group">
-                                Paga Impuestos:
-                                <b>#if ($proyecto.PagaImpuesto) Si #else No #end</b>
+                                Paga Impuestos: <b>#if ($proyecto.PagaImpuesto) Si #else No #end</b>
                             </div>
+                            #if ($proyecto.PagaImpuesto)
                             <div class="form-group"> Porcentaje de Impuesto: <b>$proyecto.PorcentajeImpuesto %</b></div>
+                            #end
                             <div class="form-group">
-                                Posee Financiamiento:
-                                <b>#if ($proyecto.ConFinanciamiento) Si #else No #end</b>
+                                Posee Financiamiento: <b>#if ($proyecto.ConFinanciamiento) Si #else No #end</b>
                             </div>
                             <div class="form-group"> Bien o Servicio: <b>$proyecto.ObjetoInteres</b></div>
                             <div class="form-group">
-                                Ubicación:
-                                <b>$proyecto.Provincia, $proyecto.Canton, $proyecto.Distrito, $proyecto.DireccionExacta</b>
+                                Ubicación: <b>$proyecto.Provincia, $proyecto.Canton, $proyecto.Distrito, $proyecto.DireccionExacta</b>
                             </div>
-
                             <table class="table table-data">
                                 <tbody>
                                     <tr>
                                         <td>
                                             <h4>Resumen Ejecutivo</h4>
-                                            <hr />
-                                            $proyecto.ResumenEjecutivo<br />
+                                            <hr />$proyecto.ResumenEjecutivo<br />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -70,12 +66,10 @@
                                             <div class="form-group"> Correo Electrónico: <b>$proyecto.OrganizacionProponente.Proponente.Email</b></div>
                                             <div class="form-group"> Puesto en la Organización: <b>$proyecto.OrganizacionProponente.Proponente.PuestoEnOrganizacion</b></div>
                                             <div class="form-group">
-                                                Género:
-                                                <b> #if ($proyecto.OrganizacionProponente.Proponente.Genero) Femenino #else Masculino #end</b>
+                                                Género: <b> #if ($proyecto.OrganizacionProponente.Proponente.Genero) Femenino #else Masculino #end</b>
                                             </div>
                                             <div class="form-group">
-                                                Es Representante Individual:
-                                                <b>#if ($proyecto.EsRepresentanteIndividual) Si #else No #end</b>
+                                                Es Representante Individual: <b>#if ($proyecto.OrganizacionProponente.Proponente.EsRepresentanteIndividual) Si #else No #end</b>
                                             </div>
                                         </td>
                                     </tr>
@@ -87,11 +81,13 @@
                                         <td>
                                             <h4>Organización</h4>
                                             <hr />
+                                            #if ($proyecto.OrganizacionProponente.Proponente.EsRepresentanteIndividual==false)
                                             <div class="form-group"> Tipo: <b>$proyecto.OrganizacionProponente.Tipo</b></div>
                                             <div class="form-group"> Nombre de la Organización: <b>$proyecto.OrganizacionProponente.NombreOrganizacion</b></div>
                                             <div class="form-group"> Cédula Jurídica: <b>$proyecto.OrganizacionProponente.CedulaJuridica</b></div>
                                             <div class="form-group"> Teléfono: <b>$proyecto.OrganizacionProponente.Telefono</b></div>
                                             <div class="form-group"> Correo Electrónico: <b>$proyecto.OrganizacionProponente.CorreoElectronico</b></div>
+                                            #end
                                             <div class="form-group"> Descripción: <b>$proyecto.OrganizacionProponente.Descripcion</b></div>
                                         </td>
                                     </tr>
@@ -122,6 +118,7 @@
         <div class="row">
             <table class="table table-content">
                 <thead><tr><th>Inversiones</th></tr></thead>
+                #if ($proyecto.Inversiones.Count() > 0)
                 <tbody>
                     <tr>
                         <td>
@@ -139,7 +136,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        #foreach( $inversion in $proyecto.RequerimientosInversion )
+                                        #foreach( $inversion in $proyecto.Inversiones )
                                         <tr>
                                             <td>$inversion</td>
                                             <td>$inversion.Cantidad</td>
@@ -163,12 +160,22 @@
                         </td>
                     </tr>
                 </tfoot>
+                #else
+                <tbody>
+                    <tr>
+                        <td>
+                            No posee inversiones registradas
+                        </td>
+                    </tr>
+                </tbody>
+                #end
             </table>
         </div>
         <!-- /.Reinversiones -->
         <div class="row">
             <table class="table table-content">
                 <thead><tr><th>Reinversiones</th></tr></thead>
+                #if ($proyecto.Reinversiones.Count() > 0)
                 <tbody>
                     <tr>
                         <td>
@@ -187,9 +194,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        #foreach( $reinversion in $proyecto.RequerimientosReinversion )
+                                        #foreach( $reinversion in $proyecto.Reinversiones )
                                         <tr>
-                                            <td>$reinversion.DescripcionRequerimiento</td>
+                                            <td>$reinversion.Descripcion</td>
                                             <td>$reinversion.Cantidad</td>
                                             <td>$reinversion.CostoUnitarioFormat</td>
                                             <td>$reinversion.UnidadMedida</td>
@@ -228,12 +235,23 @@
                         </td>
                     </tr>
                 </tbody>
+                #else
+                <tbody>
+                    <tr>
+                        <td>
+                            No posee reinversiones registradas
+                        </td>
+                    </tr>
+                </tbody>
+                #end
             </table>
         </div>
         <!-- /.Proyecciones -->
+        #if ($proyecto.TipoProyecto.CodTipo == 1)
         <div class="row">
             <table class="table table-content">
                 <thead><tr><th>Proyecciones de Ventas</th></tr></thead>
+                #if ($proyecto.Proyecciones.Count() > 0)
                 <tbody>
                     #foreach( $proyeccion in $proyecto.Proyecciones )
                     <tr>
@@ -310,12 +328,23 @@
                         </td>
                     </tr>
                 </tbody>
+                #else
+                <tbody>
+                    <tr>
+                        <td>
+                            No posee proyecciones de venta registradas
+                        </td>
+                    </tr>
+                </tbody>
+                #end
             </table>
         </div>
+        #end
         <!-- /.Costos -->
         <div class="row">
             <table class="table table-content">
                 <thead><tr><th>Costos del Proyecto</th></tr></thead>
+                #if ($proyecto.Costos.Count() > 0)
                 <tbody>
                     #foreach( $costo in $proyecto.Costos )
                     <tr>
@@ -375,12 +404,22 @@
                         </td>
                     </tr>
                 </tbody>
+                #else
+                <tbody>
+                    <tr>
+                        <td>
+                            No posee costos registrados
+                        </td>
+                    </tr>
+                </tbody>
+                #end
             </table>
         </div>
         <!-- /.Capital Trabajo -->
         <div class="row">
             <table class="table table-content">
                 <thead><tr><th>Capital del Proyecto</th></tr></thead>
+                #if ($proyecto.Costos.Count() > 0)
                 <tbody>
                     <tr>
                         <td>
@@ -416,16 +455,26 @@
                         </td>
                     </tr>
                 </tfoot>
+                #else
+                <tbody>
+                    <tr>
+                        <td>
+                            No posee capital de trabajo calculado
+                        </td>
+                    </tr>
+                </tbody>
+                #end
             </table>
         </div>
         <!-- /.Depreciaciones -->
         <div class="row">
             <table class="table table-content">
                 <thead><tr><th>Depreciaciones</th></tr></thead>
+                #if ($proyecto.Depreciaciones.Count() > 0)
                 <tbody>
                     #foreach ($page in $depreciaciones)
                     <tr>
-                        <td> 
+                        <td>
                             <div class="table-responsive">
                                 <table class="table table-data">
                                     <thead>
@@ -477,12 +526,23 @@
                         </td>
                     </tr>
                 </tfoot>
+                #else
+                <tbody>
+                    <tr>
+                        <td>
+                            No posee depreciaciones calculadas
+                        </td>
+                    </tr>
+                </tbody>
+                #end
             </table>
         </div>
         <!-- /.Financiamiento -->
         <div class="row">
             <table class="table table-content">
                 <thead><tr><th>Financiamiento</th></tr></thead>
+                #if ($proyecto.ConFinanciamiento)
+                #if ($proyecto.Financiamiento.CodFinanciamiento > 0)
                 <tbody>
                     <tr>
                         <td>
@@ -546,6 +606,24 @@
                         </td>
                     </tr>
                 </tbody>
+                #else
+                <tbody>
+                    <tr>
+                        <td>
+                            No posee financiamiento registrado
+                        </td>
+                    </tr>
+                </tbody>
+                #end
+                #else
+                <tbody>
+                    <tr>
+                        <td>
+                            Proyecto sin financiamiento
+                        </td>
+                    </tr>
+                </tbody>
+                #end
             </table>
         </div>
         <!-- /.Flujo de Caja -->
@@ -576,8 +654,8 @@
                                     </tbody>
                                 </table>
                             </div>
-                            </td>
-                        </tr>
+                        </td>
+                    </tr>
                     #end
                 </tbody>
                 <tfoot>
@@ -586,7 +664,10 @@
                             <h4><b>Detalle de Indicadores</b></h4>
                             <hr />
                             <div class="form-group"> Tasa de Costo Capital: <b>$proyecto.TasaCostoCapitalString</b></div>
+                            #if ($proyecto.TipoProyecto.CodTipo == 1)
                             <div class="form-group"> TIR: <b>$TIR</b></div>
+                            <div class="form-group"> PRI (En Años): <b>$PRI</b></div>
+                            <div class="form-group"> Relación B/C: <b>$RelacionBC</b></div>
                             <div class="form-group"> VAN: <b>$VAN</b></div>
                             <div class="form-group"> Personas participantes: <b>$proyecto.PersonasParticipantes</b><br /></div>
                             <div class="form-group"> Familias involucradas: <b>$proyecto.FamiliasInvolucradas</b></div>
@@ -594,13 +675,21 @@
                             <div class="form-group"> VAN/Personas participantes: <b>$VANParticipantes</b></div>
                             <div class="form-group"> VAN/Personas involucradas: <b>$VANInvolucrados</b><br /></div>
                             <div class="form-group"> VAN/Beneficiarios indirectos: <b>$VANIndirectos</b><br /></div>
-                            <div class="form-group"><b> Se recomienda aceptar su proyecto cuando la Tasa Interna de Retorno (TIR) es mayor a la Tasa de Costo de Capital y a su vez cuando se obtiene un VAN positivo. </b></div>
+                            #else
+                            <div class="form-group"> VAC: <b>$VAC</b></div>
+                            <div class="form-group"> Personas participantes: <b>$proyecto.PersonasParticipantes</b><br /></div>
+                            <div class="form-group"> Familias involucradas: <b>$proyecto.FamiliasInvolucradas</b></div>
+                            <div class="form-group"> Beneficiarios indirectos: <b>$proyecto.PersonasBeneficiadas</b></div>
+                            <div class="form-group"> VAC/Personas participantes: <b>$VACParticipantes</b></div>
+                            <div class="form-group"> VAC/Personas involucradas: <b>$VACInvolucrados</b><br /></div>
+                            <div class="form-group"> VAC/Beneficiarios indirectos: <b>$VACIndirectos</b><br /></div>
+                            #end
+                            
                         </td>
                     </tr>
                 </tfoot>
             </table>
         </div>
     </div>
-    <!-- /.container-fluid -->
 </body>
 </html>

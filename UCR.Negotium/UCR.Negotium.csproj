@@ -63,7 +63,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\Icon\icon.ico</ApplicationIcon>
@@ -77,10 +77,6 @@
       <HintPath>..\packages\itextsharp.xmlworker.5.5.12\lib\itextsharp.xmlworker.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="MahApps.Metro, Version=1.4.3.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.4.3\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
@@ -90,6 +86,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.5.6\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NReco.PdfGenerator, Version=1.1.15.0, Culture=neutral, PublicKeyToken=231663d50a41b451, processorArchitecture=MSIL">
       <HintPath>..\packages\NReco.PdfGenerator.1.1.15\lib\net20\NReco.PdfGenerator.dll</HintPath>
       <Private>True</Private>
@@ -101,6 +101,10 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -124,6 +128,9 @@
     <Compile Include="Dialogs\AcercaNegotium.xaml.cs">
       <DependentUpon>AcercaNegotium.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\ConfirmationMessage.xaml.cs">
+      <DependentUpon>ConfirmationMessage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\CreditosNegotium.xaml.cs">
       <DependentUpon>CreditosNegotium.xaml</DependentUpon>
     </Compile>
@@ -133,6 +140,7 @@
     <Compile Include="Dialogs\RegistrarTipoMoneda.xaml.cs">
       <DependentUpon>RegistrarTipoMoneda.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\CustomMessageBox.cs" />
     <Compile Include="Extensions\DatatableBuilder.cs" />
     <Compile Include="Extensions\GenerarReporte.cs" />
     <Page Include="App.xaml">
@@ -173,6 +181,8 @@
       <DependentUpon>RegistrarVariacionAnualCostos.xaml</DependentUpon>
     </Compile>
     <Compile Include="Extensions\GestorDatos.cs" />
+    <Compile Include="Extensions\IndicadoresFinancieros.cs" />
+    <Compile Include="Extensions\IndicadoresSociales.cs" />
     <Compile Include="Extensions\InverseBoolConverter.cs" />
     <Compile Include="Extensions\LocalContext.cs" />
     <Compile Include="Extensions\CheckMonedaFormat.cs" />
@@ -226,6 +236,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\AnalisisAmbiental\RegistrarFactorAmbiental.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\ConfirmationMessage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -385,6 +399,12 @@
     <Content Include="Data\NegotiumDatabase.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

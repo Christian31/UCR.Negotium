@@ -24,7 +24,7 @@ namespace UCR.Negotium.DataAccess
                 {
                     conn.Open();
                     SQLiteCommand command = new SQLiteCommand(insert, conn);
-                    command.Parameters.AddWithValue("descripcion_requerimiento", inversion.DescripcionRequerimiento);
+                    command.Parameters.AddWithValue("descripcion_requerimiento", inversion.Descripcion);
                     command.Parameters.AddWithValue("cantidad", inversion.Cantidad);
                     command.Parameters.AddWithValue("costo_unitario", inversion.CostoUnitario);
                     command.Parameters.AddWithValue("cod_unidad_medida", inversion.UnidadMedida.CodUnidad);
@@ -67,8 +67,8 @@ namespace UCR.Negotium.DataAccess
                         while (reader.Read())
                         {
                             Inversion requerimiento = new Inversion();
-                            requerimiento.CodRequerimientoInversion = reader.GetInt32(0);
-                            requerimiento.DescripcionRequerimiento = reader.GetString(1);
+                            requerimiento.CodInversion = reader.GetInt32(0);
+                            requerimiento.Descripcion = reader.GetString(1);
                             requerimiento.Cantidad = reader.GetDouble(2);
                             requerimiento.CostoUnitario = reader.GetDouble(3);
                             requerimiento.UnidadMedida.CodUnidad = reader.GetInt32(4);
@@ -110,8 +110,8 @@ namespace UCR.Negotium.DataAccess
                     {
                         if (reader.Read())
                         {
-                            inversion.CodRequerimientoInversion = reader.GetInt32(0);
-                            inversion.DescripcionRequerimiento = reader.GetString(1);
+                            inversion.CodInversion = reader.GetInt32(0);
+                            inversion.Descripcion = reader.GetString(1);
                             inversion.Cantidad = reader.GetDouble(2);
                             inversion.CostoUnitario = reader.GetDouble(3);
                             inversion.UnidadMedida.CodUnidad = reader.GetInt32(4);
@@ -144,13 +144,13 @@ namespace UCR.Negotium.DataAccess
                 {
                     conn.Open();
                     SQLiteCommand command = new SQLiteCommand(update, conn);
-                    command.Parameters.AddWithValue("descripcion_requerimiento", inversion.DescripcionRequerimiento);
+                    command.Parameters.AddWithValue("descripcion_requerimiento", inversion.Descripcion);
                     command.Parameters.AddWithValue("cantidad", inversion.Cantidad);
                     command.Parameters.AddWithValue("costo_unitario", inversion.CostoUnitario);
                     command.Parameters.AddWithValue("cod_unidad_medida", inversion.UnidadMedida.CodUnidad);
                     command.Parameters.AddWithValue("depreciable", inversion.Depreciable);
                     command.Parameters.AddWithValue("vida_util", inversion.VidaUtil);
-                    command.Parameters.AddWithValue("cod_requerimiento_inversion", inversion.CodRequerimientoInversion);
+                    command.Parameters.AddWithValue("cod_requerimiento_inversion", inversion.CodInversion);
 
                     result = command.ExecuteNonQuery();
                 }

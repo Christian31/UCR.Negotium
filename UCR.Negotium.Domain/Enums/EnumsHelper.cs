@@ -59,7 +59,7 @@ namespace UCR.Negotium.Domain.Enums
 
             return resourceKey;
         }
-
+        
         public static string GetDisplayValue(T value)
         {
             var fieldInfo = value.GetType().GetField(value.ToString());

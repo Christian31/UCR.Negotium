@@ -18,7 +18,7 @@ namespace UCR.Negotium.Dialogs
         #region PrivateProperties
         private const string CAMPOREQUERIDO = "Este campo es requerido";
 
-        private Proyecto proyecto;
+        private ProyectoLite proyecto;
         List<UnidadMedida> unidadMedidas;
         private ProyeccionVentaArticulo proyeccionSelected;
 
@@ -29,15 +29,15 @@ namespace UCR.Negotium.Dialogs
         #endregion
 
         #region Constructor
-        public RegistrarProyeccionVenta(int idProyecto, int idProyeccion = 0)
+        public RegistrarProyeccionVenta(int codProyecto, int codProyeccion = 0)
         {
             InitializeComponent();
             DataContext = this;
             tbNombreArticulo.ToolTip = "Ingrese en este campo el Nombre de la Proyección del Producto que desea registrar";
-            string signo = LocalContext.GetSignoMoneda(idProyecto);
+            string signo = LocalContext.GetSignoMoneda(codProyecto);
             dgtxcPrecio.Header = string.Format("Precio ({0})", signo);
 
-            proyecto = new Proyecto();
+            proyecto = new ProyectoLite();
             unidadMedidas = new List<UnidadMedida>();
             proyeccionSelected = new ProyeccionVentaArticulo();
 
@@ -47,15 +47,15 @@ namespace UCR.Negotium.Dialogs
             crecimientoOfertaData = new CrecimientoOfertaArticuloData();
 
             unidadMedidas = unidadMedidaData.GetUnidadesMedidas();
-            proyecto = proyectoData.GetProyecto(idProyecto);
+            proyecto = proyectoData.GetProyectoLite(codProyecto);
 
             //default values
             proyeccionSelected.UnidadMedida = UnidadesMedida.FirstOrDefault();
 
-            if (!idProyeccion.Equals(0))
+            if (!codProyeccion.Equals(0))
             {
-                proyeccionSelected = proyeccionArticuloData.GetProyeccionVentaArticulo(idProyeccion);
-                proyeccionSelected.CrecimientoOferta = crecimientoOfertaData.GetCrecimientoOfertaObjetoIntereses(idProyeccion);
+                proyeccionSelected = proyeccionArticuloData.GetProyeccionVentaArticulo(codProyeccion);
+                proyeccionSelected.CrecimientoOferta = crecimientoOfertaData.GetCrecimientoOfertaObjetoIntereses(codProyeccion);
             }
 
             if (proyeccionSelected.CrecimientoOferta.Count.Equals(0))

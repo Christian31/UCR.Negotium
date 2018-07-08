@@ -4,9 +4,9 @@ namespace UCR.Negotium.Domain
 {
     public class Reinversion
     {
-        public int CodRequerimientoReinversion { get; set; }
+        public int CodReinversion { get; set; }
         public int AnoReinversion { get; set; }
-        public string DescripcionRequerimiento { get; set; }
+        public string Descripcion { get; set; }
         public double Cantidad { get; set; }
         public double CostoUnitario { get; set; }
         public bool Depreciable { get; set; }
@@ -15,7 +15,7 @@ namespace UCR.Negotium.Domain
         private double depreciacion;
         private double subtotal;
         //can be null
-        public int CodRequerimientoInversion { get; set; }
+        public int CodInversion { get; set; }
         
         public Reinversion()
         {

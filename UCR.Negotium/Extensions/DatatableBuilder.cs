@@ -204,7 +204,7 @@ namespace UCR.Negotium.Extensions
             return ds.Tables["IngresosGenerados"];
         }
 
-        public static DataTable GenerarReinversionesTotales(Proyecto proyecto)
+        public static DataTable GenerarReinversionesTotales(ProyectoLite proyecto, List<Reinversion> reinversiones)
         {
             string signoMoneda = LocalContext.GetSignoMoneda(proyecto.CodProyecto);
 
@@ -212,7 +212,7 @@ namespace UCR.Negotium.Extensions
             ds.Tables.Add("TotalesReinversiones");
             ds.Tables["TotalesReinversiones"].Columns.Add("titulo", Type.GetType("System.String"));
 
-            if (proyecto != null && proyecto.RequerimientosReinversion.Count > 0)
+            if (proyecto != null && reinversiones.Count > 0)
             {
                 DataRow row = ds.Tables["TotalesReinversiones"].NewRow();
                 row["titulo"] = "Totales";
@@ -220,7 +220,7 @@ namespace UCR.Negotium.Extensions
                 for (int i = proyecto.AnoInicial + 1; i <= proyecto.AnoInicial + proyecto.HorizonteEvaluacionEnAnos; i++)
                 {
                     double val = 0;
-                    foreach (Reinversion reqReinv in proyecto.RequerimientosReinversion)
+                    foreach (Reinversion reqReinv in reinversiones)
                     {
                         if (reqReinv.AnoReinversion == i)
                         {
@@ -655,6 +655,117 @@ namespace UCR.Negotium.Extensions
             }
 
             return flujoCajaPaging;
+        }
+
+        public static DataTable GenerarFlujoCajaSocial(Proyecto proyecto, DataView dgvCapitalTrabajo, DataView dgvFinanciamiento, DataView dgvTotalesReinversiones, string totalInversiones, string recuperacionCT)
+        {
+            string signoMoneda = LocalContext.GetSignoMoneda(proyecto.CodProyecto);
+
+            string dsNombre = "FlujoCaja";
+            DataSet ds = new DataSet();
+            ds.Tables.Add(dsNombre);
+            ds.Tables[dsNombre].Columns.Add("Rubro", Type.GetType("System.String"));
+            for (int i = 0; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+            {
+                ds.Tables[dsNombre].Columns.Add((proyecto.AnoInicial + i).ToString(), Type.GetType("System.String"));
+            }
+
+            #region costos
+            DataRow row2 = ds.Tables[dsNombre].NewRow();
+            row2["Rubro"] = "Costos Totales";
+            int a2 = 1;
+            foreach (double costoGenerado in proyecto.CostosGenerados)
+            {
+                row2[(proyecto.AnoInicial + a2).ToString()] = signoMoneda + " " + costoGenerado.ToString("#,##0.##");
+                a2++;
+            }
+            ds.Tables[dsNombre].Rows.Add(row2);
+            #endregion
+
+            #region inversiones
+            DataRow row11 = ds.Tables[dsNombre].NewRow();
+            row11["Rubro"] = "Inversiones";
+            int a11 = 0;
+            row11[(proyecto.AnoInicial + a11).ToString()] = signoMoneda + " " + totalInversiones.ToString().Replace(signoMoneda + " ", string.Empty);
+            a11++;
+
+            if (dgvTotalesReinversiones.Table != null)
+            {
+                for (int i = 1; i < proyecto.HorizonteEvaluacionEnAnos; i++)
+                {
+                    row11[(proyecto.AnoInicial + a11).ToString()] = signoMoneda + " " + dgvTotalesReinversiones.Table.Rows[0][i].ToString().Replace(signoMoneda + " ", string.Empty);
+                    a11++;
+                }
+            }
+            else
+            {
+                for (int i = 1; i < proyecto.HorizonteEvaluacionEnAnos; i++)
+                {
+                    row11[(proyecto.AnoInicial + a11).ToString()] = signoMoneda + " 0";
+                    a11++;
+                }
+            }
+            ds.Tables[dsNombre].Rows.Add(row11);
+            #endregion
+
+            #region inv capital trabajo
+            DataRow row14 = ds.Tables[dsNombre].NewRow();
+            row14["Rubro"] = "Inv. Capital Trabajo";
+            int a14 = 0;
+
+            if (dgvCapitalTrabajo.Table != null)
+            {
+                for (int i = 1; i < proyecto.HorizonteEvaluacionEnAnos + 1; i++)
+                {
+                    row14[(proyecto.AnoInicial + a14).ToString()] = dgvCapitalTrabajo.Table.Rows[2][i].ToString();
+                    a14++;
+                }
+            }
+            else
+            {
+                for (int i = 1; i < proyecto.HorizonteEvaluacionEnAnos + 1; i++)
+                {
+                    row14[(proyecto.AnoInicial + a14).ToString()] = signoMoneda + " 0";
+                    a14++;
+                }
+            }
+
+            row14[(proyecto.AnoInicial + a14).ToString()] = signoMoneda + " 0";
+            ds.Tables[dsNombre].Rows.Add(row14);
+            #endregion
+
+            #region recuperacionCT
+            DataRow row15 = ds.Tables[dsNombre].NewRow();
+            row15["Rubro"] = "Recuperación CT";
+            row15[(proyecto.AnoInicial + proyecto.HorizonteEvaluacionEnAnos).ToString()] = recuperacionCT;
+            ds.Tables[dsNombre].Rows.Add(row15);
+            #endregion
+
+            #region valorResidual
+            DataRow row16 = ds.Tables[dsNombre].NewRow();
+            row16["Rubro"] = "Valor Residual";
+            row16[(proyecto.AnoInicial + proyecto.HorizonteEvaluacionEnAnos).ToString()] = signoMoneda + " " + proyecto.ValorResidual.ToString("#,##0.##");
+            ds.Tables[dsNombre].Rows.Add(row16);
+            #endregion
+
+            #region flujo efectivo
+            DataRow row17 = ds.Tables[dsNombre].NewRow();
+            row17["Rubro"] = "Flujo Efectivo";
+
+            for (int i = 0; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+            {
+                row17[(proyecto.AnoInicial + i).ToString()] = signoMoneda + " " + Math.Round(
+                    Convert.ToDouble(ds.Tables[dsNombre].Rows[0].ItemArray[i + 1].ToString().Replace(signoMoneda + " ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[0].ItemArray[i + 1].ToString().Replace(signoMoneda + " ", string.Empty).ToString())) +
+                    Convert.ToDouble(ds.Tables[dsNombre].Rows[1].ItemArray[i + 1].ToString().Replace(signoMoneda + " ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[1].ItemArray[i + 1].ToString().Replace(signoMoneda + " ", string.Empty).ToString())) +
+                    Convert.ToDouble(ds.Tables[dsNombre].Rows[2].ItemArray[i + 1].ToString().Replace(signoMoneda + " ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[2].ItemArray[i + 1].ToString().Replace(signoMoneda + " ", string.Empty).ToString())) +
+                    Convert.ToDouble(ds.Tables[dsNombre].Rows[3].ItemArray[i + 1].ToString().Replace(signoMoneda + " ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[3].ItemArray[i + 1].ToString().Replace(signoMoneda + " ", string.Empty).ToString())) +
+                    Convert.ToDouble(ds.Tables[dsNombre].Rows[4].ItemArray[i + 1].ToString().Replace(signoMoneda + " ", string.Empty).Equals(string.Empty) ? 0 : Convert.ToDouble(ds.Tables[dsNombre].Rows[4].ItemArray[i + 1].ToString().Replace(signoMoneda + " ", string.Empty).ToString()))
+                    , 2).ToString("#,##0.##");
+            }
+            ds.Tables[dsNombre].Rows.Add(row17);
+            #endregion
+
+            return ds.Tables[dsNombre];
         }
     }
 }

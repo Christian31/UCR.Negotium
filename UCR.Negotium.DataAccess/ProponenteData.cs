@@ -63,8 +63,8 @@ namespace UCR.Negotium.DataAccess
                     command.Parameters.AddWithValue("apellidos", proponente.Apellidos);
                     command.Parameters.AddWithValue("telefono", proponente.Telefono);
                     command.Parameters.AddWithValue("email", proponente.Email);
-                    command.Parameters.AddWithValue("genero", proponente.Genero ? 'm' : 'f');
                     command.Parameters.AddWithValue("puesto_en_organizacion", proponente.PuestoEnOrganizacion);
+                    command.Parameters.AddWithValue("genero", proponente.Genero ? 'm' : 'f');
                     command.Parameters.AddWithValue("representante_individual", proponente.EsRepresentanteIndividual);
                     command.Parameters.AddWithValue("num_identificacion", proponente.NumIdentificacion);
                     command.Parameters.AddWithValue("cod_proponente", proponente.IdProponente);
