@@ -2,16 +2,16 @@
 
 namespace UCR.Negotium.Domain
 {
-    public class ProyeccionVentaArticulo
+    public class ProyeccionVenta
     {
         public int CodArticulo { get; set; }
         public string NombreArticulo { get; set; }
 
         private List<DetalleProyeccionVenta> detallesProyeccionVenta;
         private UnidadMedida unidadMedida;
-        private List<CrecimientoOfertaArticulo> crecimientoOferta;
+        private List<CrecimientoOferta> crecimientoOferta;
 
-        public ProyeccionVentaArticulo()
+        public ProyeccionVenta()
         {
             unidadMedida = new UnidadMedida();
             detallesProyeccionVenta = new List<DetalleProyeccionVenta>() { new DetalleProyeccionVenta { Mes= "Enero"},
@@ -22,45 +22,25 @@ namespace UCR.Negotium.Domain
                 new DetalleProyeccionVenta { Mes= "Octubre"}, new DetalleProyeccionVenta { Mes= "Noviembre"},
                 new DetalleProyeccionVenta { Mes= "Diciembre"}};
 
-            crecimientoOferta = new List<CrecimientoOfertaArticulo>();
+            crecimientoOferta = new List<CrecimientoOferta>();
         }
 
-        public List<CrecimientoOfertaArticulo> CrecimientoOferta
+        public List<CrecimientoOferta> CrecimientoOferta
         {
-            get
-            {
-                return crecimientoOferta;
-            }
-            set
-            {
-                crecimientoOferta = value;
-            }
+            get { return crecimientoOferta; }
+            set { crecimientoOferta = value; }
         }
 
         public UnidadMedida UnidadMedida
         {
-            get
-            {
-                return unidadMedida;
-            }
-
-            set
-            {
-                unidadMedida = value;
-            }
+            get { return unidadMedida; }
+            set { unidadMedida = value; }
         }
 
         public List<DetalleProyeccionVenta> DetallesProyeccionVenta
         {
-            get
-            {
-                return detallesProyeccionVenta;
-            }
-
-            set
-            {
-                detallesProyeccionVenta = value;
-            }
+            get { return detallesProyeccionVenta; }
+            set { detallesProyeccionVenta = value; }
         }
     }
 }

@@ -14,13 +14,12 @@ namespace UCR.Negotium.Dialogs
     /// </summary>
     public partial class IndicadoresFinales : MetroWindow, INotifyPropertyChanged
     {
-        private string tir, signoMoneda;
-        private double van, relacionBC, pri;
+        private IndicadorEconomico tir, pri, relacionBC, van, vac;
+        private string signoMoneda;
         private Proyecto proyecto;
         private IndicadoresFinancieros indicFinancieros;
         private IndicadoresSociales indicSociales;
         private bool esSocial;
-        private double vac;
 
         private ProyectoData proyectoData;
 
@@ -28,6 +27,7 @@ namespace UCR.Negotium.Dialogs
 
         public IndicadoresFinales(int codProyecto, object indicadores)
         {
+            tir = pri = relacionBC = van = vac = new IndicadorEconomico();
             InitializeComponent();
             DataContext = this;
 
@@ -35,14 +35,14 @@ namespace UCR.Negotium.Dialogs
                 this.indicFinancieros = (IndicadoresFinancieros)indicadores;
                 tir = indicFinancieros.TIR;
                 pri = indicFinancieros.PRI;
-                van = indicFinancieros.VANDouble;
+                van = indicFinancieros.VAN;
                 relacionBC = indicFinancieros.RelacionBC;
             }
             else
             {
                 this.indicSociales = (IndicadoresSociales)indicadores;
                 esSocial = true;
-                vac = indicSociales.VACDouble;
+                vac = indicSociales.VAC;
                 indicadoresFinancieros.Visibility = Visibility.Hidden;
                 indicadoresSociales.Visibility = Visibility.Visible;
             }
@@ -57,25 +57,25 @@ namespace UCR.Negotium.Dialogs
 
         public string TIR
         {
-            get { return tir; }
+            get { return tir.ToString(); }
             set { }
         }
 
-        public double PRI
+        public string PRI
         {
-            get { return pri; }
+            get { return pri.ToString(); }
             set { }
         }
 
-        public double RelacionBC
+        public string RelacionBC
         {
-            get { return relacionBC; }
+            get { return relacionBC.ToString(); }
             set { }
         }
 
         public string VAN
         {
-            get { return signoMoneda +" "+ van.ToString("#,##0.##"); }
+            get { return van.ToString(); }
             set { }
         }
 
@@ -83,8 +83,7 @@ namespace UCR.Negotium.Dialogs
         {
             get
             {
-                return signoMoneda +" "+ Math.Round(
-                    van / ProyectoSelected.PersonasParticipantes, 2).ToString("#,##0.##");
+                return van.EvaluarPorCantidad(ProyectoSelected.PersonasParticipantes);
             }
             set { }
         }
@@ -93,8 +92,7 @@ namespace UCR.Negotium.Dialogs
         {
             get
             {
-                return signoMoneda + " " + Math.Round(
-                    van / ProyectoSelected.FamiliasInvolucradas, 2).ToString("#,##0.##");
+                return van.EvaluarPorCantidad(ProyectoSelected.FamiliasInvolucradas);
             }
             set { }
         }
@@ -103,15 +101,14 @@ namespace UCR.Negotium.Dialogs
         {
             get
             {
-                return signoMoneda + " " + Math.Round(
-                    van / ProyectoSelected.PersonasBeneficiadas, 2).ToString("#,##0.##");
+                return van.EvaluarPorCantidad(ProyectoSelected.PersonasBeneficiadas);
             }
             set { }
         }
 
         public string VAC
         {
-            get { return signoMoneda + " " + vac.ToString("#,##0.##"); }
+            get { return vac.ToString(); }
             set { }
         }
 
@@ -119,8 +116,7 @@ namespace UCR.Negotium.Dialogs
         {
             get
             {
-                return signoMoneda + " " + Math.Round(
-                    vac / ProyectoSelected.PersonasParticipantes, 2).ToString("#,##0.##");
+                return vac.EvaluarPorCantidad(ProyectoSelected.PersonasParticipantes);
             }
             set { }
         }
@@ -129,8 +125,7 @@ namespace UCR.Negotium.Dialogs
         {
             get
             {
-                return signoMoneda + " " + Math.Round(
-                    vac / ProyectoSelected.FamiliasInvolucradas, 2).ToString("#,##0.##");
+                return vac.EvaluarPorCantidad(ProyectoSelected.FamiliasInvolucradas);
             }
             set { }
         }
@@ -139,8 +134,7 @@ namespace UCR.Negotium.Dialogs
         {
             get
             {
-                return signoMoneda + " " + Math.Round(
-                    vac / ProyectoSelected.PersonasBeneficiadas, 2).ToString("#,##0.##");
+                return vac.EvaluarPorCantidad(ProyectoSelected.PersonasBeneficiadas);
             }
             set { }
         }
@@ -162,7 +156,8 @@ namespace UCR.Negotium.Dialogs
             }
             else
             {
-                MessageBox.Show("Ha ocurrido un error al actualizar el proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(Constantes.ACTUALIZARPROYECTOERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

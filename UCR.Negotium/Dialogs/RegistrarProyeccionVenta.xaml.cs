@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,19 +12,17 @@ namespace UCR.Negotium.Dialogs
     /// <summary>
     /// Interaction logic for RegistrarProyeccionVentaDialog.xaml
     /// </summary>
-    public partial class RegistrarProyeccionVenta : MetroWindow
+    public partial class RegistrarProyeccionVenta : DialogWithDataGrid
     {
         #region PrivateProperties
-        private const string CAMPOREQUERIDO = "Este campo es requerido";
-
         private ProyectoLite proyecto;
         List<UnidadMedida> unidadMedidas;
-        private ProyeccionVentaArticulo proyeccionSelected;
+        private ProyeccionVenta proyeccionSelected;
 
         private ProyectoData proyectoData;
-        private ProyeccionVentaArticuloData proyeccionArticuloData;
+        private ProyeccionVentaData proyeccionVentaData;
         private UnidadMedidaData unidadMedidaData;
-        private CrecimientoOfertaArticuloData crecimientoOfertaData;
+        private CrecimientoOfertaData crecimientoOfertaData;
         #endregion
 
         #region Constructor
@@ -39,12 +36,12 @@ namespace UCR.Negotium.Dialogs
 
             proyecto = new ProyectoLite();
             unidadMedidas = new List<UnidadMedida>();
-            proyeccionSelected = new ProyeccionVentaArticulo();
+            proyeccionSelected = new ProyeccionVenta();
 
             proyectoData = new ProyectoData();
-            proyeccionArticuloData = new ProyeccionVentaArticuloData();
+            proyeccionVentaData = new ProyeccionVentaData();
             unidadMedidaData = new UnidadMedidaData();
-            crecimientoOfertaData = new CrecimientoOfertaArticuloData();
+            crecimientoOfertaData = new CrecimientoOfertaData();
 
             unidadMedidas = unidadMedidaData.GetUnidadesMedidas();
             proyecto = proyectoData.GetProyectoLite(codProyecto);
@@ -54,7 +51,7 @@ namespace UCR.Negotium.Dialogs
 
             if (!codProyeccion.Equals(0))
             {
-                proyeccionSelected = proyeccionArticuloData.GetProyeccionVentaArticulo(codProyeccion);
+                proyeccionSelected = proyeccionVentaData.GetProyeccionVenta(codProyeccion);
                 proyeccionSelected.CrecimientoOferta = crecimientoOfertaData.GetCrecimientoOfertaObjetoIntereses(codProyeccion);
             }
 
@@ -69,7 +66,7 @@ namespace UCR.Negotium.Dialogs
         #region Properties
         public bool Reload { get; set; }
 
-        public ProyeccionVentaArticulo ProyeccionSelected
+        public ProyeccionVenta ProyeccionSelected
         {
             get
             {
@@ -156,11 +153,11 @@ namespace UCR.Negotium.Dialogs
             {
                 if (ProyeccionSelected.CodArticulo.Equals(0))
                 {
-                    ProyeccionVentaArticulo proyeccionTemp = proyeccionArticuloData.InsertarProyeccionVenta(ProyeccionSelected, proyecto.CodProyecto);
+                    ProyeccionVenta proyeccionTemp = proyeccionVentaData.InsertarProyeccionVenta(ProyeccionSelected, proyecto.CodProyecto);
                     if (!proyeccionTemp.CodArticulo.Equals(-1))
                     {
                         bool hasErrors = false;
-                        foreach(CrecimientoOfertaArticulo crecimiento in proyeccionTemp.CrecimientoOferta)
+                        foreach(CrecimientoOferta crecimiento in proyeccionTemp.CrecimientoOferta)
                         {
                             if (crecimientoOfertaData.InsertarCrecimientoOfertaObjetoIntereses(crecimiento, proyeccionTemp.CodArticulo).CodCrecimiento.Equals(0))
                             {
@@ -178,15 +175,16 @@ namespace UCR.Negotium.Dialogs
                     else
                     {
                         //error
-                        MessageBox.Show("Ha ocurrido un error al insertar la proyección del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.INSERTARPROYECCIONERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
                 {
-                    if (proyeccionArticuloData.EditarProyeccionVenta(ProyeccionSelected))
+                    if (proyeccionVentaData.EditarProyeccionVenta(ProyeccionSelected))
                     {
                         bool hasErrors = false;
-                        foreach (CrecimientoOfertaArticulo crecimiento in ProyeccionSelected.CrecimientoOferta)
+                        foreach (CrecimientoOferta crecimiento in ProyeccionSelected.CrecimientoOferta)
                         {
                             if (!crecimientoOfertaData.EditarCrecimientoOfertaObjetoIntereses(crecimiento))
                             {
@@ -204,7 +202,8 @@ namespace UCR.Negotium.Dialogs
                     else
                     {
                         //error
-                        MessageBox.Show("Ha ocurrido un error al actualizar la proyección del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.ACTUALIZARPROYECCIONERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }
@@ -222,6 +221,105 @@ namespace UCR.Negotium.Dialogs
                 tbNombreArticulo.BorderBrush = Brushes.Gray;
                 tbNombreArticulo.ToolTip = "Ingrese en este campo el Nombre de la Proyección del Producto que desea registrar";
             }
+        }
+
+        private void btnAgregarValor_Click(object sender, RoutedEventArgs e)
+        {
+            bool notifyChange = false;
+
+            var selectedCells = dgDetalleProyeccion.SelectedCells;
+            var detallesProyeccionSelected = selectedCells.Select(cell => cell.Item).ToList();
+            var detalleProyeccionSelect = ProyeccionSelected.DetallesProyeccionVenta.
+                Where(detalle => detallesProyeccionSelected.Select(cm => ((DetalleProyeccionVenta)cm).Mes).
+                Contains(detalle.Mes)).ToList();
+            switch (selectedCells[0].Column.DisplayIndex)
+            {
+                case 1:
+                    foreach (var detalleProyeccion in ProyeccionSelected.DetallesProyeccionVenta)
+                    {
+                        if (detalleProyeccionSelect.Contains(detalleProyeccion))
+                        {
+                            detalleProyeccion.Cantidad = NumeroACopiar;
+                            notifyChange = true;
+                        }
+                    }
+                    break;
+                case 2:
+                    foreach (var detalleProyeccion in ProyeccionSelected.DetallesProyeccionVenta)
+                    {
+                        if (detalleProyeccionSelect.Contains(detalleProyeccion))
+                        {
+                            detalleProyeccion.Precio = NumeroACopiar;
+                            notifyChange = true;
+                        }
+                    }
+                    break;
+            }
+
+            if (notifyChange)
+            {
+                dgDetalleProyeccion.ItemsSource = null;
+                dgDetalleProyeccion.ItemsSource = ProyeccionSelected.DetallesProyeccionVenta;
+            }
+            dgDetalleProyeccion.ContextMenu.Visibility = Visibility.Collapsed;
+        }
+
+        private void dgDetalleProyeccion_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DependencyObject depObject = (DependencyObject)e.OriginalSource;
+            bool mostrarContextMenu = ContextMenuDisponible(depObject, dgDetalleProyeccion.SelectedCells);
+            if (mostrarContextMenu)
+            {
+                dgDetalleProyeccion.ContextMenu.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                dgDetalleProyeccion.ContextMenu.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void dgDetalleCrecimiento_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DependencyObject depObject = (DependencyObject)e.OriginalSource;
+            bool mostrarContextMenu = ContextMenuDisponible(depObject, dgDetalleCrecimiento.SelectedCells);
+            if (mostrarContextMenu)
+            {
+                dgDetalleCrecimiento.ContextMenu.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                dgDetalleCrecimiento.ContextMenu.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void btnAgregarPorcentaje_Click(object sender, RoutedEventArgs e)
+        {
+            bool notifyChange = false;
+
+            var selectedCells = dgDetalleCrecimiento.SelectedCells;
+            var detallesProyeccionSelected = selectedCells.Select(cell => cell.Item).ToList();
+            var detalleProyeccionSelect = ProyeccionSelected.CrecimientoOferta.
+                Where(detalle => detallesProyeccionSelected.Select(cm => ((CrecimientoOferta)cm).AnoCrecimiento).
+                Contains(detalle.AnoCrecimiento)).ToList();
+
+            if (selectedCells[0].Column.DisplayIndex == 1)
+            {
+                foreach (var detalleProyeccion in ProyeccionSelected.CrecimientoOferta)
+                {
+                    if (detalleProyeccionSelect.Contains(detalleProyeccion))
+                    {
+                        detalleProyeccion.PorcentajeCrecimiento = NumeroACopiar;
+                        notifyChange = true;
+                    }
+                }
+            }
+
+            if (notifyChange)
+            {
+                dgDetalleCrecimiento.ItemsSource = null;
+                dgDetalleCrecimiento.ItemsSource = ProyeccionSelected.CrecimientoOferta;
+            }
+            dgDetalleCrecimiento.ContextMenu.Visibility = Visibility.Collapsed;
         }
         #endregion
 
@@ -261,7 +359,7 @@ namespace UCR.Negotium.Dialogs
             for (int i = 2; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
             {
                 int anoActual = proyecto.AnoInicial + i;
-                proyeccionSelected.CrecimientoOferta.Add(new CrecimientoOfertaArticulo() { AnoCrecimiento = anoActual });
+                proyeccionSelected.CrecimientoOferta.Add(new CrecimientoOferta() { AnoCrecimiento = anoActual });
             }//for
         }
         #endregion

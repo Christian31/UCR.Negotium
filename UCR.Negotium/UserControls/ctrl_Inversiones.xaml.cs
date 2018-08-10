@@ -8,6 +8,7 @@ using UCR.Negotium.Domain;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Extensions;
 using UCR.Negotium.Domain.Enums;
+using UCR.Negotium.Domain.Extensions;
 
 namespace UCR.Negotium.UserControls
 {
@@ -44,8 +45,8 @@ namespace UCR.Negotium.UserControls
             InversionesList = inversionData.GetInversiones(CodProyecto);
 
             InversionesList.All(inv => {
-                inv.CostoUnitarioFormat = SignoMoneda +" "+ inv.CostoUnitario.ToString("#,##0.##");
-                inv.SubtotalFormat = SignoMoneda +" "+ inv.Subtotal.ToString("#,##0.##");
+                inv.CostoUnitarioFormat = inv.CostoUnitario.FormatoMoneda(SignoMoneda);
+                inv.SubtotalFormat = inv.Subtotal.FormatoMoneda(SignoMoneda);
                 return true;
             });
 
@@ -111,7 +112,7 @@ namespace UCR.Negotium.UserControls
             {
                 double valor = 0;
                 InversionesList.ForEach(reqInver => valor += reqInver.Subtotal);
-                return signoMoneda +" "+ valor.ToString("#,##0.##");
+                return valor.FormatoMoneda(SignoMoneda);
             }
             set
             {
@@ -137,7 +138,8 @@ namespace UCR.Negotium.UserControls
             }
             else
             {
-                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Financiero o Social actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Constantes.ACTUALIZARPROYECTORESTRTIPOAMBIENTAL, Constantes.ACTUALIZARPROYECTOTLT,
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -159,7 +161,7 @@ namespace UCR.Negotium.UserControls
         {
             if (InversionSelected != null)
             {
-                if (CustomMessageBox.Show("Esta seguro que desea eliminar esta inversión?"))
+                if (CustomMessageBox.Show(Constantes.ELIMINARINVERSIONMSG))
                 {
                     if (inversionData.EliminarInversion(InversionSelected.CodInversion))
                     {
@@ -167,9 +169,8 @@ namespace UCR.Negotium.UserControls
                     }
                     else
                     {
-                        MessageBox.Show("Ha ocurrido un error al eliminar la inversión del proyecto," +
-                            "verifique que la inversión no esté vinculada a alguna reinversión",
-                            "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.ELIMINARINVERSIONERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }           

@@ -94,6 +94,7 @@ namespace UCR.Negotium.Extensions
         #region Reload Modulos
         public static void ReloadUserControls(int codProyecto, Modulo srcModule)
         {
+            bool reloadBase = true;
             RegistrarProyectoWindow mainWindow = null;
             foreach(var window in Application.Current.Windows)
             {
@@ -109,7 +110,6 @@ namespace UCR.Negotium.Extensions
                 switch (srcModule)
                 {
                     case Modulo.Caracterizacion:
-                    case Modulo.Financiamiento:
                         break;
                     case Modulo.Proponente:
                         mainWindow.resumen.CodProyecto = codProyecto;
@@ -130,6 +130,10 @@ namespace UCR.Negotium.Extensions
                         mainWindow.costos.CodProyecto =
                             mainWindow.capitalTrabajo.CodProyecto = codProyecto;
                         break;
+                    case Modulo.Financiamiento:
+                        mainWindow.financiamientoUc.CodProyecto = codProyecto;
+                        reloadBase = false;
+                        break;
                     default:
                         mainWindow.resumen.CodProyecto = mainWindow.orgProponente.CodProyecto =
                             mainWindow.infoGeneral.CodProyecto = mainWindow.caracterizacion.CodProyecto =
@@ -141,7 +145,8 @@ namespace UCR.Negotium.Extensions
                         break;
                 }
 
-                mainWindow.ReloadBase(codProyecto);
+                if (reloadBase)
+                    mainWindow.ReloadBase(codProyecto);
             }
         }
         #endregion

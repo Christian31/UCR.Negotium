@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Domain.Extensions;
 using UCR.Negotium.Extensions;
 
 namespace UCR.Negotium.UserControls
@@ -64,7 +65,7 @@ namespace UCR.Negotium.UserControls
         {
             get
             {
-                return signoMoneda +" "+ recuperacionCT.ToString("#,##0.##");
+                return recuperacionCT.FormatoMoneda(signoMoneda);
             }
             set
             {

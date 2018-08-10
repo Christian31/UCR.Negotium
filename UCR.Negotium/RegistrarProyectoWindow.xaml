@@ -149,7 +149,7 @@
             </Controls:Tile>
         </WrapPanel>
         <StatusBar Grid.Row="3" Grid.ColumnSpan="2">
-            <StatusBarItem Margin="20,0,0,0">Negotium 1.0</StatusBarItem>
+            <StatusBarItem Margin="20,0,0,0">Negotium 1.2</StatusBarItem>
             <Separator Style="{StaticResource MetroStatusBarSeparator}" />
             <StatusBarItem>Propiedad de Universidad de Costa Rica</StatusBarItem>
         </StatusBar>

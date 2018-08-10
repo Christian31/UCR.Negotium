@@ -17,8 +17,7 @@ namespace UCR.Negotium.Dialogs
     {
         #region PrivateProperties
         private const string CAMPOREQUERIDO = "Este campo es requerido";
-
-        private InteresFinanciamientoData interesData;
+        
         private int codProyecto;
         private InteresFinanciamiento interesFinanciamiento;
         #endregion
@@ -28,19 +27,14 @@ namespace UCR.Negotium.Dialogs
         {
             InitializeComponent();
             DataContext = this;
-            interesData = new InteresFinanciamientoData();
             interesFinanciamiento = new InteresFinanciamiento();
 
             this.codProyecto = codProyecto;
-            List<InteresFinanciamiento> intereses = interesData.GetInteresesFinanciamiento(codProyecto);
+            List<InteresFinanciamiento> intereses = financiamiento.TasaIntereses;
             
-            if (intereses == null)
+            if (intereses.Count == 0 || intereses.Count != 1
+                || intereses.First().AnoInteres == 0)
             {
-                interesFinanciamiento = new InteresFinanciamiento() { AnoInteres = financiamiento.AnoInicialPago };
-            }
-            else if (!intereses.Count.Equals(1))
-            {
-                interesData.EliminarInteresFinanciamiento(codProyecto);
                 interesFinanciamiento = new InteresFinanciamiento() { AnoInteres = financiamiento.AnoInicialPago };
             }
             else

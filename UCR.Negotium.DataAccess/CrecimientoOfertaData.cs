@@ -6,13 +6,13 @@ using UCR.Negotium.Domain.Tracing;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class CrecimientoOfertaArticuloData:BaseData
+    public class CrecimientoOfertaData:BaseData
     {
-        public CrecimientoOfertaArticuloData() { }
+        public CrecimientoOfertaData() { }
 
-        public List<CrecimientoOfertaArticulo> GetCrecimientoOfertaObjetoIntereses(int codProyeccion)
+        public List<CrecimientoOferta> GetCrecimientoOfertaObjetoIntereses(int codProyeccion)
         {
-            List<CrecimientoOfertaArticulo> crecimientosOferta = new List<CrecimientoOfertaArticulo>();
+            List<CrecimientoOferta> crecimientosOferta = new List<CrecimientoOferta>();
             string select = "SELECT cod_crecimiento, ano_crecimiento, porcentaje_crecimiento " +
                 "FROM CRECIMIENTO_OFERTA_OBJETO_INTERES WHERE cod_proyeccion=?";
 
@@ -28,7 +28,7 @@ namespace UCR.Negotium.DataAccess
                     {
                         while (reader.Read())
                         {
-                            CrecimientoOfertaArticulo crecimientoOferta = new CrecimientoOfertaArticulo();
+                            CrecimientoOferta crecimientoOferta = new CrecimientoOferta();
                             crecimientoOferta.CodCrecimiento = reader.GetInt32(0);
                             crecimientoOferta.AnoCrecimiento = reader.GetInt32(1);
                             crecimientoOferta.PorcentajeCrecimiento = reader.GetDouble(2);
@@ -39,14 +39,14 @@ namespace UCR.Negotium.DataAccess
                 catch(Exception ex)
                 {
                     ex.TraceExceptionAsync();
-                    crecimientosOferta = new List<CrecimientoOfertaArticulo>();
+                    crecimientosOferta = new List<CrecimientoOferta>();
                 }
             }
 
             return crecimientosOferta;
         } 
 
-        public CrecimientoOfertaArticulo InsertarCrecimientoOfertaObjetoIntereses(CrecimientoOfertaArticulo crecimiento, int codProyeccion)
+        public CrecimientoOferta InsertarCrecimientoOfertaObjetoIntereses(CrecimientoOferta crecimiento, int codProyeccion)
         {
             object newProdID;
             string insert = "INSERT INTO CRECIMIENTO_OFERTA_OBJETO_INTERES(ano_crecimiento, " +
@@ -69,14 +69,14 @@ namespace UCR.Negotium.DataAccess
                 catch(Exception ex)
                 {
                     ex.TraceExceptionAsync();
-                    crecimiento = new CrecimientoOfertaArticulo();
+                    crecimiento = new CrecimientoOferta();
                 }
             }
 
             return crecimiento;
         }
 
-        public bool EditarCrecimientoOfertaObjetoIntereses(CrecimientoOfertaArticulo crecimiento)
+        public bool EditarCrecimientoOfertaObjetoIntereses(CrecimientoOferta crecimiento)
         {
             int result = -1;
             string insert = "UPDATE CRECIMIENTO_OFERTA_OBJETO_INTERES SET porcentaje_crecimiento = ? " +

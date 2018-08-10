@@ -9,6 +9,7 @@ using UCR.Negotium.DataAccess;
 using System.ComponentModel;
 using UCR.Negotium.Extensions;
 using UCR.Negotium.Domain.Enums;
+using UCR.Negotium.Domain.Extensions;
 
 namespace UCR.Negotium.UserControls
 {
@@ -119,7 +120,8 @@ namespace UCR.Negotium.UserControls
             }
             else
             {
-                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Financiero o Social actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Constantes.ACTUALIZARPROYECTORESTRTIPOAMBIENTAL, Constantes.ACTUALIZARPROYECTOTLT,
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -141,7 +143,7 @@ namespace UCR.Negotium.UserControls
         {
             if (CostoSelected != null)
             {
-                if (CustomMessageBox.Show("Esta seguro que desea eliminar este costo?"))
+                if (CustomMessageBox.Show(Constantes.ELIMINARCOSTOMSG))
                 {
                     if (costoData.EliminarCosto(CostoSelected.CodCosto))
                     {
@@ -149,8 +151,8 @@ namespace UCR.Negotium.UserControls
                     }
                     else
                     {
-                        MessageBox.Show("Ha ocurrido un error al eliminar el costo del proyecto",
-                            "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.ELIMINARCOSTOERROR, Constantes.ACTUALIZARPROYECTOTLT,
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }
@@ -170,7 +172,8 @@ namespace UCR.Negotium.UserControls
             }
             else
             {
-                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Financiero o Social actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Constantes.ACTUALIZARPROYECTORESTRTIPOAMBIENTAL, Constantes.ACTUALIZARPROYECTOTLT, 
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
         #endregion
@@ -187,8 +190,8 @@ namespace UCR.Negotium.UserControls
             {
                 costo.CostosMensuales.ForEach(det =>
                 {
-                    det.CostoUnitarioFormat = signoMoneda + " " + det.CostoUnitario.ToString("#,##0.##");
-                    det.SubtotalFormat = signoMoneda + " " + det.Subtotal.ToString("#,##0.##");
+                    det.CostoUnitarioFormat = det.CostoUnitario.FormatoMoneda(signoMoneda);
+                    det.SubtotalFormat = det.Subtotal.FormatoMoneda(signoMoneda);
                 });
                 return true;
             });

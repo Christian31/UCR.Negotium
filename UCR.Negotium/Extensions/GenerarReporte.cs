@@ -23,8 +23,9 @@ namespace UCR.Negotium.Extensions
         List<DataView> depreciacionesPaging;
         Dictionary<string, string> depTotales;
         DataView amortizacionFinanciamiento;
-        string invTotales, recuperacionCT, TIR, PRI, RelacionBC, VAN, VANParticipantes, VANInvolucrados, VANIndirectos;
-        string VAC, VACParticipantes, VACInvolucrados, VACIndirectos;
+        string invTotales, recuperacionCT, TIR, PRI, RelacionBC, VANParticipantes, VANInvolucrados, VANIndirectos;
+        string VACParticipantes, VACInvolucrados, VACIndirectos;
+        IndicadorEconomico VAN, VAC;
         List<DataView> flujoCajaPaging;
 
         private string signoMoneda;
@@ -33,7 +34,7 @@ namespace UCR.Negotium.Extensions
             DataView totalReinversiones, DataView proyeccionesTotal, DataView costosTotal, 
             DataView capital, string recuperacionCT, DataView depTotales, 
             DataView amortizacionFinanciamiento, DataView flujoCaja, string tir,  
-            double pri, double relacionBC, string van)
+            string pri, string relacionBC, IndicadorEconomico van)
         {
             this.proyecto = proyecto;
             this.invTotales = totalInversiones;
@@ -61,21 +62,19 @@ namespace UCR.Negotium.Extensions
             this.amortizacionFinanciamiento = amortizacionFinanciamiento;
             flujoCajaPaging = DatatableBuilder.FlujoCajaToPaging(flujoCaja, 5);
             TIR = tir;
-            PRI = pri.ToString();
-            RelacionBC = relacionBC.ToString();
+            PRI = pri;
+            RelacionBC = relacionBC;
             VAN = van;
 
-            double vanDouble = Convert.ToDouble(VAN.Replace(signoMoneda, string.Empty));
-
-            VANParticipantes = signoMoneda + " " + Math.Round(vanDouble / proyecto.PersonasParticipantes, 2).ToString("#,##0.##");
-            VANInvolucrados = signoMoneda + " " + Math.Round(vanDouble / proyecto.FamiliasInvolucradas, 2).ToString("#,##0.##");
-            VANIndirectos = signoMoneda + " " + Math.Round(vanDouble / proyecto.PersonasBeneficiadas, 2).ToString("#,##0.##");
+            VANParticipantes = VAN.EvaluarPorCantidad(proyecto.PersonasParticipantes);
+            VANInvolucrados = VAN.EvaluarPorCantidad(proyecto.FamiliasInvolucradas);
+            VANIndirectos = VAN.EvaluarPorCantidad(proyecto.PersonasBeneficiadas);
         }
 
         public GenerarReporte(Proyecto proyecto, string totalInversiones,
             DataView totalReinversiones, DataView costosTotal,
             DataView capital, string recuperacionCT, DataView depTotales,
-            DataView amortizacionFinanciamiento, DataView flujoCaja, string vac)
+            DataView amortizacionFinanciamiento, DataView flujoCaja, IndicadorEconomico vac)
         {
             this.proyecto = proyecto;
             this.invTotales = totalInversiones;
@@ -103,11 +102,9 @@ namespace UCR.Negotium.Extensions
             flujoCajaPaging = DatatableBuilder.FlujoCajaToPaging(flujoCaja, 5);
             VAC = vac;
 
-            double vacDouble = Convert.ToDouble(VAC.Replace(signoMoneda, string.Empty));
-
-            VACParticipantes = signoMoneda + " " + Math.Round(vacDouble / proyecto.PersonasParticipantes, 2).ToString("#,##0.##");
-            VACInvolucrados = signoMoneda + " " + Math.Round(vacDouble / proyecto.FamiliasInvolucradas, 2).ToString("#,##0.##");
-            VACIndirectos = signoMoneda + " " + Math.Round(vacDouble / proyecto.PersonasBeneficiadas, 2).ToString("#,##0.##");
+            VACParticipantes = VAN.EvaluarPorCantidad(proyecto.PersonasParticipantes);
+            VACInvolucrados = VAN.EvaluarPorCantidad(proyecto.FamiliasInvolucradas);
+            VACIndirectos = VAN.EvaluarPorCantidad(proyecto.PersonasBeneficiadas);
         }
 
         private Dictionary<string, string> SetToDictionary(DataView dataView)
@@ -198,7 +195,7 @@ namespace UCR.Negotium.Extensions
                 tipo => tipo.CodTipo.Equals(proyecto.OrganizacionProponente.Tipo.CodTipo));
         }
 
-        public bool CrearReporte()
+        public void CrearReporte()
         {
             string htmlString = LlenarPlantillaProyecto();
 
@@ -207,7 +204,18 @@ namespace UCR.Negotium.Extensions
             string reportPdfPath = Path.Combine(desktopFolder, reportPdfName);
             string cssTemplatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Report", "css", "style.css");
             var cssText = File.ReadAllText(cssTemplatePath);
+            GenerarPDF(htmlString, reportPdfPath, cssText);
 
+            if (File.Exists(reportPdfPath))
+                System.Diagnostics.Process.Start(reportPdfPath);
+            else
+                GenerarPDF(htmlString, reportPdfPath, cssText);
+
+            System.Diagnostics.Process.Start(reportPdfPath);
+        }
+
+        private void GenerarPDF(string htmlString, string reportPdfPath, string cssText)
+        {
             using (Document document = new Document(PageSize.A3, 10f, 10f, 50f, 0f))
             {
                 PdfWriter writer = PdfWriter.GetInstance(document, new FileStream(reportPdfPath, FileMode.Create));
@@ -222,10 +230,6 @@ namespace UCR.Negotium.Extensions
                 }
                 document.Close();
             }
-
-            System.Diagnostics.Process.Start(reportPdfPath);
-
-            return true;
         }
 
         private string LlenarPlantillaProyecto()

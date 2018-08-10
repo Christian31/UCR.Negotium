@@ -1,10 +1,8 @@
-﻿using MahApps.Metro.Controls;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
 using UCR.Negotium.Extensions;
 
@@ -13,14 +11,10 @@ namespace UCR.Negotium.Dialogs
     /// <summary>
     /// Interaction logic for RegistrarTasaInteresVariable.xaml
     /// </summary>
-    public partial class RegistrarTasaInteresVariable : MetroWindow
+    public partial class RegistrarTasaInteresVariable : DialogWithDataGrid
     {
         #region PrivateProperties
-        private const string CAMPOREQUERIDO = "Este campo es requerido";
-
-        private InteresFinanciamientoData interesData;
         private List<InteresFinanciamiento> interesesFinanciamiento;
-
         private Financiamiento financiamiento = new Financiamiento();
         private int codProyecto;
         #endregion
@@ -31,19 +25,14 @@ namespace UCR.Negotium.Dialogs
             InitializeComponent();
             DataContext = this;
 
-            interesData = new InteresFinanciamientoData();
             interesesFinanciamiento = new List<InteresFinanciamiento>();
 
             this.codProyecto = codProyecto;
             this.financiamiento = financiamiento;
             interesesFinanciamiento = financiamiento.TasaIntereses;
-            if (interesesFinanciamiento == null || interesesFinanciamiento.Count.Equals(0))
+            if (interesesFinanciamiento == null || interesesFinanciamiento.Count.Equals(0) ||
+                !interesesFinanciamiento.Count.Equals(financiamiento.TiempoFinanciamiento))
             {
-                LoadDefaultValues();
-            }
-            else if (!interesesFinanciamiento.Count.Equals(financiamiento.TiempoFinanciamiento))
-            {
-                interesData.EliminarInteresFinanciamiento(codProyecto);
                 LoadDefaultValues();
             }
         }
@@ -111,6 +100,49 @@ namespace UCR.Negotium.Dialogs
             {
                 tbNumeroChngEvent = true;
             }
+        }
+
+        private void dgTasaVariable_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DependencyObject depObject = (DependencyObject)e.OriginalSource;
+            bool mostrarContextMenu = ContextMenuDisponible(depObject, dgTasaVariable.SelectedCells);
+            if (mostrarContextMenu)
+            {
+                dgTasaVariable.ContextMenu.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                dgTasaVariable.ContextMenu.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void btnAgregarPorcentaje_Click(object sender, RoutedEventArgs e)
+        {
+            bool notifyChange = false;
+
+            var selectedCells = dgTasaVariable.SelectedCells;
+            var interesesVariableSelected = selectedCells.Select(cell => cell.Item).ToList();
+            var interesVariableSelect = InteresVariable.Where(interes => interesesVariableSelected.Select(cm => ((InteresFinanciamiento)cm).AnoInteres).
+            Contains(interes.AnoInteres)).ToList();
+
+            if (selectedCells[0].Column.DisplayIndex == 1)
+            {
+                foreach (var interes in InteresVariable)
+                {
+                    if (interesVariableSelect.Contains(interes))
+                    {
+                        interes.PorcentajeInteres = NumeroACopiar;
+                        notifyChange = true;
+                    }
+                }
+            }
+
+            if (notifyChange)
+            {
+                dgTasaVariable.ItemsSource = null;
+                dgTasaVariable.ItemsSource = InteresVariable;
+            }
+            dgTasaVariable.ContextMenu.Visibility = Visibility.Collapsed;
         }
         #endregion
 

@@ -127,9 +127,6 @@ namespace UCR.Negotium.Dialogs
         {
             if (!ValidateRequiredFields())
             {
-                if (!Inversion.Depreciable)
-                    Inversion.VidaUtil = 0;
-
                 if (Inversion.CodInversion.Equals(0))
                 {
                     int idInversion = requerimientoInversionData.InsertarInvesion(Inversion, proyecto.CodProyecto);
@@ -144,7 +141,8 @@ namespace UCR.Negotium.Dialogs
                     else
                     {
                         //error
-                        MessageBox.Show("Ha ocurrido un error al insertar la inversión del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.INSERTARINVERSIONERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
@@ -160,7 +158,8 @@ namespace UCR.Negotium.Dialogs
                     else
                     {
                         //error
-                        MessageBox.Show("Ha ocurrido un error al actualizar la inversión del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.ACTUALIZARINVERSIONERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }

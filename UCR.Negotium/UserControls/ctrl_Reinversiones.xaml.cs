@@ -8,6 +8,7 @@ using UCR.Negotium.DataAccess;
 using UCR.Negotium.Dialogs;
 using UCR.Negotium.Domain;
 using UCR.Negotium.Domain.Enums;
+using UCR.Negotium.Domain.Extensions;
 using UCR.Negotium.Extensions;
 
 namespace UCR.Negotium.UserControls
@@ -54,8 +55,8 @@ namespace UCR.Negotium.UserControls
 
             ReinversionesList.All(reinv =>
             {
-                reinv.CostoUnitarioFormat = SignoMoneda + " " + reinv.CostoUnitario.ToString("#,##0.##");
-                reinv.SubtotalFormat = SignoMoneda + " " + reinv.Subtotal.ToString("#,##0.##");
+                reinv.CostoUnitarioFormat = reinv.CostoUnitario.FormatoMoneda(SignoMoneda);
+                reinv.SubtotalFormat = reinv.Subtotal.FormatoMoneda(SignoMoneda);
                 return true;
             });
 
@@ -149,7 +150,8 @@ namespace UCR.Negotium.UserControls
             }
             else
             {
-                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Financiero o Social actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Constantes.ACTUALIZARPROYECTORESTRTIPOAMBIENTAL, Constantes.ACTUALIZARPROYECTOTLT,
+                     MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -171,7 +173,7 @@ namespace UCR.Negotium.UserControls
         {
             if(ReinversionSelected != null)
             {
-                if (CustomMessageBox.Show("Esta seguro que desea eliminar esta reinversión?"))
+                if (CustomMessageBox.Show(Constantes.ELIMINARREINVERSIONMSG))
                 {
                     if (reinversionData.EliminarReinversion(ReinversionSelected.CodReinversion))
                     {
@@ -179,9 +181,8 @@ namespace UCR.Negotium.UserControls
                     }
                     else
                     {
-                        MessageBox.Show("Ha ocurrido un error al eliminar la reinversión del proyecto," +
-                            "verifique que la inversión no esté vinculada a alguna otra reinversión",
-                            "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.ELIMINARREINVERSIONERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }

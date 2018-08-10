@@ -12,7 +12,7 @@ namespace UCR.Negotium.Dialogs
             InitializeComponent();
             DataContext = this;
 
-            descripcionCreditos.AppendText("Los profesionales involucrados en el desarrollo de Negotium 1.0 tanto usuarios finales con tareas de validaciones y pruebas como directores y desarrolladores del proyecto son:");
+            descripcionCreditos.AppendText("Los profesionales involucrados en el desarrollo de Negotium 1.2 tanto usuarios finales con tareas de validaciones y pruebas como directores y desarrolladores del proyecto son:");
             
             creditosList.Items.Add("MBA. Olga Calvo Hernández. Escuela de Economía Agrícola");
             creditosList.Items.Add("Bach. Yordan Campos Piedra. Informática Empresarial");

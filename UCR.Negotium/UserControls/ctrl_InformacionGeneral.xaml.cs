@@ -130,16 +130,16 @@ namespace UCR.Negotium.UserControls
                 if (ProyectoSelected.CodProyecto.Equals(0))
                 {
                     int idProyecto = proyectoData.InsertarProyecto(ProyectoSelected);
-
                     if (idProyecto != -1)
                     {
                         LocalContext.ReloadUserControls(idProyecto, Modulo.InformacionGeneral);
-
-                        MessageBox.Show("El proyecto se ha insertado correctamente", "Proyecto Insertado", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show(Constantes.ACTUALIZARPROYECTOMSG, Constantes.ACTUALIZARPROYECTOTLT,
+                            MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     else
                     {
-                        MessageBox.Show("Ha ocurrido un error al insertar el proyecto, verifique que los datos ingresados sean correctos", "Proyecto Insertado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.ACTUALIZARPROYECTOERROR, Constantes.ACTUALIZARPROYECTOTLT,
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
@@ -147,11 +147,13 @@ namespace UCR.Negotium.UserControls
                     if (proyectoData.EditarProyecto(ProyectoSelected))
                     {
                         LocalContext.ReloadUserControls(CodProyecto, Modulo.InformacionGeneral);
-                        MessageBox.Show("El proyecto se ha actualizado correctamente", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show(Constantes.ACTUALIZARPROYECTOMSG, Constantes.ACTUALIZARPROYECTOTLT,
+                            MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     else
                     {
-                        MessageBox.Show("Ha ocurrido un error al actualizar el proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.ACTUALIZARPROYECTOERROR, Constantes.ACTUALIZARPROYECTOTLT,
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }

@@ -109,7 +109,7 @@ namespace UCR.Negotium.UserControls
         {
             if (FactorAmbientalSelected != null)
             {
-                if (CustomMessageBox.Show("Esta seguro que desea eliminar este factor ambiental?"))
+                if (CustomMessageBox.Show(Constantes.ELIMINARFACTORAMBIENTALMSG))
                 {
                     if (factorAmbientalData.EliminarFactorAmbiental(FactorAmbientalSelected.CodFactorAmbiental))
                     {
@@ -117,8 +117,8 @@ namespace UCR.Negotium.UserControls
                     }
                     else
                     {
-                        MessageBox.Show("Ha ocurrido un error al eliminar el factor ambiental del proyecto",
-                            "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.ELIMINARFACTORAMBIENTALERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }

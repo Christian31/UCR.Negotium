@@ -9,12 +9,10 @@ namespace UCR.Negotium.DataAccess
     public class CostoData:BaseData
     {
         private UnidadMedidaData unidadMedidaData;
-        private CostoMensualData costoMensualData;
 
         public CostoData()
         {
             unidadMedidaData = new UnidadMedidaData();
-            costoMensualData = new CostoMensualData();
         }
 
         public List<Costo> GetCostos(int codProyecto)
@@ -38,9 +36,9 @@ namespace UCR.Negotium.DataAccess
                             costo.CodCosto = reader.GetInt32(0);
                             costo.NombreCosto = reader.GetString(1);
                             costo.UnidadMedida = unidadMedidaData.GetUnidadMedida(reader.GetInt32(2));
-                            costo.CostosMensuales = costoMensualData.GetCostosMensuales(reader.GetInt32(0));
                             costo.CategoriaCosto = reader.GetString(4);
                             costo.AnoCosto = reader.GetInt32(5);
+                            costo.CostosMensuales = GetCostosMensuales(costo.CodCosto);
 
                             listaCostos.Add(costo);
                         }
@@ -76,9 +74,9 @@ namespace UCR.Negotium.DataAccess
                             costo.CodCosto = reader.GetInt32(0);
                             costo.NombreCosto = reader.GetString(1);
                             costo.UnidadMedida = unidadMedidaData.GetUnidadMedida(reader.GetInt32(2));
-                            costo.CostosMensuales = costoMensualData.GetCostosMensuales(reader.GetInt32(0));
                             costo.CategoriaCosto = reader.GetString(4);
                             costo.AnoCosto = reader.GetInt32(5);
+                            costo.CostosMensuales = GetCostosMensuales(costo.CodCosto);
                         }
                     }
                 }
@@ -125,7 +123,7 @@ namespace UCR.Negotium.DataAccess
                     costoNuevo.CodCosto = int.Parse(newProdID.ToString());
                     foreach (CostoMensual detTemp in costoNuevo.CostosMensuales)
                     {
-                        command2 = new SQLiteCommand(insert2, conn); ;
+                        command2 = new SQLiteCommand(insert2, conn);
                         command2.Parameters.AddWithValue("mes", detTemp.Mes);
                         command2.Parameters.AddWithValue("costo_unitario", detTemp.CostoUnitario);
                         command2.Parameters.AddWithValue("cantidad", detTemp.Cantidad);
@@ -141,7 +139,6 @@ namespace UCR.Negotium.DataAccess
                     ex.TraceExceptionAsync();
                     costoNuevo = new Costo();
                     transaction.Rollback();
-
                 }
             }
             
@@ -204,40 +201,61 @@ namespace UCR.Negotium.DataAccess
         public bool EliminarCosto(int codCosto)
         {
             int result = -1;
-
-            string sqlQuery1 = "DELETE FROM COSTO_MENSUAL WHERE cod_costo=?";
-            string sqlQuery2 = "DELETE FROM COSTO WHERE cod_costo=?";
+            string sqlQuery = "DELETE FROM COSTO, COSTO_MENSUAL WHERE cod_costo=?";
 
             using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                SQLiteTransaction transaction = null;
-
                 try
                 {
                     conn.Open();
-                    SQLiteCommand command = new SQLiteCommand(sqlQuery1, conn);
-                    SQLiteCommand command2 = new SQLiteCommand(sqlQuery2, conn);
+                    SQLiteCommand command = new SQLiteCommand(sqlQuery, conn);
                     command.Parameters.AddWithValue("cod_costo", codCosto);
-                    command2.Parameters.AddWithValue("cod_costo", codCosto);
-
-                    transaction = conn.BeginTransaction();
 
                     result = command.ExecuteNonQuery();
-                    if(result != -1)
-                    {
-                        result = command2.ExecuteNonQuery();
-                        transaction.Commit();
-                    }
                 }
                 catch(Exception ex)
                 {
                     ex.TraceExceptionAsync();
                     result = -1;
-                    transaction.Rollback();
                 }
             }
 
             return result != -1;
+        }
+
+        private List<CostoMensual> GetCostosMensuales(int codCosto)
+        {
+            List<CostoMensual> listaCostos = new List<CostoMensual>();
+            string select = "SELECT * FROM COSTO_MENSUAL WHERE cod_costo=?";
+
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
+            {
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(select, conn);
+                    cmd.Parameters.AddWithValue("cod_costo", codCosto);
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            CostoMensual detallecosto = new CostoMensual();
+                            detallecosto.CodCostoMensual = reader.GetInt32(0);
+                            detallecosto.Mes = reader.GetString(1);
+                            detallecosto.CostoUnitario = reader.GetDouble(2);
+                            detallecosto.Cantidad = reader.GetDouble(3);
+                            listaCostos.Add(detallecosto);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.TraceExceptionAsync();
+                    listaCostos = new List<CostoMensual>();
+                }
+            }
+
+            return listaCostos;
         }
     }
 }

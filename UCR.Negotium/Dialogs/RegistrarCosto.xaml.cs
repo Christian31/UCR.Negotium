@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,11 +12,9 @@ namespace UCR.Negotium.Dialogs
     /// <summary>
     /// Interaction logic for RegistrarCostoDialog.xaml
     /// </summary>
-    public partial class RegistrarCosto : MetroWindow
+    public partial class RegistrarCosto : DialogWithDataGrid
     {
         #region PrivateProperties
-        private const string CAMPOREQUERIDO = "Este campo es requerido";
-
         private ProyectoLite proyecto;
         List<UnidadMedida> unidadMedidas;
         private Costo costoSelected;
@@ -172,6 +169,7 @@ namespace UCR.Negotium.Dialogs
             {
                 if (CostoSelected.CodCosto.Equals(0))
                 {
+
                     Costo costoTemp = costoData.InsertarCosto(CostoSelected, proyecto.CodProyecto);
                     if (!costoTemp.CodCosto.Equals(-1))
                     {
@@ -182,7 +180,8 @@ namespace UCR.Negotium.Dialogs
                     else
                     {
                         //error
-                        MessageBox.Show("Ha ocurrido un error al insertar el costo del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.INSERTARCOSTOERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
@@ -196,7 +195,8 @@ namespace UCR.Negotium.Dialogs
                     else
                     {
                         //error
-                        MessageBox.Show("Ha ocurrido un error al actualizar el costo del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.ACTUALIZARCOSTOERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }
@@ -222,10 +222,17 @@ namespace UCR.Negotium.Dialogs
             bool hasValues = false;
             foreach (CostoMensual costoMensual in CostoSelected.CostosMensuales)
             {
-                if(costoMensual.CostoUnitario > 0 && costoMensual.Cantidad > 0)
+                if (costoMensual.CostoUnitario > 0 && costoMensual.Cantidad > 0)
                 {
                     hasValues = true;
-                    break;
+                }
+                else if (costoMensual.CostoUnitario > 0)
+                {
+                    costoMensual.CostoUnitario = 0;
+                }
+                else if (costoMensual.Cantidad > 0)
+                {
+                    costoMensual.Cantidad = 0;
                 }
             }
 
@@ -235,9 +242,64 @@ namespace UCR.Negotium.Dialogs
                 dgCostosMensual.ToolTip = CAMPOREQUERIDO;
                 validationResult = true;
             }
-            
+
             return validationResult;
         }
         #endregion
+
+        private void dgCostosMensual_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DependencyObject depObject = (DependencyObject)e.OriginalSource;
+            bool mostrarContextMenu = ContextMenuDisponible(depObject, dgCostosMensual.SelectedCells);
+            if (mostrarContextMenu)
+            {
+                dgCostosMensual.ContextMenu.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                dgCostosMensual.ContextMenu.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void btnAnadirNumero_Click(object sender, RoutedEventArgs e)
+        {
+            bool notifyChange = false;
+
+            var selectedCells = dgCostosMensual.SelectedCells;
+            var costosMensualesSelected = selectedCells.Select(cell => cell.Item).ToList();
+            var costosMensualesSelect = CostoSelected.CostosMensuales.
+                Where(costo => costosMensualesSelected.Select(cm => ((CostoMensual)cm).Mes).
+                Contains(costo.Mes)).ToList();
+            switch (selectedCells[0].Column.DisplayIndex)
+            {
+                case 1:
+                    foreach (var costoMensual in CostoSelected.CostosMensuales)
+                    {
+                        if (costosMensualesSelect.Contains(costoMensual))
+                        {
+                            costoMensual.Cantidad = NumeroACopiar;
+                            notifyChange = true;
+                        }
+                    }
+                    break;
+                case 2:
+                    foreach (var costoMensual in CostoSelected.CostosMensuales)
+                    {
+                        if (costosMensualesSelect.Contains(costoMensual))
+                        {
+                            costoMensual.CostoUnitario = NumeroACopiar;
+                            notifyChange = true;
+                        }
+                    }
+                    break;
+            }
+
+            if (notifyChange)
+            {
+                dgCostosMensual.ItemsSource = null;
+                dgCostosMensual.ItemsSource = CostoSelected.CostosMensuales;
+            }
+            dgCostosMensual.ContextMenu.Visibility = Visibility.Collapsed;
+        }
     }
 }

@@ -6,22 +6,20 @@ using UCR.Negotium.Domain.Tracing;
 
 namespace UCR.Negotium.DataAccess
 {
-    public class ProyeccionVentaArticuloData:BaseData
+    public class ProyeccionVentaData:BaseData
     {
         private UnidadMedidaData unidadMedidaData;
-        private DetalleProyeccionVentaData detalleProyeccionData;
-        private CrecimientoOfertaArticuloData crecimientoOfertaData;
+        private CrecimientoOfertaData crecimientoOfertaData;
 
-        public ProyeccionVentaArticuloData()
+        public ProyeccionVentaData()
         {
             unidadMedidaData = new UnidadMedidaData();
-            detalleProyeccionData = new DetalleProyeccionVentaData();
-            crecimientoOfertaData = new CrecimientoOfertaArticuloData();
+            crecimientoOfertaData = new CrecimientoOfertaData();
         }
 
-        public List<ProyeccionVentaArticulo> GetProyeccionesVentaArticulo(int codProyecto)
+        public List<ProyeccionVenta> GetProyeccionesVenta(int codProyecto)
         {
-            List<ProyeccionVentaArticulo> listaProyecciones = new List<ProyeccionVentaArticulo>();
+            List<ProyeccionVenta> listaProyecciones = new List<ProyeccionVenta>();
             string select = "SELECT * FROM PROYECCION_VENTA WHERE cod_proyecto=?";
 
             using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
@@ -36,11 +34,11 @@ namespace UCR.Negotium.DataAccess
                     {
                         while (reader.Read())
                         {
-                            ProyeccionVentaArticulo proyeccion = new ProyeccionVentaArticulo();
+                            ProyeccionVenta proyeccion = new ProyeccionVenta();
                             proyeccion.CodArticulo = reader.GetInt32(0);
                             proyeccion.UnidadMedida = unidadMedidaData.GetUnidadMedida(reader.GetInt32(1));
                             proyeccion.NombreArticulo = reader.GetString(2);
-                            proyeccion.DetallesProyeccionVenta = detalleProyeccionData.GetDetallesProyeccionVenta(reader.GetInt32(0));
+                            proyeccion.DetallesProyeccionVenta = GetDetallesProyeccionVenta(proyeccion.CodArticulo);
                             proyeccion.CrecimientoOferta = crecimientoOfertaData.GetCrecimientoOfertaObjetoIntereses(reader.GetInt32(0));
                             listaProyecciones.Add(proyeccion);
                         }
@@ -49,16 +47,16 @@ namespace UCR.Negotium.DataAccess
                 catch(Exception ex)
                 {
                     ex.TraceExceptionAsync();
-                    listaProyecciones = new List<ProyeccionVentaArticulo>();
+                    listaProyecciones = new List<ProyeccionVenta>();
                 }
             }
 
             return listaProyecciones;
         } 
 
-        public ProyeccionVentaArticulo GetProyeccionVentaArticulo(int codProyeccion)
+        public ProyeccionVenta GetProyeccionVenta(int codProyeccion)
         {
-            ProyeccionVentaArticulo proyeccion = new ProyeccionVentaArticulo();
+            ProyeccionVenta proyeccion = new ProyeccionVenta();
             string select = "SELECT * FROM PROYECCION_VENTA WHERE cod_proyeccion=?";
 
             using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
@@ -76,7 +74,7 @@ namespace UCR.Negotium.DataAccess
                             proyeccion.CodArticulo = reader.GetInt32(0);
                             proyeccion.UnidadMedida = unidadMedidaData.GetUnidadMedida(reader.GetInt32(1));
                             proyeccion.NombreArticulo = reader.GetString(2);
-                            proyeccion.DetallesProyeccionVenta = detalleProyeccionData.GetDetallesProyeccionVenta(reader.GetInt32(0));
+                            proyeccion.DetallesProyeccionVenta = GetDetallesProyeccionVenta(proyeccion.CodArticulo);
                             proyeccion.CrecimientoOferta = crecimientoOfertaData.GetCrecimientoOfertaObjetoIntereses(reader.GetInt32(0));
                         }//if
                     }
@@ -84,14 +82,14 @@ namespace UCR.Negotium.DataAccess
                 catch(Exception ex)
                 {
                     ex.TraceExceptionAsync();
-                    proyeccion = new ProyeccionVentaArticulo();
+                    proyeccion = new ProyeccionVenta();
                 }
             }
 
             return proyeccion;
         }
 
-        public ProyeccionVentaArticulo InsertarProyeccionVenta(ProyeccionVentaArticulo proyeccion, int codProyecto)
+        public ProyeccionVenta InsertarProyeccionVenta(ProyeccionVenta proyeccion, int codProyecto)
         {
             object newProdID, newProdID2;
 
@@ -136,7 +134,7 @@ namespace UCR.Negotium.DataAccess
                 catch(Exception ex)
                 {
                     ex.TraceExceptionAsync();
-                    proyeccion = new ProyeccionVentaArticulo();
+                    proyeccion = new ProyeccionVenta();
                     transaction.Rollback();
                 }
             }
@@ -144,7 +142,7 @@ namespace UCR.Negotium.DataAccess
             return proyeccion;
         }
 
-        public bool EditarProyeccionVenta(ProyeccionVentaArticulo proyeccion)
+        public bool EditarProyeccionVenta(ProyeccionVenta proyeccion)
         {
             int result = -1;
 
@@ -183,12 +181,16 @@ namespace UCR.Negotium.DataAccess
                         }
                         transaction.Commit();
                     }
+                    else
+                    {
+                        transaction.Rollback();
+                    }
                 }
                 catch(Exception ex)
                 {
+                    transaction.Rollback();
                     ex.TraceExceptionAsync();
                     result = -1;
-                    transaction.Rollback();
                 }
             }
 
@@ -198,41 +200,64 @@ namespace UCR.Negotium.DataAccess
         public bool EliminarProyeccionVenta(int codProyeccion)
         {
             int result = -1;
-            string sqlQuery2 = "DELETE FROM PROYECCION_VENTA WHERE cod_proyeccion=?";
-            string sqlQuery1 = "DELETE FROM DETALLE_PROYECCION_VENTA WHERE cod_proyeccion=?";
-
+            string sqlQuery = "DELETE FROM PROYECCION_VENTA, DETALLE_PROYECCION_VENTA WHERE cod_proyeccion=?";
+            
             using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
-                SQLiteTransaction transaction = null;
-
                 try
                 {
                     conn.Open();
 
-                    SQLiteCommand command = new SQLiteCommand(sqlQuery1, conn);
-                    SQLiteCommand command2 = new SQLiteCommand(sqlQuery2, conn);
-
+                    SQLiteCommand command = new SQLiteCommand(sqlQuery, conn);
                     command.Parameters.AddWithValue("cod_proyeccion", codProyeccion);
-                    command2.Parameters.AddWithValue("cod_proyeccion", codProyeccion);
-
-                    transaction = conn.BeginTransaction();
 
                     result = command.ExecuteNonQuery();
-                    if (result != -1)
-                    {
-                        result = command2.ExecuteNonQuery();
-                        transaction.Commit();
-                    }
                 }
                 catch(Exception ex)
                 {
                     ex.TraceExceptionAsync();
                     result = -1;
-                    transaction.Rollback();
                 }
             }
 
             return result != -1;
+        }
+
+        private List<DetalleProyeccionVenta> GetDetallesProyeccionVenta(int codProyeccion)
+        {
+            List<DetalleProyeccionVenta> listaDetalles = new List<DetalleProyeccionVenta>();
+            string select = "SELECT cod_detalle, mes_proyeccion, cantidad_proyeccion, precio_proyeccion " +
+               "FROM DETALLE_PROYECCION_VENTA WHERE cod_proyeccion=?";
+
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
+            {
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(select, conn);
+                    cmd.Parameters.AddWithValue("cod_proyeccion", codProyeccion);
+
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            DetalleProyeccionVenta detalleProyeccion = new DetalleProyeccionVenta();
+                            detalleProyeccion.CodDetalle = reader.GetInt32(0);
+                            detalleProyeccion.Mes = reader.GetString(1);
+                            detalleProyeccion.Cantidad = reader.GetDouble(2);
+                            detalleProyeccion.Precio = reader.GetDouble(3);
+                            listaDetalles.Add(detalleProyeccion);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.TraceExceptionAsync();
+                    listaDetalles = new List<DetalleProyeccionVenta>();
+                }
+            }
+
+            return listaDetalles;
         }
     }
 }

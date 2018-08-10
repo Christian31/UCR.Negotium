@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UCR.Negotium.Domain.Extensions;
 
 namespace UCR.Negotium.Domain
 {
@@ -27,7 +28,7 @@ namespace UCR.Negotium.Domain
         public string ObjetoInteres { get; set; }
         public List<Inversion> Inversiones { get; set; }
         public List<Reinversion> Reinversiones { get; set; }
-        public List<ProyeccionVentaArticulo> Proyecciones { get; set; }
+        public List<ProyeccionVenta> Proyecciones { get; set; }
         public List<Costo> Costos { get; set; }
         public List<VariacionAnualCosto> VariacionCostos { get; set; }
         public Financiamiento Financiamiento { get; set; }
@@ -57,7 +58,7 @@ namespace UCR.Negotium.Domain
             this.Canton = new Canton();
             this.Distrito = new Distrito();
             this.OrganizacionProponente = new OrganizacionProponente();
-            this.Proyecciones = new List<ProyeccionVentaArticulo>();
+            this.Proyecciones = new List<ProyeccionVenta>();
             this.IngresosGenerados = new List<double>();
             this.Costos = new List<Costo>();
             this.VariacionCostos = new List<VariacionAnualCosto>();
@@ -131,7 +132,7 @@ namespace UCR.Negotium.Domain
 
         public string TasaCostoCapitalString
         {
-            get { return string.Concat(TasaCostoCapital.ToString("#,##0.##"), " %"); }
+            get { return TasaCostoCapital.FormatoPorcentaje(); }
             set { TasaCostoCapital = Convert.ToDouble(value.Replace("%", string.Empty)); }
         }
 
@@ -238,16 +239,16 @@ namespace UCR.Negotium.Domain
             }
             else
             {
-                foreach (ProyeccionVentaArticulo articulo in this.Proyecciones)
+                foreach (ProyeccionVenta proyeccion in this.Proyecciones)
                 {
                     double valIni = 0;
                     List<double> listIngresosArticulo = new List<double>();
-                    articulo.DetallesProyeccionVenta.ForEach(detArticulo => valIni += detArticulo.Subtotal);
+                    proyeccion.DetallesProyeccionVenta.ForEach(detArticulo => valIni += detArticulo.Subtotal);
 
                     listIngresosArticulo.Add(valIni);
-                    for (int i = 0; i < articulo.CrecimientoOferta.Count; i++)
+                    for (int i = 0; i < proyeccion.CrecimientoOferta.Count; i++)
                     {
-                        valIni = ((valIni * articulo.CrecimientoOferta[i].PorcentajeCrecimiento) / 100) + valIni;
+                        valIni = ((valIni * proyeccion.CrecimientoOferta[i].PorcentajeCrecimiento) / 100) + valIni;
                         listIngresosArticulo.Add(valIni);
                     }
 
@@ -303,10 +304,10 @@ namespace UCR.Negotium.Domain
             int count = 0;
             while (inicio <= (this.AnoInicial + this.HorizonteEvaluacionEnAnos))
             {
-                foreach (Costo articulo in this.Costos.Where(costo => costo.AnoCosto.Equals(inicio)))
+                foreach (Costo costo in this.Costos.Where(costo => costo.AnoCosto.Equals(inicio)))
                 {
-                    var valTemp = articulo.CostosMensuales.Select(costoM => costoM.Subtotal).Sum();
-                    valIni += Math.Round(valTemp, 2);
+                    var valTemp = costo.CostosMensuales.Select(costoM => costoM.Subtotal).Sum();
+                    valIni += valTemp.PonderarNumero();
                 }
 
                 if (count > 0)
@@ -336,6 +337,7 @@ namespace UCR.Negotium.Domain
             {
                 double montoAnual = 0;
                 Depreciaciones.ForEach(dep => montoAnual += dep.MontoDepreciacion[i]);
+                montoAnual = montoAnual.PonderarNumero();
                 totalDep.Add(montoAnual);
             }
 

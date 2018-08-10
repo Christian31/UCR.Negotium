@@ -22,9 +22,8 @@ namespace UCR.Negotium
     {
         private Proyecto proyecto;
         private DataView dtFlujoCaja;
-        private string tir, van, signoMoneda;
-        private double pri, relacionBC;
-        private string vac;
+        private IndicadorEconomico tir, pri, relacionBC, van, vac;
+        private string signoMoneda;
         private IndicadoresFinancieros indicFinancieros;
         private IndicadoresSociales indicSociales;
 
@@ -38,8 +37,8 @@ namespace UCR.Negotium
         #region Contructor
         public RegistrarProyectoWindow(int codProyecto = 0, int codEncargado = 0)
         {
+            tir = pri = relacionBC = van = vac = new IndicadorEconomico();
             InitializeComponent();
-
             DataContext = this;
 
             proyectoData = new ProyectoData();
@@ -97,52 +96,32 @@ namespace UCR.Negotium
 
         public string TIR
         {
-            get { return tir; }
-            set
-            {
-                tir = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("TIR"));
-            }
+            get { return tir.ToString(); }
+            set { }
         }
 
         public string VAN
         {
-            get { return van; }
-            set
-            {
-                van = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("VAN"));
-            }
+            get { return van.ToString(); }
+            set { }
         }
 
         public string VAC
         {
-            get { return vac; }
-            set
-            {
-                vac = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("VAC"));
-            }
+            get { return vac.ToString(); }
+            set { }
         }
 
-        public double PRI
+        public string PRI
         {
-            get { return pri; }
-            set
-            {
-                pri = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("PRI"));
-            }
+            get { return pri.ToString(); }
+            set { }
         }
 
-        public double RelacionBC
+        public string RelacionBC
         {
-            get { return relacionBC; }
-            set
-            {
-                relacionBC = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("RelacionBC"));
-            }
+            get { return relacionBC.ToString(); }
+            set { }
         }
 
         public int CodProyecto { get; set; }
@@ -244,17 +223,23 @@ namespace UCR.Negotium
                 indicFinancieros = new IndicadoresFinancieros(ProyectoSelected.HorizonteEvaluacionEnAnos, 
                     signoMoneda, DTFlujoCaja.Table, ProyectoSelected.TasaCostoCapital);
 
-                VAN = indicFinancieros.VAN;
-                TIR = indicFinancieros.TIR;
-                PRI = indicFinancieros.PRI;
-                RelacionBC = indicFinancieros.RelacionBC;
+                van = indicFinancieros.VAN;
+                tir = indicFinancieros.TIR;
+                pri = indicFinancieros.PRI;
+                relacionBC = indicFinancieros.RelacionBC;
+
+                PropertyChanged(this, new PropertyChangedEventArgs("VAN"));
+                PropertyChanged(this, new PropertyChangedEventArgs("TIR"));
+                PropertyChanged(this, new PropertyChangedEventArgs("PRI"));
+                PropertyChanged(this, new PropertyChangedEventArgs("RelacionBC"));
             }
             else
             {
                 indicSociales = new IndicadoresSociales(ProyectoSelected.HorizonteEvaluacionEnAnos,
                     signoMoneda, DTFlujoCaja.Table, ProyectoSelected.TasaCostoCapital);
 
-                VAC = indicSociales.VAC;
+                vac = indicSociales.VAC;
+                PropertyChanged(this, new PropertyChangedEventArgs("VAC"));
             }
         }
         #endregion
@@ -273,8 +258,7 @@ namespace UCR.Negotium
         {
             if (displayWarningClosing)
             {
-                if (CustomMessageBox.Show("Está seguro que desea cerrar esta ventana? \n"+
-                    "Asegúrese haber guardado todos los cambios realizados."))
+                if (CustomMessageBox.Show(Constantes.CERRARVENTANAMSG))
                 {
                     if (ProyectoSelected.CodProyecto.Equals(0) && !ProyectoSelected.Encargado.IdEncargado.Equals(0))
                     {
@@ -299,49 +283,61 @@ namespace UCR.Negotium
         {
             if (tcRegistrarProyecto.IsLoaded)
             {
-                int indice = tcRegistrarProyecto.SelectedIndex;
+                if (e.Source != financiamientoUc || !financiamientoUc.CargaDesdeCombos)
+                {
+                    int indice = tcRegistrarProyecto.SelectedIndex;
 
-                if (proyecto.CodProyecto.Equals(0) && !indice.Equals(0))
-                {
-                    MessageBox.Show("Por favor ingrese los datos de Información General y guardelos para poder avanzar a la siguiente pestaña",
-                    "Datos vacios", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    tcRegistrarProyecto.SelectedIndex = 0;
-                }
-                else if (!proyecto.TipoProyecto.CodTipo.Equals(2))
-                {
-                    if (indice > 1 && proyecto.OrganizacionProponente.CodOrganizacion.Equals(0))
+                    if (proyecto.CodProyecto.Equals(0) && !indice.Equals(0))
                     {
-                        MessageBox.Show("Por favor ingrese todos los datos del Proponente y guardelos para poder avanzar a la siguiente pestaña",
-                        "Datos vacios", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        tcRegistrarProyecto.SelectedIndex = 1;
+                        MessageBox.Show(Constantes.NAVEGARDATOSVACIOSINFOGENERALMSG, Constantes.NAVEGARDATOSVACIOSTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Warning);
+                        tcRegistrarProyecto.SelectedIndex = 0;
                     }
-                    else if (indice > 2 && proyecto.CaraterizacionDelBienServicio.Equals(string.Empty))
+                    else if (!proyecto.TipoProyecto.CodTipo.Equals(2))
                     {
-                        MessageBox.Show("Por favor ingrese todos los datos de Caracterización y guardelos para poder avanzar a la siguiente pestaña",
-                        "Datos vacios", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        tcRegistrarProyecto.SelectedIndex = 2;
+                        if (indice > 1 && proyecto.OrganizacionProponente.CodOrganizacion.Equals(0))
+                        {
+                            MessageBox.Show(Constantes.NAVEGARDATOSVACIOSPROPMSG, Constantes.NAVEGARDATOSVACIOSTLT, 
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                            tcRegistrarProyecto.SelectedIndex = 1;
+                        }
+                        else if (indice > 2 && proyecto.CaraterizacionDelBienServicio.Equals(string.Empty))
+                        {
+                            MessageBox.Show(Constantes.NAVEGARDATOSVACIOSCARACTMSG, Constantes.NAVEGARDATOSVACIOSTLT, 
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                            tcRegistrarProyecto.SelectedIndex = 2;
+                        }
+                        else if (indice.Equals(10))
+                        {
+                            //llenar flujo de caja 
+                            if (proyecto.TipoProyecto.CodTipo.Equals(1))
+                            {
+                                this.spIndicadoresSocial.Visibility = Visibility.Hidden;
+                                this.spIndicadoresFinancieros.Visibility = Visibility.Visible;
+                            }
+                            else if (proyecto.TipoProyecto.CodTipo.Equals(3))
+                            {
+                                this.spIndicadoresFinancieros.Visibility = Visibility.Hidden;
+                                this.spIndicadoresSocial.Visibility = Visibility.Visible;
+                            }
+
+                            LlenaFlujoCaja();
+                        }
+
+                        if (indice == 9)
+                        {
+                            LocalContext.ReloadUserControls(proyecto.CodProyecto, Modulo.Financiamiento);
+                        }
                     }
-                    else if (indice.Equals(10))
+                    else
                     {
-                        //llenar flujo de caja 
-                        if (proyecto.TipoProyecto.CodTipo.Equals(1))
-                        {
-                            this.spIndicadoresSocial.Visibility = Visibility.Hidden;
-                            this.spIndicadoresFinancieros.Visibility = Visibility.Visible;
-                        }
-                        else if (proyecto.TipoProyecto.CodTipo.Equals(3))
-                        {
-                            this.spIndicadoresFinancieros.Visibility = Visibility.Hidden;
-                            this.spIndicadoresSocial.Visibility = Visibility.Visible;
-                        }
-                        
-                        LlenaFlujoCaja();
+                        this.spIndicadoresSocial.Visibility = Visibility.Hidden;
+                        this.spIndicadoresFinancieros.Visibility = Visibility.Hidden;
                     }
                 }
                 else
                 {
-                    this.spIndicadoresSocial.Visibility = Visibility.Hidden;
-                    this.spIndicadoresFinancieros.Visibility = Visibility.Hidden;
+                    financiamientoUc.CargaDesdeCombos = false;
                 }
             }
         }
@@ -368,7 +364,8 @@ namespace UCR.Negotium
             }
             else
             {
-                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Financiero o Social actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Constantes.ACTUALIZARPROYECTORESTRTIPOAMBIENTAL, Constantes.ACTUALIZARPROYECTOTLT, 
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -396,11 +393,12 @@ namespace UCR.Negotium
                         GenerarReporte reporte = null;
                         if (proyecto.TipoProyecto.CodTipo == 1)
                         {
-                            reporte = new GenerarReporte(proyecto, inversiones.InversionesTotal,
+                            reporte = new GenerarReporte(proyecto, inversiones.InversionesTotal, 
                                 reinversiones.DTTotalesReinversiones, proyeccionVentas.DTProyeccionesTotales,
                                 costos.DTCostosTotales, capitalTrabajo.DTCapitalTrabajo,
                                 capitalTrabajo.RecuperacionCT, depreciaciones.DTTotalesDepreciaciones,
-                                financiamientoUc.DTFinanciamiento, DTFlujoCaja, TIR, PRI, RelacionBC, VAN);
+                                financiamientoUc.DTFinanciamiento, DTFlujoCaja, TIR, PRI, 
+                                RelacionBC, van);
                         }
                         else
                         {
@@ -408,7 +406,7 @@ namespace UCR.Negotium
                                 reinversiones.DTTotalesReinversiones, costos.DTCostosTotales,
                                 capitalTrabajo.DTCapitalTrabajo, capitalTrabajo.RecuperacionCT,
                                 depreciaciones.DTTotalesDepreciaciones, financiamientoUc.DTFinanciamiento,
-                                DTFlujoCaja, VAC);
+                                DTFlujoCaja, vac);
                         }
 
                         reporte.CrearReporte();
@@ -416,13 +414,13 @@ namespace UCR.Negotium
                     catch (Exception ex)
                     {
                         ex.TraceExceptionAsync();
-                        MessageBox.Show("Se ha producido un error generando el Reporte, favor asegurese que ha ingresado todos los datos del proyecto. \n Si el error persiste comunicarse con el Administrador", "Generando Reporte",
+                        MessageBox.Show(Constantes.GENERARREPORTEERRORMSG, Constantes.GENERARREPORTETLT,
                             MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Este Tipo de Proyecto no posee generación de reportes", "Generando Reporte",
+                    MessageBox.Show(Constantes.GENERARREPORTENODISPONIBLEMSG, Constantes.GENERARREPORTETLT,
                             MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
@@ -432,8 +430,10 @@ namespace UCR.Negotium
         {
             if (ProyectoSelected != null && ProyectoSelected.CodProyecto != 0 && !ProyectoSelected.Archivado)
             {
-                if (CustomMessageBox.Show("Esta seguro que desea archivar este Proyecto? \n" +
-                    "Si archiva el Proyecto, este quedará en modo lectura."))
+                string message = ConfigurationHelper.EsDeUsoAcademico() ? 
+                    Constantes.ARCHIVARPROYECTOACADEMICO : 
+                    Constantes.ARCHIVARPROYECTOPROFESIONAL;
+                if (CustomMessageBox.Show(Constantes.ARCHIVARPROYECTO + message))
                 {
                     if (proyectoData.ArchivarProyecto(ProyectoSelected.CodProyecto, true))
                     {
@@ -493,8 +493,8 @@ namespace UCR.Negotium
             }
             else
             {
-                MessageBox.Show("Este proyecto no posee un Evaluador asociado para editar, esta opción solo permite editar un Evaluador asociado con el Proyecto", 
-                    "Encargado", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(Constantes.EDITAREVALUADORNODISPONIBLEMSG, Constantes.EDITAREVALUADORTLT, 
+                    MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
         #endregion

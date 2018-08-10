@@ -69,13 +69,13 @@
                 <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
             <StackPanel Grid.ColumnSpan="3" Orientation="Horizontal" Margin="0,0,30,5" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <Label Content="Estado: " Name="lblEstado"/>
+                <ComboBox ItemsSource="{Binding Estados}" Width="120" Margin="0,0,15,0" 
+                          Name="cbEstado" SelectionChanged="cbEstado_SelectionChanged"/>
                 <Label Content="Tipo Análisis: "/>
                 <ComboBox ItemsSource="{Binding TiposProyectos}" Width="120" Margin="0,0,15,0" 
                           Name="cbTipoProyecto" SelectionChanged="cbTipoProyecto_SelectionChanged"
                           SelectedValuePath="CodTipo"/>
-                <Label Content="Estado: "/>
-                <ComboBox ItemsSource="{Binding Estados}" Width="120" Margin="0,0,15,0" 
-                          Name="cbEstado" SelectionChanged="cbEstado_SelectionChanged"/>
                 <Label Content="Buscar: "/>
                 <TextBox Controls:TextBoxHelper.Watermark="Búsqueda" Name="tbBusqueda" TextChanged="tbBusqueda_TextChanged" Width="250" />
             </StackPanel>
@@ -147,7 +147,7 @@
                 </Button>
             </Grid>
             <StatusBar Grid.Row="3" Grid.ColumnSpan="3">
-                <StatusBarItem Margin="20,0,0,0"> Negotium 1.0 </StatusBarItem>
+                <StatusBarItem Margin="20,0,0,0"> Negotium 1.2 </StatusBarItem>
                 <Separator Style="{StaticResource MetroStatusBarSeparator}" />
                 <StatusBarItem> Propiedad de Universidad de Costa Rica </StatusBarItem>
             </StatusBar>

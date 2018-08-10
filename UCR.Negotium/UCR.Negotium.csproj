@@ -140,8 +140,11 @@
     <Compile Include="Dialogs\RegistrarTipoMoneda.xaml.cs">
       <DependentUpon>RegistrarTipoMoneda.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\ConfigurationHelper.cs" />
+    <Compile Include="Extensions\Constantes.cs" />
     <Compile Include="Extensions\CustomMessageBox.cs" />
     <Compile Include="Extensions\DatatableBuilder.cs" />
+    <Compile Include="Extensions\DialogWithDataGrid.cs" />
     <Compile Include="Extensions\GenerarReporte.cs" />
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -186,6 +189,7 @@
     <Compile Include="Extensions\InverseBoolConverter.cs" />
     <Compile Include="Extensions\LocalContext.cs" />
     <Compile Include="Extensions\CheckMonedaFormat.cs" />
+    <Compile Include="Extensions\ResourceDictionaryEvents.cs" />
     <Compile Include="StartWindow.xaml.cs">
       <DependentUpon>StartWindow.xaml</DependentUpon>
     </Compile>

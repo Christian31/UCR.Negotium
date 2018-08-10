@@ -1,5 +1,5 @@
-﻿using MahApps.Metro.Controls;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using UCR.Negotium.DataAccess;
@@ -11,11 +11,9 @@ namespace UCR.Negotium.Dialogs
     /// <summary>
     /// Interaction logic for RegistrarVariacionAnualCostos.xaml
     /// </summary>
-    public partial class RegistrarVariacionAnualCostos : MetroWindow
+    public partial class RegistrarVariacionAnualCostos : DialogWithDataGrid
     {
         #region PrivateProperties
-        private const string CAMPOREQUERIDO = "Este campo es requerido";
-
         private List<VariacionAnualCosto> variacionCostos;
         private ProyectoLite proyecto;
 
@@ -82,7 +80,8 @@ namespace UCR.Negotium.Dialogs
                     else
                     {
                         //error
-                        MessageBox.Show("Ha ocurrido un error al insertar la variacion anual de costos del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.INSERTARVARIACIONCOSTOSERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                         break;
                     }
                 }
@@ -96,7 +95,8 @@ namespace UCR.Negotium.Dialogs
                     else
                     {
                         //error
-                        MessageBox.Show("Ha ocurrido un error al actualizar la variacion anual de costos del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.ACTUALIZARVARIACIONCOSTOSERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                         break;
                     }
                 }
@@ -142,6 +142,49 @@ namespace UCR.Negotium.Dialogs
             else
             {
                 tbNumeroChngEvent = true;
+            }
+        }
+
+        private void btnAgregarPorcentaje_Click(object sender, RoutedEventArgs e)
+        {
+            bool notifyChange = false;
+
+            var selectedCells = dgVariacionAnual.SelectedCells;
+            var variacionesCostoSelected = selectedCells.Select(cell => cell.Item).ToList();
+            var variacionCostoSelect = VariacionCostos.Where(variacion => variacionesCostoSelected.Select(cm => ((VariacionAnualCosto)cm).Ano).
+            Contains(variacion.Ano)).ToList();
+
+            if (selectedCells[0].Column.DisplayIndex == 1)
+            {
+                foreach (var variacionCosto in VariacionCostos)
+                {
+                    if (variacionCostoSelect.Contains(variacionCosto))
+                    {
+                        variacionCosto.PorcentajeIncremento = NumeroACopiar;
+                        notifyChange = true;
+                    }
+                }
+            }
+
+            if (notifyChange)
+            {
+                dgVariacionAnual.ItemsSource = null;
+                dgVariacionAnual.ItemsSource = VariacionCostos;
+            }
+            dgVariacionAnual.ContextMenu.Visibility = Visibility.Collapsed;
+        }
+
+        private void dgVariacionAnual_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DependencyObject depObject = (DependencyObject)e.OriginalSource;
+            bool mostrarContextMenu = ContextMenuDisponible(depObject, dgVariacionAnual.SelectedCells);
+            if (mostrarContextMenu)
+            {
+                dgVariacionAnual.ContextMenu.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                dgVariacionAnual.ContextMenu.Visibility = Visibility.Collapsed;
             }
         }
         #endregion

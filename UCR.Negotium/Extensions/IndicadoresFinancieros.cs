@@ -1,18 +1,21 @@
 ﻿using Microsoft.VisualBasic;
 using System;
 using System.Data;
+using UCR.Negotium.Domain;
+using UCR.Negotium.Domain.Extensions;
 
 namespace UCR.Negotium.Extensions
 {
     public class IndicadoresFinancieros
     {
-        private double vanDouble, relacionBC, pri;
-        private string tir, van;
+        private IndicadorEconomico tir, pri, relacionBC, van;
+        private string signoMoneda;
         private double[] flujoCajaSinBase, ventasSinBase, costosSinBase;
         private double montoInicial, ventaInicial, costoInicial;
         
         public IndicadoresFinancieros(int horizonteEvaluacion, string signoMoneda, DataTable dtflujoCaja, double tasaCostoCapital)
         {
+            this.signoMoneda = signoMoneda;
             double[] flujoCaja = new double[horizonteEvaluacion + 1];
             for (int i = 0; i <= horizonteEvaluacion; i++)
             {
@@ -40,32 +43,35 @@ namespace UCR.Negotium.Extensions
                 costosSinBase[i] = Convert.ToDouble(dtflujoCaja.Rows[1][i + 3].ToString().Replace(signoMoneda, string.Empty)) * -1;
             }
 
-            vanDouble = CalculateVAN(tasaCostoCapital);
-            van = signoMoneda + " " + (vanDouble).ToString("#,##0.##");
+            van = CalculateVAN(tasaCostoCapital);
             CalculateTIR(flujoCaja);
             CalculatePRI(flujoCaja);
             relacionBC = CalculateRelacionBC(tasaCostoCapital);
         }
 
         #region PublicMethods
-        public double CalculateVAN(double tasaCostoCapital)
+        public IndicadorEconomico CalculateVAN(double tasaCostoCapital)
         {
-            double vanResult = 0;
+            IndicadorEconomico vanResult = new IndicadorEconomico(signoMoneda: signoMoneda);
+            vanResult.EsEvaluablePorCantidad = true;
             double tasaTemp = tasaCostoCapital / 100;
 
             try
             {
                 double num2 = Financial.NPV(tasaTemp, ref flujoCajaSinBase);
-                vanResult = num2 + montoInicial;
+                vanResult.Resultado = num2 + montoInicial;
             }
-            catch { vanResult = 0; }
+            catch
+            {
+                vanResult.ConError = true;
+            }
 
             return vanResult;
         }
 
-        public double CalculateRelacionBC(double tasaCostoCapital)
+        public IndicadorEconomico CalculateRelacionBC(double tasaCostoCapital)
         {
-            double relacionBCResult;
+            IndicadorEconomico relacionBCResult = new IndicadorEconomico();
             tasaCostoCapital = tasaCostoCapital / 100;
 
             try
@@ -78,39 +84,34 @@ namespace UCR.Negotium.Extensions
                 double num2 = Financial.NPV(tasaCostoCapital, ref costosSinBase);
                 double tempVan2 = num2 + costoInicial;
 
-                relacionBCResult = Math.Round((tempVan1 / tempVan2), 2);
+                relacionBCResult.Resultado = (tempVan1 / tempVan2).PonderarNumero(true);
             }
-            catch { relacionBCResult = 0; }
-
-            if (Double.IsNaN(relacionBCResult))
-                relacionBCResult = 0;
+            catch
+            {
+                relacionBCResult.ConError = true;
+            }
 
             return relacionBCResult;
         }
         #endregion
 
         #region Properties
-        public string VAN
+        public IndicadorEconomico VAN
         {
             get { return van; }
         }
 
-        public double VANDouble
-        {
-            get { return vanDouble; }
-        }
-
-        public string TIR
+        public IndicadorEconomico TIR
         {
             get { return tir; }
         }
 
-        public double PRI
+        public IndicadorEconomico PRI
         {
             get { return pri; }
         }
 
-        public double RelacionBC
+        public IndicadorEconomico RelacionBC
         {
             get { return relacionBC; }
         }
@@ -120,18 +121,20 @@ namespace UCR.Negotium.Extensions
         #region PrivateMethods
         private void CalculateTIR(double[] flujoCaja)
         {
-            tir = "";
+            tir = new IndicadorEconomico(esPorcentaje: true);
             try
             {
-                double num1 = Financial.IRR(ref flujoCaja) * 100;
-                tir = string.Concat(num1.ToString("#,##0.##"), " %");
+                tir.Resultado = Financial.IRR(ref flujoCaja) * 100;
             }
-            catch { tir = "Indefinido"; }
+            catch
+            {
+                tir.ConError = true;
+            }
         }
 
         private void CalculatePRI(double[] flujoCaja)
         {
-            pri = 0;
+            pri = new IndicadorEconomico();
             try
             {
                 double[] flujoCajaAcumulado = new double[flujoCaja.Length];
@@ -151,14 +154,13 @@ namespace UCR.Negotium.Extensions
                     topeNegativo--;
 
                 double priTemp = topeNegativo + (Math.Abs(flujoCajaAcumulado[topeNegativo]) / flujoCaja[topeNegativo + 1]);
-
-                pri = Math.Round(priTemp, 2);
+                pri.Resultado = priTemp.PonderarNumero(true);                  
             }
-            catch { pri = 0; }
-
-            if (Double.IsNaN(pri))
-                pri = 0;
-        }        
+            catch
+            {
+                pri.ConError = true;
+            }
+        }       
         #endregion
 
     }

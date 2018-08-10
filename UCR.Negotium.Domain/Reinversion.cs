@@ -1,4 +1,4 @@
-﻿using System;
+﻿using UCR.Negotium.Domain.Extensions;
 
 namespace UCR.Negotium.Domain
 {
@@ -25,7 +25,7 @@ namespace UCR.Negotium.Domain
 
         public double Subtotal
         {
-            get { return this.CostoUnitario * this.Cantidad; }
+            get { return (this.CostoUnitario * this.Cantidad).PonderarNumero(); }
             set { this.subtotal = value; }
         }
 
@@ -35,7 +35,7 @@ namespace UCR.Negotium.Domain
 
         public double Depreciacion
         {
-            get { return Math.Round((this.CostoUnitario * this.Cantidad) / this.VidaUtil, 2); }
+            get { return ((this.CostoUnitario * this.Cantidad) / this.VidaUtil).PonderarNumero(); }
             set { this.depreciacion = value; }
         }
 

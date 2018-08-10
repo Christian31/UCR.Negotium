@@ -22,11 +22,13 @@ namespace UCR.Negotium
         private ProyectoData proyectoData;
         private TipoProyectoData tipoProyectoData;
         private List<TipoProyecto> tipoProyectos;
+        private bool usoAcademico;
 
         public MainWindow()
         {
             InitializeComponent();
             (this.Content as FrameworkElement).DataContext = this;
+            usoAcademico = ConfigurationHelper.EsDeUsoAcademico();
 
             proyectoData = new ProyectoData();
             tipoProyectoData = new TipoProyectoData();
@@ -38,6 +40,14 @@ namespace UCR.Negotium
             tipoProyectos.AddRange(tipoProyectoData.GetTipoProyectos());
 
             Reload();
+
+            if (usoAcademico)
+            {
+                btnReabrir.Visibility = Visibility.Hidden;
+                cbEstado.Visibility = Visibility.Hidden;
+                lblEstado.Visibility = Visibility.Hidden;
+                FiltrarProyectos(init: true);
+            }
         }
 
         #region Properties
@@ -98,8 +108,8 @@ namespace UCR.Negotium
             {
                 if (ProyectoSelected.Archivado)
                 {
-                    MessageBox.Show("Este proyecto no puede ser abierto, verifique que el proyecto esté Activo", "Advertencia",
-                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show(Constantes.ABRIRPROYECTOINACTIVO, Constantes.ADVERTENCIATLT, MessageBoxButton.OK, 
+                        MessageBoxImage.Warning);
                 }
                 else
                 {
@@ -114,9 +124,10 @@ namespace UCR.Negotium
         {
             if (ProyectoSelected != null && !ProyectoSelected.Archivado)
             {
-
-                if (CustomMessageBox.Show("Esta seguro que desea archivar este Proyecto? " +
-                    "Si archiva el Proyecto, este quedará en modo lectura."))
+                string message = ConfigurationHelper.EsDeUsoAcademico() ?
+                    Constantes.ARCHIVARPROYECTOACADEMICO :
+                    Constantes.ARCHIVARPROYECTOPROFESIONAL;
+                if (CustomMessageBox.Show(Constantes.ARCHIVARPROYECTO + message))
                 {
                     if (proyectoData.ArchivarProyecto(ProyectoSelected.CodProyecto, true))
                     {
@@ -153,15 +164,14 @@ namespace UCR.Negotium
         {
             if (proyectos.Count.Equals(0))
             {
-                MessageBox.Show("No existen proyectos registrados para ser importados",
-                    "Respaldo Creado", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(Constantes.IMPORTARDATOSNODISPONIBLEMSG, Constantes.IMPORTARDATOSTLT, 
+                    MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
                 string fileName = GestorDatos.ImportarDatos();
-                MessageBox.Show(string.Format("El respaldo de los datos ha sido guardado en su escritorio con el siguiente nombre: {0} \n " +
-                    "Por favor guarde el archivo en un lugar seguro para mantener el respaldo a salvo", fileName),
-                    "Respaldo Creado", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(string.Format(Constantes.IMPORTARDATOSEXITOSO, fileName),
+                    Constantes.IMPORTARDATOSTLT, MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -186,21 +196,19 @@ namespace UCR.Negotium
                     if (GestorDatos.ExportarDatos(backupContent))
                     {
                         this.Reload();
-                        MessageBox.Show("El respaldo se ha cargado correctamente",
-                            "Respaldo Exportado", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show(Constantes.EXPORTARDATOSEXITOSOMSG, Constantes.EXPORTARDATOSTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     else
                     {
-                        MessageBox.Show("Se ha producido un error cargando el respaldo seleccionado \n " +
-                            "Por favor intentelo nuevamente, si el error persiste envie el respaldo para revisión",
-                            "Respaldo Exportado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.EXPORTARDATOSERRORMSG, Constantes.EXPORTARDATOSTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("El respaldo de que está intentando de utilizar es incompatible con la version actual del Negotium. \n " +
-                        "Por favor asegurese de utilizar un respaldo creado en una versión actual del Negotium instalado.",
-                        "Respaldo Exportado", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(Constantes.EXPORTARDATOSINCOMPATIBLEMSG, Constantes.EXPORTARDATOSTLT, 
+                        MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -228,26 +236,42 @@ namespace UCR.Negotium
         private void Reload()
         {
             Proyectos = proyectos = proyectoData.GetProyectos().OrderByDescending(proy => proy.CodProyecto).ToList();
-            ProyectoSelected = Proyectos.FirstOrDefault();
-
+            if (!usoAcademico)
+            {
+                cbEstado.SelectedValue = Estados.First();
+                ProyectoSelected = Proyectos.FirstOrDefault();
+            }
+            
             cbTipoProyecto.SelectedValue = 0;
-            cbEstado.SelectedValue = Estados.First();
         }
 
-        private void FiltrarProyectos()
+        private void FiltrarProyectos(bool init = false)
         {
             List<Proyecto> newFilter = new List<Proyecto>();
-
-            newFilter = cbEstado.SelectedValue.Equals("Todos") ? proyectos :
-                proyectos.Where(proy => proy.Archivado.Equals(cbEstado.SelectedValue.Equals("Archivados"))).ToList();
-
-            string textoBusqueda = tbBusqueda.Text.ToLower();
-
-            if (!cbTipoProyecto.SelectedValue.Equals(0))
+            string textoBusqueda = "";
+            if (!init)
             {
-                newFilter = newFilter.Where(proy => proy.TipoProyecto.CodTipo.Equals(cbTipoProyecto.SelectedValue)).ToList();
-            }
+                string filtroEstado = "";
+                if (usoAcademico)
+                    filtroEstado = "Activos";
+                else
+                    filtroEstado = cbEstado.SelectedValue.ToString();
 
+                newFilter = filtroEstado.Equals("Todos") ? proyectos :
+                    proyectos.Where(proy => proy.Archivado.Equals(filtroEstado.Equals("Archivados"))).ToList();
+
+                if (!cbTipoProyecto.SelectedValue.Equals(0))
+                {
+                    newFilter = newFilter.Where(proy => proy.TipoProyecto.CodTipo.Equals(cbTipoProyecto.SelectedValue)).ToList();
+                }
+
+                textoBusqueda = tbBusqueda.Text.ToLower();
+            }
+            else
+            {
+                newFilter = proyectos.Where(proy => !proy.Archivado).ToList();
+            }
+            
             if (!string.IsNullOrWhiteSpace(textoBusqueda))
                 Proyectos = newFilter.Where(proy => proy.NombreProyecto.ToLower().Contains(textoBusqueda)
                     || proy.OrganizacionProponente.Proponente.Nombre != null && proy.OrganizacionProponente.Proponente.ToString().ToLower().Contains(textoBusqueda)

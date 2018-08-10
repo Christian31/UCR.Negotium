@@ -63,6 +63,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_76F0F4A59EC490A65A4BFC121DA2F404"
+        "OwnerKey" = "8:_4EA977D64D614886BCA9E7187C9D08CD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_76F0F4A59EC490A65A4BFC121DA2F404"
+        "OwnerKey" = "8:_86A30F0CAE64CCE65F1A23A0DA164971"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_86A30F0CAE64CCE65F1A23A0DA164971"
         "OwnerKey" = "8:_4EA977D64D614886BCA9E7187C9D08CD"
         "MsmSig" = "8:_UNDEFINED"
@@ -89,18 +101,6 @@
         {
         "MsmKey" = "8:_DB71B04E9BEAF11DC2D744F1E8C32066"
         "OwnerKey" = "8:_4EA977D64D614886BCA9E7187C9D08CD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_ECCB0BB0290925A37621913842ABA70F"
-        "OwnerKey" = "8:_4EA977D64D614886BCA9E7187C9D08CD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_ECCB0BB0290925A37621913842ABA70F"
-        "OwnerKey" = "8:_86A30F0CAE64CCE65F1A23A0DA164971"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -154,7 +154,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_ECCB0BB0290925A37621913842ABA70F"
+        "OwnerKey" = "8:_76F0F4A59EC490A65A4BFC121DA2F404"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -242,6 +242,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
             }
         }
         "Release"
@@ -249,7 +257,7 @@
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\Negotium Installer 1.1.0.msi"
+        "OutputFilename" = "8:Release\\Negotium Installer 1.2.0.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -459,6 +467,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_76F0F4A59EC490A65A4BFC121DA2F404"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Data.SQLite, Version=1.0.81.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86"
+                "ScatterAssemblies"
+                {
+                    "_76F0F4A59EC490A65A4BFC121DA2F404"
+                    {
+                    "Name" = "8:System.Data.SQLite.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.Data.SQLite.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_75273CF8B81C433785FD06DA8181BD61"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_86A30F0CAE64CCE65F1A23A0DA164971"
             {
             "AssemblyRegister" = "3:1"
@@ -566,37 +605,6 @@
                     }
                 }
             "SourcePath" = "8:System.Windows.Interactivity.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_75273CF8B81C433785FD06DA8181BD61"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_ECCB0BB0290925A37621913842ABA70F"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:System.Data.SQLite, Version=1.0.81.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86"
-                "ScatterAssemblies"
-                {
-                    "_ECCB0BB0290925A37621913842ABA70F"
-                    {
-                    "Name" = "8:System.Data.SQLite.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:System.Data.SQLite.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_75273CF8B81C433785FD06DA8181BD61"
@@ -773,20 +781,20 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:Negotium 1.1.0"
-        "ProductCode" = "8:{05E34904-67D6-449A-8EED-92DC4E2D4465}"
-        "PackageCode" = "8:{5CE82397-381B-4CDA-8BB7-C6CEBF9F5895}"
+        "ProductName" = "8:Negotium 1.2.0"
+        "ProductCode" = "8:{8B85D151-9569-4E96-822B-EE8D6839A82F}"
+        "PackageCode" = "8:{7C397B78-2A7C-49C7-B677-4E3B9E5928F5}"
         "UpgradeCode" = "8:{FC0857D2-7DEE-44BC-91A3-1720E8C9B6E0}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.1.0"
+        "ProductVersion" = "8:1.2.0"
         "Manufacturer" = "8:Universidad de Costa Rica"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:Negotium 1.1.0"
+        "Title" = "8:Negotium 1.2.0"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Universidad de Costa Rica"
         "Keywords" = "8:"
@@ -895,6 +903,20 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_BE88EBDDE5CB4AEC9F4B337EED95E664"
+            {
+            "Name" = "8:Negotium 1.2"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_4EA977D64D614886BCA9E7187C9D08CD"
+            "Folder" = "8:_8A5167CA026248138A349BB0E0693E06"
+            "WorkingFolder" = "8:_75273CF8B81C433785FD06DA8181BD61"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
