@@ -7,8 +7,8 @@ using System.Windows.Controls;
 using UCR.Negotium.Domain;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Extensions;
-using UCR.Negotium.Domain.Enums;
-using UCR.Negotium.Domain.Extensions;
+using UCR.Negotium.Base.Utilidades;
+using UCR.Negotium.Base.Enumerados;
 
 namespace UCR.Negotium.UserControls
 {

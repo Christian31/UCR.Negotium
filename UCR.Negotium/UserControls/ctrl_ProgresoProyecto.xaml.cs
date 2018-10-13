@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls;
-using UCR.Negotium.Domain.Enums;
+using UCR.Negotium.Base.Enumerados;
 
 namespace UCR.Negotium.UserControls
 {

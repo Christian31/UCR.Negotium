@@ -16,7 +16,8 @@
         public const string ACTUALIZARPROYECCIONERROR = "Ha ocurrido un error al actualizar la proyección del proyecto, verifique que los datos ingresados sean correctos.";
         public const string ACTUALIZARPROYECTOERROR = "Ha ocurrido un error al actualizar el proyecto, verifique que los datos ingresados sean correctos.";
         public const string ACTUALIZARPROYECTOMSG = "El proyecto se ha actualizado correctamente.";
-        public const string ACTUALIZARPROYECTORESTRTIPOAMBIENTAL = "Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Financiero o Social actualice el Tipo de Análisis del Proyecto.";
+        public const string ACTUALIZARPROYECTORESTRTIPOAMBIENTAL = "Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Financiero o Social actualice el Tipo de Análisis del Proyecto o registre un Proyecto nuevo.";
+        public const string ACTUALIZARPROYECTORESTRTIPONOFINANCIERO = "Este Tipo de Análisis no es Financiero, si desea realizar un Análisis Financiero actualice el Tipo de Análisis del Proyecto o registre un Proyecto nuevo.";
         public const string ACTUALIZARPROYECTOTLT = "Actualizando Proyecto";
         public const string ACTUALIZARREINVERSIONERROR = "Ha ocurrido un error al actualizar la reinversión del proyecto, verifique que los datos ingresados sean correctos.";
         public const string ACTUALIZARVARIACIONCOSTOSERROR = "Ha ocurrido un error al actualizar la variacion anual de costos del proyecto, verifique que los datos ingresados sean correctos.";

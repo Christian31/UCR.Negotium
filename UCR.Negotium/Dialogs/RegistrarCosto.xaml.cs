@@ -102,7 +102,7 @@ namespace UCR.Negotium.Dialogs
                 for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
                 {
                     anos.Add(proyecto.AnoInicial + i);
-                }//for
+                }
 
                 return anos;
             }
@@ -206,46 +206,6 @@ namespace UCR.Negotium.Dialogs
         {
             Close();
         }
-        #endregion
-
-        #region PrivateMethods
-        private bool ValidateRequiredFields()
-        {
-            bool validationResult = false;
-            if (string.IsNullOrWhiteSpace(tbNombreCosto.Text))
-            {
-                tbNombreCosto.ToolTip = CAMPOREQUERIDO;
-                tbNombreCosto.BorderBrush = Brushes.Red;
-                validationResult = true;
-            }
-
-            bool hasValues = false;
-            foreach (CostoMensual costoMensual in CostoSelected.CostosMensuales)
-            {
-                if (costoMensual.CostoUnitario > 0 && costoMensual.Cantidad > 0)
-                {
-                    hasValues = true;
-                }
-                else if (costoMensual.CostoUnitario > 0)
-                {
-                    costoMensual.CostoUnitario = 0;
-                }
-                else if (costoMensual.Cantidad > 0)
-                {
-                    costoMensual.Cantidad = 0;
-                }
-            }
-
-            if (!hasValues)
-            {
-                dgCostosMensual.BorderBrush = Brushes.Red;
-                dgCostosMensual.ToolTip = CAMPOREQUERIDO;
-                validationResult = true;
-            }
-
-            return validationResult;
-        }
-        #endregion
 
         private void dgCostosMensual_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -301,5 +261,45 @@ namespace UCR.Negotium.Dialogs
             }
             dgCostosMensual.ContextMenu.Visibility = Visibility.Collapsed;
         }
+        #endregion
+
+        #region PrivateMethods
+        private bool ValidateRequiredFields()
+        {
+            bool validationResult = false;
+            if (string.IsNullOrWhiteSpace(tbNombreCosto.Text))
+            {
+                tbNombreCosto.ToolTip = CAMPOREQUERIDO;
+                tbNombreCosto.BorderBrush = Brushes.Red;
+                validationResult = true;
+            }
+
+            bool hasValues = false;
+            foreach (CostoMensual costoMensual in CostoSelected.CostosMensuales)
+            {
+                if (costoMensual.CostoUnitario > 0 && costoMensual.Cantidad > 0)
+                {
+                    hasValues = true;
+                }
+                else if (costoMensual.CostoUnitario > 0)
+                {
+                    costoMensual.CostoUnitario = 0;
+                }
+                else if (costoMensual.Cantidad > 0)
+                {
+                    costoMensual.Cantidad = 0;
+                }
+            }
+
+            if (!hasValues)
+            {
+                dgCostosMensual.BorderBrush = Brushes.Red;
+                dgCostosMensual.ToolTip = CAMPOREQUERIDO;
+                validationResult = true;
+            }
+
+            return validationResult;
+        }
+        #endregion
     }
 }

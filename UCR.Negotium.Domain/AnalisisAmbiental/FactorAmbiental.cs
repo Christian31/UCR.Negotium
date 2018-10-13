@@ -1,5 +1,6 @@
 ﻿using System;
-using UCR.Negotium.Domain.Enums;
+using UCR.Negotium.Base.Enumerados;
+using UCR.Negotium.Domain.Enumerados;
 
 namespace UCR.Negotium.Domain
 {

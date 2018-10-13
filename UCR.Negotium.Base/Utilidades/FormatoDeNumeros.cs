@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UCR.Negotium.Domain.Extensions
+namespace UCR.Negotium.Base.Utilidades
 {
     public static class FormatoDeNumeros
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using UCR.Negotium.Domain;
-using UCR.Negotium.Domain.Tracing;
+using UCR.Negotium.Base.Trace;
 
 namespace UCR.Negotium.DataAccess
 {
@@ -331,7 +331,7 @@ namespace UCR.Negotium.DataAccess
         public ProyectoLite GetProyectoLite(int codProyecto)
         {
             ProyectoLite proyecto = new ProyectoLite();
-            string select = "SELECT ano_inicial_proyecto, horizonte_evaluacion_en_anos, cod_tipo_proyecto FROM PROYECTO WHERE cod_proyecto=?";
+            string select = "SELECT ano_inicial_proyecto, horizonte_evaluacion_en_anos, con_financiamiento, cod_tipo_proyecto FROM PROYECTO WHERE cod_proyecto=?";
 
             using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
@@ -348,6 +348,7 @@ namespace UCR.Negotium.DataAccess
                             proyecto.CodProyecto = codProyecto;
                             proyecto.AnoInicial = int.Parse(reader["ano_inicial_proyecto"].ToString());
                             proyecto.HorizonteEvaluacionEnAnos = int.Parse(reader["horizonte_evaluacion_en_anos"].ToString());
+                            proyecto.ConFinanciamiento = bool.Parse(reader["con_financiamiento"].ToString());
                             proyecto.CodTipoProyecto = int.Parse(reader["cod_tipo_proyecto"].ToString());
                         }
                     }

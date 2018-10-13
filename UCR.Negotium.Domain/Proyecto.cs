@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UCR.Negotium.Domain.Extensions;
+using UCR.Negotium.Base.Utilidades;
 
 namespace UCR.Negotium.Domain
 {
@@ -232,10 +232,7 @@ namespace UCR.Negotium.Domain
             List<double> listIngresos = new List<double>();
             if (this.Proyecciones.Count.Equals(0))
             {
-                for (int i=0; i < this.HorizonteEvaluacionEnAnos; i++)
-                {
-                    listIngresos.Add(0);
-                }
+                listIngresos = Operaciones.ObtenerListaPorDefecto(this.HorizonteEvaluacionEnAnos);
             }
             else
             {
@@ -252,35 +249,11 @@ namespace UCR.Negotium.Domain
                         listIngresosArticulo.Add(valIni);
                     }
 
-                    listIngresos = SumListDoubles(listIngresos, listIngresosArticulo);
+                    listIngresos = Operaciones.SumarListas(listIngresos, listIngresosArticulo);
                 }
             }
 
             return listIngresos;
-        }
-
-        private List<double> SumListDoubles(List<double> listIngresos, List<double> listIngresosArticulo)
-        {
-            if(listIngresos.Count > 0)
-            {
-                if (listIngresos.Count.Equals(listIngresosArticulo.Count))
-                {
-                    List<double> ingresosSumados = new List<double>();
-                    for (int i=0; i < listIngresos.Count; i++)
-                    {
-                        ingresosSumados.Add(listIngresos[i]+listIngresosArticulo[i]);
-                    }
-                    return ingresosSumados;
-                }
-                else
-                {
-                    return listIngresos;
-                }
-            }
-            else
-            {
-                return listIngresosArticulo;
-            }
         }
 
         public List<double> CostosGenerados
@@ -392,5 +365,6 @@ namespace UCR.Negotium.Domain
         public int AnoInicial { get; set; }
         public int HorizonteEvaluacionEnAnos { get; set; }
         public int CodTipoProyecto { get; set; }
+        public bool ConFinanciamiento { get; set; }
     }
 }

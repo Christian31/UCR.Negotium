@@ -4,11 +4,11 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using UCR.Negotium.Base.Enumerados;
+using UCR.Negotium.Base.Utilidades;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Dialogs;
 using UCR.Negotium.Domain;
-using UCR.Negotium.Domain.Enums;
-using UCR.Negotium.Domain.Extensions;
 using UCR.Negotium.Extensions;
 
 namespace UCR.Negotium.UserControls

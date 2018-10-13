@@ -4,8 +4,8 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Threading;
 using System.Xml;
+using UCR.Negotium.Base.Trace;
 using UCR.Negotium.DataAccess;
-using UCR.Negotium.Domain.Tracing;
 
 namespace UCR.Negotium.Extensions
 {

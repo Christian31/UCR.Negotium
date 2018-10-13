@@ -9,9 +9,9 @@ using System.Collections.Generic;
 using UCR.Negotium.Extensions;
 using System;
 using UCR.Negotium.Dialogs;
-using UCR.Negotium.Domain.Tracing;
-using UCR.Negotium.Domain.Enums;
 using System.Linq;
+using UCR.Negotium.Base.Trace;
+using UCR.Negotium.Base.Enumerados;
 
 namespace UCR.Negotium
 {

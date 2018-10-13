@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using UCR.Negotium.Base.Trace;
 using UCR.Negotium.Domain;
-using UCR.Negotium.Domain.Tracing;
 
 namespace UCR.Negotium.DataAccess
 {

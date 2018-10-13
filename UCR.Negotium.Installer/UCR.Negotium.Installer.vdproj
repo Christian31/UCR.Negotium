@@ -15,18 +15,6 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_10A5395BFA1877C5BC48ACFE9F3ACAD9"
-        "OwnerKey" = "8:_86A30F0CAE64CCE65F1A23A0DA164971"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_10A5395BFA1877C5BC48ACFE9F3ACAD9"
-        "OwnerKey" = "8:_4EA977D64D614886BCA9E7187C9D08CD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_16CD732EC26273E80EDB81DA2693B18F"
         "OwnerKey" = "8:_4EA977D64D614886BCA9E7187C9D08CD"
         "MsmSig" = "8:_UNDEFINED"
@@ -51,6 +39,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_586CD50A625AF001CC148B2C17E95DF7"
+        "OwnerKey" = "8:_4EA977D64D614886BCA9E7187C9D08CD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_6D44F4BE9285352AEC9DB72ED247A49D"
         "OwnerKey" = "8:_4EA977D64D614886BCA9E7187C9D08CD"
         "MsmSig" = "8:_UNDEFINED"
@@ -70,13 +64,7 @@
         "Entry"
         {
         "MsmKey" = "8:_76F0F4A59EC490A65A4BFC121DA2F404"
-        "OwnerKey" = "8:_86A30F0CAE64CCE65F1A23A0DA164971"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_86A30F0CAE64CCE65F1A23A0DA164971"
-        "OwnerKey" = "8:_4EA977D64D614886BCA9E7187C9D08CD"
+        "OwnerKey" = "8:_586CD50A625AF001CC148B2C17E95DF7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -88,6 +76,18 @@
         "Entry"
         {
         "MsmKey" = "8:_B6738943CF97D7AD216C456ED1048CF2"
+        "OwnerKey" = "8:_4EA977D64D614886BCA9E7187C9D08CD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D1DD1F05981A8694A0DBA93C26CB427A"
+        "OwnerKey" = "8:_586CD50A625AF001CC148B2C17E95DF7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D1DD1F05981A8694A0DBA93C26CB427A"
         "OwnerKey" = "8:_4EA977D64D614886BCA9E7187C9D08CD"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -112,7 +112,7 @@
         "Entry"
         {
         "MsmKey" = "8:_F7226C376B553B7811A4D4FF6098F8A0"
-        "OwnerKey" = "8:_10A5395BFA1877C5BC48ACFE9F3ACAD9"
+        "OwnerKey" = "8:_D1DD1F05981A8694A0DBA93C26CB427A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -142,13 +142,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_86A30F0CAE64CCE65F1A23A0DA164971"
+        "OwnerKey" = "8:_586CD50A625AF001CC148B2C17E95DF7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_10A5395BFA1877C5BC48ACFE9F3ACAD9"
+        "OwnerKey" = "8:_D1DD1F05981A8694A0DBA93C26CB427A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -312,37 +312,6 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_10A5395BFA1877C5BC48ACFE9F3ACAD9"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:UCR.Negotium.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_10A5395BFA1877C5BC48ACFE9F3ACAD9"
-                    {
-                    "Name" = "8:UCR.Negotium.Domain.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:UCR.Negotium.Domain.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_75273CF8B81C433785FD06DA8181BD61"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_16CD732EC26273E80EDB81DA2693B18F"
             {
             "AssemblyRegister" = "3:1"
@@ -388,6 +357,37 @@
                     }
                 }
             "SourcePath" = "8:System.IO.Compression.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_75273CF8B81C433785FD06DA8181BD61"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_586CD50A625AF001CC148B2C17E95DF7"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:UCR.Negotium.DataAccess, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_586CD50A625AF001CC148B2C17E95DF7"
+                    {
+                    "Name" = "8:UCR.Negotium.DataAccess.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:UCR.Negotium.DataAccess.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_75273CF8B81C433785FD06DA8181BD61"
@@ -498,37 +498,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_86A30F0CAE64CCE65F1A23A0DA164971"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:UCR.Negotium.DataAccess, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_86A30F0CAE64CCE65F1A23A0DA164971"
-                    {
-                    "Name" = "8:UCR.Negotium.DataAccess.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:UCR.Negotium.DataAccess.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_75273CF8B81C433785FD06DA8181BD61"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9A080817D63DE256C50D9AD417046739"
             {
             "AssemblyRegister" = "3:1"
@@ -574,6 +543,37 @@
                     }
                 }
             "SourcePath" = "8:MahApps.Metro.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_75273CF8B81C433785FD06DA8181BD61"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D1DD1F05981A8694A0DBA93C26CB427A"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:UCR.Negotium.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_D1DD1F05981A8694A0DBA93C26CB427A"
+                    {
+                    "Name" = "8:UCR.Negotium.Domain.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:UCR.Negotium.Domain.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_75273CF8B81C433785FD06DA8181BD61"
@@ -782,19 +782,19 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Negotium 1.2.0"
-        "ProductCode" = "8:{8B85D151-9569-4E96-822B-EE8D6839A82F}"
-        "PackageCode" = "8:{7C397B78-2A7C-49C7-B677-4E3B9E5928F5}"
+        "ProductCode" = "8:{53D13024-578A-4B8E-9D20-2D15627306F0}"
+        "PackageCode" = "8:{4E95FE88-44AD-45B0-AB9F-74D055C20787}"
         "UpgradeCode" = "8:{FC0857D2-7DEE-44BC-91A3-1720E8C9B6E0}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.2.0"
+        "ProductVersion" = "8:1.2.1"
         "Manufacturer" = "8:Universidad de Costa Rica"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:Negotium 1.2.0"
+        "Title" = "8:Negotium 1.2.1"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Universidad de Costa Rica"
         "Keywords" = "8:"

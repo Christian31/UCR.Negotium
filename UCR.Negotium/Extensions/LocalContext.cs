@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Windows;
+using UCR.Negotium.Base.Enumerados;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
-using UCR.Negotium.Domain.Enums;
 
 namespace UCR.Negotium.Extensions
 {
@@ -94,7 +94,6 @@ namespace UCR.Negotium.Extensions
         #region Reload Modulos
         public static void ReloadUserControls(int codProyecto, Modulo srcModule)
         {
-            bool reloadBase = true;
             RegistrarProyectoWindow mainWindow = null;
             foreach(var window in Application.Current.Windows)
             {
@@ -132,7 +131,6 @@ namespace UCR.Negotium.Extensions
                         break;
                     case Modulo.Financiamiento:
                         mainWindow.financiamientoUc.CodProyecto = codProyecto;
-                        reloadBase = false;
                         break;
                     default:
                         mainWindow.resumen.CodProyecto = mainWindow.orgProponente.CodProyecto =
@@ -145,8 +143,7 @@ namespace UCR.Negotium.Extensions
                         break;
                 }
 
-                if (reloadBase)
-                    mainWindow.ReloadBase(codProyecto);
+                mainWindow.ReloadBase(codProyecto);
             }
         }
         #endregion

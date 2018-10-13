@@ -48,6 +48,7 @@ namespace UCR.Negotium.Dialogs
 
             //default values
             proyeccionSelected.UnidadMedida = UnidadesMedida.FirstOrDefault();
+            proyeccionSelected.AnoArticulo = AnosDisponibles.FirstOrDefault();
 
             if (!codProyeccion.Equals(0))
             {
@@ -59,7 +60,6 @@ namespace UCR.Negotium.Dialogs
             {
                 LoadDefaultValues();
             }
-
         }
         #endregion
 
@@ -89,10 +89,27 @@ namespace UCR.Negotium.Dialogs
                 unidadMedidas = value;
             }
         }
+
+        public List<int> AnosDisponibles
+        {
+            get
+            {
+                List<int> anos = new List<int>();
+                for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+                {
+                    anos.Add(proyecto.AnoInicial + i);
+                }
+
+                return anos;
+            }
+            set
+            {
+                AnosDisponibles = value;
+            }
+        }
         #endregion
 
         #region Events
-
         bool tbCostoUnitarioChngEvent = true;
         private void tbNumerosPositivos_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -360,7 +377,7 @@ namespace UCR.Negotium.Dialogs
             {
                 int anoActual = proyecto.AnoInicial + i;
                 proyeccionSelected.CrecimientoOferta.Add(new CrecimientoOferta() { AnoCrecimiento = anoActual });
-            }//for
+            }
         }
         #endregion
     }

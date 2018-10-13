@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using UCR.Negotium.Base.Utilidades;
 using UCR.Negotium.Domain;
-using UCR.Negotium.Domain.Extensions;
 
 namespace UCR.Negotium.Extensions
 {
@@ -237,7 +237,7 @@ namespace UCR.Negotium.Extensions
                     int anoActual = proyecto.AnoInicial + i;
                     ds.Tables["TotalesReinversiones"].Columns.Add(anoActual.ToString(), Type.GetType("System.String"));
                     row[anoActual.ToString()] = listVals[i - 1].FormatoMoneda(signoMoneda);
-                }//for
+                }
 
                 ds.Tables["TotalesReinversiones"].Rows.Add(row);
                 return ds.Tables["TotalesReinversiones"];
@@ -441,10 +441,9 @@ namespace UCR.Negotium.Extensions
             int a7 = 1;
             if (proyecto.PagaImpuesto)
             {
-                
                 for (int i = 0; i < proyecto.HorizonteEvaluacionEnAnos; i++)
                 {
-                    double val = Convert.ToDouble(ds.Tables[dsNombre].Rows[5].ItemArray[i + 2].ToString().Replace(signoMoneda + " ", string.Empty));
+                    double val = ds.Tables[dsNombre].Rows[5].ItemArray[i + 2].ToString().FormatoNumero(signoMoneda);
                     double valImp = proyecto.PorcentajeImpuesto;
 
                     if(val > 0)
@@ -525,7 +524,7 @@ namespace UCR.Negotium.Extensions
 
             if (dgvTotalesReinversiones.Table != null)
             {
-                for (int i = 1; i < proyecto.HorizonteEvaluacionEnAnos; i++)
+                for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
                 {
                     row11[(proyecto.AnoInicial + a11).ToString()] = (-(dgvTotalesReinversiones.Table.Rows[0][i].ToString().FormatoNumero(signoMoneda))).FormatoMoneda(signoMoneda);
                     a11++;
@@ -533,7 +532,7 @@ namespace UCR.Negotium.Extensions
             }
             else
             {
-                for (int i = 1; i < proyecto.HorizonteEvaluacionEnAnos; i++)
+                for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
                 {
                     row11[(proyecto.AnoInicial + a11).ToString()] = valorDefecto.FormatoMoneda(signoMoneda);
                     a11++;
@@ -545,7 +544,9 @@ namespace UCR.Negotium.Extensions
             #region prestamo
             DataRow row12 = ds.Tables[dsNombre].NewRow();
             row12["Rubro"] = "Préstamo";
-            row12[(proyecto.AnoInicial).ToString()] = proyecto.Financiamiento.MontoFinanciamiento.FormatoMoneda(signoMoneda);
+            row12[(proyecto.AnoInicial).ToString()] = proyecto.ConFinanciamiento ?
+                proyecto.Financiamiento.MontoFinanciamiento.FormatoMoneda(signoMoneda):
+                valorDefecto.FormatoMoneda(signoMoneda);
             ds.Tables[dsNombre].Rows.Add(row12);
             #endregion
 
@@ -553,15 +554,18 @@ namespace UCR.Negotium.Extensions
             DataRow row13 = ds.Tables[dsNombre].NewRow();
             row13["Rubro"] = "Amortizacion del préstamo";
 
-            for (int i = 0; i < proyecto.Financiamiento.TiempoFinanciamiento; i++)
+            if (proyecto.ConFinanciamiento)
             {
-                if (dgvFinanciamiento.Table != null && i < dgvFinanciamiento.Table.Rows.Count)
+                for (int i = 0; i < proyecto.Financiamiento.TiempoFinanciamiento; i++)
                 {
-                    row13[(proyecto.Financiamiento.AnoInicialPago + i).ToString()] = (-dgvFinanciamiento.Table.Rows[i][4].ToString().FormatoNumero(signoMoneda)).FormatoMoneda(signoMoneda);
-                }
-                else
-                {
-                    row13[(proyecto.Financiamiento.AnoInicialPago + i).ToString()] = valorDefecto.FormatoMoneda(signoMoneda);
+                    if (dgvFinanciamiento.Table != null && i < dgvFinanciamiento.Table.Rows.Count)
+                    {
+                        row13[(proyecto.Financiamiento.AnoInicialPago + i).ToString()] = (-dgvFinanciamiento.Table.Rows[i][4].ToString().FormatoNumero(signoMoneda)).FormatoMoneda(signoMoneda);
+                    }
+                    else
+                    {
+                        row13[(proyecto.Financiamiento.AnoInicialPago + i).ToString()] = valorDefecto.FormatoMoneda(signoMoneda);
+                    }
                 }
             }
             ds.Tables[dsNombre].Rows.Add(row13);
@@ -717,20 +721,22 @@ namespace UCR.Negotium.Extensions
             DataRow row3 = ds.Tables[dsNombre].NewRow();
             row3["Rubro"] = "Inversiones";
             int a3 = 0;
-            row3[(proyecto.AnoInicial + a3).ToString()] = totalInversiones;
+            double montoInicialInversiones = -(totalInversiones.FormatoNumero(signoMoneda));
+            row3[(proyecto.AnoInicial + a3).ToString()] = montoInicialInversiones.FormatoMoneda(signoMoneda);
             a3++;
 
             if (dgvTotalesReinversiones.Table != null)
             {
-                for (int i = 1; i < proyecto.HorizonteEvaluacionEnAnos; i++)
+                for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
                 {
-                    row3[(proyecto.AnoInicial + a3).ToString()] = dgvTotalesReinversiones.Table.Rows[0][i].ToString();
+                    double montoInversiones = -(dgvTotalesReinversiones.Table.Rows[0][i].ToString().FormatoNumero(signoMoneda));
+                    row3[(proyecto.AnoInicial + a3).ToString()] = montoInversiones.FormatoMoneda(signoMoneda);
                     a3++;
                 }
             }
             else
             {
-                for (int i = 1; i < proyecto.HorizonteEvaluacionEnAnos; i++)
+                for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
                 {
                     row3[(proyecto.AnoInicial + a3).ToString()] = valorDefecto.FormatoMoneda(signoMoneda);
                     a3++;

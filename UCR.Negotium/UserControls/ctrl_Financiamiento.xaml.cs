@@ -5,10 +5,11 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using UCR.Negotium.Base.Enumerados;
+using UCR.Negotium.Base.Utilidades;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Dialogs;
 using UCR.Negotium.Domain;
-using UCR.Negotium.Domain.Extensions;
 using UCR.Negotium.Extensions;
 
 namespace UCR.Negotium.UserControls
@@ -41,14 +42,19 @@ namespace UCR.Negotium.UserControls
             proyectoData = new ProyectoData();
             financiamientoData = new FinanciamientoData();
 
-            finalizacionDisponibles = anosDisponibles = new List<int>();
             proyecto = new ProyectoLite();
+            Inicialice();
+
+            Reload();            
+        }
+
+        private void Inicialice()
+        {
+            finalizacionDisponibles = anosDisponibles = new List<int>();
             financiamiento = new Financiamiento();
             dtFinanciamiento = new DataView();
             interesesFijos = new InteresFinanciamiento();
             interesesVariables = new List<InteresFinanciamiento>();
-
-            Reload();            
         }
 
         int anoFinalizacion = 0;
@@ -56,31 +62,38 @@ namespace UCR.Negotium.UserControls
         private void Reload()
         {
             proyecto = proyectoData.GetProyectoLite(CodProyecto);
-            FinanciamientoSelected = financiamientoData.GetFinanciamiento(CodProyecto);
-
-            string signoMoneda = LocalContext.GetSignoMoneda(CodProyecto);
-            FinanciamientoSelected.MontoFinanciamientoFormat = 
-                FinanciamientoSelected.MontoFinanciamiento.FormatoMoneda(signoMoneda);
-
-            if (FinanciamientoSelected.InteresFijo)
+            if (proyecto.ConFinanciamiento)
             {
-                interesesFijos = FinanciamientoSelected.TasaIntereses.FirstOrDefault();
+                FinanciamientoSelected = financiamientoData.GetFinanciamiento(CodProyecto);
+
+                string signoMoneda = LocalContext.GetSignoMoneda(CodProyecto);
+                FinanciamientoSelected.MontoFinanciamientoFormat =
+                    FinanciamientoSelected.MontoFinanciamiento.FormatoMoneda(signoMoneda);
+
+                if (FinanciamientoSelected.InteresFijo)
+                {
+                    interesesFijos = FinanciamientoSelected.TasaIntereses.FirstOrDefault();
+                }
+                else
+                {
+                    interesesVariables = FinanciamientoSelected.TasaIntereses;
+                }
+
+                if (FinanciamientoSelected.CodFinanciamiento.Equals(0))
+                {
+                    FinanciamientoSelected.AnoFinalPago = FinalizacionDisponible.LastOrDefault();
+                    FinanciamientoSelected.AnoInicialPago = AnosDisponibles.FirstOrDefault();
+                }
+
+                anoFinalizacion = FinanciamientoSelected.AnoFinalPago;
+                anoInicial = FinanciamientoSelected.AnoInicialPago;
+
+                ActualizarDTFinanciamiento();
             }
             else
             {
-                interesesVariables = FinanciamientoSelected.TasaIntereses;
+                Inicialice();
             }
-
-            if (FinanciamientoSelected.CodFinanciamiento.Equals(0))
-            {
-                FinanciamientoSelected.AnoFinalPago = FinalizacionDisponible.LastOrDefault();
-                FinanciamientoSelected.AnoInicialPago = AnosDisponibles.FirstOrDefault();
-            }
-
-            anoFinalizacion = FinanciamientoSelected.AnoFinalPago;
-            anoInicial = FinanciamientoSelected.AnoInicialPago;
-
-            ActualizarDTFinanciamiento();
 
             PropertyChanged(this, new PropertyChangedEventArgs("FinanciamientoSelected"));
             PropertyChanged(this, new PropertyChangedEventArgs("FinalizacionDisponible"));
@@ -163,13 +176,17 @@ namespace UCR.Negotium.UserControls
         {
             get
             {
-                List<int> tiempo = new List<int>();
-                for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+                if (proyecto.ConFinanciamiento)
                 {
-                    tiempo.Add(proyecto.AnoInicial + i);
-                }//for
+                    List<int> tiempo = new List<int>();
+                    for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+                    {
+                        tiempo.Add(proyecto.AnoInicial + i);
+                    }//for
 
-                finalizacionDisponibles = tiempo;
+                    finalizacionDisponibles = tiempo;
+                }
+                
                 return finalizacionDisponibles;
             }
             set
@@ -242,26 +259,29 @@ namespace UCR.Negotium.UserControls
         {
             if (!proyecto.CodTipoProyecto.Equals(2))
             {
-                if (FinanciamientoSelected.InteresFijo)
+                if (proyecto.ConFinanciamiento)
                 {
-                    RegistrarTasaInteresFijo interesFinanciamiento = new RegistrarTasaInteresFijo(CodProyecto, FinanciamientoSelected);
-                    interesFinanciamiento.ShowDialog();
-
-                    if (!interesFinanciamiento.IsActive && interesFinanciamiento.Reload)
+                    if (FinanciamientoSelected.InteresFijo)
                     {
-                        interesesFijos = interesFinanciamiento.InteresFijo;
-                        ActualizarDTFinanciamiento();
-                    }  
-                }
-                else
-                {
-                    RegistrarTasaInteresVariable interesFinanciamiento = new RegistrarTasaInteresVariable(CodProyecto, FinanciamientoSelected);
-                    interesFinanciamiento.ShowDialog();
+                        RegistrarTasaInteresFijo interesFinanciamiento = new RegistrarTasaInteresFijo(CodProyecto, FinanciamientoSelected);
+                        interesFinanciamiento.ShowDialog();
 
-                    if (!interesFinanciamiento.IsActive && interesFinanciamiento.Reload)
+                        if (!interesFinanciamiento.IsActive && interesFinanciamiento.Reload)
+                        {
+                            interesesFijos = interesFinanciamiento.InteresFijo;
+                            ActualizarDTFinanciamiento();
+                        }
+                    }
+                    else
                     {
-                        interesesVariables = interesFinanciamiento.InteresVariable;
-                        ActualizarDTFinanciamiento();
+                        RegistrarTasaInteresVariable interesFinanciamiento = new RegistrarTasaInteresVariable(CodProyecto, FinanciamientoSelected);
+                        interesFinanciamiento.ShowDialog();
+
+                        if (!interesFinanciamiento.IsActive && interesFinanciamiento.Reload)
+                        {
+                            interesesVariables = interesFinanciamiento.InteresVariable;
+                            ActualizarDTFinanciamiento();
+                        }
                     }
                 }
             }
@@ -293,43 +313,48 @@ namespace UCR.Negotium.UserControls
         {
             if (!proyecto.CodTipoProyecto.Equals(2))
             {
-                if (!ValidateRequiredFields())
+                if (proyecto.ConFinanciamiento)
                 {
-                    if (lblTasaInteres.Foreground.Equals(Brushes.Red))
+                    if (!ValidateRequiredFields())
                     {
-                        lblTasaInteres.Foreground = Brushes.Blue;
-                    }
+                        if (lblTasaInteres.Foreground.Equals(Brushes.Red))
+                        {
+                            lblTasaInteres.Foreground = Brushes.Blue;
+                        }
 
-                    if (FinanciamientoSelected.CodFinanciamiento.Equals(0))
-                    {
-                        Financiamiento financiamientoTemp = financiamientoData.InsertarFinanciamiento(FinanciamientoSelected, proyecto.CodProyecto);
-                        if (!financiamientoTemp.CodFinanciamiento.Equals(-1))
+                        if (FinanciamientoSelected.CodFinanciamiento.Equals(0))
                         {
-                            //success
-                            FinanciamientoSelected = financiamientoTemp;
-                            MessageBox.Show(Constantes.INSERTARFINANMSG, Constantes.ACTUALIZARPROYECTOTLT, 
-                                MessageBoxButton.OK, MessageBoxImage.Information);
+                            Financiamiento financiamientoTemp = financiamientoData.InsertarFinanciamiento(FinanciamientoSelected, proyecto.CodProyecto);
+                            if (!financiamientoTemp.CodFinanciamiento.Equals(-1))
+                            {
+                                //success
+                                FinanciamientoSelected = financiamientoTemp;
+                                LocalContext.ReloadUserControls(CodProyecto, Modulo.Financiamiento);
+                                MessageBox.Show(Constantes.INSERTARFINANMSG, Constantes.ACTUALIZARPROYECTOTLT,
+                                    MessageBoxButton.OK, MessageBoxImage.Information);
+                            }
+                            else
+                            {
+                                //error
+                                MessageBox.Show(Constantes.INSERTARFINANERROR, Constantes.ACTUALIZARPROYECTOTLT,
+                                    MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
                         }
                         else
                         {
-                            //error
-                            MessageBox.Show(Constantes.INSERTARFINANERROR, Constantes.ACTUALIZARPROYECTOTLT, 
-                                MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
-                    }
-                    else
-                    {
-                        if (financiamientoData.EditarFinanciamiento(FinanciamientoSelected, CodProyecto))
-                        {
-                            //success
-                            MessageBox.Show(Constantes.ACTUALIZARFINANMSG, Constantes.ACTUALIZARPROYECTOTLT, 
-                                MessageBoxButton.OK, MessageBoxImage.Information);
-                        }
-                        else
-                        {
-                            //error
-                            MessageBox.Show(Constantes.ACTUALIZARFINANERROR, Constantes.ACTUALIZARPROYECTOTLT,
-                                MessageBoxButton.OK, MessageBoxImage.Error);
+                            if (financiamientoData.EditarFinanciamiento(FinanciamientoSelected, CodProyecto))
+                            {
+                                //success
+                                LocalContext.ReloadUserControls(CodProyecto, Modulo.Financiamiento);
+                                MessageBox.Show(Constantes.ACTUALIZARFINANMSG, Constantes.ACTUALIZARPROYECTOTLT,
+                                    MessageBoxButton.OK, MessageBoxImage.Information);
+                            }
+                            else
+                            {
+                                //error
+                                MessageBox.Show(Constantes.ACTUALIZARFINANERROR, Constantes.ACTUALIZARPROYECTOTLT,
+                                    MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
                         }
                     }
                 }

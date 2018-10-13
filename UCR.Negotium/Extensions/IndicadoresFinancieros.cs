@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualBasic;
 using System;
 using System.Data;
+using UCR.Negotium.Base.Utilidades;
 using UCR.Negotium.Domain;
-using UCR.Negotium.Domain.Extensions;
 
 namespace UCR.Negotium.Extensions
 {

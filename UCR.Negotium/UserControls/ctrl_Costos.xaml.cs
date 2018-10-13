@@ -8,8 +8,8 @@ using System.Data;
 using UCR.Negotium.DataAccess;
 using System.ComponentModel;
 using UCR.Negotium.Extensions;
-using UCR.Negotium.Domain.Enums;
-using UCR.Negotium.Domain.Extensions;
+using UCR.Negotium.Base.Utilidades;
+using UCR.Negotium.Base.Enumerados;
 
 namespace UCR.Negotium.UserControls
 {

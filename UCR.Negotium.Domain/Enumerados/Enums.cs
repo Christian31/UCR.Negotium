@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace UCR.Negotium.Domain.Enums
+namespace UCR.Negotium.Domain.Enumerados
 {
     #region CondicionAfectada
     public enum CondicionAfectada
@@ -207,20 +207,4 @@ namespace UCR.Negotium.Domain.Enums
         Critico
     }
     #endregion
-
-    public enum Modulo
-    {
-        InformacionGeneral,
-        Proponente,
-        Caracterizacion,
-        Inversiones,
-        Reinversiones,
-        ProyeccionVentas,
-        Costos,
-        CapitalTrabajo,
-        Depreciaciones,
-        Financiamiento,
-        FlujoCaja,
-        AnalisisAmbiental
-    }
 }

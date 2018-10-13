@@ -75,6 +75,10 @@
     <Compile Include="VariacionAnualCostoData.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\UCR.Negotium.Base\UCR.Negotium.Base.csproj">
+      <Project>{06BB9CF2-B5B1-455B-84C9-FC48EFBF12BA}</Project>
+      <Name>UCR.Negotium.Base</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UCR.Negotium.Domain\UCR.Negotium.Domain.csproj">
       <Project>{37573984-06ba-43f0-8aac-0d8caaa97867}</Project>
       <Name>UCR.Negotium.Domain</Name>

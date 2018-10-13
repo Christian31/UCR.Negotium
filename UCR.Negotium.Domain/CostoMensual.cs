@@ -1,4 +1,4 @@
-﻿using UCR.Negotium.Domain.Extensions;
+﻿using UCR.Negotium.Base.Utilidades;
 
 namespace UCR.Negotium.Domain
 {

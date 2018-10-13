@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using System.Linq;
-using UCR.Negotium.Domain.Enums;
+using UCR.Negotium.Domain.Enumerados;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Base.Enumerados;
 
 namespace UCR.Negotium.DataAccess
 {

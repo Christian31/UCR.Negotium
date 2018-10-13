@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace UCR.Negotium.Domain.Tracing
+namespace UCR.Negotium.Base.Trace
 {
     public static class TraceException
     {

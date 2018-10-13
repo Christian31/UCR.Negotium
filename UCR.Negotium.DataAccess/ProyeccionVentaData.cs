@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using UCR.Negotium.Domain;
-using UCR.Negotium.Domain.Tracing;
+using UCR.Negotium.Base.Trace;
 
 namespace UCR.Negotium.DataAccess
 {
@@ -38,8 +38,9 @@ namespace UCR.Negotium.DataAccess
                             proyeccion.CodArticulo = reader.GetInt32(0);
                             proyeccion.UnidadMedida = unidadMedidaData.GetUnidadMedida(reader.GetInt32(1));
                             proyeccion.NombreArticulo = reader.GetString(2);
+                            proyeccion.AnoArticulo = reader.GetInt32(3);
                             proyeccion.DetallesProyeccionVenta = GetDetallesProyeccionVenta(proyeccion.CodArticulo);
-                            proyeccion.CrecimientoOferta = crecimientoOfertaData.GetCrecimientoOfertaObjetoIntereses(reader.GetInt32(0));
+                            proyeccion.CrecimientoOferta = crecimientoOfertaData.GetCrecimientoOfertaObjetoIntereses(proyeccion.CodArticulo);
                             listaProyecciones.Add(proyeccion);
                         }
                     }
@@ -74,9 +75,10 @@ namespace UCR.Negotium.DataAccess
                             proyeccion.CodArticulo = reader.GetInt32(0);
                             proyeccion.UnidadMedida = unidadMedidaData.GetUnidadMedida(reader.GetInt32(1));
                             proyeccion.NombreArticulo = reader.GetString(2);
+                            proyeccion.AnoArticulo = reader.GetInt32(3);
                             proyeccion.DetallesProyeccionVenta = GetDetallesProyeccionVenta(proyeccion.CodArticulo);
-                            proyeccion.CrecimientoOferta = crecimientoOfertaData.GetCrecimientoOfertaObjetoIntereses(reader.GetInt32(0));
-                        }//if
+                            proyeccion.CrecimientoOferta = crecimientoOfertaData.GetCrecimientoOfertaObjetoIntereses(proyeccion.CodArticulo);
+                        }
                     }
                 }
                 catch(Exception ex)
@@ -94,7 +96,7 @@ namespace UCR.Negotium.DataAccess
             object newProdID, newProdID2;
 
             string insert1 = "INSERT INTO PROYECCION_VENTA(cod_unidad_medida, nombre_articulo, " +
-                "cod_proyecto) VALUES(?,?,?); SELECT last_insert_rowid();";
+                "cod_proyecto, ano_inicial) VALUES(?,?,?,?); SELECT last_insert_rowid();";
 
             string insert2 = "INSERT INTO DETALLE_PROYECCION_VENTA(cod_proyeccion, mes_proyeccion, " +
                 "cantidad_proyeccion, precio_proyeccion) VALUES(?,?,?,?); " +
@@ -113,6 +115,7 @@ namespace UCR.Negotium.DataAccess
                     command.Parameters.AddWithValue("cod_unidad_medida", proyeccion.UnidadMedida.CodUnidad);
                     command.Parameters.AddWithValue("nombre_articulo", proyeccion.NombreArticulo);
                     command.Parameters.AddWithValue("cod_proyecto", codProyecto);
+                    command.Parameters.AddWithValue("ano_inicial", proyeccion.AnoArticulo);
 
                     transaction = conn.BeginTransaction();
 
@@ -147,7 +150,7 @@ namespace UCR.Negotium.DataAccess
             int result = -1;
 
             string update1 = "UPDATE PROYECCION_VENTA SET cod_unidad_medida=?, nombre_articulo=? " +
-                "WHERE cod_proyeccion=?";
+                "ano_inicial=? WHERE cod_proyeccion=?";
 
             string update2 = "UPDATE DETALLE_PROYECCION_VENTA SET cantidad_proyeccion=?, precio_proyeccion=? " +
                 "WHERE cod_detalle=?";
@@ -164,6 +167,7 @@ namespace UCR.Negotium.DataAccess
 
                     command.Parameters.AddWithValue("cod_unidad_medida", proyeccion.UnidadMedida.CodUnidad);
                     command.Parameters.AddWithValue("nombre_articulo", proyeccion.NombreArticulo);
+                    command.Parameters.AddWithValue("ano_inicial", proyeccion.AnoArticulo);
                     command.Parameters.AddWithValue("cod_proyeccion", proyeccion.CodArticulo);
 
                     transaction = conn.BeginTransaction();
@@ -200,23 +204,39 @@ namespace UCR.Negotium.DataAccess
         public bool EliminarProyeccionVenta(int codProyeccion)
         {
             int result = -1;
-            string sqlQuery = "DELETE FROM PROYECCION_VENTA, DETALLE_PROYECCION_VENTA WHERE cod_proyeccion=?";
-            
+
+            string sqlQuery1 = "DELETE FROM PROYECCION_VENTA WHERE cod_proyeccion=?;";
+            string sqlQuery2 = "DELETE FROM DETALLE_PROYECCION_VENTA WHERE cod_proyeccion=?;";
+
             using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
+                SQLiteTransaction transaction = null;
+
                 try
                 {
                     conn.Open();
 
-                    SQLiteCommand command = new SQLiteCommand(sqlQuery, conn);
+                    SQLiteCommand command = new SQLiteCommand(sqlQuery1, conn);
+                    SQLiteCommand command2 = null;
+
                     command.Parameters.AddWithValue("cod_proyeccion", codProyeccion);
 
+                    transaction = conn.BeginTransaction();
+
                     result = command.ExecuteNonQuery();
+                    if(result != -1)
+                    {
+                        command2 = new SQLiteCommand(sqlQuery2, conn);
+                        command2.Parameters.AddWithValue("cod_proyeccion", codProyeccion);
+                        result = command2.ExecuteNonQuery();
+                        transaction.Commit();
+                    }
                 }
                 catch(Exception ex)
                 {
                     ex.TraceExceptionAsync();
                     result = -1;
+                    transaction.Rollback();
                 }
             }
 

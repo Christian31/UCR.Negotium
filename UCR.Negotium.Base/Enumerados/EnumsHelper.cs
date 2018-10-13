@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 
-namespace UCR.Negotium.Domain.Enums
+namespace UCR.Negotium.Base.Enumerados
 {
     public static class EnumsHelper<T>
     {
@@ -59,13 +59,12 @@ namespace UCR.Negotium.Domain.Enums
 
             return resourceKey;
         }
-        
+
         public static string GetDisplayValue(T value)
         {
             var fieldInfo = value.GetType().GetField(value.ToString());
 
-            var descriptionAttributes = fieldInfo.GetCustomAttributes(
-                typeof(DisplayAttribute), false) as DisplayAttribute[];
+            var descriptionAttributes = fieldInfo.GetCustomAttributes(typeof(DisplayAttribute), false) as DisplayAttribute[];
 
             if (descriptionAttributes[0].ResourceType != null)
                 return lookupResource(descriptionAttributes[0].ResourceType, descriptionAttributes[0].Name);

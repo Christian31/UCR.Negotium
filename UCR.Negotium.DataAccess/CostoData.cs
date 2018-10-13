@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using UCR.Negotium.Domain;
-using UCR.Negotium.Domain.Tracing;
+using UCR.Negotium.Base.Trace;
 
 namespace UCR.Negotium.DataAccess
 {
@@ -201,22 +201,39 @@ namespace UCR.Negotium.DataAccess
         public bool EliminarCosto(int codCosto)
         {
             int result = -1;
-            string sqlQuery = "DELETE FROM COSTO, COSTO_MENSUAL WHERE cod_costo=?";
+
+            string sqlQuery1 = "DELETE FROM COSTO WHERE cod_costo=?;";
+            string sqlQuery2 = "DELETE FROM COSTO_MENSUAL WHERE cod_costo=?;";
 
             using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
+                SQLiteTransaction transaction = null;
+
                 try
                 {
                     conn.Open();
-                    SQLiteCommand command = new SQLiteCommand(sqlQuery, conn);
+
+                    SQLiteCommand command = new SQLiteCommand(sqlQuery1, conn);
+                    SQLiteCommand command2 = null;
+
                     command.Parameters.AddWithValue("cod_costo", codCosto);
 
+                    transaction = conn.BeginTransaction();
+
                     result = command.ExecuteNonQuery();
+                    if (result != -1)
+                    {
+                        command2 = new SQLiteCommand(sqlQuery2, conn);
+                        command2.Parameters.AddWithValue("cod_costo", codCosto);
+                        result = command2.ExecuteNonQuery();
+                        transaction.Commit();
+                    }
                 }
                 catch(Exception ex)
                 {
                     ex.TraceExceptionAsync();
                     result = -1;
+                    transaction.Rollback();
                 }
             }
 

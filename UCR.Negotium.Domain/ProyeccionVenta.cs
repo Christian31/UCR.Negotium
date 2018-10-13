@@ -6,6 +6,7 @@ namespace UCR.Negotium.Domain
     {
         public int CodArticulo { get; set; }
         public string NombreArticulo { get; set; }
+        public int AnoArticulo { get; set; }
 
         private List<DetalleProyeccionVenta> detallesProyeccionVenta;
         private UnidadMedida unidadMedida;
