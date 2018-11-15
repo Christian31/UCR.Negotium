@@ -12,7 +12,7 @@ namespace UCR.Negotium.Dialogs
             InitializeComponent();
             DataContext = this;
 
-            descripcionNegotium.AppendText("Negotium v1.0 es una plataforma interactiva de apoyo a " +
+            descripcionNegotium.AppendText("Negotium es una plataforma interactiva de apoyo a " +
                 "la formulación de perfiles de proyectos para el desarrollo de territorios rurales.");
 
             caracteristicasList.Items.Add("Simplifica la planeación de proyectos en territorios rurales.");

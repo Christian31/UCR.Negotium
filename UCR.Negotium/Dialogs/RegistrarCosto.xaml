@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:UCR.Negotium.Dialogs"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" Style="{StaticResource dialogsStyle}"
-        Title="Costo | Negotium v1.0" Height="650" Width="450">
+        Title="Costo | Negotium v1.2" Height="650" Width="450">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.5*"/>

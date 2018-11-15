@@ -43,5 +43,31 @@ namespace UCR.Negotium.Domain
             get { return detallesProyeccionVenta; }
             set { detallesProyeccionVenta = value; }
         }
+
+        public List<double> IngresoGenerado(int anoinicial, int horizonteDeEvaluacion)
+        {
+            int anoFinal = anoinicial + horizonteDeEvaluacion;
+            List<double> ingresos = new List<double>();
+            anoinicial = anoinicial + 1;
+            while (anoinicial < AnoArticulo)
+            {
+                ingresos.Add(0);
+                anoinicial++;
+            }
+
+            double valIni = 0;
+            DetallesProyeccionVenta.ForEach(detArticulo => valIni += detArticulo.Subtotal);
+            ingresos.Add(valIni);
+            anoinicial++;
+            while (anoinicial <= anoFinal)
+            {
+                CrecimientoOferta crec = CrecimientoOferta.Find(cre => cre.AnoCrecimiento == anoinicial);
+                valIni = ((valIni * crec.PorcentajeCrecimiento) / 100) + valIni;
+                ingresos.Add(valIni);
+                anoinicial++;
+            }
+
+            return ingresos;
+        }
     }
 }

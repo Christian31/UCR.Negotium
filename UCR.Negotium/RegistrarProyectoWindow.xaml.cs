@@ -22,7 +22,7 @@ namespace UCR.Negotium
     {
         private Proyecto proyecto;
         private DataView dtFlujoCaja;
-        private IndicadorEconomico tir, pri, relacionBC, van, vac;
+        private IndicadorEconomico tir, pri, relacionBC, van, vac, relacionBCInvInicial;
         private string signoMoneda;
         private IndicadoresFinancieros indicFinancieros;
         private IndicadoresSociales indicSociales;
@@ -37,7 +37,7 @@ namespace UCR.Negotium
         #region Contructor
         public RegistrarProyectoWindow(int codProyecto = 0, int codEncargado = 0)
         {
-            tir = pri = relacionBC = van = vac = new IndicadorEconomico();
+            tir = pri = relacionBC = van = vac = relacionBCInvInicial = new IndicadorEconomico();
             InitializeComponent();
             DataContext = this;
 
@@ -121,6 +121,12 @@ namespace UCR.Negotium
         public string RelacionBC
         {
             get { return relacionBC.ToString(); }
+            set { }
+        }
+
+        public string RelacionBCInversionInicial
+        {
+            get { return relacionBCInvInicial.ToString(); }
             set { }
         }
 
@@ -227,11 +233,13 @@ namespace UCR.Negotium
                 tir = indicFinancieros.TIR;
                 pri = indicFinancieros.PRI;
                 relacionBC = indicFinancieros.RelacionBC;
+                relacionBCInvInicial = indicFinancieros.RelacionBCInversionInicial;
 
                 PropertyChanged(this, new PropertyChangedEventArgs("VAN"));
                 PropertyChanged(this, new PropertyChangedEventArgs("TIR"));
                 PropertyChanged(this, new PropertyChangedEventArgs("PRI"));
                 PropertyChanged(this, new PropertyChangedEventArgs("RelacionBC"));
+                PropertyChanged(this, new PropertyChangedEventArgs("RelacionBCInversionInicial"));
             }
             else
             {
@@ -398,7 +406,7 @@ namespace UCR.Negotium
                                 costos.DTCostosTotales, capitalTrabajo.DTCapitalTrabajo,
                                 capitalTrabajo.RecuperacionCT, depreciaciones.DTTotalesDepreciaciones,
                                 financiamientoUc.DTFinanciamiento, DTFlujoCaja, TIR, PRI, 
-                                RelacionBC, van);
+                                RelacionBC, van, RelacionBCInversionInicial);
                         }
                         else
                         {

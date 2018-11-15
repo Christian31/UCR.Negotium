@@ -7,7 +7,7 @@
         xmlns:base="clr-namespace:UCR.Negotium.Extensions"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d" Style="{StaticResource dialogsStyle}" WindowStartupLocation="CenterScreen"
-        Title="Porcentaje Tasa Interés | Negotium v1.0" Width="400" Height="Auto" SizeToContent="Height">
+        Title="Porcentaje Tasa Interés | Negotium v1.2" Width="400" Height="Auto" SizeToContent="Height">
     <Grid Margin="10">
         <DataGrid CanUserSortColumns="False" SelectionUnit="Cell" x:Name="dgTasaVariable"
                 ItemsSource="{Binding InteresVariable, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 

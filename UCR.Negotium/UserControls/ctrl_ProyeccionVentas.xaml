@@ -27,9 +27,10 @@
                           SelectedItem="{Binding ProyeccionSelected}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Path=NombreArticulo}" Header="Artículo" Width="4*"/>
-                        <DataGridTextColumn Binding="{Binding Path=UnidadMedida}" Header="Unidad" Width="3*"/>
+                        <DataGridTextColumn Binding="{Binding Path=AnoArticulo}" Header="Año Inicial" Width="3.7*"/>
+                        <DataGridTextColumn Binding="{Binding Path=UnidadMedida}" Header="Unidad" Width="2.7*"/>
                         <DataGridTextColumn Binding="{Binding Path=DetallesProyeccionVenta[0].SubtotalFormat}" Header="Enero" Width="2.5*"/>
-                        <DataGridTextColumn Binding="{Binding Path=DetallesProyeccionVenta[1].SubtotalFormat}" Header="Febrero" Width="3*"/>
+                        <DataGridTextColumn Binding="{Binding Path=DetallesProyeccionVenta[1].SubtotalFormat}" Header="Febrero" Width="2.9*"/>
                         <DataGridTextColumn Binding="{Binding Path=DetallesProyeccionVenta[2].SubtotalFormat}" Header="Marzo" Width="2.5*"/>
                         <DataGridTextColumn Binding="{Binding Path=DetallesProyeccionVenta[3].SubtotalFormat}" Header="Abril" Width="2.5*"/>
                         <DataGridTextColumn Binding="{Binding Path=DetallesProyeccionVenta[4].SubtotalFormat}" Header="Mayo" Width="2.5*"/>
@@ -38,8 +39,8 @@
                         <DataGridTextColumn Binding="{Binding Path=DetallesProyeccionVenta[7].SubtotalFormat}" Header="Agosto" Width="3*"/>
                         <DataGridTextColumn Binding="{Binding Path=DetallesProyeccionVenta[8].SubtotalFormat}" Header="Setiembre" Width="3*"/>
                         <DataGridTextColumn Binding="{Binding Path=DetallesProyeccionVenta[9].SubtotalFormat}" Header="Octubre" Width="3*"/>
-                        <DataGridTextColumn Binding="{Binding Path=DetallesProyeccionVenta[10].SubtotalFormat}" Header="Noviembre" Width="3*"/>
-                        <DataGridTextColumn Binding="{Binding Path=DetallesProyeccionVenta[11].SubtotalFormat}" Header="Diciembre" Width="3*"/>
+                        <DataGridTextColumn Binding="{Binding Path=DetallesProyeccionVenta[10].SubtotalFormat}" Header="Noviembre" Width="3.6*"/>
+                        <DataGridTextColumn Binding="{Binding Path=DetallesProyeccionVenta[11].SubtotalFormat}" Header="Diciembre" Width="3.3*"/>
                     </DataGrid.Columns>
                 </DataGrid>
                 <Grid Grid.Row="1">

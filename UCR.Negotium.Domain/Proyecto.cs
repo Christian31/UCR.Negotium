@@ -238,18 +238,7 @@ namespace UCR.Negotium.Domain
             {
                 foreach (ProyeccionVenta proyeccion in this.Proyecciones)
                 {
-                    double valIni = 0;
-                    List<double> listIngresosArticulo = new List<double>();
-                    proyeccion.DetallesProyeccionVenta.ForEach(detArticulo => valIni += detArticulo.Subtotal);
-
-                    listIngresosArticulo.Add(valIni);
-                    for (int i = 0; i < proyeccion.CrecimientoOferta.Count; i++)
-                    {
-                        valIni = ((valIni * proyeccion.CrecimientoOferta[i].PorcentajeCrecimiento) / 100) + valIni;
-                        listIngresosArticulo.Add(valIni);
-                    }
-
-                    listIngresos = Operaciones.SumarListas(listIngresos, listIngresosArticulo);
+                    listIngresos = Operaciones.SumarListas(listIngresos, proyeccion.IngresoGenerado(this.AnoInicial, this.HorizonteEvaluacionEnAnos));
                 }
             }
 

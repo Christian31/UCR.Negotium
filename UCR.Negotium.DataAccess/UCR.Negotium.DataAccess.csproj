@@ -55,7 +55,6 @@
     <Compile Include="BaseData.cs" />
     <Compile Include="CantonData.cs" />
     <Compile Include="CostoData.cs" />
-    <Compile Include="CrecimientoOfertaData.cs" />
     <Compile Include="DistritoData.cs" />
     <Compile Include="EncargadoData.cs" />
     <Compile Include="ExportarDatos\ExportarData.cs" />

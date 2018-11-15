@@ -7,7 +7,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d" Style="{StaticResource dialogsStyle}"
-        WindowStartupLocation="CenterScreen" Title="Créditos | Negotium v1.0" 
+        WindowStartupLocation="CenterScreen" Title="Créditos | Negotium v1.2" 
         Height="400" Width="450">
     <Grid>
         <Grid.RowDefinitions>

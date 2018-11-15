@@ -27,7 +27,6 @@ namespace UCR.Negotium.UserControls
 
         private ProyeccionVentaData proyeccionVentaData;
         private ProyectoData proyectoData;
-        private CrecimientoOfertaData crecimientoOfertaData;
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
@@ -43,7 +42,6 @@ namespace UCR.Negotium.UserControls
 
             proyeccionVentaData = new ProyeccionVentaData();
             proyectoData = new ProyectoData();
-            crecimientoOfertaData = new CrecimientoOfertaData();
         }
 
         #region InternalMethods
@@ -183,8 +181,7 @@ namespace UCR.Negotium.UserControls
             {
                 if (CustomMessageBox.Show(Constantes.ELIMINARPROYECCIONMSG))
                 {
-                    if (crecimientoOfertaData.EliminarCrecimientoObjetoInteres(ProyeccionSelected.CodArticulo) && 
-                        proyeccionVentaData.EliminarProyeccionVenta(ProyeccionSelected.CodArticulo))
+                    if (proyeccionVentaData.EliminarProyeccionVenta(ProyeccionSelected.CodArticulo))
                     {
                         LocalContext.ReloadUserControls(CodProyecto, Modulo.ProyeccionVentas);
                     }

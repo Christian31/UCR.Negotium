@@ -6,7 +6,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         WindowStartupLocation="CenterScreen" Style="{StaticResource dialogsStyle}"
-        Title="Indicadores | Negotium v1.0" Height="350" Width="600">
+        Title="Indicadores | Negotium v1.2" Height="410" Width="700">
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -56,7 +56,7 @@
         </Grid>
         <Grid Grid.Column="1" Grid.Row="0" x:Name="indicadoresFinancieros">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="170"/>
+                <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Row="1">
@@ -68,6 +68,9 @@
                 </Grid>
                 <Grid Style="{StaticResource gridFormStyle}">
                     <Label Content="Relación B/C:" Style="{StaticResource labelRigth}"/>
+                </Grid>
+                <Grid Style="{StaticResource gridFormStyle}">
+                    <Label Content="Relación B/C (Con Inversión Inicial):" Style="{StaticResource labelRigth}"/>
                 </Grid>
                 <Grid Style="{StaticResource gridFormStyle}">
                     <Label Content="VAN:" Style="{StaticResource labelRigth}"/>
@@ -91,6 +94,9 @@
                 </Grid>
                 <Grid Style="{StaticResource gridFormStyle}">
                     <TextBox Text="{Binding RelacionBC, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+                </Grid>
+                <Grid Style="{StaticResource gridFormStyle}">
+                    <TextBox Text="{Binding RelacionBCInversionInicial, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
                 </Grid>
                 <Grid Style="{StaticResource gridFormStyle}">
                     <TextBox Text="{Binding VAN, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>

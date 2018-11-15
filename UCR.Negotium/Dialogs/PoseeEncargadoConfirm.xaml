@@ -8,7 +8,7 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         BorderThickness="2" BorderBrush="{DynamicResource AccentColorBrush}"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize" 
-        Closing="MetroWindow_Closing" Title="Negotium v1.0" Height="300" Width="350">
+        Closing="MetroWindow_Closing" Title="Negotium v1.2" Height="300" Width="350">
     <Grid Margin="20">
         <RichTextBox Margin="20,20,20,100" IsReadOnly="True" FontSize="14" 
                      BorderThickness="1" Background="GhostWhite">

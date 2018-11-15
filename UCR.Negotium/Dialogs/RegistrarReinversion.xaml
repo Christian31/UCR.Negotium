@@ -10,7 +10,7 @@
         xmlns:UserControls="clr-namespace:UCR.Negotium.UserControls"
         mc:Ignorable="d" Style="{StaticResource dialogsStyle}" 
         WindowStartupLocation="CenterScreen"
-        Title="Reinversión | Negotium v1.0" Height="490" Width="450">
+        Title="Reinversión | Negotium v1.2" Height="490" Width="450">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.5*"/>

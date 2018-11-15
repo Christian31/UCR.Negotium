@@ -21,8 +21,8 @@ namespace UCR.Negotium
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("es-ES");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-ES");
 
             FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement),
               new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));

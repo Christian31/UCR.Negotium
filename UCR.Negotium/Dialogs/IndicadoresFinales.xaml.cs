@@ -14,7 +14,7 @@ namespace UCR.Negotium.Dialogs
     /// </summary>
     public partial class IndicadoresFinales : MetroWindow, INotifyPropertyChanged
     {
-        private IndicadorEconomico tir, pri, relacionBC, van, vac;
+        private IndicadorEconomico tir, pri, relacionBC, van, vac, relacionBCInvInicial;
         private string signoMoneda;
         private Proyecto proyecto;
         private IndicadoresFinancieros indicFinancieros;
@@ -27,7 +27,7 @@ namespace UCR.Negotium.Dialogs
 
         public IndicadoresFinales(int codProyecto, object indicadores)
         {
-            tir = pri = relacionBC = van = vac = new IndicadorEconomico();
+            tir = pri = relacionBC = van = vac = relacionBCInvInicial = new IndicadorEconomico();
             InitializeComponent();
             DataContext = this;
 
@@ -37,6 +37,7 @@ namespace UCR.Negotium.Dialogs
                 pri = indicFinancieros.PRI;
                 van = indicFinancieros.VAN;
                 relacionBC = indicFinancieros.RelacionBC;
+                relacionBCInvInicial = indicFinancieros.RelacionBCInversionInicial;
             }
             else
             {
@@ -70,6 +71,12 @@ namespace UCR.Negotium.Dialogs
         public string RelacionBC
         {
             get { return relacionBC.ToString(); }
+            set { }
+        }
+
+        public string RelacionBCInversionInicial
+        {
+            get { return relacionBCInvInicial.ToString(); }
             set { }
         }
 

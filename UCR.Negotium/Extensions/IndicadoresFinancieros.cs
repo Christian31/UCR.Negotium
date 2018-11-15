@@ -8,10 +8,10 @@ namespace UCR.Negotium.Extensions
 {
     public class IndicadoresFinancieros
     {
-        private IndicadorEconomico tir, pri, relacionBC, van;
+        private IndicadorEconomico tir, pri, relacionBC, van, relacionBCInvInicial;
         private string signoMoneda;
-        private double[] flujoCajaSinBase, ventasSinBase, costosSinBase;
-        private double montoInicial, ventaInicial, costoInicial;
+        private double[] flujoCajaSinBase, ventasSinBase, costosSinBase, ventas, costos;
+        private double montoInicial, ventaInicial, costoInicial, inversionInicial;
         
         public IndicadoresFinancieros(int horizonteEvaluacion, string signoMoneda, DataTable dtflujoCaja, double tasaCostoCapital)
         {
@@ -29,24 +29,40 @@ namespace UCR.Negotium.Extensions
                 flujoCajaSinBase[k] = flujoCaja[k + 1];
             }
 
-            ventasSinBase = new double[horizonteEvaluacion - 1];
-            ventaInicial = Convert.ToDouble(dtflujoCaja.Rows[0][2].ToString().Replace(signoMoneda, string.Empty));
-            for (int i = 0; i <= horizonteEvaluacion-2; i++)
+            ventas = new double[horizonteEvaluacion];
+            for (int i = 0; i <= horizonteEvaluacion - 1; i++)
             {
-                ventasSinBase[i] = Convert.ToDouble(dtflujoCaja.Rows[0][i + 3].ToString().Replace(signoMoneda, string.Empty));
+                ventas[i] = Convert.ToDouble(dtflujoCaja.Rows[0][i + 2].ToString().Replace(signoMoneda, string.Empty));
+            }
+
+            ventasSinBase = new double[horizonteEvaluacion - 1];
+            ventaInicial = ventas[0];
+            for (int i = 0; i <= ventas.Length -2; i++)
+            {
+                ventasSinBase[i] = ventas[i + 1];
+            }
+
+            costos = new double[horizonteEvaluacion];
+
+            for (int i = 0; i <= horizonteEvaluacion - 1; i++)
+            {
+                costos[i] = Convert.ToDouble(dtflujoCaja.Rows[1][i + 2].ToString().Replace(signoMoneda, string.Empty)) * -1;
             }
 
             costosSinBase = new double[horizonteEvaluacion - 1];
-            costoInicial = Convert.ToDouble(dtflujoCaja.Rows[1][2].ToString().Replace(signoMoneda, string.Empty)) * -1;
-            for (int i = 0; i <= horizonteEvaluacion-2; i++)
+            costoInicial = costos[0];
+            for (int i = 0; i <= costos.Length -2; i++)
             {
-                costosSinBase[i] = Convert.ToDouble(dtflujoCaja.Rows[1][i + 3].ToString().Replace(signoMoneda, string.Empty)) * -1;
+                costosSinBase[i] = costos[i + 1];
             }
+
+            inversionInicial = Convert.ToDouble(dtflujoCaja.Rows[10][1].ToString().Replace(signoMoneda, string.Empty)) * -1;
 
             van = CalculateVAN(tasaCostoCapital);
             CalculateTIR(flujoCaja);
             CalculatePRI(flujoCaja);
             relacionBC = CalculateRelacionBC(tasaCostoCapital);
+            relacionBCInvInicial = CalculateRelacionBCInvInicial(tasaCostoCapital);
         }
 
         #region PublicMethods
@@ -93,6 +109,30 @@ namespace UCR.Negotium.Extensions
 
             return relacionBCResult;
         }
+
+        public IndicadorEconomico CalculateRelacionBCInvInicial(double tasaCostoCapital)
+        {
+            IndicadorEconomico relacionBCResultInvInicial = new IndicadorEconomico();
+            tasaCostoCapital = tasaCostoCapital / 100;
+
+            try
+            {
+                //beneficio
+                double tempVan1 = Financial.NPV(tasaCostoCapital, ref ventas);
+
+                //costo
+                double num2 = Financial.NPV(tasaCostoCapital, ref costos);
+                double tempVan2 = num2 + inversionInicial;
+
+                relacionBCResultInvInicial.Resultado = (tempVan1 / tempVan2).PonderarNumero(true);
+            }
+            catch
+            {
+                relacionBCResultInvInicial.ConError = true;
+            }
+
+            return relacionBCResultInvInicial;
+        }
         #endregion
 
         #region Properties
@@ -114,6 +154,11 @@ namespace UCR.Negotium.Extensions
         public IndicadorEconomico RelacionBC
         {
             get { return relacionBC; }
+        }
+
+        public IndicadorEconomico RelacionBCInversionInicial
+        {
+            get { return relacionBCInvInicial; }
         }
 
         #endregion

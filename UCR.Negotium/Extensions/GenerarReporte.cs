@@ -23,7 +23,7 @@ namespace UCR.Negotium.Extensions
         List<DataView> depreciacionesPaging;
         Dictionary<string, string> depTotales;
         DataView amortizacionFinanciamiento;
-        string invTotales, recuperacionCT, TIR, PRI, RelacionBC, VANParticipantes, VANInvolucrados, VANIndirectos;
+        string invTotales, recuperacionCT, TIR, PRI, RelacionBC, VANParticipantes, VANInvolucrados, VANIndirectos, RelacionBCInvInicial;
         string VACParticipantes, VACInvolucrados, VACIndirectos;
         IndicadorEconomico VAN, VAC;
         List<DataView> flujoCajaPaging;
@@ -34,7 +34,7 @@ namespace UCR.Negotium.Extensions
             DataView totalReinversiones, DataView proyeccionesTotal, DataView costosTotal, 
             DataView capital, string recuperacionCT, DataView depTotales, 
             DataView amortizacionFinanciamiento, DataView flujoCaja, string tir,  
-            string pri, string relacionBC, IndicadorEconomico van)
+            string pri, string relacionBC, IndicadorEconomico van, string relacionBCInvInicial)
         {
             this.proyecto = proyecto;
             this.invTotales = totalInversiones;
@@ -65,6 +65,7 @@ namespace UCR.Negotium.Extensions
             PRI = pri;
             RelacionBC = relacionBC;
             VAN = van;
+            RelacionBCInvInicial = relacionBCInvInicial;
 
             VANParticipantes = VAN.EvaluarPorCantidad(proyecto.PersonasParticipantes);
             VANInvolucrados = VAN.EvaluarPorCantidad(proyecto.FamiliasInvolucradas);
@@ -263,6 +264,7 @@ namespace UCR.Negotium.Extensions
             context.Put("TIR", TIR);
             context.Put("PRI", PRI);
             context.Put("RelacionBC", RelacionBC);
+            context.Put("RelacionBCInvInicial", RelacionBCInvInicial);
             context.Put("VAN", VAN);
             context.Put("VANParticipantes", VANParticipantes);
             context.Put("VANInvolucrados", VANInvolucrados);

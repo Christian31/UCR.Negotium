@@ -31,7 +31,7 @@
                         <DataGridTextColumn Binding="{Binding Path=UnidadMedida}" Header="Unidad" Width="2.7*"/>
                         <DataGridTextColumn Binding="{Binding Path=CostosMensuales[0].SubtotalFormat}" Header="Enero" Width="2.5*"/>
                         <DataGridTextColumn Binding="{Binding Path=CostosMensuales[1].SubtotalFormat}" Header="Febrero" Width="2.9*"/>
-                        <DataGridTextColumn Binding="{Binding Path=CostosMensuales[2].SubtotalFormat}" Header="Marzo" Width="2.6*"/>
+                        <DataGridTextColumn Binding="{Binding Path=CostosMensuales[2].SubtotalFormat}" Header="Marzo" Width="2.5*"/>
                         <DataGridTextColumn Binding="{Binding Path=CostosMensuales[3].SubtotalFormat}" Header="Abril" Width="2.5*"/>
                         <DataGridTextColumn Binding="{Binding Path=CostosMensuales[4].SubtotalFormat}" Header="Mayo" Width="2.5*"/>
                         <DataGridTextColumn Binding="{Binding Path=CostosMensuales[5].SubtotalFormat}" Header="Junio" Width="2.5*"/>

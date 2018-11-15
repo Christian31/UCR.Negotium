@@ -8,7 +8,7 @@
         mc:Ignorable="d" Closing="MetroWindow_Closing"
         BorderThickness="2" BorderBrush="{DynamicResource AccentColorBrush}"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
-        Title="Encargado | Negotium v1.0" Height="340" Width="430">
+        Title="Encargado | Negotium v1.2" Height="340" Width="430">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="8*"/>

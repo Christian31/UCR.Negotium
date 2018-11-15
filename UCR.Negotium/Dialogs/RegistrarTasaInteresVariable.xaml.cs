@@ -171,7 +171,7 @@ namespace UCR.Negotium.Dialogs
             for (int i = 0; i < financiamiento.TiempoFinanciamiento; i++)
             {
                 InteresVariable.Add(new InteresFinanciamiento() { AnoInteres = financiamiento.AnoInicialPago + i });
-            }//for
+            }
         }
         #endregion
     }

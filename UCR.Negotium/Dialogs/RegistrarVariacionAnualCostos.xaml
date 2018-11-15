@@ -7,7 +7,7 @@
         xmlns:base="clr-namespace:UCR.Negotium.Extensions"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d" Style="{StaticResource dialogsStyle}" WindowStartupLocation="CenterScreen"
-        Title="Variación Anual de Costos | Negotium v1.0" Height="450" Width="400">
+        Title="Variación Anual de Costos | Negotium v1.2" Height="450" Width="400">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.5*"/>
