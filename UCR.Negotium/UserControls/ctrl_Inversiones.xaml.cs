@@ -161,7 +161,7 @@ namespace UCR.Negotium.UserControls
         {
             if (InversionSelected != null)
             {
-                if (CustomMessageBox.Show(Constantes.ELIMINARINVERSIONMSG))
+                if (CustomMessageBox.ShowConfirmationMesage(Constantes.ELIMINARINVERSIONMSG))
                 {
                     if (inversionData.EliminarInversion(InversionSelected.CodInversion))
                     {

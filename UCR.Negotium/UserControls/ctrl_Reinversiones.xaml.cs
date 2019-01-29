@@ -173,7 +173,7 @@ namespace UCR.Negotium.UserControls
         {
             if(ReinversionSelected != null)
             {
-                if (CustomMessageBox.Show(Constantes.ELIMINARREINVERSIONMSG))
+                if (CustomMessageBox.ShowConfirmationMesage(Constantes.ELIMINARREINVERSIONMSG))
                 {
                     if (reinversionData.EliminarReinversion(ReinversionSelected.CodReinversion))
                     {

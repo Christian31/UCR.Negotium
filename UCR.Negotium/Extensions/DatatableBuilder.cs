@@ -33,9 +33,10 @@ namespace UCR.Negotium.Extensions
             DataRow row2 = ds.Tables["CapitalTrabajo"].NewRow();
             row2["Rubro"] = "Capital de trabajo";
             int a2 = 1;
+            double capitalTrabajo = 0;
             foreach (double costoGenerado in proyecto.CostosGenerados)
             {
-                double capitalTrabajo = ((costoGenerado / 12) * 1.5);
+                capitalTrabajo = ((costoGenerado / 360) * proyecto.DiasDesfaceCapitalTrabajo);
                 row2[(proyecto.AnoInicial + a2).ToString()] = capitalTrabajo.FormatoMoneda(signoMoneda);
                 a2++;
             }
@@ -47,14 +48,15 @@ namespace UCR.Negotium.Extensions
             DataRow row3 = ds.Tables["CapitalTrabajo"].NewRow();
             row3["Rubro"] = "Incremental";
 
-            val = -((proyecto.CostosGenerados[0] / 12) * 1.5);
+            val = -((proyecto.CostosGenerados[0] / 360) * proyecto.DiasDesfaceCapitalTrabajo);
             row3[proyecto.AnoInicial.ToString()] = val.FormatoMoneda(signoMoneda);
             recCT = val;
 
             int a3 = 1;
             for (int i = 1; i < proyecto.CostosGenerados.Count; i++)
             {
-                val = -(((proyecto.CostosGenerados[i] / 12) * 1.5) - ((proyecto.CostosGenerados[i - 1] / 12) * 1.5));
+                val = -(((proyecto.CostosGenerados[i] / 360) * proyecto.DiasDesfaceCapitalTrabajo) - 
+                    ((proyecto.CostosGenerados[i - 1] / 360) * proyecto.DiasDesfaceCapitalTrabajo));
                 row3[(proyecto.AnoInicial + a3).ToString()] = val.FormatoMoneda(signoMoneda);
                 recCT += val;
                 a3++;

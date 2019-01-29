@@ -11,7 +11,7 @@ namespace UCR.Negotium.Extensions
         private IndicadorEconomico tir, pri, relacionBC, van, relacionBCInvInicial;
         private string signoMoneda;
         private double[] flujoCajaSinBase, ventasSinBase, costosSinBase, ventas, costos;
-        private double montoInicial, ventaInicial, costoInicial, inversionInicial;
+        private double montoInicial, ventaInicial, costoInicial, inversionInicial, prestamo;
         
         public IndicadoresFinancieros(int horizonteEvaluacion, string signoMoneda, DataTable dtflujoCaja, double tasaCostoCapital)
         {
@@ -57,6 +57,7 @@ namespace UCR.Negotium.Extensions
             }
 
             inversionInicial = Convert.ToDouble(dtflujoCaja.Rows[10][1].ToString().Replace(signoMoneda, string.Empty)) * -1;
+            prestamo = Convert.ToDouble(dtflujoCaja.Rows[11][1].ToString().Replace(signoMoneda, string.Empty));
 
             van = CalculateVAN(tasaCostoCapital);
             CalculateTIR(flujoCaja);
@@ -118,7 +119,8 @@ namespace UCR.Negotium.Extensions
             try
             {
                 //beneficio
-                double tempVan1 = Financial.NPV(tasaCostoCapital, ref ventas);
+                double num1 = Financial.NPV(tasaCostoCapital, ref ventas);
+                double tempVan1 = num1 + prestamo;
 
                 //costo
                 double num2 = Financial.NPV(tasaCostoCapital, ref costos);

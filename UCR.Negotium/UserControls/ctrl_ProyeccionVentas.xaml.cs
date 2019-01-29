@@ -179,7 +179,7 @@ namespace UCR.Negotium.UserControls
         {
             if (ProyeccionSelected != null)
             {
-                if (CustomMessageBox.Show(Constantes.ELIMINARPROYECCIONMSG))
+                if (CustomMessageBox.ShowConfirmationMesage(Constantes.ELIMINARPROYECCIONMSG))
                 {
                     if (proyeccionVentaData.EliminarProyeccionVenta(ProyeccionSelected.CodArticulo))
                     {

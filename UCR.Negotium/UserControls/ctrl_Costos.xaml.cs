@@ -143,7 +143,7 @@ namespace UCR.Negotium.UserControls
         {
             if (CostoSelected != null)
             {
-                if (CustomMessageBox.Show(Constantes.ELIMINARCOSTOMSG))
+                if (CustomMessageBox.ShowConfirmationMesage(Constantes.ELIMINARCOSTOMSG))
                 {
                     if (costoData.EliminarCosto(CostoSelected.CodCosto))
                     {

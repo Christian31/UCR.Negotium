@@ -266,7 +266,7 @@ namespace UCR.Negotium
         {
             if (displayWarningClosing)
             {
-                if (CustomMessageBox.Show(Constantes.CERRARVENTANAMSG))
+                if (CustomMessageBox.ShowConfirmationMesage(Constantes.CERRARVENTANAMSG))
                 {
                     if (ProyectoSelected.CodProyecto.Equals(0) && !ProyectoSelected.Encargado.IdEncargado.Equals(0))
                     {
@@ -441,7 +441,7 @@ namespace UCR.Negotium
                 string message = ConfigurationHelper.EsDeUsoAcademico() ? 
                     Constantes.ARCHIVARPROYECTOACADEMICO : 
                     Constantes.ARCHIVARPROYECTOPROFESIONAL;
-                if (CustomMessageBox.Show(Constantes.ARCHIVARPROYECTO + message))
+                if (CustomMessageBox.ShowConfirmationMesage(Constantes.ARCHIVARPROYECTO + message))
                 {
                     if (proyectoData.ArchivarProyecto(ProyectoSelected.CodProyecto, true))
                     {

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:local="clr-namespace:UCR.Negotium.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="440" d:DesignWidth="1200">
@@ -20,14 +21,42 @@
                     <RowDefinition Height="8*"/>
                     <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
-                <DataGrid ItemsSource="{Binding DTCapitalTrabajo, UpdateSourceTrigger=PropertyChanged}"
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <DataGrid Grid.ColumnSpan="2" Grid.Row="0"
+                    ItemsSource="{Binding DTCapitalTrabajo, UpdateSourceTrigger=PropertyChanged}"
                           Margin="30,35,30,15" Style="{StaticResource gridGenerated}"
                           Name="datagridCapitalTrabajo" Loaded="datagridCapitalTrabajo_Loaded">
                 </DataGrid>
-                <Grid Grid.Row="1">
-                    <Label Content="Recuperación de Costo Total: " Margin="30,0,906,37" FontSize="16" FontWeight="Bold"/>
-                    <Label Content="{Binding RecuperacionCT, UpdateSourceTrigger=PropertyChanged}" Margin="265,0,700,37" FontSize="16"/>
-                </Grid>
+                <StackPanel Grid.Row="1" Grid.Column="0"
+                            Style="{StaticResource horizontalPanelFormStyle}" VerticalAlignment="Top">
+                    <Label Content="Días de Desface: " FontSize="14" FontWeight="Bold" Margin="30,0,0,0" VerticalAlignment="Top"/>
+                    <TextBox Name="tbDiasDesface" TextChanged="tbDiasDesface_TextChanged"
+                             Text="{Binding ProyectoSelected.DiasDesfaceCapitalTrabajo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                             Width="100" Height="20" VerticalAlignment="Top"
+                             LostFocus="tbDiasDesface_LostFocus" GotFocus="tbDiasDesface_GotFocus"/>
+                    
+                    <Label Content="Recuperación de Costo Total: " FontSize="14" FontWeight="Bold" VerticalAlignment="Top" Margin="40,0,0,0"/>
+                    <Label Content="{Binding RecuperacionCT, UpdateSourceTrigger=PropertyChanged}" FontSize="14" VerticalAlignment="Top"/>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right"
+                            Style="{StaticResource horizontalPanelFormStyle}" VerticalAlignment="Top">
+                    <Button Margin="0,0,30,0" Style="{StaticResource saveButtonStyle}" 
+                            Name="btnGuardar" Click="btnGuardar_Click" >
+                        <Button.ContentTemplate >
+                            <DataTemplate DataType="MetroButton">
+                                <StackPanel Orientation="Horizontal">
+                                    <iconPacks:PackIconModern HorizontalAlignment="Left" Foreground="Teal" VerticalAlignment="Center" iconPacks:PackIconModern.Kind="Save"/>
+                                    <TextBlock Margin="10,0,0,0">Guardar</TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+                </StackPanel>
+                
+                
             </Grid>
         </Border>
     </Grid>

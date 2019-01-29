@@ -22,8 +22,8 @@ namespace UCR.Negotium.DataAccess
             string insert1 = "INSERT INTO PROYECTO(nombre_proyecto, resumen_ejecutivo, "+
                 "ano_inicial_proyecto, horizonte_evaluacion_en_anos, paga_impuesto, porcentaje_impuesto, "+
                 "direccion_exacta, cod_provincia, cod_canton, cod_distrito, cod_evaluador, con_financiamiento, "+
-                "objeto_interes, archivado, cod_tipo_proyecto, cod_tipo_moneda) " +
-                "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); SELECT last_insert_rowid();";
+                "objeto_interes, archivado, cod_tipo_proyecto, cod_tipo_moneda, dias_desface_capital_trabajo) " +
+                "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); SELECT last_insert_rowid();";
 
             string insert2 = "INSERT INTO PROYECTO_INDICE(cod_proyecto, guid_proyecto) " +
                 "VALUES(?,?)";
@@ -53,6 +53,7 @@ namespace UCR.Negotium.DataAccess
                     command1.Parameters.AddWithValue("archivado", proyecto.Archivado);
                     command1.Parameters.AddWithValue("cod_tipo_proyecto", proyecto.TipoProyecto.CodTipo);
                     command1.Parameters.AddWithValue("cod_tipo_moneda", proyecto.TipoMoneda.CodMoneda);
+                    command1.Parameters.AddWithValue("dias_desface_capital_trabajo", proyecto.DiasDesfaceCapitalTrabajo);
 
                     transaction = conn.BeginTransaction();
 
@@ -315,6 +316,7 @@ namespace UCR.Negotium.DataAccess
                             proyecto.ObjetoInteres = reader["objeto_interes"].ToString();
                             proyecto.Archivado = (reader["archivado"] as int?).Equals(1);
                             proyecto.TipoProyecto = tipoProyectoData.GetTipoProyecto(int.Parse(reader["cod_tipo_proyecto"].ToString()));
+                            proyecto.DiasDesfaceCapitalTrabajo = GetDiasDesface(proyecto, int.Parse(reader["dias_desface_capital_trabajo"].ToString()));
                         }
                     }
                 }
@@ -326,6 +328,11 @@ namespace UCR.Negotium.DataAccess
             }
 
             return proyecto;
+        }
+
+        private int GetDiasDesface(Proyecto proyecto, int diasRegistrados)
+        {
+            return diasRegistrados == 0 ? proyecto.DiasDesfaceCapitalTrabajo : diasRegistrados;
         }
 
         public ProyectoLite GetProyectoLite(int codProyecto)
@@ -427,6 +434,32 @@ namespace UCR.Negotium.DataAccess
             }
 
             return signo;
+        }
+
+        public bool EditarProyectoCapitalTrabajo(int codProyecto, int diasDesface)
+        {
+            int result = -1;
+            string update = "UPDATE PROYECTO SET dias_desface_capital_trabajo=? WHERE cod_proyecto=?";
+
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
+            {
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand command = new SQLiteCommand(update, conn);
+                    command.Parameters.AddWithValue("dias_desface_capital_trabajo", diasDesface);
+                    command.Parameters.AddWithValue("cod_proyecto", codProyecto);
+
+                    result = command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    ex.TraceExceptionAsync();
+                    result = -1;
+                }
+            }
+
+            return result != -1;
         }
     }
 }

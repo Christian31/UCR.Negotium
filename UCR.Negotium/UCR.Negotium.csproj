@@ -190,6 +190,7 @@
     <Compile Include="Extensions\LocalContext.cs" />
     <Compile Include="Extensions\CheckMonedaFormat.cs" />
     <Compile Include="Extensions\ResourceDictionaryEvents.cs" />
+    <Compile Include="Extensions\Validador.cs" />
     <Compile Include="StartWindow.xaml.cs">
       <DependentUpon>StartWindow.xaml</DependentUpon>
     </Compile>

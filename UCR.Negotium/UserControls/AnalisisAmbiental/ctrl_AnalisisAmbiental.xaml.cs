@@ -109,7 +109,7 @@ namespace UCR.Negotium.UserControls
         {
             if (FactorAmbientalSelected != null)
             {
-                if (CustomMessageBox.Show(Constantes.ELIMINARFACTORAMBIENTALMSG))
+                if (CustomMessageBox.ShowConfirmationMesage(Constantes.ELIMINARFACTORAMBIENTALMSG))
                 {
                     if (factorAmbientalData.EliminarFactorAmbiental(FactorAmbientalSelected.CodFactorAmbiental))
                     {

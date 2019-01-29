@@ -39,6 +39,7 @@ namespace UCR.Negotium.Domain
         public bool ConFinanciamiento { get; set; }
         public TipoProyecto TipoProyecto { get; set; }
         public TipoMoneda TipoMoneda { get; set; }
+        public int DiasDesfaceCapitalTrabajo { get; set; }
 
         //atributo calculado
         private List<double> ingresosGenerados;
@@ -68,6 +69,7 @@ namespace UCR.Negotium.Domain
             this.depreciaciones = new List<Depreciacion>();
             this.totalDepreciaciones = new List<double>();
             this.utilidadOperativa = new List<double>();
+            this.DiasDesfaceCapitalTrabajo = 30;
         }
 
         public List<double> UtilidadOperativa
