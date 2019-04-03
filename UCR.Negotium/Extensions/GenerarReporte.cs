@@ -18,7 +18,7 @@ namespace UCR.Negotium.Extensions
         private Proyecto proyecto;
         Dictionary<string, string> reinvTotales;
         Dictionary<string, string> proyeccionesTotales;
-        Dictionary<string, Tuple<string, string>> costosTotales;
+        Dictionary<string, string> costosTotales;
         Dictionary<string, Tuple<string, string, string>> capitalTrabajo;
         List<DataView> depreciacionesPaging;
         Dictionary<string, string> depTotales;
@@ -47,7 +47,7 @@ namespace UCR.Negotium.Extensions
 
             reinvTotales = SetToDictionary(totalReinversiones);
             proyeccionesTotales = SetToDictionary(proyeccionesTotal);
-            costosTotales = SetToCostosTotales(costosTotal);
+            costosTotales = SetToDictionary(costosTotal);
             capitalTrabajo = SetToCapitalTrabajo(capital);
             this.recuperacionCT = recuperacionCT;
 
@@ -87,7 +87,7 @@ namespace UCR.Negotium.Extensions
             ObtieneTipoOrganizacion();
 
             reinvTotales = SetToDictionary(totalReinversiones);
-            costosTotales = SetToCostosTotales(costosTotal);
+            costosTotales = SetToDictionary(costosTotal);
             capitalTrabajo = SetToCapitalTrabajo(capital);
             this.recuperacionCT = recuperacionCT;
 
@@ -119,34 +119,6 @@ namespace UCR.Negotium.Extensions
                         dataView.Table.Rows[0].ItemArray[i].ToString());
                 }
             }
-
-            return dictionary;
-        }
-
-        private Dictionary<string, Tuple<string, string>> SetToCostosTotales(DataView dataView)
-        {
-            var dictionaryRoot = SetToDictionary(dataView);
-
-            List<VariacionAnualCosto> listToAppend = proyecto.VariacionCostos;
-            Dictionary<string, Tuple<string, string>> dictionary = new Dictionary<string, Tuple<string, string>>();
-
-            if (listToAppend.Count.Equals(0))
-            {
-                foreach (var entry in dictionaryRoot)
-                {
-                    dictionary.Add(entry.Key, Tuple.Create("0", entry.Value));
-                }
-            }
-            else
-            {
-                foreach (var entry in dictionaryRoot)
-                {
-                    dictionary.Add(entry.Key, Tuple.Create(
-                        listToAppend.Find(variacion => variacion.Ano.Equals(entry.Key)).PorcentajeIncremento.ToString(),
-                        entry.Value));
-                }
-            }
-
 
             return dictionary;
         }
@@ -207,12 +179,19 @@ namespace UCR.Negotium.Extensions
             var cssText = File.ReadAllText(cssTemplatePath);
             GenerarPDF(htmlString, reportPdfPath, cssText);
 
+            bool fileExist = false;
             if (File.Exists(reportPdfPath))
+            {
+                fileExist = true;
                 System.Diagnostics.Process.Start(reportPdfPath);
+            }
             else
+            {
                 GenerarPDF(htmlString, reportPdfPath, cssText);
-
-            System.Diagnostics.Process.Start(reportPdfPath);
+            }
+                
+            if (!fileExist)
+                System.Diagnostics.Process.Start(reportPdfPath);
         }
 
         private void GenerarPDF(string htmlString, string reportPdfPath, string cssText)

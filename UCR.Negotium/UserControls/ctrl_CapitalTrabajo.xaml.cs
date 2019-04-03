@@ -25,7 +25,6 @@ namespace UCR.Negotium.UserControls
 
         private ProyectoData proyectoData;
         private CostoData costoData;
-        private VariacionAnualCostoData variacionCostoData;
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
@@ -37,7 +36,6 @@ namespace UCR.Negotium.UserControls
 
             proyectoData = new ProyectoData();
             costoData = new CostoData();
-            variacionCostoData = new VariacionAnualCostoData();
 
             proyectoSelected = new Proyecto();
             capitalTrabajo = new DataView();
@@ -52,7 +50,6 @@ namespace UCR.Negotium.UserControls
 
             ProyectoSelected = proyectoData.GetProyecto(CodProyecto);
             ProyectoSelected.Costos = costoData.GetCostos(CodProyecto);
-            ProyectoSelected.VariacionCostos = variacionCostoData.GetVariacionAnualCostos(CodProyecto);
 
             ActualizarDTCapitalTrabajo();
         }

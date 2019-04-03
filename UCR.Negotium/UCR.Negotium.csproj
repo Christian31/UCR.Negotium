@@ -180,9 +180,6 @@
     <Compile Include="Dialogs\RegistrarTasaInteresVariable.xaml.cs">
       <DependentUpon>RegistrarTasaInteresVariable.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\RegistrarVariacionAnualCostos.xaml.cs">
-      <DependentUpon>RegistrarVariacionAnualCostos.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Extensions\GestorDatos.cs" />
     <Compile Include="Extensions\IndicadoresFinancieros.cs" />
     <Compile Include="Extensions\IndicadoresSociales.cs" />
@@ -293,10 +290,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\RegistrarTipoMoneda.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\RegistrarVariacionAnualCostos.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

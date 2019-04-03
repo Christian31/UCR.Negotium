@@ -258,47 +258,68 @@
                         <td>
                             <div class="form-group"> Nombre de Producto o Servicio: <b>$proyeccion.NombreArticulo</b></div>
                             <div class="form-group"> Unidad de Medida: <b>$proyeccion.UnidadMedida</b></div>
-                            <div class="table-responsive">
-                                <table class="table table-data">
-                                    <caption>Año Inicial</caption>
-                                    <thead>
-                                        <tr>
-                                            <th>Mes</th>
-                                            <th>Cantidad</th>
-                                            <th>Precio</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        #foreach( $detalle in $proyeccion.DetallesProyeccionVenta )
-                                        <tr>
-                                            <td>$detalle.Mes</td>
-                                            <td>$detalle.Cantidad</td>
-                                            <td>$detalle.PrecioFormat</td>
-                                        </tr>
-                                        #end
-                                    </tbody>
-                                </table>
-                            </div>
+                            <div class="form-group"> Año Inicial de Producto o Servicio: <b>$proyeccion.AnoArticulo</b></div>
+                            <table class="table table-data">
+                                <caption>Año Inicial</caption>
+                                <thead>
+                                    <tr>
+                                        <th>Mes</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    #foreach( $detalle in $proyeccion.DetallesProyeccionVenta )
+                                    <tr>
+                                        <td>$detalle.Mes</td>
+                                        <td>$detalle.Cantidad</td>
+                                        <td>$detalle.PrecioFormat</td>
+                                    </tr>
+                                    #end
+                                </tbody>
+                            </table>
+                            #foreach( $crecimiento in $proyeccion.CrecimientosOferta)
+                            #if ($crecimiento.TipoCrecimiento == 'PorPrecio')
                             <br />
-                            <div class="table-responsive">
-                                <table class="table table-data">
-                                    <caption>Crecimiento Anual de Oferta</caption>
-                                    <thead>
-                                        <tr>
-                                            <th>Año</th>
-                                            <th>Porcentaje de Crecimiento (%)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        #foreach( $crecimiento in $proyeccion.CrecimientoOferta )
-                                        <tr>
-                                            <td>$crecimiento.AnoCrecimiento</td>
-                                            <td>$crecimiento.PorcentajeCrecimiento %</td>
-                                        </tr>
-                                        #end
-                                    </tbody>
-                                </table>
-                            </div>
+                            <table class="table table-data">
+                                <caption>Crecimiento Anual de Oferta Por Precio</caption>
+                                <thead>
+                                    <tr>
+                                        <th>Año</th>
+                                        <th>Porcentaje de Crecimiento (%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    #foreach( $crec in $crecimiento.CrecimientoOferta )
+                                    <tr>
+                                        <td>$crec.AnoCrecimiento</td>
+                                        <td>$crec.PorcentajeCrecimiento %</td>
+                                    </tr>
+                                    #end
+                                </tbody>
+
+                            </table>
+                            #else
+                            <br />
+                            <table class="table table-data">
+                                <caption>Crecimiento Anual de Oferta Por Cantidad</caption>
+                                <thead>
+                                    <tr>
+                                        <th>Año</th>
+                                        <th>Porcentaje de Crecimiento (%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    #foreach( $crec in $crecimiento.CrecimientoOferta )
+                                    <tr>
+                                        <td>$crec.AnoCrecimiento</td>
+                                        <td>$crec.PorcentajeCrecimiento %</td>
+                                    </tr>
+                                    #end
+                                </tbody>
+                            </table>
+                            #end
+                            #end
                         </td>
                     </tr>
                     #end
@@ -353,26 +374,66 @@
                             <div class="form-group"> Año inicial del Costo: <b>$costo.AnoCosto</b></div>
                             <div class="form-group"> Unidad de Medida: <b>$costo.UnidadMedida</b></div>
                             <div class="form-group"> Categoría: <b>$costo.CategoriaCosto</b></div>
-                            <div class="table-responsive">
-                                <table class="table table-data">
-                                    <thead>
-                                        <tr>
-                                            <th>Mes</th>
-                                            <th>Cantidad</th>
-                                            <th>Precio</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        #foreach( $costoMensual in $costo.CostosMensuales )
-                                        <tr>
-                                            <td>$costoMensual.Mes</td>
-                                            <td>$costoMensual.Cantidad</td>
-                                            <td>$costoMensual.CostoUnitarioFormat</td>
-                                        </tr>
-                                        #end
-                                    </tbody>
-                                </table>
-                            </div>
+                            <table class="table table-data">
+                                <thead>
+                                    <tr>
+                                        <th>Mes</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    #foreach( $costoMensual in $costo.CostosMensuales )
+                                    <tr>
+                                        <td>$costoMensual.Mes</td>
+                                        <td>$costoMensual.Cantidad</td>
+                                        <td>$costoMensual.CostoUnitarioFormat</td>
+                                    </tr>
+                                    #end
+                                </tbody>
+                            </table>
+                            #foreach( $variacion in $costo.VariacionCostos)
+                            #if ($variacion.TipoVariacion == 'PorPrecio')
+                            <br />
+                            <table class="table table-data">
+                                <caption>Variación Anual de Costo Por Precio</caption>
+                                <thead>
+                                    <tr>
+                                        <th>Año</th>
+                                        <th>Porcentaje de Incremento (%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    #foreach( $crec in $variacion.VariacionAnual )
+                                    <tr>
+                                        <td>$crec.Ano</td>
+                                        <td>$crec.PorcentajeIncremento %</td>
+                                    </tr>
+                                    #end
+                                </tbody>
+
+                            </table>
+                            #else
+                            <br />
+                            <table class="table table-data">
+                                <caption>Variación Anual de Costo Por Cantidad</caption>
+                                <thead>
+                                    <tr>
+                                        <th>Año</th>
+                                        <th>Porcentaje de Incremento (%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    #foreach( $crec in $variacion.VariacionAnual )
+                                    <tr>
+                                        <td>$crec.Ano</td>
+                                        <td>$crec.PorcentajeIncremento %</td>
+                                    </tr>
+                                    #end
+                                </tbody>
+                            </table>
+                            #end
+                            #end
                         </td>
                     </tr>
                     #end
@@ -384,7 +445,6 @@
                                     <thead>
                                         <tr>
                                             <th>Año</th>
-                                            <th>Variación Anual de Costos(%)</th>
                                             <th>Monto</th>
                                         </tr>
                                     </thead>
@@ -392,8 +452,7 @@
                                         <tr>
                                             #foreach( $anoCosto in $costosTotal )
                                             <td>$anoCosto.Key</td>
-                                            <td>$anoCosto.Value.Item1 %</td>
-                                            <td>$anoCosto.Value.Item2</td>
+                                            <td>$anoCosto.Value.</td>
                                         </tr>
                                         <tr>
                                             #end
@@ -686,7 +745,7 @@
                             <div class="form-group"> VAC/Personas involucradas: <b>$VACInvolucrados</b><br /></div>
                             <div class="form-group"> VAC/Beneficiarios indirectos: <b>$VACIndirectos</b><br /></div>
                             #end
-                            
+
                         </td>
                     </tr>
                 </tfoot>

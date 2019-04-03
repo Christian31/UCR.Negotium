@@ -19,7 +19,7 @@ namespace UCR.Negotium.Dialogs
             creditosList.Items.Add("Bach. Christian Delgado Pérez. Informática Empresarial");
             creditosList.Items.Add("MGP. Álvaro Mena Monge. Coordinador Informática Empresarial");
             creditosList.Items.Add("Econ. Agríc. Luis Mora Noguera. Escuela de Economía Agrícola");
-            creditosList.Items.Add("Dr. Olman Quiros Madrigal. Decano Facultad de Ciencias Agroalimentarias");
+            creditosList.Items.Add("Dr. Olman Quiros Madrigal. Profesor Asociado, Escuela de Economía Agrícola y Agronegocios/ CIEDA");
             creditosList.Items.Add("Ing. Nelson Ramírez Sanchez. Escuela de Economía Agrícola");
         }
     }

@@ -155,7 +155,6 @@ namespace UCR.Negotium
             proyecto.Proyecciones = proyeccionVentas.ProyeccionesList;
             proyecto.Financiamiento = financiamientoUc.FinanciamientoSelected;
             proyecto.Costos = costos.CostosList;
-            proyecto.VariacionCostos = costos.VariacionAnualCostos;
             proyecto.Inversiones = inversiones.InversionesList;
             proyecto.Reinversiones = reinversiones.ReinversionesList;
             signoMoneda = LocalContext.GetSignoMoneda(codProyecto);
@@ -166,14 +165,15 @@ namespace UCR.Negotium
 
         private void ReloadProgress()
         {
-            Dictionary<Modulo, bool> stepsProgress = new Dictionary<Modulo, bool>(12);
-
-            stepsProgress.Add(Modulo.InformacionGeneral, !proyecto.CodProyecto.Equals(0));
-            stepsProgress.Add(Modulo.Proponente, !orgProponente.OrgProponente.CodOrganizacion.Equals(0));
-            stepsProgress.Add(Modulo.Caracterizacion, !string.IsNullOrWhiteSpace(proyecto.CaraterizacionDelBienServicio));
-            stepsProgress.Add(Modulo.Inversiones, !inversiones.InversionesList.Count.Equals(0));
-            stepsProgress.Add(Modulo.Reinversiones, !reinversiones.ReinversionesList.Count.Equals(0));
-            stepsProgress.Add(Modulo.ProyeccionVentas, !proyeccionVentas.ProyeccionesList.Count.Equals(0));
+            Dictionary<Modulo, bool> stepsProgress = new Dictionary<Modulo, bool>(12)
+            {
+                { Modulo.InformacionGeneral, !proyecto.CodProyecto.Equals(0) },
+                { Modulo.Proponente, !orgProponente.OrgProponente.CodOrganizacion.Equals(0) },
+                { Modulo.Caracterizacion, !string.IsNullOrWhiteSpace(proyecto.CaraterizacionDelBienServicio) },
+                { Modulo.Inversiones, !inversiones.InversionesList.Count.Equals(0) },
+                { Modulo.Reinversiones, !reinversiones.ReinversionesList.Count.Equals(0) },
+                { Modulo.ProyeccionVentas, !proyeccionVentas.ProyeccionesList.Count.Equals(0) }
+            };
 
             if (!costos.CostosList.Count.Equals(0))
             {

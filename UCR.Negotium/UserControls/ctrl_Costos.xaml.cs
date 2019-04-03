@@ -26,7 +26,6 @@ namespace UCR.Negotium.UserControls
 
         private CostoData costoData;
         private ProyectoData proyectoData;
-        private VariacionAnualCostoData variacionCostoData;
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
@@ -37,7 +36,6 @@ namespace UCR.Negotium.UserControls
 
             costoData = new CostoData();
             proyectoData = new ProyectoData();
-            variacionCostoData = new VariacionAnualCostoData();
 
             proyecto = new Proyecto();
             costoSelected = new Costo();
@@ -58,11 +56,6 @@ namespace UCR.Negotium.UserControls
                 CostoSelected = CostosList.FirstOrDefault();
                 PropertyChanged(this, new PropertyChangedEventArgs("CostosList"));
             }
-        }
-
-        public List<VariacionAnualCosto> VariacionAnualCostos
-        {
-            get { return proyecto.VariacionCostos; }
         }
 
         public int CodProyecto
@@ -158,24 +151,6 @@ namespace UCR.Negotium.UserControls
             }
         }
 
-        private void lblVariacionCostos_Click(object sender, RoutedEventArgs e)
-        {
-            if (!proyecto.TipoProyecto.CodTipo.Equals(2))
-            {
-                RegistrarVariacionAnualCostos registrarVariacionAnual = new RegistrarVariacionAnualCostos(CodProyecto);
-                registrarVariacionAnual.ShowDialog();
-
-                if (registrarVariacionAnual.IsActive == false && registrarVariacionAnual.Reload)
-                {
-                    LocalContext.ReloadUserControls(CodProyecto, Modulo.Costos);
-                }
-            }
-            else
-            {
-                MessageBox.Show(Constantes.ACTUALIZARPROYECTORESTRTIPOAMBIENTAL, Constantes.ACTUALIZARPROYECTOTLT, 
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-        }
         #endregion
 
         #region InternalMethods
@@ -198,7 +173,6 @@ namespace UCR.Negotium.UserControls
 
             proyecto = proyectoData.GetProyecto(CodProyecto);
             proyecto.Costos = CostosList;
-            proyecto.VariacionCostos = variacionCostoData.GetVariacionAnualCostos(CodProyecto);
             if (!proyecto.Costos.Count.Equals(0))
             {
                 DTCostosTotales = DatatableBuilder.GenerarCostosTotales(proyecto).AsDataView();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using UCR.Negotium.Domain;
 using UCR.Negotium.Base.Trace;
+using System.Linq;
 
 namespace UCR.Negotium.DataAccess
 {
@@ -38,7 +39,7 @@ namespace UCR.Negotium.DataAccess
                             proyeccion.NombreArticulo = reader.GetString(2);
                             proyeccion.AnoArticulo = reader.GetInt32(4);
                             proyeccion.DetallesProyeccionVenta = GetDetallesProyeccionVenta(proyeccion.CodArticulo);
-                            proyeccion.CrecimientoOferta = GetCrecimientoOfertaObjetoIntereses(proyeccion.CodArticulo);
+                            proyeccion.CrecimientosOferta = GetCrecimientosOferta(proyeccion.CodArticulo);
                             listaProyecciones.Add(proyeccion);
                         }
                     }
@@ -75,7 +76,7 @@ namespace UCR.Negotium.DataAccess
                             proyeccion.NombreArticulo = reader.GetString(2);
                             proyeccion.AnoArticulo = reader.GetInt32(4);
                             proyeccion.DetallesProyeccionVenta = GetDetallesProyeccionVenta(proyeccion.CodArticulo);
-                            proyeccion.CrecimientoOferta = GetCrecimientoOfertaObjetoIntereses(proyeccion.CodArticulo);
+                            proyeccion.CrecimientosOferta = GetCrecimientosOferta(proyeccion.CodArticulo);
                         }
                     }
                 }
@@ -100,8 +101,8 @@ namespace UCR.Negotium.DataAccess
                 "cantidad_proyeccion, precio_proyeccion) VALUES(?,?,?,?); " +
                 "SELECT last_insert_rowid();";
 
-            string insert3 = "INSERT INTO CRECIMIENTO_OFERTA_OBJETO_INTERES(ano_crecimiento, " +
-                "porcentaje_crecimiento, cod_proyeccion) VALUES(?,?,?); " +
+            string insert3 = "INSERT INTO CRECIMIENTO_OFERTA(ano_crecimiento, " +
+                "porcentaje_crecimiento, cod_proyeccion, cod_tipo_crecimiento) VALUES(?,?,?,?); " +
                 "SELECT last_insert_rowid();";
 
             using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
@@ -134,15 +135,19 @@ namespace UCR.Negotium.DataAccess
                         detTemp.CodDetalle = int.Parse(newProdID2.ToString());
                     }
 
-                    foreach (CrecimientoOferta crecTemp in proyeccion.CrecimientoOferta)
+                    foreach (CrecimientoOfertaPorTipo crecPorTipo in proyeccion.CrecimientosOferta)
                     {
-                        command2 = new SQLiteCommand(insert3, conn);
-                        command2.Parameters.AddWithValue("ano_crecimiento", crecTemp.AnoCrecimiento);
-                        command2.Parameters.AddWithValue("porcentaje_crecimiento", crecTemp.PorcentajeCrecimiento);
-                        command2.Parameters.AddWithValue("cod_proyeccion", proyeccion.CodArticulo);
+                        foreach (CrecimientoOferta crecTemp in crecPorTipo.CrecimientoOferta)
+                        {
+                            command2 = new SQLiteCommand(insert3, conn);
+                            command2.Parameters.AddWithValue("ano_crecimiento", crecTemp.AnoCrecimiento);
+                            command2.Parameters.AddWithValue("porcentaje_crecimiento", crecTemp.PorcentajeCrecimiento);
+                            command2.Parameters.AddWithValue("cod_proyeccion", proyeccion.CodArticulo);
+                            command2.Parameters.AddWithValue("cod_tipo_crecimiento", (int)crecPorTipo.TipoCrecimiento);
 
-                        newProdID = command2.ExecuteScalar();
-                        crecTemp.CodCrecimiento = int.Parse(newProdID.ToString());
+                            newProdID = command2.ExecuteScalar();
+                            crecTemp.CodCrecimiento = int.Parse(newProdID.ToString());
+                        }
                     }
 
                     transaction.Commit();
@@ -169,10 +174,10 @@ namespace UCR.Negotium.DataAccess
             string update2 = "UPDATE DETALLE_PROYECCION_VENTA SET cantidad_proyeccion=?, precio_proyeccion=? " +
                 "WHERE cod_detalle=?";
 
-            string update3 = "DELETE FROM CRECIMIENTO_OFERTA_OBJETO_INTERES WHERE cod_proyeccion=?;";
+            string update3 = "DELETE FROM CRECIMIENTO_OFERTA WHERE cod_proyeccion=?;";
 
-            string update4 = "INSERT INTO CRECIMIENTO_OFERTA_OBJETO_INTERES(ano_crecimiento, " +
-                "porcentaje_crecimiento, cod_proyeccion) VALUES(?,?,?); " +
+            string update4 = "INSERT INTO CRECIMIENTO_OFERTA(ano_crecimiento, " +
+                "porcentaje_crecimiento, cod_proyeccion, cod_tipo_crecimiento) VALUES(?,?,?,?); " +
                 "SELECT last_insert_rowid();";
 
             using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
@@ -214,15 +219,19 @@ namespace UCR.Negotium.DataAccess
 
                             if(result != -1)
                             {
-                                foreach (CrecimientoOferta crecTemp in proyeccion.CrecimientoOferta)
+                                foreach (CrecimientoOfertaPorTipo crecPorTipo in proyeccion.CrecimientosOferta)
                                 {
-                                    command2 = new SQLiteCommand(update4, conn);
-                                    command2.Parameters.AddWithValue("ano_crecimiento", crecTemp.AnoCrecimiento);
-                                    command2.Parameters.AddWithValue("porcentaje_crecimiento", crecTemp.PorcentajeCrecimiento);
-                                    command2.Parameters.AddWithValue("cod_proyeccion", proyeccion.CodArticulo);
+                                    foreach (CrecimientoOferta crecTemp in crecPorTipo.CrecimientoOferta)
+                                    {
+                                        command2 = new SQLiteCommand(update4, conn);
+                                        command2.Parameters.AddWithValue("ano_crecimiento", crecTemp.AnoCrecimiento);
+                                        command2.Parameters.AddWithValue("porcentaje_crecimiento", crecTemp.PorcentajeCrecimiento);
+                                        command2.Parameters.AddWithValue("cod_proyeccion", proyeccion.CodArticulo);
+                                        command2.Parameters.AddWithValue("cod_tipo_crecimiento", (int)crecPorTipo.TipoCrecimiento);
 
-                                    newProdID = command2.ExecuteScalar();
-                                    crecTemp.CodCrecimiento = int.Parse(newProdID.ToString());
+                                        newProdID = command2.ExecuteScalar();
+                                        crecTemp.CodCrecimiento = int.Parse(newProdID.ToString());
+                                    }
                                 }
                             }
                         }                        
@@ -252,9 +261,9 @@ namespace UCR.Negotium.DataAccess
         {
             int result = -1;
 
-            string sqlQuery1 = string.Format("BEGIN TRANSACTION; DELETE FROM PROYECCION_VENTA WHERE cod_proyeccion={0};" +
+            string sqlQuery1 = string.Format("BEGIN TRANSACTION; DELETE FROM CRECIMIENTO_OFERTA WHERE cod_proyeccion={0};" +
                 "DELETE FROM DETALLE_PROYECCION_VENTA WHERE cod_proyeccion={0};" +
-                "DELETE FROM CRECIMIENTO_OFERTA_OBJETO_INTERES WHERE cod_proyeccion={0}; COMMIT;", codProyeccion);
+                "DELETE FROM PROYECCION_VENTA WHERE cod_proyeccion={0}; COMMIT;", codProyeccion);
 
             using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
@@ -311,11 +320,31 @@ namespace UCR.Negotium.DataAccess
             return listaDetalles;
         }
 
-        private List<CrecimientoOferta> GetCrecimientoOfertaObjetoIntereses(int codProyeccion)
+        private void AgrupeCrecimientos(List<CrecimientoOfertaPorTipo> crecimientosPorTipo, CrecimientoOferta crecimientoOferta, int codTipoCrecimiento)
         {
-            List<CrecimientoOferta> crecimientosOferta = new List<CrecimientoOferta>();
-            string select = "SELECT cod_crecimiento, ano_crecimiento, porcentaje_crecimiento " +
-                "FROM CRECIMIENTO_OFERTA_OBJETO_INTERES WHERE cod_proyeccion=?";
+            TipoAplicacionPorcentaje tipoCrecimiento = (TipoAplicacionPorcentaje)codTipoCrecimiento;
+            CrecimientoOfertaPorTipo crecimientoActual = crecimientosPorTipo.FirstOrDefault(crec => crec.TipoCrecimiento == tipoCrecimiento);
+            if(crecimientoActual == null)
+            {
+                CrecimientoOfertaPorTipo crecimientoNuevo = new CrecimientoOfertaPorTipo();
+                crecimientoNuevo.TipoCrecimiento = tipoCrecimiento;
+                crecimientoNuevo.CrecimientoOferta.Add(crecimientoOferta);
+                crecimientosPorTipo.Add(crecimientoNuevo);
+            }
+            else
+            {
+                crecimientoActual.CrecimientoOferta.Add(crecimientoOferta);
+            }
+        }
+
+        private List<CrecimientoOfertaPorTipo> GetCrecimientosOferta(int codProyeccion)
+        {
+            List<CrecimientoOfertaPorTipo> crecimientosPorTipo = new List<CrecimientoOfertaPorTipo>();
+            int codTipoCrecimiento = 0;
+            CrecimientoOferta crecimientoOferta;
+
+            string select = "SELECT cod_crecimiento, ano_crecimiento, porcentaje_crecimiento, cod_tipo_crecimiento " +
+                "FROM CRECIMIENTO_OFERTA WHERE cod_proyeccion=?";
 
             using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
@@ -329,22 +358,23 @@ namespace UCR.Negotium.DataAccess
                     {
                         while (reader.Read())
                         {
-                            CrecimientoOferta crecimientoOferta = new CrecimientoOferta();
+                            crecimientoOferta = new CrecimientoOferta();
                             crecimientoOferta.CodCrecimiento = reader.GetInt32(0);
                             crecimientoOferta.AnoCrecimiento = reader.GetInt32(1);
                             crecimientoOferta.PorcentajeCrecimiento = reader.GetDouble(2);
-                            crecimientosOferta.Add(crecimientoOferta);
+                            codTipoCrecimiento = reader.GetInt32(3);
+                            AgrupeCrecimientos(crecimientosPorTipo, crecimientoOferta, codTipoCrecimiento);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
                     ex.TraceExceptionAsync();
-                    crecimientosOferta = new List<CrecimientoOferta>();
+                    crecimientosPorTipo = new List<CrecimientoOfertaPorTipo>();
                 }
             }
 
-            return crecimientosOferta;
+            return crecimientosPorTipo;
         }
     }
 }

@@ -54,6 +54,7 @@
     <Compile Include="CrecimientoOferta.cs" />
     <Compile Include="Depreciacion.cs" />
     <Compile Include="DetalleProyeccionVenta.cs" />
+    <Compile Include="CrecimientoOfertaPorTipo.cs" />
     <Compile Include="Distrito.cs" />
     <Compile Include="Encargado.cs" />
     <Compile Include="Enumerados\Enums.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="TipoProyecto.cs" />
     <Compile Include="UnidadMedida.cs" />
     <Compile Include="VariacionAnualCosto.cs" />
+    <Compile Include="VariacionAnualCostoPorTipo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UCR.Negotium.Base\UCR.Negotium.Base.csproj">

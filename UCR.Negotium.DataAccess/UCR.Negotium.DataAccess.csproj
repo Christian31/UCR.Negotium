@@ -71,7 +71,6 @@
     <Compile Include="TipoOrganizacionData.cs" />
     <Compile Include="TipoProyectoData.cs" />
     <Compile Include="UnidadMedidaData.cs" />
-    <Compile Include="VariacionAnualCostoData.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UCR.Negotium.Base\UCR.Negotium.Base.csproj">

@@ -30,7 +30,6 @@ namespace UCR.Negotium.Domain
         public List<Reinversion> Reinversiones { get; set; }
         public List<ProyeccionVenta> Proyecciones { get; set; }
         public List<Costo> Costos { get; set; }
-        public List<VariacionAnualCosto> VariacionCostos { get; set; }
         public Financiamiento Financiamiento { get; set; }
         public double TasaCostoCapital { get; set; }
         public int PersonasParticipantes { get; set; }
@@ -62,7 +61,6 @@ namespace UCR.Negotium.Domain
             this.Proyecciones = new List<ProyeccionVenta>();
             this.IngresosGenerados = new List<double>();
             this.Costos = new List<Costo>();
-            this.VariacionCostos = new List<VariacionAnualCosto>();
             this.Financiamiento = new Financiamiento();
             this.TipoProyecto = new TipoProyecto();
             this.TipoMoneda = new TipoMoneda() { CodMoneda = 1 };
@@ -261,33 +259,17 @@ namespace UCR.Negotium.Domain
 
         private List<double> calcularCostosGenerados()
         {
-            double valIni = 0;
-            double porcentaje = 0;
             List<double> listCostos = new List<double>();
-            int inicio = this.AnoInicial+1;
-            int count = 0;
-            while (inicio <= (this.AnoInicial + this.HorizonteEvaluacionEnAnos))
+            if (this.Costos.Count.Equals(0))
             {
-                foreach (Costo costo in this.Costos.Where(costo => costo.AnoCosto.Equals(inicio)))
+                listCostos = Operaciones.ObtenerListaPorDefecto(this.HorizonteEvaluacionEnAnos);
+            }
+            else
+            {
+                foreach (Costo costo in this.Costos)
                 {
-                    var valTemp = costo.CostosMensuales.Select(costoM => costoM.Subtotal).Sum();
-                    valIni += valTemp.PonderarNumero();
+                    listCostos = Operaciones.SumarListas(listCostos, costo.CostoGenerado(this.AnoInicial, this.HorizonteEvaluacionEnAnos));
                 }
-
-                if (count > 0)
-                {
-                    porcentaje = VariacionCostos.Count > 0 ? ((listCostos[listCostos.Count - 1] + valIni) * VariacionCostos[count].PorcentajeIncremento) / 100 : 0;
-                    listCostos.Add(listCostos[listCostos.Count - 1] + valIni + porcentaje);
-                }
-                else
-                {
-                    porcentaje = VariacionCostos.Count > 0 ? (valIni * VariacionCostos[count].PorcentajeIncremento) / 100 : 0;
-                    listCostos.Add(valIni + porcentaje);
-                }
-
-                valIni = 0;
-                inicio++;
-                count++;
             }
 
             return listCostos;
@@ -357,5 +339,20 @@ namespace UCR.Negotium.Domain
         public int HorizonteEvaluacionEnAnos { get; set; }
         public int CodTipoProyecto { get; set; }
         public bool ConFinanciamiento { get; set; }
+    }
+
+    public struct IncrementosTemporales
+    {
+        public int Id, AnoIncremento;
+        public double Incremento;
+        public TipoAplicacionPorcentaje TipoIncremento; 
+
+        public IncrementosTemporales(int id, int anoIncremento, double incremento, TipoAplicacionPorcentaje tipoIncremento)
+        {
+            Id = id;
+            AnoIncremento = anoIncremento;
+            Incremento = incremento;
+            TipoIncremento = tipoIncremento;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace UCR.Negotium.Domain
 {
@@ -10,7 +11,7 @@ namespace UCR.Negotium.Domain
 
         private List<DetalleProyeccionVenta> detallesProyeccionVenta;
         private UnidadMedida unidadMedida;
-        private List<CrecimientoOferta> crecimientoOferta;
+        private List<CrecimientoOfertaPorTipo> crecimientoOfertaPorTipo;
 
         public ProyeccionVenta()
         {
@@ -23,13 +24,13 @@ namespace UCR.Negotium.Domain
                 new DetalleProyeccionVenta { Mes= "Octubre"}, new DetalleProyeccionVenta { Mes= "Noviembre"},
                 new DetalleProyeccionVenta { Mes= "Diciembre"}};
 
-            crecimientoOferta = new List<CrecimientoOferta>();
+            crecimientoOfertaPorTipo = new List<CrecimientoOfertaPorTipo>();
         }
 
-        public List<CrecimientoOferta> CrecimientoOferta
+        public List<CrecimientoOfertaPorTipo> CrecimientosOferta
         {
-            get { return crecimientoOferta; }
-            set { crecimientoOferta = value; }
+            get { return crecimientoOfertaPorTipo; }
+            set { crecimientoOfertaPorTipo = value; }
         }
 
         public UnidadMedida UnidadMedida
@@ -48,6 +49,7 @@ namespace UCR.Negotium.Domain
         {
             int anoFinal = anoinicial + horizonteDeEvaluacion;
             List<double> ingresos = new List<double>();
+            List<IncrementosTemporales> incrementosTemporales = new List<IncrementosTemporales>();
             anoinicial = anoinicial + 1;
             while (anoinicial < AnoArticulo)
             {
@@ -55,19 +57,133 @@ namespace UCR.Negotium.Domain
                 anoinicial++;
             }
 
-            double valIni = 0;
-            DetallesProyeccionVenta.ForEach(detArticulo => valIni += detArticulo.Subtotal);
-            ingresos.Add(valIni);
+            double valorAnual = ObtengaValorAnualAcumulado(0, 0, incrementosTemporales, 0);
+            double valorAnualTemp = 0;
+            ingresos.Add(valorAnual);
             anoinicial++;
+
+            CrecimientoOfertaPorTipo crecimientosPorPrecio = CrecimientosOferta.FirstOrDefault(crec => crec.TipoCrecimiento == TipoAplicacionPorcentaje.PorPrecio);
+            CrecimientoOfertaPorTipo crecimientosPorCantidad = CrecimientosOferta.FirstOrDefault(crec => crec.TipoCrecimiento == TipoAplicacionPorcentaje.PorCantidad);
+            
+            double crecimientoPrecio = 0;
+            double crecimientoCantidad = 0;
             while (anoinicial <= anoFinal)
             {
-                CrecimientoOferta crec = CrecimientoOferta.Find(cre => cre.AnoCrecimiento == anoinicial);
-                valIni = ((valIni * crec.PorcentajeCrecimiento) / 100) + valIni;
-                ingresos.Add(valIni);
+                if (crecimientosPorPrecio != null)
+                {
+                    crecimientoPrecio = crecimientosPorPrecio.CrecimientoOferta.
+                        First(crec => crec.AnoCrecimiento == anoinicial).PorcentajeCrecimiento;
+                }
+                if (crecimientosPorCantidad != null)
+                {
+                    crecimientoCantidad = crecimientosPorCantidad.CrecimientoOferta.
+                        First(crec => crec.AnoCrecimiento == anoinicial).PorcentajeCrecimiento;
+                }
+
+                valorAnualTemp = ObtengaValorAnualAcumulado(crecimientoPrecio, crecimientoCantidad,
+                    incrementosTemporales, anoinicial);
+                if (valorAnualTemp != 0)
+                    valorAnual = valorAnualTemp;
+                
+                ingresos.Add(valorAnual);
                 anoinicial++;
             }
 
             return ingresos;
+        }
+
+        private double ObtengaValorAnualAcumulado(double crecimientoPrecio, double crecimientoCantidad, 
+            List<IncrementosTemporales> incrementosTemporales, int anoCrecimiento)
+        {
+            double valorAnual = 0;
+            double incrementoPrecio = 0;
+            double incrementoCantidad = 0;
+            double incrementoPrecioAcumulado = 0;
+            double incrementoCantidadAcumulado = 0;
+            if (crecimientoPrecio == 0 && crecimientoCantidad == 0)
+            {
+                if (incrementosTemporales.Count == 0)
+                {
+                    foreach (DetalleProyeccionVenta detalle in DetallesProyeccionVenta)
+                    {
+                        valorAnual += detalle.Precio * detalle.Cantidad;
+                    }
+                }
+            }
+            else if (crecimientoPrecio == 0)
+            {
+                foreach (DetalleProyeccionVenta detalle in DetallesProyeccionVenta)
+                {
+                    incrementoCantidadAcumulado = ObtengaCrecimientosAcumulados(incrementosTemporales, detalle.CodDetalle, 
+                        anoCrecimiento, TipoAplicacionPorcentaje.PorCantidad);
+
+                    incrementoCantidad = ((detalle.Cantidad + incrementoCantidadAcumulado) * crecimientoCantidad) / 100;
+                    incrementosTemporales.Add(new IncrementosTemporales(detalle.CodDetalle, anoCrecimiento,
+                        incrementoCantidad, TipoAplicacionPorcentaje.PorCantidad));
+                    incrementoCantidad += detalle.Cantidad + incrementoCantidadAcumulado;
+
+                    incrementoPrecioAcumulado = ObtengaCrecimientosAcumulados(incrementosTemporales, detalle.CodDetalle,
+                        anoCrecimiento, TipoAplicacionPorcentaje.PorPrecio);
+                    valorAnual += (detalle.Precio + incrementoPrecioAcumulado) * incrementoCantidad;
+                }
+            }
+            else if (crecimientoCantidad == 0)
+            {
+                foreach (DetalleProyeccionVenta detalle in DetallesProyeccionVenta)
+                {
+                    incrementoPrecioAcumulado = ObtengaCrecimientosAcumulados(incrementosTemporales, detalle.CodDetalle,
+                        anoCrecimiento, TipoAplicacionPorcentaje.PorPrecio);
+
+                    incrementoPrecio = ((detalle.Precio + incrementoPrecioAcumulado) * crecimientoPrecio) / 100;
+                    incrementosTemporales.Add(new IncrementosTemporales(detalle.CodDetalle, anoCrecimiento,
+                        incrementoPrecio, TipoAplicacionPorcentaje.PorPrecio));
+
+                    incrementoPrecio += detalle.Precio + incrementoPrecioAcumulado;
+                    incrementoCantidadAcumulado = ObtengaCrecimientosAcumulados(incrementosTemporales, detalle.CodDetalle,
+                        anoCrecimiento, TipoAplicacionPorcentaje.PorCantidad);
+                    valorAnual += incrementoPrecio * (detalle.Cantidad + incrementoCantidadAcumulado);                    
+                }
+            }
+            else
+            {
+                foreach (DetalleProyeccionVenta detalle in DetallesProyeccionVenta)
+                {
+                    incrementoPrecioAcumulado = ObtengaCrecimientosAcumulados(incrementosTemporales, detalle.CodDetalle,
+                        anoCrecimiento, TipoAplicacionPorcentaje.PorPrecio);
+
+                    incrementoPrecio = ((detalle.Precio + incrementoPrecioAcumulado) * crecimientoPrecio) / 100;
+                    incrementosTemporales.Add(new IncrementosTemporales(detalle.CodDetalle, anoCrecimiento,
+                                            incrementoCantidad, TipoAplicacionPorcentaje.PorCantidad));
+                    incrementoPrecio += detalle.Precio + incrementoPrecioAcumulado;
+
+                    incrementoCantidadAcumulado = ObtengaCrecimientosAcumulados(incrementosTemporales, detalle.CodDetalle,
+                        anoCrecimiento, TipoAplicacionPorcentaje.PorCantidad);
+
+                    incrementoCantidad = ((detalle.Cantidad + incrementoCantidadAcumulado) * crecimientoCantidad) / 100;
+                    incrementosTemporales.Add(new IncrementosTemporales(detalle.CodDetalle, anoCrecimiento,
+                                            incrementoPrecio, TipoAplicacionPorcentaje.PorPrecio));
+                    incrementoCantidad += detalle.Cantidad + incrementoCantidadAcumulado;
+
+                    valorAnual += incrementoPrecio * incrementoCantidad;
+                }
+            }
+
+            return valorAnual;
+        }
+
+        private double ObtengaCrecimientosAcumulados(List<IncrementosTemporales> incrementos, int id,
+            int anoActual, TipoAplicacionPorcentaje tipoIncremento)
+        {
+            double incrementosSumados = 0;
+            List<IncrementosTemporales> incrementosAcumulados = incrementos.
+                Where(inc => inc.Id == id && inc.AnoIncremento < anoActual && inc.TipoIncremento == tipoIncremento).ToList();
+
+            if (incrementosAcumulados.Count > 0)
+            {
+                incrementosSumados = incrementosAcumulados.Select(inc => inc.Incremento).Sum();
+            }
+
+            return incrementosSumados;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace UCR.Negotium.Domain
         {
             get
             {
-                return (this.Cantidad * this.Precio).PonderarNumero();
+                return (Cantidad * Precio).PonderarNumero();
             }
         }
 
