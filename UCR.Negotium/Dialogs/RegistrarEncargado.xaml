@@ -4,11 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        xmlns:local="clr-namespace:UCR.Negotium.Dialogs"
         mc:Ignorable="d" Closing="MetroWindow_Closing"
         BorderThickness="2" BorderBrush="{DynamicResource AccentColorBrush}"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
-        Title="Encargado | Negotium v1.0" Height="340" Width="430">
+        Title="Encargado | Negotium v1.2" Height="340" Width="430">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="8*"/>

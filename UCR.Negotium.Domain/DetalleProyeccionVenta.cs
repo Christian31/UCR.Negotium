@@ -1,4 +1,6 @@
-﻿namespace UCR.Negotium.Domain
+﻿using UCR.Negotium.Base.Utilidades;
+
+namespace UCR.Negotium.Domain
 {
     public class DetalleProyeccionVenta
     {
@@ -13,7 +15,7 @@
         {
             get
             {
-                return this.Cantidad * this.Precio;
+                return (Cantidad * Precio).PonderarNumero();
             }
         }
 

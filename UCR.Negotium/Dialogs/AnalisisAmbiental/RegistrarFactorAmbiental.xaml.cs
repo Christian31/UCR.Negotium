@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Media;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
+using UCR.Negotium.Extensions;
 
 namespace UCR.Negotium.Dialogs
 {
@@ -278,7 +279,8 @@ namespace UCR.Negotium.Dialogs
                     else
                     {
                         //error
-                        MessageBox.Show("Ha ocurrido un error al insertar el factor ambiental del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.INSERTARFACTORAMBIENTALERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
@@ -292,7 +294,8 @@ namespace UCR.Negotium.Dialogs
                     else
                     {
                         //error
-                        MessageBox.Show("Ha ocurrido un error al actualizar el factor ambiental del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.ACTUALIZARFACTORAMBIENTALERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }

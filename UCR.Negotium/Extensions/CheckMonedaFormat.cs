@@ -30,5 +30,25 @@ namespace UCR.Negotium.Extensions
 
             return requireFormat ? string.Format(STRFORMAT, stringVal) : stringVal;
         }
+
+        public static string CheckStringFormatPos(this string stringVal, double defaultValue = 0.00)
+        {
+            if (!stringVal.Length.Equals(0))
+            {
+                double costoUnitario = 0;
+                if (!double.TryParse(stringVal, out costoUnitario))
+                {
+                    stringVal = Regex.Replace(stringVal, RGXNUMBERS, "");
+                    if (stringVal.Equals(string.Empty))
+                        stringVal = defaultValue.ToString();
+                }
+            }
+            else
+            {
+                stringVal = defaultValue.ToString();
+            }
+
+            return stringVal;
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UCR.Negotium.Base.Utilidades;
 
 namespace UCR.Negotium.Domain
 {
@@ -10,7 +11,6 @@ namespace UCR.Negotium.Domain
         public bool Archivado { get; set; }
         public string NombreProyecto { get; set; }
         public string ResumenEjecutivo { get; set; }
-        public bool ConIngresos { get; set; } //Verdadero si es con ingresos falso si es sin ingresos
         public string DescripcionPoblacionBeneficiaria { get; set; }
         public string CaraterizacionDelBienServicio { get; set; }
         public string DescripcionSostenibilidadDelProyecto { get; set; }
@@ -26,11 +26,10 @@ namespace UCR.Negotium.Domain
         public Distrito Distrito { get; set; }
         public OrganizacionProponente OrganizacionProponente { get; set; }
         public string ObjetoInteres { get; set; }
-        public List<Inversion> RequerimientosInversion { get; set; }
-        public List<Reinversion> RequerimientosReinversion { get; set; }
-        public List<ProyeccionVentaArticulo> Proyecciones { get; set; }
+        public List<Inversion> Inversiones { get; set; }
+        public List<Reinversion> Reinversiones { get; set; }
+        public List<ProyeccionVenta> Proyecciones { get; set; }
         public List<Costo> Costos { get; set; }
-        public List<VariacionAnualCosto> VariacionCostos { get; set; }
         public Financiamiento Financiamiento { get; set; }
         public double TasaCostoCapital { get; set; }
         public int PersonasParticipantes { get; set; }
@@ -39,6 +38,7 @@ namespace UCR.Negotium.Domain
         public bool ConFinanciamiento { get; set; }
         public TipoProyecto TipoProyecto { get; set; }
         public TipoMoneda TipoMoneda { get; set; }
+        public int DiasDesfaceCapitalTrabajo { get; set; }
 
         //atributo calculado
         private List<double> ingresosGenerados;
@@ -51,24 +51,23 @@ namespace UCR.Negotium.Domain
         public Proyecto()
         {
             Archivado = false;
-            ConIngresos = true;
-            this.RequerimientosInversion = new List<Inversion>();
-            this.RequerimientosReinversion = new List<Reinversion>();
+            this.Inversiones = new List<Inversion>();
+            this.Reinversiones = new List<Reinversion>();
             this.Encargado = new Encargado();
             this.Provincia = new Provincia();
             this.Canton = new Canton();
             this.Distrito = new Distrito();
             this.OrganizacionProponente = new OrganizacionProponente();
-            this.Proyecciones = new List<ProyeccionVentaArticulo>();
+            this.Proyecciones = new List<ProyeccionVenta>();
             this.IngresosGenerados = new List<double>();
             this.Costos = new List<Costo>();
-            this.VariacionCostos = new List<VariacionAnualCosto>();
             this.Financiamiento = new Financiamiento();
             this.TipoProyecto = new TipoProyecto();
             this.TipoMoneda = new TipoMoneda() { CodMoneda = 1 };
             this.depreciaciones = new List<Depreciacion>();
             this.totalDepreciaciones = new List<double>();
             this.utilidadOperativa = new List<double>();
+            this.DiasDesfaceCapitalTrabajo = 30;
         }
 
         public List<double> UtilidadOperativa
@@ -133,21 +132,21 @@ namespace UCR.Negotium.Domain
 
         public string TasaCostoCapitalString
         {
-            get { return string.Concat(TasaCostoCapital.ToString("#,##0.##"), " %"); }
+            get { return TasaCostoCapital.FormatoPorcentaje(); }
             set { TasaCostoCapital = Convert.ToDouble(value.Replace("%", string.Empty)); }
         }
 
         private List<Depreciacion> calcularDepreciaciones()
         {
-            List<Inversion> inversiones = this.RequerimientosInversion.Where(inv => inv.Depreciable).ToList();
-            List<Reinversion> reinversiones = this.RequerimientosReinversion.Where(reinv => reinv.Depreciable).ToList();
+            List<Inversion> inversiones = this.Inversiones.Where(inv => inv.Depreciable).ToList();
+            List<Reinversion> reinversiones = this.Reinversiones.Where(reinv => reinv.Depreciable).ToList();
             List<Depreciacion> depreciaciones = new List<Depreciacion>();
 
             foreach (Inversion inversion in inversiones)
             {
                 Depreciacion depreciacion = new Depreciacion();
-                depreciacion.NombreDepreciacion = inversion.DescripcionRequerimiento;
-                depreciacion.CodDepresiacion = inversion.CodRequerimientoInversion;
+                depreciacion.NombreDepreciacion = inversion.Descripcion;
+                depreciacion.CodDepresiacion = inversion.CodInversion;
                 int count = 0;
                 while (count < this.HorizonteEvaluacionEnAnos)
                 {
@@ -166,13 +165,13 @@ namespace UCR.Negotium.Domain
 
             foreach (Reinversion reinversion in reinversiones)
             {
-                if (reinversion.CodRequerimientoInversion != 0)
+                if (reinversion.CodInversion != 0)
                 {
-                    var inversion = inversiones.Find(inv => inv.CodRequerimientoInversion.Equals(reinversion.CodRequerimientoInversion));
+                    var inversion = inversiones.Find(inv => inv.CodInversion.Equals(reinversion.CodInversion));
 
                     if (inversion != null)
                     {
-                        Depreciacion dep = depreciaciones.Find(s => s.CodDepresiacion.Equals(inversion.CodRequerimientoInversion));
+                        Depreciacion dep = depreciaciones.Find(s => s.CodDepresiacion.Equals(inversion.CodInversion));
                         if (dep != null)
                         {
                             List<double> montosTemp = new List<double>();
@@ -198,14 +197,14 @@ namespace UCR.Negotium.Domain
                                 dep.MontoDepreciacion[ite] = dep.MontoDepreciacion[ite] + montosTemp[ite];
                             }
 
-                            depreciaciones.Where(s => s.CodDepresiacion.Equals(inversion.CodRequerimientoInversion)).First().MontoDepreciacion = dep.MontoDepreciacion;
+                            depreciaciones.Where(s => s.CodDepresiacion.Equals(inversion.CodInversion)).First().MontoDepreciacion = dep.MontoDepreciacion;
                         }
                     }
                 }
                 else
                 {
                     Depreciacion depreciacion = new Depreciacion();
-                    depreciacion.NombreDepreciacion = reinversion.DescripcionRequerimiento;
+                    depreciacion.NombreDepreciacion = reinversion.Descripcion;
                     int count2 = reinversion.AnoReinversion - this.AnoInicial;
                     int countF = reinversion.VidaUtil;
                     int count = 0;
@@ -233,55 +232,17 @@ namespace UCR.Negotium.Domain
             List<double> listIngresos = new List<double>();
             if (this.Proyecciones.Count.Equals(0))
             {
-                for (int i=0; i < this.HorizonteEvaluacionEnAnos; i++)
-                {
-                    listIngresos.Add(0);
-                }
+                listIngresos = Operaciones.ObtenerListaPorDefecto(this.HorizonteEvaluacionEnAnos);
             }
             else
             {
-                foreach (ProyeccionVentaArticulo articulo in this.Proyecciones)
+                foreach (ProyeccionVenta proyeccion in this.Proyecciones)
                 {
-                    double valIni = 0;
-                    List<double> listIngresosArticulo = new List<double>();
-                    articulo.DetallesProyeccionVenta.ForEach(detArticulo => valIni += detArticulo.Subtotal);
-
-                    listIngresosArticulo.Add(valIni);
-                    for (int i = 0; i < articulo.CrecimientoOferta.Count; i++)
-                    {
-                        valIni = ((valIni * articulo.CrecimientoOferta[i].PorcentajeCrecimiento) / 100) + valIni;
-                        listIngresosArticulo.Add(valIni);
-                    }
-
-                    listIngresos = SumListDoubles(listIngresos, listIngresosArticulo);
+                    listIngresos = Operaciones.SumarListas(listIngresos, proyeccion.IngresoGenerado(this.AnoInicial, this.HorizonteEvaluacionEnAnos));
                 }
             }
 
             return listIngresos;
-        }
-
-        private List<double> SumListDoubles(List<double> listIngresos, List<double> listIngresosArticulo)
-        {
-            if(listIngresos.Count > 0)
-            {
-                if (listIngresos.Count.Equals(listIngresosArticulo.Count))
-                {
-                    List<double> ingresosSumados = new List<double>();
-                    for (int i=0; i < listIngresos.Count; i++)
-                    {
-                        ingresosSumados.Add(listIngresos[i]+listIngresosArticulo[i]);
-                    }
-                    return ingresosSumados;
-                }
-                else
-                {
-                    return listIngresos;
-                }
-            }
-            else
-            {
-                return listIngresosArticulo;
-            }
         }
 
         public List<double> CostosGenerados
@@ -298,33 +259,17 @@ namespace UCR.Negotium.Domain
 
         private List<double> calcularCostosGenerados()
         {
-            double valIni = 0;
-            double porcentaje = 0;
             List<double> listCostos = new List<double>();
-            int inicio = this.AnoInicial+1;
-            int count = 0;
-            while (inicio <= (this.AnoInicial + this.HorizonteEvaluacionEnAnos))
+            if (this.Costos.Count.Equals(0))
             {
-                foreach (Costo articulo in this.Costos.Where(costo => costo.AnoCosto.Equals(inicio)))
+                listCostos = Operaciones.ObtenerListaPorDefecto(this.HorizonteEvaluacionEnAnos);
+            }
+            else
+            {
+                foreach (Costo costo in this.Costos)
                 {
-                    var valTemp = articulo.CostosMensuales.Select(costoM => costoM.Subtotal).Sum();
-                    valIni += Math.Round(valTemp, 2);
+                    listCostos = Operaciones.SumarListas(listCostos, costo.CostoGenerado(this.AnoInicial, this.HorizonteEvaluacionEnAnos));
                 }
-
-                if (count > 0)
-                {
-                    porcentaje = VariacionCostos.Count > 0 ? ((listCostos[listCostos.Count - 1] + valIni) * VariacionCostos[count].PorcentajeIncremento) / 100 : 0;
-                    listCostos.Add(listCostos[listCostos.Count - 1] + valIni + porcentaje);
-                }
-                else
-                {
-                    porcentaje = VariacionCostos.Count > 0 ? (valIni * VariacionCostos[count].PorcentajeIncremento) / 100 : 0;
-                    listCostos.Add(valIni + porcentaje);
-                }
-
-                valIni = 0;
-                inicio++;
-                count++;
             }
 
             return listCostos;
@@ -338,6 +283,7 @@ namespace UCR.Negotium.Domain
             {
                 double montoAnual = 0;
                 Depreciaciones.ForEach(dep => montoAnual += dep.MontoDepreciacion[i]);
+                montoAnual = montoAnual.PonderarNumero();
                 totalDep.Add(montoAnual);
             }
 
@@ -356,8 +302,8 @@ namespace UCR.Negotium.Domain
 
         public double calcularValorResidual()
         {
-            List<Inversion> inversiones = this.RequerimientosInversion;
-            List<Reinversion> reinversiones = this.RequerimientosReinversion;
+            List<Inversion> inversiones = this.Inversiones;
+            List<Reinversion> reinversiones = this.Reinversiones;
             double valorRes = 0;
             foreach (Inversion inversion in inversiones)
             {
@@ -383,6 +329,30 @@ namespace UCR.Negotium.Domain
             }
 
             return valorRes;
+        }
+    }
+
+    public class ProyectoLite
+    {
+        public int CodProyecto { get; set; }
+        public int AnoInicial { get; set; }
+        public int HorizonteEvaluacionEnAnos { get; set; }
+        public int CodTipoProyecto { get; set; }
+        public bool ConFinanciamiento { get; set; }
+    }
+
+    public struct IncrementosTemporales
+    {
+        public int Id, AnoIncremento;
+        public double Incremento;
+        public TipoAplicacionPorcentaje TipoIncremento; 
+
+        public IncrementosTemporales(int id, int anoIncremento, double incremento, TipoAplicacionPorcentaje tipoIncremento)
+        {
+            Id = id;
+            AnoIncremento = anoIncremento;
+            Incremento = incremento;
+            TipoIncremento = tipoIncremento;
         }
     }
 }

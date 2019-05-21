@@ -1,12 +1,11 @@
-﻿<Controls:MetroWindow x:Class="UCR.Negotium.Dialogs.RegistrarProyeccionVenta"
+﻿<base:DialogWithDataGrid x:Class="UCR.Negotium.Dialogs.RegistrarProyeccionVenta"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:UCR.Negotium.Dialogs"
-        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:base="clr-namespace:UCR.Negotium.Extensions"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" Style="{StaticResource dialogsStyle}"
-        Title="Proyección Oferta de Producto o Servicio | Negotium v1.0" Height="580" Width="700">
+        Title="Proyección Oferta de Producto o Servicio | Negotium v1.2" Height="620" Width="750">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.1*"/>
@@ -16,11 +15,14 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10.5*"/>
             <ColumnDefinition Width="17.5*"/>
-            <ColumnDefinition Width="21*"/>
+            <ColumnDefinition Width="27*"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Row="1">
             <Grid Style="{StaticResource gridFormStyle}">
                 <Label Content="Nombre del Producto:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
+                <Label Content="Año Inicial del Producto:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
             </Grid>
             <Grid Style="{StaticResource gridFormStyle}">
                 <Label Content="Unidad de Medida:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
@@ -32,11 +34,16 @@
                          TextChanged="tbNombreArticulo_TextChanged"/>
             </Grid>
             <Grid Style="{StaticResource gridFormStyle}">
+                <ComboBox ItemsSource="{Binding AnosDisponibles}" Name="cbAnosDisponibles"
+                          SelectedValue="{Binding ProyeccionSelected.AnoArticulo}" 
+                          SelectionChanged="cbAnosDisponibles_SelectionChanged"/>
+            </Grid>
+            <Grid Style="{StaticResource gridFormStyle}">
                 <ComboBox ItemsSource="{Binding UnidadesMedida}" SelectedValuePath="CodUnidad"
-                        SelectedValue="{Binding ProyeccionSelected.UnidadMedida.CodUnidad}" />
+                          SelectedValue="{Binding ProyeccionSelected.UnidadMedida.CodUnidad}" />
             </Grid>
         </StackPanel>
-        <RichTextBox FontSize="12" BorderThickness="0" Grid.ColumnSpan="2" Grid.Row="1" Margin="27,85,27,10">
+        <RichTextBox FontSize="12" BorderThickness="0" Grid.ColumnSpan="2" Grid.Row="1" Margin="27,125,27,10">
             <FlowDocument>
                 <Paragraph>
                     <Run Text="Registro de Estimación de ventas del Año 1"/>
@@ -47,12 +54,20 @@
                 ItemsSource="{Binding ProyeccionSelected.DetallesProyeccionVenta, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
                 BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}" AllowDrop="False" 
                 CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False"
-                Margin="27,110,27,10" Grid.Row="1">
+                Margin="27,150,27,15" Grid.Row="1" PreviewMouseRightButtonDown="dgDetalleProyeccion_PreviewMouseRightButtonDown">
             <DataGrid.Style>
                 <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
                     <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
                 </Style>
             </DataGrid.Style>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Style="{StaticResource menuItemValorTemplate}">
+                    </MenuItem>
+                    <MenuItem x:Name="btnAgregarValor" Click="btnAgregarValor_Click"
+                              Header="Añadir Número" Background="GhostWhite"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
             <DataGrid.Columns>
                 <DataGridTextColumn IsReadOnly="True" Binding="{Binding Path=Mes}" Header="Mes" Width="4*"/>
                 <DataGridTextColumn Binding="{Binding Path=Cantidad, Mode=TwoWay, StringFormat={}{0:N}}" Header="Cantidad" Width="3*">
@@ -75,38 +90,94 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Grid Grid.Column="3" Grid.RowSpan="2">
-            <RichTextBox IsReadOnly="True" FontSize="14" BorderThickness="0" Margin="27,20,27,400">
-                <FlowDocument>
-                    <Paragraph>
-                        <Run Text="Ingrese los porcentajes de Crecimiento anual de Oferta del Producto o Servicio"/>
-                    </Paragraph>
-                </FlowDocument>
-            </RichTextBox>
-            <DataGrid CanUserSortColumns="False" SelectionUnit="Cell" Name="dgDetalleCrecimiento"
-                ItemsSource="{Binding ProyeccionSelected.CrecimientoOferta, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+
+        <TabControl Name="tcCrecimientos" ItemContainerStyle="{StaticResource menuTabItem}" 
+                    Style="{StaticResource menuTabControl}" Grid.Column="2" Grid.RowSpan="2">
+            <TabItem Header="Crecimientos por precio">
+                <Grid>
+                    <RichTextBox IsReadOnly="True" FontSize="14" BorderThickness="0" Margin="27,25,27,380">
+                        <FlowDocument>
+                            <Paragraph>
+                                <Run Text="Porcentajes de crecimiento anual de oferta por Precio"/>
+                            </Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
+                    <DataGrid CanUserSortColumns="False" SelectionUnit="Cell" Name="dgDetalleCrecimientoPrecio"
+                ItemsSource="{Binding CrecimientoOfertaPrecio, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
                 BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}" AllowDrop="False" 
                 CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False"
-                Margin="27,85,27,10">
-                <DataGrid.Style>
-                    <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
-                        <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
-                    </Style>
-                </DataGrid.Style>
-                <DataGrid.Columns>
-                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding Path=AnoCrecimiento}" Header="Año" Width="4*"/>
-                    <DataGridTextColumn Binding="{Binding Path=PorcentajeCrecimiento, Mode=TwoWay, StringFormat={}{0:N}}" Header="Porcentaje (%)" Width="6*">
-                        <DataGridTextColumn.EditingElementStyle>
-                            <Style TargetType="{x:Type TextBox}">
-                                <EventSetter Event="TextChanged" Handler="tbNumeros_TextChanged" />
-                                <EventSetter Event="GotFocus" Handler="tbNumerosPositivos_GotFocus"/>
-                                <EventSetter Event="LostFocus" Handler="tbNumerosPositivos_LostFocus"/>
+                Margin="27,70,27,10" PreviewMouseRightButtonDown="dgDetalleCrecimientoPrecio_PreviewMouseRightButtonDown">
+                        <DataGrid.Style>
+                            <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                                <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
                             </Style>
-                        </DataGridTextColumn.EditingElementStyle>
-                    </DataGridTextColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
+                        </DataGrid.Style>
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Style="{StaticResource menuItemValorTemplate}">
+                                </MenuItem>
+                                <MenuItem x:Name="btnAgregarPorcentajePrecio" Click="btnAgregarPorcentajePrecio_Click"
+                              Header="Añadir Número" Background="GhostWhite"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding Path=AnoCrecimiento}" Header="Año" Width="4*"/>
+                            <DataGridTextColumn Binding="{Binding Path=PorcentajeCrecimiento, Mode=TwoWay, StringFormat={}{0:N}}" Header="Porcentaje (%)" Width="6*">
+                                <DataGridTextColumn.EditingElementStyle>
+                                    <Style TargetType="{x:Type TextBox}">
+                                        <EventSetter Event="TextChanged" Handler="tbNumeros_TextChanged" />
+                                        <EventSetter Event="GotFocus" Handler="tbNumerosPositivos_GotFocus"/>
+                                        <EventSetter Event="LostFocus" Handler="tbNumerosPositivos_LostFocus"/>
+                                    </Style>
+                                </DataGridTextColumn.EditingElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Crecimientos por cantidad">
+                <Grid>
+                    <RichTextBox IsReadOnly="True" FontSize="14" BorderThickness="0" Margin="27,25,27,380">
+                        <FlowDocument>
+                            <Paragraph>
+                                <Run Text="Porcentajes de crecimiento anual de oferta por Cantidad"/>
+                            </Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
+                    <DataGrid CanUserSortColumns="False" SelectionUnit="Cell" Name="dgDetalleCrecimientoCantidad"
+                ItemsSource="{Binding CrecimientoOfertaCantidad, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}" AllowDrop="False" 
+                CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False"
+                Margin="27,70,27,10" PreviewMouseRightButtonDown="dgDetalleCrecimientoCantidad_PreviewMouseRightButtonDown">
+                        <DataGrid.Style>
+                            <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                                <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
+                            </Style>
+                        </DataGrid.Style>
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Style="{StaticResource menuItemValorTemplate}">
+                                </MenuItem>
+                                <MenuItem Click="btnAgregarPorcentajeCantidad_Click" Header="Añadir Número" Background="GhostWhite"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding Path=AnoCrecimiento}" Header="Año" Width="4*"/>
+                            <DataGridTextColumn Binding="{Binding Path=PorcentajeCrecimiento, Mode=TwoWay, StringFormat={}{0:N}}" Header="Porcentaje (%)" Width="6*">
+                                <DataGridTextColumn.EditingElementStyle>
+                                    <Style TargetType="{x:Type TextBox}">
+                                        <EventSetter Event="TextChanged" Handler="tbNumeros_TextChanged" />
+                                        <EventSetter Event="GotFocus" Handler="tbNumerosPositivos_GotFocus"/>
+                                        <EventSetter Event="LostFocus" Handler="tbNumerosPositivos_LostFocus"/>
+                                    </Style>
+                                </DataGridTextColumn.EditingElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
         <Grid Grid.ColumnSpan="3" Grid.Row="2">
             <Button  Name="btnGuardar" Content="Guardar" Click="btnGuardar_Click" Width="75"
                      HorizontalAlignment="Left" Margin="200,15,0,0" Grid.Row="2" VerticalAlignment="Top"/>
@@ -114,4 +185,4 @@
                     HorizontalAlignment="Right" Margin="0,15,200,0" Grid.Row="2" VerticalAlignment="Top"/>
         </Grid>
     </Grid>
-</Controls:MetroWindow>
+</base:DialogWithDataGrid>

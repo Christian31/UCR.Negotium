@@ -22,30 +22,28 @@ namespace UCR.Negotium.Dialogs
 
         private InversionData requerimientoInversionData;
         private ReinversionData reinversionData;
-        private ProyectoData proyectoData = new ProyectoData();
         private UnidadMedidaData unidadMedidaData;
+
         private Inversion inversion;
         private List<UnidadMedida> unidadMedidas;
-        private int codProyecto;
-        private Proyecto proyecto;
+        private ProyectoLite proyecto;
 
         #endregion
 
         #region Constructor
-        public RegistrarInversion(int codProyecto, int codInversion = 0)
+        public RegistrarInversion(ProyectoLite proyectoLite, int codInversion = 0)
         {
             InitializeComponent();
             DataContext = this;
             tbDescInversion.ToolTip = "Ingrese en este campo el Nombre de la Inversión que desea registrar";
             tbCostoUnitario.ToolTip = "Ingrese en este campo el Costo Unitario de la Inversión que desea registrar";
 
-            this.codProyecto = codProyecto;
+            this.proyecto = proyectoLite;
 
             requerimientoInversionData = new InversionData();
             reinversionData = new ReinversionData();
             unidadMedidaData = new UnidadMedidaData();
 
-            proyecto = new Proyecto();
             inversion = new Inversion();
             unidadMedidas = new List<UnidadMedida>();
             unidadMedidas = unidadMedidaData.GetUnidadesMedidas();
@@ -53,8 +51,6 @@ namespace UCR.Negotium.Dialogs
 
             if (codInversion != 0)
                 inversion = requerimientoInversionData.GetInversion(codInversion);
-
-            proyecto = proyectoData.GetProyecto(codProyecto);
         }
         #endregion
 
@@ -67,7 +63,7 @@ namespace UCR.Negotium.Dialogs
             {
                 List<AnoDisponible> anos = new List<AnoDisponible>();
 
-                if (Inversion.CodRequerimientoInversion.Equals(0))
+                if (Inversion.CodInversion.Equals(0))
                 {
                     for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
                     {
@@ -79,8 +75,8 @@ namespace UCR.Negotium.Dialogs
                 else
                 {
                     List<Reinversion> reinversiones = new List<Reinversion>();
-                    reinversiones = reinversionData.GetReinversiones(codProyecto).Where(reinv => 
-                        reinv.CodRequerimientoInversion.Equals(Inversion.CodRequerimientoInversion)).ToList();
+                    reinversiones = reinversionData.GetReinversiones(proyecto.CodProyecto).Where(reinv => 
+                        reinv.CodInversion.Equals(Inversion.CodInversion)).ToList();
 
                     for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
                     {
@@ -131,12 +127,9 @@ namespace UCR.Negotium.Dialogs
         {
             if (!ValidateRequiredFields())
             {
-                if (!Inversion.Depreciable)
-                    Inversion.VidaUtil = 0;
-
-                if (Inversion.CodRequerimientoInversion.Equals(0))
+                if (Inversion.CodInversion.Equals(0))
                 {
-                    int idInversion = requerimientoInversionData.InsertarInvesion(Inversion, codProyecto);
+                    int idInversion = requerimientoInversionData.InsertarInvesion(Inversion, proyecto.CodProyecto);
                     if(!idInversion.Equals(-1))
                     {
                         //success
@@ -148,7 +141,8 @@ namespace UCR.Negotium.Dialogs
                     else
                     {
                         //error
-                        MessageBox.Show("Ha ocurrido un error al insertar la inversión del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.INSERTARINVERSIONERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
@@ -157,14 +151,15 @@ namespace UCR.Negotium.Dialogs
                     {
                         //success
                         //insertar multiples reinversiones
-                        InsertarMultiplesReinversiones(Inversion.CodRequerimientoInversion);
+                        InsertarMultiplesReinversiones(Inversion.CodInversion);
                         Reload = true;
                         Close();
                     }
                     else
                     {
                         //error
-                        MessageBox.Show("Ha ocurrido un error al actualizar la inversión del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.ACTUALIZARINVERSIONERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }
@@ -263,7 +258,7 @@ namespace UCR.Negotium.Dialogs
         private void InsertarMultiplesReinversiones(int codInversion)
         {
             List<Reinversion> reinversiones = new List<Reinversion>();
-            reinversiones = reinversionData.GetReinversiones(codProyecto).Where(reinv => reinv.CodRequerimientoInversion.Equals(codInversion)).ToList();
+            reinversiones = reinversionData.GetReinversiones(proyecto.CodProyecto).Where(reinv => reinv.CodInversion.Equals(codInversion)).ToList();
 
             foreach (AnoDisponible anoDisponible in dgAnosDisponibles.ItemsSource)
             {
@@ -273,20 +268,20 @@ namespace UCR.Negotium.Dialogs
                     {
                         AnoReinversion = anoDisponible.Ano,
                         Cantidad = Inversion.Cantidad,
-                        CodRequerimientoInversion = codInversion,
+                        CodInversion = codInversion,
                         CostoUnitario = Inversion.CostoUnitario,
                         Depreciable = Inversion.Depreciable,
-                        DescripcionRequerimiento = Inversion.DescripcionRequerimiento,
+                        Descripcion = Inversion.Descripcion,
                         UnidadMedida = Inversion.UnidadMedida,
                         VidaUtil = Inversion.VidaUtil
                     };
                     
-                    reinversionData.InsertarReinversion(reinversion, codProyecto);
+                    reinversionData.InsertarReinversion(reinversion, proyecto.CodProyecto);
                 }
                 else if (!anoDisponible.IsChecked && !reinversiones.Where(reinv => reinv.AnoReinversion.Equals(anoDisponible.Ano)).Count().Equals(0))
                 {
                     reinversiones.Where(reinv => reinv.AnoReinversion.Equals(anoDisponible.Ano)).ToList()
-                        .ForEach(reinv => reinversionData.EliminarReinversion(reinv.CodRequerimientoReinversion));
+                        .ForEach(reinv => reinversionData.EliminarReinversion(reinv.CodReinversion));
                 }
             }
         }

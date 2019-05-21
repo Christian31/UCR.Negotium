@@ -78,7 +78,8 @@ namespace UCR.Negotium.Dialogs
                 }
                 else
                 {
-                    MessageBox.Show("Ha ocurrido un error al actualizar la Moneda", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(Constantes.ACTUALIZARMONEDAERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                        MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
 

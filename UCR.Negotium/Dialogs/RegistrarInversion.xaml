@@ -3,13 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:conv="clr-namespace:UCR.Negotium.Extensions"
-        xmlns:local="clr-namespace:UCR.Negotium.Dialogs"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        xmlns:UserControls="clr-namespace:UCR.Negotium.UserControls"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" Style="{StaticResource dialogsStyle}"
-        Title="Inversión | Negotium v1.0" Height="400" Width="520">
+        Title="Inversión | Negotium v1.2" Height="400" Width="520">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="1.3*"/>
@@ -52,7 +49,7 @@
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="1" >
             <Grid Style="{StaticResource gridFormStyle}">
-                <TextBox Text="{Binding Inversion.DescripcionRequerimiento}" Name="tbDescInversion"
+                <TextBox Text="{Binding Inversion.Descripcion}" Name="tbDescInversion"
                          TextChanged="tbDescInversion_TextChanged"/>
             </Grid>
             <Grid Style="{StaticResource gridFormStyle}">

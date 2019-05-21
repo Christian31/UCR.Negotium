@@ -21,13 +21,21 @@ namespace UCR.Negotium
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("es-ES");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-ES");
 
             FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement),
               new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 
             base.OnStartup(e);
+        }
+
+        private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show(string.Format(Extensions.Constantes.ERRORINESPERADO, e.Exception.Message), 
+                Extensions.Constantes.NEGOTIUMTLT, MessageBoxButton.OK, MessageBoxImage.Error);
+            e.Handled = true;
+            Current.Shutdown();
         }
     }
 }

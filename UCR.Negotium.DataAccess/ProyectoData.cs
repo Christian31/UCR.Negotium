@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using UCR.Negotium.Domain;
-using UCR.Negotium.Domain.Tracing;
+using UCR.Negotium.Base.Trace;
 
 namespace UCR.Negotium.DataAccess
 {
@@ -19,10 +19,10 @@ namespace UCR.Negotium.DataAccess
         {
             int idProyecto = -1;
             object newProdID;
-            string insert1 = "INSERT INTO PROYECTO(nombre_proyecto, resumen_ejecutivo, con_ingresos, "+
+            string insert1 = "INSERT INTO PROYECTO(nombre_proyecto, resumen_ejecutivo, "+
                 "ano_inicial_proyecto, horizonte_evaluacion_en_anos, paga_impuesto, porcentaje_impuesto, "+
                 "direccion_exacta, cod_provincia, cod_canton, cod_distrito, cod_evaluador, con_financiamiento, "+
-                "objeto_interes, archivado, cod_tipo_proyecto, cod_tipo_moneda) " +
+                "objeto_interes, archivado, cod_tipo_proyecto, cod_tipo_moneda, dias_desface_capital_trabajo) " +
                 "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); SELECT last_insert_rowid();";
 
             string insert2 = "INSERT INTO PROYECTO_INDICE(cod_proyecto, guid_proyecto) " +
@@ -39,7 +39,6 @@ namespace UCR.Negotium.DataAccess
                     SQLiteCommand command2 = new SQLiteCommand(insert2, conn);
                     command1.Parameters.AddWithValue("nombre_proyecto", proyecto.NombreProyecto);
                     command1.Parameters.AddWithValue("resumen_ejecutivo", proyecto.ResumenEjecutivo);
-                    command1.Parameters.AddWithValue("con_ingresos", proyecto.ConIngresos ? 1 : 0);
                     command1.Parameters.AddWithValue("ano_inicial_proyecto", proyecto.AnoInicial);
                     command1.Parameters.AddWithValue("horizonte_evaluacion_en_anos", proyecto.HorizonteEvaluacionEnAnos);
                     command1.Parameters.AddWithValue("paga_impuesto", proyecto.PagaImpuesto);
@@ -54,6 +53,7 @@ namespace UCR.Negotium.DataAccess
                     command1.Parameters.AddWithValue("archivado", proyecto.Archivado);
                     command1.Parameters.AddWithValue("cod_tipo_proyecto", proyecto.TipoProyecto.CodTipo);
                     command1.Parameters.AddWithValue("cod_tipo_moneda", proyecto.TipoMoneda.CodMoneda);
+                    command1.Parameters.AddWithValue("dias_desface_capital_trabajo", proyecto.DiasDesfaceCapitalTrabajo);
 
                     transaction = conn.BeginTransaction();
 
@@ -80,8 +80,8 @@ namespace UCR.Negotium.DataAccess
         {
             int result = -1;
             string update = "UPDATE PROYECTO SET nombre_proyecto=?, ano_inicial_proyecto=?, " +
-                "horizonte_evaluacion_en_anos=?, resumen_ejecutivo=?, con_ingresos=?, " +
-                "paga_impuesto=?, porcentaje_impuesto=?, direccion_exacta=?, cod_provincia=?, cod_canton=?, " +
+                "horizonte_evaluacion_en_anos=?, resumen_ejecutivo=?, paga_impuesto=?, " +
+                "porcentaje_impuesto=?, direccion_exacta=?, cod_provincia=?, cod_canton=?, " +
                 "cod_distrito=?, con_financiamiento=?, objeto_interes=?, cod_tipo_proyecto=? WHERE cod_proyecto=?";
 
             using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
@@ -94,7 +94,6 @@ namespace UCR.Negotium.DataAccess
                     command.Parameters.AddWithValue("ano_inicial_proyecto", proyecto.AnoInicial);
                     command.Parameters.AddWithValue("horizonte_evaluacion_en_anos", proyecto.HorizonteEvaluacionEnAnos);
                     command.Parameters.AddWithValue("resumen_ejecutivo", proyecto.ResumenEjecutivo);
-                    command.Parameters.AddWithValue("con_ingresos", proyecto.ConIngresos ? 1 : 0);
                     command.Parameters.AddWithValue("paga_impuesto", proyecto.PagaImpuesto ? 1 : 0);
                     command.Parameters.AddWithValue("porcentaje_impuesto", proyecto.PorcentajeImpuesto);
                     command.Parameters.AddWithValue("direccion_exacta", proyecto.DireccionExacta);
@@ -299,7 +298,6 @@ namespace UCR.Negotium.DataAccess
                             proyecto.Encargado.IdEncargado = int.Parse(reader["cod_evaluador"].ToString());
                             proyecto.CaraterizacionDelBienServicio = reader["categorizacion_bien_servicio"].ToString();
                             proyecto.CodProyecto = int.Parse(reader["cod_proyecto"].ToString());
-                            proyecto.ConIngresos = bool.Parse(reader["con_ingresos"].ToString());
                             proyecto.DescripcionPoblacionBeneficiaria = reader["descripcion_poblacion_beneficiaria"].ToString();
                             proyecto.DescripcionSostenibilidadDelProyecto = reader["descripcion_sostenibilidad_proyecto"].ToString();
                             proyecto.DireccionExacta = reader["direccion_exacta"].ToString();
@@ -318,6 +316,7 @@ namespace UCR.Negotium.DataAccess
                             proyecto.ObjetoInteres = reader["objeto_interes"].ToString();
                             proyecto.Archivado = (reader["archivado"] as int?).Equals(1);
                             proyecto.TipoProyecto = tipoProyectoData.GetTipoProyecto(int.Parse(reader["cod_tipo_proyecto"].ToString()));
+                            proyecto.DiasDesfaceCapitalTrabajo = GetDiasDesface(proyecto, int.Parse(reader["dias_desface_capital_trabajo"].ToString()));
                         }
                     }
                 }
@@ -325,6 +324,46 @@ namespace UCR.Negotium.DataAccess
                 {
                     ex.TraceExceptionAsync();
                     proyecto = new Proyecto();
+                }
+            }
+
+            return proyecto;
+        }
+
+        private int GetDiasDesface(Proyecto proyecto, int diasRegistrados)
+        {
+            return diasRegistrados == 0 ? proyecto.DiasDesfaceCapitalTrabajo : diasRegistrados;
+        }
+
+        public ProyectoLite GetProyectoLite(int codProyecto)
+        {
+            ProyectoLite proyecto = new ProyectoLite();
+            string select = "SELECT ano_inicial_proyecto, horizonte_evaluacion_en_anos, con_financiamiento, cod_tipo_proyecto FROM PROYECTO WHERE cod_proyecto=?";
+
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
+            {
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand(select, conn);
+                    cmd.Parameters.AddWithValue("cod_proyecto", codProyecto);
+
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            proyecto.CodProyecto = codProyecto;
+                            proyecto.AnoInicial = int.Parse(reader["ano_inicial_proyecto"].ToString());
+                            proyecto.HorizonteEvaluacionEnAnos = int.Parse(reader["horizonte_evaluacion_en_anos"].ToString());
+                            proyecto.ConFinanciamiento = bool.Parse(reader["con_financiamiento"].ToString());
+                            proyecto.CodTipoProyecto = int.Parse(reader["cod_tipo_proyecto"].ToString());
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.TraceExceptionAsync();
+                    proyecto = new ProyectoLite();
                 }
             }
 
@@ -395,6 +434,32 @@ namespace UCR.Negotium.DataAccess
             }
 
             return signo;
+        }
+
+        public bool EditarProyectoCapitalTrabajo(int codProyecto, int diasDesface)
+        {
+            int result = -1;
+            string update = "UPDATE PROYECTO SET dias_desface_capital_trabajo=? WHERE cod_proyecto=?";
+
+            using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
+            {
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand command = new SQLiteCommand(update, conn);
+                    command.Parameters.AddWithValue("dias_desface_capital_trabajo", diasDesface);
+                    command.Parameters.AddWithValue("cod_proyecto", codProyecto);
+
+                    result = command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    ex.TraceExceptionAsync();
+                    result = -1;
+                }
+            }
+
+            return result != -1;
         }
     }
 }

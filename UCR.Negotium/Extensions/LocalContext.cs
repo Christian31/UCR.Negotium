@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Windows;
+using UCR.Negotium.Base.Enumerados;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
-using UCR.Negotium.Domain.Enums;
 
 namespace UCR.Negotium.Extensions
 {
@@ -17,8 +17,18 @@ namespace UCR.Negotium.Extensions
         {
             if (FlujoCaja == null)
             {
-                SetFlujoCaja(DatatableBuilder.GenerarFlujoCaja(proyecto, dgvCapitalTrabajo, dgvFinanciamiento, dgvTotalesReinversiones,
-                    totalInversiones, recuperacionCT).AsDataView());
+                if(proyecto.TipoProyecto.CodTipo == 1)
+                {
+                    SetFlujoCaja(DatatableBuilder.GenerarFlujoCaja(proyecto, dgvCapitalTrabajo, 
+                        dgvFinanciamiento, dgvTotalesReinversiones, totalInversiones, 
+                        recuperacionCT).AsDataView());
+                }
+                else
+                {
+                    SetFlujoCaja(DatatableBuilder.GenerarFlujoCajaSocial(proyecto, 
+                        dgvCapitalTrabajo, dgvFinanciamiento, dgvTotalesReinversiones, 
+                        totalInversiones, recuperacionCT).AsDataView());
+                }
             }
             return FlujoCaja;
         }
@@ -54,7 +64,7 @@ namespace UCR.Negotium.Extensions
                 CacheSignoMonedas.Add(new CacheSignoMoneda()
                 {
                     CodProyecto = codProyecto,
-                    SignoMoneda = proyectoData.GetSignoMonedaProyecto(codProyecto)
+                    SignoMoneda = proyectoData.GetSignoMonedaProyecto(codProyecto)??string.Empty
                 });
             }
             return CacheSignoMonedas.Find(signo => signo.CodProyecto.Equals(codProyecto)).SignoMoneda;
@@ -99,7 +109,6 @@ namespace UCR.Negotium.Extensions
                 switch (srcModule)
                 {
                     case Modulo.Caracterizacion:
-                    case Modulo.Financiamiento:
                         break;
                     case Modulo.Proponente:
                         mainWindow.resumen.CodProyecto = codProyecto;
@@ -119,6 +128,9 @@ namespace UCR.Negotium.Extensions
                     case Modulo.Costos:
                         mainWindow.costos.CodProyecto =
                             mainWindow.capitalTrabajo.CodProyecto = codProyecto;
+                        break;
+                    case Modulo.Financiamiento:
+                        mainWindow.financiamientoUc.CodProyecto = codProyecto;
                         break;
                     default:
                         mainWindow.resumen.CodProyecto = mainWindow.orgProponente.CodProyecto =

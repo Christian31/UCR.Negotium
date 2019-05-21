@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Data;
 using System.IO;
 using System.Threading;
 using System.Xml;
+using UCR.Negotium.Base.Trace;
 using UCR.Negotium.DataAccess;
-using UCR.Negotium.Domain.Tracing;
 
 namespace UCR.Negotium.Extensions
 {
@@ -17,7 +16,7 @@ namespace UCR.Negotium.Extensions
             XmlDocument xdocBackup = new XmlDocument();
             XmlElement rootElement = xdocBackup.CreateElement("backup");
             XmlAttribute versionAtr = xdocBackup.CreateAttribute("version");
-            versionAtr.Value = GetCurrentVersion();
+            versionAtr.Value = ConfigurationHelper.GetCurrentVersion();
             rootElement.Attributes.Append(versionAtr);
             rootElement.InnerText = GetBase64StringDb();
             xdocBackup.AppendChild(rootElement);
@@ -125,11 +124,6 @@ namespace UCR.Negotium.Extensions
             }
         }
 
-        private static string GetCurrentVersion()
-        {
-            return System.Configuration.ConfigurationManager.AppSettings["versionDb"];
-        }
-
         private static string GetBase64StringDb()
         {
             string databasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Data\NegotiumDatabase.db");
@@ -160,7 +154,7 @@ namespace UCR.Negotium.Extensions
         private static int CompareVersion(string backupVersion)
         {
             Version backup = new Version(backupVersion);
-            Version current = new Version(GetCurrentVersion());
+            Version current = new Version(ConfigurationHelper.GetCurrentVersion());
             return backup.CompareTo(current);
         }
 

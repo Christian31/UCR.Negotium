@@ -1,11 +1,11 @@
-﻿using System;
+﻿using UCR.Negotium.Base.Utilidades;
 
 namespace UCR.Negotium.Domain
 {
     public class Inversion
     {
-        public int CodRequerimientoInversion { get; set; }
-        public string DescripcionRequerimiento { get; set; }
+        public int CodInversion { get; set; }
+        public string Descripcion { get; set; }
         public double Cantidad { get; set; }
         public double CostoUnitario { get; set; }
         public bool Depreciable { get; set; }
@@ -22,7 +22,7 @@ namespace UCR.Negotium.Domain
 
         public override string ToString()
         {
-            return DescripcionRequerimiento;
+            return Descripcion;
         }
 
         public string CostoUnitarioFormat { get; set; }
@@ -31,7 +31,7 @@ namespace UCR.Negotium.Domain
         {
             get
             {
-                return this.Cantidad * this.CostoUnitario;
+                return (this.Cantidad * this.CostoUnitario).PonderarNumero();
             }
         }
 
@@ -41,7 +41,7 @@ namespace UCR.Negotium.Domain
         {
             get
             {
-                return Math.Round((this.CostoUnitario * this.Cantidad) / this.VidaUtil, 2);
+                return ((this.CostoUnitario * this.Cantidad) / this.VidaUtil).PonderarNumero();
             }
             set
             {
@@ -51,15 +51,8 @@ namespace UCR.Negotium.Domain
 
         public UnidadMedida UnidadMedida
         {
-            get
-            {
-                return unidadMedida;
-            }
-
-            set
-            {
-                unidadMedida = value;
-            }
+            get { return unidadMedida; }
+            set { unidadMedida = value; }
         }
     }
 }

@@ -1,28 +1,34 @@
 ﻿using System;
 using System.Data.SQLite;
 using UCR.Negotium.Domain;
-using UCR.Negotium.Domain.Tracing;
+using UCR.Negotium.Base.Trace;
 
 namespace UCR.Negotium.DataAccess
 {
     public class OrganizacionProponenteData:BaseData
     {
-        public OrganizacionProponenteData() { }
-
-        public int InsertarOrganizacionProponente(OrganizacionProponente orgProponente, int codProyecto)
+        public OrganizacionProponente InsertarOrganizacionProponente(OrganizacionProponente orgProponente, int codProyecto)
         {
-            int codOrganizacion = -1;
-            object codOrganizacionObject;
-            string insert = "INSERT INTO ORGANIZACION_PROPONENTE(nombre_organizacion, cedula_juridica, "+
+            object newProdID, newProdID2;
+
+            string insert1 = "INSERT INTO ORGANIZACION_PROPONENTE(nombre_organizacion, cedula_juridica, "+
                 "telefono, descripcion, cod_tipo, email, cod_proyecto) VALUES(?,?,?,?,?,?,?);"
                 + "SELECT last_insert_rowid();";
 
+            string insert2 = "INSERT INTO PROPONENTE(nombre, apellidos, num_identificacion, telefono, " +
+                "email, puesto_en_organizacion, genero, cod_organizacion, representante_individual) " +
+                "VALUES(?,?,?,?,?,?,?,?,?); SELECT last_insert_rowid();";
+
             using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
+                SQLiteTransaction transaction = null;
+
                 try
                 {
                     conn.Open();
-                    SQLiteCommand cmd = new SQLiteCommand(insert, conn);
+                    SQLiteCommand cmd = new SQLiteCommand(insert1, conn);
+                    SQLiteCommand command2 = null;
+
                     cmd.Parameters.AddWithValue("nombre_organizacion", orgProponente.NombreOrganizacion);
                     cmd.Parameters.AddWithValue("cedula_juridica", orgProponente.CedulaJuridica);
                     cmd.Parameters.AddWithValue("telefono", orgProponente.Telefono);
@@ -31,44 +37,94 @@ namespace UCR.Negotium.DataAccess
                     cmd.Parameters.AddWithValue("email", orgProponente.CorreoElectronico);
                     cmd.Parameters.AddWithValue("cod_proyecto", codProyecto);
 
-                    codOrganizacionObject = cmd.ExecuteScalar();
-                    codOrganizacion = int.Parse(codOrganizacionObject.ToString());
+                    transaction = conn.BeginTransaction();
+
+                    newProdID = cmd.ExecuteScalar();
+                    orgProponente.CodOrganizacion = int.Parse(newProdID.ToString());
+
+                    command2 = new SQLiteCommand(insert2, conn);
+                    command2.Parameters.AddWithValue("nombre", orgProponente.Proponente.Nombre);
+                    command2.Parameters.AddWithValue("apellidos", orgProponente.Proponente.Apellidos);
+                    command2.Parameters.AddWithValue("num_identificacion", orgProponente.Proponente.NumIdentificacion);
+                    command2.Parameters.AddWithValue("telefono", orgProponente.Proponente.Telefono);
+                    command2.Parameters.AddWithValue("email", orgProponente.Proponente.Email);
+                    command2.Parameters.AddWithValue("puesto_en_organizacion", orgProponente.Proponente.PuestoEnOrganizacion);
+                    command2.Parameters.AddWithValue("genero", orgProponente.Proponente.Genero ? 'm' : 'f');
+                    command2.Parameters.AddWithValue("cod_organizacion", orgProponente.CodOrganizacion);
+                    command2.Parameters.AddWithValue("representante_individual", orgProponente.Proponente.EsRepresentanteIndividual);
+
+                    newProdID2 = command2.ExecuteScalar();
+                    orgProponente.Proponente.IdProponente = int.Parse(newProdID2.ToString());
+                    transaction.Commit();
                 }
                 catch(Exception ex)
                 {
+                    transaction.Rollback();
                     ex.TraceExceptionAsync();
-                    codOrganizacion = -1;
+                    orgProponente = new OrganizacionProponente();
                 }
             }
 
-            return codOrganizacion;
+            return orgProponente;
         }
 
         public bool EditarOrganizacionProponente(OrganizacionProponente organizacion)
         {
             int result = -1;
-            string update = "UPDATE ORGANIZACION_PROPONENTE SET nombre_organizacion=?, " +
+
+            string update1 = "UPDATE ORGANIZACION_PROPONENTE SET nombre_organizacion=?, " +
                 "cedula_juridica=?, telefono=?, descripcion=?, cod_tipo=?, email=? "+
                 "WHERE cod_organizacion=?";
 
+            string update2 = "UPDATE PROPONENTE SET nombre=?, apellidos=?, telefono=?, " +
+                "email=?, puesto_en_organizacion=?, genero=?, representante_individual=?, " +
+                "num_identificacion=? WHERE cod_proponente=?";
+
             using (SQLiteConnection conn = new SQLiteConnection(cadenaConexion))
             {
+                SQLiteTransaction transaction = null;
+
                 try
                 {
                     conn.Open();
-                    SQLiteCommand cmd = new SQLiteCommand(update, conn);
-                    cmd.Parameters.AddWithValue("nombre_organizacion", organizacion.NombreOrganizacion);
-                    cmd.Parameters.AddWithValue("cedula_juridica", organizacion.CedulaJuridica);
-                    cmd.Parameters.AddWithValue("telefono", organizacion.Telefono);
-                    cmd.Parameters.AddWithValue("descripcion", organizacion.Descripcion);
-                    cmd.Parameters.AddWithValue("cod_tipo", organizacion.Tipo.CodTipo);
-                    cmd.Parameters.AddWithValue("email", organizacion.CorreoElectronico);
-                    cmd.Parameters.AddWithValue("cod_organizacion", organizacion.CodOrganizacion);
+                    SQLiteCommand command1 = new SQLiteCommand(update1, conn);
+                    SQLiteCommand command2 = null;
 
-                    result = cmd.ExecuteNonQuery();
+                    command1.Parameters.AddWithValue("nombre_organizacion", organizacion.NombreOrganizacion);
+                    command1.Parameters.AddWithValue("cedula_juridica", organizacion.CedulaJuridica);
+                    command1.Parameters.AddWithValue("telefono", organizacion.Telefono);
+                    command1.Parameters.AddWithValue("descripcion", organizacion.Descripcion);
+                    command1.Parameters.AddWithValue("cod_tipo", organizacion.Tipo.CodTipo);
+                    command1.Parameters.AddWithValue("email", organizacion.CorreoElectronico);
+                    command1.Parameters.AddWithValue("cod_organizacion", organizacion.CodOrganizacion);
+
+                    transaction = conn.BeginTransaction();
+
+                    result = command1.ExecuteNonQuery();
+                    if(result != -1)
+                    {
+                        command2 = new SQLiteCommand(update2, conn);
+                        command2.Parameters.AddWithValue("nombre", organizacion.Proponente.Nombre);
+                        command2.Parameters.AddWithValue("apellidos", organizacion.Proponente.Apellidos);
+                        command2.Parameters.AddWithValue("telefono", organizacion.Proponente.Telefono);
+                        command2.Parameters.AddWithValue("email", organizacion.Proponente.Email);
+                        command2.Parameters.AddWithValue("puesto_en_organizacion", organizacion.Proponente.PuestoEnOrganizacion);
+                        command2.Parameters.AddWithValue("genero", organizacion.Proponente.Genero ? 'm' : 'f');
+                        command2.Parameters.AddWithValue("representante_individual", organizacion.Proponente.EsRepresentanteIndividual);
+                        command2.Parameters.AddWithValue("num_identificacion", organizacion.Proponente.NumIdentificacion);
+                        command2.Parameters.AddWithValue("cod_proponente", organizacion.Proponente.IdProponente);
+
+                        result = command2.ExecuteNonQuery();
+                        transaction.Commit();
+                    }
+                    else
+                    {
+                        transaction.Rollback();
+                    }
                 }
                 catch(Exception ex)
                 {
+                    transaction.Rollback();
                     ex.TraceExceptionAsync();
                     result = -1;
                 }

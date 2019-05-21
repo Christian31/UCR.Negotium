@@ -1,6 +1,6 @@
 ﻿namespace UCR.Negotium.Domain
 {
-    public class CrecimientoOfertaArticulo
+    public class CrecimientoOferta
     {
         public int CodCrecimiento { get; set; }
         public int AnoCrecimiento { get; set; }

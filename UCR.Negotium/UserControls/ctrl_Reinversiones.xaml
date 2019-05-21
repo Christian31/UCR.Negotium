@@ -27,7 +27,7 @@
                           ItemsSource="{Binding ReinversionesList, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
                           SelectedItem="{Binding ReinversionSelected, UpdateSourceTrigger=PropertyChanged}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding Path=DescripcionRequerimiento}" Header="Descripción" Width="4*"/>
+                        <DataGridTextColumn Binding="{Binding Path=Descripcion}" Header="Descripción" Width="4*"/>
                         <DataGridTextColumn Binding="{Binding Path=AnoReinversion}" Header="Año de Reinversión" Width="2.5*"/>
                         <DataGridTextColumn Binding="{Binding Path=Cantidad}" Header="Cantidad" Width="1.5*"/>
                         <DataGridTextColumn Binding="{Binding Path=UnidadMedida}" Header="Unidad Medida" Width="2*"/>

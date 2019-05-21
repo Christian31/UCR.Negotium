@@ -8,7 +8,8 @@ using System.Data;
 using UCR.Negotium.DataAccess;
 using System.ComponentModel;
 using UCR.Negotium.Extensions;
-using UCR.Negotium.Domain.Enums;
+using UCR.Negotium.Base.Utilidades;
+using UCR.Negotium.Base.Enumerados;
 
 namespace UCR.Negotium.UserControls
 {
@@ -25,7 +26,6 @@ namespace UCR.Negotium.UserControls
 
         private CostoData costoData;
         private ProyectoData proyectoData;
-        private VariacionAnualCostoData variacionCostoData;
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
@@ -36,7 +36,6 @@ namespace UCR.Negotium.UserControls
 
             costoData = new CostoData();
             proyectoData = new ProyectoData();
-            variacionCostoData = new VariacionAnualCostoData();
 
             proyecto = new Proyecto();
             costoSelected = new Costo();
@@ -114,7 +113,8 @@ namespace UCR.Negotium.UserControls
             }
             else
             {
-                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Completo actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Constantes.ACTUALIZARPROYECTORESTRTIPOAMBIENTAL, Constantes.ACTUALIZARPROYECTOTLT,
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -136,8 +136,7 @@ namespace UCR.Negotium.UserControls
         {
             if (CostoSelected != null)
             {
-                if (MessageBox.Show("Esta seguro que desea eliminar este costo?", "Confirmar",
-                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if (CustomMessageBox.ShowConfirmationMesage(Constantes.ELIMINARCOSTOMSG))
                 {
                     if (costoData.EliminarCosto(CostoSelected.CodCosto))
                     {
@@ -145,30 +144,13 @@ namespace UCR.Negotium.UserControls
                     }
                     else
                     {
-                        MessageBox.Show("Ha ocurrido un error al eliminar el costo del proyecto",
-                            "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.ELIMINARCOSTOERROR, Constantes.ACTUALIZARPROYECTOTLT,
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }
         }
 
-        private void lblVariacionCostos_Click(object sender, RoutedEventArgs e)
-        {
-            if (!proyecto.TipoProyecto.CodTipo.Equals(2))
-            {
-                RegistrarVariacionAnualCostos registrarVariacionAnual = new RegistrarVariacionAnualCostos(CodProyecto);
-                registrarVariacionAnual.ShowDialog();
-
-                if (registrarVariacionAnual.IsActive == false && registrarVariacionAnual.Reload)
-                {
-                    LocalContext.ReloadUserControls(CodProyecto, Modulo.Costos);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Completo actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-        }
         #endregion
 
         #region InternalMethods
@@ -183,15 +165,14 @@ namespace UCR.Negotium.UserControls
             {
                 costo.CostosMensuales.ForEach(det =>
                 {
-                    det.CostoUnitarioFormat = signoMoneda + " " + det.CostoUnitario.ToString("#,##0.##");
-                    det.SubtotalFormat = signoMoneda + " " + det.Subtotal.ToString("#,##0.##");
+                    det.CostoUnitarioFormat = det.CostoUnitario.FormatoMoneda(signoMoneda);
+                    det.SubtotalFormat = det.Subtotal.FormatoMoneda(signoMoneda);
                 });
                 return true;
             });
 
             proyecto = proyectoData.GetProyecto(CodProyecto);
             proyecto.Costos = CostosList;
-            proyecto.VariacionCostos = variacionCostoData.GetVariacionAnualCostos(CodProyecto);
             if (!proyecto.Costos.Count.Equals(0))
             {
                 DTCostosTotales = DatatableBuilder.GenerarCostosTotales(proyecto).AsDataView();

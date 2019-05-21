@@ -3,14 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:conv="clr-namespace:UCR.Negotium.Extensions"
-        xmlns:local="clr-namespace:UCR.Negotium.Dialogs"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        xmlns:UserControls="clr-namespace:UCR.Negotium.UserControls"
         mc:Ignorable="d" Style="{StaticResource dialogsStyle}" 
         WindowStartupLocation="CenterScreen"
-        Title="Reinversión | Negotium v1.0" Height="490" Width="450">
+        Title="Reinversión | Negotium v1.2" Height="490" Width="450">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.5*"/>
@@ -60,13 +57,13 @@
                           Checked="cbNoInversion_Checked"/>
             </StackPanel>
             <Grid Style="{StaticResource gridFormStyle}">
-                <TextBox Text="{Binding Reinversion.DescripcionRequerimiento, UpdateSourceTrigger=PropertyChanged}" Name="tbDescReinversion"
+                <TextBox Text="{Binding Reinversion.Descripcion, UpdateSourceTrigger=PropertyChanged}" Name="tbDescReinversion"
                          TextChanged="tbDescReinversion_TextChanged"
                          IsEnabled="{Binding VincularInversion, Converter={conv:InverseBoolConverter}, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
             <Grid Style="{StaticResource gridFormStyle}">
-                <ComboBox ItemsSource="{Binding Inversiones}" SelectedValuePath="CodRequerimientoInversion"
-                          SelectedValue="{Binding Reinversion.CodRequerimientoInversion}" 
+                <ComboBox ItemsSource="{Binding Inversiones}" SelectedValuePath="CodInversion"
+                          SelectedValue="{Binding Reinversion.CodInversion}" 
                           Name="cbxInversiones" SelectionChanged="cbxInversiones_SelectionChanged"
                           IsEnabled="{Binding VincularInversion, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>

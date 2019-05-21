@@ -10,8 +10,6 @@ using System.Text;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
 using iTextSharp.tool.xml;
-using iTextSharp.text.html.simpleparser;
-using iTextSharp.text.html;
 
 namespace UCR.Negotium.Extensions
 {
@@ -20,17 +18,23 @@ namespace UCR.Negotium.Extensions
         private Proyecto proyecto;
         Dictionary<string, string> reinvTotales;
         Dictionary<string, string> proyeccionesTotales;
-        Dictionary<string, Tuple<string, string>> costosTotales;
+        Dictionary<string, string> costosTotales;
         Dictionary<string, Tuple<string, string, string>> capitalTrabajo;
         List<DataView> depreciacionesPaging;
         Dictionary<string, string> depTotales;
         DataView amortizacionFinanciamiento;
-        string invTotales, recuperacionCT, TIR, VAN, VANParticipantes, VANInvolucrados, VANIndirectos;
+        string invTotales, recuperacionCT, TIR, PRI, RelacionBC, VANParticipantes, VANInvolucrados, VANIndirectos, RelacionBCInvInicial;
+        string VACParticipantes, VACInvolucrados, VACIndirectos;
+        IndicadorEconomico VAN, VAC;
         List<DataView> flujoCajaPaging;
 
         private string signoMoneda;
 
-        public GenerarReporte(Proyecto proyecto, string totalInversiones, DataView totalReinversiones, DataView proyeccionesTotal, DataView costosTotal, DataView capital, string recuperacionCT, DataView depTotales, DataView amortizacionFinanciamiento, DataView flujoCaja, string tir, string van)
+        public GenerarReporte(Proyecto proyecto, string totalInversiones, 
+            DataView totalReinversiones, DataView proyeccionesTotal, DataView costosTotal, 
+            DataView capital, string recuperacionCT, DataView depTotales, 
+            DataView amortizacionFinanciamiento, DataView flujoCaja, string tir,  
+            string pri, string relacionBC, IndicadorEconomico van, string relacionBCInvInicial)
         {
             this.proyecto = proyecto;
             this.invTotales = totalInversiones;
@@ -43,21 +47,65 @@ namespace UCR.Negotium.Extensions
 
             reinvTotales = SetToDictionary(totalReinversiones);
             proyeccionesTotales = SetToDictionary(proyeccionesTotal);
-            costosTotales = SetToCostosTotales(costosTotal);
+            costosTotales = SetToDictionary(costosTotal);
             capitalTrabajo = SetToCapitalTrabajo(capital);
             this.recuperacionCT = recuperacionCT;
-            depreciacionesPaging = DatatableBuilder.GenerarDepreciacionesPaging(proyecto, 5);
-            this.depTotales = SetToDictionary(depTotales);
+
+            depreciacionesPaging = new List<DataView>();
+            this.depTotales = new Dictionary<string, string>();
+            if(proyecto.Depreciaciones.Count > 0)
+            {
+                depreciacionesPaging = DatatableBuilder.GenerarDepreciacionesPaging(proyecto, 5);
+                this.depTotales = SetToDictionary(depTotales);
+            }
+                
             this.amortizacionFinanciamiento = amortizacionFinanciamiento;
             flujoCajaPaging = DatatableBuilder.FlujoCajaToPaging(flujoCaja, 5);
             TIR = tir;
+            PRI = pri;
+            RelacionBC = relacionBC;
             VAN = van;
+            RelacionBCInvInicial = relacionBCInvInicial;
 
-            double vanDouble = Convert.ToDouble(VAN.Replace(signoMoneda, string.Empty));
+            VANParticipantes = VAN.EvaluarPorCantidad(proyecto.PersonasParticipantes);
+            VANInvolucrados = VAN.EvaluarPorCantidad(proyecto.FamiliasInvolucradas);
+            VANIndirectos = VAN.EvaluarPorCantidad(proyecto.PersonasBeneficiadas);
+        }
 
-            VANParticipantes = signoMoneda + " " + Math.Round(vanDouble / proyecto.PersonasParticipantes, 2).ToString("#,##0.##");
-            VANInvolucrados = signoMoneda + " " + Math.Round(vanDouble / proyecto.FamiliasInvolucradas, 2).ToString("#,##0.##");
-            VANIndirectos = signoMoneda + " " + Math.Round(vanDouble / proyecto.PersonasBeneficiadas, 2).ToString("#,##0.##");
+        public GenerarReporte(Proyecto proyecto, string totalInversiones,
+            DataView totalReinversiones, DataView costosTotal,
+            DataView capital, string recuperacionCT, DataView depTotales,
+            DataView amortizacionFinanciamiento, DataView flujoCaja, IndicadorEconomico vac)
+        {
+            this.proyecto = proyecto;
+            this.invTotales = totalInversiones;
+
+            signoMoneda = LocalContext.GetSignoMoneda(proyecto.CodProyecto);
+            ObtieneProvincia();
+            ObtieneCanton();
+            ObtieneDistrito();
+            ObtieneTipoOrganizacion();
+
+            reinvTotales = SetToDictionary(totalReinversiones);
+            costosTotales = SetToDictionary(costosTotal);
+            capitalTrabajo = SetToCapitalTrabajo(capital);
+            this.recuperacionCT = recuperacionCT;
+
+            depreciacionesPaging = new List<DataView>();
+            this.depTotales = new Dictionary<string, string>();
+            if (proyecto.Depreciaciones.Count > 0)
+            {
+                depreciacionesPaging = DatatableBuilder.GenerarDepreciacionesPaging(proyecto, 5);
+                this.depTotales = SetToDictionary(depTotales);
+            }
+
+            this.amortizacionFinanciamiento = amortizacionFinanciamiento;
+            flujoCajaPaging = DatatableBuilder.FlujoCajaToPaging(flujoCaja, 5);
+            VAC = vac;
+
+            VACParticipantes = VAN.EvaluarPorCantidad(proyecto.PersonasParticipantes);
+            VACInvolucrados = VAN.EvaluarPorCantidad(proyecto.FamiliasInvolucradas);
+            VACIndirectos = VAN.EvaluarPorCantidad(proyecto.PersonasBeneficiadas);
         }
 
         private Dictionary<string, string> SetToDictionary(DataView dataView)
@@ -71,34 +119,6 @@ namespace UCR.Negotium.Extensions
                         dataView.Table.Rows[0].ItemArray[i].ToString());
                 }
             }
-
-            return dictionary;
-        }
-
-        private Dictionary<string, Tuple<string, string>> SetToCostosTotales(DataView dataView)
-        {
-            var dictionaryRoot = SetToDictionary(dataView);
-
-            List<VariacionAnualCosto> listToAppend = proyecto.VariacionCostos;
-            Dictionary<string, Tuple<string, string>> dictionary = new Dictionary<string, Tuple<string, string>>();
-
-            if (listToAppend.Count.Equals(0))
-            {
-                foreach (var entry in dictionaryRoot)
-                {
-                    dictionary.Add(entry.Key, Tuple.Create("0", entry.Value));
-                }
-            }
-            else
-            {
-                foreach (var entry in dictionaryRoot)
-                {
-                    dictionary.Add(entry.Key, Tuple.Create(
-                        listToAppend.Find(variacion => variacion.Ano.Equals(entry.Key)).PorcentajeIncremento.ToString(),
-                        entry.Value));
-                }
-            }
-
 
             return dictionary;
         }
@@ -148,7 +168,7 @@ namespace UCR.Negotium.Extensions
                 tipo => tipo.CodTipo.Equals(proyecto.OrganizacionProponente.Tipo.CodTipo));
         }
 
-        public bool CrearReporte()
+        public void CrearReporte()
         {
             string htmlString = LlenarPlantillaProyecto();
 
@@ -157,7 +177,25 @@ namespace UCR.Negotium.Extensions
             string reportPdfPath = Path.Combine(desktopFolder, reportPdfName);
             string cssTemplatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Report", "css", "style.css");
             var cssText = File.ReadAllText(cssTemplatePath);
+            GenerarPDF(htmlString, reportPdfPath, cssText);
 
+            bool fileExist = false;
+            if (File.Exists(reportPdfPath))
+            {
+                fileExist = true;
+                System.Diagnostics.Process.Start(reportPdfPath);
+            }
+            else
+            {
+                GenerarPDF(htmlString, reportPdfPath, cssText);
+            }
+                
+            if (!fileExist)
+                System.Diagnostics.Process.Start(reportPdfPath);
+        }
+
+        private void GenerarPDF(string htmlString, string reportPdfPath, string cssText)
+        {
             using (Document document = new Document(PageSize.A3, 10f, 10f, 50f, 0f))
             {
                 PdfWriter writer = PdfWriter.GetInstance(document, new FileStream(reportPdfPath, FileMode.Create));
@@ -172,10 +210,6 @@ namespace UCR.Negotium.Extensions
                 }
                 document.Close();
             }
-
-            System.Diagnostics.Process.Start(reportPdfPath);
-
-            return true;
         }
 
         private string LlenarPlantillaProyecto()
@@ -207,10 +241,18 @@ namespace UCR.Negotium.Extensions
             context.Put("financiamiento", amortizacionFinanciamiento);
             context.Put("flujoCaja", flujoCajaPaging);
             context.Put("TIR", TIR);
+            context.Put("PRI", PRI);
+            context.Put("RelacionBC", RelacionBC);
+            context.Put("RelacionBCInvInicial", RelacionBCInvInicial);
             context.Put("VAN", VAN);
             context.Put("VANParticipantes", VANParticipantes);
             context.Put("VANInvolucrados", VANInvolucrados);
             context.Put("VANIndirectos", VANIndirectos);
+
+            context.Put("VAC", VAC);
+            context.Put("VACParticipantes", VACParticipantes);
+            context.Put("VACInvolucrados", VACInvolucrados);
+            context.Put("VACIndirectos", VACIndirectos);
 
             var sb = new StringBuilder();
             using (var writer = new StringWriter(sb))

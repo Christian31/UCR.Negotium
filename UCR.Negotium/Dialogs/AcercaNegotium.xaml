@@ -3,12 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:UCR.Negotium.Dialogs"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d" Style="{StaticResource dialogsStyle}"
         WindowStartupLocation="CenterScreen" Height="500" Width="750"
-        Title="Acerca de | Negotium v1.0">
+        Title="Acerca de | Negotium v1.2">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
@@ -65,7 +64,7 @@
             <Image Source="/Resources/Images/RP-CIE.png" Grid.Column="3" Margin="5,0,5,12"/>
         </Grid>
         <StackPanel Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-            <TextBlock Text="Negotium v1.0 es Propiedad de la Universidad de Costa Rica. Todos los derechos reservados" TextAlignment="Center"/>
+            <TextBlock Text="Negotium v1.2 es Propiedad de la Universidad de Costa Rica. Todos los derechos reservados" TextAlignment="Center"/>
         </StackPanel>
     </Grid>
 </Controls:MetroWindow>

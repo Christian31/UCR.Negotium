@@ -79,7 +79,8 @@ namespace UCR.Negotium.Dialogs
                     else
                     {
                         //error
-                        MessageBox.Show("Ha ocurrido un error al insertar el Encargado del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Extensions.Constantes.INSERTARENCARGADOERROR, Extensions.Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
@@ -103,7 +104,8 @@ namespace UCR.Negotium.Dialogs
                     else
                     {
                         //error
-                        MessageBox.Show("Ha ocurrido un error al actualizar el Encargado del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Extensions.Constantes.ACTUALIZARENCARGADOERROR, Extensions.Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }

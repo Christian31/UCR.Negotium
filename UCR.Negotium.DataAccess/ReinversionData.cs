@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using UCR.Negotium.Domain;
-using UCR.Negotium.Domain.Tracing;
+using UCR.Negotium.Base.Trace;
 
 namespace UCR.Negotium.DataAccess
 {
@@ -26,14 +26,14 @@ namespace UCR.Negotium.DataAccess
                     conn.Open();
                     SQLiteCommand command = new SQLiteCommand(insert, conn);
                     command.Parameters.AddWithValue("ano_reinversion", reinversion.AnoReinversion);
-                    command.Parameters.AddWithValue("descripcion_requerimiento", reinversion.DescripcionRequerimiento);
+                    command.Parameters.AddWithValue("descripcion_requerimiento", reinversion.Descripcion);
                     command.Parameters.AddWithValue("cantidad", reinversion.Cantidad);
                     command.Parameters.AddWithValue("costo_unitario", reinversion.CostoUnitario);
                     command.Parameters.AddWithValue("depreciable", reinversion.Depreciable);
                     command.Parameters.AddWithValue("vida_util", reinversion.VidaUtil);
                     command.Parameters.AddWithValue("cod_unidad_medida", reinversion.UnidadMedida.CodUnidad);
                     command.Parameters.AddWithValue("cod_proyecto", codProyecto);
-                    command.Parameters.AddWithValue("cod_requerimiento_inversion", reinversion.CodRequerimientoInversion);
+                    command.Parameters.AddWithValue("cod_requerimiento_inversion", reinversion.CodInversion);
 
                     newProdID = command.ExecuteScalar();
                     idReinversion = int.Parse(newProdID.ToString());
@@ -62,15 +62,15 @@ namespace UCR.Negotium.DataAccess
                 {
                     conn.Open();
                     SQLiteCommand command = new SQLiteCommand(update, conn);
-                    command.Parameters.AddWithValue("descripcion_requerimiento", reinversion.DescripcionRequerimiento);
+                    command.Parameters.AddWithValue("descripcion_requerimiento", reinversion.Descripcion);
                     command.Parameters.AddWithValue("cantidad", reinversion.Cantidad);
                     command.Parameters.AddWithValue("costo_unitario", reinversion.CostoUnitario);
                     command.Parameters.AddWithValue("cod_unidad_medida", reinversion.UnidadMedida.CodUnidad);
                     command.Parameters.AddWithValue("depreciable", reinversion.Depreciable);
                     command.Parameters.AddWithValue("vida_util", reinversion.VidaUtil);
                     command.Parameters.AddWithValue("ano_reinversion", reinversion.AnoReinversion);
-                    command.Parameters.AddWithValue("cod_requerimiento_inversion", reinversion.CodRequerimientoInversion);
-                    command.Parameters.AddWithValue("cod_requerimiento_reinversion", reinversion.CodRequerimientoReinversion);
+                    command.Parameters.AddWithValue("cod_requerimiento_inversion", reinversion.CodInversion);
+                    command.Parameters.AddWithValue("cod_requerimiento_reinversion", reinversion.CodReinversion);
 
                     result = command.ExecuteNonQuery();
                 }
@@ -106,16 +106,16 @@ namespace UCR.Negotium.DataAccess
                         while (reader.Read())
                         {
                             Reinversion requerimiento = new Reinversion();
-                            requerimiento.CodRequerimientoReinversion = reader.GetInt32(0);
+                            requerimiento.CodReinversion = reader.GetInt32(0);
                             requerimiento.AnoReinversion = reader.GetInt32(1);
-                            requerimiento.DescripcionRequerimiento = reader.GetString(2);
+                            requerimiento.Descripcion = reader.GetString(2);
                             requerimiento.Cantidad = reader.GetDouble(3);
                             requerimiento.CostoUnitario = reader.GetDouble(4);
                             requerimiento.Depreciable = reader.GetBoolean(5);
                             requerimiento.VidaUtil = reader.GetInt32(6);
                             requerimiento.UnidadMedida.CodUnidad = reader.GetInt32(7);
                             requerimiento.UnidadMedida.NombreUnidad = reader.GetString(8);
-                            requerimiento.CodRequerimientoInversion = reader.GetInt32(9);
+                            requerimiento.CodInversion = reader.GetInt32(9);
                             listaReinversiones.Add(requerimiento);
                         }
                     }
@@ -151,16 +151,16 @@ namespace UCR.Negotium.DataAccess
                     {
                         if (reader.Read())
                         {
-                            reinversion.CodRequerimientoReinversion = reader.GetInt32(0);
+                            reinversion.CodReinversion = reader.GetInt32(0);
                             reinversion.AnoReinversion = reader.GetInt32(1);
-                            reinversion.DescripcionRequerimiento = reader.GetString(2);
+                            reinversion.Descripcion = reader.GetString(2);
                             reinversion.Cantidad = reader.GetDouble(3);
                             reinversion.CostoUnitario = reader.GetDouble(4);
                             reinversion.Depreciable = reader.GetBoolean(5);
                             reinversion.VidaUtil = reader.GetInt32(6);
                             reinversion.UnidadMedida.CodUnidad = reader.GetInt32(7);
                             reinversion.UnidadMedida.NombreUnidad = reader.GetString(8);
-                            reinversion.CodRequerimientoInversion = reader.GetInt32(9);
+                            reinversion.CodInversion = reader.GetInt32(9);
                         }
                     }
                 }

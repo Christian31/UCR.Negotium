@@ -3,6 +3,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using UCR.Negotium.Base.Enumerados;
+using UCR.Negotium.Base.Utilidades;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
 using UCR.Negotium.Extensions;
@@ -22,7 +25,6 @@ namespace UCR.Negotium.UserControls
 
         private ProyectoData proyectoData;
         private CostoData costoData;
-        private VariacionAnualCostoData variacionCostoData;
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
@@ -30,10 +32,10 @@ namespace UCR.Negotium.UserControls
         {
             InitializeComponent();
             DataContext = this;
+            tbDiasDesface.ToolTip = "Ingrese en este campo los días al desface del Capital de trabajo";
 
             proyectoData = new ProyectoData();
             costoData = new CostoData();
-            variacionCostoData = new VariacionAnualCostoData();
 
             proyectoSelected = new Proyecto();
             capitalTrabajo = new DataView();
@@ -48,14 +50,39 @@ namespace UCR.Negotium.UserControls
 
             ProyectoSelected = proyectoData.GetProyecto(CodProyecto);
             ProyectoSelected.Costos = costoData.GetCostos(CodProyecto);
-            ProyectoSelected.VariacionCostos = variacionCostoData.GetVariacionAnualCostos(CodProyecto);
-            if (!ProyectoSelected.Costos.Count.Equals(0))
+
+            ActualizarDTCapitalTrabajo();
+        }
+
+        bool conError = false;
+        private void ActualizarDTCapitalTrabajo()
+        {
+            if (!ProyectoSelected.Costos.Count.Equals(0) && !ValidateRequiredFields())
             {
                 DatatableBuilder.GenerarCapitalTrabajo(ProyectoSelected, out capitalTrabajo, out recuperacionCT);
+                conError = false;
+            }
+            else
+            {
+                capitalTrabajo = new DataView();
+                conError = true;
             }
 
             PropertyChanged(this, new PropertyChangedEventArgs("RecuperacionCT"));
             PropertyChanged(this, new PropertyChangedEventArgs("DTCapitalTrabajo"));
+        }
+
+        private bool ValidateRequiredFields()
+        {
+            bool result = false;
+            if (Validador.ValideEntreRangoDeNumero(10, 99, ProyectoSelected.DiasDesfaceCapitalTrabajo))
+            {
+                tbDiasDesface.ToolTip = "Los Días al desface debe ser un valor mayor a 10 y menor a 99";
+                tbDiasDesface.BorderBrush = Brushes.Red;
+                result = true;
+            }
+
+            return result;
         }
         #endregion
 
@@ -64,11 +91,15 @@ namespace UCR.Negotium.UserControls
         {
             get
             {
-                return signoMoneda +" "+ recuperacionCT.ToString("#,##0.##");
+                if (conError)
+                {
+                    return "Indefinido";
+                }
+                return recuperacionCT.FormatoMoneda(signoMoneda);
             }
             set
             {
-                recuperacionCT = Convert.ToDouble(value);
+                double.TryParse(value, out recuperacionCT);
             }
         }
 
@@ -116,6 +147,72 @@ namespace UCR.Negotium.UserControls
             if (datagridCapitalTrabajo.Columns.Count >0)
             {
                 datagridCapitalTrabajo.Columns[0].Width = 130;
+            }
+        }
+
+        bool tbDiasDesfacetxtChngEvent = true;
+        private void tbDiasDesface_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (tbDiasDesfacetxtChngEvent)
+            {
+                if (tbDiasDesface.BorderBrush == Brushes.Red)
+                {
+                    tbDiasDesface.BorderBrush = Brushes.Gray;
+                    tbDiasDesface.ToolTip = "Ingrese en este campo los días al desface del Capital de trabajo";
+                }
+
+                tbDiasDesface.Text = tbDiasDesface.Text.CheckStringFormat();
+                ActualizarDTCapitalTrabajo();
+            }
+            else
+            {
+                tbDiasDesfacetxtChngEvent = true;
+            }
+        }
+
+        private void tbDiasDesface_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbDiasDesface.Text.Equals("0") || tbDiasDesface.Text.Equals("0.00"))
+            {
+                tbDiasDesfacetxtChngEvent = false;
+                tbDiasDesface.Text = "";
+            }
+        }
+
+        private void tbDiasDesface_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbDiasDesface.Text.Equals(""))
+            {
+                tbDiasDesfacetxtChngEvent = false;
+                tbDiasDesface.Text = "0.00";
+            }
+        }
+
+        private void btnGuardar_Click(object sender, RoutedEventArgs e)
+        {
+            if (!proyectoSelected.TipoProyecto.CodTipo.Equals(2))
+            {
+                if (!ValidateRequiredFields())
+                {
+                    if (proyectoData.EditarProyectoCapitalTrabajo(CodProyecto, ProyectoSelected.DiasDesfaceCapitalTrabajo))
+                    {
+                        //success
+                        LocalContext.ReloadUserControls(CodProyecto, Modulo.Costos);
+                        MessageBox.Show(Constantes.ACTUALIZARPROYECTOMSG, Constantes.ACTUALIZARPROYECTOTLT,
+                            MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        //error
+                        MessageBox.Show(Constantes.ACTUALIZARPROYECTOERROR, Constantes.ACTUALIZARPROYECTOTLT,
+                            MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show(Constantes.ACTUALIZARPROYECTORESTRTIPOAMBIENTAL, Constantes.ACTUALIZARPROYECTOTLT,
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
         #endregion

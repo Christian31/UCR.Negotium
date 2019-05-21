@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,63 +12,46 @@ namespace UCR.Negotium.Dialogs
     /// <summary>
     /// Interaction logic for RegistrarProyeccionVentaDialog.xaml
     /// </summary>
-    public partial class RegistrarProyeccionVenta : MetroWindow
+    public partial class RegistrarProyeccionVenta : DialogWithDataGrid
     {
         #region PrivateProperties
-        private const string CAMPOREQUERIDO = "Este campo es requerido";
-
-        private Proyecto proyecto;
-        List<UnidadMedida> unidadMedidas;
-        private ProyeccionVentaArticulo proyeccionSelected;
+        private ProyectoLite proyecto;
+        private List<UnidadMedida> unidadMedidas;
+        private ProyeccionVenta proyeccionSelected;
+        private List<CrecimientoOferta> crecimientosPrecio;
+        private List<CrecimientoOferta> crecimientosCantidad;
 
         private ProyectoData proyectoData;
-        private ProyeccionVentaArticuloData proyeccionArticuloData;
+        private ProyeccionVentaData proyeccionVentaData;
         private UnidadMedidaData unidadMedidaData;
-        private CrecimientoOfertaArticuloData crecimientoOfertaData;
         #endregion
 
         #region Constructor
-        public RegistrarProyeccionVenta(int idProyecto, int idProyeccion = 0)
+        public RegistrarProyeccionVenta(int codProyecto, int codProyeccion = 0)
         {
             InitializeComponent();
             DataContext = this;
             tbNombreArticulo.ToolTip = "Ingrese en este campo el Nombre de la Proyección del Producto que desea registrar";
-            string signo = LocalContext.GetSignoMoneda(idProyecto);
+            string signo = LocalContext.GetSignoMoneda(codProyecto);
             dgtxcPrecio.Header = string.Format("Precio ({0})", signo);
 
-            proyecto = new Proyecto();
+            proyecto = new ProyectoLite();
             unidadMedidas = new List<UnidadMedida>();
-            proyeccionSelected = new ProyeccionVentaArticulo();
+            proyeccionSelected = new ProyeccionVenta();
 
             proyectoData = new ProyectoData();
-            proyeccionArticuloData = new ProyeccionVentaArticuloData();
+            proyeccionVentaData = new ProyeccionVentaData();
             unidadMedidaData = new UnidadMedidaData();
-            crecimientoOfertaData = new CrecimientoOfertaArticuloData();
 
-            unidadMedidas = unidadMedidaData.GetUnidadesMedidas();
-            proyecto = proyectoData.GetProyecto(idProyecto);
-
-            //default values
-            proyeccionSelected.UnidadMedida = UnidadesMedida.FirstOrDefault();
-
-            if (!idProyeccion.Equals(0))
-            {
-                proyeccionSelected = proyeccionArticuloData.GetProyeccionVentaArticulo(idProyeccion);
-                proyeccionSelected.CrecimientoOferta = crecimientoOfertaData.GetCrecimientoOfertaObjetoIntereses(idProyeccion);
-            }
-
-            if (proyeccionSelected.CrecimientoOferta.Count.Equals(0))
-            {
-                LoadDefaultValues();
-            }
-
+            CargarDatosDeProyeccion(codProyecto, codProyeccion);
         }
+        
         #endregion
 
         #region Properties
         public bool Reload { get; set; }
 
-        public ProyeccionVentaArticulo ProyeccionSelected
+        public ProyeccionVenta ProyeccionSelected
         {
             get
             {
@@ -78,6 +60,30 @@ namespace UCR.Negotium.Dialogs
             set
             {
                 proyeccionSelected = value;
+            }
+        }
+
+        public List<CrecimientoOferta> CrecimientoOfertaPrecio
+        {
+            get
+            {
+                return crecimientosPrecio;
+            }
+            set
+            {
+                crecimientosPrecio = value;
+            }
+        }
+
+        public List<CrecimientoOferta> CrecimientoOfertaCantidad
+        {
+            get
+            {
+                return crecimientosCantidad;
+            }
+            set
+            {
+                crecimientosCantidad = value;
             }
         }
 
@@ -92,9 +98,29 @@ namespace UCR.Negotium.Dialogs
                 unidadMedidas = value;
             }
         }
+
+        public List<int> AnosDisponibles
+        {
+            get
+            {
+                List<int> anos = new List<int>();
+                for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+                {
+                    anos.Add(proyecto.AnoInicial + i);
+                }
+
+                return anos;
+            }
+            set
+            {
+                AnosDisponibles = value;
+            }
+        }
         #endregion
 
         #region Events
+
+        #region DetalleProyeccion
 
         bool tbCostoUnitarioChngEvent = true;
         private void tbNumerosPositivos_GotFocus(object sender, RoutedEventArgs e)
@@ -150,61 +176,97 @@ namespace UCR.Negotium.Dialogs
             }
         }
 
+        private void dgDetalleProyeccion_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DependencyObject depObject = (DependencyObject)e.OriginalSource;
+            bool mostrarContextMenu = ContextMenuDisponible(depObject, dgDetalleProyeccion.SelectedCells);
+            if (mostrarContextMenu)
+            {
+                dgDetalleProyeccion.ContextMenu.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                dgDetalleProyeccion.ContextMenu.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void btnAgregarValor_Click(object sender, RoutedEventArgs e)
+        {
+            bool notifyChange = false;
+
+            var selectedCells = dgDetalleProyeccion.SelectedCells;
+            var detallesProyeccionSelected = selectedCells.Select(cell => cell.Item).ToList();
+            var detalleProyeccionSelect = ProyeccionSelected.DetallesProyeccionVenta.
+                Where(detalle => detallesProyeccionSelected.Select(cm => ((DetalleProyeccionVenta)cm).Mes).
+                Contains(detalle.Mes)).ToList();
+            switch (selectedCells[0].Column.DisplayIndex)
+            {
+                case 1:
+                    foreach (var detalleProyeccion in ProyeccionSelected.DetallesProyeccionVenta)
+                    {
+                        if (detalleProyeccionSelect.Contains(detalleProyeccion))
+                        {
+                            detalleProyeccion.Cantidad = NumeroACopiar;
+                            notifyChange = true;
+                        }
+                    }
+                    break;
+                case 2:
+                    foreach (var detalleProyeccion in ProyeccionSelected.DetallesProyeccionVenta)
+                    {
+                        if (detalleProyeccionSelect.Contains(detalleProyeccion))
+                        {
+                            detalleProyeccion.Precio = NumeroACopiar;
+                            notifyChange = true;
+                        }
+                    }
+                    break;
+            }
+
+            if (notifyChange)
+            {
+                dgDetalleProyeccion.ItemsSource = null;
+                dgDetalleProyeccion.ItemsSource = ProyeccionSelected.DetallesProyeccionVenta;
+            }
+            dgDetalleProyeccion.ContextMenu.Visibility = Visibility.Collapsed;
+        }
+
+        #endregion
+
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
             if (!ValidateRequiredFields())
             {
+                ProyeccionSelected.CrecimientosOferta = GetCrecimientosActuales();
                 if (ProyeccionSelected.CodArticulo.Equals(0))
                 {
-                    ProyeccionVentaArticulo proyeccionTemp = proyeccionArticuloData.InsertarProyeccionVenta(ProyeccionSelected, proyecto.CodProyecto);
-                    if (!proyeccionTemp.CodArticulo.Equals(-1))
+                    ProyeccionVenta proyeccionTemp = proyeccionVentaData.InsertarProyeccionVenta(ProyeccionSelected, proyecto.CodProyecto);
+                    if (!proyeccionTemp.CodArticulo.Equals(0))
                     {
-                        bool hasErrors = false;
-                        foreach(CrecimientoOfertaArticulo crecimiento in proyeccionTemp.CrecimientoOferta)
-                        {
-                            if (crecimientoOfertaData.InsertarCrecimientoOfertaObjetoIntereses(crecimiento, proyeccionTemp.CodArticulo).CodCrecimiento.Equals(0))
-                            {
-                                hasErrors = true;
-                                break;
-                            }
-                        }
-                        if (!hasErrors)
-                        {
-                            //success
-                            Reload = true;
-                            Close();
-                        }
+                        //success
+                        Reload = true;
+                        Close();
                     }
                     else
                     {
                         //error
-                        MessageBox.Show("Ha ocurrido un error al insertar la proyección del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.INSERTARPROYECCIONERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
                 {
-                    if (proyeccionArticuloData.EditarProyeccionVenta(ProyeccionSelected))
+                    if (proyeccionVentaData.EditarProyeccionVenta(ProyeccionSelected))
                     {
-                        bool hasErrors = false;
-                        foreach (CrecimientoOfertaArticulo crecimiento in ProyeccionSelected.CrecimientoOferta)
-                        {
-                            if (!crecimientoOfertaData.EditarCrecimientoOfertaObjetoIntereses(crecimiento))
-                            {
-                                hasErrors = true;
-                                break;
-                            }
-                        }
-                        if (!hasErrors)
-                        {
-                            //success
-                            Reload = true;
-                            Close();
-                        }
+                        //success
+                        Reload = true;
+                        Close();
                     }
                     else
                     {
                         //error
-                        MessageBox.Show("Ha ocurrido un error al actualizar la proyección del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.ACTUALIZARPROYECCIONERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }
@@ -223,9 +285,155 @@ namespace UCR.Negotium.Dialogs
                 tbNombreArticulo.ToolTip = "Ingrese en este campo el Nombre de la Proyección del Producto que desea registrar";
             }
         }
+
+        private void cbAnosDisponibles_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ReloadValues();
+        }
+
+        #region CrecimientoPrecio
+
+        private void dgDetalleCrecimientoPrecio_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DependencyObject depObject = (DependencyObject)e.OriginalSource;
+            bool mostrarContextMenu = ContextMenuDisponible(depObject, dgDetalleCrecimientoPrecio.SelectedCells);
+            if (mostrarContextMenu)
+            {
+                dgDetalleCrecimientoPrecio.ContextMenu.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                dgDetalleCrecimientoPrecio.ContextMenu.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void btnAgregarPorcentajePrecio_Click(object sender, RoutedEventArgs e)
+        {
+            bool notifyChange = false;
+
+            var selectedCells = dgDetalleCrecimientoPrecio.SelectedCells;
+            var detallesProyeccionSelected = selectedCells.Select(cell => cell.Item).ToList();
+            var detalleProyeccionSelect = CrecimientoOfertaPrecio.
+                Where(detalle => detallesProyeccionSelected.Select(cm => ((CrecimientoOferta)cm).AnoCrecimiento).
+                Contains(detalle.AnoCrecimiento)).ToList();
+
+            if (selectedCells[0].Column.DisplayIndex == 1)
+            {
+                foreach (var detalleProyeccion in CrecimientoOfertaPrecio)
+                {
+                    if (detalleProyeccionSelect.Contains(detalleProyeccion))
+                    {
+                        detalleProyeccion.PorcentajeCrecimiento = NumeroACopiar;
+                        notifyChange = true;
+                    }
+                }
+            }
+
+            if (notifyChange)
+            {
+                dgDetalleCrecimientoPrecio.ItemsSource = null;
+                dgDetalleCrecimientoPrecio.ItemsSource = CrecimientoOfertaPrecio;
+            }
+            dgDetalleCrecimientoPrecio.ContextMenu.Visibility = Visibility.Collapsed;
+        }
+
+        #endregion
+
+        #region CrecimientoCantidad
+        private void dgDetalleCrecimientoCantidad_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DependencyObject depObject = (DependencyObject)e.OriginalSource;
+            bool mostrarContextMenu = ContextMenuDisponible(depObject, dgDetalleCrecimientoCantidad.SelectedCells);
+            if (mostrarContextMenu)
+            {
+                dgDetalleCrecimientoCantidad.ContextMenu.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                dgDetalleCrecimientoCantidad.ContextMenu.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void btnAgregarPorcentajeCantidad_Click(object sender, RoutedEventArgs e)
+        {
+            bool notifyChange = false;
+
+            var selectedCells = dgDetalleCrecimientoCantidad.SelectedCells;
+            var detallesProyeccionSelected = selectedCells.Select(cell => cell.Item).ToList();
+            var detalleProyeccionSelect = CrecimientoOfertaCantidad.
+                Where(detalle => detallesProyeccionSelected.Select(cm => ((CrecimientoOferta)cm).AnoCrecimiento).
+                Contains(detalle.AnoCrecimiento)).ToList();
+
+            if (selectedCells[0].Column.DisplayIndex == 1)
+            {
+                foreach (var detalleProyeccion in CrecimientoOfertaCantidad)
+                {
+                    if (detalleProyeccionSelect.Contains(detalleProyeccion))
+                    {
+                        detalleProyeccion.PorcentajeCrecimiento = NumeroACopiar;
+                        notifyChange = true;
+                    }
+                }
+            }
+
+            if (notifyChange)
+            {
+                dgDetalleCrecimientoCantidad.ItemsSource = null;
+                dgDetalleCrecimientoCantidad.ItemsSource = CrecimientoOfertaCantidad;
+            }
+            dgDetalleCrecimientoCantidad.ContextMenu.Visibility = Visibility.Collapsed;
+        }
+        #endregion
+
         #endregion
 
         #region PrivateMethods
+
+        private List<CrecimientoOfertaPorTipo> GetCrecimientosActuales()
+        {
+            List<CrecimientoOfertaPorTipo> crecimientosActuales = new List<CrecimientoOfertaPorTipo>();
+
+            CrecimientoOfertaPorTipo crecimientoPrecio = new CrecimientoOfertaPorTipo();
+            crecimientoPrecio.TipoCrecimiento = TipoAplicacionPorcentaje.PorPrecio;
+            crecimientoPrecio.CrecimientoOferta = CrecimientoOfertaPrecio;
+            crecimientosActuales.Add(crecimientoPrecio);
+
+            CrecimientoOfertaPorTipo crecimientoCantidad = new CrecimientoOfertaPorTipo();
+            crecimientoCantidad.TipoCrecimiento = TipoAplicacionPorcentaje.PorCantidad;
+            crecimientoCantidad.CrecimientoOferta = CrecimientoOfertaCantidad;
+            crecimientosActuales.Add(crecimientoCantidad);
+
+            return crecimientosActuales;
+        }
+
+        private void CargarDatosDeProyeccion(int codProyecto, int codProyeccion)
+        {
+            unidadMedidas = unidadMedidaData.GetUnidadesMedidas();
+            proyecto = proyectoData.GetProyectoLite(codProyecto);
+
+            //default values
+            proyeccionSelected.UnidadMedida = UnidadesMedida.FirstOrDefault();
+            proyeccionSelected.AnoArticulo = AnosDisponibles.FirstOrDefault();
+
+            if (!codProyeccion.Equals(0))
+            {
+                proyeccionSelected = proyeccionVentaData.GetProyeccionVenta(codProyeccion);
+            }
+
+            if (proyeccionSelected.CrecimientosOferta.Count.Equals(0))
+            {
+                ReloadValues();
+            }
+            else
+            {
+                crecimientosPrecio = proyeccionSelected.CrecimientosOferta.
+                    FirstOrDefault(crec => crec.TipoCrecimiento == TipoAplicacionPorcentaje.PorPrecio).CrecimientoOferta;
+
+                crecimientosCantidad = proyeccionSelected.CrecimientosOferta.
+                    FirstOrDefault(crec => crec.TipoCrecimiento == TipoAplicacionPorcentaje.PorCantidad).CrecimientoOferta;
+            }
+        }
+
         private bool ValidateRequiredFields()
         {
             bool validationResult = false;
@@ -244,6 +452,14 @@ namespace UCR.Negotium.Dialogs
                     hasValues = true;
                     break;
                 }
+                else if (detalleVenta.Precio > 0)
+                {
+                    detalleVenta.Precio = 0;
+                }
+                else if (detalleVenta.Cantidad > 0)
+                {
+                    detalleVenta.Cantidad = 0;
+                }
             }
 
             if (!hasValues)
@@ -256,14 +472,56 @@ namespace UCR.Negotium.Dialogs
             return validationResult;
         }
 
-        private void LoadDefaultValues()
+        List<CrecimientoOferta> crecimientosPrecioGuardados = new List<CrecimientoOferta>();
+        List<CrecimientoOferta> crecimientosCantidadGuardados = new List<CrecimientoOferta>();
+        private void ReloadValues()
         {
-            for (int i = 2; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
+            if(crecimientosPrecioGuardados.Count == 0 && proyeccionSelected.CrecimientosOferta.Count != 0)
             {
-                int anoActual = proyecto.AnoInicial + i;
-                proyeccionSelected.CrecimientoOferta.Add(new CrecimientoOfertaArticulo() { AnoCrecimiento = anoActual });
-            }//for
+                crecimientosPrecioGuardados = proyeccionSelected.CrecimientosOferta.
+                    FirstOrDefault(crec => crec.TipoCrecimiento == TipoAplicacionPorcentaje.PorPrecio).CrecimientoOferta;
+                crecimientosCantidadGuardados = proyeccionSelected.CrecimientosOferta.
+                    FirstOrDefault(crec => crec.TipoCrecimiento == TipoAplicacionPorcentaje.PorCantidad).CrecimientoOferta;
+            }
+            CrecimientoOfertaCantidad = new List<CrecimientoOferta>();
+            CrecimientoOfertaPrecio = new List<CrecimientoOferta>();
+
+            int anoInicial = proyeccionSelected.AnoArticulo + 1;
+            int anoFinal = proyecto.HorizonteEvaluacionEnAnos + proyecto.AnoInicial;
+            for (int anoActual = anoInicial; anoActual <= anoFinal; anoActual++)
+            {
+                CrecimientoOferta crecimientoCantidad = crecimientosCantidadGuardados.
+                    FirstOrDefault(crec => crec.AnoCrecimiento == anoActual);
+                if(crecimientoCantidad == null)
+                {
+                    crecimientosCantidad.Add(new CrecimientoOferta() { AnoCrecimiento = anoActual });
+                }
+                else
+                {
+                    crecimientosCantidad.Add(new CrecimientoOferta() { AnoCrecimiento = anoActual,
+                        PorcentajeCrecimiento = crecimientoCantidad.PorcentajeCrecimiento });
+                }
+
+                CrecimientoOferta crecimientoPrecio = crecimientosPrecioGuardados.
+                    FirstOrDefault(crec => crec.AnoCrecimiento == anoActual);
+                if (crecimientoPrecio == null)
+                {
+                    crecimientosPrecio.Add(new CrecimientoOferta() { AnoCrecimiento = anoActual });
+                }
+                else
+                {
+                    crecimientosPrecio.Add(new CrecimientoOferta() { AnoCrecimiento = anoActual,
+                        PorcentajeCrecimiento = crecimientoPrecio.PorcentajeCrecimiento });
+                }
+            }
+
+            dgDetalleCrecimientoPrecio.ItemsSource = null;
+            dgDetalleCrecimientoPrecio.ItemsSource = CrecimientoOfertaPrecio;
+
+            dgDetalleCrecimientoCantidad.ItemsSource = null;
+            dgDetalleCrecimientoCantidad.ItemsSource = CrecimientoOfertaCantidad;
         }
-        #endregion
+
+        #endregion        
     }
 }

@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,14 +12,14 @@ namespace UCR.Negotium.Dialogs
     /// <summary>
     /// Interaction logic for RegistrarCostoDialog.xaml
     /// </summary>
-    public partial class RegistrarCosto : MetroWindow
+    public partial class RegistrarCosto : DialogWithDataGrid
     {
         #region PrivateProperties
-        private const string CAMPOREQUERIDO = "Este campo es requerido";
-
-        private Proyecto proyecto;
-        List<UnidadMedida> unidadMedidas;
+        private ProyectoLite proyecto;
+        private List<UnidadMedida> unidadMedidas;
         private Costo costoSelected;
+        private List<VariacionAnualCosto> variacionesPrecio;
+        private List<VariacionAnualCosto> variacionesCantidad;
 
         private ProyectoData proyectoData;
         private CostoData costoData;
@@ -28,15 +27,15 @@ namespace UCR.Negotium.Dialogs
         #endregion
 
         #region Constructor
-        public RegistrarCosto(int idProyecto, int idCosto = 0)
+        public RegistrarCosto(int codProyecto, int codCosto = 0)
         {
             InitializeComponent();
             DataContext = this;
             tbNombreCosto.ToolTip = "Ingrese en este campo el Nombre del Costo que desea registrar";
-            string signo = LocalContext.GetSignoMoneda(idProyecto);
+            string signo = LocalContext.GetSignoMoneda(codProyecto);
             dgtxcPrecio.Header = string.Format("Precio ({0})", signo);
 
-            proyecto = new Proyecto();
+            proyecto = new ProyectoLite();
             unidadMedidas = new List<UnidadMedida>();
             costoSelected = new Costo();
 
@@ -44,19 +43,12 @@ namespace UCR.Negotium.Dialogs
             costoData = new CostoData();
             unidadMedidaData = new UnidadMedidaData();
 
-            unidadMedidas = unidadMedidaData.GetUnidadesMedidas();
-            proyecto = proyectoData.GetProyecto(idProyecto);
+            unidadMedidas = unidadMedidaData.GetUnidadesMedidasParaCostos();
+            proyecto = proyectoData.GetProyectoLite(codProyecto);
 
-            //default values
-            costoSelected.AnoCosto = AnosDisponibles.FirstOrDefault();
-            costoSelected.CategoriaCosto = Categorias.FirstOrDefault();
-            costoSelected.UnidadMedida = UnidadesMedida.FirstOrDefault();
-
-            if (!idCosto.Equals(0))
-            {
-                costoSelected = costoData.GetCosto(idCosto);
-            }
+            CargarDatosDeCosto(codProyecto, codCosto);
         }
+
         #endregion
 
         #region Properties
@@ -71,11 +63,32 @@ namespace UCR.Negotium.Dialogs
             set
             {
                 costoSelected = value;
-                CostoMensualSelected = costoSelected.CostosMensuales.FirstOrDefault();
             }
         }
 
-        public CostoMensual CostoMensualSelected { get; set; }
+        public List<VariacionAnualCosto> VariacionAnualPrecio
+        {
+            get
+            {
+                return variacionesPrecio;
+            }
+            set
+            {
+                variacionesPrecio = value;
+            }
+        }
+
+        public List<VariacionAnualCosto> VariacionAnualCantidad
+        {
+            get
+            {
+                return variacionesCantidad;
+            }
+            set
+            {
+                variacionesCantidad = value;
+            }
+        }
 
         public List<string> Categorias
         {
@@ -105,7 +118,7 @@ namespace UCR.Negotium.Dialogs
                 for (int i = 1; i <= proyecto.HorizonteEvaluacionEnAnos; i++)
                 {
                     anos.Add(proyecto.AnoInicial + i);
-                }//for
+                }
 
                 return anos;
             }
@@ -117,6 +130,9 @@ namespace UCR.Negotium.Dialogs
         #endregion
 
         #region Events
+
+        #region CostoMensual
+
         bool tbNumeroChngEvent = true;
         private void tbNumerosPositivos_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -138,7 +154,7 @@ namespace UCR.Negotium.Dialogs
             }
         }
 
-        private void tbDatosPositivos_TextChanged(object sender, TextChangedEventArgs e)
+        private void tbNumerosPositivos_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (dgCostosMensual.BorderBrush == Brushes.Red)
             {
@@ -157,6 +173,68 @@ namespace UCR.Negotium.Dialogs
             }
         }
 
+        private void tbNumeros_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void dgCostosMensual_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DependencyObject depObject = (DependencyObject)e.OriginalSource;
+            bool mostrarContextMenu = ContextMenuDisponible(depObject, dgCostosMensual.SelectedCells);
+            if (mostrarContextMenu)
+            {
+                dgCostosMensual.ContextMenu.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                dgCostosMensual.ContextMenu.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void btnAgregarValor_Click(object sender, RoutedEventArgs e)
+        {
+            bool notifyChange = false;
+
+            var selectedCells = dgCostosMensual.SelectedCells;
+            var costosMensualesSelected = selectedCells.Select(cell => cell.Item).ToList();
+            var costosMensualesSelect = CostoSelected.CostosMensuales.
+                Where(costo => costosMensualesSelected.Select(cm => ((CostoMensual)cm).Mes).
+                Contains(costo.Mes)).ToList();
+            switch (selectedCells[0].Column.DisplayIndex)
+            {
+                case 1:
+                    foreach (var costoMensual in CostoSelected.CostosMensuales)
+                    {
+                        if (costosMensualesSelect.Contains(costoMensual))
+                        {
+                            costoMensual.Cantidad = NumeroACopiar;
+                            notifyChange = true;
+                        }
+                    }
+                    break;
+                case 2:
+                    foreach (var costoMensual in CostoSelected.CostosMensuales)
+                    {
+                        if (costosMensualesSelect.Contains(costoMensual))
+                        {
+                            costoMensual.CostoUnitario = NumeroACopiar;
+                            notifyChange = true;
+                        }
+                    }
+                    break;
+            }
+
+            if (notifyChange)
+            {
+                dgCostosMensual.ItemsSource = null;
+                dgCostosMensual.ItemsSource = CostoSelected.CostosMensuales;
+            }
+            dgCostosMensual.ContextMenu.Visibility = Visibility.Collapsed;
+        }
+        
+        #endregion
+
         private void tbNombreCosto_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (tbNombreCosto.BorderBrush == Brushes.Red)
@@ -170,10 +248,11 @@ namespace UCR.Negotium.Dialogs
         {
             if (!ValidateRequiredFields())
             {
+                CostoSelected.VariacionCostos = GetVariacionesActuales();
                 if (CostoSelected.CodCosto.Equals(0))
                 {
                     Costo costoTemp = costoData.InsertarCosto(CostoSelected, proyecto.CodProyecto);
-                    if (!costoTemp.CodCosto.Equals(-1))
+                    if (!costoTemp.CodCosto.Equals(0))
                     {
                         //success
                         Reload = true;
@@ -182,7 +261,8 @@ namespace UCR.Negotium.Dialogs
                     else
                     {
                         //error
-                        MessageBox.Show("Ha ocurrido un error al insertar el costo del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.INSERTARCOSTOERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
@@ -196,7 +276,8 @@ namespace UCR.Negotium.Dialogs
                     else
                     {
                         //error
-                        MessageBox.Show("Ha ocurrido un error al actualizar el costo del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.ACTUALIZARCOSTOERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }
@@ -206,9 +287,209 @@ namespace UCR.Negotium.Dialogs
         {
             Close();
         }
+
+        private void cbAnosDisponibles_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ReloadValues();
+        }
+
+        #region VariacionPrecio
+
+        private void dgVariacionAnualPrecio_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DependencyObject depObject = (DependencyObject)e.OriginalSource;
+            bool mostrarContextMenu = ContextMenuDisponible(depObject, dgVariacionAnualPrecio.SelectedCells);
+            if (mostrarContextMenu)
+            {
+                dgVariacionAnualPrecio.ContextMenu.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                dgVariacionAnualPrecio.ContextMenu.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void btnAgregarPorcentajePrecio_Click(object sender, RoutedEventArgs e)
+        {
+            bool notifyChange = false;
+
+            var selectedCells = dgVariacionAnualPrecio.SelectedCells;
+            var variacionesAnualesSelected = selectedCells.Select(cell => cell.Item).ToList();
+            var variacionesSelect = VariacionAnualPrecio.
+                Where(variacion => variacionesAnualesSelected.Select(cm => ((VariacionAnualCosto)cm).Ano).
+                Contains(variacion.Ano)).ToList();
+
+            if (selectedCells[0].Column.DisplayIndex == 1)
+            {
+                foreach (var variaciones in VariacionAnualPrecio)
+                {
+                    if (variacionesSelect.Contains(variaciones))
+                    {
+                        variaciones.PorcentajeIncremento = NumeroACopiar;
+                        notifyChange = true;
+                    }
+                }
+            }
+
+            if (notifyChange)
+            {
+                dgVariacionAnualPrecio.ItemsSource = null;
+                dgVariacionAnualPrecio.ItemsSource = VariacionAnualPrecio;
+            }
+            dgVariacionAnualPrecio.ContextMenu.Visibility = Visibility.Collapsed;
+        }
+
+        #endregion
+
+        #region VariacionCantidad
+
+        private void dgVariacionAnualCantidad_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DependencyObject depObject = (DependencyObject)e.OriginalSource;
+            bool mostrarContextMenu = ContextMenuDisponible(depObject, dgVariacionAnualCantidad.SelectedCells);
+            if (mostrarContextMenu)
+            {
+                dgVariacionAnualCantidad.ContextMenu.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                dgVariacionAnualCantidad.ContextMenu.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void btnAgregarPorcentajeCantidad_Click(object sender, RoutedEventArgs e)
+        {
+            bool notifyChange = false;
+
+            var selectedCells = dgVariacionAnualCantidad.SelectedCells;
+            var detallesProyeccionSelected = selectedCells.Select(cell => cell.Item).ToList();
+            var detalleProyeccionSelect = VariacionAnualCantidad.
+                Where(detalle => detallesProyeccionSelected.Select(cm => ((VariacionAnualCosto)cm).Ano).
+                Contains(detalle.Ano)).ToList();
+
+            if (selectedCells[0].Column.DisplayIndex == 1)
+            {
+                foreach (var detalleProyeccion in VariacionAnualCantidad)
+                {
+                    if (detalleProyeccionSelect.Contains(detalleProyeccion))
+                    {
+                        detalleProyeccion.PorcentajeIncremento = NumeroACopiar;
+                        notifyChange = true;
+                    }
+                }
+            }
+
+            if (notifyChange)
+            {
+                dgVariacionAnualCantidad.ItemsSource = null;
+                dgVariacionAnualCantidad.ItemsSource = VariacionAnualCantidad;
+            }
+            dgVariacionAnualCantidad.ContextMenu.Visibility = Visibility.Collapsed;
+        }
+
+        #endregion
+
         #endregion
 
         #region PrivateMethods
+        private List<VariacionAnualCostoPorTipo> GetVariacionesActuales()
+        {
+            List<VariacionAnualCostoPorTipo> variacionesActuales = new List<VariacionAnualCostoPorTipo>();
+
+            VariacionAnualCostoPorTipo variacionPrecio = new VariacionAnualCostoPorTipo();
+            variacionPrecio.TipoVariacion = TipoAplicacionPorcentaje.PorPrecio;
+            variacionPrecio.VariacionAnual = VariacionAnualPrecio;
+            variacionesActuales.Add(variacionPrecio);
+
+            VariacionAnualCostoPorTipo variacionCantidad = new VariacionAnualCostoPorTipo();
+            variacionCantidad.TipoVariacion = TipoAplicacionPorcentaje.PorCantidad;
+            variacionCantidad.VariacionAnual = VariacionAnualCantidad;
+            variacionesActuales.Add(variacionCantidad);
+
+            return variacionesActuales;
+        }
+
+        private void CargarDatosDeCosto(int codProyecto, int codCosto)
+        {
+            costoSelected.AnoCosto = AnosDisponibles.FirstOrDefault();
+            costoSelected.CategoriaCosto = Categorias.FirstOrDefault();
+            costoSelected.UnidadMedida = UnidadesMedida.FirstOrDefault();
+
+            if (!codCosto.Equals(0))
+            {
+                costoSelected = costoData.GetCosto(codCosto);
+            }
+
+            if (costoSelected.VariacionCostos.Count.Equals(0))
+            {
+                ReloadValues();
+            }
+            else
+            {
+                variacionesPrecio = costoSelected.VariacionCostos.
+                    FirstOrDefault(vari => vari.TipoVariacion == TipoAplicacionPorcentaje.PorPrecio).VariacionAnual;
+
+                variacionesCantidad = costoSelected.VariacionCostos.
+                    FirstOrDefault(vari => vari.TipoVariacion == TipoAplicacionPorcentaje.PorCantidad).VariacionAnual;
+            }
+        }
+
+        List<VariacionAnualCosto> variacionesPrecioGuardados = new List<VariacionAnualCosto>();
+        List<VariacionAnualCosto> variacionesCantidadGuardados = new List<VariacionAnualCosto>();
+        private void ReloadValues()
+        {
+            if (variacionesPrecioGuardados.Count == 0 && costoSelected.VariacionCostos.Count != 0)
+            {
+                variacionesPrecioGuardados = costoSelected.VariacionCostos.
+                    FirstOrDefault(variacion => variacion.TipoVariacion == TipoAplicacionPorcentaje.PorPrecio).VariacionAnual;
+                variacionesCantidadGuardados = costoSelected.VariacionCostos.
+                    FirstOrDefault(variacion => variacion.TipoVariacion == TipoAplicacionPorcentaje.PorCantidad).VariacionAnual;
+            }
+            VariacionAnualCantidad = new List<VariacionAnualCosto>();
+            VariacionAnualPrecio = new List<VariacionAnualCosto>();
+
+            int anoInicial = costoSelected.AnoCosto + 1;
+            int anoFinal = proyecto.HorizonteEvaluacionEnAnos + proyecto.AnoInicial;
+            for (int anoActual = anoInicial; anoActual <= anoFinal; anoActual++)
+            {
+                VariacionAnualCosto variacionCantidad = variacionesCantidadGuardados.
+                    FirstOrDefault(variacion => variacion.Ano == anoActual);
+                if (variacionCantidad == null)
+                {
+                    variacionesCantidad.Add(new VariacionAnualCosto() { Ano = anoActual });
+                }
+                else
+                {
+                    variacionesCantidad.Add(new VariacionAnualCosto()
+                    {
+                        Ano = anoActual,
+                        PorcentajeIncremento = variacionCantidad.PorcentajeIncremento
+                    });
+                }
+
+                VariacionAnualCosto variacionPrecio = variacionesPrecioGuardados.
+                    FirstOrDefault(crec => crec.Ano == anoActual);
+                if (variacionPrecio == null)
+                {
+                    variacionesPrecio.Add(new VariacionAnualCosto() { Ano = anoActual });
+                }
+                else
+                {
+                    variacionesPrecio.Add(new VariacionAnualCosto()
+                    {
+                        Ano = anoActual,
+                        PorcentajeIncremento = variacionPrecio.PorcentajeIncremento
+                    });
+                }
+            }
+
+            dgVariacionAnualPrecio.ItemsSource = null;
+            dgVariacionAnualPrecio.ItemsSource = VariacionAnualPrecio;
+
+            dgVariacionAnualCantidad.ItemsSource = null;
+            dgVariacionAnualCantidad.ItemsSource = VariacionAnualCantidad;
+        }
+
         private bool ValidateRequiredFields()
         {
             bool validationResult = false;
@@ -222,10 +503,17 @@ namespace UCR.Negotium.Dialogs
             bool hasValues = false;
             foreach (CostoMensual costoMensual in CostoSelected.CostosMensuales)
             {
-                if(costoMensual.CostoUnitario > 0 && costoMensual.Cantidad > 0)
+                if (costoMensual.CostoUnitario > 0 && costoMensual.Cantidad > 0)
                 {
                     hasValues = true;
-                    break;
+                }
+                else if (costoMensual.CostoUnitario > 0)
+                {
+                    costoMensual.CostoUnitario = 0;
+                }
+                else if (costoMensual.Cantidad > 0)
+                {
+                    costoMensual.Cantidad = 0;
                 }
             }
 
@@ -235,9 +523,10 @@ namespace UCR.Negotium.Dialogs
                 dgCostosMensual.ToolTip = CAMPOREQUERIDO;
                 validationResult = true;
             }
-            
+
             return validationResult;
         }
         #endregion
+
     }
 }

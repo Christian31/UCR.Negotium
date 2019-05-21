@@ -4,9 +4,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using UCR.Negotium.Base.Enumerados;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
-using UCR.Negotium.Domain.Enums;
 using UCR.Negotium.Extensions;
 
 namespace UCR.Negotium.UserControls
@@ -130,16 +130,16 @@ namespace UCR.Negotium.UserControls
                 if (ProyectoSelected.CodProyecto.Equals(0))
                 {
                     int idProyecto = proyectoData.InsertarProyecto(ProyectoSelected);
-
                     if (idProyecto != -1)
                     {
                         LocalContext.ReloadUserControls(idProyecto, Modulo.InformacionGeneral);
-
-                        MessageBox.Show("El proyecto se ha insertado correctamente", "Proyecto Insertado", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show(Constantes.ACTUALIZARPROYECTOMSG, Constantes.ACTUALIZARPROYECTOTLT,
+                            MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     else
                     {
-                        MessageBox.Show("Ha ocurrido un error al insertar el proyecto, verifique que los datos ingresados sean correctos", "Proyecto Insertado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.ACTUALIZARPROYECTOERROR, Constantes.ACTUALIZARPROYECTOTLT,
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
@@ -147,11 +147,13 @@ namespace UCR.Negotium.UserControls
                     if (proyectoData.EditarProyecto(ProyectoSelected))
                     {
                         LocalContext.ReloadUserControls(CodProyecto, Modulo.InformacionGeneral);
-                        MessageBox.Show("El proyecto se ha actualizado correctamente", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show(Constantes.ACTUALIZARPROYECTOMSG, Constantes.ACTUALIZARPROYECTOTLT,
+                            MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     else
                     {
-                        MessageBox.Show("Ha ocurrido un error al actualizar el proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.ACTUALIZARPROYECTOERROR, Constantes.ACTUALIZARPROYECTOTLT,
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }
@@ -225,8 +227,22 @@ namespace UCR.Negotium.UserControls
         private void Reload()
         {
             ProyectoSelected = proyectoData.GetProyecto(CodProyecto);
-            nudAnoInicial.IsEnabled = nudHorizonteEvaluacion.IsEnabled =
-                (codProyecto.Equals(0) || ProyectoSelected.TipoProyecto.CodTipo.Equals(2));
+
+            if (codProyecto != 0)
+            {
+                nudAnoInicial.IsEnabled = nudHorizonteEvaluacion.IsEnabled = 
+                    cbTipoAnalisis.IsEnabled = false;
+            }
+
+            if (ProyectoSelected.TipoProyecto.CodTipo != 1)
+            {
+                cbNoPaga.IsEnabled = cbSiPaga.IsEnabled = nudPorcentaje.IsEnabled = false;
+            }
+
+            if (ProyectoSelected.TipoProyecto.CodTipo == 2)
+            {
+                cbNoPoseeFinan.IsEnabled = cbSiPoseeFinan.IsEnabled = false;
+            }
         }
 
         private void LoadCantones()
@@ -270,5 +286,33 @@ namespace UCR.Negotium.UserControls
             return validationResult;
         }
         #endregion
+
+        private void cbTipoAnalisis_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cbTipoAnalisis.SelectedValue != null)
+            {
+                switch ((int)cbTipoAnalisis.SelectedValue)
+                {
+                    case 1:
+                        nudAnoInicial.IsEnabled = nudHorizonteEvaluacion.IsEnabled =
+                            cbNoPaga.IsEnabled = cbSiPaga.IsEnabled =
+                            nudPorcentaje.IsEnabled = cbNoPoseeFinan.IsEnabled =
+                            cbSiPoseeFinan.IsEnabled = true;
+                        break;
+                    case 2:
+                        nudAnoInicial.IsEnabled = nudHorizonteEvaluacion.IsEnabled =
+                            cbNoPaga.IsEnabled = cbSiPaga.IsEnabled =
+                            nudPorcentaje.IsEnabled = cbNoPoseeFinan.IsEnabled =
+                            cbSiPoseeFinan.IsEnabled = false;
+                        break;
+                    case 3:
+                        nudAnoInicial.IsEnabled = nudHorizonteEvaluacion.IsEnabled =
+                            cbSiPoseeFinan.IsEnabled = cbNoPoseeFinan.IsEnabled = true;
+
+                        cbNoPaga.IsEnabled = cbSiPaga.IsEnabled = nudPorcentaje.IsEnabled = false;
+                        break;
+                }
+            }
+        }
     }
 }

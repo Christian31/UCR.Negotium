@@ -21,13 +21,13 @@ namespace UCR.Negotium.Dialogs
         private const string CAMPOREQUERIDO = "Este campo es requerido";
         private const string CAMPOREQUERIDOPOSITIVO = "Este campo es requerido y debe tener un valor mayor a 0";
 
-        private ReinversionData requerimientoReinversionData;
-        private InversionData requerimientoInversionData;
-        private ProyectoData proyectoData;
+        private ReinversionData reinversionData;
+        private InversionData inversionData;
         private UnidadMedidaData unidadMedidaData;
+
         private Reinversion reinversion;
         private List<UnidadMedida> unidadMedidas;
-        private Proyecto proyecto;
+        private ProyectoLite proyecto;
         private List<Inversion> inversiones;
 
         private bool vincularInversion;
@@ -37,36 +37,34 @@ namespace UCR.Negotium.Dialogs
         #endregion
 
         #region Constructor
-        public RegistrarReinversion(int codProyecto, int codReinversion = 0)
+        public RegistrarReinversion(ProyectoLite proyectoLite, int codReinversion = 0)
         {
             InitializeComponent();
             DataContext = this;
             tbDescReinversion.ToolTip = "Ingrese en este campo el Nombre de la Reinversión que desea registrar";
             tbCostoUnitario.ToolTip = "Ingrese en este campo el Costo Unitario de la Reinversión que desea registrar";
 
-            proyecto = new Proyecto();
+            this.proyecto = proyectoLite;
 
-            requerimientoReinversionData = new ReinversionData();
-            requerimientoInversionData = new InversionData();
-            proyectoData = new ProyectoData();
+            reinversionData = new ReinversionData();
+            inversionData = new InversionData();
             unidadMedidaData = new UnidadMedidaData();
 
             reinversion = new Reinversion();
             unidadMedidas = new List<UnidadMedida>();
             inversiones = new List<Inversion>();
 
-            proyecto = proyectoData.GetProyecto(codProyecto);
             unidadMedidas = unidadMedidaData.GetUnidadesMedidas();
-            inversiones = requerimientoInversionData.GetInversiones(codProyecto).Where(inv => inv.Depreciable).ToList();
+            inversiones = inversionData.GetInversiones(proyecto.CodProyecto).Where(inv => inv.Depreciable).ToList();
             
             reinversion.UnidadMedida = unidadMedidas.FirstOrDefault();
             reinversion.AnoReinversion = AnosDisponibles.FirstOrDefault();
 
             if (codReinversion != 0)
             {
-                reinversion = requerimientoReinversionData.GetReinversion(codReinversion);
-                descReinv = reinversion.DescripcionRequerimiento;
-                vincularInversion = !reinversion.CodRequerimientoInversion.Equals(0);
+                reinversion = reinversionData.GetReinversion(codReinversion);
+                descReinv = reinversion.Descripcion;
+                vincularInversion = !reinversion.CodInversion.Equals(0);
             }
         }
         #endregion
@@ -149,15 +147,12 @@ namespace UCR.Negotium.Dialogs
         {
             if (!ValidateRequiredFields())
             {
-                if (!Reinversion.Depreciable)
-                    Reinversion.VidaUtil = 0;
-
                 if (!VincularInversion)
-                    Reinversion.CodRequerimientoInversion = 0;
+                    Reinversion.CodInversion = 0;
 
-                if (Reinversion.CodRequerimientoReinversion.Equals(0))
+                if (Reinversion.CodReinversion.Equals(0))
                 {
-                    int idInversion = requerimientoReinversionData.InsertarReinversion(Reinversion, proyecto.CodProyecto);
+                    int idInversion = reinversionData.InsertarReinversion(Reinversion, proyecto.CodProyecto);
                     if (!idInversion.Equals(-1))
                     {
                         //success
@@ -167,12 +162,13 @@ namespace UCR.Negotium.Dialogs
                     else
                     {
                         //error
-                        MessageBox.Show("Ha ocurrido un error al insertar la reinversión del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.INSERTARREINVERSIONERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
                 {
-                    if (requerimientoReinversionData.EditarReinversion(Reinversion))
+                    if (reinversionData.EditarReinversion(Reinversion))
                     {
                         //success
                         Reload = true;
@@ -181,7 +177,8 @@ namespace UCR.Negotium.Dialogs
                     else
                     {
                         //error
-                        MessageBox.Show("Ha ocurrido un error al actualizar la reinversión del proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.ACTUALIZARREINVERSIONERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }
@@ -221,11 +218,11 @@ namespace UCR.Negotium.Dialogs
 
         private void cbxInversiones_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cbxInversiones.SelectedIndex >= 0 && Reinversion.CodRequerimientoInversion == 0)
+            if (cbxInversiones.SelectedIndex >= 0 && Reinversion.CodInversion == 0)
             {
                 Inversion inversion = (Inversion)cbxInversiones.SelectedItem;
-                tbDescReinversion.Text = inversion.DescripcionRequerimiento;
-                Reinversion.CodRequerimientoInversion = inversion.CodRequerimientoInversion;
+                tbDescReinversion.Text = inversion.Descripcion;
+                Reinversion.CodInversion = inversion.CodInversion;
             }
         }
 
@@ -237,8 +234,8 @@ namespace UCR.Negotium.Dialogs
 
         private void cbNoInversion_Checked(object sender, RoutedEventArgs e)
         {
-            Reinversion.CodRequerimientoInversion = 0;
-            Reinversion.DescripcionRequerimiento = descReinv;
+            Reinversion.CodInversion = 0;
+            Reinversion.Descripcion = descReinv;
             PropertyChanged(this, new PropertyChangedEventArgs("Reinversion"));
         }
 

@@ -1,12 +1,12 @@
-﻿using System;
+﻿using UCR.Negotium.Base.Utilidades;
 
 namespace UCR.Negotium.Domain
 {
     public class Reinversion
     {
-        public int CodRequerimientoReinversion { get; set; }
+        public int CodReinversion { get; set; }
         public int AnoReinversion { get; set; }
-        public string DescripcionRequerimiento { get; set; }
+        public string Descripcion { get; set; }
         public double Cantidad { get; set; }
         public double CostoUnitario { get; set; }
         public bool Depreciable { get; set; }
@@ -15,7 +15,7 @@ namespace UCR.Negotium.Domain
         private double depreciacion;
         private double subtotal;
         //can be null
-        public int CodRequerimientoInversion { get; set; }
+        public int CodInversion { get; set; }
         
         public Reinversion()
         {
@@ -25,7 +25,7 @@ namespace UCR.Negotium.Domain
 
         public double Subtotal
         {
-            get { return this.CostoUnitario * this.Cantidad; }
+            get { return (this.CostoUnitario * this.Cantidad).PonderarNumero(); }
             set { this.subtotal = value; }
         }
 
@@ -35,7 +35,7 @@ namespace UCR.Negotium.Domain
 
         public double Depreciacion
         {
-            get { return Math.Round((this.CostoUnitario * this.Cantidad) / this.VidaUtil, 2); }
+            get { return ((this.CostoUnitario * this.Cantidad) / this.VidaUtil).PonderarNumero(); }
             set { this.depreciacion = value; }
         }
 

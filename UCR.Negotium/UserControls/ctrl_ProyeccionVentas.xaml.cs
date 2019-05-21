@@ -4,10 +4,11 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using UCR.Negotium.Base.Enumerados;
+using UCR.Negotium.Base.Utilidades;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Dialogs;
 using UCR.Negotium.Domain;
-using UCR.Negotium.Domain.Enums;
 using UCR.Negotium.Extensions;
 
 namespace UCR.Negotium.UserControls
@@ -19,14 +20,13 @@ namespace UCR.Negotium.UserControls
     {
         private Proyecto proyecto;
         private int codProyecto;
-        private ProyeccionVentaArticulo proyeccionSelected;
-        private List<ProyeccionVentaArticulo> proyeccionesList;
+        private ProyeccionVenta proyeccionSelected;
+        private List<ProyeccionVenta> proyeccionesList;
         private DataView proyeccionesTotales;
         private string signoMoneda;
 
-        private ProyeccionVentaArticuloData proyeccionArticuloData;
+        private ProyeccionVentaData proyeccionVentaData;
         private ProyectoData proyectoData;
-        private CrecimientoOfertaArticuloData crecimientoOfertaData;
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
@@ -36,13 +36,12 @@ namespace UCR.Negotium.UserControls
             DataContext = this;
 
             proyecto = new Proyecto();
-            proyeccionSelected = new ProyeccionVentaArticulo();
-            proyeccionesList = new List<ProyeccionVentaArticulo>();
+            proyeccionSelected = new ProyeccionVenta();
+            proyeccionesList = new List<ProyeccionVenta>();
             proyeccionesTotales = new DataView();
 
-            proyeccionArticuloData = new ProyeccionVentaArticuloData();
+            proyeccionVentaData = new ProyeccionVentaData();
             proyectoData = new ProyectoData();
-            crecimientoOfertaData = new CrecimientoOfertaArticuloData();
         }
 
         #region InternalMethods
@@ -51,14 +50,14 @@ namespace UCR.Negotium.UserControls
             SignoMoneda = LocalContext.GetSignoMoneda(CodProyecto);
 
             DTProyeccionesTotales = new DataView();
-            ProyeccionesList = proyeccionArticuloData.GetProyeccionesVentaArticulo(CodProyecto);
+            ProyeccionesList = proyeccionVentaData.GetProyeccionesVenta(CodProyecto);
 
             ProyeccionesList.All(proy =>
             {
                 proy.DetallesProyeccionVenta.ForEach(det =>
                 {
-                    det.PrecioFormat = SignoMoneda + " " + det.Precio.ToString("#,##0.##");
-                    det.SubtotalFormat = SignoMoneda + " " + det.Subtotal.ToString("#,##0.##");
+                    det.PrecioFormat = det.Precio.FormatoMoneda(SignoMoneda);
+                    det.SubtotalFormat = det.Subtotal.FormatoMoneda(SignoMoneda);
                 });
                 return true;
             });
@@ -102,7 +101,7 @@ namespace UCR.Negotium.UserControls
             }
         }
 
-        public ProyeccionVentaArticulo ProyeccionSelected
+        public ProyeccionVenta ProyeccionSelected
         {
             get
             {
@@ -115,7 +114,7 @@ namespace UCR.Negotium.UserControls
             }
         }
 
-        public List<ProyeccionVentaArticulo> ProyeccionesList
+        public List<ProyeccionVenta> ProyeccionesList
         {
             get
             {
@@ -145,7 +144,7 @@ namespace UCR.Negotium.UserControls
         #region Events
         private void btnAgregarProyeccion_Click(object sender, RoutedEventArgs e)
         {
-            if (!proyecto.TipoProyecto.CodTipo.Equals(2))
+            if (proyecto.TipoProyecto.CodTipo.Equals(1))
             {
                 RegistrarProyeccionVenta registarProyeccion = new RegistrarProyeccionVenta(CodProyecto);
                 registarProyeccion.ShowDialog();
@@ -157,7 +156,8 @@ namespace UCR.Negotium.UserControls
             }
             else
             {
-                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Completo actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Constantes.ACTUALIZARPROYECTORESTRTIPONOFINANCIERO, Constantes.ACTUALIZARPROYECTOTLT,
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -179,18 +179,16 @@ namespace UCR.Negotium.UserControls
         {
             if (ProyeccionSelected != null)
             {
-                if (MessageBox.Show("Esta seguro que desea eliminar esta proyección?", "Confirmar",
-                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if (CustomMessageBox.ShowConfirmationMesage(Constantes.ELIMINARPROYECCIONMSG))
                 {
-                    if (crecimientoOfertaData.EliminarCrecimientoObjetoInteres(ProyeccionSelected.CodArticulo) && 
-                        proyeccionArticuloData.EliminarProyeccionVenta(ProyeccionSelected.CodArticulo))
+                    if (proyeccionVentaData.EliminarProyeccionVenta(ProyeccionSelected.CodArticulo))
                     {
                         LocalContext.ReloadUserControls(CodProyecto, Modulo.ProyeccionVentas);
                     }
                     else
                     {
-                        MessageBox.Show("Ha ocurrido un error al eliminar la proyección del proyecto",
-                            "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.ELIMINARPROYECCIONERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }

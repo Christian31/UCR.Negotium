@@ -1,4 +1,4 @@
-﻿using System;
+﻿using UCR.Negotium.Base.Utilidades;
 
 namespace UCR.Negotium.Domain
 {
@@ -16,7 +16,7 @@ namespace UCR.Negotium.Domain
         {
             get
             {
-                return Math.Round(this.Cantidad * this.CostoUnitario, 2);
+                return (this.Cantidad * this.CostoUnitario).PonderarNumero();
             }
         }
 

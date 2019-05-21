@@ -23,11 +23,10 @@ namespace UCR.Negotium
             timer.Tick += new EventHandler(TimerElapsed);
             timer.Start();
         }
-
+        
         private void TimerElapsed(object sender, EventArgs e)
         {
             timer.Stop();
-
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
             Close();

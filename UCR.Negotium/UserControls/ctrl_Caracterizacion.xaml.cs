@@ -2,9 +2,9 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using UCR.Negotium.Base.Enumerados;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Domain;
-using UCR.Negotium.Domain.Enums;
 using UCR.Negotium.Extensions;
 
 namespace UCR.Negotium.UserControls
@@ -115,18 +115,21 @@ namespace UCR.Negotium.UserControls
                     {
                         //success
                         LocalContext.ReloadUserControls(CodProyecto, Modulo.Caracterizacion);
-                        MessageBox.Show("El proyecto se ha actualizado correctamente", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show(Constantes.ACTUALIZARPROYECTOMSG, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     else
                     {
                         //error
-                        MessageBox.Show("Ha ocurrido un error al actualizar el proyecto, verifique que los datos ingresados sean correctos", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.ACTUALIZARPROYECTOERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }
             else
             {
-                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Completo actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Constantes.ACTUALIZARPROYECTORESTRTIPOAMBIENTAL, Constantes.ACTUALIZARPROYECTOTLT, 
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 

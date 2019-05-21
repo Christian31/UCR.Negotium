@@ -7,7 +7,8 @@ using System.Windows.Controls;
 using UCR.Negotium.Domain;
 using UCR.Negotium.DataAccess;
 using UCR.Negotium.Extensions;
-using UCR.Negotium.Domain.Enums;
+using UCR.Negotium.Base.Utilidades;
+using UCR.Negotium.Base.Enumerados;
 
 namespace UCR.Negotium.UserControls
 {
@@ -18,32 +19,34 @@ namespace UCR.Negotium.UserControls
     {
         private Inversion inversionSelected;
         private List<Inversion> inversiones;
-        private Proyecto proyectoSelected;
+        private ProyectoLite proyecto;
         private int codProyecto;
         private string signoMoneda;
 
         private InversionData inversionData;
+        private ProyectoData proyectoData;
 
         public ctrl_Inversiones()
         {
             InitializeComponent();
             DataContext = this;
 
-            proyectoSelected = new Proyecto();
+            proyecto = new ProyectoLite();
             inversionSelected = new Inversion();
             inversiones = new List<Inversion>();
             inversionData = new InversionData();
+            proyectoData = new ProyectoData();
         }
 
         #region InternalMethods
         private void Reload()
         {
-            SignoMoneda = LocalContext.GetSignoMoneda(codProyecto);
+            SignoMoneda = LocalContext.GetSignoMoneda(CodProyecto);
             InversionesList = inversionData.GetInversiones(CodProyecto);
 
             InversionesList.All(inv => {
-                inv.CostoUnitarioFormat = SignoMoneda +" "+ inv.CostoUnitario.ToString("#,##0.##");
-                inv.SubtotalFormat = SignoMoneda +" "+ inv.Subtotal.ToString("#,##0.##");
+                inv.CostoUnitarioFormat = inv.CostoUnitario.FormatoMoneda(SignoMoneda);
+                inv.SubtotalFormat = inv.Subtotal.FormatoMoneda(SignoMoneda);
                 return true;
             });
 
@@ -53,6 +56,8 @@ namespace UCR.Negotium.UserControls
             InversionSelected = InversionesList.FirstOrDefault();
             PropertyChanged(this, new PropertyChangedEventArgs("InversionesList"));
             PropertyChanged(this, new PropertyChangedEventArgs("InversionesTotal"));
+
+            proyecto = proyectoData.GetProyectoLite(CodProyecto);
         }
         #endregion
 
@@ -107,7 +112,7 @@ namespace UCR.Negotium.UserControls
             {
                 double valor = 0;
                 InversionesList.ForEach(reqInver => valor += reqInver.Subtotal);
-                return signoMoneda +" "+ valor.ToString("#,##0.##");
+                return valor.FormatoMoneda(SignoMoneda);
             }
             set
             {
@@ -121,9 +126,9 @@ namespace UCR.Negotium.UserControls
 
         private void btnCrearInversion_Click(object sender, RoutedEventArgs e)
         {
-            if (!proyectoSelected.TipoProyecto.CodTipo.Equals(2))
+            if (!proyecto.CodTipoProyecto.Equals(2))
             {
-                RegistrarInversion registrarInversion = new RegistrarInversion(CodProyecto);
+                RegistrarInversion registrarInversion = new RegistrarInversion(proyecto);
                 registrarInversion.ShowDialog();
 
                 if (registrarInversion.IsActive == false && registrarInversion.Reload)
@@ -133,7 +138,8 @@ namespace UCR.Negotium.UserControls
             }
             else
             {
-                MessageBox.Show("Este Tipo de Análisis es Ambiental, si desea realizar un Análisis Completo actualice el Tipo de Análisis del Proyecto", "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Constantes.ACTUALIZARPROYECTORESTRTIPOAMBIENTAL, Constantes.ACTUALIZARPROYECTOTLT,
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -141,7 +147,7 @@ namespace UCR.Negotium.UserControls
         {
             if (InversionSelected != null)
             {
-                RegistrarInversion registrarInversion = new RegistrarInversion(CodProyecto, InversionSelected.CodRequerimientoInversion);
+                RegistrarInversion registrarInversion = new RegistrarInversion(proyecto, InversionSelected.CodInversion);
                 registrarInversion.ShowDialog();
 
                 if (registrarInversion.IsActive == false && registrarInversion.Reload)
@@ -155,18 +161,16 @@ namespace UCR.Negotium.UserControls
         {
             if (InversionSelected != null)
             {
-                if (MessageBox.Show("Esta seguro que desea eliminar esta inversión?", "Confirmar",
-                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if (CustomMessageBox.ShowConfirmationMesage(Constantes.ELIMINARINVERSIONMSG))
                 {
-                    if (inversionData.EliminarInversion(InversionSelected.CodRequerimientoInversion))
+                    if (inversionData.EliminarInversion(InversionSelected.CodInversion))
                     {
                         LocalContext.ReloadUserControls(CodProyecto, Modulo.Inversiones);
                     }
                     else
                     {
-                        MessageBox.Show("Ha ocurrido un error al eliminar la inversión del proyecto," +
-                            "verifique que la inversión no esté vinculada a alguna reinversión",
-                            "Proyecto Actualizado", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Constantes.ELIMINARINVERSIONERROR, Constantes.ACTUALIZARPROYECTOTLT, 
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }           

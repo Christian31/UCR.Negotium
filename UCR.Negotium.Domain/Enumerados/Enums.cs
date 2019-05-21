@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace UCR.Negotium.Domain.Enums
+namespace UCR.Negotium.Domain.Enumerados
 {
     #region CondicionAfectada
     public enum CondicionAfectada
@@ -165,7 +165,7 @@ namespace UCR.Negotium.Domain.Enums
 
     public enum Periodicidad
     {
-        [Display(Name = "Irregular, Esporádico y Dicontinuo (1)")]
+        [Display(Name = "Irregular, Esporádico y Discontinuo (1)")]
         Irregular = 1,
 
         [Display(Name = "Periódico (2)")]
@@ -207,20 +207,4 @@ namespace UCR.Negotium.Domain.Enums
         Critico
     }
     #endregion
-
-    public enum Modulo
-    {
-        InformacionGeneral,
-        Proponente,
-        Caracterizacion,
-        Inversiones,
-        Reinversiones,
-        ProyeccionVentas,
-        Costos,
-        CapitalTrabajo,
-        Depreciaciones,
-        Financiamiento,
-        FlujoCaja,
-        AnalisisAmbiental
-    }
 }

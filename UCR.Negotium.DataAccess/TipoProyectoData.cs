@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using UCR.Negotium.Domain;
-using UCR.Negotium.Domain.Tracing;
+using UCR.Negotium.Base.Trace;
 
 namespace UCR.Negotium.DataAccess
 {
